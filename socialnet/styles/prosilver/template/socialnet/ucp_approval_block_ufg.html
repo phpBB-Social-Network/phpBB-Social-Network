@@ -1,0 +1,26 @@
+<!-- IF not B_UFG_FRIENDS_ONLY -->
+<span class="corners-top"><span></span></span>
+<h3>{L_SN_REMOVE_FRIENDS}</h3>
+<div class="clear"></div>
+<fieldset>
+	<dl>
+		<dd class="sn-fms-block">
+			<div class="sn-fms-friendsBlock ufg">
+<!-- ENDIF -->
+				<!-- BEGIN fas_friend --><span class="sn-fms-friend {uid:{fas_friend.USER_ID}}" title="{fas_friend.USERNAME_NO_COLOR}">
+					{fas_friend.AVATAR}
+					<span>{fas_friend.USERNAME}</span>
+					<br />
+					<span>
+						<a href="{fas_friend.U_PROFILE}">{L_SN_VIEW_PROFILE}</a>
+					</span>
+				</span><!-- END fas_friend -->
+<!-- IF not B_UFG_FRIENDS_ONLY -->
+			</div>
+		</dd>
+	</dl>
+</fieldset>  
+<div class="pagination">{SN_FAS_FRIEND_TOTAL}, {SN_FAS_FRIEND_PAGE_NUMBER},<span> {SN_FAS_FRIEND_PAGINATION}</span></div>
+<div class="clear"></div>
+<span class="corners-bottom"><span></span></span>        
+<!-- ELSE --><!-- IF not .fas_friend -->&nbsp;<!-- ENDIF --><!-- ENDIF -->

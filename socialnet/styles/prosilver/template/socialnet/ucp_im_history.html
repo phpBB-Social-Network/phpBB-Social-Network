@@ -1,0 +1,50 @@
+<!-- INCLUDE ucp_header.html -->
+
+<h2<!-- IF .history --> class="sn-im-history-title"<!-- ENDIF -->><!-- IF HISTORY_USERNAME -->{HISTORY_USERNAME} - <!-- ENDIF -->{L_TITLE}</h2>
+<div class="clear"></div>
+
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>    
+  
+		<!-- IF not .users and not .history -->
+		  <p class="error">{L_IM_NO_HISTORY}</p>
+    <!-- ENDIF -->
+  
+    <!-- IF .users -->
+  		<div class="sn-im-msg sn-im-history pagination">{USERS_TOTAL} &bull; {PAGE_NUMBER}<!-- IF PAGINATION --> &bull; <span>{PAGINATION}</span><!-- ENDIF --></div>
+      <!-- BEGIN users -->
+  		<div class="sn-im-msg sn-im-history sn-im-history-conversation {u:'{users.U_HISTORY}'}">
+  			<span class="sn-im-history-time">{users.TIME}</span>
+  			<span class="sn-im-msgAvatar">{users.AVATAR}</span>
+  			<div class="sn-userName"><a href="{users.U_HISTORY}">{users.U_USERNAME}</a></div>
+  			<div class="sn-im-msgText"><noscript><a href="{users.U_HISTORY}"></noscript><!-- IF users.S_FROM_ME --><img src="{T_IMAGESET_PATH}/socialnet/im_history_outgoing.png" alt="" class="sn-im-msgText-Arrow" /><!-- ENDIF -->{users.MSSG}<noscript></a></noscript></div>
+  		</div>
+  		<!-- END users -->
+		<!-- ENDIF -->
+
+		<!-- IF .history -->
+  		<div class="sn-im-msg sn-im-history pagination">{MSG_TOTAL} &bull; {PAGE_NUMBER}<!-- IF PAGINATION --> &bull; <span>{PAGINATION}</span><!-- ENDIF --></div>
+  		<a href="{U_SN_IM_HISTORY}">&laquo; {L_BACK_TO_PREV}</a>
+  
+  		<!-- BEGIN history -->
+    		<div class="sn-im-msg sn-im-history<!-- IF history.S_UID_SAME --> sn-im-noborderTop<!-- ENDIF -->">
+    			<!-- IF not history.S_UID_SAME -->
+    			<span class="sn-im-history-time">{history.TIME}</span>
+    			<span class="sn-im-msgAvatar"><a href="{history.U_PROFILE}">{history.AVATAR}</a></span>
+    			<div class="sn-userName">{history.U_USERNAME}</div>
+    			<!-- ENDIF -->     
+    			<div class="sn-im-msgText">{history.MSSG}</div>
+    		</div>
+  		<!-- END history -->
+    <!-- ENDIF -->
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+
+<!-- IF .history -->
+  <a name="#sn_im_export"></a>
+  <form id="ucp_im_history_user" method="post" action="{U_EXPORT_IM}" class="sn-im-history-export">
+  	<input type="submit" name="export" value="{L_EXPORT_IM_HISTORY}" class="button1" />
+  </form>
+<!-- ENDIF -->
+
+<!-- INCLUDE ucp_footer.html -->

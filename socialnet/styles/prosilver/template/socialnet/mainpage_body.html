@@ -1,0 +1,97 @@
+<!-- INCLUDE overall_header.html -->
+<!-- DEFINE $BLOCK_HEADER_TYPE = 'forabg' -->
+<div id="sn-mp" class="sn-page">
+	<!-- STARTING LEFT COLUMN -->
+  <!-- BEGIN addons -->
+    <!-- IF addons.LOCATION == '3' -->
+		<!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
+		<!-- INCLUDE {$TEMPLATE_FILE} -->
+		<!-- UNDEFINE $TEMPLATE_FILE -->
+    <!-- ENDIF -->
+  <!-- END addons -->
+	<div id="sn-page-columnLeft" class="sn-page-columnLeft">
+		<!-- INCLUDE socialnet/block_myprofile.html -->
+		<!-- INCLUDE socialnet/block_menu.html -->
+    <!-- BEGIN addons -->
+      <!-- IF addons.LOCATION == '4' -->
+        <!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
+        <!-- INCLUDE {$TEMPLATE_FILE} -->
+		<!-- UNDEFINE $TEMPLATE_FILE -->
+      <!-- ENDIF -->
+    <!-- END addons -->
+		<!-- INCLUDE socialnet/block_search.html -->
+		<!-- INCLUDE socialnet/block_online_users.html -->
+	</div>
+	<!-- ENDING LEFT COLUMN -->
+	
+	<!-- STARTING RIGHT COLUMN -->
+	<div id="sn-page-columnRight" class="sn-page-columnRight">
+		<!-- INCLUDE socialnet/block_friends_suggestions.html -->		
+		<!-- INCLUDE socialnet/block_friend_requests.html -->		
+		<!-- INCLUDE socialnet/block_birthday.html -->		
+		<!-- INCLUDE socialnet/block_recent_discussions.html -->		
+    <!-- BEGIN addons -->
+      <!-- IF addons.LOCATION == '5' -->
+        <!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
+        <!-- INCLUDE {$TEMPLATE_FILE} -->
+		<!-- UNDEFINE $TEMPLATE_FILE -->
+      <!-- ENDIF -->
+    <!-- END addons -->	
+		<!-- INCLUDE socialnet/block_statistics.html -->		
+	</div>
+	<!-- ENDING RIGHT COLUMN -->
+	
+	<!-- STARTING MIDDLE COLUMN -->
+	<div id="sn-page-content"	class="sn-page-content sn-page-content-noRightBorder sn-us-profile">
+	<!-- IF S_SN_MP_VIEW_MAIN -->
+
+  		<!-- IF SN_MODULE_USERSTATUS_ENABLED -->
+		<div class="sn-us-membShareStatus">
+			<div class="sn-us-share">
+				<textarea id="sn-us-wallInput" style="height:20px"></textarea>
+				<!-- INCLUDE socialnet/userstatus_fetch.html -->
+				<input type="button" name="sn-us-wallButton" class="ui-button ui-widget ui-state-default ui-corner-all {wall:'{SN_US_USER_ID}'}" value="{L_SN_US_SHARE_STATUS}" />
+			</div>   
+			<div class="clear"></div>
+		</div>      
+  		<div class="clear"></div>
+  		<div class="sn-mp-loadNewsOver">
+  			<a href="javascript:void(0)" class="sn-mp-loadNews">{L_SN_MP_LOAD_NEWS}</a>
+  		</div>
+  		<!-- ENDIF -->
+
+  		<!-- IF .mp_entries -->
+    		<!-- INCLUDE socialnet/mainpage_body_entries.html -->
+    		<!-- IF B_SN_MP_MORE_ENTRIES -->
+      		<div class="sn-more">
+      			<a href="javascript:void(0)" class="sn-mp-getMore" user="{USER_ID}">{L_SN_US_LOAD_MORE}</a>
+      			<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-mp-statusLoader" style="display:none" />
+      		</div>
+    		<!-- ENDIF -->
+  		<!-- ELSE -->
+    		<div class="sn-mp-noEntry">
+    			{L_SN_MP_NO_ENTRY}
+    		</div>
+  		<!-- ENDIF -->
+
+	<!-- ELSEIF S_SN_MP_VIEW_SUGGESTIONS -->
+
+  		<!-- IF SN_FMS_BLOCK_SUGGESTIONFULL_IS_NOT_EMPTY -->
+  		  {SN_FMS_BLOCK_SUGGESTIONFULL_CONTENT}<div class="clear"></div>
+    		{SN_FMS_BLOCK_SUGGESTIONFULL_PAGINATION_STRING}<div class="clear"></div>
+  		<!-- ELSE -->
+    		<div class="sn-mp-noEntry">
+    			{L_SN_MP_NO_SUGGESTIONS}
+    		</div>
+  		<!-- ENDIF -->
+
+	<!-- ELSEIF S_SN_MP_NOTIFY -->
+			<!-- INCLUDE socialnet/mainpage_notify.html -->
+	<!-- ELSEIF not S_USER_LOGGED_IN -->
+			<!-- INCLUDE socialnet/block_login.html -->
+	<!-- ENDIF -->
+	</div>
+	<!-- ENDING MIDDLE COLUMN -->
+</div>
+
+<!-- INCLUDE overall_footer.html -->

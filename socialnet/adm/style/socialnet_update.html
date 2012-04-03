@@ -1,0 +1,31 @@
+<!-- IF B_SOCIALNET_ENABLED -->
+  <p>{L_SN_VERSION_CHECK_EXPLAIN}</p>
+  
+  <!-- IF B_COULD_NOT_GET_UPDATE -->
+  	<div class="errorbox">
+  		<p>{L_ACP_SN_VERSION_COULD_NOT_GET_INFORMATION}</p>
+  	</div>
+  <!-- ELSEIF SN_VERSION_CHECK_NOT_UP_TO_DATE-->
+  	<div class="errorbox">
+  		<p>{L_ACP_SN_VERSION_NOT_UP_TO_DATE}</p>
+  	</div>
+  <!-- ELSE -->
+  	<div class="successbox">
+  		<p>{L_ACP_SN_VERSION_UP_TO_DATE}</p>
+  	</div>
+  <!-- ENDIF -->
+  
+  <!-- IF not B_COULD_NOT_GET_UPDATE -->
+    <fieldset>
+    	<legend></legend>
+      <dl>
+      	<dt><label>{L_VERSION_INSTALLED}</label></dt>
+      	<dd><strong>{SN_VERSION_INSTALLED}</strong></dd>
+      </dl>
+      <dl>
+      	<dt><label>{L_VERSION_AVAILABLE}</label></dt>
+      	<dd><strong>{SN_VERSION_AVAILABLE}</strong></dd>
+      </dl>
+    </fieldset>      
+  <!-- ENDIF -->    
+<!-- ENDIF -->

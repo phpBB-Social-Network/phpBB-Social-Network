@@ -1,0 +1,127 @@
+<!-- INCLUDE ucp_header.html -->     
+
+<h2>{L_TITLE}</h2>
+
+<form id="ucp" method="post" action="{U_ACTION}">
+	<div class="panel">
+		<div class="inner"><span class="corners-top"><span></span></span>
+      
+      <!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
+      
+			<h3>{L_ADD_FRIEND}</h3> 
+			
+			<fieldset class="fields2">
+				<dl>
+					<dt>{L_ADD_FRIENDS_EXPLAIN}</dt>
+					<dd><textarea type="text" name="add" id="add" class="inputbox" rows="1">{USERNAMES}</textarea></dd>     
+          <dd><strong><a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a></strong></dd>
+				</dl>
+			</fieldset>  
+			
+      <fieldset class="submit-buttons">
+        <input type="reset" value="{L_RESET}" name="reset" class="button2" />&nbsp;
+        <input type="submit" name="submit" value="{L_SUBMIT}" class="button1" />
+        {S_HIDDEN_FIELDS}
+        {S_FORM_TOKEN}
+      </fieldset>     
+      
+    <span class="corners-bottom"><span></span></span></div>
+	</div>
+</form>
+	
+	
+<!-- IF SN_FMS_BLOCK_APPROVE_IS_NOT_EMPTY -->
+<form id="ucp_approve" method="post" action="{U_ACTION}">
+	<div class="panel">
+		<div class="inner">
+			<span class="corners-top"><span></span></span>
+			<h3>{L_SN_APPROVAL_FRIENDS}</h3>
+			<p>{L_SN_APPROVALS_FRIENDS_EXPLAIN}<sup>1)</sup></p>
+			{SN_FMS_BLOCK_APPROVE_CONTENT}<div class="clear"></div>		
+      {SN_FMS_BLOCK_APPROVE_PAGINATION_STRING}<div class="clear"></div>	
+			<fieldset>
+				<span>
+					<a href="{U_ACTION}" onclick="return false;" class="mark approve">{L_MARK_ALL}</a> &bull;
+					<a href="{U_ACTION}" onclick="return false;" class="unmark approve">{L_UNMARK_ALL}</a>
+				</span>
+			</fieldset>
+			<fieldset class="submit-buttons">
+				<input type="submit" name="approve" value="{L_SN_APPROVE}" class="button2 disabled" disabled="disabled" />
+				<input type="submit" name="no_approve" value="{L_SN_NO_APPROVE}" class="button2 disabled" disabled="disabled" />
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+			</fieldset>
+			<span class="corners-bottom"><span></span></span>
+		</div>
+	</div>
+</form>
+<!-- ENDIF -->
+
+<!-- IF SN_FMS_BLOCK_CANCEL_IS_NOT_EMPTY -->
+<form id="ucp_cancel" method="post" action="{U_ACTION}">
+	<div class="panel">
+		<div class="inner">
+			<span class="corners-top"><span></span></span>
+			<h3>{L_SN_APPROVAL_REQUESTS}</h3>
+			<p>{L_SN_APPROVAL_REQUESTS_EXPLAIN}<sup>1)</sup></p>
+			{SN_FMS_BLOCK_CANCEL_CONTENT}<div class="clear"></div>			
+			{SN_FMS_BLOCK_CANCEL_PAGINATION_STRING}<div class="clear"></div>
+			<fieldset>
+				<span>
+					<a href="{U_ACTION}" onclick="return false;" class="mark cancel">{L_MARK_ALL}</a> &bull;
+					<a href="{U_ACTION}" onclick="return false;" class="unmark cancel">{L_UNMARK_ALL}</a>
+				</span>
+			</fieldset>
+			<fieldset class="submit-buttons">
+				<input type="submit" name="cancel_request_submit" value="{L_SN_CANCEL_REQUEST}" class="button2 disabled" disabled="disabled" />
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+			</fieldset>
+			<span class="corners-bottom"><span></span></span>
+        </div>
+    </div>
+</form>
+<!-- ENDIF -->
+    
+
+<!-- IF SN_FMS_BLOCK_FRIEND_IS_NOT_EMPTY -->
+<form id="ucp_friend" method="post" action="{U_ACTION}">
+	<div class="panel">
+		<div class="inner">
+			<span class="corners-top"><span></span></span>
+			<h3>{L_SN_REMOVE_FRIENDS}</h3>
+			<p>{L_SN_REMOVE_FRIENDS_EXPLAIN}<sup>1)</sup></p>
+			{SN_FMS_BLOCK_FRIEND_CONTENT}<div class="clear"></div>			
+			{SN_FMS_BLOCK_FRIEND_PAGINATION_STRING}<div class="clear"></div>
+			<fieldset>
+				<span>
+					<a href="{U_ACTION}" onclick="return false;" class="mark friend">{L_MARK_ALL}</a> &bull;
+					<a href="{U_ACTION}" onclick="return false;" class="unmark friend">{L_UNMARK_ALL}</a>
+				</span>
+			</fieldset>
+			<fieldset class="submit-buttons">
+				<input type="submit" name="submit" value="{L_REMOVE}" class="button1 disabled" disabled="disabled" />
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+			</fieldset>
+			<span class="corners-bottom"><span></span></span>
+		</div>
+	</div>
+</form>
+<!-- ENDIF -->
+	
+<!-- IF SN_FMS_BLOCK_APPROVE_IS_NOT_EMPTY or SN_FMS_BLOCK_CANCEL_IS_NOT_EMPTY or SN_FMS_BLOCK_FRIEND_IS_NOT_EMPTY -->
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+		<ol list="none" style="list-style: none">
+			<li>
+				1) {L_SN_USING_AVATARS_1_EXPLAIN}
+			</li>
+		</ol>
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE ucp_footer.html -->

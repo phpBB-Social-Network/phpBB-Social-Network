@@ -1,0 +1,43 @@
+<!-- IF S_DISPLAY_WELCOME -->
+<!-- DEFINE $BLOCK_HEADER = '{L_SN_MP_WELCOME_TITLE}' -->
+<!-- INCLUDE socialnet/block_page_header.html -->
+<div class="sn-page-blocktext">{L_SN_MP_WELCOME_TEXT}</div>
+<!-- ENDIF -->
+
+<form action="{U_SN_MAINPAGE}" method="post">
+	<!-- DEFINE $BLOCK_HEADER = '{L_LOGIN}' -->
+	<!-- DEFINE $BLOCK_HEADER_ADDITIONAL = '{L_REGISTER}' -->
+	<!-- DEFINE $BLOCK_HEADER_ADDITIONAL_LINK = '{U_REGISTER}' -->
+	<!-- INCLUDE socialnet/block_page_header.html -->
+	<div class="sn-page-blocktext sn-mp-login">
+			<fieldset>
+				<dl class="sn-mp-loginHeader">
+					<dt><label for="username">{L_USERNAME}</label></dt>
+					<dd><label for="password">{L_PASSWORD}</label></dd>
+				</dl>
+				<dl>
+					<dt><input type="text" name="username" id="username" size="25" title="{L_USERNAME}" class="inputbox" /></dt>
+					<dd>
+						<input type="password" name="password" id="password" size="25" title="{L_PASSWORD}" class="inputbox" />
+					</dd>
+					<dd class="sn-mp-loginButton">
+						<input type="submit" class="button1" name="login" value="{L_LOGIN}" />
+					</dd>
+				</dl>
+				<dl>
+					<dt><input type="checkbox" name="autologin" id="autologin" /> <label for="autologin" style="font-weight:normal">{L_SN_MP_KEEP_LOGGEDIN}</label></dt>
+					<dd class="sn-mp-loginRegister">
+						<a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a> | <a href="{U_REGISTER}">{L_REGISTER}</a>					
+					</dd>
+				</dl>
+			</fieldset>
+			{S_HIDDEN_FIELDS}
+		<!-- IF LOGIN_ERROR -->
+		<div class="error">{LOGIN_ERROR}</div>
+		<!-- ENDIF -->
+	</div>
+	<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+	<!-- DEFINE $CAPTCHA_TAB_INDEX = 3 -->
+	<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+	<!-- ENDIF -->
+</form>

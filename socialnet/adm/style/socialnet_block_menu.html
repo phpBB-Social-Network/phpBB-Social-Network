@@ -1,0 +1,112 @@
+<!-- IF S_MENU_BUTTONS_LIST -->
+
+  <h2>{L_BLOCK_MENU_BUTTONS_MANAGE}</h2>
+  
+  <p>{L_BLOCK_MENU_CREATE_BUTTON_EXPLAIN}</p>
+  
+  <p><strong>{S_BUTTONS_NAV}</strong></p>
+  <!-- IF .buttons -->  
+  	<table cellspacing="2">
+  		<col class="row1" /><col class="row2" />
+  		<tbody>
+  		<!-- BEGIN buttons -->
+  			<tr>
+  				<td>
+  					<strong><!-- IF not S_PARENT_ID --><a href="{buttons.U_OPEN}">{buttons.NAME}</a><!-- ELSE -->{buttons.NAME}<!-- ENDIF --></strong>
+  					<br /><span>{buttons.URL}</span>
+  				</td>
+  				<td style="width: 10%; text-align: center; white-space: nowrap;">
+    				<!-- IF buttons.S_FIRST_ROW && not buttons.S_LAST_ROW -->
+  						{ICON_MOVE_UP_DISABLED}
+  						<a href="{buttons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+  					<!-- ELSEIF not buttons.S_FIRST_ROW && not buttons.S_LAST_ROW -->
+  						<a href="{buttons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+  						<a href="{buttons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+  					<!-- ELSEIF buttons.S_LAST_ROW && not buttons.S_FIRST_ROW -->
+  						<a href="{buttons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+  						{ICON_MOVE_DOWN_DISABLED}
+  					<!-- ELSE -->
+  						{ICON_MOVE_UP_DISABLED}
+  						{ICON_MOVE_DOWN_DISABLED}
+  					<!-- ENDIF -->
+  					<a href="{buttons.U_EDIT}">{ICON_EDIT}</a>
+  					<a href="{buttons.U_DELETE}">{ICON_DELETE}</a>  
+  				</td>
+  			</tr>
+  		<!-- END buttons -->
+  		</tbody>
+  	</table>
+  <!-- ELSE -->
+    <div class="errorbox"><!-- IF not S_PARENT_ID -->{L_BLOCK_MENU_NO_BUTTONS}<!-- ELSE -->{L_BLOCK_MENU_NO_SUBBUTTONS}<!-- ENDIF --></div>
+  <!-- ENDIF -->        
+  
+  <form method="post" action="">    
+    <fieldset class="quick">
+    	<input class="post" type="text" maxlength="100" id="menu_button_name" name="button_name" value="" />
+      <input class="button2" type="submit" id="submit" name="submit" value="{L_BLOCK_MENU_CREATE_BUTTON}" />&nbsp;
+      {S_FORM_TOKEN} 
+    </fieldset>
+  </form>
+  
+<!-- ELSEIF S_MENU_CREATE_BUTTON or S_MENU_EDIT_BUTTON -->
+
+  <h1><!-- IF S_MENU_EDIT_BUTTON -->{L_BLOCK_MENU_EDIT_BUTTON} » {S_NAME}<!-- ELSE -->{L_BLOCK_MENU_CREATE_BUTTON}<!-- ENDIF --></h1>
+  
+  <form method="post" action="">
+    <fieldset>
+  		<dl>
+  			<dt><label for="menu_button_name">{L_BLOCK_MENU_BUTTON_NAME}</label></dt>
+  			<dd><input class="post" type="text" size="50" maxlength="100" id="menu_button_name" name="button_name" value="{S_NAME}" /></dd>
+  		</dl>
+  		<dl>
+  			<dt><label for="menu_button_url">{L_BLOCK_MENU_BUTTON_URL}</label><br />{L_BLOCK_MENU_BUTTON_URL_EXPLAIN}</dt>
+  			<dd><input class="post" type="text" size="50" id="menu_button_url" name="button_url" value="<!-- IF not S_MENU_EDIT_BUTTON -->http://<!-- ENDIF -->{S_URL}" /></dd>
+  		</dl>
+  		<dl>
+  		  <dt><label for="menu_button_parent">{L_BLOCK_MENU_BUTTON_PARENT}</label><br />{L_BLOCK_MENU_BUTTON_PARENT_EXPLAIN}</dt>
+    		<dd>  
+          <select name="button_parent" id="menu_button_parent">
+         		<option value=""></option>
+    				<!-- BEGIN parents -->
+    					<option value="{parents.ID}"<!-- IF ( S_MENU_EDIT_BUTTON and parents.ID == S_PARENT ) or (not S_MENU_EDIT_BUTTON and parents.ID == S_PARENT_ID ) --> selected="selected"<!-- ENDIF -->>{parents.NAME}</option>
+    				<!-- END parents -->
+    			</select>
+  			</dd>
+			</dl>
+  		<dl>
+  			<dt><label for="menu_button_external_yes">{L_BLOCK_MENU_BUTTON_EXTERNAL}:</label></dt>
+  			<dd>
+          <input type="radio" class="radio" id="menu_button_external_yes" name="button_external" value="1"<!-- IF S_EXTERNAL --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp; 
+  				<input type="radio" class="radio" id="menu_button_external_no" name="button_external" value="0"<!-- IF not S_EXTERNAL --> checked="checked"<!-- ENDIF --> /> {L_NO}
+        </dd>
+  		</dl>
+  		<dl>
+  			<dt><label for="menu_button_only_registered_yes">{L_BLOCK_MENU_BUTTON_ONLY_REGISTERED}:</label></dt>
+  			<dd>
+          <input type="radio" class="radio" id="menu_button_only_registered_yes" name="button_only_registered" value="1"<!-- IF S_ONLY_REGISTERED --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp; 
+  				<input type="radio" class="radio" id="menu_button_only_registered_no" name="button_only_registered" value="0"<!-- IF not S_ONLY_REGISTERED --> checked="checked"<!-- ENDIF --> /> {L_NO}
+        </dd>
+  		</dl>
+  		<dl>
+  			<dt><label for="menu_button_only_guest_yes">{L_BLOCK_MENU_BUTTON_ONLY_GUEST}:</label></dt>
+  			<dd>
+          <input type="radio" class="radio" id="menu_button_only_guest_yes" name="button_only_guest" value="1"<!-- IF S_ONLY_GUEST --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp; 
+  				<input type="radio" class="radio" id="menu_button_only_guest_no" name="button_only_guest" value="0"<!-- IF not S_ONLY_GUEST --> checked="checked"<!-- ENDIF --> /> {L_NO}
+        </dd>
+  		</dl>
+  		<dl>
+  			<dt><label for="menu_button_display_yes">{L_BLOCK_MENU_BUTTON_DISPLAY}:</label></dt>
+  			<dd>
+          <input type="radio" class="radio" id="menu_button_display_yes" name="button_display" value="1"<!-- IF S_DISPLAY or not S_MENU_EDIT_BUTTON --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp; 
+  				<input type="radio" class="radio" id="menu_button_display_no" name="button_display" value="0"<!-- IF not S_DISPLAY and S_MENU_EDIT_BUTTON --> checked="checked"<!-- ENDIF --> /> {L_NO}
+        </dd>
+  		</dl>
+  	</fieldset>
+    <p class="submit-buttons">
+    	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+    	<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+    </p>
+    {S_FORM_TOKEN}
+  </form> 
+      
+<!-- ENDIF -->

@@ -1,0 +1,153 @@
+<!-- INCLUDE ucp_header.html -->
+<h2>{L_TITLE}</h2>
+<form id="ucp" method="post" action="{U_ACTION}">
+	<div class="panel">
+		<div class="inner">
+			<span class="corners-top"><span></span></span>
+			<fieldset class="sn-up-relations">
+				<!-- IF ERROR -->
+				<p class="error">
+					{ERROR}
+				</p>
+				<!-- ENDIF -->
+				<dl>
+					<dt>
+						<label for="sn-up-relationShipStatus">{L_SN_UP_RELATIONSHIP}:</label>
+					</dt>
+					<dd>
+						<select name="relationship_status" id="sn-up-relationShipStatus" style="width: 31%;">
+							<option value="">{L_SN_UP_SELECT_RELATIONSHIP}</option>
+							<option value="1">{L_SN_UP_SINGLE}</option>
+							<option value="2">{L_SN_UP_IN_RELATIONSHIP}</option>
+							<option value="3">{L_SN_UP_ENGAGED}</option>
+							<option value="4">{L_SN_UP_MARRIED}</option>
+							<option value="5">{L_SN_UP_ITS_COMPLICATED}</option>
+							<option value="6">{L_SN_UP_OPEN_RELATIONSHIP}</option>
+							<option value="7">{L_SN_UP_WIDOWED}</option>
+							<option value="8">{L_SN_UP_SEPARATED}</option>
+							<option value="9">{L_SN_UP_DIVORCED}</option>
+						</select>
+						<span id="sn-up-relationShipPartner"> {L_SN_UP_TO}
+							<input type="text" name="relationship_user" id="sn-up-relationShipUser" value="" class="inputbox" style="width: 15%;" />
+							<input type="text" name="anniversary_picker" id="sn-up-annivesaryPicker" value="" maxlength="10" class="inputbox" style="width: 15%;" />
+						</span>
+					</dd>
+				</dl>
+				<dl>
+					<dt>
+						<label>{L_SN_UP_FAMILY}:</label>
+					</dt>
+					<dd>
+						<select name="family_status" id="sn-up-familyStatus" style="width: 31%;">
+							<option value="">{L_SN_UP_SELECT_FAMILY_RELATION}</option>
+							<option value="20">{L_SN_UP_SISTER}</option>
+							<option value="21">{L_SN_UP_BROTHER}</option>
+							<option value="22">{L_SN_UP_DAUGHTER}</option>
+							<option value="23">{L_SN_UP_SON}</option>
+							<option value="24">{L_SN_UP_MOTHER}</option>
+							<option value="25">{L_SN_UP_FATHER}</option>
+							<option value="26">{L_SN_UP_AUNT}</option>
+							<option value="27">{L_SN_UP_UNCLE}</option>
+							<option value="28">{L_SN_UP_NIECE}</option>
+							<option value="29">{L_SN_UP_NEPHEW}</option>
+							<option value="30">{L_SN_UP_COUSIN_FEMALE}</option>
+							<option value="31">{L_SN_UP_COUSIN_MALE}</option>
+							<option value="32">{L_SN_UP_GRANDDAUGHTER}</option>
+							<option value="33">{L_SN_UP_GRANDSON}</option>
+							<option value="34">{L_SN_UP_GRANDMOTHER}</option>
+							<option value="35">{L_SN_UP_GRANDFATHER}</option>
+							<option value="36">{L_SN_UP_SISTER_IN_LAW}</option>
+							<option value="37">{L_SN_UP_BROTHER_IN_LAW}</option>
+							<option value="38">{L_SN_UP_MOTHER_IN_LAW}</option>
+							<option value="39">{L_SN_UP_FATHER_IN_LAW}</option>
+							<option value="40">{L_SN_UP_DAUGHTER_IN_LAW}</option>
+							<option value="41">{L_SN_UP_SON_IN_LAW}</option>
+						</select>
+						<span id="sn-up-familyPartner">
+							<input type="text" name="family_user" id="sn-up-familyUser" value="" class="inputbox" style="width: 15%;" />
+						</span>
+					</dd>
+				</dl>
+			</fieldset>
+			<span class="corners-bottom"><span></span></span>
+		</div>
+	</div>
+	<fieldset class="submit-buttons">
+		<input type="reset" value="{L_RESET}" name="reset" class="button2" />
+		&nbsp;
+		<input type="submit" name="submit" value="{L_SUBMIT}" class="button1" />
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+		<h3>{L_SN_UP_RELATIONSHIP}</h3>
+		<!-- IF .relationship -->
+  		<div class="sn-fms-users">
+  			<!-- BEGIN relationship -->
+  			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF not relationship.APPROVED --> sn-bg-red<!-- ENDIF --> {uid:{relationship.USER_ID}}" title="{relationship.USERNAME_NO_COLOR}<!-- IF not relationship.APPROVED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
+  				<div class="sn-actions">
+  					<a href="{relationship.U_DELETE}"><div class="sn-action-close"></div></a>
+  				</div>
+  				<!-- IF relationship.U_PROFILE_LINK --><a href="{relationship.U_PROFILE_LINK}"><!-- ENDIF -->{relationship.AVATAR}<!-- IF relationship.U_PROFILE_LINK --></a><!-- ENDIF -->
+  				<!-- IF relationship.U_RELATIVE --><div class="sn-userName">{relationship.U_RELATIVE}</div><!-- ENDIF -->
+  				<span>{relationship.STATUS}<!-- IF relationship.ANNIVERSARY --><br />{relationship.ANNIVERSARY}<!-- ENDIF --></span>
+  				<!-- IF not relationship.APPROVED --><div class="sn-fms-unapproved">({L_SN_UP_NOT_APPROVED})</div><!-- ENDIF -->
+  			</div>
+  			<!-- END relationship -->
+  		</div>
+		<!-- ELSE -->
+		  {L_SN_UP_APPROVE_RELATION_NO_RELATIONSHIP}
+    <!-- ENDIF -->
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+		<h3>{L_SN_UP_FAMILY}</h3>
+		<!-- IF .family -->
+  		<div class="sn-fms-users">
+  			<!-- BEGIN family -->
+  			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF not family.APPROVED --> sn-bg-red<!-- ENDIF --> {uid:{family.USER_ID}}" title="{family.USERNAME_NO_COLOR}<!-- IF not family.APPROVED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
+  				<div class="sn-actions">
+  					<a href="{family.U_DELETE}"><div class="sn-action-close"></div></a>
+  				</div>
+  				<!-- IF family.U_PROFILE_LINK --><a href="{family.U_PROFILE_LINK}"><!-- ENDIF -->{family.AVATAR}<!-- IF family.U_PROFILE_LINK --></a><!-- ENDIF -->
+  				<!-- IF family.U_RELATIVE --><div class="sn-userName">{family.U_RELATIVE}</div><!-- ENDIF -->
+  				<span>{family.STATUS}</span>
+  				<!-- IF not family.APPROVED --><div class="sn-fms-unapproved">({L_SN_UP_NOT_APPROVED})</div><!-- ENDIF -->
+  			</div>
+  			<!-- END family -->
+  		</div>
+		<!-- ELSE -->
+		  {L_SN_UP_APPROVE_NO_FAMILY_MEMBER}
+    <!-- ENDIF -->
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<!-- IF .requests -->
+<div class="panel">
+	<div class="inner">
+		<span class="corners-top"><span></span></span>
+		<h3>{L_SN_UP_NOT_APPROVED}</h3>
+		<div class="sn-fms-users">
+			<!-- BEGIN requests -->
+			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block sn-bg-red {uid:{requests.USER_ID}}" title="{requests.USERNAME_NO_COLOR}">
+				<div class="sn-actions">
+					<a href="{requests.U_CONFIRM}" title="{L_SN_APPROVE}"><span class="sn-action-ok-green"></span></a><a href="{requests.U_DELETE}" title="{L_SN_NO_APPROVE}"><span class="sn-action-delete sn-action-delete-red"></span></a>
+				</div>
+				<!-- IF requests.U_PROFILE_LINK --><a href="{requests.U_PROFILE_LINK}"><!-- ENDIF -->{requests.AVATAR}<!-- IF requests.U_PROFILE_LINK --></a><!-- ENDIF -->
+				<!-- IF requests.U_RELATIVE --><div class="sn-userName">{requests.U_RELATIVE}</div><!-- ENDIF -->
+				<span>{requests.STATUS}<!-- IF requests.ANNIVERSARY --><br />{requests.ANNIVERSARY}<!-- ENDIF --></span>
+				<span style="font-size: 1.1em; font-weight: bold;"><br /><a href="{requests.U_APPROVE}">{L_SN_UP_APPROVE}</a></span>
+			</div>
+			<!-- END requests -->
+		</div>
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE ucp_footer.html -->

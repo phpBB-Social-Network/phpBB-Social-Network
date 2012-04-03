@@ -1,0 +1,10 @@
+<!-- IF B_SN_BLOCK_FRIENDS_SUGGESTIONS_ENABLED and ( .mutual_friends or SN_FMS_BLOCK_SUGGESTION_IS_NOT_EMPTY ) -->
+	<!-- DEFINE $BLOCK_HEADER = '{L_SN_MP_FRIEND_SUGGESTIONS}' -->
+	<!-- DEFINE $BLOCK_HEADER_LINK = '{U_VIEW_SUGGESTIONS}' -->
+	<!-- INCLUDE socialnet/block_page_header.html -->
+	<div class="sn-page-blocktext">
+	  <div class="clear"></div>
+		{SN_FMS_BLOCK_SUGGESTION_CONTENT}
+		<div class="clear"></div>
+	</div>
+<!-- ENDIF -->

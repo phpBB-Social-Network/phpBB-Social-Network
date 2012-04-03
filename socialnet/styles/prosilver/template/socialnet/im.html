@@ -1,0 +1,84 @@
+<!-- IF SN_IM_MODE eq 'startIM' -->
+<div id="sn-im" class="sn-im-dockWrapper ui-bar" style="position:absolute;top:-9999px;left:-9999px;display:none;" data-position="fixed" data-role="footer">
+	<div id="sn-im-online" class="sn-im-group">
+		<div class="sn-im-online sn-im-button<!-- IF SN_IM_ONLINELIST_SHOW --> sn-im-opener<!-- ENDIF -->" id="sn-im-onlineCount">
+			<span class="label" style="background-image:url('{T_IMAGESET_PATH}/socialnet/im_me_{S_SN_IM_ONLINE}.png')">{L_SN_IM_CHAT}</span>
+			<span class="count">(<!-- IF SN_IM_ONLINE -->{SN_IM_ONLINE_COUNT}<!-- ELSE -->0<!-- ENDIF -->)</span>
+		</div>
+		<div id="sn-im-onlineBlock" class="sn-im-online sn-im-block" style="<!-- IF not SN_IM_ONLINELIST_SHOW -->display:none;<!-- ENDIF -->;">
+			<div class="sn-im-title">{L_SN_IM_CHAT}</div>
+			<div class="sn-im-buttons">
+				<div class="sn-im-sound ui-icon ui-icon-volume-<!-- IF S_SN_IM_USER_SOUND -->on<!-- ELSE -->off<!-- ENDIF -->" title="{L_SN_IM_SOUND} <!-- IF S_SN_IM_USER_SOUND -->ON<!-- ELSE -->OFF<!-- ENDIF -->"></div>
+				<div class="sn-im-loginlogout">
+    				<label class="sn-im-login<!-- IF SN_IM_ONLINE --> sn-im-selected<!-- ENDIF -->"><span>{L_SN_IM_LOGIN}</span></label>
+    				<label class="sn-im-logout<!-- IF not SN_IM_ONLINE --> sn-im-selected<!-- ENDIF -->"><span>{L_SN_IM_LOGOUT}</span></label>
+    			</div>
+    		<div class="clear"></div>
+    		</div>
+			<div id="sn-im-onlineList" class="sn-im-onlineList">{SN_IM_ONLINELIST}</div>
+		</div>
+	</div>
+	<div class="sn-im-group sn-im-button sn-im-nav sn-im-prev"><!-- IF S_CONTENT_DIRECTION eq 'ltr' -->&raquo;<!-- ELSE -->&laquo;<!-- ENDIF --></div>
+	<div id="sn-im-chatBoxes" class="sn-im-group sn-im-chatBoxes">
+<!-- ENDIF -->
+	<!-- BEGIN sn_im_chatbox -->
+	<!-- IF not sn_im_chatbox.B_SN_IM_ONLY_MESSAGE -->
+	<div id="sn-im-chatBox{sn_im_chatbox.USER_ID}" class="sn-im-group sn-im-chatBox sn-im-noChatBar {uid:{sn_im_chatbox.USER_ID}}">
+		<div class="sn-im-button sn-action-block<!-- IF sn_im_chatbox.S_OPEN --> sn-im-opener<!-- ENDIF -->">
+			<span class="sn-im-unRead<!-- IF sn_im_chatbox.UNREAD eq 0 --> sn-hiddenDefault<!-- ENDIF -->"></span>
+			<div class="sn-actions">
+				<div class="sn-im-close sn-action-close"></div>
+			</div>
+			<div class="label">{sn_im_chatbox.USERNAME_TO}
+			<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
+			</div>
+		</div>
+		<div id="sn-im-chatBoxBlock{sn_im_chatbox.USER_ID}" class="sn-im-block<!-- IF sn_im_chatbox.S_OPEN --> sn-im-opeBlock<!-- ENDIF -->" style="<!-- IF not sn_im_chatbox.S_OPEN -->display: none<!-- ENDIF -->">
+			<div class="sn-im-title sn-im-buttons">
+				<span class="ui-icon sn-im-cbClose sn-tooltip" title="{SN_IM_PRESS_TO_CLOSE}"></span>
+				<a href="{sn_im_chatbox.U_UCP_IM_HISTORY}" class="sn-tooltip" title="{L_UCP_SN_IM_HISTORY}"><span class="ui-icon sn-im-cbHistory"></span></a>
+				<a href="{sn_im_chatbox.USERNAME_TO_PROFILE}" class="sn-tooltip" title="{L_SN_PROFILE}"><span class="ui-icon sn-im-cbProfile"></span></a>
+				<span class="sn-im-cbAvatar sn-hiddenDefault">{sn_im_chatbox.AVATAR}</span>
+				<div class="sn-userName">{sn_im_chatbox.USERNAME_TO_NO_COLOR}<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span></div>
+			</div>
+			<div class="sn-im-buttons sn-hiddenDefault">
+				<a href="javascript:void(0);"><span class="ui-icon sn-im-cbClose"></span></a>
+				<a href="{sn_im_chatbox.U_UCP_IM_HISTORY}"><span class="ui-icon sn-im-cbHistory"></span></a>
+				<a href="{sn_im_chatbox.USERNAME_TO_PROFILE}"><span class="ui-icon sn-im-cbProfile"></span></a>
+				<div class="clear"></div>
+			</div>
+			<div class="sn-im-msgs">
+	<!-- ENDIF -->
+				<!-- DEFINE $USE_AVATAR = 1 -->
+				<!-- BEGIN message -->
+				  <div class="sn-im-msg<!-- IF sn_im_chatbox.message.S_UID_SAME --> sn-im-noborderTop<!-- ENDIF --> {time:{sn_im_chatbox.message.TIME},from:{sn_im_chatbox.message.UID_FROM}}">
+				    <!-- IF not S_TIME --><span class="sn-im-msgTime"></span><!-- ENDIF -->
+				    <!-- IF $USE_AVATAR eq 0 --> 
+						  <!-- IF not sn_im_chatbox.message.S_UID_SAME --><span class="sn-userName"><!-- IF sn_im_chatbox.message.S_ME -->{SN_IM_USERNAME}<!-- ELSE -->{sn_im_chatbox.U_PROFILE_USER}<!-- ENDIF -->:</span><!-- ENDIF -->
+						<!-- ELSE -->
+						  <!-- IF not sn_im_chatbox.message.S_UID_SAME -->
+						  <span class="sn-im-msgAvatar">
+							<!-- IF sn_im_chatbox.message.S_ME -->{SN_IM_USER_AVATAR}<!-- ELSE -->{sn_im_chatbox.AVATAR}<!-- ENDIF -->
+							<!-- IF sn_im_chatbox.message.B_NO_AVATAR --><img src="{T_IMAGESET_PATH}/socialnet/im_history_<!-- IF sn_im_chatbox.message.S_ME -->outgoing<!-- ELSE -->incoming<!-- ENDIF -->.png" /><!-- ENDIF -->
+						  	</span>
+						  <!-- ENDIF -->
+						<!-- ENDIF -->
+						<div class="sn-im-msgText">{sn_im_chatbox.message.MESSAGE}</div>
+					</div>
+				<!-- END message -->
+  <!-- IF not sn_im_chatbox.B_SN_IM_ONLY_MESSAGE -->
+			</div>
+			<div class="sn-im-textArea"><textarea name="msg" class="sn-im-message {uid:{sn_im_chatbox.USER_ID}}" title="{SN_IM_PRESS_TO_SEND}"></textarea></div>
+		</div>
+	</div>
+	<!-- ENDIF -->
+	<!-- END sn_im_chatbox -->
+<!-- IF SN_IM_MODE eq 'startIM' -->
+	</div>
+	<div class="sn-im-group sn-im-button sn-im-nav sn-im-next"><!-- IF S_CONTENT_DIRECTION eq 'rtl' -->&raquo;<!-- ELSE -->&laquo;<!-- ENDIF --></div>
+	<div id="sn-im-msgArrived">
+		<!--a href="{T_SOCIALNET_STYLE_PATH}/im-new-message.swf"></a-->
+		<a href="{T_SOCIALNET_STYLE_PATH}/sound/player_mp3_button.swf" title="mp3={T_SOCIALNET_STYLE_PATH}/sound/{S_SN_IM_USER_SOUNDNAME}&autoplay=1&showslider=0&width=0&height=0&loop=0&volume=100"></a>
+	</div>
+</div>
+<!-- ENDIF -->

@@ -1,0 +1,22 @@
+<!-- IF .mp_notify -->
+<!-- BEGIN mp_notify -->
+<div class="sn-mp-textBlock sn-action-blockHidden">
+    <div class="sn-actions" style="display:none">
+        <div class="sn-ntf-delete sn-action-delete {ntf_id:{mp_notify.NTF_ID}}"></div>
+    </div>
+    <span class="sn-us-posterAvatar">
+        <a href="{mp_notify.U_POSTER_PROFILE}">
+        {mp_notify.POSTER_AVATAR}
+        </a>
+    </span>
+    {mp_notify.DATA}
+    <div class="clear">
+    </div>
+</div>
+<!-- END mp_notify -->
+<!-- ELSE -->
+<div>
+    {L_SN_NO_NOTIFY}
+</div>
+<!-- ENDIF -->
+

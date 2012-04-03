@@ -1,0 +1,28 @@
+<!-- IF SN_COMMENTS_MORE && B_LOAD_FIRST_USERSTATUS_COMMENTS && not B_SN_NOT_ONLY_COMMENT -->
+<div class="sn-more">
+	<a href="javascript:void(0);" class="{SN_CLASS_PREFIX}-getMoreComments sn-moreComments behind {id:{SN_COMMENT_MODULE_ID}}"><span class="sn-commentsCount">{SN_COMMENTS_MORE}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
+	<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-commentsLoader" style="display:none;"/>
+</div>
+<!-- ENDIF -->
+<!-- BEGIN comment -->
+<div id="sn-comment{comment.COMMENT_ID}" class="{SN_CLASS_PREFIX}-commentBlock sn-commentBlock sn-action-blockHidden {cid:{comment.COMMENT_ID}}">
+	<span class="sn-posterAvatar"><a href="{comment.U_POSTER_PROFILE}">{comment.POSTER_AVATAR}</a></span>
+	<div class="sn-commentBox">
+		<div class="sn-actions">
+			<!-- IF comment.DELETE_COMMENT -->
+			<div class="sn-deleteComment sn-action-delete delete_comment {url:$.{SN_CLASS_PREFIX_DOT}.url,cid:{comment.COMMENT_ID}}">
+			</div><!-- ENDIF -->
+		</div>
+		<div class="sn-commentText">
+			<a href="{comment.U_POSTER_PROFILE}" title="{comment.POSTER_USERNAME_NO_COLOR}"><span class="sn-userName">{comment.POSTER_USERNAME}</span></a> {comment.TEXT}
+		</div>
+		<div class="sn-statusTime">{comment.TIME}</div>
+	</div>
+</div>
+<!-- END comment -->
+<!-- IF SN_COMMENTS_MORE && not B_LOAD_FIRST_USERSTATUS_COMMENTS && not B_SN_NOT_ONLY_COMMENT -->
+<div class="sn-more">
+	<a href="javascript:void(0);" class="{SN_CLASS_PREFIX}-getMoreComments sn-moreComments before {id:{SN_COMMENT_MODULE_ID}}"><span class="sn-commentsCount">{SN_COMMENTS_MORE}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
+	<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-commentsLoader" style="display:none;"/>
+</div>
+<!-- ENDIF -->

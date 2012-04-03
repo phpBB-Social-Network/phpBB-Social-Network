@@ -1,0 +1,29 @@
+<dl class="left-box details" style="width:80%">
+	<!-- IF RANK_TITLE --><dt>{L_RANK}:</dt> <dd>{RANK_TITLE}</dd><!-- ENDIF -->
+	<!-- IF RANK_IMG --><dt><!-- IF RANK_TITLE -->&nbsp;<!-- ELSE -->{L_RANK}:<!-- ENDIF --></dt> <dd>{RANK_IMG}</dd><!-- ENDIF -->
+	<!-- IF S_GROUPS --><dt>{L_USERGROUPS}:</dt> <dd>{S_GROUPS}</dd><!-- ENDIF -->
+	<dt>{L_JOINED}:</dt> <dd>{JOINED}</dd>
+	<dt>{L_VISITED}:</dt> <dd>{VISITED}</dd>
+	<!-- IF LAST_CHANGE --><dt>{L_SN_UP_LAST_CHANGE}:</dt> <dd>{LAST_CHANGE}</dd><!-- ENDIF -->
+  <!-- IF S_WARNINGS -->
+  	<dt>{L_WARNINGS}: </dt>
+  	<dd><strong>{WARNINGS}</strong><!-- IF U_NOTES or U_WARN --> [ <!-- IF U_NOTES --><a href="{U_NOTES}">{L_VIEW_NOTES}</a><!-- ENDIF --> <!-- IF U_WARN --><!-- IF U_NOTES --> | <!-- ENDIF --><a href="{U_WARN}">{L_WARN_USER}</a><!-- ENDIF --> ]<!-- ENDIF --></dd>
+  <!-- ENDIF -->
+	<dt>{L_TOTAL_POSTS}:</dt>
+	<dd>{POSTS} <!-- IF S_DISPLAY_SEARCH -->| <strong><a href="{U_SEARCH_USER}">{L_SEARCH_USER_POSTS}</a></strong><!-- ENDIF -->
+		<!-- IF POSTS_PCT --><br />({POSTS_PCT} / {POSTS_DAY})<!-- ENDIF -->
+		<!-- IF POSTS_IN_QUEUE and U_MCP_QUEUE --><br />(<a href="{U_MCP_QUEUE}">{L_POSTS_IN_QUEUE}</a>)<!-- ELSEIF POSTS_IN_QUEUE --><br />({L_POSTS_IN_QUEUE})<!-- ENDIF -->
+	</dd>
+  <!-- IF S_SHOW_ACTIVITY and POSTS -->
+  	<dt>{L_ACTIVE_IN_FORUM}:</dt> <dd><!-- IF ACTIVE_FORUM --><strong><a href="{U_ACTIVE_FORUM}">{ACTIVE_FORUM}</a></strong><br />({ACTIVE_FORUM_POSTS} / {ACTIVE_FORUM_PCT})<!-- ELSE --> - <!-- ENDIF --></dd>
+  	<dt>{L_ACTIVE_IN_TOPIC}:</dt> <dd><!-- IF ACTIVE_TOPIC --><strong><a href="{U_ACTIVE_TOPIC}">{ACTIVE_TOPIC}</a></strong><br />({ACTIVE_TOPIC_POSTS} / {ACTIVE_TOPIC_PCT})<!-- ELSE --> - <!-- ENDIF --></dd>
+  <!-- ENDIF -->
+	<!-- IF .visitors --><dt>{L_SN_UP_LAST_VISITORS}:</dt> <dd><!-- BEGIN visitors -->{visitors.USERNAME}<!-- IF not visitors.S_LAST_ROW -->, <!-- ENDIF --><!-- END visitors --></dd><!-- ENDIF --> 
+	<dt>{L_SN_UP_PROFILE_VIEWED}:</dt> <dd>{PROFILE_VIEWS}x</dd>
+  <!-- BEGIN addons -->
+    <!-- IF addons.LOCATION == '2' -->
+      <!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
+      <!-- INCLUDE {$TEMPLATE_FILE} -->
+    <!-- ENDIF -->
+  <!-- END addons -->
+</dl>

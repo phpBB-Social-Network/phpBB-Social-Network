@@ -1,0 +1,8 @@
+<!-- BEGIN sn_user_menu -->
+	<li id="menu_id_{sn_user_menu.ID}" class="<!-- IF sn_user_menu.ICON -->sn-menu-icon{sn_user_menu.ICON}<!-- ENDIF -->">
+		<a href="{sn_user_menu.URL}"<!-- IF sn_user_menu.EXTERNAL --> target="_blank"<!-- ENDIF -->>{sn_user_menu.NAME}</a>
+		<!-- IF sn_user_menu.SUBMENU neq '' -->
+		<ul id="submenu_id_{sn_user_menu.ID}">{sn_user_menu.SUBMENU}</ul>
+		<!-- ENDIF -->
+	</li>
+<!-- END sn_user_menu --> 

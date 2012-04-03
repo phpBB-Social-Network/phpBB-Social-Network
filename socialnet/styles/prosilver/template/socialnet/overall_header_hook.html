@@ -1,0 +1,161 @@
+<link href="{T_THEME_PATH}/jquery-ui.custom.css" rel="stylesheet" type="text/css" media="screen, projection" />
+<link href="{T_THEME_PATH}/jquery-ui.menu.css" rel="stylesheet" type="text/css" media="screen, projection" />
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.metadata.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery_cookie.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.timers.js"></script>   
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.hoverIntent.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.text-overflow.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.textarea-expander.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.watermark.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.ui.tooltip.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.ui.menu.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.form.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.titlealert.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.detectmobilebrowser.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.editable.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.jgrowl_minimized.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.socialnet.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.confirmbox.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.im.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.notify.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.approval.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.userstatus.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.mainpage.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.profile.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($){
+	$.sn.init({
+		allow_load: {B_AJAX_LOAD_ALLOW},
+		rtl: '{S_CONTENT_DIRECTION}' == 'rtl' ? true: false,
+		cookie : {
+			name : '{COOKIE_NAME}',
+			path : '{COOKIE_PATH}',
+			domain : '{COOKIE_DOMAIN}',
+			secure : '{COOKIE_SECURE}'=='1'
+		},
+		confirmBox: {
+		    enable: '{S_SN_CB_ENABLE}' == '1' ? true : false,
+		    resizable : '{S_SN_CB_RESIZABLE}' == '1' ? true : false,
+		    draggable : '{S_SN_CB_DRAGGABLE}' == '1' ? true : false,
+		    modal : '{S_SN_CB_MODAL}' == '1' ? true : false,
+		    width : '{S_SN_CB_WIDTH}',
+		    button_confirm : '{L_SN_US_CONFIRM}',
+		    button_cancel : '{L_SN_US_CANCEL}',
+		    button_close : '{L_SN_US_CLOSE}',
+		    postMinChar : {I_POST_MIN_CHARS}
+		},
+		enableModules : {
+			im : '{SN_MODULE_IM_ENABLED}' == '1',
+			us : '{SN_MODULE_USERSTATUS_ENABLED}' == '1',
+			ntf : '{SN_MODULE_NOTIFY_ENABLED}' == '1',
+			fms : '{SN_MODULE_APPROVAL_ENABLED}' == '1',
+			mp : '{SN_MODULE_MAINPAGE_ENABLED}' == '1' && '{S_ON_MAINPAGE}' == 1 && '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
+			up : '{SN_MODULE_PROFILE_ENABLED}' == '1'
+		},
+		comments : {
+			watermark : '{L_SN_US_WRITE_COMMENT}',
+			empty : '{L_SN_US_EMPTY_COMMENT}',
+			deleteTitle : '{L_SN_CB_DELETE_COMMENT_TITLE}',
+			deleteText : '{L_SN_CB_DELETE_COMMENT_TEXT}'
+		}
+	});
+
+// ## INSTANT MESSENGER -=- START ##
+<!-- IF SN_MODULE_IM_ENABLED -->
+	$.sn.im.init({
+		url: '{SOCIALNET_ROOT_PATH}im.php',
+		rootPath: '{SOCIALNET_ROOT_PATH}',
+		newMessage: '{L_SN_IM_NEW_MESSAGE}',
+		namesMe: '{S_SN_USERNAME}',
+		youAreOffline: '{L_SN_IM_YOU_ARE_OFFLINE}',
+		titleNew: '{L_SN_IM_NEW_MESSAGE}',
+		sound: '{S_SN_IM_USER_SOUND}' == '1' ? true: false,
+		isOnline: '{SN_IM_ONLINE}' == '1' ? true: false,
+		timersMin: {SN_IM_MIN_CHECK},
+		timersMax: {SN_IM_MAX_CHECK},
+		lastCheckTime: {SN_IM_LAST_CHECKTIME},
+		sendSequence: {
+			alt : {SN_IM_SENDSEQ_ALT},
+			ctrl : {SN_IM_SENDSEQ_CTRL},
+			shift : {SN_IM_SENDSEQ_SHIFT},
+			key : {SN_IM_SENDSEQ_KEY}
+		},
+		closeSequence : {
+			alt : {SN_IM_CLOSESEQ_ALT},
+			ctrl : {SN_IM_CLOSESEQ_CTRL},
+			shift : {SN_IM_CLOSESEQ_SHIFT},
+			key : {SN_IM_CLOSESEQ_KEY}
+		}
+		
+	});
+<!-- ENDIF -->
+// ## INSTANT MESSENGER -=- END ##
+
+// ## NOTIFICATIONS -=- START ##
+<!-- IF SN_MODULE_NOTIFY_ENABLED -->
+	$.sn.ntf.init({
+		url:'{SOCIALNET_ROOT_PATH}notify.php',
+		theme: '{S_SN_NTF_THEME}',
+		life: 10000,
+		checkTime: 6000
+	});
+<!-- ENDIF -->
+// ## NOTIFICATIONS -=- END ##
+
+// ## FRIEND MANAGEMENT SYSTEM -=- START ##
+<!-- IF SN_MODULE_APPROVAL_ENABLED -->
+	$.sn.fms.init({
+		url: '{SOCIALNET_ROOT_PATH}approval.php',
+		urlFMS: '{SOCIALNET_ROOT_PATH}fms_users.php',
+		noFriends: '{L_FAS_FRIENDGROUP_NO_TOTAL}'
+	});
+<!-- ENDIF -->
+// ## FRIEND MANAGEMENT SYSTEM -=- END ##
+
+// ## USER STATUS -=- START ##
+<!-- IF SN_MODULE_USERSTATUS_ENABLED -->
+	$.sn.us.init({
+		watermark : '{L_SN_US_WHATS_ON_YOUR_MIND}',
+		emptyStatus : '{L_SN_US_EMPTY_STATUS}',
+		url : '{SOCIALNET_ROOT_PATH}userstatus.php',
+		urlFetch : '{SOCIALNET_ROOT_PATH}fetch.php',
+		deleteStatusTitle : '{L_SN_CB_DELETE_STATUS_TITLE}',
+		deleteStatusText: '{L_SN_CB_DELETE_STATUS_TEXT}'
+	});
+<!-- ENDIF -->
+// ## USER STATUS -=- END ##
+
+// ## MAIN PAGE -=- START ##
+<!-- IF SN_MODULE_MAINPAGE_ENABLED and S_ON_MAINPAGE and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
+	$.sn.mp.init({
+		url : '{SOCIALNET_ROOT_PATH}mainpage.php',
+		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
+		tikTakOnline : {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
+		urlUsersAutocomplete: '{U_USERS_AUTOCOMPLETE}'
+	});
+<!-- ENDIF -->
+// ## MAIN PAGE -=- END ##
+
+// ## PROFILE -=- START ##
+<!-- IF SN_MODULE_PROFILE_ENABLED -->
+	$.sn.up.init({
+		url : '{U_UP_TAB_WALL}',
+		urlAJAX : '{U_UP_AJAXURL}',
+		urlSelectFriends: '{U_SELECT_FRIENDS}',
+		spinner : '{L_SN_UP_TABS_SPINNER}',
+		nextText : '{L_NEXT}',
+		prevText : '{L_PREVIOUS}',
+		dateFormat : 'd. MM yy',
+		dayNames : [ '{L_SN_UP_SUNDAY}', '{L_SN_UP_MONDAY}', '{L_SN_UP_TUESDAY}', '{L_SN_UP_WEDNESDAY}', '{L_SN_UP_THURSDAY}', '{L_SN_UP_FRIDAY}', '{L_SN_UP_SATURDAY}' ],
+		dayNamesShort : [ '{L_SN_UP_SUNDAY_MIN}', '{L_SN_UP_MONDAY_MIN}', '{L_SN_UP_TUESDAY_MIN}', '{L_SN_UP_WEDNESDAY_MIN}', '{L_SN_UP_THURSDAY_MIN}', '{L_SN_UP_FRIDAY_MIN}', '{L_SN_UP_SATURDAY_MIN}' ],
+		monthNames : [{SN_UP_MONTH_NAMES}],
+		monthNamesShort : [{SN_UP_MONTH_NAMES_SHORT}]
+	});
+<!-- ENDIF -->
+// ## PROFILE -=- END ##
+
+});
+
+</script>

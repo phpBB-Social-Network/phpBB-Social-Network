@@ -1,0 +1,23 @@
+<div class="sn-page-blockHeader<!-- IF $BLOCK_HEADER_TYPE == 'forabg' --> forabg<!-- ENDIF -->">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<!-- IF $BLOCK_HEADER_TYPE == 'forabg' -->
+		<ul class="topiclist"><li class="header"><dl><dt style="width:100%;">{$BLOCK_HEADER}<!-- IF $BLOCK_HEADER_ADDITIONAL_LINK --> &bull; <a href="{$BLOCK_HEADER_ADDITIONAL_LINK}">{$BLOCK_HEADER_ADDITIONAL}</a>
+			<!-- ELSEIF $BLOCK_HEADER_ADDITIONAL --> ({$BLOCK_HEADER_ADDITIONAL})<!-- ENDIF -->
+		<!-- IF $BLOCK_HEADER_LINK -->
+			<span class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="padding:0 3px;float: right;margin-top:-3px;margin-right:5px;text-transform:none;"><a href="{$BLOCK_HEADER_LINK}" style="color:#222;font-size:0.8em;">{L_SN_MP_SEE_ALL}</a></span>
+		<!-- ENDIF -->
+		</dt></dl></li></ul>
+		<!-- ELSE -->
+		<h3>{$BLOCK_HEADER}<!-- IF $BLOCK_HEADER_ADDITIONAL_LINK --> &bull; <a href="{$BLOCK_HEADER_ADDITIONAL_LINK}">{$BLOCK_HEADER_ADDITIONAL}</a>
+			<!-- ELSEIF $BLOCK_HEADER_ADDITIONAL --> ({$BLOCK_HEADER_ADDITIONAL})<!-- ENDIF -->
+		<!-- IF $BLOCK_HEADER_LINK -->
+			<span class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="padding:0 3px;float: right;margin-top:-3px;margin-right:5px;text-transform:none;"><a href="{$BLOCK_HEADER_LINK}" style="color:#222;font-size:0.8em;">{L_SN_MP_SEE_ALL}</a></span>
+		<!-- ENDIF -->
+			
+		</h3>
+		<!-- ENDIF -->
+	</div>
+</div>
+<!-- UNDEFINE $BLOCK_HEADER_LINK -->
+<!-- UNDEFINE $BLOCK_HEADER_ADDITIONAL -->
+<!-- UNDEFINE $BLOCK_HEADER_ADDITIONAL_LINK -->
