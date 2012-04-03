@@ -1,5 +1,5 @@
 <!-- IF SN_IM_MODE eq 'startIM' -->
-<div id="sn-im" class="sn-im-dockWrapper ui-bar" style="position:absolute;top:-9999px;left:-9999px;display:none;" data-position="fixed" data-role="footer">
+<div id="sn-im" class="sn-im-dockWrapper ui-bar" style="position:absolute;top:-9999px;left:-9999px;display:none;">
 	<div id="sn-im-online" class="sn-im-group">
 		<div class="sn-im-online sn-im-button<!-- IF SN_IM_ONLINELIST_SHOW --> sn-im-opener<!-- ENDIF -->" id="sn-im-onlineCount">
 			<span class="label" style="background-image:url('{T_IMAGESET_PATH}/socialnet/im_me_{S_SN_IM_ONLINE}.png')">{L_SN_IM_CHAT}</span>
@@ -52,7 +52,7 @@
 				<!-- DEFINE $USE_AVATAR = 1 -->
 				<!-- BEGIN message -->
 				  <div class="sn-im-msg<!-- IF sn_im_chatbox.message.S_UID_SAME --> sn-im-noborderTop<!-- ENDIF --> {time:{sn_im_chatbox.message.TIME},from:{sn_im_chatbox.message.UID_FROM}}">
-				    <!-- IF not S_TIME --><span class="sn-im-msgTime"></span><!-- ENDIF -->
+				    <span class="sn-im-msgTime">{sn_im_chatbox.message.TIME_STRING}</span>
 				    <!-- IF $USE_AVATAR eq 0 --> 
 						  <!-- IF not sn_im_chatbox.message.S_UID_SAME --><span class="sn-userName"><!-- IF sn_im_chatbox.message.S_ME -->{SN_IM_USERNAME}<!-- ELSE -->{sn_im_chatbox.U_PROFILE_USER}<!-- ENDIF -->:</span><!-- ENDIF -->
 						<!-- ELSE -->
@@ -78,7 +78,7 @@
 	<div class="sn-im-group sn-im-button sn-im-nav sn-im-next"><!-- IF S_CONTENT_DIRECTION eq 'rtl' -->&raquo;<!-- ELSE -->&laquo;<!-- ENDIF --></div>
 	<div id="sn-im-msgArrived">
 		<!--a href="{T_SOCIALNET_STYLE_PATH}/im-new-message.swf"></a-->
-		<a href="{T_SOCIALNET_STYLE_PATH}/sound/player_mp3_button.swf" title="mp3={T_SOCIALNET_STYLE_PATH}/sound/{S_SN_IM_USER_SOUNDNAME}&autoplay=1&showslider=0&width=0&height=0&loop=0&volume=100"></a>
+		<a href="{T_SOCIALNET_STYLE_PATH}/sound/player_mp3_button.swf" title="mp3={T_SOCIALNET_STYLE_PATH}/sound/{S_SN_IM_USER_SOUNDNAME}&amp;autoplay=1&amp;showslider=0&amp;width=0&amp;height=0&amp;loop=0&amp;volume=100"></a>
 	</div>
 </div>
 <!-- ENDIF -->

@@ -76,6 +76,7 @@ class ucp_approval
 			$var_ary = array(
 				'usernames'				 => array(0),
 				'approvals'				 => array(0),
+				'approvalsName'			 => array(),
 				'approve'				 => '',
 				'no_approve'			 => '',
 				'cancel_request'		 => array(0),
@@ -133,12 +134,12 @@ class ucp_approval
 					// Add Freinds in approval request
 					if ((isset($data['add_approval']) && !empty($data['add_approval'])) || !empty($data['approvals']))
 					{
-						if (isset($data['add_approval']))
+						if (isset($data['add_approval']) && !empty($data['add_approval']))
 						{
 							$where = "username_clean IN ('" . implode("','", $data['add_approval']) . "')";
 							$data['approve'] = 'Approve';
 						}
-						if (isset($data['approvals']))
+						if (isset($data['approvals']) && !empty($data['approvals']))
 						{
 							$where = "user_id IN ('" . implode("','", $data['approvals']) . "')";
 							$data['approvals'] = array();
@@ -276,7 +277,7 @@ class ucp_approval
 
 					$cache->destroy('_snMpFriendsToKnow' . $user->data['user_id']);
 					//$template->assign_var('ERROR', implode('<br />', $error));
-						
+
 					meta_refresh(3, $data['redirect']);
 					trigger_error(implode('<br />', $message) . '<br /><br />' . sprintf($user->lang['RETURN_PAGE'], '<a href="' . $data['redirect'] . '">', '</a>'));
 				}
@@ -322,6 +323,7 @@ class ucp_approval
 			'U_ACTION'			 => $this->p_master->u_action,
 		));
 	}
+
 	/**
 	 * UCP Add, remove Friends Requests
 	 */
@@ -604,25 +606,29 @@ class ucp_approval
 
 			if (!empty($data['add']))
 			{
-				if (!empty($data['add']))
+				// CREATE GROUP
+
+				$sql = "SELECT MAX(fms_gid) AS max_id FROM " . SN_FMS_GROUPS_TABLE . " WHERE user_id = {$user->data['user_id']}";
+				$rs = $db->sql_query($sql);
+				$max_id = (int) $db->sql_fetchfield('max_id');
+
+				$db->sql_return_on_error(true);
+
+				$sql_ary = array(
+					'fms_gid'		 => $max_id + 1,
+					'user_id'		 => $user->data['user_id'],
+					'fms_name'		 => $data['add'],
+					'fms_clean'		 => utf8_clean_string($data['add']),
+					'fms_collapse'	 => 0,
+				);
+
+				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . "	" . $db->sql_build_array('INSERT', $sql_ary);
+
+				if (!$db->sql_query($sql))
 				{
-					// CREATE GROUP
-					$db->sql_return_on_error(true);
-
-					$sql_ary = array(
-						'user_id'	 => $user->data['user_id'],
-						'fms_name'	 => $data['add'],
-						'fms_clean'	 => utf8_clean_string($data['add']),
-					);
-
-					$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . "	" . $db->sql_build_array('INSERT', $sql_ary);
-
-					if (!$db->sql_query($sql))
-					{
-						$error[] = sprintf($user->lang['ERROR_GROUP_ALREADY_EXISTS'], $data['add']);
-					}
-					$socialnet->reload_groups();
+					$error[] = sprintf($user->lang['ERROR_GROUP_ALREADY_EXISTS'], $data['add']);
 				}
+				$socialnet->reload_groups();
 			}
 			else
 			{
@@ -632,9 +638,9 @@ class ucp_approval
 		}
 
 		$sql = "SELECT fms_g.*, COUNT(fms_u.user_id) AS count
-				      FROM " . SN_FMS_GROUPS_TABLE . " AS fms_g LEFT OUTER JOIN " . SN_FMS_USERS_GROUP_TABLE . " AS fms_u ON fms_g.fms_gid = fms_u.fms_gid
-				        WHERE fms_g.user_id = {$user->data['user_id']}
-				          GROUP BY fms_g.fms_gid
+				      FROM " . SN_FMS_GROUPS_TABLE . " AS fms_g LEFT OUTER JOIN " . SN_FMS_USERS_GROUP_TABLE . " AS fms_u ON fms_g.fms_gid = fms_u.fms_gid AND fms_g.user_id = fms_u.owner_id
+				        WHERE fms_g.user_id = {$user->data['user_id']} AND fms_g.fms_gid > 0
+				          GROUP BY fms_g.fms_gid, fms_g.fms_name, fms_g.fms_clean, fms_g.fms_collapse
 				          ORDER BY fms_g.fms_name ASC";
 		$rs = $db->sql_query($sql);
 		$rowset = $db->sql_fetchrowset($rs);

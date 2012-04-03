@@ -11,7 +11,7 @@
 		url : './socialnet/mainpage.php',
 		urlUsersAutocomplete : '{U_USERS_AUTOCOMPLETE}',
 		blockOnlineUsers : false,
-		tikTakOnline : 15000,
+		tikTakOnline : 30000,
 		tikTakName : 'sn-mp-onlineTicker',
 		loadingNews : false,
 		loadMoreTime : 2000,
@@ -30,6 +30,7 @@
 					$(document).everyTime($.sn.mp.tikTakOnline, $.sn.mp.tiktakName, function(i) {
 						$.sn.mp.onlineList(i);
 					});
+					//$.sn.mp.onlineList(0);
 				}
 			}
 

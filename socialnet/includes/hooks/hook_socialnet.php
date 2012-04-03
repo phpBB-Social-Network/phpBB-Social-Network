@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 /**
  * @ignore
@@ -32,7 +32,7 @@ define('SOCIALNET_INSTALLED', true);
  * @ignore
  */
 
-include_once ( $phpbb_root_path . 'socialnet/common.' . $phpEx );
+include_once($phpbb_root_path . 'socialnet/common.' . $phpEx);
 
 /**
  * hookSocialNet
@@ -77,7 +77,30 @@ class hookSocialNet
 			if (!$db->sql_affectedrows($result))
 			{
 				$sql_arr = array(
-						'user_id' => $user->data['user_id'], 'user_status' => '', 'user_im_sound' => 1, 'user_im_soundname' => 'IM_New-message-1.mp3', 'user_im_online' => 1, 'user_zebra_alert_friend' => 1, 'user_note' => '', 'languages' => '', 'about_me' => '', 'employer' => '', 'university' => '', 'high_school' => '', 'religion' => '', 'political_views' => '', 'quotations' => '', 'music' => '', 'books' => '', 'movies' => '', 'games' => '', 'foods' => '', 'sports' => '', 'sport_teams' => '', 'activities' => '', 'profile_last_change' => 0,
+					'user_id'					 => $user->data['user_id'],
+					'user_status'				 => '',
+					'user_im_sound'				 => 1,
+					'user_im_soundname'			 => 'IM_New-message-1.mp3',
+					'user_im_online'			 => 1,
+					'user_zebra_alert_friend'	 => 1,
+					'user_note'					 => '',
+					'languages'					 => '',
+					'about_me'					 => '',
+					'employer'					 => '',
+					'university'				 => '',
+					'high_school'				 => '',
+					'religion'					 => '',
+					'political_views'			 => '',
+					'quotations'				 => '',
+					'music'						 => '',
+					'books'						 => '',
+					'movies'					 => '',
+					'games'						 => '',
+					'foods'						 => '',
+					'sports'					 => '',
+					'sport_teams'				 => '',
+					'activities'				 => '',
+					'profile_last_change'		 => 0,
 				);
 
 				$sql_insert = "INSERT INTO " . SN_USERS_TABLE . $db->sql_build_array('INSERT', $sql_arr);
@@ -86,15 +109,17 @@ class hookSocialNet
 
 				$result = $db->sql_query($sql_user_extend);
 
+				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . " (fms_gid,user_id,fms_name,fms_clean,fms_collapse) VALUES (0, {$user->data['user_id']}, '---', '---',0)";
+				$db->sql_query($sql);
 			}
-
+			
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
 
 			$user->data = array_merge($user->data, $row);
 
 			$socialnet = new socialnet();
-				
+
 			if (!defined('ADMIN_START'))
 			{
 				$socialnet->start_modules();

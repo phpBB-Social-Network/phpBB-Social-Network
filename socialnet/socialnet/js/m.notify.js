@@ -55,10 +55,10 @@
 				url : $.sn.ntf.url,
 				dataType : 'json',
 				success : function(data) {
-					if ($('#sn-ntfCube') != null) {
+					if ($('#sn-ntf-cube') != null) {
 						$.sn.ntf._sn_ntf_cubes('#sn-ntf-cube', '#sn-ntf-cube', data.cnt);
 					}
-					if ($('#sn-ntfNotify') != null) {
+					if ($('#sn-ntf-notify') != null) {
 						$.sn.ntf._sn_ntf_cubes('#sn-ntf-notify', '#sn-ntf-notify a', data.cnt);
 					}
 

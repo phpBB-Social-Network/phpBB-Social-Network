@@ -1,23 +1,28 @@
 <!-- BEGIN mp_entries -->
     <!-- IF mp_entries.TYPE eq 1 -->
-    <div id="sn-mp-entry{mp_entries.ID}"<!-- IF B_SN_MP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
-      {mp_entries.DATA}
+    <div id="sn-mp-entry{mp_entries.ID}" class="sn-mp-textBlock {t:{mp_entries.TIME}}"<!-- IF B_SN_MP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
+    	<span class="sn-mp-entryIcon">&nbsp;</span>
+		{mp_entries.DATA}
     </div>
     <!-- ELSEIF mp_entries.TYPE eq 3 -->
     <div class="sn-mp-textBlock sn-page-innerContent sn-mp-textBlock-addUser {t:{mp_entries.TIME}}" id="sn-mp-entry{mp_entries.ID}"<!-- IF B_SN_MP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
-      <span class="snUsername">{mp_entries.U_USER1_PROFILE}</span> {L_SN_MP_AND} <span class="snUsername">{mp_entries.U_USER2_PROFILE}</span> {L_SN_MP_ARE_FRIENDS}
+    	<span class="sn-mp-entryIcon">&nbsp;</span>
+		<span class="snUsername">{mp_entries.U_USER1_PROFILE}</span> {L_SN_MP_AND} <span class="snUsername">{mp_entries.U_USER2_PROFILE}</span> {L_SN_MP_ARE_FRIENDS}
     </div>
     <!-- ELSEIF mp_entries.TYPE eq 4 -->
     <div class="sn-mp-textBlock sn-page-innerContent sn-mp-textBlock-profileChanged {t:{mp_entries.TIME}}" id="sn-mp-entry{mp_entries.ID}"<!-- IF B_SN_MP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
-      <span class="snUsername">{mp_entries.U_PROFILE}</span> <!-- IF mp_entries.PROFILE_FIELDS -->{L_SN_MP_CHANGED_HIS_PROFILE}<br />{mp_entries.PROFILE_FIELDS}<!-- ELSE -->{L_SN_UP_CHANGED_HIS_AVATAR}<!-- ENDIF -->
+    	<span class="sn-mp-entryIcon">&nbsp;</span>
+		<span class="snUsername">{mp_entries.U_PROFILE}</span> <!-- IF mp_entries.PROFILE_FIELDS -->{mp_entries.L_SN_MP_CHANGED_PROFILE}<br />{mp_entries.PROFILE_FIELDS}<!-- ELSE -->{mp_entries.L_SN_UP_CHANGED_AVATAR}<!-- ENDIF -->
     </div>
     <!-- ELSEIF mp_entries.TYPE eq 5 -->
     <div class="sn-mp-textBlock sn-page-innerContent sn-mp-textBlock-newFamily {t:{mp_entries.TIME}}" id="sn-mp-entry{mp_entries.ID}"<!-- IF B_SN_MP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
-      <span class="snUsername">{mp_entries.U_PROFILE}</span> {mp_entries.L_SN_MP_ADDED_NEW_FAMILY_MEMBER}
+    	<span class="sn-mp-entryIcon">&nbsp;</span>
+		<span class="snUsername">{mp_entries.U_PROFILE}</span> {mp_entries.L_SN_MP_ADDED_NEW_FAMILY_MEMBER}
     </div>
     <!-- ELSEIF mp_entries.TYPE eq 6 -->
     <div class="sn-mp-textBlock sn-page-innerContent sn-mp-textBlock-newRelationship {t:{mp_entries.TIME}}" id="sn-mp-entry{mp_entries.ID}"<!-- IF B_SN_MP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
-      <span class="snUsername">{mp_entries.U_PROFILE}</span> {L_SN_MP_CHANGED_HIS_RELATIONSHIP}: {mp_entries.STATUS}<!-- IF mp_entries.U_PARTNER_PROFILE --> {mp_entries.U_PARTNER_PROFILE}<!-- ENDIF -->.
+    	<span class="sn-mp-entryIcon">&nbsp;</span>
+		<span class="snUsername">{mp_entries.U_PROFILE}</span> {mp_entries.L_SN_MP_CHANGED_RELATIONSHIP}: {mp_entries.STATUS}<!-- IF mp_entries.U_PARTNER_PROFILE --> {mp_entries.U_PARTNER_PROFILE}<!-- ENDIF -->.
     </div>
     <!-- ENDIF -->
 <!-- END mp_entries -->

@@ -1,10 +1,13 @@
 <!-- IF S_USER_LOGGED_IN and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
-	<!-- DEFINE $BLOCK_HEADER = '{L_SN_MP_ONLINE_FRIENDS}' -->
-	<!-- INCLUDE socialnet/block_page_header.html -->
-	<div class="sn-mp-onlineUsers"><!-- BEGIN block_user_online -->
-		<div class="sn-im-userLine<!-- IF block_user_online.B_IS_ONLINE --> sn-im-canchat<!-- ENDIF -->" style="background-image:url('{block_user_online.ONLINE}')">
-		{block_user_online.AVATAR}
-		{block_user_online.USERNAME}
-		</div>
-		<!-- END block_user_online --></div>
+	<!-- IF B_SN_WHOLE_BLOCK_USERS -->
+		<!-- DEFINE $BLOCK_HEADER = '{L_SN_MP_ONLINE_FRIENDS}' -->
+		<!-- INCLUDE socialnet/block_page_header.html -->
+	
+		<div class="sn-mp-onlineUsers">
+	<!-- ENDIF -->
+<!-- BEGIN block_online_user --><div class="sn-im-canchat sn-im-userLine {user:{block_online_user.USER_ID},username:'{block_online_user.USERNAME_CLEAN}'}" style="background-image: url('{block_online_user.ONLINE}');">{block_online_user.AVATAR}{block_online_user.USERNAME}</div><!-- END block_online_user -->
+		<!-- IF not .block_online_user -->
+		<div class="sn-im-userLine">{L_SN_IM_NO_ONLINE_USER}</div>
+		<!-- ENDIF -->
+	<!-- IF B_SN_WHOLE_BLOCK_USERS --></div><!-- ENDIF -->
 <!-- ENDIF -->

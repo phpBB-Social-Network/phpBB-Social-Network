@@ -361,7 +361,6 @@ if (!class_exists('socialnet_userstatus'))
 				}
 
 				$rowset = $this->p_master->comments->getPosters($this->commentModule, $status_id);
-				$rowset = array_diff($rowset, array($user->data['user_id']));
 
 				for ($i = 0; isset($rowset[$i]); $i++)
 				{
@@ -549,9 +548,31 @@ if (!class_exists('socialnet_userstatus'))
 				$pageData['desc_text'] = generate_text_for_display($pageData['desc'], @$pageData['uid'], @$pageData['bitfield'], $this->p_master->bbCodeFlags);
 
 				$pageData['video'] = html_entity_decode($pageData['video']);
-				$pageData['video'] = preg_replace('/width="?([0-9]*)"?/si', 'width="150" owidth="\1"', $pageData['video']);
-				$pageData['video'] = preg_replace('/height="?([0-9]*)"?/si', 'height="150" oheight="\1"', $pageData['video']);
-				$pageData['video'] = preg_replace('/<(param[^>]*)>/si', '<\1 />', $pageData['video']);
+
+				//preg_match_all( '/(width|height)="?([0-9]*)"?/si', $pageData['video'],$size);
+				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 style="width:150px;height:150px;"/>', $pageData['video']);
+				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 style="width:150px;height:150px;">', $pageData['video']);
+
+				//
+				// WITHOUT EMBED???? START
+				//
+				if (1 == 1)
+				{
+					preg_match('/<param name="movie" value="([^&]+)&amp;[^"]+"/si', $pageData['video'], $match);
+
+					$pageData['video'] = '<object width="425" height="344" style="width:150px;height:150px;" type="application/x-shockwave-flash" data="'.$match[1].'">
+											<param value="'.$match[1].'" name="movie" />
+											<param value="transparent" name="wmode" />
+											<param value="true" name="allowFullScreen" />
+											<param value="always" name="allowScriptAccess" />
+											<param value="http://get.adobe.com/flashplayer/" name="pluginspage" />
+										</object>';
+				}
+				//
+				// WITHOUT EMBED???? END
+				//
+
+				//$pageData['video'] = preg_replace('/<(param[^>]*)>/si', '<\1 />', $pageData['video']);
 				foreach ($pageData as $key => $value)
 				{
 					$template_block_data['PAGE_' . strtoupper($key)] = $value;

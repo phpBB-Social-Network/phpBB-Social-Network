@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 /**
  * @ignore
@@ -139,7 +139,7 @@ class snFunctions
 				USERS_TABLE => 'u'
 			),
 			'WHERE'		 => 'sn_u.user_id = u.user_id AND ' . $db->sql_in_set('sn_u.user_id', $users_online['online_users_ids']),
-			'ORDER_BY'	 => 'u.username ASC'
+			'ORDER_BY'	 => 'u.username_clean ASC'
 		);
 
 		$sql = $db->sql_build_query('SELECT', $sql_ary);
@@ -270,38 +270,40 @@ class snFunctions
 		//		$rows = $this->onlineUsers($block);
 		$rows = $this->onlineSelect($this->config['block_uo_all_users']);
 
+		if (sizeOf($rows))
+		{
+			foreach ($rows as $user_id => $usr)
+			{
+
+				$template->assign_block_vars('block_online_user', array(
+					'USER_ID'		 => $usr['user_id'],
+					'USERNAME'		 => $usr['userName'],
+					'USERNAME_CLEAN' => $usr['userClean'],
+					'U_USER_PROFILE' => $usr['userProfile'],
+					'ONLINE'		 => $usr['online'],
+					'AVATAR'		 => $usr['avatar'],
+					'B_IS_ONLINE'	 => $usr['im_online'],
+				));
+			}
+		}
+
+		$template->assign_var('B_SN_WHOLE_BLOCK_USERS', !$json);
+
 		if ($json)
 		{
-			$template->set_filenames(array('sn_im_online_list' => 'socialnet/im_onlinelist.html'));
-			$onlineList = $this->get_page('sn_im_online_list', false);
+			$template->assign_vars(array(
+				'S_USER_LOGGED_IN'					 => true,
+				'B_SN_BLOCK_ONLINE_USERS_ENABLED'	 => true
+			));
 
-			$onlineList = trim(preg_replace('/<\/div>$/si', '', $onlineList));
-			$onlineList = trim(preg_replace('/(\s+<\/div>)?<div id="gid[^>]*>[^>]*<\/div>\s+<div id="sub[^>]*>/si', '', $onlineList));
+			$template->set_filenames(array('sn_im_online_list' => 'socialnet/block_online_users.html'));
+			$onlineList = $this->get_page('sn_im_online_list', false);
 
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 			die(json_encode(array('onlineUsers' => $rows, 'user_online' => $user->data['user_im_online'], 'list' => $onlineList)));
 		}
-
-		if (count($rows) == 0)
-		{
-			return;
-		}
-
-		foreach ($rows as $user_id => $usr)
-		{
-			$template->assign_block_vars('block_user_online', array(
-				'USER_ID'		 => $usr['user_id'],
-				'USERNAME'		 => $usr['userName'],
-				'USERNAME_CLEAN' => $usr['userClean'],
-				'U_USER_PROFILE' => $usr['userProfile'],
-				'ONLINE'		 => $usr['online'],
-				'AVATAR'		 => $usr['avatar'],
-				'B_IS_ONLINE'	 => $usr['im_online'],
-			));
-		}
-
 	}
 
 	function fms_users_sqls($mode, $user_id)
@@ -662,7 +664,7 @@ class snFunctions
 
 		return array('content' => $content, 'is_not_empty' => $is_not_empty);
 	}
-	
+
 	/**
 	 * Select users for autocomplete
 	 */
@@ -681,7 +683,7 @@ class snFunctions
 
 		while ($row = $db->sql_fetchrow($result))
 		{
-			$row_array['value'] = $row['username'];
+			$row_array['value'] = html_entity_decode($row['username']);
 			array_push($return_arr, $row_array);
 		}
 		$db->sql_freeresult($result);
@@ -1044,12 +1046,12 @@ class snFunctions
 		{
 			return;
 		}
-		
+
 		global $template, $phpEx, $phpbb_root_path;
-		
+
 		$template->assign_vars(array(
 			'U_USERS_AUTOCOMPLETE'	 => append_sid("{$phpbb_root_path}socialnet/mainpage.{$phpEx}", 'mode=users_autocomplete'),
-			'U_SN_MP_SEARCH'         => append_sid("{$phpbb_root_path}socialnet/mainpage.{$phpEx}", 'mode=search'),
+			'U_SN_MP_SEARCH'		 => append_sid("{$phpbb_root_path}socialnet/mainpage.{$phpEx}", 'mode=search'),
 		));
 	}
 
@@ -1485,7 +1487,7 @@ class snFunctions
 
 		return $status_options;
 	}
-	
+
 	function sn_addons_load($location)
 	{
 		global $template, $db, $user, $socialnet_root_path, $phpEx;
@@ -1506,13 +1508,13 @@ class snFunctions
 			if ($row['addon_html'])
 			{
 				$template->assign_block_vars('addons', array(
-					'FILE'     => 'socialnet/addons/' . $row['addon_html'],
-					'LOCATION' => $location,
+					'FILE'		 => 'socialnet/addons/' . $row['addon_html'],
+					'LOCATION'	 => $location,
 				));
 			}
 		}
 		$db->sql_freeresult($result);
-		
+
 		return $addons;
 	}
 
@@ -1575,7 +1577,7 @@ class snFunctions
 		global $config, $template, $user;
 
 		$update_xml = get_remote_file($file['host'], $file['directory'], $file['filename'], $errstr, $errno);
-		
+
 		//$update_xml = 'Destination host forbidden';
 		if (!$update_xml || empty($update_xml) || $update_xml == 'Destination host forbidden')
 		{
@@ -2099,6 +2101,29 @@ if (!function_exists('array_walk_recursive'))
 		}
 		return true;
 	}
+}
+
+function sn_backtrace()
+{
+	$dbg = debug_backtrace();
+	$msg = '<ol style="font-size:1.0em;margin-left:40px;font-weight:normal">';
+	for ($i = 1; $i < count($dbg); $i++)
+	{
+		$msg .= '<li style="margin-bottom:10px">';
+		$dg = $dbg[$i];
+		if (isset($dg['file']))
+		{
+			$dg['file'] = str_replace($_SERVER['DOCUMENT_ROOT'], '', $dg['file']);
+		}
+		$msg .= '<strong style="color:#112299">$' . (isset($dg['class']) ? $dg['class'] . '->' : '') . $dg['function'] . '()</strong><br />';
+		$msg .= (isset($dg['file']) ? $dg['file'] : 'unknown file') . ' - ' . (isset($dg['line']) ? $dg['line'] : 'unknown line') . '<br />';
+		//print_r( $dg);
+		$msg .= '</li>';
+	}
+	$msg .= '</ol>';
+
+	$msg .= 'Backtrace called at:<br />' . $dbg[1]['file'] . ' ' . $dbg[1]['line'];
+	msg_handler(E_USER_ERROR, $msg, $dbg[1]['file'], $dbg[1]['line']);
 }
 
 ?>

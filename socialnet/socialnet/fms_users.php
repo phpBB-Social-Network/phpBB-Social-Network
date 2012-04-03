@@ -71,7 +71,7 @@ if (isset($socialnet) && defined('SN_FMS'))
 			'user_id_field'	 => 'user_id',
 			'sql_content'	 => "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 								FROM " . SN_FMS_USERS_GROUP_TABLE . " fms_g, " . USERS_TABLE . " u
-								WHERE fms_g.user_id = u.user_id
+								WHERE fms_g.user_id = u.user_id AND fms_g.owner_id = {$user->data['user_id']}
 									AND fms_g.fms_gid = {$gid}
 								ORDER BY u.username_clean ASC",
 		));

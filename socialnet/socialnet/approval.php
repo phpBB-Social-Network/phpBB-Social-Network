@@ -146,13 +146,13 @@ if (!class_exists('socialnet_approval'))
 			switch ($sub)
 			{
 				case 'add':
-					$sql = "INSERT INTO " . SN_FMS_USERS_GROUP_TABLE . " (fms_gid,user_id) VALUES ({$gid},{$uid})";
+					$sql = "INSERT INTO " . SN_FMS_USERS_GROUP_TABLE . " (fms_gid,user_id,owner_id) VALUES ({$gid},{$uid},{$user->data['user_id']})";
 					break;
 				case 'remove':
 					$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$uid}";
 					break;
 				case 'delete':
-					$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid}";
+					$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND owner_id = {$user->data['user_id']}";
 					$db->sql_query($sql);
 					$sql = "DELETE FROM " . SN_FMS_GROUPS_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$user->data['user_id']}";
 
@@ -175,7 +175,7 @@ if (!class_exists('socialnet_approval'))
 			$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 						FROM " . SN_FMS_USERS_GROUP_TABLE . " fms_g, " . USERS_TABLE . " u
 						WHERE fms_g.user_id = u.user_id
-							AND fms_g.fms_gid = {$gid}
+							AND fms_g.fms_gid = {$gid} AND fms_g.user_id = {$user->data['user_id']}
 						ORDER BY u.username_clean ASC";
 			$rs = $db->sql_query($sql);
 			$rowset = $db->sql_fetchrowset($rs);

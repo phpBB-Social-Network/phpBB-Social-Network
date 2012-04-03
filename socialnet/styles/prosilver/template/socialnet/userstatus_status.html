@@ -76,9 +76,9 @@
 <!-- END userstatus_old -->
 			<!-- IF us_status.B_SN_US_CAN_COMMENT -->
 			<div class="sn-shareComment sn-us-shareComment sn-us-shareComment{us_status.STATUS_ID}">
-				<textarea id="sn-us-textarea{us_status.STATUS_ID}" class="sn-inputComment sn-us-inputComment {sid:{us_status.STATUS_ID}}" style="height:20px"></textarea>
+				<textarea id="sn-us-textarea{us_status.STATUS_ID}" class="sn-inputComment sn-us-inputComment {sid:{us_status.STATUS_ID}}" rows="" cols="" style="height:20px"></textarea>
 				<div class="sn-us-buttonCommentOver">
-					<input type="button" name="sn-us-buttonComment" sid="{us_status.STATUS_ID}" class="ui-button ui-widget ui-state-default ui-corner-all" value="{L_SN_US_COMMENT_STATUS}" />
+					<input type="button" name="sn-us-buttonComment" class="ui-button ui-widget ui-state-default ui-corner-all {sid:{us_status.STATUS_ID}}" value="{L_SN_US_COMMENT_STATUS}" />
 				</div>
 				<div class="clear"></div>
 			</div>

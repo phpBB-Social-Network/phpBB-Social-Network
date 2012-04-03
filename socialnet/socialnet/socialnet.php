@@ -92,6 +92,7 @@ class socialnet extends snFunctions
 		'user_id'		 => array(),
 		'username'		 => array(),
 		'friends'		 => array(),
+		'sex'		 => array(),
 		'colourNames'	 => array()
 	);
 	var $groups = array();
@@ -236,10 +237,9 @@ class socialnet extends snFunctions
 
 		if (!isset($friends) || empty($friends) || !isset($friends['user_id']) || empty($friends['user_id']) || in_array(ANONYMOUS, $friends['user_id']))
 		{
-			$sql = "SELECT u.user_id, u.username
-				    FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
-    				WHERE z.user_id = {$user_id} AND z.zebra_id = u.user_id AND z.friend = 1";
-
+			$sql = "SELECT u.user_id, u.username, su.sex
+				    FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u, " . SN_USERS_TABLE . " AS su
+    				WHERE z.user_id = {$user_id} AND z.zebra_id = u.user_id AND su.user_id = z.zebra_id AND z.friend = 1";
 			$rs = $db->sql_query($sql);
 			$rowset = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);
@@ -248,6 +248,7 @@ class socialnet extends snFunctions
 				'user_id'		 => array(),
 				'usernames'		 => array(),
 				'friends'		 => array(),
+				'sex'		 => array(),
 				'colourNames'	 => array(),
 			);
 
@@ -256,6 +257,7 @@ class socialnet extends snFunctions
 				$friend = $rowset[$i];
 				$friends['user_id'][] = $friend['user_id'];
 				$friends['usernames'][] = $friend['username'];
+				$friends['sex'][$friend['user_id']] = $friend['sex'];
 				$friends['friends'][$friend['user_id']] = $friend['username'];
 			}
 
@@ -270,12 +272,12 @@ class socialnet extends snFunctions
 
 		return $this->friends[$type];
 	}
-
+	
 	function purge_friends($user_id = 0)
 	{
 		global $user, $cache;
 
-		$user_id = $user_id == 0 ? $user->data['user_id'] : $user_id;
+		$user_id = ($user_id == 0) ? $user->data['user_id'] : $user_id;
 		$cache->purge($this->friendsCacheName . $user_id);
 		$cache->purge($this->friendsCacheNameMutual . $user_id);
 	}
@@ -299,8 +301,8 @@ class socialnet extends snFunctions
 
 		if (empty($groups))
 		{
-			$sql = "SELECT DISTINCT g.fms_gid, g.fms_name, ug.user_id
-				FROM " . SN_FMS_GROUPS_TABLE . " AS g LEFT OUTER JOIN " . SN_FMS_USERS_GROUP_TABLE . " AS ug ON g.fms_gid = ug.fms_gid
+			$sql = "SELECT DISTINCT g.fms_gid, g.fms_name, g.fms_collapse, ug.user_id
+				FROM " . SN_FMS_GROUPS_TABLE . " AS g LEFT OUTER JOIN " . SN_FMS_USERS_GROUP_TABLE . " AS ug ON g.fms_gid = ug.fms_gid AND g.user_id = ug.owner_id AND ug.owner_id = {$user_id}
 				WHERE g.user_id = {$user_id}
 				ORDER BY g.fms_name";
 			$result = $db->sql_query($sql);
@@ -313,8 +315,9 @@ class socialnet extends snFunctions
 				if (!isset($groups[$gu['fms_gid']]))
 				{
 					$groups[$gu['fms_gid']] = array(
-						'name'	 => $gu['fms_name'],
-						'users'	 => array()
+						'name'		 => $gu['fms_name'],
+						'collapse'	 => $gu['fms_collapse'],
+						'users'		 => array()
 					);
 				}
 
@@ -502,7 +505,7 @@ class socialnet extends snFunctions
 
 			if (!$stretch)
 			{
-				$user_avatar = str_replace(' />', ' style="vertical-align:middle" align="middle" />', $user_avatar);
+				$user_avatar = str_replace(' />', ' style="vertical-align:middle" />', $user_avatar);
 			}
 		}
 
@@ -584,7 +587,6 @@ class socialnet extends snFunctions
 		$db->sql_freeresult($rs);
 		$this->friends['friends'][$user_id] = $row['username'];
 		$this->get_username_string($cfg_module, $mode, $user_id, $row['username'], $row['user_colour'], $cache_friends);
-
 	}
 
 	/**
@@ -649,10 +651,12 @@ class socialnet extends snFunctions
 	 */
 	function page_header($page_title = '', $display_online_list = true, $item_id = 0, $item = 'forum')
 	{
-		if ($page_title != '')
+		if (!defined('SN_LOADER'))
 		{
-			page_header($page_title, $display_online_list, $item_id, $item);
+			return;
 		}
+
+		page_header($page_title, $display_online_list, $item_id, $item);
 	}
 
 	/**
@@ -669,7 +673,7 @@ class socialnet extends snFunctions
 	function page_footer($block = 'body', $print = false)
 	{
 		global $template;
-		$content = $template->assign_display($block, '', true, true);
+		$content = $template->assign_display($block, '', true, false);
 		if (!$print)
 		{
 			return $this->absolutePath(trim($content));
@@ -746,7 +750,29 @@ class socialnet extends snFunctions
 
 		return sprintf($user->lang[$tense], $difference, $user->lang['SN_TIME_PERIODS'][$period]);
 	}
+	
+	function gender_lang($lang, $user_id)
+	{
+		global $user;
+		
+		$gender = ($user_id = $user->data['user_id']) ? $user->data['sex'] : $this->friends['sex'][$user_id];
+		
+		if ($gender == 1)
+		{
+      $lang = $lang.'_HIS';
+		}
+		else if ($gender == 2)
+		{
+      $lang = $lang.'_HER';
+		}
+		else
+		{
+      $lang = $lang.'_THEIR';
+		}
 
+		return $lang;
+	}
+	
 	/**
 	 * snFunctions::record_entry
 	 *

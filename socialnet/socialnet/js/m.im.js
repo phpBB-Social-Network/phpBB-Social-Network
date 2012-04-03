@@ -201,29 +201,33 @@
 
 			});
 
-			/** MESSAGE TIME */
-			$('.sn-im-msg').live('mouseover', function() {
-				var mTime = $.sn.getAttr($(this), 'time');
-				var cObj = $(this).children('.sn-im-msgTime');
+			/** HIDE/SHOW FRIENDS GROUP */
+			$('.sn-im-hideGroup').live('click', function() {
+				var gid = $.sn.getAttr($(this), 'gid');
+				var hidden = $(this).hasClass('ui-icon-arrowstop-1-n');
+
 				$.ajax({
 					type : 'post',
 					cache : false,
 					async : true,
 					url : $.sn.im.opts.url,
 					data : {
-						mode : 'msg_time',
-						msg_time : mTime
+						mode : 'snImUserGroup' + (hidden ? 'Show' : 'Hide'),
+						gid  : gid
 					},
 					success : function(data) {
-						$(cObj).html(data.timeAgo).show();
+    				$('#sub_gid'+gid).toggle();
+						$('#gid_'+gid+' .sn-im-hideGroup').toggleClass('ui-icon-arrowstop-1-n ui-icon-arrowstop-1-s');
 					}
 				});
+			});
+
+			/** MESSAGE TIME */
+			$('.sn-im-msg').live('mouseover', function() {
+				$(this).find('.sn-im-msgTime').show();
+				
 			}).live('mouseout', function() {
-				var self = $(this);
-				var cObj = self.children('.sn-im-msgTime');
-				$(document).oneTime(250, 'sn-im-msgTime' + $.sn.getAttr(self, 'time'), function() {
-					$(cObj).hide();
-				});
+				$(this).find('.sn-im-msgTime').hide();
 			});
 			$('.sn-im-msgs').live('mouseout', function() {
 				$(this).find('.sn-im-msgTime').fadeOut(500);
@@ -235,8 +239,7 @@
 			if ($('.sn-im-block .sn-im-msgs:visible').is(':visible')) {
 				var $block = $('.sn-im-block .sn-im-msgs:visible').parents('.sn-im-block');
 				this._cwClose($block);
-				this._cwOpen($block);
-				console.log('scroll');
+				this._cwOpen($block, false);
 			}
 			this._startTimers();
 		},
@@ -293,7 +296,7 @@
 			$.ajax({
 				type : 'post',
 				cache : false,
-				async : true,
+				async : false,
 				url : $.sn.im.opts.url,
 				data : {
 					mode : 'coreIM',
@@ -301,7 +304,6 @@
 				},
 				success : function(data) {
 					// console.log(data);
-					$.sn.im.opts.lastCheckTime = data.lastCheckTime;
 
 					if (data.message != undefined && data.message != null && data.message.length != 0) {
 						// MSG is unread
@@ -331,23 +333,23 @@
 								}
 							} else {
 								var $msgs = $(chatBox).find('.sn-im-msgs');
-								var from = $.sn.getAttr($msgs.find('.sn-im-msg:last'), 'from');
-								$msgs.append(message.message);
-								$msgs.scrollTop(99999);
-								if (from == message.uid) {
-									$msgs.find('.sn-im-msg:last').addClass('sn-im-noborderTop');
+								var $lmsg = $msgs.find('.sn-im-msg:last');
+								var from = $.sn.getAttr($lmsg, 'from');
+								if ( $msgs.find('.sn-im-msg[class*="'+message.time+'"]').size() == 0){
+									$msgs.append(message.message);
+									$msgs.scrollTop(99999);
+									if (from == message.uid) {
+										$msgs.find('.sn-im-msg:last').addClass('sn-im-noborderTop');
+									}
 								}
 							}
 							if ($(chatBox + ' .sn-im-block').is(':hidden')) {
-								var $snImUnread = $(chatBox).find('.sn-im-unRead');
-								$snImUnread.show().html(parseInt($snImUnread.html()) + 1);
-								$.sn.setCookie('sn-im-chatBox' + message.uid + 'Unread', $snImUnread.html());
+								$.sn.im._unRead($(chatBox), 1);
 							}
 						});
-
-						$.sn.im._startTimers(true);
 					}
-
+					$.sn.im.opts.lastCheckTime = data.lastCheckTime;
+					$.sn.im._startTimers(true);
 					$.sn.im._onlineList(data);
 					$.sn.im._onlineUsersCB(data.onlineUsers);
 					$.sn.im.opts._inCore = false;
@@ -429,16 +431,24 @@
 			});
 		},
 
-		_cwOpen : function(obj) {
+		_cwOpen : function(obj, focus) {
+			if (typeof focus == 'undefined') {
+				focus = true;
+			}
 			var id = obj.attr('id');
 			var im_button = obj.find('.sn-im-button');
 			im_button.addClass('sn-im-opener');
 			obj.find('.sn-im-block').show();
-			obj.find('.sn-im-message').focus();
+			if (focus) {
+				obj.find('.sn-im-message').focus();
+			}
 			obj.find('.sn-im-msgs').scrollTop(99999);
-			obj.find('.sn-im-unRead').hide().html('0');
+			
 			$.sn.setCookie(id, true);
-			$.sn.setCookie(id + 'Unread', 0);
+
+			$.sn.im._unRead(obj,0);
+			//obj.find('.sn-im-unRead').html('0').hide();
+			//$.sn.setCookie(id + 'Unread', 0);
 
 		},
 		_cwClose : function(obj) {
@@ -446,8 +456,11 @@
 			var im_button = obj.find('.sn-im-button');
 			im_button.removeClass('sn-im-opener');
 			obj.find('.sn-im-block').hide();
+
 			$.sn.setCookie(id, false);
-			$.sn.setCookie(id + 'Unread', 0);
+			$.sn.im._unRead(obj,0);
+			//obj.find('.sn-im-unRead').html('0').hide();
+			//$.sn.setCookie(id + 'Unread', 0);
 
 		},
 		_cwToggle : function(obj) {
@@ -494,6 +507,8 @@
 					usernameTo : userName
 				},
 				success : function(data) {
+					if ($('#sn-im-chatBox' + uid).size() != 0)
+						return;
 					$('#sn-im-chatBoxes').append(data.html);
 					var cb = $('#sn-im-chatBox' + uid);
 					cb.find('.sn-im-message').TextAreaExpander($.sn.im.opts._aExpMin, $.sn.im.opts._aExpMax);
@@ -502,6 +517,22 @@
 				}
 			});
 		},
+
+		_unRead : function(chatBox, c) {
+			var $snImUnread = $(chatBox).find('.sn-im-unRead');
+			var endValue = parseInt($snImUnread.text());
+			if (c == 0) {
+				endValue = 0;
+				$snImUnread.hide();
+			} else {
+				endValue += c;
+				$snImUnread.show();
+			}
+			$snImUnread.html(endValue);
+			$.sn.setCookie('sn-im-chatBox' + $.sn.getAttr($(chatBox),'uid') + 'Unread', endValue);
+
+		},
+
 		/**
 		 * Posouvani chat boxiku
 		 * 

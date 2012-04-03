@@ -131,7 +131,7 @@
 							}
 						},
 						success : function(data) {
-							$('#sn-us-noStatus').remove();
+							$('.sn-us-noStatus').remove();
 							$('.sn-mp-noEntry').remove();
 							if ($('.sn-mp-loadNewsOver').size() != 0) {
 								$(data).hide().insertAfter('.sn-mp-loadNewsOver').slideDown('slow');
@@ -172,7 +172,7 @@
 			// Post comment
 			$(".sn-us-shareComment input[name=sn-us-buttonComment]").live('click', function() {
 				var element = $(this);
-				var status_id = element.attr("sid");
+				var status_id = $.sn.getAttr(element,"sid");
 				var snUsCommentText = $("#sn-us-textarea" + status_id).val();
 				var now = Math.floor(new Date().valueOf() / 1000);
 
@@ -395,20 +395,19 @@
 			$('.sn-us-videoOverlay').live('click', function() {
 				var obj = $(this).prev('div.sn-us-page-Video').children('object');
 				$(this).parent('.sn-us-page-Preview').next('.clear').removeAttr('style').show();
+
 				$(this).attr({
-					height : $(obj).attr('oheight'),
-					width : $(obj).attr('owidth')
+					height : $(obj).attr('height'),
+					width : $(obj).attr('width')
 				});
 				$(this).parent('.sn-us-page-Video').appendTo('<div class="clear">aaa</div>');
 
-				$(obj).children('embed').attr({
-					height : $(obj).attr('oheight'),
-					width : $(obj).attr('owidth')
-				});
-				$(obj).attr({
-					height : $(obj).attr('oheight'),
-					width : $(obj).attr('owidth')
-				});
+				$(obj).removeAttr('style');
+				/*
+				.children('embed').removeAttr('style').attr({
+					height : $(obj).attr('height'),
+					width : $(obj).attr('width')
+				});*/
 				$(this).removeAttr('style');
 				$(this).hide();
 			});

@@ -204,6 +204,12 @@ if (!class_exists('socialnet_im'))
 				case 'snImSoundOn':
 					$this->_snImSound(1);
 					break;
+				case 'snImUserGroupHide':
+					$this->_snImUserGroup(1);
+					break;
+				case 'snImUserGroupShow':
+					$this->_snImUserGroup(0);
+					break;
 				case 'snImTyping':
 					$this->_snImTyping();
 					return;
@@ -268,12 +274,14 @@ if (!class_exists('socialnet_im'))
 				$this->p_master->get_friend('full', $userTo, $this->p_master->config['im_colour_username'], false);
 			}
 
+			$b_no_avatar_me = stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false;
+			$b_no_avatar_sender = stripos($userto_avatar, 'socialnet/no_avatar') !== false ? true : false;
 			$template->assign_block_vars('sn_im_chatbox', array(
 				'USER_ID'				 => $userTo,
 				'U_PROFILE_USER'		 => $this->p_master->friends['colourNames'][$userTo]['full'],
 				'USERNAME_TO'			 => $this->p_master->friends['friends'][$userTo],
 				//'USERNAME_TO'			 => $this->items['onlineUsers'][$userTo]['userName'],
-				'USERNAME_TO_NO_COLOR'	 => $usernameTo,
+				'USERNAME_TO_NO_COLOR'	 => html_entity_decode($usernameTo),
 				'USERNAME_TO_PROFILE'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $userTo),
 				'U_UCP_IM_HISTORY'		 => append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $userTo),
 				'S_OPEN'				 => true,
@@ -310,13 +318,23 @@ if (!class_exists('socialnet_im'))
 				$same_sender = ($p_sender == $msg['uid_from']) ? true : false;
 				$p_sender = $msg['uid_from'];
 
-				$template->assign_block_vars('sn_im_chatbox.message', array(
-					'S_ME'		 => $user->data['user_id'] == $msg['uid_from'],
-					'UID_FROM'	 => $msg['uid_from'],
-					'S_UID_SAME' => $same_sender,
+				if ($msg['uid_from'] == $user->data['user_id'])
+				{
+					$b_no_avatar = $b_no_avatar_me;
+				}
+				else
+				{
+					$b_no_avatar = $b_no_avatar_sender;
+				}
 
-					'MESSAGE'	 => $message,
-					'TIME'		 => $msg['sent'],
+				$template->assign_block_vars('sn_im_chatbox.message', array(
+					'S_ME'			 => $user->data['user_id'] == $msg['uid_from'],
+					'UID_FROM'		 => $msg['uid_from'],
+					'S_UID_SAME'	 => $same_sender,
+					'B_NO_AVATAR'	 => $b_no_avatar,
+					'MESSAGE'		 => $message,
+					'TIME'			 => $msg['sent'],
+					'TIME_STRING' => $user->format_date($msg['sent'], "h:i"),
 				));
 			}
 
@@ -382,15 +400,15 @@ if (!class_exists('socialnet_im'))
 			$b_no_avatar_me = stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false;
 
 			$p_sender = 0;
-			
+
 			while ($row = $db->sql_fetchrow($result))
 			{
 				// Exists unread MSG ?
-				if ( $this->items['recd'] == true && $row['recd'] == 0)
+				if ($this->items['recd'] == true && $row['recd'] == 0)
 				{
 					$this->items['recd'] = false;
 				}
-				
+
 				if ($row['message'] != '0')
 				{
 					$message = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $this->p_master->bbCodeFlags);
@@ -440,6 +458,7 @@ if (!class_exists('socialnet_im'))
 					'MESSAGE'		 => $message,
 					'B_NO_AVATAR'	 => $b_no_avatar,
 					'TIME'			 => $row['sent'],
+					'TIME_STRING' => $user->format_date($row['sent'], "h:i"),
 				));
 
 				$template->assign_var('T_IMAGESET_PATH', $this->t_imaset_path);
@@ -505,7 +524,7 @@ if (!class_exists('socialnet_im'))
 					'USER_ID'				 => $row['uid_to'],
 					'U_PROFILE_USER'		 => $this->p_master->friends['colourNames'][$row['uid_to']]['full'],
 					'USERNAME_TO'			 => $this->p_master->friends['friends'][$row['uid_to']],
-					'USERNAME_TO_NO_COLOR'	 => $row['username_to'],
+					'USERNAME_TO_NO_COLOR'	 => html_entity_decode($row['username_to']),
 					'USERNAME_TO_PROFILE'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $row['uid_to']),
 					'U_UCP_IM_HISTORY'		 => append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $row['uid_to']),
 					'S_OPEN'				 => $s_open == 'true',
@@ -568,6 +587,7 @@ if (!class_exists('socialnet_im'))
 						'MESSAGE'		 => $message,
 						'B_NO_AVATAR'	 => $b_no_avatar,
 						'TIME'			 => $msg['sent'],
+						'TIME_STRING' => $user->format_date($msg['sent'], "h:i"), 
 					));
 					$previous_sender = $msg['uid_from'];
 				}
@@ -603,6 +623,7 @@ if (!class_exists('socialnet_im'))
 					$template->assign_block_vars('sn_im_online_ufg', array(
 						'GID'	 => $gid,
 						'NAME'	 => $group['name'],
+						'HIDDEN' => $group['collapse'],
 						'COUNT'	 => count($in_group),
 						'GROUP'	 => true,
 					));
@@ -629,8 +650,9 @@ if (!class_exists('socialnet_im'))
 
 				$in_group = array_diff_key($users, $in_group_added);
 				$template->assign_block_vars('sn_im_online_ufg', array(
-					'GID'	 => 'x',
+					'GID'	 => '0',
 					'NAME'	 => $user->lang['IM_GROUP_UNDECIDED'],
+					'HIDDEN' => $groups[0]['collapse'],
 					'COUNT'	 => count($in_group),
 					'GROUP'	 => true
 				));
@@ -654,6 +676,7 @@ if (!class_exists('socialnet_im'))
 				$template->assign_block_vars('sn_im_online_ufg', array(
 					'GID'	 => '0',
 					'NAME'	 => '',
+					'HIDDEN' => false,
 					'COUNT'	 => 1,
 					'GROUP'	 => false,
 				));
@@ -766,6 +789,7 @@ if (!class_exists('socialnet_im'))
 				'MESSAGE'		 => $message,
 				'B_NO_AVATAR'	 => stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false,
 				'TIME'			 => $message_time,
+				'TIME_STRING'	 => $user->format_date($message_time, "h:i"),
 			));
 
 			$this->p_master->page_header();
@@ -859,6 +883,28 @@ if (!class_exists('socialnet_im'))
 			}
 		}
 
+		/**
+		* Show / hide user group
+		*
+		* @since 0.6.3
+		* @access private
+		* @param integer $enable 0 - show, 1 - hide
+		* @return void
+		*/
+		function _snImUserGroup($hide)
+		{
+			global $db, $user;
+		
+			$gid = request_var('gid', 0);
+		
+			$sql = "UPDATE " . SN_FMS_GROUPS_TABLE . "
+						SET fms_collapse = '{$hide}'
+						WHERE fms_gid = '{$gid}'
+							AND user_id = " . $user->data['user_id'];
+			$db->sql_query($sql);
+			$this->p_master->reload_groups($user->data['user_id']);
+		}
+		
 		function _snImTyping()
 		{
 			global $db, $user;

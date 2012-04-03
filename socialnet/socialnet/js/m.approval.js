@@ -81,7 +81,7 @@
 				$.sn.fms._inits._simple('cancel');
 			},
 			group : function() {
-				$('.sn-fms-friendsBlock.ufg .sn-fms-users > span').draggable({
+				$('.sn-fms-friendsBlock.ufg .sn-fms-users > div').draggable({
 					helper : 'clone',
 					appendTo : 'body',
 					revert : 'invalid'
@@ -260,7 +260,11 @@
 
 			$('#sn-fms-groupAccordion > div').droppable({
 				drop : function(event, ui) {
-					if ($(this).children('span[title="' + ui.draggable.attr('title') + '"]').size() > 0) {
+					var $drag = $(this).children('div[title="' + ui.draggable.attr('title').replace(/([ #;&,.+*~\':"!^$[\]()=><|\/@])/g,'\\\\$1') + '"]'); 
+					if ($drag.size() > 0) {
+						console.log($drag);
+						console.log($(this).children('div[title="Opera\'s &lt;Uncle&gt;"]'));
+						console.log('Is In');
 						return;
 					}
 
@@ -320,14 +324,14 @@
 
 						ui.item.remove();
 						$('body > .sn-fms-friend').addClass('red').effect('explode', {}, 1000).remove();
-						var o_cnt = $('h3[gid=' + i_gid + '] span.counter');
+						var o_cnt = $('h3[id=sn-fms-grp' + i_gid + '-header] span.counter');
 						o_cnt.html(parseInt(o_cnt.html()) - 1);
 						$.sn.fms._groupChange('remove', i_gid, i_uid);
 					}
 				},
 				stop : function(e, ui) {
 					var i_gid = $.sn.getAttr($(this), 'gid');
-					var o_cnt = parseInt($('h3[gid=' + i_gid + '] span.counter').text());
+					var o_cnt = parseInt($('h3[id=sn-fms-grp' + i_gid + '-header] span.counter').text());
 					if (o_cnt == 0) {
 						$(this).html($.sn.fms.noFriends);
 					}
@@ -340,8 +344,9 @@
 			$('#sn-fms-groupAccordion .sn-fms-groupDelete').click(function() {
 
 				var i_gid = $.sn.getAttr($(this), 'gid');
-				$('#sn-fms-groupAccordion > [gid=' + i_gid + ']').remove();
+				$('#sn-fms-groupAccordion > [id^="sn-fms-grp' + i_gid + '"]').remove();
 				$.sn.fms._groupChange('delete', i_gid, -1);
+				
 			});
 
 		},
@@ -365,7 +370,7 @@
 					var $chld = $(this).children('.ui-icon');
 					var sub = $chld.hasClass('ui-icon-check') ? 'remove' : 'add';
 					$.sn.fms._groupChange(sub, gid, uid);
-					$chld.toggleClass('ui-icon-check ui-icon-close');
+					$chld.toggleClass('ui-icon-check ui-icon-no');
 					return false;
 				});
 			}

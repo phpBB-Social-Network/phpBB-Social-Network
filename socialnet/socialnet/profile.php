@@ -58,11 +58,6 @@ if (!class_exists('socialnet_profile'))
 				redirect(append_sid("{$phpbb_root_path}profile.$phpEx", http_build_query($_GET, '', '&amp;')));
 			}
 
-			/*
-			 if ($this->p_master->script_name == 'ucp')
-			 {
-			 $this->last_profile_change();
-			 }*/
 			$monthNamesShort = $monthNames = '';
 
 			for ($i = 1; $i <= 12; $i++)
@@ -635,7 +630,6 @@ if (!class_exists('socialnet_profile'))
 				)
 			);
 
-			//if ($submit && (($module == 'socialnet' && $mode == 'module_profile') || ($module == 'profile' && in_array($mode, array('profile_info', 'signature', 'avatar', 'reg_details')))))
 			if ($submit && isset($modules_[$module]) && in_array($mode, $modules_[$module]))
 			{
 				switch ($mode)
@@ -647,8 +641,8 @@ if (!class_exists('socialnet_profile'))
 						}
 
 						/**
-						 * /includes/ucp/ucp_profile.php LINE 271
-						 */
+						* /includes/ucp/ucp_profile.php LINE 271
+						*/
 						$data = array(
 							'user_icq'		 => request_var('icq', $user->data['user_icq']),
 							'user_aim'		 => request_var('aim', $user->data['user_aim']),
@@ -859,6 +853,13 @@ if (!class_exists('socialnet_profile'))
 						if (!empty($changed['sex']))
 						{
 							$changed['sex'] = ($changed['sex'] == '1') ? $user->lang['SN_UP_MALE'] : $user->lang['SN_UP_FEMALE'];
+							
+							$my_friends = $this->p_master->friends['user_id'];
+
+							for ($i = 0; isset($my_friends[$i]); $i++)
+							{
+								$this->p_master->purge_friends($my_friends[$i]);
+							}
 						}
 
 						if (!empty($changed['interested_in']))

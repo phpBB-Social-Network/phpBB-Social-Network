@@ -6,11 +6,6 @@
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
-function snUs_windowResize() {
-	jQuery(function($) {
-		console.log('Not used');
-	});
-}
 
 (function($) {
 

@@ -21,14 +21,14 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_CAT_SOCIALNET'						 => 'Social Network',
 	'ACP_CAT_SOCIALNET_EXPLAIN'				 => '',
-	'ACP_SN_WELCOME_TEXT'					 => 'phpBB3 Social Network is a modification for phpBB3 boards, which turns your board to full valued social network software. Our goal is to provide you community software solution with favourite features of all major social network websites. phpBB3 Social Network is modular based application, it means that you can turn on/off each module and it is easy to create your own new modules. If you miss some module or feature, you can look at the bottom of this page and choose which module you want to download. Feel free to visit <a href="http://phpbbsocialnetwork.com">phpbbsocialnetwork.com</a> to ask for support or ask us to create new module ',
+	'ACP_SN_WELCOME_TEXT'					 => 'phpBB Social Network is a modification for phpBB boards, which turns your board into a full-valued social network software. Our goal is to provide you a community software solution with favourite features from all major social network websites. phpBB3 Social Network is a modular based application, which means that you can turn on/off each module and it is easy to create your own new modules. If you miss some module or feature, you can look at the bottom of this page and choose which module you want to download. Feel free to visit <a href="http://phpbbsocialnetwork.com">phpbbsocialnetwork.com</a> to ask for support or ask us to create a new module ',
 
   'ACP_SN_LIKE_US_FB'						=> 'Like phpBB Social Network on Facebook',
-	'ACP_SN_LIKE_US_FB_EXPLAIN'		=> 'If you want to know all news, see new screenshots and be informed about phpBB Social Network, just Like Us on Facebook.',         
+	'ACP_SN_LIKE_US_FB_EXPLAIN'		=> 'If you want to know all the news, see new screenshots and be informed about phpBB Social Network, just Like Us on Facebook.',
 	
 	'ACP_SN_CONTRIBUTE'						=> 'Contribute to phpBB Social Network',
-	'ACP_SN_CONTRIBUTE_EXPLAIN'		=> 'Do you like phpBB Social Network? The easiest way to help out is to make a donation, no matter how small. You can make a donation via PayPal or a Bank Transfer (<a href="http://phpbbsocialnetwork.com/support_us.php" style="font-weight: bold;">contact us</a> for transfer details).<br /><form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="margin: 15px 0;"><input type="hidden" name="cmd" value="_donations" /><input type="hidden" name="business" value="G4NHS46RS8HTC" /><input type="hidden" name="lc" value="CZ" /><input type="hidden" name="item_name" value="phpBB Social Network" /><input type="hidden" name="currency_code" value="EUR" /><input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted" /><input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" style="border: 0; width: 147px; height: 47px;background: none; cursor: pointer;" name="submit" alt="PayPal" /><img style="border: 0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" alt="" /></form>There are also other ways how you can help us to develop phpBB Social Network <a href="http://phpbbsocialnetwork.com/support_us.php" style="font-weight: bold;">here</a>.',
-	
+	'ACP_SN_CONTRIBUTE_EXPLAIN'		=> 'Do you like phpBB Social Network? The easiest way to help out is to make a donation, no matter how small. You can make a donation via PayPal or a Bank Transfer (<a href="http://phpbbsocialnetwork.com/support_us.php" style="font-weight: bold;">contact us</a> for transfer details).<br /><form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="margin: 15px 0;"><input type="hidden" name="cmd" value="_donations" /><input type="hidden" name="business" value="G4NHS46RS8HTC" /><input type="hidden" name="lc" value="CZ" /><input type="hidden" name="item_name" value="phpBB Social Network" /><input type="hidden" name="currency_code" value="EUR" /><input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted" /><input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" style="border: 0; width: 147px; height: 47px;background: none; cursor: pointer;" name="submit" alt="PayPal" /><img style="border: 0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" alt="" /></form>There are also other ways in which you can help us to develop phpBB Social Network <a href="http://phpbbsocialnetwork.com/support_us.php" style="font-weight: bold;">here</a>.',
+
 	'SN_GLOBAL_ENABLE'						 => 'Enable Social Network',
 	'SN_GLOBAL_ENABLE_EXPLAIN'				 => 'Enable or disable Social Network MOD',
 
@@ -94,24 +94,24 @@ $lang = array_merge($lang, array(
 	'SN_COLOUR_NAME_EXPLAIN'				 => 'Use phpBB colour names',
 
 	// CONFIRM BOX SETTINGS
-	'ACP_SN_CONFIRMBOX_SETTINGS'			 => 'Confirm Box settings',
-	'ACP_SN_CONFIRMBOX_SETTINGS_EXPLAIN'	 => 'You can configure Confirm Box via this panel',
+	'ACP_SN_CONFIRMBOX_SETTINGS'			 => 'Confirmation Box settings',
+	'ACP_SN_CONFIRMBOX_SETTINGS_EXPLAIN'	 => 'You can configure Confirmation Box via this panel',
 
-	'SN_CB_ENABLE'							 => 'Enable Confirm Box',
-	'SN_CB_ENABLE_EXPLAIN'					 => 'Enable showing of the confirm boxes',
-	'SN_CB_RESIZABLE'						 => 'Enable resizable confirm box',
-	'SN_CB_RESIZABLE_EXPLAIN'				 => 'Set confirm boxes resizable',
-	'SN_CB_DRAGGABLE'						 => 'Enable draggable confirm box',
-	'SN_CB_DRAGGABLE_EXPLAIN'				 => 'Set confirm boxes draggable',
-	'SN_CB_MODAL'							 => 'Enable modal confirm box',
-	'SN_CB_MODAL_EXPLAIN'					 => 'Set confirm boxes modal',
-	'SN_CB_WIDTH'							 => 'Set width of confirm box',
-	'SN_CB_WIDTH_EXPLAIN'					 => 'Set width of confirm box<br />You can use eg. 400 or 40%',
+	'SN_CB_ENABLE'							 => 'Enable Confirmation Box',
+	'SN_CB_ENABLE_EXPLAIN'					 => 'Enable showing of the Confirmation boxes',
+	'SN_CB_RESIZABLE'						 => 'Enable resizable Confirmation box',
+	'SN_CB_RESIZABLE_EXPLAIN'				 => 'Set Confirmation boxes resizable',
+	'SN_CB_DRAGGABLE'						 => 'Enable draggable Confirmation box',
+	'SN_CB_DRAGGABLE_EXPLAIN'				 => 'Set Confirmation boxes draggable',
+	'SN_CB_MODAL'							 => 'Enable modal Confirmation box',
+	'SN_CB_MODAL_EXPLAIN'					 => 'Set Confirmation boxes modal',
+	'SN_CB_WIDTH'							 => 'Set width of Confirmation box',
+	'SN_CB_WIDTH_EXPLAIN'					 => 'Set width of Confirmation box<br />You can use eg. 400 or 40%',
 
 	// BLOCKS SETTINGS
 	'ACP_SN_BLOCKS_ENABLE'					 => 'Enable Blocks',
-	'ACP_SN_BLOCKS_ENABLE_EXPLAIN'			 => 'This Control Panel allows to be able to enable/disable existing blocks.<br />
-	Allow to use this blocks on any page of board, on which phpBB Social Network is loaded.<br />
+	'ACP_SN_BLOCKS_ENABLE_EXPLAIN'			 => 'This Control Panel allows you to be able to enable/disable existing blocks.<br />
+	Allows you to use these blocks on any page of the board on which phpBB Social Network is loaded.<br />
 	Specific settings for the blocks is under <strong>%1$s</strong> panel.',
 
 	'SN_BLOCK_ENABLE_EXPLAIN'				 => 'Display %1$s',
@@ -141,38 +141,38 @@ $lang = array_merge($lang, array(
 
 	// BLOCK BUTTONS MENU SETTINGS
 	'BLOCK_MENU_BUTTONS_MANAGE'				 => 'Buttons management',
-	'BLOCK_MENU_CREATE_BUTTON_EXPLAIN'		 => 'Here you can create or manage buttons. There are 2 types of buttons: parrent buttons and subbuttons.',
+	'BLOCK_MENU_CREATE_BUTTON_EXPLAIN'		 => 'Here you can create or manage buttons. There are 2 types of buttons: parent buttons and sub-buttons.',
 	'BLOCK_MENU_NAV'						 => 'Menu',
 	'BLOCK_MENU_EDIT_BUTTON'				 => 'Edit button',
 	'BLOCK_MENU_BUTTON_NAME'				 => 'Button name',
 	'BLOCK_MENU_BUTTON_URL'					 => 'Link',
-	'BLOCK_MENU_BUTTON_URL_EXPLAIN'			 => 'Url address has include http://',
+	'BLOCK_MENU_BUTTON_URL_EXPLAIN'			 => 'Url address has to include http://',
 	'BLOCK_MENU_BUTTON_PARENT'				 => 'Parent button',
-	'BLOCK_MENU_BUTTON_PARENT_EXPLAIN'		 => 'Select the parent button if you want to have dropdown menu',
+	'BLOCK_MENU_BUTTON_PARENT_EXPLAIN'		 => 'Select the parent button if you want to have a dropdown menu',
 	'BLOCK_MENU_BUTTON_ONLY_REGISTERED'		 => 'Display only to registered users',
 	'BLOCK_MENU_BUTTON_ONLY_GUEST'			 => 'Display only to guests',
 	'BLOCK_MENU_BUTTON_DISPLAY'				 => 'Display the button',
 	'BLOCK_MENU_BUTTON_EXTERNAL'			 => 'The link will be opened in a new window',
 	'BLOCK_MENU_DELETE_BUTTON_CONFIRM'		 => 'Are you sure you want to delete this button?',
-	'BLOCK_MENU_DELETE_SUBBUTTONS_CONFIRM'	 => 'Are you sure you want to delete this button and all its subbutons?',
+	'BLOCK_MENU_DELETE_SUBBUTTONS_CONFIRM'	 => 'Are you sure you want to delete this button and all its sub-butons?',
 	'BLOCK_MENU_BUTTON_ADDED'				 => 'A new button has been added succesfully',
 	'BLOCK_MENU_BUTTON_EDITED'				 => 'Button has been edited succesfully',
-	'BLOCK_MENU_MOVE_BUTTON_WITH_SUBS'		 => 'This button can\'t became a subbutton because it has subbuttons.',
+	'BLOCK_MENU_MOVE_BUTTON_WITH_SUBS'		 => 'This button can\'t became a sub-button because it has sub-buttons.',
 	'BLOCK_MENU_NO_BUTTONS'					 => 'There is no button to manage',
-	'BLOCK_MENU_NO_SUBBUTTONS'				 => 'There is no subbutton to manage',
+	'BLOCK_MENU_NO_SUBBUTTONS'				 => 'There is no sub-button to manage',
 	'BLOCK_MENU_CREATE_BUTTON'				 => 'Create a new button',
 ));
 
 // INSTANT MESSENGER ACP
 $lang = array_merge($lang, array(
 	'IM_ONLY_FRIENDS'						 => 'Allow chat only with friends',
-	'IM_ONLY_FRIENDS_EXPLAIN'				 => 'This option allows you turn on/off chating only with friends',
+	'IM_ONLY_FRIENDS_EXPLAIN'				 => 'This option allows you turn on/off chatting only with friends',
 
 	'IM_ALLOW_SOUND'						 => 'Play sound when receive messages',
-	'IM_ALLOW_SOUND_EXPLAIN'				 => 'This option enable/disable sound by receiving new message',
+	'IM_ALLOW_SOUND_EXPLAIN'				 => 'This option enables/disables sound when receiving a new message',
 
 	'IM_URL_IN_NEW_WINDOW'					 => 'Open links in new window',
-	'IM_URL_IN_NEW_WINDOW_EXPLAIN'			 => 'This option enable/disable opening links in the new window',
+	'IM_URL_IN_NEW_WINDOW_EXPLAIN'			 => 'This option enables/disables opening links in the new window',
 
 	'IM_AUTOMATIC_PURGING_MESSAGES'			 => 'Auto-prune message age',
 	'IM_AUTOMATIC_PURGING_MESSAGES_EXPLAIN'	 => 'Delivered messages are automatically deleted when they are older than X days.<br /><em>Insert 0 to disable auto-pruning old messages</em>',
@@ -246,7 +246,7 @@ $lang = array_merge($lang, array(
 // MODULE APPROVAL / FRIEND MANAGEMENT SYSTEM
 $lang = array_merge($lang, array(
 	'SN_FAS_ALERT_FRIEND_BY_PM'				 => 'Notify users about new request via PM',
-	'SN_FAS_ALERT_FRIEND_BY_PM_EXPLAIN'		 => 'Send PM to the user about a new friend request. If you set no, then user will be notified by notification.',
+	'SN_FAS_ALERT_FRIEND_BY_PM_EXPLAIN'		 => 'Send PM to the user about a new friend request. If you set to no, then user will be notified by notification.',
 
 	'SN_FAS_FRIENDS_PER_PAGE'				 => 'Number of friends per page on user profile',
 	'SN_FAS_FRIENDS_PER_PAGE_EXPLAIN'		 => 'How many friends per page will be displayed',
@@ -257,17 +257,17 @@ $lang = array_merge($lang, array(
 	'MP_NUM_LAST_POSTS'							 => 'Limit last posts displaying',
 	'MP_NUM_LAST_POSTS_EXPLAIN'					 => 'Limits the number of last posts loaded for Recent discussion',
 	'MP_SHOW_NEW_FRIENDSHIPS'					 => 'Display notification about new friendships',
-	'MP_SHOW_NEW_FRIENDSHIPS_EXPLAIN'			 => 'Display notification about adding new friends by one of yours friends on Mainpage',
+	'MP_SHOW_NEW_FRIENDSHIPS_EXPLAIN'			 => 'Display notification about adding new friends by one of your friends on Mainpage',
 	'MP_SHOW_PROFILE_UPDATED'					 => 'Display notification about profile update',
-	'MP_SHOW_PROFILE_UPDATED_EXPLAIN'			 => 'Display notification about updating the profile by one of yours friends on Mainpage',
+	'MP_SHOW_PROFILE_UPDATED_EXPLAIN'			 => 'Display notification about updating the profile by one of your friends on Mainpage',
 	'MP_SHOW_NEW_FAMILY'						 => 'Display notification about new family member',
-	'MP_SHOW_NEW_FAMILY_EXPLAIN'				 => 'Display notification about adding the family member by one of yours friends on Mainpage',
+	'MP_SHOW_NEW_FAMILY_EXPLAIN'				 => 'Display notification about adding the family member by one of your friends on Mainpage',
 	'MP_SHOW_NEW_RELATIONSHIP'					 => 'Display notification about new relationship',
-	'MP_SHOW_NEW_RELATIONSHIP_EXPLAIN'			 => 'Display notification about new relationship of one of yours friends on Mainpage',
+	'MP_SHOW_NEW_RELATIONSHIP_EXPLAIN'			 => 'Display notification about new relationship of one of your friends on Mainpage',
 	'MP_DISPLAY_WELCOME'						 => 'Display welcome block on Mainpage',
 	'MP_DISPLAY_WELCOME_EXPLAIN'				 => 'Display welcome block for unregistered users on Mainpage. You can edit it following instructions below.',
 	'MP_HIDE_FOR_GUEST'							 => 'Hide mainpage for guests',
-	'MP_HIDE_FOR_GUEST_EXPLAIN'					 => 'Mainpage module will be redirected to index when will be accessed by guest',
+	'MP_HIDE_FOR_GUEST_EXPLAIN'					 => 'Mainpage module will be redirected to index when accessed by a guest',
 
 	'ACP_SN_MAINPAGE_IS_MAIN'					 => 'Set Mainpage as first page',
 	'ACP_SN_MAINPAGE_IS_MAIN_EXPLAIN'			 => 'If you want to have the Mainpage as the first page of your web instead of index.php page, please follow these instructions.',
@@ -310,7 +310,7 @@ $lang_log_main = '<strong>Social Network &raquo</strong> ';
 $lang = array_merge($lang, array(
 	'LOG_CONFIG_SN_MAIN'									 => $lang_log_main . 'Global settings changed',
 	'LOG_CONFIG_SN_MODULES'									 => $lang_log_main . 'Available modules changed',
-	'LOG_CONFIG_SN_CB'										 => $lang_log_main . 'Confirm box settings changed',
+	'LOG_CONFIG_SN_CB'										 => $lang_log_main . 'Confirmation box settings changed',
 	'LOG_CONFIG_SN_BLOCKS'									 => $lang_log_main . 'Available blocks changed',
 	'LOG_CONFIG_SN_BLOCK_USERONLINE'						 => $lang_log_main . 'Settings User OnlineBlock changed',
 

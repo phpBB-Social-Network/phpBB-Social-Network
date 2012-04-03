@@ -27,7 +27,6 @@
 
 .sn-page-innerContent
 {
-	background:transparent none no-repeat 5% 50%;
 	padding:10px 0;
 }
 
@@ -171,6 +170,11 @@ div:not(.sn-page) .sn-userName a
 .sn-action-block .sn-actions .sn-action-ok-green,.sn-action-blockHidden .sn-actions .sn-action-ok-green
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/button_ok_green.png);
+}
+
+.sn-action-block .ui-accordion-header .sn-actions,.sn-action-blockHidden .ui-accordion-header .sn-actions
+{
+	top:3px;
 }
 
 .sn-action-blockHidden:hover .sn-actions
@@ -720,7 +724,7 @@ div:not(.sn-page) .sn-userName a
 {
 	background-color:#fff;
 	color:#555;
-	display:inline-block;
+	display:none;
 	font-size:9px;
 	line-height:9px;
 	margin-top:-10px;
@@ -1303,6 +1307,11 @@ a.ui-button
 	line-height:1.1em;
 }
 
+.sn-fms-groupManage .sn-fms-friend
+{
+	cursor:move;
+}
+
 .sn-fms-users-fullWidth .sn-fms-friend
 {
 	display:block;
@@ -1420,22 +1429,35 @@ a.ui-button
 	text-overflow:ellipsis;
 }
 
-.sn-mp-textBlock-addUser
+.sn-mp-textBlock .sn-us-statusBlock
+{
+	border-top:none;
+	padding:0;
+}
+
+.sn-mp-entryIcon
+{
+	background:transparent none no-repeat 55% 50%;
+	display:inline-block;
+	width:54px;
+}
+
+.sn-mp-textBlock-addUser .sn-mp-entryIcon
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/icon_fms_add_user.png);
 }
 
-.sn-mp-textBlock-newFamily
+.sn-mp-textBlock-newFamily .sn-mp-entryIcon
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/icon_up_new_family.png);
 }
 
-.sn-mp-textBlock-profileChanged
+.sn-mp-textBlock-profileChanged .sn-mp-entryIcon
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/icon_up_changed.png);
 }
 
-.sn-mp-textBlock-newRelationship
+.sn-mp-textBlock-newRelationship .sn-mp-entryIcon
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/icon_up_new_relationship.png);
 }
@@ -1451,6 +1473,12 @@ a.ui-button
 	padding-right:12px;
 }
 
+.ltr .sn-mp-entryIcon
+{
+	float:left;
+	margin-left:-60px;
+}
+
 .rtl .sn-mp-loadNewsOver
 {
 	text-align:left;
@@ -1460,6 +1488,12 @@ a.ui-button
 {
 	background-position:0 60%;
 	padding-left:12px;
+}
+
+.rtl .sn-mp-entryIcon
+{
+	float:right;
+	margin-right:-60px;
 }
 
 .sn-hiddenDefault,.sn-action-blockHidden .sn-actions,.sn-im-noborderTop .sn-userName,.sn-im-noborderTop .sn-im-msgAvatar,.sn-fms-friend input[type=checkbox]
@@ -1495,6 +1529,11 @@ a.ui-button
 	position:relative;
 }
 
+.sn-action-block .ui-accordion-header .sn-actions div,.sn-action-block .ui-accordion-header .sn-actions span,.sn-action-blockHidden .ui-accordion-header .sn-actions div,.sn-action-blockHidden .ui-accordion-header .sn-actions span,.sn-action-blockHidden:hover .sn-actions a,.sn-action-blockHidden:hover .sn-actions div,.sn-action-blockHidden:hover .sn-actions span,.sn-im-loginlogout .sn-im-selected.sn-im-login span
+{
+	background-position:0 -15px;
+}
+
 .sn-action-block:hover .sn-actions div,.sn-action-block:hover .sn-actions span,.sn-action-blockHidden:hover .sn-actions div,.sn-action-blockHidden:hover .sn-actions span,.sn-im-loginlogout .sn-im-login
 {
 	background-position:0 -30px;
@@ -1503,11 +1542,6 @@ a.ui-button
 .sn-action-block:hover .sn-actions div:hover,.sn-action-block:hover .sn-actions span:hover,.sn-action-blockHidden:hover .sn-actions div:hover,.sn-action-blockHidden:hover .sn-actions span:hover,.sn-im-sound.ui-icon.ui-icon-volume-off,.ui-icon-volume-off,.sn-up-editableButton:hover
 {
 	background-position:0 100%;
-}
-
-.sn-action-blockHidden:hover .sn-actions a,.sn-action-blockHidden:hover .sn-actions div,.sn-action-blockHidden:hover .sn-actions span,.sn-im-loginlogout .sn-im-selected.sn-im-login span
-{
-	background-position:0 -15px;
 }
 
 .ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.ltr .sn-im-loginlogout,.ltr .sn-im-history-time,.ltr .sn-im-history-export,.rtl .sn-im-sound.ui-icon,.rtl .sn-button,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.rtl .sn-im-msgAvatar,.rtl .sn-im-history-title,.ltr .sn-us-share .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-fms-friend,.rtl .sn-mp-avatar

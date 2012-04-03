@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 if (!defined('SOCIALNET_INSTALLED'))
 {
@@ -101,7 +101,6 @@ if (!class_exists('socialnet_notify'))
 			 * @ignore
 			 */
 
-
 			$ntf_type = request_var('type', 'check');
 			$ntf_id = request_var('nid', 0);
 			if ($ntf_type == 'delete' && $ntf_id != 0)
@@ -161,6 +160,7 @@ if (!class_exists('socialnet_notify'))
 					$ntf_link[1] = preg_replace('/(#socialnet_us)?$/i', '&amp;ntfMark=' . $rowset[$i]['ntf_id'] . '\1', $ntf_link[1]);
 					$ntf_link[1] = preg_replace('/#socialnet_us.*$/i', '#socialnet_us', $ntf_link[1]);
 
+					
 					$ntf['link'] = generate_board_url() . '/' . append_sid($ntf_link[0], $ntf_link[1]);
 
 					$avatar = $this->p_master->get_user_avatar_resized($rowset[$i]['user_avatar'], $rowset[$i]['user_avatar_type'], $rowset[$i]['user_avatar_width'], $rowset[$i]['user_avatar_height'], 42);
@@ -188,7 +188,7 @@ if (!class_exists('socialnet_notify'))
 		 * @author Kamahl <kamahl19@gmail.com>
 		 * @access private
 		 * @return void
-		*/
+		 */
 		function ntf_check_FAMILY($relation_id, $relative_user_id, $status_id)
 		{
 			global $db, $user, $phpbb_root_path, $phpEx, $config;
@@ -264,7 +264,9 @@ if (!class_exists('socialnet_notify'))
 							$data['user'] = $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'full', $row['ntf_poster'], $data['user'], $row['user_colour']);
 						}
 
-						$data['link'] = append_sid($phpbb_root_path . $ntf_link[0], @$ntf_link[1]);
+						$ntf_link[1] = 'ntfMark=' . $row['ntf_id'] . (isset($ntf_link[1]) ? '&amp;' . $ntf_link[1] : '');
+
+						$data['link'] = append_sid($phpbb_root_path . $ntf_link[0], $ntf_link[1]);
 
 						$template->assign_block_vars('mp_notify', array(
 							'DATA'				 => @vsprintf($user->lang[$text], $data),
@@ -273,8 +275,8 @@ if (!class_exists('socialnet_notify'))
 						));
 					}
 
-					$this->ntf_mark(SN_NTF_STATUS_READ, SN_NTF_STATUS_UNREAD, $user->data['user_id']);
-				}
+					//$this->ntf_mark(SN_NTF_STATUS_READ, SN_NTF_STATUS_UNREAD, $user->data['user_id']);
+					}
 			}
 
 		}
@@ -364,6 +366,31 @@ if (!class_exists('socialnet_notify'))
 
 		}
 
+		/**
+		 * socialnet_notify::mtf_mark
+		 * Change notification status from defined notification status to new notification status
+		 *
+		 * @author Culprit <jankalach@gmail.com>
+		 * @access private
+		 * @param integer $status New status of notfication
+		 * @param integer $from_status Old status of notofication. Default SN_NTF_STATUS_NEW
+		 * @param integer $user ID user, which belongs the notifications, 0 all users
+		 * @return void
+		 */
+
+		function ntf_markID($status, $from_status = SN_NTF_STATUS_NEW, $ntf = 0)
+		{
+			global $db;
+
+			$sql = "UPDATE " . SN_NOTIFY_TABLE . "
+			SET ntf_read = {$status}, ntf_change = '{$this->time}'
+			WHERE ntf_read >= {$from_status}
+			AND ntf_id = {$ntf}";
+
+			$db->sql_query($sql);
+
+		}
+
 		function ntf_check_MARK()
 		{
 			global $db, $user;
@@ -420,8 +447,8 @@ if (!class_exists('socialnet_notify'))
 			$sql_where = array(
 				"ntf_user = {$user->data['user_id']}",
 				"ntf_read >= " . $status,
-			//"ntf_time >= " . ( $this->time - $this->time_new),
-			);
+				//"ntf_time >= " . ( $this->time - $this->time_new),
+				);
 
 			$sql = "SELECT count(*) AS computed
 									FROM " . SN_NOTIFY_TABLE . "

@@ -50,7 +50,7 @@
   		<!-- INCLUDE socialnet/block_page_header.html -->
     	<div class="sn-fms-users sn-fms-users-friend sn-fms-users-fullWidth">
     	<!-- BEGIN relationship -->
-      	<span class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
+      	<div class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
           <!-- IF relationship.U_RELATIVE -->
             <span class="user_avatar ui-widget ui- widget-header ui- corner-all">
             	<a href="{relationship.U_PROFILE_LINK}"<!-- IF relationship.U_PROFILE_LINK == 'javascript:return false;' --> style="cursor:default;"<!-- ENDIF -->>{relationship.AVATAR}</a>
@@ -62,7 +62,7 @@
 			</span>
           
           <!-- IF relationship.ANNIVERSARY --><div style="margin-top: 4px;">{L_SN_UP_ANNIVERSARY}: {relationship.ANNIVERSARY}</div><!-- ENDIF -->
-        </span>   
+        </div>   
       <!-- END relationship -->
       </div>
       <div class="clear" style="margin-bottom: 10px;"></div>
@@ -73,13 +73,13 @@
   		<!-- INCLUDE socialnet/block_page_header.html -->
     	<div class="sn-fms-users sn-fms-users-friend sn-fms-users-fullWidth">
 		<!-- BEGIN family -->
-			<span class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
+			<div class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
             	<span class="user_avatar ui-widget ui- widget-header ui- corner-all">
 					<a href="{family.U_PROFILE_LINK}"<!-- IF family.U_PROFILE_LINK == 'javascript:return false;' --> style="cursor:normal;"<!-- ENDIF -->>{family.AVATAR}</a>
 				</span>
 				<span class="sn-fms-username">{family.U_RELATIVE}</span>
 				<div style="margin-top: 4px;">{family.STATUS}</div>
-			</span> 
+			</div> 
 		<!-- END family -->
 		</div>
       <div class="clear" style="margin-bottom: 10px;"></div>
@@ -101,15 +101,16 @@
 	
     <h2 class="sn-up-userName">{USERNAME} <!-- IF S_ONLINE -->&nbsp;<img src="{T_IMAGESET_PATH}/socialnet/im_user_{ONLINE_IMG}.png" alt="" /><!-- ENDIF --></h2>
      <div class="sn-up-buttons">
+     	<!-- IF not S_OWN_PROFILE -->
     	<ul class="sn-up-menu">
-		<!-- IF SN_MODULE_APPROVAL_ENABLED and not S_OWN_PROFILE and not U_ADD_FRIEND and not U_CANCEL_REQUEST and .sn_fms_group -->
+		<!-- IF SN_MODULE_APPROVAL_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST and .sn_fms_group -->
       		<li class="sn-fms-grpmenu">
       			<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-folder-open"></span>{L_SN_UP_ADD_FRIEND_TO_GROUP}</a>
       			<ul class="sn-fms-groups">
       				<!-- BEGIN sn_fms_group -->
       				<li>
       					<a href="#" class="{gid:{sn_fms_group.GID},uid:{USER_ID}}">
-      						<span class="ui-icon <!-- IF sn_fms_group.B_USER_IN_GROUP -->ui-icon-check<!-- ELSE -->ui-icon-close<!-- ENDIF -->"></span>
+      						<span class="ui-icon <!-- IF sn_fms_group.B_USER_IN_GROUP -->ui-icon-check<!-- ELSE -->ui-icon-no<!-- ENDIF -->"></span>
       						{sn_fms_group.S_GROUP_NAME}
 			      				</a>
 			      			</li>
@@ -117,12 +118,11 @@
       			</ul>
       		</li>
 		<!-- ENDIF -->
-		<!-- IF U_PM && not S_OWN_PROFILE --><li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li><!-- ENDIF -->
-		<!-- IF not S_OWN_PROFILE -->
+		<!-- IF U_PM --><li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li><!-- ENDIF -->
 			<!-- IF U_CANCEL_REQUEST --><li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li><!-- ENDIF -->
 			<!-- IF U_ADD_FRIEND --><li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li><!-- ENDIF -->
-		<!-- ENDIF -->
 		</ul>
+		<!-- ENDIF -->
     </div>
     <div class="clear"></div>
     

@@ -645,6 +645,7 @@ $versions = array(
 	'0.6.2'		 => array(
 		'custom' => 'phpbb_SN_umil_auto',
 	),
+
 	'0.6.2.2'	 => array(
 		'table_add'	 => array(
 			array(SN_COMMENTS_MODULES_TABLE, array(
@@ -680,12 +681,10 @@ $versions = array(
 				),
 
 			)),
-
 		),
 	),
 
 	'0.6.2.3'	 => array(
-
 		'table_add'	 => array(
 			array(SN_ADDONS_TABLE, array(
 				'COLUMNS'		 => array(
@@ -718,6 +717,22 @@ $versions = array(
 		),
 
 		'custom'				 => 'phpbb_SN_umil_0_6_2_4',
+	),
+
+	'0.6.2.5'	 => array(
+		'table_column_add'		 => array(
+			array(SN_FMS_GROUPS_TABLE, 'fms_collapse', array('BOOL', 0)),
+			array(SN_FMS_USERS_GROUP_TABLE, 'owner_id', array('UINT:11',0)),
+		),
+		'table_column_update'	 => array(
+			array(SN_FMS_GROUPS_TABLE, 'fms_gid', array('UINT', NULL)),
+		),
+		'table_index_add'		 => array(
+			array(SN_FMS_GROUPS_TABLE, 'd', array('fms_gid', 'user_id', 'fms_clean')),
+			array(SN_FMS_GROUPS_TABLE, 'e', array('fms_gid', 'user_id', 'fms_clean', 'fms_collapse')),
+			array(SN_FMS_USERS_GROUP_TABLE, 'c', array('fms_gid','owner_id')),
+		),
+		'custom'				 => 'phpbb_SN_umil_0_6_2_5',
 	),
 );
 
@@ -820,6 +835,65 @@ function phpbb_SN_umil_0_6_2_4($action, $version)
 	return 'Social Network::Comments system ' . $return_status;
 }
 
+function phpbb_SN_umil_0_6_2_5($action, $version)
+{
+	global $db;
+	
+	$return_status = '';
+	if ( $action != 'uninstall')
+	{
+		$sql = "SELECT fms_gid, user_id FROM " . SN_FMS_GROUPS_TABLE . " WHERE fms_gid > 0 ORDER BY user_id, fms_gid";
+		
+		$rs = $db->sql_query( $sql);
+		
+		$rowset = $db->sql_fetchrowset($rs);
+		
+		$c_user = 0;
+		$c_counter = 1;
+		for( $i=0;isset($rowset[$i]);$i++)
+		{
+			$r_gid = $rowset[$i]['fms_gid'];
+			$r_uid = $rowset[$i]['user_id'];
+			if ( $c_user != $r_uid)
+			{
+				$c_user = $r_uid;
+				$c_counter = 1;
+			}
+			
+			$sql = "UPDATE " . SN_FMS_GROUPS_TABLE . " SET fms_gid = {$c_counter} WHERE fms_gid = {$r_gid} AND user_id = {$r_uid}";
+			$db->sql_query($sql);
+			
+			$sql = "UPDATE " . SN_FMS_USERS_GROUP_TABLE . " SET fms_gid = {$c_counter}, owner_id = {$c_user} WHERE fms_gid = {$r_gid} AND owner_id = 0";
+			$db->sql_query($sql);
+			
+			$c_counter++;
+		}
+		
+		$sql = "SELECT user_id FROM " . USERS_TABLE . " WHERE user_type <> 2";
+		$rs = $db->sql_query($sql);
+		$rowset = $db->sql_fetchrowset($rs);
+		$db->sql_return_on_error(true);
+		for($i=0;isset($rowset[$i]);$i++)
+		{
+			$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . " (fms_gid,user_id,fms_name,fms_clean,fms_collapse) VALUES (0,{$rowset[$i]['user_id']}, '---','---',0)";
+			$db->sql_query($sql);
+		}
+		$db->sql_return_on_error(false);
+		
+		$sql = "SELECT COUNT(*) FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE owner_id = 0";
+		$rs = $db->sql_query( $sql);
+		if ( $db->sql_affectedrows($rs))
+		{
+			$return_status = '- There are friends to be included into groups. Use SQL manager to repair.';
+		}
+		
+		$db->sql_query('ALTER TABLE ' . SN_FMS_USERS_GROUP_TABLE . ' DROP PRIMARY KEY');
+		$db->sql_query('ALTER TABLE ' . SN_FMS_USERS_GROUP_TABLE . ' ADD PRIMARY KEY (fms_gid, user_id, owner_id)');
+		
+		
+	}
+	return 'Social Network::FMS Groups updated' . $return_status;
+}
 /**
  * Function for table rename by install/update
  */

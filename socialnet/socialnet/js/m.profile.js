@@ -11,7 +11,7 @@
 		url : '{U_UP_TAB_WALL}',
 		urlAJAX : '{U_UP_AJAXURL}',
 		urlSelectFriends: '{U_SELECT_FRIENDS}',
-		spinner : '<em>Loading&#8230;</em>',
+		spinner : '<em>Loading&#8230;<\/em>',
 		nextText : '{L_NEXT}',
 		prevText : '{L_PREVIOUS}',
 		dateFormat : 'd. MM yy',

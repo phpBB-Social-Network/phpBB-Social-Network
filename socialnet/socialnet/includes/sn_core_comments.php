@@ -220,8 +220,7 @@ class sn_core_comments
 
 		$template->set_filenames(array('comments' => $this->commentTemplate));
 
-		$this->p_master->page_header();
-		$content = $this->p_master->page_footer('comments');
+		$content = $this->p_master->get_page('comments');
 
 		//$content = $template->assign_display('comments');
 
@@ -244,9 +243,9 @@ class sn_core_comments
 		return $field;
 	}
 
-	public function getPosters($module, $cmt_mid)
+	public function getPosters($module, $cmt_mid, $with_me = false)
 	{
-		global $db;
+		global $db, $user;
 
 		$cmt_module = $this->_moduleID($module);
 
@@ -259,6 +258,11 @@ class sn_core_comments
 		for ($i = 0; isset($rowset[$i]); $i++)
 		{
 			$return[] = $rowset[$i]['cmt_poster'];
+		}
+
+		if (!$with_me)
+		{
+			$return = array_diff($return, array($user->data['user_id']));
 		}
 
 		return $return;

@@ -203,7 +203,7 @@ if (!class_exists('socialnet_mainpage'))
 
 					$template->set_filenames(array('body' => 'socialnet/mainpage_body_entries.html'));
 
-					$return['content'] = $this->p_master->page_footer();
+					$return['content'] = $this->p_master->get_page();
 
 					header('Content-type: application/json');
 					header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
@@ -228,7 +228,7 @@ if (!class_exists('socialnet_mainpage'))
 
 					$template->set_filenames(array('body' => 'socialnet/mainpage_body_entries.html'));
 
-					$return['content'] = $this->p_master->page_footer();
+					$return['content'] = $this->p_master->get_page();
 
 					header('Content-type: application/json');
 					header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
@@ -364,7 +364,7 @@ if (!class_exists('socialnet_mainpage'))
 			$template->assign_block_vars('us_status', $data);
 			//$template->_tpldata['us_status'][0]['SN_US_MORE_COMMENTS'] = $sn_userstatus->_get_comments($entry_target, 0, 2);
 
-			$this->p_master->page_header($user->lang['SN_MP_MAINPAGE']);
+			//$this->p_master->page_header($user->lang['SN_MP_MAINPAGE']);
 			$template_data = $this->p_master->page_footer();
 			return array(
 				'ID'	 => $entry_id,
@@ -477,6 +477,8 @@ if (!class_exists('socialnet_mainpage'))
 				'USERNAME'		 => $entry_user['username'],
 				'U_PROFILE'		 => $this->p_master->get_username_string($this->p_master->config['mp_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
 				'PROFILE_FIELDS' => $entry_add,
+				'L_SN_MP_CHANGED_PROFILE'	=> $user->lang[$this->p_master->gender_lang('SN_MP_CHANGED_PROFILE', $entry_user['user_id'])],
+				'L_SN_UP_CHANGED_AVATAR'	=> $user->lang[$this->p_master->gender_lang('SN_UP_CHANGED_AVATAR', $entry_user['user_id'])],
 			);
 		}
 
@@ -566,11 +568,11 @@ if (!class_exists('socialnet_mainpage'))
 
 			if (isset($family))
 			{
-				$family_msg = sprintf($user->lang['SN_MP_ADDED_NEW_FAMILY_MEMBER'], $this->p_master->get_username_string($this->p_master->config['mp_colour_username'], 'full', $family_id, $family['username'], $family['user_colour']), $entry_status);
+				$family_msg = sprintf($user->lang[$this->p_master->gender_lang('SN_MP_ADDED_NEW_FAMILY_MEMBER', $entry_user['user_id'])], $this->p_master->get_username_string($this->p_master->config['mp_colour_username'], 'full', $family_id, $family['username'], $family['user_colour']), $entry_status);
 			}
 			elseif ($family_name != '')
 			{
-				$family_msg = sprintf($user->lang['SN_MP_ADDED_NEW_FAMILY_MEMBER'], '<strong>' . $family_name . '</strong>', $entry_status);
+				$family_msg = sprintf($user->lang[$this->p_master->gender_lang('SN_MP_ADDED_NEW_FAMILY_MEMBER', $entry_user['user_id'])], '<strong>' . $family_name . '</strong>', $entry_status);
 			}
 
 			return array(
@@ -581,6 +583,7 @@ if (!class_exists('socialnet_mainpage'))
 				'U_PROFILE'							 => $this->p_master->get_username_string($this->p_master->config['mp_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
 				'U_PARTNER_PROFILE'					 => $rel_msg,
 				'L_SN_MP_ADDED_NEW_FAMILY_MEMBER'	 => $family_msg,
+				'L_SN_MP_CHANGED_RELATIONSHIP'	=> $user->lang[$this->p_master->gender_lang('SN_MP_CHANGED_RELATIONSHIP', $entry_user['user_id'])],
 			);
 		}
 
