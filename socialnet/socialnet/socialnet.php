@@ -16,25 +16,6 @@ if (!defined('IN_PHPBB') || !defined('SOCIALNET_INSTALLED'))
 	exit;
 }
 
-/*******
- $debugTimes = array();
-
- $debugTimes['START'] = array(
- str_replace($_SERVER['DOCUMENT_ROOT'].$config['script_path'], '',__FILE__) . ' ' . __LINE__ ,
- microtime(true)
- );
-
- function debugTimes($file,$line,$function)
- {
- global $debugTimes, $socialnet, $config;
-
-
- $debugTimes[] =array(
- str_replace($_SERVER['DOCUMENT_ROOT'].$config['script_path'], '',$file) . ' ' . $line . ' ' . $function,
- round(microtime(true)- $debugTimes['START'][1],3).'s');
-
- }
- ***************/
 
 /**
  * Main class of Social Network for phpBB
