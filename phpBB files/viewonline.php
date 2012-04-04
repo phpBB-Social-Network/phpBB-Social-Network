@@ -280,7 +280,12 @@ while ($row = $db->sql_fetchrow($result))
 			$location = $user->lang['VIEWING_MCP'];
 			$location_url = append_sid("{$phpbb_root_path}index.$phpEx");
 		break;
-
+		
+		case 'mainpage':
+			$location = isset($user->lang['SN_MP_VIEWING_MAINPAGE']) ? $user->lang['SN_MP_VIEWING_MAINPAGE'] : 'Viewing Mainpage';
+			$location_url = append_sid("{$phpbb_root_path}mainpage.$phpEx");
+		break;
+		
 		case 'ucp':
 			$location = $user->lang['VIEWING_UCP'];
 

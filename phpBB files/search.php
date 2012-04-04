@@ -54,24 +54,24 @@ switch ($search_id)
 {
 	// Egosearch is an author search
 	case 'egosearch':
-		$author_id = $user->data['user_id'];
-		if ($user->data['user_id'] == ANONYMOUS)
-		{
-			login_box('', $user->lang['LOGIN_EXPLAIN_EGOSEARCH']);
-		}
+	$author_id = $user->data['user_id'];
+	if ($user->data['user_id'] == ANONYMOUS)
+	{
+		login_box('', $user->lang['LOGIN_EXPLAIN_EGOSEARCH']);
+	}
 	break;
 
-	// Search for unread posts needs to be allowed and user to be logged in if topics tracking for guests is disabled
+// Search for unread posts needs to be allowed and user to be logged in if topics tracking for guests is disabled
 	case 'unreadposts':
-		if (!$config['load_unreads_search'])
-		{
-			$template->assign_var('S_NO_SEARCH', true);
-			trigger_error('NO_SEARCH_UNREADS');
-		}
-		else if (!$config['load_anon_lastread'] && !$user->data['is_registered'])
-		{
-			login_box('', $user->lang['LOGIN_EXPLAIN_UNREADSEARCH']);
-		}
+	if (!$config['load_unreads_search'])
+	{
+		$template->assign_var('S_NO_SEARCH', true);
+		trigger_error('NO_SEARCH_UNREADS');
+	}
+	else if (!$config['load_anon_lastread'] && !$user->data['is_registered'])
+	{
+		login_box('', $user->lang['LOGIN_EXPLAIN_UNREADSEARCH']);
+	}
 	break;
 	
 	// The "new posts" search uses user_lastvisit which is user based, so it should require user to log in.
@@ -613,7 +613,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 			$zebra = array();
 			while ($row = $db->sql_fetchrow($result))
 			{
-				$zebra[($row['friend']) ? 'friend' : 'foe'][] = $row['zebra_id'];
+				$zebra[($row['foe']) ? 'foe' : 'friend'][] = $row['zebra_id'];
 			}
 			$db->sql_freeresult($result);
 
