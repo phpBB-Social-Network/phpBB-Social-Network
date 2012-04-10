@@ -1,0 +1,62 @@
+/*******************************************************\
+|* SOCIALNET - GENERAL                                 *|
+\*******************************************************/
+.rtl ul.linklist.leftside li, .rtl ul.linklist.rightside li {
+	float: right;
+}
+
+.snUsername {
+  font-weight: bold;
+}
+
+#dialog .submit-buttons, #dialog a {
+	display: none;
+}
+
+.ui-dialog .ui-dialog-buttonp ane button {
+	float: right;
+}
+
+.ui-widget-content {
+	border-color: #ddd;
+}
+
+a.button1, a.button1:link, a.button1:visited, a.button1:active, a.button2, a.button2:link, a.button2:visited, a.button2:active {
+	background-position: left top;
+}
+
+
+/*
+* navbar icon
+*/
+.icon-profile, .icon-mainpage {
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	background-image: none;
+	padding: 1px 0 0 17px;
+}
+
+.rtl .icon-profile, .rtl .icon-mainpage {
+	background-position: 100% 50%;
+	padding: 1px 17px 0 0;
+}
+
+.icon-profile		{ background-image: url("{T_IMAGESET_PATH}/socialnet/icon_profile.gif"); }
+.icon-mainpage		{ background-image: url("{T_IMAGESET_PATH}/socialnet/icon_mainpage.gif"); }
+
+.snUserAvatar, .snUserAvatar-1 {
+	float:left;
+	text-align:center;
+	display: block;
+	text-align:center;
+	margin: 0;
+	height: auto;
+}
+
+.rtl .snUserAvatar, .rtl .snUserAvatar-1 {
+	float: right;
+}
+
+.snUserAvatar-1 {
+	border: 1px solid #CCC;
+}

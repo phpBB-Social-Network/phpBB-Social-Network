@@ -1,0 +1,285 @@
+/*******************************************************\
+ |* SOCIALNET - USER STATUS                             *|
+ \*******************************************************/
+#socialnet_us.snUsHeader {
+	margin: 0 auto;
+	padding: 0;
+	z-index: 99;
+	width: 600px;
+}
+
+#socialnet_us .snUsMembShareStatus, .snUsProfile {
+	min-width: 500px;
+	overflow: hidden;
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 5px;
+}
+
+#socialnet_us.snUsHeader .snUsShared {
+	display: none;
+}
+
+#socialnet_us .snUsShare.navbar {
+	position: absolute;
+	width: 580px;
+	padding: 0px 6px;
+}
+
+#socialnet_us .snUsShare textarea {
+	width: 99%;
+	border: solid 1px #AEAEAE;
+	line-height: 21px;
+	/*font-size: 12px; */
+	height: 22px;
+}
+
+#socialnet_us .snUsShare .snUsWatermark {
+	color: #888;
+}
+
+#snUsNoStatus {
+	/*font-size: 12px;*/
+	padding-top: 5px;
+}
+
+.snUsShare .snUsButtonOver, .snUsShareComment .snUsButtonCommentOver {
+	display: none;
+}
+
+.snUsShare span.corners-bottom {
+	margin: 0 -6px;
+}
+
+.snUsShare .ui-button {
+	margin-top: 5px;
+	float: right;
+	padding: 1px 8px;
+}
+
+.rtl .snUsShare .ui-button {
+	float: left;
+}
+
+.snUsProfile .snUsStatusBlock {
+	border-top: 1px solid #E9E9E9;
+	padding: 10px 0;
+	padding-left: 60px;
+}
+
+.rtl .snUsProfile .snUsStatusBlock {
+	padding-left: 0;
+	padding-right: 60px;
+}
+
+.snUsStatusBox {
+	font-size: 11px;
+	min-height: 50px;
+	padding-right: 5px;
+}
+
+.rtl .snUsStatusBox {
+	padding-left: 5px;
+	padding-right: 0;
+}
+
+.snUsCommentBox {
+	background-color: #EDEFF4;
+	padding: 5px;
+	font-size: 11px;
+	margin-top: 1px;
+	border-bottom: 1px solid #D2D9E7;
+}
+
+.snUsStatusBox .status_time, .snUsCommentBox .status_time {
+	color: #999;
+	display: block;
+	padding: 5px 0;
+	padding-left: 37px;
+}
+
+.rtl .snUsStatusBox .status_time, .rtl .snUsCommentBox .status_time {
+	padding-left: 0;
+	padding-right: 37px;
+}
+
+.snUsStatusBox .status_time {
+	padding-left: 0;
+}
+
+.rtl .snUsStatusBox .status_time {
+	padding-right: 0;
+}
+
+.snUsProfile .status_poster_avatar {
+	display:inline-block;
+	max-width: 50px;
+	max-height: 50px;
+	margin-left: -60px;
+	padding:2px;
+	float: left;
+}
+
+.rtl .snUsProfile .status_poster_avatar {
+	float: right;
+	margin-left: 0;
+	margin-right: -60px;
+}
+
+.snUsProfile .comment_poster_avatar img {
+	border: 0;
+	max-width: 30px;
+	max-height: 30px;
+	padding-right: 7px;
+}
+
+.rtl .snUsProfile .comment_poster_avatar img {
+	padding-right: 0px;
+	padding-left: 7px;
+}
+
+.snUsProfile .comment_text {
+	padding-left: 37px;
+	padding-right: 20px;
+}
+
+.rtl .snUsProfile .comment_text {
+	padding-left: 20px;
+	padding-right: 37px;
+}
+
+.snUsProfile .snUsShareComment {
+	background-color: #EDEFF4;
+	padding: 5px;
+	margin-top: 1px;
+	border-bottom: 1px solid #D2D9E7;
+}
+
+.snUsProfile .snUsShareComment textarea {
+	width: 99%;
+	border: solid 1px #BDC7D8;
+	/*font-size: 11px;*/
+	color: #000;
+	line-height: 21px;
+}
+
+.snUsProfile .snUsShareComment .snUsWatermarkComment {
+	color: #888;
+}
+
+.snUsProfile .snUsShareComment .ui-button {
+	margin-top: 5px;
+	float: right;
+	font-weight: normal;
+	padding: 1px 8px;
+}
+
+.rtl .snUsProfile .snUsShareComment .ui-button {
+	float: left;
+}
+
+/************
+ * FETCH
+ ***********/
+.snUsFetchBlock .loader {
+	text-align: center;
+	align: center;
+	padding: 4px 0;
+	display:none;
+}
+
+.snUsFetchBlock .snUsFetchPreview, .snUsThumbs {
+	display: none;
+	padding: 4px 0;
+}
+
+.snUsFetchAdditional {
+	margin-bottom: 10px;
+}
+
+.snUsFetchImages {
+	width: 120px;
+	float: left;
+}
+
+.rtl .snUsFetchImages {
+	float: right;
+}
+
+.snUsFetchData .title {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.snUsFetchButton.ui-button {
+	margin: 2px;
+	display:none;
+	float: left;
+}
+
+.rtl .snUsFetchButton.ui-button {
+	float: right;
+}
+
+.snUsPageURL {
+	padding: 3px 0;
+}
+.snUsPageTitle {
+	font-weight: bold;
+}
+.snUsPageDesc, .snUsPageAdditional {
+	font-size: .9em;
+	margin-top: 10px;
+}
+.snUsPageInfo {
+	margin-top: 15px;
+}
+.snUsPageProvider {
+	font-size: .85em;
+}
+
+
+.snUsPagePreview {
+	float: left;
+	padding: 2px 0 0;
+}
+
+.rtl .snUsPagePreview {
+	float: right;
+	padding: 0 0 2px;
+}
+
+.snUsPageVideo {
+	float: left;
+	padding: 0 5px 0 2px; 
+}
+
+.rtl .snUsPageVideo {
+	float: right;
+	padding: 0 2px 0 5px;
+}
+
+.snUsVideoOverlay {
+	background: #000;
+	width:150px;
+	height:150px;
+	position:relative;
+	margin-left:2px;
+	opacity:0.4;
+	cursor:pointer;
+}
+
+.rtl .snUsVideoOverlay {
+	margin-left: 0;
+	margin-right: 2px;
+}
+
+.snUsPageImage {
+	float:left;
+	padding: 0px 5px 0px 2px;
+}
+
+.rtl .snUsPageImage {
+	float: right;
+	padding: 0 2px 0 5px;
+}

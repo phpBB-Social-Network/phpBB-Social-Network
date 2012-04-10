@@ -353,16 +353,6 @@
 
 		_initUpGroupMenu : function() {
 			if ($('.sn-up-menu li').size() > 0) {
-				$('.sn-up-menu').css('z-index', 999).menuNew().mouseleave(function() {
-					$(this).children('li').children('ul').delay(500).fadeOut(300);
-					$(this).children('li').children('a.ui-state-active').removeClass('ui-state-active');
-				});
-
-				$('.sn-up-menu .ui-icon-carat-1-e').toggleClass('ui-icon-carat-1-e ui-icon-carat-1-s');
-				$('.sn-up-menu > .ui-menu-item').css({
-					width : 'auto',
-					clear : 'none'
-				});
 
 				$('.sn-fms-groups a').click(function() {
 					var gid = $.sn.getAttr($(this), 'gid');

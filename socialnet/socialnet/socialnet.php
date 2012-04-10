@@ -43,7 +43,6 @@ if (!defined('IN_PHPBB') || !defined('SOCIALNET_INSTALLED'))
  */
 class socialnet extends snFunctions
 {
-
 	var $notify = null, $comments = null;
 	/**
 	 * @var array
@@ -70,6 +69,7 @@ class socialnet extends snFunctions
 		"12",
 		"10"
 	);
+
 	/**
 	 * @var array $config pointer to $config
 	 */
@@ -92,7 +92,7 @@ class socialnet extends snFunctions
 		'user_id'		 => array(),
 		'username'		 => array(),
 		'friends'		 => array(),
-		'sex'		 => array(),
+		'sex'			 => array(),
 		'colourNames'	 => array()
 	);
 	var $groups = array();
@@ -248,7 +248,7 @@ class socialnet extends snFunctions
 				'user_id'		 => array(),
 				'usernames'		 => array(),
 				'friends'		 => array(),
-				'sex'		 => array(),
+				'sex'			 => array(),
 				'colourNames'	 => array(),
 			);
 
@@ -272,7 +272,7 @@ class socialnet extends snFunctions
 
 		return $this->friends[$type];
 	}
-	
+
 	function purge_friends($user_id = 0)
 	{
 		global $user, $cache;
@@ -750,29 +750,29 @@ class socialnet extends snFunctions
 
 		return sprintf($user->lang[$tense], $difference, $user->lang['SN_TIME_PERIODS'][$period]);
 	}
-	
+
 	function gender_lang($lang, $user_id)
 	{
 		global $user;
-		
+
 		$gender = ($user_id = $user->data['user_id']) ? $user->data['sex'] : $this->friends['sex'][$user_id];
-		
+
 		if ($gender == 1)
 		{
-      $lang = $lang.'_HIS';
+			$lang = $lang . '_HIS';
 		}
 		else if ($gender == 2)
 		{
-      $lang = $lang.'_HER';
+			$lang = $lang . '_HER';
 		}
 		else
 		{
-      $lang = $lang.'_THEIR';
+			$lang = $lang . '_THEIR';
 		}
 
 		return $lang;
 	}
-	
+
 	/**
 	 * snFunctions::record_entry
 	 *
@@ -803,7 +803,7 @@ class socialnet extends snFunctions
 	}
 
 	/**
-	 * snFunctions::record_entry
+	 * snFunctions::delete_entry
 	 *
 	 * Funkcia zmaze zaznam o cinnosti na SN
 	 *
@@ -817,8 +817,8 @@ class socialnet extends snFunctions
 		global $db;
 
 		$sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
-	WHERE entry_target = " . $target . "
-	AND entry_type = " . $type;
+							WHERE entry_target = " . $target . "
+								AND entry_type = " . $type;
 		$db->sql_query($sql);
 	}
 

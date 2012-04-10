@@ -99,31 +99,54 @@
 	</div>
 	<div id="sn-page-content" class="sn-page-content sn-page-content-noRightBorder"> 
 	
-    <h2 class="sn-up-userName">{USERNAME} <!-- IF S_ONLINE -->&nbsp;<img src="{T_IMAGESET_PATH}/socialnet/im_user_{ONLINE_IMG}.png" alt="" /><!-- ENDIF --></h2>
-     <div class="sn-up-buttons">
-     	<!-- IF not S_OWN_PROFILE -->
-    	<ul class="sn-up-menu">
-		<!-- IF SN_MODULE_APPROVAL_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST and .sn_fms_group -->
-      		<li class="sn-fms-grpmenu">
-      			<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-folder-open"></span>{L_SN_UP_ADD_FRIEND_TO_GROUP}</a>
-      			<ul class="sn-fms-groups">
-      				<!-- BEGIN sn_fms_group -->
-      				<li>
-      					<a href="#" class="{gid:{sn_fms_group.GID},uid:{USER_ID}}">
-      						<span class="ui-icon <!-- IF sn_fms_group.B_USER_IN_GROUP -->ui-icon-check<!-- ELSE -->ui-icon-no<!-- ENDIF -->"></span>
-      						{sn_fms_group.S_GROUP_NAME}
-			      				</a>
-			      			</li>
-      				<!-- END sn_fms_group -->
-      			</ul>
-      		</li>
-		<!-- ENDIF -->
-		<!-- IF U_PM --><li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li><!-- ENDIF -->
-			<!-- IF U_CANCEL_REQUEST --><li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li><!-- ENDIF -->
-			<!-- IF U_ADD_FRIEND --><li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li><!-- ENDIF -->
-		</ul>
-		<!-- ENDIF -->
-    </div>
+		<h2 class="sn-up-userName">{USERNAME} <!-- IF S_ONLINE -->&nbsp;<img src="{T_IMAGESET_PATH}/socialnet/im_user_{ONLINE_IMG}.png" alt="" /><!-- ENDIF --></h2>
+			<div class="sn-up-buttons">
+	     	<!-- IF not S_OWN_PROFILE -->
+		    	<ul class="sn-up-menu">
+						<!-- IF SN_MODULE_APPROVAL_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST and .sn_fms_group -->
+		      		<li class="sn-fms-grpmenu">
+		      			<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-folder-open"></span>{L_SN_UP_ADD_FRIEND_TO_GROUP}</a>
+		      			<ul class="sn-fms-groups sn-up-submenu">
+		      				<!-- BEGIN sn_fms_group -->
+		      				<li>
+		      					<a href="#" class="{gid:{sn_fms_group.GID},uid:{USER_ID}}">
+		      						<span class="ui-icon <!-- IF sn_fms_group.B_USER_IN_GROUP -->ui-icon-check<!-- ELSE -->ui-icon-no<!-- ENDIF -->"></span>
+		      						{sn_fms_group.S_GROUP_NAME}
+					      		</a>
+					      	</li>
+		      				<!-- END sn_fms_group -->
+		      			</ul>
+		      		</li>
+						<!-- ENDIF -->
+						<!-- IF U_PM -->
+							<li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li>
+						<!-- ENDIF -->
+						<!-- IF S_USER_LOGGED_IN and S_SN_UP_EMOTES_ENABLED -->
+							<li class="sn-up-emotes">
+								<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-tag"></span>{L_SN_UP_EMOTES}</a>
+								<!-- IF .sn_up_emote -->
+									<ul class="sn-up-emote sn-up-submenu">
+										<!-- BEGIN sn_up_emote -->
+											<li>
+												<a href="#" class="{emote:{sn_up_emote.EMOTE_ID},u:{USER_ID}}">
+													{sn_up_emote.EMOTE_NAME}
+													<!-- IF sn_up_emote.EMOTE_IMAGE != '' --><img src="{SN_UP_EMOTE_FOLDER}{sn_up_emote.EMOTE_IMAGE}" alt="{sn_up_emote.EMOTE_NAME}" style="vertical-align: middle; float: right;" /><!-- ENDIF -->
+												</a>
+											</li>
+										<!-- END sn_up_emote -->
+									</ul>
+								<!-- ENDIF -->
+							</li>
+						<!-- ENDIF -->
+						<!-- IF U_CANCEL_REQUEST -->
+							<li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li>
+						<!-- ENDIF -->
+						<!-- IF U_ADD_FRIEND -->
+							<li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li>
+						<!-- ENDIF -->
+				</ul>
+			<!-- ENDIF -->
+			</div>
     <div class="clear"></div>
     
 		<div id="sn-up-profileTabs" class="sn-up-profileTabs">

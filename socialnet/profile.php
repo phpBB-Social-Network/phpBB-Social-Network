@@ -19,10 +19,14 @@ $user->session_begin();
 $auth->acl($user->data);
 $user->setup('memberlist');
 
-//$user_id = $user->data['is_registered'] ? $user->data['user_id'] : ANONYMOUS;
-$user_id = request_var('u', ANONYMOUS);
+$user_id = (int) request_var('u', ANONYMOUS);
 $username = request_var('un', '', true);
 $action = request_var('action', '');
+
+if ( (int) $user_id == 0)
+{
+	$user_id = $user->data['user_id'];
+}
 
 if (!$config['module_profile'])
 {
@@ -44,7 +48,8 @@ $page_template = 'socialnet/user_profile_body.html';
 $template->set_filenames(array(
 	'body'	 => $page_template
 ));
-if (($user_id == ANONYMOUS && !$username) )
+
+if ($user_id == ANONYMOUS && !$username)
 {
 	if ($user->data['is_registered'])
 	{
@@ -284,6 +289,10 @@ if (in_array('approval', $socialnet->existing) && !($user_id === (int) $user->da
 {
 	foreach ($socialnet->groups as $gid => $g_data)
 	{
+		if ( $gid == 0)
+		{
+			continue;
+		}
 		$template->assign_block_vars('sn_fms_group', array(
 			'GID'				 => $gid,
 			'S_GROUP_NAME'		 => $g_data['name'],

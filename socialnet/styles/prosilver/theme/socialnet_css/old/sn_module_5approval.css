@@ -1,0 +1,102 @@
+/********************************************\
+|* FRIEND APPROVAL SYSTEM                   *|
+\********************************************/
+
+.snFasFriendsBlock {
+}
+.rtl .snfasFriendsBlock {
+}
+
+.user_avatar {
+	display: inline-block;
+}
+
+.snFasFriend {      
+  width: 180px;
+  display:inline-block;
+  padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+	font-size: 11px;
+	margin: 1px 4px 1px 0px;
+}
+
+/*fieldset .snFasFriend {
+	font-size: 1.0em;
+} */
+
+.snFasFriend.checked {
+  background: #ECD5D8;
+  color: #BC2A4D;
+}     
+
+.snFasFriendsBlock > a:link, .snFasFriendsBlock > a:active, .snFasFriendsBlock > a:visited, .snFasFriendsBlock > a:hover {
+  text-decoration: none;
+}
+
+.snFasFriend input[type=checkbox] {
+  display: none;
+}
+
+.snFasFriend span {
+  text-overflow: ellipsis; /* Vsechny prohlizece krome FF, jinak W3C Validator hlasi chybu */
+  overflow: hidden;
+}
+
+.snFasFriend span a {
+  padding: 2px 0;
+}
+
+fieldset .snFasFriend span a {
+  font-weight: normal;  
+}
+
+.snFasFriend span.snFmsUsername a {
+  font-weight: bold;  
+}
+
+fieldset dd.snFasBlock {
+  margin-left: 1%;
+}
+
+.rtl fieldset dd.snFasBlock {
+  margin-left: 0px;
+  margin-right: 1%;
+}
+
+.snFMSUsers span.user_avatar {
+	display: inline-block;
+	float: left;
+	margin-right: 5px;
+}
+
+.rtl .snFMSUsers span.user_avatar {
+	float: right;
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+.snMpMutualFriend {
+	padding:2px;
+}
+
+.snMpMutualFriend  span, .snMpMutualFriend > a span {
+	text-align:center;
+	display: inline-block;
+	width:100%;
+}
+
+.snFMSUser-suggestion {
+	width: 44%;
+	border: 0;
+}
+
+.snFMSUser-suggestion span:not(.user_avatar) {
+	clear: both;
+	display: inline-block;
+	width: 100%;
+}
+
+.snFMSUser-suggestion span.user_avatar {
+	float: none;
+}

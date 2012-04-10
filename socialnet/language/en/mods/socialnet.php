@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 if (!defined('IN_PHPBB'))
 {
@@ -110,19 +110,20 @@ $lang = array_merge($lang, array(
 	'SN_MP_WELCOME'							 => 'Welcome',
 	'SN_MP_VIEWING_MAINPAGE'				 => 'Viewing mainpage',
 	'SN_MP_NO_SUGGESTIONS'					 => 'There are no friend suggestions for you',
-	'SN_MP_SEARCH'                       => 'Search…',
+	'SN_MP_SEARCH'							 => 'Search…',
 	'SN_MP_CHANGED_PROFILE_HIS'				 => 'has updated his profile.',
 	'SN_MP_CHANGED_PROFILE_HER'				 => 'has updated her profile.',
-	'SN_MP_CHANGED_PROFILE_THEIR'				 => 'has updated their profile.',
+	'SN_MP_CHANGED_PROFILE_THEIR'			 => 'has updated their profile.',
 	'SN_UP_CHANGED_AVATAR_HIS'				 => 'has changed his profile picture.',
 	'SN_UP_CHANGED_AVATAR_HER'				 => 'has changed her profile picture.',
-	'SN_UP_CHANGED_AVATAR_THEIR'				 => 'has changed their profile picture.',
-	'SN_MP_ADDED_NEW_FAMILY_MEMBER_HIS'			 => 'has added %1$s (%2$s) as a new family member to his profile.',
-	'SN_MP_ADDED_NEW_FAMILY_MEMBER_HER'			 => 'has added %1$s (%2$s) as a new family member to her profile.',
-	'SN_MP_ADDED_NEW_FAMILY_MEMBER_THEIR'			 => 'has added %1$s (%2$s) as a new family member to their profile.',
+	'SN_UP_CHANGED_AVATAR_THEIR'			 => 'has changed their profile picture.',
+	'SN_MP_ADDED_NEW_FAMILY_MEMBER_HIS'		 => 'has added %1$s (%2$s) as a new family member to his profile.',
+	'SN_MP_ADDED_NEW_FAMILY_MEMBER_HER'		 => 'has added %1$s (%2$s) as a new family member to her profile.',
+	'SN_MP_ADDED_NEW_FAMILY_MEMBER_THEIR'	 => 'has added %1$s (%2$s) as a new family member to their profile.',
 	'SN_MP_CHANGED_RELATIONSHIP_HIS'		 => 'has added a new relationship to his profile',
 	'SN_MP_CHANGED_RELATIONSHIP_HER'		 => 'has added a new relationship to her profile',
 	'SN_MP_CHANGED_RELATIONSHIP_THEIR'		 => 'has added a new relationship to their profile',
+	'SN_UP_SEND_EMOTE'						 => 'has send an emote to',
 
 	'SN_PROFILE'							 => 'Profile',
 	'SN_MYPROFILE'							 => 'My Profile',
@@ -270,7 +271,7 @@ $lang = array_merge($lang, array(
 	'SN_UP_DELETE_FAMILY_CONFIRM'			 => 'Are you sure you want to delete <strong>%1$s</strong> from your family members?',
 	'SN_UP_USERNAME_NOT_EXIST'				 => 'This username you entered does not exist',
 	'SN_UP_NOT_APPROVED'					 => 'not approved yet',
-	'SN_UP_APPROVE_REQUESTS'			  => 'Approve relationship',
+	'SN_UP_APPROVE_REQUESTS'				 => 'Approve relationship',
 	'WRONG_DATA_FACEBOOK'					 => 'The Facebook address has to be a valid URL, including the protocol. For example http://www.facebook.com/facebook/.',
 	'WRONG_DATA_TWITTER'					 => 'The Twitter address has to be a valid URL, including the protocol. For example http://twitter.com/#!/twitter/.',
 	'WRONG_DATA_YOUTUBE'					 => 'The Youtube address has to be a valid URL, including the protocol. For example http://www.youtube.com/user/youtube/.',
@@ -309,8 +310,10 @@ $lang = array_merge($lang, array(
 	'SN_UP_SUBSCRIBE_SUCCESS'				 => 'You have subscribed to see the activity of this user.',
 	'SN_UP_UNSUBSCRIBE_SUCCESS'				 => 'You are no longer subscribed to this user.',
 	'SN_UP_RETURN_TO_PROFILE'				 => '%1$sReturn to profile%2$s',
-
 	'SN_UP_TABS_SPINNER'					 => '<em>Loading&#8230;<\/em>',
+	'SN_UP_EMOTES'							 => 'Send Emote',
+	'SN_NTF_EMOTE_CB_TITLE'					 => 'Emote sent',
+	'SN_NTF_EMOTE_CB_TEXT'					 => 'Emote %2$s %3$s has been sent succesfully to %1$s',
 
 	'SN_IN'									 => 'in',
 
@@ -376,12 +379,12 @@ $lang = array_merge($lang, array(
 	//'IM_HISTORY_WITH'						 => 'History with',
 	'IM_MSG_TOTAL'							 => '1 message',
 	'IM_MSGS_TOTAL'							 => '%1$s messages',
-	'IM_CONVERSATION_TOTAL'							 => '1 conversation',
-	'IM_CONVERSATIONS_TOTAL'							 => '%1$s conversations',
+	'IM_CONVERSATION_TOTAL'					 => '1 conversation',
+	'IM_CONVERSATIONS_TOTAL'				 => '%1$s conversations',
 	'IM_SOUND_SELECT_NAME'					 => 'Select sound',
 	'EXPORT_IM_HISTORY'						 => 'Export conversation with %s',
 	//'IM_HISTORY_SELECT_USER'				 => 'Select user',
-	'IM_GROUP_UNDECIDED'					 => 'No category',  
+	'IM_GROUP_UNDECIDED'					 => 'No category',
 
 	// Friends approval
 	'ADD_FRIEND'							 => 'Add new friend',
@@ -453,7 +456,7 @@ $lang = array_merge($lang, array(
 	'CONFIRM_DELETE_UFG'					 => 'Are you sure you want to delete <strong>%1$s</strong> friends group?',
 	'ADD_FRIEND_TO_GROUP'					 => 'Add friend to friends group',
 	'ERROR_GROUP_EMPTY_NAME'				 => 'Empty group name',
-	'ERROR_GROUP_ALREADY_EXISTS'     => 'You have already created this group',
+	'ERROR_GROUP_ALREADY_EXISTS'			 => 'You have already created this group',
 ));
 
 // MCP
@@ -485,13 +488,25 @@ $lang = array_merge($lang, array(
 	'SN_NTF_FRIENDSHIP_DENY'		 => '%1$s denied your <a href="%2$s">friendship request</a>',
 	'SN_NTF_FRIENDSHIP_REQUEST'		 => '%1$s sent you a <a href="%2$s">friendship request</a>',
 	'SN_NTF_FRIENDSHIP_CANCEL'		 => '%1$s cancel a <a href="%2$s">friendship request</a>',
-		
+
 	'SN_NTF_STATUS_AUTHOR_COMMENT'	 => '%1$s has commented on <a href="%2$s">your status</a>',
 	'SN_NTF_STATUS_USER_COMMENT'	 => '%1$s has commented on <a href="%3$s">%2$s\'s status</a>',
 	'SN_NTF_STATUS_FRIEND_WALL'		 => '%1$s has left a message on <a href="%2$s">your Activity page</a>',
 
 	'SN_NTF_APPROVE_FAMILY'			 => '%1$s has added you as a %2$s. <a href="%3$s">Approve this relationship here</a>',
 	'SN_NTF_APPROVE_RELATIONSHIP'	 => '%1$s has created a relationship with you. <a href="%2$s">Approve this relationship here</a>',
+
+	'SN_NTF_EMOTE'					 => '%1$s has sent you an emote %2$s %3$s',
+));
+
+// EMOTES
+
+$lang = array_merge($lang, array(
+	'SN_UP_EMOTES_USER'	 => 'Emotes',
+	'SN_EMOTES_STRINGS'	 => array(
+		'*icon_emotes_wave.png* wave',
+		'*icon_emotes_poke.png* poke'
+	),
 ));
 
 ?>

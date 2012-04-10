@@ -28,11 +28,16 @@ class acp_notify extends socialnet
 
 	function main($id)
 	{
+		global $user;
+		
 		$display_vars = array(
 			'title'	 => 'ACP_MP_SETTINGS',
 			'vars'	 => array(
 				'legend1'	 => 'ACP_SN_NOTIFY_SETTINGS',
 				//	'fas_allow_use'		 => array('lang' => 'SN_FAS_CHANGE_MODULES', 'validate' => 'bool', 'type' => 'radio:yes:no', 'explain' => true),
+				'ntf_life'	 => array('lang' => 'SN_NTF_LIFE',  'validate' => 'int:5:20', 'type' => 'text:3:4', 'append' => ' ' . $user->lang['SECONDS'], 'explain' => true),
+				'ntf_checktime'	 => array('lang' => 'SN_NTF_CHECKTIME',  'validate' => 'int:10:240', 'type' => 'text:3:4', 'append' => ' ' . $user->lang['SECONDS'], 'explain' => true),
+		
 				'ntf_theme'	 => array('lang' => 'SN_NTF_THEME', 'validate' => 'string', 'type' => 'select', 'function' => 'ntf_theme_select', 'params' => array('{CONFIG_VALUE}', 1), 'explain' => true),
 				// 0.6.0.1
 				'ntf_colour_username'		 => array('lang' => 'SN_COLOUR_NAME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),

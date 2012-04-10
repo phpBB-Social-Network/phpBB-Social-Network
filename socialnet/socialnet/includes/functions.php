@@ -1913,14 +1913,20 @@ class snFunctions
 
 function snFunctions_absolutePath($matches)
 {
+	$path = snFunctions_absolutePathString($matches[3]);
+	return "{$matches[1]}" . (!empty($matches[1]) ? '=' : '') . "{$matches[2]}{$path}{$matches[4]}";
+}
+
+function snFunctions_absolutePathString( $string)
+{
 	global $phpbb_root_path, $config;
 
 	// WINDOWS SERVER FIX
 	$_phpbb_root_path = str_replace('\\', '/', $phpbb_root_path);
 	$_script_path = str_replace('//', '/', str_replace('\\', '/', $config['script_path']) . '/');
-	$path = preg_replace('#^' . preg_quote($_phpbb_root_path) . '#si', $_script_path, $matches[3]);
+	$path = preg_replace('#^' . preg_quote($_phpbb_root_path) . '#si', $_script_path, $string);
 
-	return "{$matches[1]}" . (!empty($matches[1]) ? '=' : '') . "{$matches[2]}{$path}{$matches[4]}";
+	return $path;
 }
 
 if (!function_exists('json_encode'))

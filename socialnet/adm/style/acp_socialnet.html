@@ -1,15 +1,26 @@
 <!-- INCLUDE overall_header.html -->
 
 <!-- IF S_MOTIONPICTURE --><img src="{S_MOTIONPICTURE_IMG_URL}" style="float:right" alt="{L_TITLE}" /><!-- ENDIF -->
-
 <h1>{L_TITLE}</h1>
 <p>{L_TITLE_EXPLAIN}</p>
-
+<div style="clear:both;line-height:1px;height:1px;"></div>
 <!-- IF S_ERROR -->
   <div class="errorbox">
   	<h3>{L_WARNING}</h3>
   	<p>{ERROR_MSG}</p>
   </div>
+<!-- ENDIF -->
+
+<!-- IF .sn_tabs -->
+<ul id="tabs">
+	<!-- BEGIN sn_tabs -->
+	<li<!-- IF sn_tabs.SELECTED --> id="activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
+	<!-- END sn_tabs -->
+</ul>
+<div id="acp">
+	<div class="panel">
+		<span class="corners-top"><span></span></span>
+			<div id="content" style="padding:10px;">
 <!-- ENDIF -->
 
 <!-- IF .options -->
@@ -125,38 +136,7 @@
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_PROFILE -->
-  <form id="acp_socialnet_modules" method="post" action="{U_ACTION}">
-    <fieldset>
-      <legend>{L_SN_PROFILE_REPORT_REASONS}</legend>
-      <strong>{L_SN_PROFILE_REPORT_REASONS_EXPLAIN}</strong><br /><br />
-      <!-- IF .reason -->  
-      	<table cellspacing="2">
-      		<col class="row2" /><col class="row2" />
-      		<tbody>
-      		<!-- BEGIN reason -->
-      			<tr>
-      				<td>
-      					<strong>{reason.TEXT}</strong>
-      				</td>
-      				<td style="width: 10%; text-align: center; white-space: nowrap;">
-      					<a href="{reason.U_DELETE}">{ICON_DELETE}</a>
-      				</td>
-      			</tr>
-      		<!-- END reason -->
-      		</tbody>
-      	</table>
-      <!-- ELSE -->
-        <div class="errorbox">{L_SN_PROFILE_NO_REASON}</div>
-      <!-- ENDIF -->  
-    </fieldset>
-  </form>
-  <form method="post" action="">
-    <fieldset class="quick">
-    	<input class="post" type="text" id="reason_text" name="reason_text" value="" />
-      <input class="button1" type="submit" id="add_reason" name="add_reason" value="{L_SN_PROFILE_ADD_REASON}" />&nbsp;
-      {S_FORM_TOKEN} 
-    </fieldset>
-  </form>
+	<!-- INCLUDE socialnet_userprofile.html -->	
 <!-- ENDIF -->
 
 <!-- IF SN_VERSION_AVAILABLE -->
@@ -193,111 +173,8 @@
   <!-- ENDIF -->
 <!-- ENDIF -->
 
-<!-- IF S_ADDONS_LIST -->
-    
-  <!-- IF .addons -->  
-		<table cellpadding="1" cellspacing="1">
-			<th>{L_SN_ADDONS_ADDON_NAME}</th>
-			<th>{L_SN_ADDONS_ADDON_LOCATION}</th>
-			<th>{L_SN_ADDONS_ADDON_PHP}</th>
-			<th>{L_SN_ADDONS_ADDON_HTML}</th>
-			<th>{L_ENABLE}/{L_DISABLE}</th>
-			<th width="10%">{L_ACTIONS}</th>
-      <!-- BEGIN addons -->
-        <tr>
-          <td><strong>{addons.NAME}</strong></td>
-          <td>{addons.LOCATION}</td>
-          <td>{addons.PHP}</td>	
-          <td>{addons.HTML}</td>					
-          <td><a href="{addons.U_ACTIVATE}">{addons.ACTIVE}</a></td>
-          <td style="width: 10%; text-align: center; white-space: nowrap;">
-            <!-- IF addons.S_FIRST_ROW && not addons.S_LAST_ROW -->
-              {ICON_MOVE_UP_DISABLED}
-              <a href="{addons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-            <!-- ELSEIF not addons.S_FIRST_ROW && not addons.S_LAST_ROW -->
-              <a href="{addons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-              <a href="{addons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-            <!-- ELSEIF addons.S_LAST_ROW && not addons.S_FIRST_ROW -->
-              <a href="{addons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-              {ICON_MOVE_DOWN_DISABLED}
-            <!-- ELSE -->
-              {ICON_MOVE_UP_DISABLED}
-              {ICON_MOVE_DOWN_DISABLED}
-            <!-- ENDIF -->
-            <a href="{addons.U_EDIT}">{ICON_EDIT}</a>
-            <a href="{addons.U_DELETE}">{ICON_DELETE}</a>  
-          </td>
-        </tr>
-      <!-- END addons -->
-		</table>
-  <!-- ELSE -->
-    <div class="errorbox">{L_SN_ADDONS_NO_ADDONS}</div>
-  <!-- ENDIF -->        
-  
-  <form method="post" action="">    
-    <fieldset class="quick">
-    	<input class="post" type="text" maxlength="100" id="sn_addon_name" name="addon_name" value="" />
-      <input class="button2" type="submit" id="submit" name="submit" value="{L_SN_ADDONS_CREATE_ADDON}" />&nbsp;
-      {S_FORM_TOKEN} 
-    </fieldset>
-  </form>
-  
-<!-- ELSEIF S_ADDONS_CREATE_ADDON or S_ADDONS_EDIT_ADDON -->
-  <form method="post" action="">
-    <fieldset>
-  		<legend><!-- IF S_ADDONS_EDIT_ADDON -->{L_SN_ADDONS_EDIT_ADDON} » {S_NAME}<!-- ELSE -->{L_SN_ADDONS_CREATE_ADDON}<!-- ENDIF --></legend>
-  		<p>{L_SN_ADDONS_CREATE_ADDON_EXPLAIN}</p>
-      <dl>
-        <dt><label for="addon_name">{L_SN_ADDONS_ADDON_NAME}</label></dt>
-        <dd><input class="post" type="text" size="50" maxlength="100" id="addon_name" name="addon_name" value="{S_NAME}" /></dd>
-      </dl>
-      <dl>
-        <dt><label for="addon_php">{L_SN_ADDONS_ADDON_PHP}</label><br />{L_SN_ADDONS_ADDON_PHP_EXPLAIN}</dt>
-        <dd>
-          <select name="addon_php" id="addon_php" style="min-width: 30%;">
-            <option value=""></option>
-            <!-- BEGIN addonphps -->
-            <option value="{addonphps.NAME}"<!-- IF ( S_ADDONS_EDIT_ADDON and addonphps.NAME == S_PHP ) --> selected="selected"<!-- ENDIF -->>{addonphps.NAME}</option>
-            <!-- END addonphps -->
-          </select>
-        </dd>
-      </dl>
-      <dl>
-        <dt><label for="addon_html">{L_SN_ADDONS_ADDON_HTML}</label><br />{L_SN_ADDONS_ADDON_HTML_EXPLAIN}</dt>
-        <dd>
-          <select name="addon_html" id="addon_html" style="min-width: 30%;">
-            <option value=""></option>
-            <!-- BEGIN addonhtmls -->
-            <option value="{addonhtmls.NAME}"<!-- IF ( S_ADDONS_EDIT_ADDON and addonhtmls.NAME == S_HTML ) --> selected="selected"<!-- ENDIF -->>{addonhtmls.NAME}</option>
-            <!-- END addonhtmls -->
-          </select>
-        </dd>
-      </dl>		
-      <dl>
-        <dt><label for="addon_location">{L_SN_ADDONS_ADDON_LOCATION}</label><br />{L_SN_ADDONS_ADDON_LOCATION_EXPLAIN}</dt>
-        <dd>  
-          <select name="addon_location" id="addon_location" style="min-width: 30%;">
-            <option value=""></option>
-            <!-- BEGIN addonlocations -->
-            <option value="{addonlocations.ID}"<!-- IF ( S_ADDONS_EDIT_ADDON and addonlocations.ID == S_LOCATION ) --> selected="selected"<!-- ENDIF -->>{addonlocations.NAME}</option>
-            <!-- END addonlocations -->
-          </select>
-        </dd>
-      </dl>
-      <dl>
-        <dt><label for="addon_active_yes">{L_SN_ADDONS_ADDON_ACTIVE}:</label><br />{L_SN_ADDONS_ADDON_ACTIVE_EXPLAIN}</dt>
-        <dd>
-          <input type="radio" class="radio" id="addon_active_yes" name="addon_active" value="1"<!-- IF S_ACTIVE --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp; 
-          <input type="radio" class="radio" id="addon_active_no" name="addon_active" value="0"<!-- IF not S_ACTIVE --> checked="checked"<!-- ENDIF --> /> {L_NO}
-        </dd>
-      </dl>			
-    </fieldset>
-    <p class="submit-buttons">
-      <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-      <input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
-    {S_FORM_TOKEN}
-    </p>
-  </form> 
+<!-- IF B_ACP_SN_ADDONHOOK -->
+	<!-- INCLUDE socialnet_addonhook.html -->
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_MAIN -->
@@ -313,6 +190,13 @@
     <legend>{L_ACP_SN_CONTRIBUTE}</legend>
     {L_ACP_SN_CONTRIBUTE_EXPLAIN}
   </fieldset>
+<!-- ENDIF -->
+
+<!-- IF .sn_tabs -->
+			</div>
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
 <!-- ENDIF -->
 
 <!-- INCLUDE overall_footer.html -->

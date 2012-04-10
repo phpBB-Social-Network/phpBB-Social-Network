@@ -1,0 +1,56 @@
+.snMenu.ui-menu .ui-menu-item {
+	margin: 0;
+	border-bottom: 1px solid #E4E4E4;
+	font-size: 11px;
+}
+
+.snMenu.ui-menu .ui-menu-item:first-child {
+	border-top: 1px solid #E4E4E4;
+}
+
+.snMenu.ui-menu .ui-menu-item.active, .snMenu.ui-menu.ui-widget-content .ui-state-active, .snMenu.ui-menu.ui-widget-content .ui-state-focus {
+	background: #29A0DA none 50% 50% repeat-x;
+	font-weight: normal;
+	color: #ffffff;
+}
+
+.snMenu.ui-menu .ui-menu-item:hover, .snMenu.ui-menu.ui-widget-content .ui-state-active, .snMenu.ui-menu.ui-widget-content .ui-state-focus {
+	background-color: #E2E2E2;
+	color: #000;
+}
+
+.snMenu.ui-menu .ui-menu-item a {
+	color: #000;
+	display: block;
+	padding: 3px 10px 3px 7px;
+}
+
+.snMenu.ui-menu .ui-menu-item.active {
+	background-color: #29A0DA;
+	font-weight: bold;
+}
+
+.snMenu.ui-menu .ui-menu-item.active a, .snMenu.ui-menu .ui-menu-item.active a.ui-state-active {
+	color: #fff;
+}
+
+.snMenu.ui-menu .ui-menu-item.active a.ui-state-focus {
+	background-color: #2687B7;
+	color: #fff;
+}
+
+.snMenu.ui-widget-content .ui-state-focus, .snMenu.ui-widget-content .ui-state-active {
+	border-color: #fff;
+}
+
+.snMenu.ui-menu .ui-corner-all {
+	border-radius: 0;
+}
+
+.snMenu.ui-menu .ui-menu {
+	padding: 1px;
+}
+
+.snMenu.ui-menu .ui-menu-item:hover .num_cube, .snMenu.ui-menu.ui-widget-content .ui-state-active .num_cube, .snMenu.ui-menu.ui-widget-content .ui-state-focus .num_cube {
+	background-color: #ffffff;
+}

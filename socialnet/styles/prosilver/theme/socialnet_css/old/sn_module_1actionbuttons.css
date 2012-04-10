@@ -1,0 +1,78 @@
+/*******************************************************\
+|* SOCIALNET - ACTION BUTTONS                          *|
+\*******************************************************/
+.snActions {
+  float: right;
+}
+
+.rtl .snActions {
+  float: left;
+}
+
+.snActionsProfile a {
+	margin: 0 4px;
+}
+
+.snActions .snActionClose, .snActions .snActionDelete {
+  background: transparent url("{T_IMAGESET_PATH}/socialnet/close.png") no-repeat 0 0;
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+  position: absolute;
+  opacity: 1;
+}
+
+.snActionBlock:hover .snActions .snActionClose, .snActionBlock:hover .snActions .snActionDelete {
+  background-position: 0 -15px;
+}
+
+.snActionBlock:hover .snActions .snActionClose:hover, .snActionBlock:hover .snActions .snActionDelete:hover, .snActionBlockHidden:hover .snActions .snActionClose:hover, .snActionBlockHidden:hover .snActions .snActionDelete:hover,
+:not(.snActionBlock) .snActions .snActionClose:hover, .snActionBlock:hover .snActions .snActionDelete:hover, .snActionBlockHidden:hover .snActions .snActionClose:hover, .snActionBlockHidden:hover .snActions .snActionDelete:hover {
+  background-position: 100% 100%;
+}
+
+.snActions .snActionClose,.snActions .snActionDelete, .snActions .snActionDelete.delete_comment {
+  margin-left: -15px;
+}
+
+.rtl .snActions .snActionClose, .rtl .snActions .snActionDelete.delete_comment {
+  margin-right: -15px;
+  margin-left: 0px;
+}
+
+.snActionBlockHidden .snActions {
+  display: none;
+}
+
+.snActionBlockHidden:hover .snActions {
+  display: block;
+}
+
+#socialnet_im .snActions {
+  margin: 5px 0 0;
+}
+
+.snUsStatusBlock .snActions {
+  padding: 3px 0;
+}
+
+.snUsMoreBottom, .snMpMoreBottom, .snUsMore{
+  background-color: #EDEFF4;
+  padding: 5px;
+  margin-top: 3px;
+  font-size: 10px;
+  border-top: 1px solid #D2D9E7;
+  border-bottom: 1px solid #D2D9E7;
+}
+
+.snUsMore a, .snUsMoreBottom a, .snMpMore a, .snMpMoreBottom a {
+  cursor: pointer;
+  padding-right: 12px;
+  background: transparent url("{T_IMAGESET_PATH}/socialnet/arrow-down.png") no-repeat 100% 60%;
+}
+
+.rtl .snUsMore a, .rtl .snUsMoreBottom a, .rtl .snMpMore a, .rtl .snMpMoreBottom a {
+  padding-right: 0px;
+  padding-left: 12px;
+  background-position: 0 60%;
+}

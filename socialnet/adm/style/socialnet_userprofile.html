@@ -1,0 +1,114 @@
+	<!-- IF B_ACP_SN_MANAGE_REASONS -->
+		<form id="acp_socialnet_modules" method="post" action="{U_ACTION}">
+			<table cellspacing="1">
+				<thead>
+					<tr>
+						<th>{L_REASON}</th>
+						<th>{L_ACTION}</th>
+					</tr>
+				</thead>
+				<tbody>
+				<!-- BEGIN reason -->
+					<tr class="row{reason.LINE}">
+						<td><strong>{reason.TEXT}</strong></td>
+						<td style="width: 10%; text-align: center; white-space: nowrap;">
+							<a href="{reason.U_DELETE}">{ICON_DELETE}</a>
+						</td>
+					</tr>
+				<!-- END reason -->
+	      		</tbody>
+	      	</table>
+		</form>
+		<form method="post" action="">
+			<fieldset class="quick">
+				<input class="post" type="text" id="reason_text" name="reason_text" value="" />
+				<input class="button1" type="submit" id="add_reason" name="add_reason" value="{L_SN_PROFILE_ADD_REASON}" />
+				{S_FORM_TOKEN} 
+			</fieldset>
+		</form>
+	<!-- ENDIF -->
+	
+	<!-- IF B_ACP_SN_MANAGE_EMOTES -->
+		<!-- IF B_SN_PROFILE_EDIT_EMOTE -->
+		<script type="text/javascript">
+		// <![CDATA[
+			function update_image(newimage)
+			{
+				document.getElementById('image').src = (newimage) ? "{SN_UP_EMOTE_FOLDER}" + encodeURI(newimage) : "./images/spacer.gif";
+			}
+	
+		// ]]>
+		</script>
+		<form id="acp_socialnet_modules" method="post" action="{U_ACTION}">
+			<fieldset>
+				<dl>
+					<dt><label for="emote_name">{L_SN_PROFILE_EMOTE_NAME}:</label></dt>
+					<dd><input type="text" class="post" id="emote_name" name="emote_name" value="{EMOTE_NAME}" /></dd>
+				</dl>
+				<dl>
+					<dt><label for="emote_image">{L_SN_PROFILE_EMOTE_IMAGE}:</label></dt>
+					<dd><select id="emote_image" name="emote_image" onchange="update_image(this.options[selectedIndex].value);">
+						<option value="">------</option><!-- BEGIN emote_image -->
+						<option value="{emote_image.PATH}"<!-- IF emote_image.SELECTED --> selected="selected"<!-- ENDIF -->>{emote_image.NAME}</option>
+					<!-- END emote_image --></select></dd>
+					<dd><img src="{SN_UP_EMOTE_FOLDER}{EMOTE_IMAGE}" id="image" alt="" /></dd>
+				</dl>
+				<p class="submit-buttons">
+					<input type="hidden" name="emote_id" value="{EMOTE_ID}" />
+					<input type="hidden" name="manage" value="emotes" />
+					<input type="hidden" name="action" value="edit" />
+					<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+					<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+					{S_FORM_TOKEN}
+				</p>
+			</fieldset>
+		</form>
+		<!-- ELSE -->
+		<form id="acp_socialnet_modules" method="post" action="{U_ACTION}">
+			<table cellspacing="1">
+				<thead>
+					<tr>
+					  <th>{L_SN_EMOTE_TITLE}</th>
+						<th>{L_SN_EMOTE_IMAGE}</th>
+						<th style="width: 20%;">{L_ACTION}</th>
+					</tr>
+				</thead>
+				<!-- IF .emote -->
+				<tbody>
+					<!-- BEGIN emote -->
+					<tr class="<!-- IF emote.S_ROW_COUNT is even -->row1<!-- ELSE -->row2<!-- ENDIF -->">
+					  <td style="text-align: center;">{emote.NAME}</td>
+						<td style="text-align: center;"><img src="{SN_UP_EMOTE_FOLDER}{emote.IMAGE}" /></td>
+						<td style="text-align: center;">
+						<!-- IF emote.S_FIRST_ROW && not emote.S_LAST_ROW -->
+							{ICON_MOVE_UP_DISABLED}
+							<a href="{emote.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+						<!-- ELSEIF not emote.S_FIRST_ROW && not emote.S_LAST_ROW -->
+							<a href="{emote.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+							<a href="{emote.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+						<!-- ELSEIF emote.S_LAST_ROW && not emote.S_FIRST_ROW -->
+							<a href="{emote.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+							{ICON_MOVE_DOWN_DISABLED}
+						<!-- ELSE -->
+							{ICON_MOVE_UP_DISABLED}
+							{ICON_MOVE_DOWN_DISABLED}
+						<!-- ENDIF -->
+							<a href="{emote.U_EDIT}">{ICON_EDIT}</a>
+							<a href="{emote.U_DELETE}">{ICON_DELETE}</a>
+						</td>
+					</tr>
+					<!-- END emote -->
+				</tbody>
+				<!-- ENDIF -->
+			</table>
+		</fieldset>
+		</form>
+		<form id="acp_socialnet_modules" method="post" action="{U_ACTION}&amp;manage=emotes">
+			<fieldset class="quick">
+				<input type="hidden" name="action" value="add" />
+				<input class="button2" type="submit" id="add_emote" name="add_emote" value="{L_SN_PROFILE_ADD_EMOTE}" />
+				{S_FORM_TOKEN} 
+			</fieldset>
+		</form>
+		<!-- ENDIF -->
+	<!-- ENDIF -->

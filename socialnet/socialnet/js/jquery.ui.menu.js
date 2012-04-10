@@ -296,9 +296,6 @@ $.widget("ui.menuNew", {
 			: this.options.position
 		);
 		submenu.show().removeAttr("aria-hidden").attr("aria-expanded", "true");
-		if ( !submenu.hasClass('sn-fms-groups')) {
-			submenu.position(position);
-		}
 	},
 	
 	closeAll: function() {

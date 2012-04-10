@@ -33,17 +33,22 @@ define('SN_TYPE_NEW_FRIENDSHIP', 3);
 define('SN_TYPE_PROFILE_UPDATED', 4);
 define('SN_TYPE_NEW_FAMILY', 5);
 define('SN_TYPE_NEW_RELATIONSHIP', 6);
+define('SN_TYPE_EMOTE', 7);
 
 define('SN_NTF_FRIENDSHIP', 0x60);
 define('SN_NTF_COMMENT', 0x30);
 define('SN_NTF_WALL', 0x90);
 define('SN_NTF_FAMILY', 0xb0);
 define('SN_NTF_RELATION', 0xb1);
+define('SN_NTF_EMOTE', 0xc0);
 
 define('SN_NTF_STATUS_NEW', 0x20);
 define('SN_NTF_STATUS_DISPLAYED', 0x15);
 define('SN_NTF_STATUS_UNREAD', 0x13);
 define('SN_NTF_STATUS_READ', 0x10);
+
+define('SN_UP_EMOTE_FOLDER', 'socialnet/styles/emotes/');
+
 
 define('SN_IM_TABLE', $table_prefix_socialnet . 'im');
 define('SN_CONFIG_TABLE', $table_prefix_socialnet . 'config');
@@ -63,7 +68,8 @@ define('SN_PROFILE_VISITORS_TABLE',		$table_prefix_socialnet . 'profile_visitors
 define('SN_SUBSCRIPTIONS_TABLE',		$table_prefix_socialnet . 'subscriptions');
 define('SN_ADDONS_TABLE', $table_prefix_socialnet . 'addons');
 
-
 define('SN_COMMENTS_TABLE', $table_prefix_socialnet . 'comments');
 define('SN_COMMENTS_MODULES_TABLE', $table_prefix_socialnet . 'comments_modules');
+
+define('SN_EMOTES_TABLE', $table_prefix_socialnet . 'emotes');
 ?>

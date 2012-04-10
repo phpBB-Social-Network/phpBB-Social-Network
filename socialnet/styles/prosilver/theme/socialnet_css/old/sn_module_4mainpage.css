@@ -1,0 +1,425 @@
+/********************************************\
+|* MAINPAGE                                 *|
+\********************************************/
+
+#socialnet_mainpage {
+	margin-top: 8px;
+}
+
+#socialnet_mainpage .snMpLeftColumn {
+  width: 20%;
+  float: left;
+  font-size: 11px;
+}
+
+.rtl #socialnet_mainpage .snMpLeftColumn {
+  float: right;
+}
+
+#socialnet_mainpage .snMpRightColumn {
+  width: 22%;
+  float: right;
+  font-size: 11px;
+}
+
+.rtl #socialnet_mainpage .snMpRightColumn {
+  float: left;
+}
+
+* #middle_column.snUsProfile {
+  width:54% ;
+  min-width: 200px;
+  min-height: 550px;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 0 10px;
+}
+
+#middle_column.snUsProfile.snMpNoRightBorder {
+	width: 55%;
+}
+
+.ltr #middle_column.snUsProfile.snMpNoRightBorder {
+	border-right: none;
+	padding-right: 0px;
+}
+
+.rtl #middle_column.snUsProfile.snMpNoRightBorder {
+	border-left: none;	
+	padding-left: 0px;
+}
+
+/*.snMpRightColumn h3, .snMpLeftColumn h3 {
+  margin: 0 0 2px 0;
+  padding: 3px;
+  border: 0;
+  border-top: 1px solid #ddd;
+  text-transform: none;
+  color: #000;
+  background-color: #EFF2F7;
+  font-size: 12px;
+}
+
+.snMpLeftColumn h3, .rtl .snMpLeftColumn  h3 {
+}
+
+.rtl .snMpRightColumn  h3, .rtl .snMpLeftColumn  h3 {
+  padding: 3px;
+}*/
+
+.snMpH3SeeAll a {
+  float: right;
+  font-weight: normal;
+}
+
+#socialnet_mainpage .header dl dt {
+  font-size: 11px;  
+}
+
+/*
+* Left column
+*/
+
+.snMpLeftColumn ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.snMpLeftColumn ul li:not(.header):hover {
+  background-color: #EFF2F7;
+}
+
+.snMpLeftColumn ul li.active {
+  background-color: #DBE2EE;
+  font-weight: bold;
+}
+
+.snMpLeftColumn ul li a {
+  color: #000;
+  display: block;
+  padding: 3px 10px 3px 7px;
+}
+
+.rtl .snMpLeftColumn ul li a {
+  padding: 3px 7px 3px 10px;
+}
+
+.snMpLeftColumn ul li a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+.snMpLeftColumn ul li .num_cube {
+  float: right;
+  background-color: #D3DBE7;
+  min-width: 14px;
+  height: 14px;
+  font-size: 9px;  
+  text-align: center;
+  margin-top: 1px;
+}
+
+.rtl .snMpLeftColumn ul li .num_cube {
+  float: left;
+}
+
+.snMpLeftColumn .snMpProfileMy {
+  margin-bottom: 15px;
+  height: 50px;
+}
+
+.snMpProfileMy .snMpAvatar {
+	padding: 0 10px 0 0;
+	display: inline-block;
+	float: left;
+}
+
+.rtl .snNpProfileMy .snMpAvatar {
+	padding: 0 0 0 10px;
+	float: right;
+}
+
+.snMpProfileMy .snMpAvatar img {
+  max-width: 50px;
+  max-height: 50px;
+  border: 0;
+}
+
+.rtl .snMpProfileMy .snMpAvatar img {
+  float: right;
+}
+
+.snMpSearch {
+  margin: 10px 0px;
+}
+
+.snMpSearch #search-text {
+  float: left;
+  padding: 0;
+  padding-left: 3px;
+  border: 0;
+  border: 1px solid #bbb;
+  border-right: none;
+  line-height: 20px;
+  height: 20px;
+}
+
+.rtl .snMpSearch #search-text {
+  float: right;
+  padding-left: 0;
+  padding-right: 3px;
+  border-left: 0;
+  border-right: 1px solid #bbb;
+}
+
+.snMpSearch #search-submit {
+  float: left;
+  padding: 0;
+  border: 1px solid #bbb;
+  border-left: none;
+}
+
+.rtl .snMpSearch #search-submit {
+  float: right;
+  border-left: 1px solid #bbb;
+  border-right: none;
+}
+
+.mpImOnlineUsers {
+  height: 300px;
+  overflow: auto;
+}
+
+.mpImOnlineUsers .snImUserLine {
+  clear: left;
+  background: #fff none no-repeat 95% 50%;
+  line-height: 26px;
+  height: 26px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 30px;
+  padding-left: 3px;
+  cursor: pointer;
+  color: #000;
+}
+
+.rtl .mpImOnlineUsers .snImUserLine {
+  background-position: 5% 50%;
+  padding-right: 0;
+  padding-left: 30px;
+}
+
+.mpImOnlineUsers .snImUserLine img {
+  float: left;
+  padding: 2px 5px 2px 0;
+}
+
+.rtl .mpImOnlineUsers .snImUserLine img {
+  float: right;
+  padding: 2px 5px;
+}
+
+.mpImOnlineUsers .snImUserLine:hover {
+  background-color: #EFF2F7;
+}
+
+/**
+* Right Column
+*/
+.snMpRightBlock {
+}
+
+.snMpRightBlocktext {
+  padding: 2px 0 2px 3px;
+  margin-bottom: 8px;
+}
+
+.rtl .snMpRightBlocktext {
+  padding: 2px 3px 2px 0px;
+}
+
+.snMpRightBlocktext a {
+  text-decoration: none;
+}
+
+.snMpPostTime {
+  line-height: 10px;
+}
+
+.snMpPostTime, .snMpPostTime a {
+  color: #888;
+}
+
+.snMpRightBlock:not(.forabg) ul.topiclist, .snMpLeftBlock:not(.forabg) ul.topiclist {
+	display: none;
+}
+
+.snMpRightBlock.forabg h3, .snMpLeftBlock.forabg h3 {
+	display: none;
+}
+
+.snMpRightBlock:not(.forabg) .bg1, .snMpLeftBlock .bg1 {
+	background: transparent;
+}
+
+.snMpRightBlock.forabg span a:hover {
+  text-decoration: none;
+  color: #CDEAFC;  
+}
+
+.snMpLeftBlock.forabg .bg1 {
+	background: #fff;
+}
+
+/**
+* Middle Column
+*/
+.snUsProfile .snMpTextBlock {
+  padding: 10px 0;
+  padding-left: 60px;
+  border-top: 1px solid #E9E9E9;
+  font-size: 11px;
+}
+
+.snUsProfile .add_user {
+  background: transparent url("{T_IMAGESET_PATH}/socialnet/add_user.png") no-repeat 40px 50%;
+}
+
+.snUsProfile .profile_changed {
+  background: transparent url("{T_IMAGESET_PATH}/socialnet/profile_changed.png") no-repeat 40px 8px;
+}
+
+.snUsProfile .new_family {
+  background: transparent url("{T_IMAGESET_PATH}/socialnet/new_family.png") no-repeat 40px 50%;
+}
+
+.snUsProfile .new_relationship {
+  background: transparent url("{T_IMAGESET_PATH}/socialnet/new_relationship.png") no-repeat 40px 50%;
+}
+
+.snUsProfile .snMpNoEntry {
+  padding: 15px 0;
+  color: #000;
+}
+
+#snMpShareStatus textarea {
+  width: 99%;
+  border: solid 1px #AEAEAE;
+  line-height: 21px;
+  height: 22px;
+  /*font-size: 12px;*/
+  padding: 5px 2px;
+}
+
+#snMpShareStatus .snUsWatermark {
+  color: #888;
+}
+
+#snMpShareStatus .snMpButtonOver {
+  display: none;
+}
+
+#snMpShareStatus input.ui-button {
+  margin-top: 5px;
+  float: right;
+  padding: 1px 8px;
+}
+
+.rtl #snMpShareStatus input.ui-button {
+  float: left;
+}
+
+#socialnet_mainpage .pagination {
+}
+
+.snMpLoadNewsOver {
+  text-align: right;
+  padding: 3px 4px;
+  font-size: 11px;
+}
+
+.rtl .snMpLoadNewsOver {
+  text-align: left;
+}
+
+.snMpLoadNews {
+  cursor: pointer;
+  padding-right: 12px;
+  background: transparent url("{T_IMAGESET_PATH}/socialnet/arrow-down.png") no-repeat 100% 60%;
+}
+
+.rtl .snMpLoadNews {
+  padding-right: 0px;
+  padding-left: 12px;
+  background-position: 0 60%;
+}
+
+.snMpMutualFriend {
+  float: left;
+  width: 49%;
+  margin-bottom: 10px;
+}
+
+.rtl .snMpMutualFriend {
+  float: right;
+}
+
+.snMpFriendRequest.snFasFriend {
+	width: 44% !important;
+	border: 0;
+}
+.snMpFriendRequest span:not(.user_avatar) {
+	clear: both;
+	display: inline-block;
+	width: 100%;
+}
+.snMpFriendRequest span.user_avatar {
+	float: none;
+}
+
+.rtl .snMpFriendRequest {
+  float: right;
+}
+
+.snMpLogin fieldset {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.snMpLogin fieldset dl {
+	line-height: 0.8em;
+	padding: 2px 0;
+}
+.snMpLogin input.inputbox {
+	width: 95%;
+}
+.snMpLogin fieldset dl.snMpLoginHeader dt, .snMpLogin fieldset dl.snMpLoginHeader dd {
+	font-weight: bold;
+}
+
+.snMpLogin fieldset dl dt {
+	width: 44%;
+	float: left;
+}
+.snMpLogin fieldset dl dd {
+	width: 43%;
+	margin-left: 0%;
+	float: left;
+}
+.snMpLogin fieldset dl dd.snMpLoginButton {
+	width: 9%;
+}
+
+.snMpLogin fieldset dl dd.snMpLoginRegister {
+	width: 52%;
+}
+
+.rtl .snMpLogin fieldset dl dt {
+	float: right;
+}
+
+.rtl .snMpLogin fieldset dl dd {
+	margin-right: 0%;
+	float: right;
+}

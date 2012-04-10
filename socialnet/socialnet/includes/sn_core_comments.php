@@ -135,7 +135,7 @@ class sn_core_comments
 		if ($limit == false && $cmt_id != 0)
 		{
 			// PRAVE JEDEN KOMMENT ZADANY POMOCI $CMT_ID
-			$sql_where = "AND cmt_id = {$cmt_id}";
+			$sql_where = "AND cmt_id = '{$cmt_id}'";
 			$limit = 1;
 		}
 		else
@@ -155,7 +155,7 @@ class sn_core_comments
 
 		$sql = "SELECT cmt.*, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 				FROM " . SN_COMMENTS_TABLE . " AS cmt LEFT OUTER JOIN " . USERS_TABLE . " AS u ON cmt.cmt_poster = u.user_id
-				WHERE cmt_module = {$cmt_module} AND cmt_mid = {$module_id} {$sql_where}
+				WHERE cmt_module = '{$cmt_module}' AND cmt_mid = '{$module_id}' {$sql_where}
 				ORDER BY cmt.cmt_time " . ($order ? 'ASC' : 'DESC');
 
 		$rs = $db->sql_query($sql, $limit + 1);

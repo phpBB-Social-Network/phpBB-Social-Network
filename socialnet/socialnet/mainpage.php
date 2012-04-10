@@ -273,6 +273,7 @@ if (!class_exists('socialnet_mainpage'))
 			{
 				$avail_entry_types[] = SN_TYPE_NEW_RELATIONSHIP;
 			}
+			$avail_entry_types[] = SN_TYPE_EMOTE;
 
 			$my_friends = $this->p_master->friends['user_id'];
 			$my_friends[] = $user->data['user_id'];
@@ -320,6 +321,9 @@ if (!class_exists('socialnet_mainpage'))
 						break;
 					case SN_TYPE_NEW_RELATIONSHIP:
 						$a_mp_entries[$i] = $this->mp_load_family_relation_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+						break;
+					case SN_TYPE_EMOTE:
+						$a_mp_entries[$i] = $this->mp_load_emote_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
 						break;
 				}
 
@@ -584,6 +588,51 @@ if (!class_exists('socialnet_mainpage'))
 				'U_PARTNER_PROFILE'					 => $rel_msg,
 				'L_SN_MP_ADDED_NEW_FAMILY_MEMBER'	 => $family_msg,
 				'L_SN_MP_CHANGED_RELATIONSHIP'	=> $user->lang[$this->p_master->gender_lang('SN_MP_CHANGED_RELATIONSHIP', $entry_user['user_id'])],
+			);
+		}
+		
+		/**
+	 	* Vstupy na MP Emotes
+		*/
+		function mp_load_emote_entry($entry_id, $entry_type, $entry_uid, $entry_target, $entry_additionals = '')
+		{
+			global $db, $template, $phpbb_root_path, $phpEx;
+
+      $sql = "SELECT user_id, username, user_colour
+		        		FROM " . USERS_TABLE . "
+									WHERE user_id = " . $entry_uid;
+			$result = $db->sql_query($sql);
+			$entry_user = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			
+			$u2_sql = "SELECT user_id, username, user_colour
+	        				FROM " . USERS_TABLE . "
+										WHERE user_id = " . $entry_target;
+			$u2_result = $db->sql_query($u2_sql);
+			$user2 = $db->sql_fetchrow($u2_result);
+			$db->sql_freeresult($u2_result);
+
+			$entry_addArray = unserialize($entry_additionals);
+			$emote_id = $entry_addArray['emote_id'];
+
+			$sql = "SELECT emote_name, emote_image
+		        		FROM " . SN_EMOTES_TABLE . "
+									WHERE emote_id = " . $emote_id;
+			$result = $db->sql_query($sql);
+			$emote = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			
+			$template->assign_vars(array(
+				'SN_UP_EMOTE_FOLDER'	=> $phpbb_root_path . SN_UP_EMOTE_FOLDER,
+			));
+
+			return array(
+				'ID'						=> $entry_id,
+				'TYPE'					=> $entry_type,
+				'U_USER1_PROFILE'	=> $this->p_master->get_username_string($this->p_master->config['mp_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
+				'U_USER2_PROFILE'	=> $this->p_master->get_username_string($this->p_master->config['mp_colour_username'], 'full', $user2['user_id'], $user2['username'], $user2['user_colour']),
+				'EMOTE_NAME'		=> $emote['emote_name'],
+				'EMOTE_IMAGE'		=> ($emote['emote_image'] != '') ? $emote['emote_image'] : '',
 			);
 		}
 

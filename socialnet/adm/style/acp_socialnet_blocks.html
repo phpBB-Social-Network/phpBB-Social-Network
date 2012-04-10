@@ -11,7 +11,7 @@
   	<p>{ERROR_MSG}</p>
   </div>
 <!-- ENDIF -->
-
+<!--
 <form id="mode_select" method="post" action="{U_ACTION}">
 	<fieldset class="quick">
 		{L_SELECT_BLOCK}: <select name="block" onchange="if (this.options[this.selectedIndex].value != '') this.form.submit();"><!-- BEGIN block_tabs -->
@@ -20,6 +20,19 @@
 		{S_FORM_TOKEN}
 	</fieldset>
 </form>
+-->
+<!-- IF .sn_tabs -->
+<ul id="tabs">
+	<!-- BEGIN sn_tabs -->
+	<li<!-- IF sn_tabs.SELECTED --> id="activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
+	<!-- END sn_tabs -->
+</ul>
+<div id="acp">
+	<div class="panel">
+		<span class="corners-top"><span></span></span>
+			<div id="content" style="padding:10px;">
+<!-- ENDIF -->
+
 
 <!-- IF .options -->
 	<form id="acp_socialnet" method="post" action="{U_ACTION}&amp;block={SN_CURRENT_BLOCK}">
@@ -58,15 +71,11 @@
 	<!-- INCLUDE socialnet_block_menu.html -->
 <!-- ENDIF -->
 
-<fieldset>
-  <legend>{L_ACP_SN_LIKE_US_FB}</legend>
-  {L_ACP_SN_LIKE_US_FB_EXPLAIN}
-  <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FphpBB-Social-Network%2F180271885389370&amp;send=false&amp;layout=standard&amp;width=650&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=25&amp;appId=217550038308424" style="border:none; overflow:hidden; width:650px; height:25px;margin-top: 15px;" allowTransparency="true"></iframe>
-</fieldset>
-
-<fieldset>
-  <legend>{L_ACP_SN_CONTRIBUTE}</legend>
-  {L_ACP_SN_CONTRIBUTE_EXPLAIN}
-</fieldset>
+<!-- IF .sn_tabs -->
+			</div>
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<!-- ENDIF -->
 
 <!-- INCLUDE overall_footer.html -->
