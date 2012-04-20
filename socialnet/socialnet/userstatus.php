@@ -34,7 +34,6 @@ if (!defined('SOCIALNET_INSTALLED'))
 	$user->session_begin(false);
 	$auth->acl($user->data);
 	$user->setup();
-
 }
 
 if (!class_exists('socialnet_userstatus'))
@@ -101,51 +100,50 @@ if (!class_exists('socialnet_userstatus'))
 
 			switch ($this->script_name)
 			{
-			case 'memberlist':
-			case 'profile':
-				$user_id = $this->_wall_id();
+				case 'memberlist':
+				case 'profile':
+					$user_id = $this->_wall_id();
 
-				if ($user_id != ANONYMOUS)
-				{
-					$status_id = request_var('status_id', 0);
-
-					$my_friends = $this->p_master->friends['user_id'];
-					$my_friends[] = $user->data['user_id'];
-
-					if ($status_id == 0)
+					if ($user_id != ANONYMOUS)
 					{
-						$more_statuses = $this->_get_statuses($user_id);
+						$status_id = request_var('status_id', 0);
 
-						$template_assign_vars = array_merge($template_assign_vars, array(
-							'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE' => true,
-							'SN_MODULE_USERSTATUS_CAN_POST_STATUS'    => in_array($user_id, $my_friends) ? '1' : '0',
-							'SN_US_DISPLAY_LOAD_MORE_STATUS'          => $more_statuses,
-							'SN_US_USER_ID'                           => $user_id,
-						));
+						$my_friends = $this->p_master->friends['user_id'];
+						$my_friends[] = $user->data['user_id'];
 
-						if (!isset($template->_tpldata['.'][0]['USERNAME']))
+						if ($status_id == 0)
 						{
-							$sql = 'SELECT username FROM ' . USERS_TABLE . ' WHERE user_id = ' . $user_id;
-							$rs = $db->sql_query($sql);
-							$username = $db->sql_fetchfield('username');
-							$db->sql_freeresult($rs);
-							$template->assign_var('USERNAME', $username);
+							$more_statuses = $this->_get_statuses($user_id);
+
+							$template_assign_vars = array_merge($template_assign_vars, array(
+								'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE' => true,
+								'SN_MODULE_USERSTATUS_CAN_POST_STATUS'    => in_array($user_id, $my_friends) ? '1' : '0',
+								'SN_US_DISPLAY_LOAD_MORE_STATUS'          => $more_statuses,
+								'SN_US_USER_ID'                           => $user_id,
+							));
+
+							if (!isset($template->_tpldata['.'][0]['USERNAME']))
+							{
+								$sql = 'SELECT username FROM ' . USERS_TABLE . ' WHERE user_id = ' . $user_id;
+								$rs = $db->sql_query($sql);
+								$username = $db->sql_fetchfield('username');
+								$db->sql_freeresult($rs);
+								$template->assign_var('USERNAME', $username);
+							}
+						}
+						else
+						{
+							$this->_get_statuses($user_id, $status_id, 1, 15, true);
+							$more_statuses = false;
+
+							$template_assign_vars = array_merge($template_assign_vars, array(
+								'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE' => true,
+								'SN_MODULE_USERSTATUS_CAN_POST_STATUS'    => in_array($user_id, $my_friends),
+								'SN_US_DISPLAY_LOAD_MORE_STATUS'          => false,
+								'SN_US_USER_ID'                           => $user_id,
+							));
 						}
 					}
-					else
-					{
-						$this->_get_statuses($user_id, $status_id, 1, 15, true);
-						$more_statuses = false;
-
-						$template_assign_vars = array_merge($template_assign_vars, array(
-							'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE' => true,
-							'SN_MODULE_USERSTATUS_CAN_POST_STATUS'    => in_array($user_id, $my_friends),
-							'SN_US_DISPLAY_LOAD_MORE_STATUS'          => false,
-							'SN_US_USER_ID'                           => $user_id,
-						));
-					}
-				}
-
 				break;
 			}
 
@@ -256,15 +254,15 @@ if (!class_exists('socialnet_userstatus'))
 					if ($user->data['user_id'] != $wall_id)
 					{
 						$this->p_master->notify->add(SN_NTF_WALL, $wall_id, array(
-								'text' => 'SN_NTF_STATUS_FRIEND_WALL',
-								'user' => $user->data['username'],
-								'link' => $link
-							));
+							'text' => 'SN_NTF_STATUS_FRIEND_WALL',
+							'user' => $user->data['username'],
+							'link' => $link
+						));
 					}
 
 					$template->set_filenames(array(
-							'body' => 'socialnet/userstatus_status.html'
-						));
+						'body' => 'socialnet/userstatus_status.html'
+					));
 
 					$data = $this->_get_last_status($wall_id);
 					$data['B_SN_US_CAN_COMMENT'] = true;
@@ -379,7 +377,8 @@ if (!class_exists('socialnet_userstatus'))
 				}
 
 				$rowset = $this->p_master->comments->getPosters($this->commentModule, $status_id);
-
+				$rowset = array_unique(array_merge($rowset,array($row['wall_id'])));
+				
 				for ($i = 0; isset($rowset[$i]); $i++)
 				{
 					$this->p_master->notify->add(SN_NTF_COMMENT, $rowset[$i], array(
@@ -622,7 +621,7 @@ if (!class_exists('socialnet_userstatus'))
 
 			$wall_id = $this->_wall_id();
 
-			$another_wall = $status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile'; // && $status_row['wall_id'] != $wall_id;
+			$another_wall = ($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile') ? true : false; // && $status_row['wall_id'] != $wall_id;
 
 			$wall_row = array(
 				'username'    => '',
@@ -662,7 +661,6 @@ if (!class_exists('socialnet_userstatus'))
 					'COMMENTS'            => $comments['comments'],
 					'SN_US_MORE_COMMENTS' => $comments['more'],
 				), $template_block_data);
-
 		}
 
 		/**

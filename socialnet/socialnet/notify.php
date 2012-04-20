@@ -62,7 +62,7 @@ if (!class_exists('socialnet_notify'))
 		function socialnet_notify(&$p_master)
 		{
 			global $user, $db, $phpbb_root_path, $phpEx, $template, $config;
-			$this->p_master = &$p_master;
+			$this->p_master =& $p_master;
 			$this->time = time();
 
 			$this->ntf_delete();
@@ -74,12 +74,12 @@ if (!class_exists('socialnet_notify'))
 			$this->ntf_mp_show();
 
 			$template->assign_vars(array(
-					'U_VIEW_NOTIFY'           => append_sid("{$phpbb_root_path}mainpage.$phpEx", 'mode=notify'),
-					'S_SN_USER_UNREAD_NOTIFY' => $this->ntf_notify_count(),
-					'S_SN_NTF_THEME'          => $config['ntf_theme'],
-					'SN_NTF_LIFE' => $config['ntf_life']*1000,
-					'SN_NTF_CHECKTIME'  => $config['ntf_checktime']*1000
-				));
+				'U_VIEW_NOTIFY'				 => append_sid("{$phpbb_root_path}mainpage.$phpEx", 'mode=notify'),
+				'S_SN_USER_UNREAD_NOTIFY'	 => $this->ntf_notify_count(),
+				'S_SN_NTF_THEME'			 => $config['ntf_theme'],
+				'SN_NTF_LIFE'				 => $config['ntf_life'] * 1000,
+				'SN_NTF_CHECKTIME'			 => $config['ntf_checktime'] * 1000
+			));
 
 		}
 
@@ -126,6 +126,11 @@ if (!class_exists('socialnet_notify'))
 				die(json_encode($return));
 			}
 
+			if ($ntf_type == 'markRead' && $ntf_id != 0)
+			{
+				$this->ntf_markID(SN_NTF_STATUS_READ, SN_NTF_STATUS_READ, $ntf_id);
+			}
+			
 			if ($ntf_type == 'check')
 			{
 				/**
@@ -205,11 +210,11 @@ if (!class_exists('socialnet_notify'))
 			$status = $this->p_master->family_status($status_id);
 
 			$this->ntf_generate(SN_NTF_FAMILY, $relative_user_id, array(
-					'text'   => 'SN_NTF_APPROVE_FAMILY',
-					'user'   => $user->data['username'],
-					'status' => $status,
-					'link'   => $link
-				));
+				'text'	 => 'SN_NTF_APPROVE_FAMILY',
+				'user'	 => $user->data['username'],
+				'status' => $status,
+				'link'	 => $link
+			));
 		}
 
 		/**
@@ -231,10 +236,10 @@ if (!class_exists('socialnet_notify'))
 			$link = "ucp.{$phpEx}?i=socialnet&amp;mode=module_profile_relations&amp;action=approve_relation&amp;id={$relation_id}";
 
 			$this->ntf_generate(SN_NTF_REALTION, $relative_user_id, array(
-					'text' => 'SN_NTF_APPROVE_RELATIONSHIP',
-					'user' => $user->data['username'],
-					'link' => $link
-				));
+				'text'	 => 'SN_NTF_APPROVE_RELATIONSHIP',
+				'user'	 => $user->data['username'],
+				'link'	 => $link
+			));
 		}
 
 		/**
@@ -283,10 +288,12 @@ if (!class_exists('socialnet_notify'))
 						$data['link'] = append_sid($phpbb_root_path . $ntf_link[0], $ntf_link[1]);
 
 						$template->assign_block_vars('mp_notify', array(
-								'DATA'             => @vsprintf($user->lang[$text], $data),
-								'POSTER_AVATAR'    => $poster_avatar,
-								'U_POSTER_PROFILE' => $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
-							));
+							'NTF_ID'			 => $row['ntf_id'],
+							'DATA'				 => @vsprintf($user->lang[$text], $data),
+							'POSTER_AVATAR'		 => $poster_avatar,
+							'B_UNREAD'			 => $row['ntf_read'] > SN_NTF_STATUS_READ,
+							'U_POSTER_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
+						));
 					}
 
 					// MARK AS READ for SN_NTF_EMOTE;
@@ -341,13 +348,13 @@ if (!class_exists('socialnet_notify'))
 		{
 			global $user;
 			return array(
-				'ntf_time'   => $this->time,
-				'ntf_type'   => $type,
-				'ntf_user'   => $to_user,
+				'ntf_time'	 => $this->time,
+				'ntf_type'	 => $type,
+				'ntf_user'	 => $to_user,
 				'ntf_poster' => $user->data['user_id'],
-				'ntf_read'   => SN_NTF_STATUS_NEW,
+				'ntf_read'	 => SN_NTF_STATUS_NEW,
 				'ntf_change' => $this->time,
-				'ntf_data'   => serialize($data)
+				'ntf_data'	 => serialize($data)
 			);
 		}
 
@@ -372,8 +379,8 @@ if (!class_exists('socialnet_notify'))
 			{
 				$sql_where = "ntf_user = " . $user;
 			}
-			
-			if ( $for != false)
+
+			if ($for != false)
 			{
 				$sql_where .= " AND ntf_data LIKE '%{$for}%'";
 			}
@@ -468,8 +475,8 @@ if (!class_exists('socialnet_notify'))
 			$sql_where = array(
 				"ntf_user = {$user->data['user_id']}",
 				"ntf_read >= " . $status,
-			//"ntf_time >= " . ( $this->time - $this->time_new),
-			);
+				//"ntf_time >= " . ( $this->time - $this->time_new),
+				);
 
 			$sql = "SELECT count(*) AS computed
 									FROM " . SN_NOTIFY_TABLE . "
@@ -576,10 +583,10 @@ if (isset($socialnet) && defined('SN_NOTIFY'))
 	if ($user->data['user_type'] == USER_IGNORE || $config['board_disable'] == 1)
 	{
 		$ann_data = array(
-			'user_id' => 'ANONYMOUS',
-			'del'     => false,
-			'cnt'     => 0,
-			'message' => array()
+			'user_id'	 => 'ANONYMOUS',
+			'del'		 => false,
+			'cnt'		 => 0,
+			'message'	 => array()
 		);
 
 		header('Content-type: application/json');

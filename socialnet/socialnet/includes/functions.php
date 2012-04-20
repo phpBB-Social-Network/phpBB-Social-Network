@@ -313,96 +313,96 @@ class snFunctions
 		$fms_user_sqls = array();
 		switch ($mode)
 		{
-			case 'friendProfile':
-				$fms_user_sqls = array_merge($fms_user_sqls, array('mode_short' => 'friend'));
-			case 'friend':
-				/**
-				 * Pratele / priatelia / friends
-				 */
-				$fms_user_sqls = array_merge($fms_user_sqls, array(
-					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
+		case 'friendProfile':
+			$fms_user_sqls = array_merge($fms_user_sqls, array('mode_short' => 'friend'));
+		case 'friend':
+			/**
+			 * Pratele / priatelia / friends
+			 */
+			$fms_user_sqls = array_merge($fms_user_sqls, array(
+				'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
 										FROM ' . ZEBRA_TABLE . ' z
 										WHERE z.user_id = ' . $user_id . "
 										AND z.friend = 1",
-					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+				'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 										FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 										WHERE z.user_id = ' . $user_id . "
 											AND z.friend = 1
 											AND u.user_id = z.zebra_id
 										ORDER BY u.username_clean ASC",
-				));
-				break;
-			case 'approve':
-				/**
-				 * Udelene zadosti / udelene ziadosti / granted requests
-				 */
-				$fms_user_sqls = array_merge($fms_user_sqls, array(
-					'user_id_field'	 => 'user_id',
-					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
+			));
+			break;
+		case 'approve':
+			/**
+			 * Udelene zadosti / udelene ziadosti / granted requests
+			 */
+			$fms_user_sqls = array_merge($fms_user_sqls, array(
+				'user_id_field'	 => 'user_id',
+				'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
 										FROM ' . ZEBRA_TABLE . ' z
 										WHERE z.zebra_id = ' . $user_id . "
 											AND z.approval = 1",
-					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+				'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 										FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 										WHERE z.zebra_id = ' . $user_id . "
 											AND z.approval = 1
 											AND u.user_id = z.user_id
 										ORDER BY u.username_clean ASC",
-				));
-				break;
-			case 'cancel':
-				/**
-				 * Uzivatelovy zadosti / uzivatelovi ziadosti / Users requests
-				 */
-				$fms_user_sqls = array_merge($fms_user_sqls, array(
-					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
+			));
+			break;
+		case 'cancel':
+			/**
+			 * Uzivatelovy zadosti / uzivatelovi ziadosti / Users requests
+			 */
+			$fms_user_sqls = array_merge($fms_user_sqls, array(
+				'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
 										FROM ' . ZEBRA_TABLE . ' z
 										WHERE z.user_id = ' . $user_id . "
 											AND z.approval = 1",
-					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+				'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 										FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 										WHERE z.user_id = ' . $user_id . "
 											AND z.approval = 1
 											AND u.user_id = z.zebra_id
 										ORDER BY u.username_clean ASC",
-				));
-				break;
-			case 'mutual':
-				/**
-				 * Spolecni pratele / spolocni priatelia / mutual friends
-				 */
-				if (count($this->friends['user_id']))
-				{
-					$sql_in_set = ' AND ' . $db->sql_in_set('z.zebra_id', $this->friends['user_id']);
-				}
-				else
-				{
-					$sql_in_set = ' AND 1 = 0';
-				}
+			));
+			break;
+		case 'mutual':
+			/**
+			 * Spolecni pratele / spolocni priatelia / mutual friends
+			 */
+			if (count($this->friends['user_id']))
+			{
+				$sql_in_set = ' AND ' . $db->sql_in_set('z.zebra_id', $this->friends['user_id']);
+			}
+			else
+			{
+				$sql_in_set = ' AND 1 = 0';
+			}
 
-				$fms_user_sqls = array_merge($fms_user_sqls, array(
-					'sql_pagination' => "SELECT COUNT(z.zebra_id) AS total
+			$fms_user_sqls = array_merge($fms_user_sqls, array(
+				'sql_pagination' => "SELECT COUNT(z.zebra_id) AS total
 											FROM " . ZEBRA_TABLE . " AS z
 											WHERE z.user_id = {$user_id} AND z.friend = 1 {$sql_in_set}",
-					'sql_content'	 => "SELECT DISTINCT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+				'sql_content'	 => "SELECT DISTINCT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 											FROM " . ZEBRA_TABLE . " z, " . USERS_TABLE . " u
 											WHERE z.user_id = {$user_id} AND u.user_id = z.zebra_id AND z.friend = 1 {$sql_in_set}
 											ORDER BY u.username_clean ASC",
-				));
-				break;
-			case 'suggestion':
-				/**
-				 * Doporuceni pratele / Odporucanie priatelia / suggested friends
-				 */
-				$cache_people_to_know = $this->friendsCacheNameMutual . $user->data['user_id'];
-				$rowset = $cache->get($cache_people_to_know);
+			));
+			break;
+		case 'suggestion':
+			/**
+			 * Doporuceni pratele / Odporucanie priatelia / suggested friends
+			 */
+			$cache_people_to_know = $this->friendsCacheNameMutual . $user->data['user_id'];
+			$rowset = $cache->get($cache_people_to_know);
 
-				$fms_user_sqls = array_merge($fms_user_sqls, array(
-					'user_id_field'	 => 'user_id',
-					'rowset'		 => $rowset,
-					'total'			 => count($rowset),
-				));
-				break;
+			$fms_user_sqls = array_merge($fms_user_sqls, array(
+				'user_id_field'	 => 'user_id',
+				'rowset'		 => $rowset,
+				'total'			 => count($rowset),
+			));
+			break;
 		}
 
 		return $fms_user_sqls;
@@ -421,7 +421,7 @@ class snFunctions
 	 * @property integer	avatar_size 	- Size of avatar. Default: 50.
 	 * @property boolean	add_friend_link	- Add add friend link to box if user is not my friend. Default: false.
 	 * @property integer	total			- Total count of users for block. Default: 0.
-	 * @property array		rowset			- Rowset of available users for block. Default: null.	
+	 * @property array		rowset			- Rowset of available users for block. Default: null.
 	 * @property string		sql_pagination	- Sql to select total count for pagination. If sets override param total. Default: ''.
 	 * @property string		sql_content		- Sql to select users for display. If sets override rowset. Default: ''.
 	 * @property string		user_id_field	- What is current ID of displayed users. Default: 'zebra_id'.
@@ -796,30 +796,30 @@ class snFunctions
 			// Special cases... determine
 			switch ($result['status'])
 			{
-				case LOGIN_ERROR_ATTEMPTS:
-					$captcha = phpbb_captcha_factory::get_instance($this->config['captcha_plugin']);
-					$captcha->init(CONFIRM_LOGIN);
+			case LOGIN_ERROR_ATTEMPTS:
+				$captcha = phpbb_captcha_factory::get_instance($this->config['captcha_plugin']);
+				$captcha->init(CONFIRM_LOGIN);
 
-					$template->assign_vars(array(
-						'CAPTCHA_TEMPLATE' => $captcha->get_template(), ));
+				$template->assign_vars(array(
+					'CAPTCHA_TEMPLATE' => $captcha->get_template(), ));
 
-					$err = $user->lang[$result['error_msg']];
-					break;
+				$err = $user->lang[$result['error_msg']];
+				break;
 
-				case LOGIN_ERROR_PASSWORD_CONVERT:
-					$err = sprintf($user->lang[$result['error_msg']], ($this->config['email_enable']) ? '<a href="' . append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=sendpassword') . '">' : '', ($this->config['email_enable']) ? '</a>' : '', ($this->config['board_contact']) ? '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">' : '', ($this->config['board_contact']) ? '</a>' : '');
-					break;
+			case LOGIN_ERROR_PASSWORD_CONVERT:
+				$err = sprintf($user->lang[$result['error_msg']], ($this->config['email_enable']) ? '<a href="' . append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=sendpassword') . '">' : '', ($this->config['email_enable']) ? '</a>' : '', ($this->config['board_contact']) ? '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">' : '', ($this->config['board_contact']) ? '</a>' : '');
+				break;
 
-				default:
-					// Username, password, etc...
-					$err = $user->lang[$result['error_msg']];
+			default:
+				// Username, password, etc...
+				$err = $user->lang[$result['error_msg']];
 
-					// Assign admin contact to some error messages
-					if ($result['error_msg'] == 'LOGIN_ERROR_USERNAME' || $result['error_msg'] == 'LOGIN_ERROR_PASSWORD')
-					{
-						$err = (!$this->config['board_contact']) ? sprintf($user->lang[$result['error_msg']], '', '') : sprintf($user->lang[$result['error_msg']], '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">', '</a>');
-					}
-					break;
+				// Assign admin contact to some error messages
+				if ($result['error_msg'] == 'LOGIN_ERROR_USERNAME' || $result['error_msg'] == 'LOGIN_ERROR_PASSWORD')
+				{
+					$err = (!$this->config['board_contact']) ? sprintf($user->lang[$result['error_msg']], '', '') : sprintf($user->lang[$result['error_msg']], '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">', '</a>');
+				}
+				break;
 			}
 		}
 
@@ -988,14 +988,14 @@ class snFunctions
 
 			switch ($db->sql_layer)
 			{
-				case 'mssql':
-				case 'mssql_odbc':
-					$order_by = 'u.user_birthday ASC';
-					break;
+			case 'mssql':
+			case 'mssql_odbc':
+				$order_by = 'u.user_birthday ASC';
+				break;
 
-				default:
-					$order_by = 'SUBSTRING(u.user_birthday FROM 4 FOR 2) ASC, SUBSTRING(u.user_birthday FROM 1 FOR 2) ASC, u.username_clean ASC';
-					break;
+			default:
+				$order_by = 'SUBSTRING(u.user_birthday FROM 4 FOR 2) ASC, SUBSTRING(u.user_birthday FROM 1 FOR 2) ASC, u.username_clean ASC';
+				break;
 			}
 			$sql = 'SELECT u.user_id, u.username, u.user_birthday, u.user_colour
 							FROM ' . USERS_TABLE . ' u
@@ -1041,7 +1041,7 @@ class snFunctions
 	 */
 	function search()
 	{
-		// NOTHING TO FILL	
+		// NOTHING TO FILL
 		if (!$this->config['sn_block_search'])
 		{
 			return;
@@ -1304,35 +1304,35 @@ class snFunctions
 
 		switch ($status_id)
 		{
-			case '1':
-				$status = $user->lang['SN_UP_SINGLE'];
-				break;
-			case '2':
-				$status = $user->lang['SN_UP_IN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
-				break;
-			case '3':
-				$status = $user->lang['SN_UP_ENGAGED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
-				break;
-			case '4':
-				$status = $user->lang['SN_UP_MARRIED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
-				break;
-			case '5':
-				$status = $user->lang['SN_UP_ITS_COMPLICATED'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
-				break;
-			case '6':
-				$status = $user->lang['SN_UP_OPEN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
-				break;
-			case '7':
-				$status = $user->lang['SN_UP_WIDOWED'];
-				break;
-			case '8':
-				$status = $user->lang['SN_UP_SEPARATED'];
-				break;
-			case '9':
-				$status = $user->lang['SN_UP_DIVORCED'];
-				break;
-			default:
-				$status = '';
+		case '1':
+			$status = $user->lang['SN_UP_SINGLE'];
+			break;
+		case '2':
+			$status = $user->lang['SN_UP_IN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
+			break;
+		case '3':
+			$status = $user->lang['SN_UP_ENGAGED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
+			break;
+		case '4':
+			$status = $user->lang['SN_UP_MARRIED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
+			break;
+		case '5':
+			$status = $user->lang['SN_UP_ITS_COMPLICATED'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
+			break;
+		case '6':
+			$status = $user->lang['SN_UP_OPEN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
+			break;
+		case '7':
+			$status = $user->lang['SN_UP_WIDOWED'];
+			break;
+		case '8':
+			$status = $user->lang['SN_UP_SEPARATED'];
+			break;
+		case '9':
+			$status = $user->lang['SN_UP_DIVORCED'];
+			break;
+		default:
+			$status = '';
 		}
 
 		return $status;
@@ -1344,74 +1344,74 @@ class snFunctions
 
 		switch ($status_id)
 		{
-			case '20':
-				$status = $user->lang['SN_UP_SISTER'];
-				break;
-			case '21':
-				$status = $user->lang['SN_UP_BROTHER'];
-				break;
-			case '22':
-				$status = $user->lang['SN_UP_DAUGHTER'];
-				break;
-			case '23':
-				$status = $user->lang['SN_UP_SON'];
-				break;
-			case '24':
-				$status = $user->lang['SN_UP_MOTHER'];
-				break;
-			case '25':
-				$status = $user->lang['SN_UP_FATHER'];
-				break;
-			case '26':
-				$status = $user->lang['SN_UP_AUNT'];
-				break;
-			case '27':
-				$status = $user->lang['SN_UP_UNCLE'];
-				break;
-			case '28':
-				$status = $user->lang['SN_UP_NIECE'];
-				break;
-			case '29':
-				$status = $user->lang['SN_UP_NEPHEW'];
-				break;
-			case '30':
-				$status = $user->lang['SN_UP_COUSIN_FEMALE'];
-				break;
-			case '31':
-				$status = $user->lang['SN_UP_COUSIN_MALE'];
-				break;
-			case '32':
-				$status = $user->lang['SN_UP_GRANDDAUGHTER'];
-				break;
-			case '33':
-				$status = $user->lang['SN_UP_GRANDSON'];
-				break;
-			case '34':
-				$status = $user->lang['SN_UP_GRANDMOTHER'];
-				break;
-			case '35':
-				$status = $user->lang['SN_UP_GRANDFATHER'];
-				break;
-			case '36':
-				$status = $user->lang['SN_UP_SISTER_IN_LAW'];
-				break;
-			case '37':
-				$status = $user->lang['SN_UP_BROTHER_IN_LAW'];
-				break;
-			case '38':
-				$status = $user->lang['SN_UP_MOTHER_IN_LAW'];
-				break;
-			case '39':
-				$status = $user->lang['SN_UP_FATHER_IN_LAW'];
-				break;
-			case '40':
-				$status = $user->lang['SN_UP_DAUGHTER_IN_LAW'];
-				break;
-			case '41':
-				$status = $user->lang['SN_UP_SON_IN_LAW'];
-				break;
-			default:
-				$status = '';
+		case '20':
+			$status = $user->lang['SN_UP_SISTER'];
+			break;
+		case '21':
+			$status = $user->lang['SN_UP_BROTHER'];
+			break;
+		case '22':
+			$status = $user->lang['SN_UP_DAUGHTER'];
+			break;
+		case '23':
+			$status = $user->lang['SN_UP_SON'];
+			break;
+		case '24':
+			$status = $user->lang['SN_UP_MOTHER'];
+			break;
+		case '25':
+			$status = $user->lang['SN_UP_FATHER'];
+			break;
+		case '26':
+			$status = $user->lang['SN_UP_AUNT'];
+			break;
+		case '27':
+			$status = $user->lang['SN_UP_UNCLE'];
+			break;
+		case '28':
+			$status = $user->lang['SN_UP_NIECE'];
+			break;
+		case '29':
+			$status = $user->lang['SN_UP_NEPHEW'];
+			break;
+		case '30':
+			$status = $user->lang['SN_UP_COUSIN_FEMALE'];
+			break;
+		case '31':
+			$status = $user->lang['SN_UP_COUSIN_MALE'];
+			break;
+		case '32':
+			$status = $user->lang['SN_UP_GRANDDAUGHTER'];
+			break;
+		case '33':
+			$status = $user->lang['SN_UP_GRANDSON'];
+			break;
+		case '34':
+			$status = $user->lang['SN_UP_GRANDMOTHER'];
+			break;
+		case '35':
+			$status = $user->lang['SN_UP_GRANDFATHER'];
+			break;
+		case '36':
+			$status = $user->lang['SN_UP_SISTER_IN_LAW'];
+			break;
+		case '37':
+			$status = $user->lang['SN_UP_BROTHER_IN_LAW'];
+			break;
+		case '38':
+			$status = $user->lang['SN_UP_MOTHER_IN_LAW'];
+			break;
+		case '39':
+			$status = $user->lang['SN_UP_FATHER_IN_LAW'];
+			break;
+		case '40':
+			$status = $user->lang['SN_UP_DAUGHTER_IN_LAW'];
+			break;
+		case '41':
+			$status = $user->lang['SN_UP_SON_IN_LAW'];
+			break;
+		default:
+			$status = '';
 		}
 
 		return $status;
@@ -1917,7 +1917,7 @@ function snFunctions_absolutePath($matches)
 	return "{$matches[1]}" . (!empty($matches[1]) ? '=' : '') . "{$matches[2]}{$path}{$matches[4]}";
 }
 
-function snFunctions_absolutePathString( $string)
+function snFunctions_absolutePathString($string)
 {
 	global $phpbb_root_path, $config;
 

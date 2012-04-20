@@ -32,7 +32,7 @@ define('SOCIALNET_INSTALLED', true);
  * @ignore
  */
 
-include_once($phpbb_root_path . 'socialnet/common.' . $phpEx);
+include_once($phpbb_root_path . 'socialnet/includes/socialnet.' . $phpEx);
 
 /**
  * hookSocialNet
@@ -106,13 +106,15 @@ class hookSocialNet
 				$sql_insert = "INSERT INTO " . SN_USERS_TABLE . $db->sql_build_array('INSERT', $sql_arr);
 
 				$db->sql_query($sql_insert);
-
 				$result = $db->sql_query($sql_user_extend);
 
 				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . " (fms_gid,user_id,fms_name,fms_clean,fms_collapse) VALUES (0, {$user->data['user_id']}, '---', '---',0)";
+				$db->sql_return_on_error(true);
 				$db->sql_query($sql);
+				$db->sql_return_on_error(false);
+				
 			}
-			
+
 			$row = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
 

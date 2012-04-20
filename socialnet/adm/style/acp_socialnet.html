@@ -1,5 +1,9 @@
 <!-- INCLUDE overall_header.html -->
-
+<script type="text/javascript">
+// <![CDATA[
+document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" type="text/css" media="screen" '+'/>');
+//]]>
+</script>
 <!-- IF S_MOTIONPICTURE --><img src="{S_MOTIONPICTURE_IMG_URL}" style="float:right" alt="{L_TITLE}" /><!-- ENDIF -->
 <h1>{L_TITLE}</h1>
 <p>{L_TITLE_EXPLAIN}</p>
@@ -12,15 +16,17 @@
 <!-- ENDIF -->
 
 <!-- IF .sn_tabs -->
-<ul id="tabs">
-	<!-- BEGIN sn_tabs -->
-	<li<!-- IF sn_tabs.SELECTED --> id="activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
-	<!-- END sn_tabs -->
-</ul>
-<div id="acp">
+<div id="sn_tabs">
+	<ul>
+		<!-- BEGIN sn_tabs -->
+		<li<!-- IF sn_tabs.SELECTED --> id="sn_activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
+		<!-- END sn_tabs -->
+	</ul>
+</div>
+<div id="sn_acp">
 	<div class="panel">
 		<span class="corners-top"><span></span></span>
-			<div id="content" style="padding:10px;">
+			<div id="sn_content" style="padding:10px;">
 <!-- ENDIF -->
 
 <!-- IF .options -->
@@ -173,10 +179,6 @@
   <!-- ENDIF -->
 <!-- ENDIF -->
 
-<!-- IF B_ACP_SN_ADDONHOOK -->
-	<!-- INCLUDE socialnet_addonhook.html -->
-<!-- ENDIF -->
-
 <!-- IF B_ACP_SN_MAIN -->
   <fieldset>
     <legend>{L_ACP_SN_LIKE_US_FB}</legend>
@@ -190,6 +192,15 @@
     <legend>{L_ACP_SN_CONTRIBUTE}</legend>
     {L_ACP_SN_CONTRIBUTE_EXPLAIN}
   </fieldset>
+<!-- ENDIF -->
+
+<!-- IF B_ACP_SN_ADDONHOOK -->
+	<!-- INCLUDE socialnet_addonhook.html -->
+<!-- ENDIF -->
+
+
+<!-- IF B_SN_ACP_ADDONS_HOOK_MANAGEMENT -->
+	<!-- INCLUDE socialnet_addonhook.html -->
 <!-- ENDIF -->
 
 <!-- IF .sn_tabs -->

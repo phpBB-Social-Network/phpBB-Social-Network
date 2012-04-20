@@ -326,14 +326,14 @@ if (!class_exists('socialnet_profile'))
 					$template->assign_block_vars('custom_fields', $field_data);
 				}
 			}
-
+/*
 			$addons = array();
 			$addons = $this->p_master->sn_addons_load('1');
 			foreach ($addons as $addon)
 			{
 				include("{$phpbb_root_path}socialnet/addons/" . $addon);
 			}
-
+*/
 		}
 
 		function tab_friends($user_id)
@@ -545,14 +545,14 @@ if (!class_exists('socialnet_profile'))
 						'RANK_TITLE'       => $rank_title,
 						'S_GROUPS'         => $groups,
 					));
-
+/*
 			$addons = array();
 			$addons = $this->p_master->sn_addons_load('2');
 			foreach ($addons as $addon)
 			{
 				include("{$phpbb_root_path}socialnet/addons/" . $addon);
 			}
-
+*/
 		}
 
 		function tab_wall($user_id)
@@ -1039,8 +1039,8 @@ if (!class_exists('socialnet_profile'))
 			$emote_data['emote_id'] = $emote_id;
 
 			$sql = "SELECT emote_name, emote_image
-					FROM " . SN_EMOTES_TABLE . "
-					WHERE emote_id = {$emote_id}";
+								FROM " . SN_EMOTES_TABLE . "
+									WHERE emote_id = {$emote_id}";
 			$rs = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($rs);
 			$db->sql_freeresult($rs);
@@ -1054,13 +1054,13 @@ if (!class_exists('socialnet_profile'))
 			
 			$link = ''; // LINK TO DISPLAY;
 			$emote_notify = array(
-					'text'     => 'SN_NTF_EMOTE',
-					'user'     => $user->data['username'],
-					'emote'    => $row['emote_name'],
-					'image'    => $emote_image,
-					'link'     => $link,
-					'emote_id' => $emote_id
-				);
+				'text'     => 'SN_NTF_EMOTE',
+				'user'     => $user->data['username'],
+				'emote'    => $row['emote_name'],
+				'image'    => $emote_image,
+				'link'     => $link,
+				'emote_id' => $emote_id
+			);
 			$this->p_master->notify->add(SN_NTF_EMOTE, $user_id, $emote_notify);
 			$this->p_master->record_entry($user->data['user_id'], $user_id, SN_TYPE_EMOTE, $emote_data);
 			
@@ -1069,7 +1069,7 @@ if (!class_exists('socialnet_profile'))
 			$emote_notify['user'] = $this->p_master->friends['friends'][$user_id];
 			
 			$send_emote = array(
-				'cbTitle'	 => @$user->lang['SN_NTF_EMOTE_CB_TITLE'] . ' - SEND EMOTE',
+				'cbTitle'	 => $user->lang['SN_NTF_EMOTE_CB_TITLE'],
 				'cbText'	 => vsprintf( $user->lang['SN_NTF_EMOTE_CB_TEXT'], $emote_notify),
 			);
 			
@@ -1077,7 +1077,6 @@ if (!class_exists('socialnet_profile'))
 			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 			die(json_encode($send_emote));
-				
 		}
 
 		function hook_template()

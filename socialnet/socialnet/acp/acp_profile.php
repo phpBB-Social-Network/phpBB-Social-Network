@@ -219,10 +219,10 @@ class acp_profile extends socialnet
 				'NAME'        => $row['emote_name'],
 				'IMAGE'       => $row['emote_image'],
 				'ORDER'       => $row['emote_order'],
-				'U_MOVE_DOWN' => $this->p_master->u_action . "&amp;manage=emotes&amp;action=mdown&emote_id={$row['emote_id']}&amp;order={$row['emote_order']}",
-				'U_MOVE_UP'   => $this->p_master->u_action . "&amp;manage=emotes&amp;action=mup&emote_id={$row['emote_id']}&amp;order={$row['emote_order']}",
-				'U_EDIT'      => $this->p_master->u_action . "&amp;manage=emotes&amp;action=edit&emote_id={$row['emote_id']}",
-				'U_DELETE'    => $this->p_master->u_action . "&amp;manage=emotes&amp;action=delete&emote_id={$row['emote_id']}",
+				'U_MOVE_DOWN' => $this->p_master->u_action . "&amp;manage=emotes&amp;action=mdown&amp;emote_id={$row['emote_id']}&amp;order={$row['emote_order']}",
+				'U_MOVE_UP'   => $this->p_master->u_action . "&amp;manage=emotes&amp;action=mup&amp;emote_id={$row['emote_id']}&amp;order={$row['emote_order']}",
+				'U_EDIT'      => $this->p_master->u_action . "&amp;manage=emotes&amp;action=edit&amp;emote_id={$row['emote_id']}",
+				'U_DELETE'    => $this->p_master->u_action . "&amp;manage=emotes&amp;action=delete&amp;emote_id={$row['emote_id']}",
 			));
 		}
 		$db->sql_freeresult($rs);

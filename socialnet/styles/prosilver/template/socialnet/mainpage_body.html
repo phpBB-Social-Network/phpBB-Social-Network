@@ -1,24 +1,12 @@
 <!-- INCLUDE overall_header.html -->
 <!-- DEFINE $BLOCK_HEADER_TYPE = 'forabg' -->
 <div id="sn-mp" class="sn-page">
+	{SN_ADDONS_PLACEHOLDER_MAINPAGE_HEADER_CONTENT}
 	<!-- STARTING LEFT COLUMN -->
-  <!-- BEGIN addons -->
-    <!-- IF addons.LOCATION == '3' -->
-		<!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
-		<!-- INCLUDE {$TEMPLATE_FILE} -->
-		<!-- UNDEFINE $TEMPLATE_FILE -->
-    <!-- ENDIF -->
-  <!-- END addons -->
 	<div id="sn-page-columnLeft" class="sn-page-columnLeft">
 		<!-- INCLUDE socialnet/block_myprofile.html -->
 		<!-- INCLUDE socialnet/block_menu.html -->
-    <!-- BEGIN addons -->
-      <!-- IF addons.LOCATION == '4' -->
-        <!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
-        <!-- INCLUDE {$TEMPLATE_FILE} -->
-		<!-- UNDEFINE $TEMPLATE_FILE -->
-      <!-- ENDIF -->
-    <!-- END addons -->
+		{SN_ADDONS_PLACEHOLDER_MAINPAGE_LEFTCOLUMN_CONTENT}
 		<!-- INCLUDE socialnet/block_search.html -->
 		<!-- INCLUDE socialnet/block_online_users.html -->
 	</div>
@@ -29,14 +17,8 @@
 		<!-- INCLUDE socialnet/block_friends_suggestions.html -->		
 		<!-- INCLUDE socialnet/block_friend_requests.html -->		
 		<!-- INCLUDE socialnet/block_birthday.html -->		
-		<!-- INCLUDE socialnet/block_recent_discussions.html -->		
-    <!-- BEGIN addons -->
-      <!-- IF addons.LOCATION == '5' -->
-        <!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
-        <!-- INCLUDE {$TEMPLATE_FILE} -->
-		<!-- UNDEFINE $TEMPLATE_FILE -->
-      <!-- ENDIF -->
-    <!-- END addons -->	
+		<!-- INCLUDE socialnet/block_recent_discussions.html -->
+		{SN_ADDONS_PLACEHOLDER_MAINPAGE_RIGHTCOLUMN_CONTENT}
 		<!-- INCLUDE socialnet/block_statistics.html -->		
 	</div>
 	<!-- ENDING RIGHT COLUMN -->

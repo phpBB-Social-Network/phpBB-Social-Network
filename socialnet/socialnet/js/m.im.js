@@ -298,7 +298,7 @@
 			$.ajax({
 				type : 'post',
 				cache : false,
-				async : false,
+				async : true,
 				url : $.sn.im.opts.url,
 				data : {
 					mode : 'coreIM',

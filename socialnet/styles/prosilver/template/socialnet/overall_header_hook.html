@@ -8,9 +8,7 @@
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.text-overflow.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.textarea-expander.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.watermark.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui-1.8.18.custom.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.ui.tooltip.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.ui.menu.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.form.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.titlealert.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.detectmobilebrowser.js"></script>
@@ -60,7 +58,13 @@ jQuery(document).ready(function($){
 			empty : '{L_SN_US_EMPTY_COMMENT}',
 			deleteTitle : '{L_SN_CB_DELETE_COMMENT_TITLE}',
 			deleteText : '{L_SN_CB_DELETE_COMMENT_TEXT}'
-		}
+		},
+		menuPosition:{
+			my : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
+	        at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
+	        }
+		
+		
 	});
 
 // ## INSTANT MESSENGER -=- START ##
@@ -152,8 +156,12 @@ jQuery(document).ready(function($){
 		dayNames : [ '{L_SN_UP_SUNDAY}', '{L_SN_UP_MONDAY}', '{L_SN_UP_TUESDAY}', '{L_SN_UP_WEDNESDAY}', '{L_SN_UP_THURSDAY}', '{L_SN_UP_FRIDAY}', '{L_SN_UP_SATURDAY}' ],
 		dayNamesShort : [ '{L_SN_UP_SUNDAY_MIN}', '{L_SN_UP_MONDAY_MIN}', '{L_SN_UP_TUESDAY_MIN}', '{L_SN_UP_WEDNESDAY_MIN}', '{L_SN_UP_THURSDAY_MIN}', '{L_SN_UP_FRIDAY_MIN}', '{L_SN_UP_SATURDAY_MIN}' ],
 		monthNames : [{SN_UP_MONTH_NAMES}],
-		monthNamesShort : [{SN_UP_MONTH_NAMES_SHORT}]
-	});
+		monthNamesShort : [{SN_UP_MONTH_NAMES_SHORT}],
+		menuPosition:{
+			my : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
+	        at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> bottom"
+	        }
+		});
 <!-- ENDIF -->
 // ## PROFILE -=- END ##
 

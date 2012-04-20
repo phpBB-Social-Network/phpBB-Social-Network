@@ -496,7 +496,7 @@ $lang = array_merge($lang, array(
 	'SN_NTF_APPROVE_FAMILY'			 => '%1$s has added you as a %2$s. <a href="%3$s">Approve this relationship here</a>',
 	'SN_NTF_APPROVE_RELATIONSHIP'	 => '%1$s has created a relationship with you. <a href="%2$s">Approve this relationship here</a>',
 
-	'SN_NTF_EMOTE'					 => '%1$s has sent you an emote %2$s %3$s',
+	'SN_NTF_EMOTE'					 => '%1$s has sent you an emote: %2$s %3$s',
 ));
 
 // EMOTES

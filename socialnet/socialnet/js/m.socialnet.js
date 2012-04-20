@@ -72,6 +72,11 @@
 		_inited : false,
 		_resize : new Array(),
 
+		menuPosition:{
+			my : "right top",
+	        at : "left top"
+	        },
+
 		comments : {
 			deleteTitle : 'Delete',
 			deleteText : 'Delete Text',
@@ -135,14 +140,14 @@
 			}
 
 			if ($('ul.sn-menu').size() > 0) {
-				$('ul.sn-menu').menuNew().removeClass('ui-corner-all');
+				$('ul.sn-menu').menu({position:$.sn.menuPosition}).removeClass('ui-corner-all');
 				$('.sn-menu *').removeClass('ui-corner-all ui-corner-top ui-corner-bottom');
 			}
 
 			$('.ui-menu .ui-menu').live('mouseleave', function() {
 				$(this).delay(500).hide();
 				$(this).children('a.ui-state-active').removeClass('ui-state-active');
-				$(this).parent('.ui-menu-item').children('a.ui-state-default').delay(500).removeClass('ui-state-active');
+				$(this).parent('.ui-menu-item').children('a.ui-state-active').delay(500).removeClass('ui-state-active');
 			});
 			
 			$('input.ui-button').bind('mouseover mouseout', function() {

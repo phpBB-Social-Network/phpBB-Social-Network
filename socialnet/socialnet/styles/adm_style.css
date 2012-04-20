@@ -1,0 +1,246 @@
+/* Tabbed menu
+	Based on: http://www.alistapart.com/articles/slidingdoors2/
+----------------------------------------*/
+#sn_tabs {
+	line-height: normal;
+	margin: 0 0 -6px 7px;
+	min-width: 600px;
+}
+
+.rtl #sn_tabs {
+	margin: 0 7px -6px 0;
+}
+
+#sn_tabs ul {
+	margin:0;
+	padding: 0;
+	list-style: none;
+}
+
+#sn_tabs li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	font-size: 0.85em;
+	font-weight: bold;
+}
+
+#sn_tabs a {
+	float: left;
+	background:url("../../adm/images/bg_tabs1.gif") no-repeat 0% -34px;
+	margin: 0 1px 0 0;
+	padding: 0 0 0 7px;
+	text-decoration: none;
+	position: relative;
+}
+
+.rtl #sn_tabs a {
+	float: right;
+}
+
+#sn_tabs a span {
+	float: left;
+	display: block;
+	background: url("../../adm/images/bg_tabs2.gif") no-repeat 100% -34px;
+	padding: 7px 10px 4px 4px;
+	color: #767676;
+	white-space: nowrap;
+	font-family: Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.rtl #sn_tabs a span {
+	float: right;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#sn_tabs a span, .rtl #sn_tabs a span { float:none;}
+/* End hack */
+
+#sn_tabs a:hover span {
+	color: #BC2A4D;
+}
+
+#sn_tabs #sn_activetab a {
+	background-position: 0 0;
+	border-bottom: 1px solid #DCDEE2;
+}
+
+#sn_tabs #sn_activetab a span {
+	background-position: 100% 0;
+	padding-bottom: 5px;
+	color: #23649F;
+}
+
+#sn_tabs a:hover {
+	background-position: 0 -69px;
+}
+
+#sn_tabs a:hover span {
+	background-position: 100% -69px;
+}
+
+#sn_tabs #sn_activetab a:hover span {
+	color: #115098;
+}
+
+#sn_tabs {
+	height: 1%;
+	overflow: hidden;
+}
+
+/* Main Panel
+---------------------------------------- */
+#sn_acp {
+	margin: 4px 0;
+	padding: 3px 1px;
+	min-width: 550px;
+	background-color: #FFFFFF;
+	border: 1px #999999 solid;
+}
+
+/* Menu */
+#sn_menu {
+	float: left;
+	width: 20%;
+	font-size: 1.00em;
+	border-right: 1px solid #CCCFD3;
+
+	background-color: #FFFFFF;
+    border: 1px solid #CCCFD3;
+    padding: 0 2px;
+	min-height: 330px;
+}
+
+* html #sn_menu {
+	height: 330px;
+}
+
+.rtl #sn_menu {
+	float: right;
+	border: none;
+	border-left: 1px solid #CCCFD3;
+}
+
+#sn_menu p {
+	font-size: 0.85em;
+}
+
+#sn_menu ul {
+	list-style: none;
+	margin: -3px 0 0;
+	padding: 0;
+}
+
+/* Default list state */
+#sn_menu li {
+	padding: 0;
+	margin: 0;
+	font-size: 0.85em;
+	font-weight: bold;
+	display: inline;
+}
+
+/* Link styles for the sub-section links */
+#sn_menu li span {
+	display: block;
+	padding: 3px 3px 3px 8px;
+	margin: 1px 0;
+	text-decoration: none;
+	font-weight: normal;
+	color: #138ECB;
+}
+
+.rtl #sn_menu li span {
+	padding: 3px 8px 3px 3px;
+}
+
+#sn_menu li a:hover, #sn_menu li a:hover span {
+	text-decoration: none;
+	background-color: #FFFFFF;
+	color: #BC2A4D;
+}
+
+#sn_menu li a:active, #sn_menu li a:active span {
+	color: #F632A0;
+}
+
+#sn_menu li#sn_activemenu a span {
+	text-decoration: none;
+	font-weight: bold;
+	color: #111111;/* #1180B7;*/
+	background: #EEE url("../../adm/images/arrow_right.gif") 98% 50% no-repeat;
+}
+
+.rtl #sn_menu li#sn_activemenu a span {
+	background: #EEE url("../../adm/images/arrow_left.gif") 2% 50% no-repeat;
+}
+
+#sn_menu li#sn_activemenu a:hover span, #sn_menu li#sn_activemenu span {
+	text-decoration: none;
+	font-weight: bold;
+	color: #BC2A4D;
+	background: #EEE url("../../adm/images/arrow_right.gif") 98% 50% no-repeat;
+}
+
+.rtl #sn_menu li#sn_activemenu a:hover span, .rtl #sn_menu li#sn_activemenu span {
+	background: #EEE url("../../adm/images/arrow_left.gif") 2% 50% no-repeat;
+}
+
+#sn_menu li a:active, #sn_menu li a:active span, #sn_menu li#sn_activemenu a:active span {
+	color: #F632A0;
+}
+
+#sn_menu li span.completed {
+	text-decoration: none;
+	padding: 3px 3px 3px 12px;
+	background: url("../../adm/images/arrow_down.gif") 1% 50% no-repeat;
+}
+
+.rtl #sn_menu li span.completed {
+	text-decoration: none;
+	padding: 3px 12px 3px 3px;
+	background: url("../../adm/images/arrow_down.gif") 99% 50% no-repeat;
+}
+
+#sn_menu li.header {
+	font-family: Tahoma, Helvetica, sans-serif;
+	display: block;
+	font-weight: bold;
+	color: #115098;
+	border-bottom: 1px solid #327AA5;
+	margin-top: 5px;
+	text-transform: uppercase;
+	font-size: 0.75em;
+
+   background: url("../../adm/images/gradient2b.gif") repeat-x scroll left bottom #70AED3;
+    border-bottom: 1px solid #327AA5;
+    border-top: 1px solid #6DACD2;
+    color: #FFFFFF;
+    font-size: 0.75em;
+    padding: 3px 4px;
+    text-align: left;
+    text-transform: uppercase;
+
+
+}
+
+
+
+
+#sn_main {
+	float: left;
+	width: 78%;
+	margin: 0 0 0 .5%;
+	min-height: 350px;
+}
+
+.rtl #sn_main {
+	float: right;
+	margin: 0 1% 0 0;
+}
+
+* html #sn_main {
+	height: 350px;
+}

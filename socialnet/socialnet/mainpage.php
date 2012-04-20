@@ -46,14 +46,14 @@ if (!class_exists('socialnet_mainpage'))
 			$this->p_master =& $p_master;
 
 			$template_vars = array();
-
+/*
 			$addons = array();
 			$addons = $this->p_master->sn_addons_load('6');
 			foreach ($addons as $addon)
 			{
 				include("{$phpbb_root_path}socialnet/addons/" . $addon);
 			}
-
+*/
 			$on_login = false;
 			if ($this->p_master->script_name == 'mainpage')
 			{
@@ -64,7 +64,7 @@ if (!class_exists('socialnet_mainpage'))
 			{
 				// STARTING FILL of MAIN PAGE
 				$mode = request_var('mode', 'view_main');
-
+/*
 				$addons = array();
 				$addons = $this->p_master->sn_addons_load('3');
 				foreach ($addons as $addon)
@@ -83,7 +83,7 @@ if (!class_exists('socialnet_mainpage'))
 				{
 					include("{$phpbb_root_path}socialnet/addons/" . $addon);
 				}
-
+*/
 				switch ($mode)
 				{
 					case 'view_suggestions':

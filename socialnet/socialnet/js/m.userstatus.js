@@ -277,6 +277,7 @@
 				return false;
 			});
 
+			// Fetch
 			$('input[name=sn-us-fetchButton]').live('click', function() {
 				$('.sn-us-fetchBlock .loader').show();
 				$('.sn-us-fetchBlock .sn-us-fetchPreview').hide();
@@ -336,6 +337,7 @@
 						$('.sn-us-fetchBlock .loader').hide();
 						$('.sn-us-fetchPreview').show();
 						$('.sn-us-thumbs').show();
+						$('input[name=sn-us-fetchButton]').hide();
 						$('input[name=sn-us-fetchClear]').show();
 
 						$('.sn-us-fetchDesc').css({
@@ -359,6 +361,7 @@
 				$('.sn-us-fetchBlock .sn-us-fetchPreview').hide();
 				$('.sn-us-thumbs').hide();
 				$(this).hide();
+				$('input[name=sn-us-fetchButton]').show();
 			}).hide();
 
 			$('#sn-us-noImg').change(function() {

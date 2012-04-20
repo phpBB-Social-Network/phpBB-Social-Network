@@ -20,10 +20,6 @@
   <!-- ENDIF -->
 	<!-- IF .visitors --><dt>{L_SN_UP_LAST_VISITORS}:</dt> <dd><!-- BEGIN visitors -->{visitors.USERNAME}<!-- IF not visitors.S_LAST_ROW -->, <!-- ENDIF --><!-- END visitors --></dd><!-- ENDIF --> 
 	<dt>{L_SN_UP_PROFILE_VIEWED}:</dt> <dd>{PROFILE_VIEWS}x</dd>
-  <!-- BEGIN addons -->
-    <!-- IF addons.LOCATION == '2' -->
-      <!-- DEFINE $TEMPLATE_FILE = '{addons.FILE}' -->
-      <!-- INCLUDE {$TEMPLATE_FILE} -->
-    <!-- ENDIF -->
-  <!-- END addons -->
+	{SN_ADDONS_PLACEHOLDER_PROFILE_TAB_STATISTICS_CONTENT}
+	
 </dl>

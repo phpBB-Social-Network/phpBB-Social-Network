@@ -48,7 +48,7 @@ define('SN_NTF_STATUS_UNREAD', 0x13);
 define('SN_NTF_STATUS_READ', 0x10);
 
 define('SN_UP_EMOTE_FOLDER', 'socialnet/styles/emotes/');
-
+define('SN_ADDONS_PLACEHOLDER_CONTENT', 'SN_ADDONS_PLACEHOLDER_%1$s_%2$s_CONTENT');
 
 define('SN_IM_TABLE', $table_prefix_socialnet . 'im');
 define('SN_CONFIG_TABLE', $table_prefix_socialnet . 'config');
@@ -66,7 +66,11 @@ define('SN_REPORTS_REASONS_TABLE', $table_prefix_socialnet . 'reports_reasons');
 define('SN_FAMILY_TABLE',				$table_prefix_socialnet . 'family');
 define('SN_PROFILE_VISITORS_TABLE',		$table_prefix_socialnet . 'profile_visitors');
 define('SN_SUBSCRIPTIONS_TABLE',		$table_prefix_socialnet . 'subscriptions');
+
+
 define('SN_ADDONS_TABLE', $table_prefix_socialnet . 'addons');
+define('SN_ADDONS_PLACEHOLDER_TABLE', $table_prefix_socialnet . 'addons_placeholder');
+
 
 define('SN_COMMENTS_TABLE', $table_prefix_socialnet . 'comments');
 define('SN_COMMENTS_MODULES_TABLE', $table_prefix_socialnet . 'comments_modules');

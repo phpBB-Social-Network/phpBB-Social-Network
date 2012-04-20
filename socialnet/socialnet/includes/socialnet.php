@@ -16,25 +16,29 @@ if (!defined('IN_PHPBB') || !defined('SOCIALNET_INSTALLED'))
 	exit;
 }
 
-/*******
- $debugTimes = array();
+$socialnet_root_path = $phpbb_root_path . 'socialnet/';
 
- $debugTimes['START'] = array(
- str_replace($_SERVER['DOCUMENT_ROOT'].$config['script_path'], '',__FILE__) . ' ' . __LINE__ ,
- microtime(true)
- );
+// Load neccessary scripts
+/**
+ * @ignore
+ */
+include_once($socialnet_root_path . 'includes/constants.' . $phpEx);
+/**
+ * @ignore
+ */
+$dir = opendir( "{$socialnet_root_path}includes/");
+while( $file = readdir( $dir))
+{
+	if ( preg_match("/^sn_core_.*\.{$phpEx}$/i", $file, $match ))
+	{
+		include( "{$socialnet_root_path}includes/$file");
+	}
+}
+closedir( $dir);
 
- function debugTimes($file,$line,$function)
- {
- global $debugTimes, $socialnet, $config;
+include_once($socialnet_root_path . 'includes/functions.' . $phpEx);
 
 
- $debugTimes[] =array(
- str_replace($_SERVER['DOCUMENT_ROOT'].$config['script_path'], '',$file) . ' ' . $line . ' ' . $function,
- round(microtime(true)- $debugTimes['START'][1],3).'s');
-
- }
- ***************/
 
 /**
  * Main class of Social Network for phpBB
@@ -43,7 +47,7 @@ if (!defined('IN_PHPBB') || !defined('SOCIALNET_INSTALLED'))
  */
 class socialnet extends snFunctions
 {
-	var $notify = null, $comments = null;
+	var $notify = null, $comments = null, $addons = null;
 	/**
 	 * @var array
 	 */
@@ -1107,6 +1111,11 @@ class socialnet extends snFunctions
 			}
 		}
 
+		if ( class_exists('sn_core_addons'))
+		{
+			$this->addons->get();
+		}
+		
 		if (sizeOf($this->modules) == 0)
 		{
 			return;

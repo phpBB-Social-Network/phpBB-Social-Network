@@ -172,11 +172,6 @@ div:not(.sn-page) .sn-userName a
 	background-image:url({T_IMAGESET_PATH}/socialnet/button_ok.png);
 }
 
-.sn-action-block .sn-actions .sn-action-ok-green,.sn-action-blockHidden .sn-actions .sn-action-ok-green
-{
-	background-image:url({T_IMAGESET_PATH}/socialnet/button_ok_green.png);
-}
-
 .sn-action-block .ui-accordion-header .sn-actions,.sn-action-blockHidden .ui-accordion-header .sn-actions
 {
 	top:3px;
@@ -863,6 +858,11 @@ div:not(.sn-page) .sn-userName a
 	padding-right:0;
 }
 
+.ltr .sn-im-msgAvatar > img
+{
+	right:0;
+}
+
 .ltr .sn-im-msgTime
 {
 	border-left:1px solid #eee;
@@ -964,6 +964,11 @@ div:not(.sn-page) .sn-userName a
 	padding-left:0;
 }
 
+.rtl .sn-im-msgAvatar > img
+{
+	left:0;
+}
+
 .rtl .sn-im-msgTime
 {
 	border-right:1px solid #eee;
@@ -997,6 +1002,18 @@ div:not(.sn-page) .sn-userName a
 .jGrowl .jGrowl-notification.orange,.jGrowl .jGrowl-closer.orange
 {
 	background-color:#ef9859;
+}
+
+.ltr .sn-ntf-unread
+{
+	border-left:4px solid #bc2a4d;
+	padding-left:0;
+}
+
+.rtl .sn-ntf-unread
+{
+	border-right:4px solid #bc2a4d;
+	padding-right:0;
 }
 
 .sn-us-profile,.sn-us-membShareStatus
@@ -1263,7 +1280,6 @@ a.ui-button
 
 .sn-up-menu > li > .ui-menu
 {
-	top:24px;
 	width:200px;
 }
 
@@ -1549,6 +1565,11 @@ a.ui-button
 	position:relative;
 }
 
+.sn-action-block .sn-actions .sn-action-ok-green,.sn-action-blockHidden .sn-actions .sn-action-ok-green,.sn-action-block .sn-actions .sn-action-check,.sn-action-blockHidden .sn-actions .sn-action-check
+{
+	background-image:url({T_IMAGESET_PATH}/socialnet/button_ok_green.png);
+}
+
 .sn-action-block .ui-accordion-header .sn-actions div,.sn-action-block .ui-accordion-header .sn-actions span,.sn-action-blockHidden .ui-accordion-header .sn-actions div,.sn-action-blockHidden .ui-accordion-header .sn-actions span,.sn-action-blockHidden:hover .sn-actions a,.sn-action-blockHidden:hover .sn-actions div,.sn-action-blockHidden:hover .sn-actions span,.sn-im-loginlogout .sn-im-selected.sn-im-login span
 {
 	background-position:0 -15px;
@@ -1634,19 +1655,9 @@ a.ui-button
 	padding-right:3px;
 }
 
-.ltr .sn-im-msgAvatar > img,.ltr .sn-up-menu > li > .ui-menu
-{
-	right:0;
-}
-
 .rtl .sn-im-msg .sn-im-msgText-Arrow,.ltr #sn-ntf-notify
 {
 	padding-left:3px;
-}
-
-.rtl .sn-im-msgAvatar > img,.rtl .sn-up-menu > li > .ui-menu
-{
-	left:0;
 }
 
 .ltr .jGrowl .jGrowl-notification .jGrowl-message span,.rtl .sn-up-editableButton

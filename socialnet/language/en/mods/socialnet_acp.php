@@ -18,7 +18,8 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,
+	array(
 	'ACP_CAT_SOCIALNET'						 => 'Social Network',
 	'ACP_CAT_SOCIALNET_EXPLAIN'				 => '',
 	'ACP_SN_WELCOME_TEXT'					 => 'phpBB Social Network is a modification for phpBB boards, which turns your board into a full-valued social network software. Our goal is to provide you a community software solution with favourite features from all major social network websites. phpBB3 Social Network is a modular based application, which means that you can turn on/off each module and it is easy to create your own new modules. If you miss some module or feature, you can look at the bottom of this page and choose which module you want to download. Feel free to visit <a href="http://phpbbsocialnetwork.com">phpbbsocialnetwork.com</a> to ask for support or ask us to create a new module ',
@@ -140,7 +141,8 @@ $lang = array_merge($lang, array(
 ));
 
 // INSTANT MESSENGER ACP
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,
+	array(
 	'IM_ONLY_FRIENDS'						 => 'Allow chat only with friends',
 	'IM_ONLY_FRIENDS_EXPLAIN'				 => 'This option allows you turn on/off chatting only with friends',
 	'IM_ALLOW_SOUND'						 => 'Play sound when receive messages',
@@ -164,7 +166,8 @@ $lang = array_merge($lang, array(
 ));
 
 // ADDONS MANAGEMENT ACP
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,
+	array(
 	'ACP_SN_ADDONS_CONFIGURATION'			 => 'Addons Management',
 	'ACP_SN_ADDONS_CONFIGURATION_EXPLAIN'	 => 'You can manage external addons via this panel.',
 	'SN_ADDONS_NO_ADDONS'					 => 'You have not added any addon yet',
@@ -195,6 +198,47 @@ $lang = array_merge($lang, array(
 	'SN_ADDONS_NO_LOCATION'					 => 'Please specify the location for this addon.',
 ));
 
+$lang = array_merge($lang,
+	array(
+	'ACP_SN_ADDONS_HOOK_CONFIGURATION'			 => 'Addons Hook System Management',
+	'SN_ADDONS_ADDONS_MANAGEMENT'				 => 'AddOns Management',
+	'SN_ADDONS_PLACEHOLDER_MANAGEMENT'			 => 'Placeholders Management',
+	'SN_ADDONS_EDITHOLDER'						 => 'Edit placeholder',
+	'SN_ADDONS_ADDHOLDER'						 => 'Add placeholder',
+	'SN_ADDONS_PLACEHOLDER_EMPTY_FIELD'			 => 'Both fileds are required',
+	'SN_ADDONS_PLACEHOLDER_ADDED'				 => 'New placeholder has been added succesfully',
+	'SN_ADDONS_PLACEHOLDER_EDITED'				 => 'Placeholder has been edited succesfully',
+	'SN_ADDONS_PLACEHOLDER_DELETE_CONFIRM'		 => 'Are you sure to delete placeholder <strong>%1$s::%2$s</strong>?',
+	'SN_ADDONS_PLACEHOLDER_DELETED'				 => 'Placeholder has been deleted succesfully',
+	'SN_ADDONS_PLACEHOLDER_DUPLICATE'			 => 'New placeholder could not be added, already exists',
+	'SN_ADDONS_PLACEHOLDER_ERREDIT'				 => 'Some problems by placeholder occurs',
+	'SN_ADDONS_PLACEHOLDER'						 => 'Placeholder',
+	'SN_ADDONS_PLACEHOLDER_PAGE'				 => 'Script name',
+	'SN_ADDONS_PLACEHOLDER_BLOCK'				 => 'Block on page',
+	'SN_ADDONS_PLACEHOLDER_STRING'				 => 'Template variable',
+	'SN_ADDONS_PLACEHOLDER_SCRIPT_NAME'			 => 'Script name',
+	'SN_ADDONS_PLACEHOLDER_BLOCK'				 => 'Block',
+	'SN_ADDONS_PLACEHOLDER_SCRIPT_NAME_EXPLAIN'	 => 'Script name for placeholder. Script name is exactly name of the page which is dipslayed on the board.<br />
+		If you don\'t know what is exactly script name of the current page you can mostly find it in source code in HTML tag BODY.<br />
+		<em>(eg. &lt;body id="phpbb" class="section-<strong>{script name}</strong> ..."&gt;)</em>',
+	'SN_ADDONS_PLACEHOLDER_BLOCK_EXPLAIN'		 => 'Name of the block. Because you can create more than one placeholder for one script, than block namw must be specified.<br />
+		<em>(eg. "header", "leftcolumn", "rightcolumn")</em>',
+	'SN_ADDONS_NO_PLACEHOLDER_TO_ADD_ADDON'		 => 'There is no a placeholder for adding AddOn. You may create some placeholder first.',
+	'SN_ADDONS_ADDON'							 => 'Addon',
+	'SN_ADDONS_ADDADDON'						 => 'Add Addon',
+	'SN_ADDONS_EDITADDON'						 => 'Edit Addon',
+
+	'SN_ADDONS_TEMPLATE'						 => 'Addon template',
+	'SN_ADDONS_ADDON_ADDED_ERROR'				 => 'This addon is already added for this place holder',
+	'SN_ADDONS_ADDON_DELETE_CONFIRM'			 => 'Are you sure to remove addon <strong>%1$s</strong> from placeholder <strong>%2$s::%3$s</strong>?',
+	'SN_ADDONS_ADDON_DELETED'					 => 'Addon <strong>%1$s</strong> from placeholder <strong>%2$s::%3$s</strong> has been sucessfuly removed.',
+	'SN_ADDON_NO_ADDON_IN_PLACEHOLDER'			 => 'No Addon assigned to this placeholder',
+
+	'SN_ADDON_TEMPLATE_FOLDER_NOT_EXIST'		 => 'AddOn Template folder for style <strong>%1$s</strong> does not exists. Used <strong>prosilver</strong> template folder instead.',
+	'SN_ADDONS_ADDON_TEMPLATE_EXIST'			 => 'Exist',
+	'SN_ADDONS_ADDON_TEMPLATE_NOT_EXIST'		 => 'Not exist',
+));
+
 // USER STATUS ACP
 $lang = array_merge($lang, array(
 	'US_COMMENTS'									 => 'Allow other users to comment on user status',
@@ -216,7 +260,8 @@ $lang = array_merge($lang, array(
 	'SN_FMS_PURGE_ALL_FRIENDS_DELETED_USERS' => 'Purge all friends and friend groups deleted users',
 ));
 // MAINPAGE ACP
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,
+	array(
 	'MP_NUM_LAST_POSTS'							 => 'Limit last posts displaying',
 	'MP_NUM_LAST_POSTS_EXPLAIN'					 => 'Limits the number of last posts loaded for Recent discussion',
 	'MP_SHOW_NEW_FRIENDSHIPS'					 => 'Display notification about new friendships',
@@ -248,7 +293,8 @@ $lang = array_merge($lang, array(
 ));
 
 // USER PROFILE ACP
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,
+	array(
 	'SN_ENABLE_REPORT'							 => 'Enable reporting users',
 	'SN_ENABLE_REPORT_EXPLAIN'					 => 'Users will be able to report other users',
 	'SN_ENABLE_SUBSCRIPTIONS'					 => 'Enable subscribing users',
@@ -266,8 +312,8 @@ $lang = array_merge($lang, array(
 	'SN_PROFILE_ALERT_RELATION_BY_PM_EXPLAIN'	 => 'Send PM to the user about a new relationship or family request. If you set no, then user will be notified by notification.',
 	'SN_PROFILE_MANAGE_EMOTES'					 => 'Emotes Management',
 	'SN_PROFILE_MANAGE_EMOTES_EXPLAIN'			 => 'You can manage Emotes via this panel',
-	'SN_EMOTE_IMAGE'							 => 'Emoticon',
-	'SN_EMOTE_TITLE'							 => 'Emote',
+	'SN_PROFILE_EMOTE_IMAGE'					 => 'Emoticon',
+	'SN_PROFILE_EMOTE_NAME'						 => 'Emote',
 	'SN_PROFILE_ADD_EMOTE'						 => 'Add new Emote',
 	'SN_PROFILE_EDIT_EMOTE'						 => 'Edit Emote',
 	'SN_PROFILE_MANAGE_EMOTES_EMPTY_NAME'		 => 'You have to fill in the name',
@@ -279,7 +325,8 @@ $lang = array_merge($lang, array(
 // PHPBB LOG CONFIG
 $lang_log_main = '<strong>Social Network &raquo</strong> ';
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang,
+	array(
 	'LOG_CONFIG_SN_MAIN'									 => $lang_log_main . 'Global settings changed',
 	'LOG_CONFIG_SN_MODULES'									 => $lang_log_main . 'Available modules changed',
 	'LOG_CONFIG_SN_CB'										 => $lang_log_main . 'Confirmation box settings changed',

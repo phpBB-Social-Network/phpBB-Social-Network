@@ -93,18 +93,19 @@ if ($status != "200")
  * PARSE TYPE OF PAGE
  */
 $sql = "SELECT g.group_name, e.extension
-		FROM "
-. EXTENSION_GROUPS_TABLE . " AS g LEFT OUTER JOIN " . EXTENSIONS_TABLE . " AS e ON g.group_id = e.group_id";
+					FROM " . EXTENSION_GROUPS_TABLE . " AS g
+						LEFT OUTER JOIN " . EXTENSIONS_TABLE . " AS e
+							ON g.group_id = e.group_id";
 $rs = $db->sql_query($sql, 3600);
 $rowset = $db->sql_fetchrowset($rs);
 $db->sql_freeresult($rs);
+
 $exts = array();
 $extensions = '';
 for ($i = 0; isset($rowset[$i]); $i++)
 {
 	$exts[$rowset[$i]['group_name']][] = $rowset[$i]['extension'];
 	$extensions .= '|' . $rowset[$i]['extension'];
-
 }
 
 $video_array = array(
@@ -115,15 +116,14 @@ $video_array = array(
 
 $is_file = preg_match('/\.(' . substr($extensions, 1) . ')$/i', $urldata['path']);
 
-
 $url_desc = $url;
 $url_title = $urldata["scheme"] . "://" . $urldata["host"];
 
 $images_ary = array();
 $video_array = array(
-		'info'		 => '',
-		'provider'	 => '',
-		'object'	 => '',
+	'info'		 => '',
+	'provider'	 => '',
+	'object'	 => '',
 );
 
 if ($img = @imagecreatefromstring($string) )
@@ -171,7 +171,7 @@ else if (!empty($ytData))
 else if (!$is_file)
 {
 	/**
-	 * JE TO SOUBOR ?
+	 * Is it file?
 	 */
 	preg_match('/<meta http-equiv="Content-Type" content="text\/html; charset=([^"]*)" ?\/?>/si', $string, $match);
 
@@ -241,7 +241,7 @@ else if (!$is_file)
 	$video_provider = ' ';
 	$video = '';
 	$embevi = new EmbeVi();
-	$embevi->__varruct();
+	$embevi->__construct();
 
 	if ($embevi->parseUrl($url))
 	{

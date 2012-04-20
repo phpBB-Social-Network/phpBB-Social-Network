@@ -21,6 +21,11 @@
 	    monthNamesShort : [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
 	    _inited : false,
 	    tabReportUser : -1,
+	    menuPosition : {
+	        my : "right top",
+	        at : "right bottom"
+	    },
+
 
 	    init : function(opts) {
 		    if (!$.sn._inited) { return false; }
@@ -30,14 +35,14 @@
 		    if ($('#sn-up-profileTabs').size() > 0) {
 			    var par_URL = $.sn.parseURL(window.location);
 			    if (par_URL.hash == 'socialnet_us' && par_URL.params.status_id != null) {
-				    $.sn.setCookie('sn-up-profileTab', 0);
+				    $.sn.setCookie('sn_up_profileTab', 0);
 			    }
 			    $.sn.up.url = $.sn.up.url.replace(/&amp;/, '&');
 
 			    $('#sn-up-profileTabs').tabs({
 			        spinner : $.sn.up.spinner,
 			        cookie : {
-			            name : $.sn.cookie.name + 'sn-up-profileTab',
+			            name : $.sn.cookie.name + 'sn_up_profileTab',
 			            path : $.sn.cookie.path,
 			            domain : $.sn.cookie.domain,
 			            secure : $.sn.cookie.secure
@@ -107,10 +112,10 @@
 				    });
 				    return false;
 			    });
-
 		    }
-
-		    $('#sn-up-reportUser input[name=cancel]').live('click', function() {
+		    
+		    //$('a[href$=reportUser] .sn-action-tabClose').live('click', function() { << Nemelo by stacit toto?
+		    $('#sn-up-profileTabs .ui-tabs-nav li a[href$=reportUser] .sn-action-tabClose').live('click', function() {
 			    $('#sn-up-profileTabs').tabs('select', $.sn.up.tabCurrent).tabs('remove', $.sn.up.tabReportUser);
 			    $.sn.up.tabReportUser = -1;
 			    return false;
@@ -189,11 +194,8 @@
 
 	    _upMenu : function() {
 		    if ($('.sn-up-menu li').size() > 0) {
-			    $('.sn-up-menu').css('z-index', 999).menuNew({
-				    position : {
-				        my : "right top",
-				        at : "right bottom"
-				    }
+			    $('.sn-up-menu').css('z-index', 999).menu({
+				    position : $.sn.up.menuPosition
 			    });
 
 			    $('.sn-up-menu .ui-icon-carat-1-e').toggleClass('ui-icon-carat-1-e ui-icon-carat-1-s');

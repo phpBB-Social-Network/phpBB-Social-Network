@@ -646,8 +646,8 @@ $versions = array(
 		'custom' => 'phpbb_SN_umil_auto',
 	),
 
-	'0.6.2.2'	 => array(
-		'table_add'	 => array(
+	'0.6.2.4'	 => array(
+		'table_add'				 => array(
 			array(SN_COMMENTS_MODULES_TABLE, array(
 				'COLUMNS'		 => array(
 					'cmtmd_id'	 => array('UINT', NULL, 'auto_increment'),
@@ -681,62 +681,6 @@ $versions = array(
 				),
 
 			)),
-		),
-	),
-
-	'0.6.2.3'	 => array(
-		'table_add'	 => array(
-			array(SN_ADDONS_TABLE, array(
-				'COLUMNS'		 => array(
-					'addon_id'		 => array('UINT:11', NULL, 'auto_increment'),
-					'addon_name'	 => array('VCHAR:255', ''),
-					'addon_location' => array('UINT', 0),
-					'addon_php'		 => array('VCHAR:255', ''),
-					'addon_html'	 => array('VCHAR:255', ''),
-					'addon_active'	 => array('USINT', 0),
-					'left_id'		 => array('UINT:8', 0),
-					'right_id'		 => array('UINT:8', 0),
-				),
-				'PRIMARY_KEY'	 => array('addon_id'),
-			)),
-		),
-
-		'module_add' => array(
-			array('acp', 'ACP_SN_CONFIGURATION', array(
-				'module_basename'	 => 'socialnet',
-				'module_langname'	 => 'ACP_SN_ADDONS_CONFIGURATION',
-				'module_mode'		 => 'addons_config',
-				'module_auth'		 => 'acl_a_sn_settings'
-			)),
-		),
-	),
-
-	'0.6.2.4'	 => array(
-		'table_column_update'	 => array(
-			array(SN_IM_TABLE, 'sent', array('PDECIMAL:20', 0)),
-		),
-
-		'custom'				 => 'phpbb_SN_umil_0_6_2_4',
-	),
-
-	'0.6.2.5'	 => array(
-		'table_column_add'		 => array(
-			array(SN_FMS_GROUPS_TABLE, 'fms_collapse', array('BOOL', 0)),
-			array(SN_FMS_USERS_GROUP_TABLE, 'owner_id', array('UINT:11', 0)),
-		),
-		'table_column_update'	 => array(
-			array(SN_FMS_GROUPS_TABLE, 'fms_gid', array('UINT', NULL)),
-		),
-		'table_index_add'		 => array(
-			array(SN_FMS_GROUPS_TABLE, 'd', array('fms_gid', 'user_id', 'fms_clean')),
-			array(SN_FMS_GROUPS_TABLE, 'e', array('fms_gid', 'user_id', 'fms_clean', 'fms_collapse')),
-			array(SN_FMS_USERS_GROUP_TABLE, 'c', array('fms_gid', 'owner_id')),
-		),
-		'custom'				 => 'phpbb_SN_umil_0_6_2_5',
-	),
-
-	'0.6.2.6'	 => array(
-		'table_add'			 => array(
 			array(SN_EMOTES_TABLE, array(
 				'COLUMNS'		 => array(
 					'emote_id'		 => array('UINT:8', NULL, 'auto_increment'),
@@ -745,15 +689,32 @@ $versions = array(
 					'emote_order'	 => array('UINT:8', 0),
 				),
 				'PRIMARY_KEY'	 => array('emote_id'),
-				'UNIQUE_KEY'	 => array('emote_name'),
 				'KEYS'			 => array(
+					'u'	 => array('UNIQUE_KEY', array('emote_name')),
 					'a'	 => array('INDEX', array('emote_name', 'emote_order')),
 					'b'	 => array('INDEX', array('emote_order')),
 				)
 			)),
+
 		),
 
-		'table_row_insert'	 => array(
+		'table_column_add'		 => array(
+			array(SN_FMS_GROUPS_TABLE, 'fms_collapse', array('BOOL', 0)),
+			array(SN_FMS_USERS_GROUP_TABLE, 'owner_id', array('UINT:11', 0)),
+		),
+
+		'table_column_update'	 => array(
+			array(SN_IM_TABLE, 'sent', array('PDECIMAL:20', 0)),
+			array(SN_FMS_GROUPS_TABLE, 'fms_gid', array('UINT', NULL)),
+		),
+
+		'table_index_add'		 => array(
+			array(SN_FMS_GROUPS_TABLE, 'd', array('fms_gid', 'user_id', 'fms_clean')),
+			array(SN_FMS_GROUPS_TABLE, 'e', array('fms_gid', 'user_id', 'fms_clean', 'fms_collapse')),
+			array(SN_FMS_USERS_GROUP_TABLE, 'c', array('fms_gid', 'owner_id')),
+		),
+
+		'table_row_insert'		 => array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'ntf_life', 'config_value' => 10)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'ntf_checktime', 'config_value' => 10)),
 
@@ -770,7 +731,68 @@ $versions = array(
 			array(SN_EMOTES_TABLE, array('emote_name' => 'Slap', 'emote_image' => '', 'emote_order' => 11)),
 			array(SN_EMOTES_TABLE, array('emote_name' => 'Boo', 'emote_image' => '', 'emote_order' => 12)),
 		),
+
+		'custom'				 => 'phpbb_SN_umil_0_6_2_4',
 	),
+
+	'0.6.2.6'	 => array(
+		'custom' => 'phpbb_SN_umil_0_6_2_6',
+
+	),
+
+	'0.6.2.7'	 => array(
+		'table_add'			 => array(
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array(
+				'COLUMNS'		 => array(
+					'ph_id'		 => array('UINT:8', null, 'auto_increment'),
+					'ph_script'	 => array('VCHAR:64', ''),
+					'ph_block'	 => array('VCHAR:16', ''),
+				),
+				'PRIMARY_KEY'	 => array('ph_id'),
+				'KEYS'			 => array(
+					'u'	 => array('UNIQUE', array('ph_script', 'ph_block')),
+					'a'	 => array('INDEX', array('ph_script')),
+					'b'	 => array('INDEX', array('ph_block')),
+				),
+			)),
+			array(SN_ADDONS_TABLE, array(
+				'COLUMNS'		 => array(
+					'addon_id'			 => array('UINT:8', NULL, 'auto_increment'),
+					'addon_placeholder'	 => array('UINT:8', 0),
+					'addon_name'		 => array('VCHAR:64', ''),
+					'addon_php'			 => array('VCHAR:32', ''),
+					'addon_function'	 => array('VCHAR:32', ''),
+					//'addon_html'	 => array('VCHAR:255', ''),
+					'addon_active'		 => array('USINT', 0),
+					'addon_order'		 => array('UINT:8', 0)
+				),
+				'PRIMARY_KEY'	 => array('addon_id'),
+				'KEYS'			 => array(
+					'u'	 => array('UNIQUE', array('addon_placeholder', 'addon_name', 'addon_php', 'addon_function')),
+					'a'	 => array('INDEX', array('addon_name', 'addon_php', 'addon_active')),
+					'b'	 => array('INDEX', array('addon_order')),
+				),
+			)),
+		),
+
+		'module_add'		 => array(
+			array('acp', 'ACP_SN_CONFIGURATION', array(
+				'module_basename'	 => 'socialnet',
+				'module_langname'	 => 'ACP_SN_ADDONS_HOOK_CONFIGURATION',
+				'module_mode'		 => 'addons',
+				'module_auth'		 => 'acl_a_sn_settings'
+			)),
+		),
+
+		'table_row_insert'	 => array(
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'header')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'leftcolumn')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'rightcolumn')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab statistics')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab info')),
+		),
+	),
+		
 );
 
 if (!defined('DEBUG_EXTRA'))
@@ -872,7 +894,7 @@ function phpbb_SN_umil_0_6_2_4($action, $version)
 	return 'Social Network::Comments system ' . $return_status;
 }
 
-function phpbb_SN_umil_0_6_2_5($action, $version)
+function phpbb_SN_umil_0_6_2_6($action, $version)
 {
 	global $db;
 
@@ -909,14 +931,17 @@ function phpbb_SN_umil_0_6_2_5($action, $version)
 		$sql = "SELECT user_id FROM " . USERS_TABLE . " WHERE user_type <> 2";
 		$rs = $db->sql_query($sql);
 		$rowset = $db->sql_fetchrowset($rs);
-		$db->sql_return_on_error(true);
-		for ($i = 0; isset($rowset[$i]); $i++)
+		if ($action == 'update')
 		{
-			$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . " (fms_gid,user_id,fms_name,fms_clean,fms_collapse) VALUES (0,{$rowset[$i]['user_id']}, '---','---',0)";
-			$db->sql_query($sql);
+			$db->sql_return_on_error(true);
+			for ($i = 0; isset($rowset[$i]); $i++)
+			{
+				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . " (fms_gid,user_id,fms_name,fms_clean,fms_collapse) VALUES (0,{$rowset[$i]['user_id']}, '---','---',0)";
+				$db->sql_query($sql);
+			}
+			$db->sql_return_on_error(false);
 		}
-		$db->sql_return_on_error(false);
-
+		
 		$sql = "SELECT COUNT(*) FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE owner_id = 0";
 		$rs = $db->sql_query($sql);
 		if ($db->sql_affectedrows($rs))
@@ -930,6 +955,8 @@ function phpbb_SN_umil_0_6_2_5($action, $version)
 	}
 	return 'Social Network::FMS Groups updated' . $return_status;
 }
+
+
 /**
  * Function for table rename by install/update
  */
