@@ -1,0 +1,111 @@
+<!-- IF S_ADDONS_LIST -->
+	<!-- IF .addons -->  
+	<table cellpadding="1" cellspacing="1">
+		<thead>
+			<tr>
+				<th>{L_SN_ADDONS_ADDON_NAME}</th>
+				<th>{L_SN_ADDONS_ADDON_LOCATION}</th>
+				<th>{L_SN_ADDONS_ADDON_PHP}</th>
+				<th>{L_SN_ADDONS_ADDON_HTML}</th>
+				<th>{L_ENABLE}/{L_DISABLE}</th>
+				<th width="10%">{L_ACTIONS}</th>
+			</tr>
+		</thead?
+		<tbody>
+	      <!-- BEGIN addons -->
+	        <tr>
+	        	<td><strong>{addons.NAME}</strong></td>
+	        	<td>{addons.LOCATION}</td>
+	        	<td>{addons.PHP}</td>
+	        	<td>{addons.HTML}</td>					
+				<td><a href="{addons.U_ACTIVATE}">{addons.ACTIVE}</a></td>
+				<td style="width: 10%; text-align: center; white-space: nowrap;">
+	            <!-- IF addons.S_FIRST_ROW && not addons.S_LAST_ROW -->
+					{ICON_MOVE_UP_DISABLED}
+					<a href="{addons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+	            <!-- ELSEIF not addons.S_FIRST_ROW && not addons.S_LAST_ROW -->
+					<a href="{addons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+					<a href="{addons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+	            <!-- ELSEIF addons.S_LAST_ROW && not addons.S_FIRST_ROW -->
+					<a href="{addons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+					{ICON_MOVE_DOWN_DISABLED}
+	            <!-- ELSE -->
+					{ICON_MOVE_UP_DISABLED}
+					{ICON_MOVE_DOWN_DISABLED}
+	            <!-- ENDIF -->
+					<a href="{addons.U_EDIT}">{ICON_EDIT}</a>
+					<a href="{addons.U_DELETE}">{ICON_DELETE}</a>  
+	          </td>
+	        </tr>
+	      <!-- END addons -->
+		</tbody>
+	</table>
+	<!-- ELSE -->
+	<div class="errorbox">{L_SN_ADDONS_NO_ADDONS}</div>
+	<!-- ENDIF -->        
+  
+	<form method="post" action="">    
+		<fieldset class="quick">
+	    	<input class="post" type="text" maxlength="100" id="sn_addon_name" name="addon_name" value="" />
+			<input class="button2" type="submit" id="submit" name="submit" value="{L_SN_ADDONS_CREATE_ADDON}" />&nbsp;
+			{S_FORM_TOKEN} 
+		</fieldset>
+	</form>
+  
+<!-- ELSEIF S_ADDONS_CREATE_ADDON or S_ADDONS_EDIT_ADDON -->
+  <form method="post" action="">
+    <fieldset>
+  		<legend><!-- IF S_ADDONS_EDIT_ADDON -->{L_SN_ADDONS_EDIT_ADDON} » {S_NAME}<!-- ELSE -->{L_SN_ADDONS_CREATE_ADDON}<!-- ENDIF --></legend>
+  		<p>{L_SN_ADDONS_CREATE_ADDON_EXPLAIN}</p>
+      <dl>
+        <dt><label for="addon_name">{L_SN_ADDONS_ADDON_NAME}</label></dt>
+        <dd><input class="post" type="text" size="50" maxlength="100" id="addon_name" name="addon_name" value="{S_NAME}" /></dd>
+      </dl>
+      <dl>
+        <dt><label for="addon_php">{L_SN_ADDONS_ADDON_PHP}</label><br />{L_SN_ADDONS_ADDON_PHP_EXPLAIN}</dt>
+        <dd>
+          <select name="addon_php" id="addon_php" style="min-width: 30%;">
+            <option value=""></option>
+            <!-- BEGIN addonphps -->
+            <option value="{addonphps.NAME}"<!-- IF ( S_ADDONS_EDIT_ADDON and addonphps.NAME == S_PHP ) --> selected="selected"<!-- ENDIF -->>{addonphps.NAME}</option>
+            <!-- END addonphps -->
+          </select>
+        </dd>
+      </dl>
+      <dl>
+        <dt><label for="addon_html">{L_SN_ADDONS_ADDON_HTML}</label><br />{L_SN_ADDONS_ADDON_HTML_EXPLAIN}</dt>
+        <dd>
+          <select name="addon_html" id="addon_html" style="min-width: 30%;">
+            <option value=""></option>
+            <!-- BEGIN addonhtmls -->
+            <option value="{addonhtmls.NAME}"<!-- IF ( S_ADDONS_EDIT_ADDON and addonhtmls.NAME == S_HTML ) --> selected="selected"<!-- ENDIF -->>{addonhtmls.NAME}</option>
+            <!-- END addonhtmls -->
+          </select>
+        </dd>
+      </dl>		
+      <dl>
+        <dt><label for="addon_location">{L_SN_ADDONS_ADDON_LOCATION}</label><br />{L_SN_ADDONS_ADDON_LOCATION_EXPLAIN}</dt>
+        <dd>  
+          <select name="addon_location" id="addon_location" style="min-width: 30%;">
+            <option value=""></option>
+            <!-- BEGIN addonlocations -->
+            <option value="{addonlocations.ID}"<!-- IF ( S_ADDONS_EDIT_ADDON and addonlocations.ID == S_LOCATION ) --> selected="selected"<!-- ENDIF -->>{addonlocations.NAME}</option>
+            <!-- END addonlocations -->
+          </select>
+        </dd>
+      </dl>
+      <dl>
+        <dt><label for="addon_active_yes">{L_SN_ADDONS_ADDON_ACTIVE}:</label><br />{L_SN_ADDONS_ADDON_ACTIVE_EXPLAIN}</dt>
+        <dd>
+          <input type="radio" class="radio" id="addon_active_yes" name="addon_active" value="1"<!-- IF S_ACTIVE --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp; 
+          <input type="radio" class="radio" id="addon_active_no" name="addon_active" value="0"<!-- IF not S_ACTIVE --> checked="checked"<!-- ENDIF --> /> {L_NO}
+        </dd>
+      </dl>			
+    </fieldset>
+    <p class="submit-buttons">
+      <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+      <input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+    {S_FORM_TOKEN}
+    </p>
+  </form> 
+<!-- ENDIF -->
