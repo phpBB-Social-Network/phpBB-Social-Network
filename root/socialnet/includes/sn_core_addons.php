@@ -17,10 +17,6 @@ class sn_core_addons
 {
 	var $p_master = null;
 
-	/**
-	 * Constructor
-	 * - load existing modules using cache
-	 */
 	public function sn_core_addons(&$p_master)
 	{
 		global $cache, $template, $phpbb_root_path, $user, $config;
@@ -60,6 +56,11 @@ class sn_core_addons
 		{
 			$addon = $rowset[$ad_i];
 
+			if ($addon['addon_active'] == 0)
+			{
+				continue;
+			}
+
 			if ($blockName != $addon['ph_block'])
 			{
 				$placeHolder = $this->get_placeholder_name($addon['ph_script'], $addon['ph_block']);
@@ -71,23 +72,25 @@ class sn_core_addons
 			}
 			$addonTemplate = $this->get_template_name($addon['addon_php'], $addon['addon_function'], $addon['ph_script'], $addon['ph_block']);
 
-			if ( !file_exists("{$phpbb_root_path}styles/{$user->theme['template_path']}/template/socialnet/addons/{$addonTemplate}"))
+			if (!file_exists("{$phpbb_root_path}styles/{$user->theme['template_path']}/template/socialnet/addons/{$addonTemplate}"))
 			{
 				continue;
 			}
-			
+
 			include_once("{$phpbb_root_path}socialnet/addons/{$addon['addon_php']}.{$phpEx}");
 
 			$addonClass = new $addon['addon_php']($this->p_master);
 
 			$addonClass->$addon['addon_function']();
 
-			$template->set_filenames(array($addonTemplate => 'socialnet/addons/' . $addonTemplate));
+			$template->set_filenames(array(
+					$addonTemplate => 'socialnet/addons/' . $addonTemplate
+				));
 			$content[$placeHolder] .= $this->p_master->get_page($addonTemplate);
 		}
 
 		$template->assign_vars($content);
-		
+
 	}
 
 	public function get_placeholder_name($script, $block)
@@ -110,7 +113,12 @@ class sn_core_addons
 			$script = $ph[0];
 			$block = $ph[1];
 		}
-		$implode = array(preg_replace('/^addon_/si', '', $file), $function, $script, $block);
+		$implode = array(
+			preg_replace('/^addon_/si', '', $file),
+			$function,
+			$script,
+			$block
+		);
 		$template = implode('_', $implode) . '.html';
 		return $template;
 	}
