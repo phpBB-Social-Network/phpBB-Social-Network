@@ -60,6 +60,11 @@ class sn_core_addons
 		{
 			$addon = $rowset[$ad_i];
 
+			if ( $addon['addon_active'] == 0)
+			{
+				continue;
+			}
+			
 			if ($blockName != $addon['ph_block'])
 			{
 				$placeHolder = $this->get_placeholder_name($addon['ph_script'], $addon['ph_block']);
