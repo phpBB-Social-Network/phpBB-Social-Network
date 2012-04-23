@@ -47,7 +47,7 @@ class sn_core_addons
 		$sql = "SELECT ad.*, ph.ph_script, ph.ph_block
 							FROM " . SN_ADDONS_TABLE . " AS ad, " . SN_ADDONS_PLACEHOLDER_TABLE . " AS ph
 								WHERE ad.addon_placeholder = ph.ph_id
-									AND ph.ph_script = '{$script}' {$sql_add}
+									AND ( ph.ph_script = '{$script}' OR ph.ph_script = 'allpages' ) {$sql_add}
 							ORDER BY ph.ph_block, ad.addon_order";
 		$rs = $db->sql_query($sql);
 		$rowset = $db->sql_fetchrowset($rs);
@@ -60,11 +60,11 @@ class sn_core_addons
 		{
 			$addon = $rowset[$ad_i];
 
-			if ( $addon['addon_active'] == 0)
+			if ($addon['addon_active'] == 0)
 			{
 				continue;
 			}
-			
+
 			if ($blockName != $addon['ph_block'])
 			{
 				$placeHolder = $this->get_placeholder_name($addon['ph_script'], $addon['ph_block']);
@@ -76,18 +76,24 @@ class sn_core_addons
 			}
 			$addonTemplate = $this->get_template_name($addon['addon_php'], $addon['addon_function'], $addon['ph_script'], $addon['ph_block']);
 
-			if ( !file_exists("{$phpbb_root_path}styles/{$user->theme['template_path']}/template/socialnet/addons/{$addonTemplate}"))
+			if (!file_exists("{$phpbb_root_path}styles/{$user->theme['template_path']}/template/socialnet/addons/{$addonTemplate}"))
 			{
 				continue;
 			}
-			
+
 			include_once("{$phpbb_root_path}socialnet/addons/{$addon['addon_php']}.{$phpEx}");
 
 			$addonClass = new $addon['addon_php']($this->p_master);
 
-			$addonClass->$addon['addon_function']();
+			$addonClass->$addon['addon_function']($addon['ph_script'], $addon['ph_block']);
 
 			$template->set_filenames(array($addonTemplate => 'socialnet/addons/' . $addonTemplate));
+			$template->assign_vars(array(
+				'SN_ADDONS_CURRENT_SCRIPT'		 => $this->get_namefortemplate($addon['ph_script']),
+				'SN_ADDONS_CURRENT_BLOCK'		 => $this->get_namefortemplate($addon['ph_block']),
+				'SN_ADDONS_CURRENT_PLACEHOLDER'	 => $this->get_placeholder_name($addon['ph_script'], $addon['ph_block']),
+			));
+
 			$content[$placeHolder] .= $this->p_master->get_page($addonTemplate);
 		}
 
@@ -99,10 +105,15 @@ class sn_core_addons
 		$script = strtoupper($script);
 		$block = strtoupper($block);
 
-		$script = preg_replace('/[^A-Z0-9]/si', '_', $script);
-		$block = preg_replace('/[^A-Z0-9]/si', '_', $block);
+		$script = $this->get_namefortemplate($script);
+		$block = $this->get_namefortemplate($block);
 
 		return sprintf(SN_ADDONS_PLACEHOLDER_CONTENT, $script, $block);
+	}
+
+	public function get_namefortemplate($name)
+	{
+		return preg_replace('/[^A-Z0-9]/si', '_', $name);
 	}
 
 	public function get_template_name($file, $function, $script, $block = null)
@@ -113,9 +124,10 @@ class sn_core_addons
 			$script = $ph[0];
 			$block = $ph[1];
 		}
-		$implode = array(preg_replace('/^addon_/si', '', $file), $function, $script, $block);
+		$implode = array(preg_replace('/^addon_/si', '', $file), $function, $script, $block); // Long template file name
+		// $implode = array(preg_replace('/^addon_/si', '', $file), $function); //Short template file name
 		$template = implode('_', $implode) . '.html';
-		
+
 		return $template;
 	}
 }

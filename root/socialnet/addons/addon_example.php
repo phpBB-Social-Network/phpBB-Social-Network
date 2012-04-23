@@ -18,17 +18,17 @@ class addon_example
 		$this->master = $socialnet;
 	}
 
-	function example1($placeholder = '')
+	function example1($script, $block)
 	{
 		global $template, $db, $user;
 
 		$user->add_lang('ucp');
 		$date = $user->format_date(time());
-		
+
 		$user->lang['DATE'] = 'Date';
 
 		$template->assign_vars(array(
-				
+
 			'EXAMPLE'	 => 'This is example addon',
 			'DATE'		 => $date,
 		));

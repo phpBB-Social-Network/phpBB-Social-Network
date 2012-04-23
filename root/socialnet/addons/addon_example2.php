@@ -18,7 +18,7 @@ class addon_example2
 		$this->master = $socialnet;
 	}
 
-	function example_1($placeholder = '')
+	function example_1($script, $block)
 	{
 		global $template, $db, $user;
 
@@ -27,7 +27,7 @@ class addon_example2
 		));
 	}
 	
-	function example_2($placeholder = '')
+	function example_2($script, $block)
 	{
 		global $template, $db, $user;
 

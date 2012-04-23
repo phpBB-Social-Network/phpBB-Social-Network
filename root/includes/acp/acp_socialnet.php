@@ -65,15 +65,15 @@ class acp_socialnet extends AddOnsHookSystem
 		$u_action_start = append_sid($phpbb_admin_path . 'index.' . $phpEx, "i={$id}&amp;mode={$mode}");
 
 		$template->assign_vars(array(
-			'L_TITLE'					 					=> $this->acpPanel_title,
-			'L_TITLE_EXPLAIN'			 			=> $this->acpPanel_explain,
-			'T_SOCIALNET_IMAGES_PATH'		=> $socialnet_root_path . 'styles/images',
-			'S_MOTIONPICTURE'			 			=> file_exists($this->motivationPicture) ? true : false,
-			'S_MOTIONPICTURE_IMG_URL'	 	=> $this->motivationPicture,
-			'S_MODE'					 					=> $mode,
-			'U_FIND_USERNAME'			 			=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=searchuser&amp;form=acp_socialnet_sn_basictools&amp;field=username&amp;select_single=true'),
-			'U_ACTION_START'			 			=> $u_action_start,
-			'U_ACTION'					 				=> $this->u_action,
+			'L_TITLE'					 => $this->acpPanel_title,
+			'L_TITLE_EXPLAIN'			 => $this->acpPanel_explain,
+			'T_SOCIALNET_IMAGES_PATH'	 => $socialnet_root_path . 'styles/images',
+			'S_MOTIONPICTURE'			 => file_exists($this->motivationPicture) ? true : false,
+			'S_MOTIONPICTURE_IMG_URL'	 => $this->motivationPicture,
+			'S_MODE'					 => $mode,
+			'U_FIND_USERNAME'			 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=searchuser&amp;form=acp_socialnet_sn_basictools&amp;field=username&amp;select_single=true'),
+			'U_ACTION_START'			 => $u_action_start,
+			'U_ACTION'					 => $this->u_action,
 		));
 	}
 
@@ -400,12 +400,13 @@ class acp_socialnet extends AddOnsHookSystem
 
 			foreach ($block_settings as $blockName => $blockClass)
 			{
-				$template->assign_block_vars('block_tabs', array(
-					'BLOCK'		 => $blockName,
-					'TITLE'		 => $user->lang[strtoupper('sn_' . $blockName)],
-					'S_SELECTED' => $blockName == $current_block,
-				));
-
+				/*
+				 $template->assign_block_vars('block_tabs', array(
+				 'BLOCK'		 => $blockName,
+				 'TITLE'		 => $user->lang[strtoupper('sn_' . $blockName)],
+				 'S_SELECTED' => $blockName == $current_block,
+				 ));
+				 */
 				$template->assign_block_vars('sn_tabs', array(
 					'HREF'		 => $this->u_action . '&amp;block=' . $blockName,
 					'NAME'		 => $user->lang[strtoupper('sn_' . $blockName)],
@@ -438,320 +439,320 @@ class acp_socialnet extends AddOnsHookSystem
 
 		switch ($action)
 		{
-			case "delete":
+		case "delete":
 
-				if (confirm_box(true))
-				{
-					$sql = "SELECT addon_name
+			if (confirm_box(true))
+			{
+				$sql = "SELECT addon_name
 										FROM " . SN_ADDONS_TABLE . "
 											WHERE addon_id = {$addon_id}";
-					$rs = $db->sql_query($sql);
-					$addon_name = $db->sql_fetchfield($rs);
-					$db->sql_freeresult($rs);
+				$rs = $db->sql_query($sql);
+				$addon_name = $db->sql_fetchfield($rs);
+				$db->sql_freeresult($rs);
 
-					$sql = 'DELETE FROM ' . SN_ADDONS_TABLE . '
+				$sql = 'DELETE FROM ' . SN_ADDONS_TABLE . '
 						 				WHERE addon_id = ' . $addon_id;
-					$db->sql_query($sql);
-					add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), 'aaa' . $addon_name);
-					redirect($this->u_action);
+				$db->sql_query($sql);
+				add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), 'aaa' . $addon_name);
+				redirect($this->u_action);
+			}
+			else
+			{
+				confirm_box(false, $user->lang['SN_ADDONS_DELETE_ADDON_CONFIRM']);
+				redirect($this->u_action);
+			}
+
+			break;
+
+		case "add_addon":
+
+			$addon_name = request_var('addon_name', '', true);
+
+			$template->assign_vars(array(
+				'S_NAME'				 => $addon_name,
+				'S_ADDONS_CREATE_ADDON'	 => true,
+			));
+
+			// Load phps for select
+			$dir = $socialnet_root_path . 'addons/';
+			$options = '<option value=""></option>';
+			if ($dh = opendir($dir))
+			{
+				while (($file = readdir($dh)) !== false)
+				{
+					if (strlen($file) >= 3 && (strpos($file, '.php', 1)))
+					{
+						$template->assign_block_vars('addonphps', array(
+							'NAME'	 => $file
+						));
+					}
+				}
+				closedir($dh);
+			}
+
+			// Load htmls for select
+			$dir = $phpbb_root_path . 'styles/' . $user->theme['template_path'] . '/template/socialnet/addons/';
+			$options = '<option value=""></option>';
+			if ($dh = opendir($dir))
+			{
+				while (($file = readdir($dh)) !== false)
+				{
+					if (strlen($file) >= 4 && (strpos($file, '.html', 1)))
+					{
+						$template->assign_block_vars('addonhtmls', array(
+							'NAME'	 => $file
+						));
+					}
+				}
+				closedir($dh);
+			}
+
+			// Set locations for select
+			for ($i = 1; $i <= 6; $i++)
+			{
+				$template->assign_block_vars('addonlocations', array(
+					'ID'	 => $i,
+					'NAME'	 => $user->lang['SN_ADDONS_LOCATIONS_' . $i],
+				));
+			}
+
+			$submit = (isset($_POST['submit'])) ? true : false;
+
+			if ($submit)
+			{
+				$addon_name = request_var('addon_name', '', true);
+				$addon_php = request_var('addon_php', '', true);
+				$addon_html = request_var('addon_html', '', true);
+				$addon_location = request_var('addon_location', 0);
+				$addon_active = request_var('addon_active', 0);
+
+				if (empty($addon_php) && empty($addon_html))
+				{
+					$message = $user->lang['SN_ADDONS_NO_FILE'] . adm_back_link($this->u_action);
+					trigger_error($message, E_USER_WARNING);
+				}
+				else if (empty($addon_location))
+				{
+					$message = $user->lang['SN_ADDONS_NO_LOCATION'] . adm_back_link($this->u_action);
+					trigger_error($message, E_USER_WARNING);
 				}
 				else
 				{
-					confirm_box(false, $user->lang['SN_ADDONS_DELETE_ADDON_CONFIRM']);
-					redirect($this->u_action);
-				}
-
-			break;
-
-			case "add_addon":
-
-				$addon_name = request_var('addon_name', '', true);
-
-				$template->assign_vars(array(
-					'S_NAME'				 => $addon_name,
-					'S_ADDONS_CREATE_ADDON'	 => true,
-				));
-
-				// Load phps for select
-				$dir = $socialnet_root_path . 'addons/';
-				$options = '<option value=""></option>';
-				if ($dh = opendir($dir))
-				{
-					while (($file = readdir($dh)) !== false)
-					{
-						if (strlen($file) >= 3 && (strpos($file, '.php', 1)))
-						{
-							$template->assign_block_vars('addonphps', array(
-								'NAME'	 => $file
-							));
-						}
-					}
-					closedir($dh);
-				}
-
-				// Load htmls for select
-				$dir = $phpbb_root_path . 'styles/' . $user->theme['template_path'] . '/template/socialnet/addons/';
-				$options = '<option value=""></option>';
-				if ($dh = opendir($dir))
-				{
-					while (($file = readdir($dh)) !== false)
-					{
-						if (strlen($file) >= 4 && (strpos($file, '.html', 1)))
-						{
-							$template->assign_block_vars('addonhtmls', array(
-								'NAME'	 => $file
-							));
-						}
-					}
-					closedir($dh);
-				}
-
-				// Set locations for select
-				for ($i = 1; $i <= 6; $i++)
-				{
-					$template->assign_block_vars('addonlocations', array(
-						'ID'	 => $i,
-						'NAME'	 => $user->lang['SN_ADDONS_LOCATIONS_' . $i],
-					));
-				}
-
-				$submit = (isset($_POST['submit'])) ? true : false;
-
-				if ($submit)
-				{
-					$addon_name = request_var('addon_name', '', true);
-					$addon_php = request_var('addon_php', '', true);
-					$addon_html = request_var('addon_html', '', true);
-					$addon_location = request_var('addon_location', 0);
-					$addon_active = request_var('addon_active', 0);
-
-					if (empty($addon_php) && empty($addon_html))
-					{
-						$message = $user->lang['SN_ADDONS_NO_FILE'] . adm_back_link($this->u_action);
-						trigger_error($message, E_USER_WARNING);
-					}
-					else if (empty($addon_location))
-					{
-						$message = $user->lang['SN_ADDONS_NO_LOCATION'] . adm_back_link($this->u_action);
-						trigger_error($message, E_USER_WARNING);
-					}
-					else
-					{
-						$sql = 'SELECT MAX(right_id) AS right_id
+					$sql = 'SELECT MAX(right_id) AS right_id
 												FROM ' . SN_ADDONS_TABLE;
-						$result = $db->sql_query($sql);
-						$row = $db->sql_fetchrow($result);
-						$db->sql_freeresult($result);
+					$result = $db->sql_query($sql);
+					$row = $db->sql_fetchrow($result);
+					$db->sql_freeresult($result);
 
-						$left_id = $row['right_id'] + 1;
-						$right_id = $row['right_id'] + 2;
+					$left_id = $row['right_id'] + 1;
+					$right_id = $row['right_id'] + 2;
 
-						$sql = 'INSERT INTO ' . SN_ADDONS_TABLE . ' (addon_php, addon_html, addon_name, addon_location, addon_active, left_id, right_id)
+					$sql = 'INSERT INTO ' . SN_ADDONS_TABLE . ' (addon_php, addon_html, addon_name, addon_location, addon_active, left_id, right_id)
 							          VALUES ("' . $addon_php . '","' . $addon_html . '", "' . $addon_name . '", ' . $addon_location . ', ' . $addon_active . ', ' . $left_id . ', ' . $right_id . ')';
-						$db->sql_query($sql);
-						add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
+					$db->sql_query($sql);
+					add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
 
-						$message = sprintf($user->lang['SN_ADDONS_ADDON_ADDED'], $addon_html, $user->lang['SN_ADDONS_LOCATIONS_' . $addon_location]) . adm_back_link($this->u_action);
-						trigger_error($message);
-					}
+					$message = sprintf($user->lang['SN_ADDONS_ADDON_ADDED'], $addon_html, $user->lang['SN_ADDONS_LOCATIONS_' . $addon_location]) . adm_back_link($this->u_action);
+					trigger_error($message);
 				}
+			}
 
 			break;
 
-			case "edit_addon":
+		case "edit_addon":
 
-				// Load phps for select
-				$dir = $socialnet_root_path . 'addons/';
-				$options = '<option value=""></option>';
-				if ($dh = opendir($dir))
+			// Load phps for select
+			$dir = $socialnet_root_path . 'addons/';
+			$options = '<option value=""></option>';
+			if ($dh = opendir($dir))
+			{
+				while (($file = readdir($dh)) !== false)
 				{
-					while (($file = readdir($dh)) !== false)
+					if (strlen($file) >= 3 && (strpos($file, '.php', 1)))
 					{
-						if (strlen($file) >= 3 && (strpos($file, '.php', 1)))
-						{
-							$template->assign_block_vars('addonphps', array(
-								'NAME'	 => $file
-							));
-						}
+						$template->assign_block_vars('addonphps', array(
+							'NAME'	 => $file
+						));
 					}
-					closedir($dh);
 				}
+				closedir($dh);
+			}
 
-				// Load htmls for select
-				$dir = $phpbb_root_path . 'styles/' . $user->theme['template_path'] . '/template/socialnet/addons/';
-				$options = '<option value=""></option>';
-				if ($dh = opendir($dir))
+			// Load htmls for select
+			$dir = $phpbb_root_path . 'styles/' . $user->theme['template_path'] . '/template/socialnet/addons/';
+			$options = '<option value=""></option>';
+			if ($dh = opendir($dir))
+			{
+				while (($file = readdir($dh)) !== false)
 				{
-					while (($file = readdir($dh)) !== false)
+					if (strlen($file) >= 4 && (strpos($file, '.html', 1)))
 					{
-						if (strlen($file) >= 4 && (strpos($file, '.html', 1)))
-						{
-							$template->assign_block_vars('addonhtmls', array(
-								'NAME'	 => $file
-							));
-						}
+						$template->assign_block_vars('addonhtmls', array(
+							'NAME'	 => $file
+						));
 					}
-					closedir($dh);
 				}
+				closedir($dh);
+			}
 
-				// Set locations for select
-				for ($i = 1; $i <= 6; $i++)
-				{
-					$template->assign_block_vars('addonlocations', array(
-						'ID'	 => $i,
-						'NAME'	 => $user->lang['SN_ADDONS_LOCATIONS_' . $i],
-					));
-				}
+			// Set locations for select
+			for ($i = 1; $i <= 6; $i++)
+			{
+				$template->assign_block_vars('addonlocations', array(
+					'ID'	 => $i,
+					'NAME'	 => $user->lang['SN_ADDONS_LOCATIONS_' . $i],
+				));
+			}
 
-				$sql = 'SELECT *
+			$sql = 'SELECT *
 	                  FROM ' . SN_ADDONS_TABLE . '
 	                    WHERE addon_id = ' . $addon_id;
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
 
-				$template->assign_vars(array(
-					'S_ADDON_ID'			 => $row['addon_id'],
-					'S_NAME'				 => $row['addon_name'],
-					'S_PHP'					 => $row['addon_php'],
-					'S_HTML'				 => $row['addon_html'],
-					'S_LOCATION'			 => $row['addon_location'],
-					'S_ACTIVE'				 => $row['addon_active'],
-					'S_ADDONS_EDIT_ADDON'	 => true,
-				));
-				$db->sql_freeresult($result);
+			$template->assign_vars(array(
+				'S_ADDON_ID'			 => $row['addon_id'],
+				'S_NAME'				 => $row['addon_name'],
+				'S_PHP'					 => $row['addon_php'],
+				'S_HTML'				 => $row['addon_html'],
+				'S_LOCATION'			 => $row['addon_location'],
+				'S_ACTIVE'				 => $row['addon_active'],
+				'S_ADDONS_EDIT_ADDON'	 => true,
+			));
+			$db->sql_freeresult($result);
 
-				$submit = (isset($_POST['submit'])) ? true : false;
+			$submit = (isset($_POST['submit'])) ? true : false;
 
-				if ($submit)
+			if ($submit)
+			{
+				$addon_name = request_var('addon_name', '', true);
+				$addon_php = request_var('addon_php', '', true);
+				$addon_html = request_var('addon_html', '', true);
+				$addon_location = request_var('addon_location', 0);
+				$addon_active = request_var('addon_active', 0);
+
+				if (empty($addon_php) && empty($addon_html))
 				{
-					$addon_name = request_var('addon_name', '', true);
-					$addon_php = request_var('addon_php', '', true);
-					$addon_html = request_var('addon_html', '', true);
-					$addon_location = request_var('addon_location', 0);
-					$addon_active = request_var('addon_active', 0);
-
-					if (empty($addon_php) && empty($addon_html))
-					{
-						trigger_error($user->lang['SN_ADDONS_NO_FILE'] . adm_back_link($this->u_action), E_USER_WARNING);
-					}
-					else if (empty($addon_location))
-					{
-						trigger_error($user->lang['SN_ADDONS_NO_LOCATION'] . adm_back_link($this->u_action), E_USER_WARNING);
-					}
-					else
-					{
-						$sql = 'UPDATE ' . SN_ADDONS_TABLE . '
+					trigger_error($user->lang['SN_ADDONS_NO_FILE'] . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+				else if (empty($addon_location))
+				{
+					trigger_error($user->lang['SN_ADDONS_NO_LOCATION'] . adm_back_link($this->u_action), E_USER_WARNING);
+				}
+				else
+				{
+					$sql = 'UPDATE ' . SN_ADDONS_TABLE . '
 							          SET addon_name = "' . $addon_name . '", addon_php = "' . $addon_php . '", addon_html = "' . $addon_html . '", addon_location = ' . $addon_location . ', addon_active = ' . $addon_active . '
 							            WHERE addon_id = ' . $addon_id;
-						$db->sql_query($sql);
-						add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
-						$message = $user->lang['SN_ADDONS_ADDON_EDITED'] . adm_back_link($this->u_action);
-						trigger_error($message);
-					}
+					$db->sql_query($sql);
+					add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
+					$message = $user->lang['SN_ADDONS_ADDON_EDITED'] . adm_back_link($this->u_action);
+					trigger_error($message);
 				}
+			}
 
 			break;
 
-			case 'move_up':
-			case 'move_down':
+		case 'move_up':
+		case 'move_down':
 
-				$sql = 'SELECT left_id, right_id, addon_name
+			$sql = 'SELECT left_id, right_id, addon_name
 	                FROM ' . SN_ADDONS_TABLE . '
 	                  WHERE addon_id = ' . $addon_id;
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
 
-				$addon_moved_by = acp_move_addon($row, $action);
+			$addon_moved_by = acp_move_addon($row, $action);
 
-				add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $row['addon_name'], $addon_moved_by);
-				redirect($this->u_action);
+			add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $row['addon_name'], $addon_moved_by);
+			redirect($this->u_action);
 
 			break;
 
-			case "enable_addon":
+		case "enable_addon":
 
-				$sql = 'SELECT addon_name
+			$sql = 'SELECT addon_name
 	                  FROM ' . SN_ADDONS_TABLE . '
 	                    WHERE addon_id = ' . $addon_id;
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
 
-				$addon_name = $row['addon_name'];
-				$db->sql_freeresult($result);
+			$addon_name = $row['addon_name'];
+			$db->sql_freeresult($result);
 
-				$sql = 'UPDATE ' . SN_ADDONS_TABLE . '
+			$sql = 'UPDATE ' . SN_ADDONS_TABLE . '
 	                SET addon_active = 1
 	                  WHERE addon_id = ' . $addon_id;
-				$db->sql_query($sql);
+			$db->sql_query($sql);
 
-				add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
-				$message = $user->lang['SN_ADDONS_ADDON_ENABLED'] . adm_back_link($this->u_action);
-				trigger_error($message);
+			add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
+			$message = $user->lang['SN_ADDONS_ADDON_ENABLED'] . adm_back_link($this->u_action);
+			trigger_error($message);
 
 			break;
 
-			case "disable_addon":
+		case "disable_addon":
 
-				$sql = 'SELECT addon_name
+			$sql = 'SELECT addon_name
 	                FROM ' . SN_ADDONS_TABLE . '
 	                  WHERE addon_id = ' . $addon_id;
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
-				$addon_name = $row['addon_name'];
-				$db->sql_freeresult($result);
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
+			$addon_name = $row['addon_name'];
+			$db->sql_freeresult($result);
 
-				$sql = 'UPDATE ' . SN_ADDONS_TABLE . '
+			$sql = 'UPDATE ' . SN_ADDONS_TABLE . '
 	                SET addon_active = 0
 	                  WHERE addon_id = ' . $addon_id;
-				$db->sql_query($sql);
-				add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
+			$db->sql_query($sql);
+			add_log('admin', 'LOG_CONFIG_SN_ADDONS_' . strtoupper($action), $addon_name);
 
-				$message = $user->lang['SN_ADDONS_ADDON_DISABLED'] . adm_back_link($this->u_action);
-				trigger_error($message);
+			$message = $user->lang['SN_ADDONS_ADDON_DISABLED'] . adm_back_link($this->u_action);
+			trigger_error($message);
 
 			break;
 
-			default:
+		default:
 
-				$sql = 'SELECT *
+			$sql = 'SELECT *
 	                FROM ' . SN_ADDONS_TABLE . '
 	                  ORDER BY left_id';
-				$result = $db->sql_query($sql);
+			$result = $db->sql_query($sql);
 
-				while ($row = $db->sql_fetchrow($result))
-				{
-					$template->assign_block_vars('addons', array(
-						'ID'			 => $row['addon_id'],
-						'NAME'			 => $row['addon_name'],
-						'PHP'			 => $row['addon_php'],
-						'HTML'			 => $row['addon_html'],
-						'U_ACTIVATE'	 => ($row['addon_active'] == 1) ? $this->u_action . '&amp;action=disable_addon&amp;addon_id=' . $row['addon_id'] : $this->u_action . '&amp;action=enable_addon&amp;addon_id=' . $row['addon_id'],
-						'ACTIVE'		 => ($row['addon_active'] == 1) ? $user->lang['DISABLE'] : $user->lang['ENABLE'],
-						'LOCATION'		 => $user->lang['SN_ADDONS_LOCATIONS_' . $row['addon_location']],
-						'U_DELETE'		 => $this->u_action . '&amp;action=delete&amp;addon_id=' . $row['addon_id'],
-						'U_EDIT'		 => $this->u_action . '&amp;action=edit_addon&amp;addon_id=' . $row['addon_id'],
-						'U_MOVE_UP'		 => $this->u_action . '&amp;action=move_up&amp;addon_id=' . $row['addon_id'],
-						'U_MOVE_DOWN'	 => $this->u_action . '&amp;action=move_down&amp;addon_id=' . $row['addon_id'],
-					));
-				}
-				$db->sql_freeresult($result);
-
-				$submit = (isset($_POST['submit'])) ? true : false;
-
-				if ($submit)
-				{
-					$addon_name = request_var('addon_name', '', true);
-					redirect($this->u_action . '&amp;action=add_addon&amp;addon_name=' . $addon_name);
-				}
-
-				$template->assign_vars(array(
-					'S_ADDONS_LIST'	 => true,
+			while ($row = $db->sql_fetchrow($result))
+			{
+				$template->assign_block_vars('addons', array(
+					'ID'			 => $row['addon_id'],
+					'NAME'			 => $row['addon_name'],
+					'PHP'			 => $row['addon_php'],
+					'HTML'			 => $row['addon_html'],
+					'U_ACTIVATE'	 => ($row['addon_active'] == 1) ? $this->u_action . '&amp;action=disable_addon&amp;addon_id=' . $row['addon_id'] : $this->u_action . '&amp;action=enable_addon&amp;addon_id=' . $row['addon_id'],
+					'ACTIVE'		 => ($row['addon_active'] == 1) ? $user->lang['DISABLE'] : $user->lang['ENABLE'],
+					'LOCATION'		 => $user->lang['SN_ADDONS_LOCATIONS_' . $row['addon_location']],
+					'U_DELETE'		 => $this->u_action . '&amp;action=delete&amp;addon_id=' . $row['addon_id'],
+					'U_EDIT'		 => $this->u_action . '&amp;action=edit_addon&amp;addon_id=' . $row['addon_id'],
+					'U_MOVE_UP'		 => $this->u_action . '&amp;action=move_up&amp;addon_id=' . $row['addon_id'],
+					'U_MOVE_DOWN'	 => $this->u_action . '&amp;action=move_down&amp;addon_id=' . $row['addon_id'],
 				));
+			}
+			$db->sql_freeresult($result);
+
+			$submit = (isset($_POST['submit'])) ? true : false;
+
+			if ($submit)
+			{
+				$addon_name = request_var('addon_name', '', true);
+				redirect($this->u_action . '&amp;action=add_addon&amp;addon_name=' . $addon_name);
+			}
+
+			$template->assign_vars(array(
+				'S_ADDONS_LIST'	 => true,
+			));
 		}
 
 		$template->assign_vars(array(
-			'U_ACTION'			 			=> $this->u_action,
-			'B_ACP_SN_ADDONHOOK'	=> true,
+			'U_ACTION'			 => $this->u_action,
+			'B_ACP_SN_ADDONHOOK' => true,
 		));
 	}
 
@@ -1203,7 +1204,9 @@ class AddOnsHookSystem
 
 		if ($ad_id == 0)
 		{
-			$template->alter_block_array('sn_tabs', array('NAME' => $user->lang['SN_ADDONS_ADDADDON']), true, 'change');
+			$this->aoh_tabs[2]['name'] = 'SN_ADDONS_ADDADDON';
+			//print_r( $this->aoh_tabs);
+//			$template->alter_block_array('sn_tabs', array('NAME' => ), true, 'change');
 			$s_add = '';
 		}
 		else
@@ -1213,7 +1216,7 @@ class AddOnsHookSystem
 			$row = $db->sql_fetchrow($rs);
 			$db->sql_freeresult($rs);
 			$s_add = $row['addon_name'] . '::' . $row['addon_php'] . '::' . $row['addon_function'];
-			
+
 			$template->assign_vars(array(
 				'SN_ADDON_ENABLED'	 => $row['addon_active'],
 				'SN_ADDON_ID'		 => $row['addon_id'],
@@ -1387,7 +1390,7 @@ class AddOnsHookSystem
 
 		if ($ph_id == 0)
 		{
-			$template->alter_block_array('sn_tabs', array('NAME' => $user->lang['SN_ADDONS_ADDHOLDER']), true, 'change');
+			$this->aoh_tabs[3]['name'] = 'SN_ADDONS_ADDHOLDER';
 		}
 		else
 		{
