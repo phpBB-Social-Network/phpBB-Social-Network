@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -38,38 +38,13 @@ if (!defined('SOCIALNET_INSTALLED'))
 
 if (!class_exists('socialnet_userstatus'))
 {
-
-	/**
-	 * Socialnet UserStatus
-	 *
-	 * @package UserStatus
-	 * @access public
-	 */
-
 	class socialnet_userstatus
 	{
-
 		var $p_master = null;
-
-		/**
-		 * @var string $script_name Název stránky na které se nacházíme v rámci celého phpBB
-		 */
 		var $script_name = '';
-		/**
-		 * @var array $on_header seznam stránek na kterých má vý zobrazen status hned pod hlavičkou.<br>
-		 * Pole může obsahovat další pole, které specifikuje část stránky definované pomocí GET parametru 'mode'
-		 */
-		//var $on_header = array('faq', 'index', array('memberlist', ''), 'posting',	'search', 'viewforum', 'viewonline', 'viewtopic', 'ucp');
 		var $on_header = array();
-
 		var $commentModule = 'userstatus';
 
-		/**
-		 * Konstruktor
-		 *
-		 * V rámci konstruktoru jsou načítány všechny potřebné věci pro danou stránku fóra.<br>
-		 * Tato funkce je volána na každé stránce pomocí modulu Socialnet, který je vytvořen v hook pro rozšíření uživatelových informací.
-		 */
 		function socialnet_userstatus(&$p_master)
 		{
 			global $db, $template, $user, $config, $auth, $phpEx, $phpbb_root_path, $phpEx;
@@ -80,9 +55,9 @@ if (!class_exists('socialnet_userstatus'))
 			$mode = request_var('mode', '', true);
 
 			$template_assign_vars = array(
-				'B_SN_US_ON_HEADER'                => in_array(array(
+				'B_SN_US_ON_HEADER'		=> in_array(array(
 					$this->script_name,
-					$mode
+					$mode,
 				), $this->on_header) || in_array($this->script_name, $this->on_header) || in_array('all', $this->on_header),
 				'B_LOAD_FIRST_USERSTATUS_COMMENTS' => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
 			);
@@ -93,8 +68,9 @@ if (!class_exists('socialnet_userstatus'))
 				$_phpbb_root_path = str_replace('\\', '/', $phpbb_root_path);
 				$_script_path = str_replace('//', '/', str_replace('\\', '/', $config['script_path']) . '/');
 				$t_imaset_path = preg_replace('#^' . preg_quote($_phpbb_root_path) . '#si', $_script_path, $t_imaset_path);
+				
 				$template_assign_vars = array_merge($template_assign_vars, array(
-					'T_IMAGESET_PATH' => $t_imaset_path,
+					'T_IMAGESET_PATH'			=> $t_imaset_path,
 				));
 			}
 
@@ -102,6 +78,7 @@ if (!class_exists('socialnet_userstatus'))
 			{
 				case 'memberlist':
 				case 'profile':
+				
 					$user_id = $this->_wall_id();
 
 					if ($user_id != ANONYMOUS)
@@ -124,7 +101,9 @@ if (!class_exists('socialnet_userstatus'))
 
 							if (!isset($template->_tpldata['.'][0]['USERNAME']))
 							{
-								$sql = 'SELECT username FROM ' . USERS_TABLE . ' WHERE user_id = ' . $user_id;
+								$sql = 'SELECT username
+													FROM ' . USERS_TABLE . '
+														WHERE user_id = ' . $user_id;
 								$rs = $db->sql_query($sql);
 								$username = $db->sql_fetchfield('username');
 								$db->sql_freeresult($rs);
@@ -150,56 +129,54 @@ if (!class_exists('socialnet_userstatus'))
 			$template->assign_vars($template_assign_vars);
 		}
 
-		/**
-		 * Zakladní funkce pro AJAX
-		 *
-		 *  Tato funkce je volána v případě, že je volána pomocí AJAX přímo ze stránky<br>
-		 *  Funkce by měla vracet data v JSON, nebo přímo HTML.
-		 */
 		function load($mode = '')
 		{
 			global $user, $db, $template, $phpbb_root_path;
 
 			switch ($mode)
 			{
-			case 'status_share':
-				$this->_status_share();
+				case 'status_share':
+					$this->_status_share();
 				break;
-			case 'status_share_wall':
-				$this->_status_share(true);
+
+				case 'status_share_wall':
+					$this->_status_share(true);
 				break;
-			case 'status_more':
-				$this->_status_more();
+
+				case 'status_more':
+					$this->_status_more();
 				break;
-			case 'status_delete':
-				$this->_status_delete();
+
+				case 'status_delete':
+					$this->_status_delete();
 				break;
-			case 'comment_share':
-				$this->_comment_share();
+
+				case 'comment_share':
+					$this->_comment_share();
 				break;
-			case 'comment_delete':
-				$this->_comment_delete();
+
+				case 'comment_delete':
+					$this->_comment_delete();
 				break;
-			case 'comment_more':
-				$this->_comment_more();
+
+				case 'comment_more':
+					$this->_comment_more();
 				break;
-			case 'get_status':
-				$this->_get_status();
+
+				case 'get_status':
+					$this->_get_status();
 				break;
 			}
 		}
 
 		/**
-		 * Zápis noveho statusu
-		 *
-		 * Funkce zapisuje nový status uživatele
-		 * @access private
+		 * Insert staus to DB
 		 */
 		function _status_share($on_the_wall = false)
 		{
 			global $db, $user, $template, $phpbb_root_path, $phpEx, $config;
 
-			$new_status = request_var('status', '', true); // text_to_submit
+			$new_status = request_var('status', '', true);
 			$wall_id = (int) request_var('wall', 0);
 			$wall_id = $wall_id == 0 ? $user->data['user_id'] : $wall_id;
 
@@ -224,7 +201,6 @@ if (!class_exists('socialnet_userstatus'))
 					$page['uid'] = $page['bitfield'] = $page['flags'] = '';
 					generate_text_for_storage($page['desc'], $page['uid'], $page['bitfield'], $page['flags'], $allow_bbcode, $allow_urls, $allow_smilies);
 					$pageData = $db->sql_escape(serialize($page));
-
 				}
 				else
 				{
@@ -235,11 +211,13 @@ if (!class_exists('socialnet_userstatus'))
 				$new_status = $db->sql_escape($new_status);
 
 				$sql = "INSERT INTO " . SN_STATUS_TABLE . " (poster_id, status_time, status_text, bbcode_bitfield, bbcode_uid, page_data, wall_id)
-								VALUES (" . $user->data['user_id'] . ", " . $now . ", '{$new_status}', '{$bitfield}', '{$uid}', '{$pageData}', $wall_id)";
+									VALUES (" . $user->data['user_id'] . ", " . $now . ", '{$new_status}', '{$bitfield}', '{$uid}', '{$pageData}', $wall_id)";
 				$db->sql_query($sql);
 
 				$sql = "SELECT status_id FROM " . SN_STATUS_TABLE . "
-						WHERE poster_id = {$user->data['user_id']} AND wall_id = {$wall_id} AND status_time = {$now}";
+									WHERE poster_id = {$user->data['user_id']}
+										AND wall_id = {$wall_id}
+										AND status_time = {$now}";
 				$rs = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($rs);
 				$db->sql_freeresult($rs);
@@ -256,12 +234,12 @@ if (!class_exists('socialnet_userstatus'))
 						$this->p_master->notify->add(SN_NTF_WALL, $wall_id, array(
 							'text' => 'SN_NTF_STATUS_FRIEND_WALL',
 							'user' => $user->data['username'],
-							'link' => $link
+							'link' => $link,
 						));
 					}
 
 					$template->set_filenames(array(
-						'body' => 'socialnet/userstatus_status.html'
+						'body' => 'socialnet/userstatus_status.html',
 					));
 
 					$data = $this->_get_last_status($wall_id);
@@ -275,7 +253,6 @@ if (!class_exists('socialnet_userstatus'))
 					die($content);
 				}
 			}
-
 		}
 
 		/**
@@ -288,15 +265,15 @@ if (!class_exists('socialnet_userstatus'))
 			$status_id = request_var('s_id', 0);
 
 			$sql = "SELECT poster_id
-      				FROM " . SN_STATUS_TABLE . "
-      				WHERE status_id = " . $status_id;
+      					FROM " . SN_STATUS_TABLE . "
+      						WHERE status_id = " . $status_id;
 			$res = $db->sql_query($sql);
 			$userstatus = $db->sql_fetchrow($res);
 
-			if ($auth->acl_get('a_') || ($userstatus['poster_id'] == $user->data['user_id'] /*  && $auth->acl_get('u_sn_us_delete_own_status') */))
+			if ($auth->acl_get('a_') || ($userstatus['poster_id'] == $user->data['user_id']))
 			{
 				$sql = "DELETE FROM " . SN_STATUS_TABLE . "
-								WHERE status_id = " . $status_id;
+									WHERE status_id = " . $status_id;
 				$db->sql_query($sql);
 
 				$this->p_master->comments->del($this->commentModule, $status_id, false);
@@ -304,14 +281,10 @@ if (!class_exists('socialnet_userstatus'))
 				// Delete record of new status
 				$this->p_master->delete_entry($status_id, SN_TYPE_NEW_STATUS);
 			}
-
 		}
 
 		/**
 		 * Load more comments
-		 *
-		 * Načtení dalších statusů pro zadaný uživatele
-		 * Funkce zároveň ukončí běh PHP po výpisu
 		 */
 		function _status_more()
 		{
@@ -321,8 +294,8 @@ if (!class_exists('socialnet_userstatus'))
 			$last_status_id = request_var('lStatusID', 0);
 
 			$template->set_filenames(array(
-					'body' => 'socialnet/userstatus_status.html'
-				));
+				'body' => 'socialnet/userstatus_status.html',
+			));
 
 			$return = array();
 			$return['moreStatuses'] = $this->_get_statuses($user_id, $last_status_id);
@@ -333,21 +306,19 @@ if (!class_exists('socialnet_userstatus'))
 			$return['statuses'] = $content;
 
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($return));
 		}
 
 		/**
 		 * Add new comment
-		 *
-		 * Funkce vkládá komentář k příslušnému statusu
 		 */
 		function _comment_share()
 		{
 			global $db, $user, $template, $phpbb_root_path, $phpEx;
 
-			$text_to_submit = request_var('comment', '', true); // text_to_submit
+			$text_to_submit = request_var('comment', '', true);
 			$status_id = request_var('s_id', 0);
 
 			if ($text_to_submit != '')
@@ -357,7 +328,7 @@ if (!class_exists('socialnet_userstatus'))
 				$comment_id = $this->p_master->comments->add($this->commentModule, $status_id, $user->data['user_id'], $text_to_submit);
 				$comment = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_id, $comment_id);
 
-				// NOTIFY
+				// Notify
 				$sql = "SELECT sn.poster_id, u.username, sn.wall_id
 						FROM " . SN_STATUS_TABLE . " AS sn, " . USERS_TABLE . " AS u
 						WHERE sn.status_id = {$status_id} AND sn.poster_id = u.user_id";
@@ -370,28 +341,30 @@ if (!class_exists('socialnet_userstatus'))
 				if ($user->data['user_id'] != $row['poster_id'])
 				{
 					$this->p_master->notify->add(SN_NTF_COMMENT, $row['poster_id'], array(
-							'text' => 'SN_NTF_STATUS_AUTHOR_COMMENT',
-							'user' => $user->data['username'],
-							'link' => $link
-						));
+						'text' => 'SN_NTF_STATUS_AUTHOR_COMMENT',
+						'user' => $user->data['username'],
+						'link' => $link,
+					));
 				}
 
 				$rowset = $this->p_master->comments->getPosters($this->commentModule, $status_id);
-				$rowset = array_unique(array_merge($rowset,array($row['wall_id'])));
+				if ( $row['wall_id'] != $user->data['user_id'])
+				{
+					$rowset = array_unique(array_merge($rowset,array($row['wall_id'])));
+				}
 				
 				for ($i = 0; isset($rowset[$i]); $i++)
 				{
 					$this->p_master->notify->add(SN_NTF_COMMENT, $rowset[$i], array(
-							'text'   => 'SN_NTF_STATUS_USER_COMMENT',
-							'user'   => $user->data['username'],
-							'author' => $row['username'],
-							'link'   => $link
-						));
+						'text'   => 'SN_NTF_STATUS_USER_COMMENT',
+						'user'   => $user->data['username'],
+						'author' => $row['username'],
+						'link'   => $link,
+					));
 				}
 
 				header('Content-type: text/html; charset=UTF-8');
 				die($comment['comments']);
-
 			}
 		}
 
@@ -406,7 +379,7 @@ if (!class_exists('socialnet_userstatus'))
 
 			$poster = $this->p_master->comments->getField($this->commentModule, $comment_id, 'poster');
 
-			if ($auth->acl_get('a_') || ($poster == $user->data['user_id'] /*  && $auth->acl_get('u_sn_us_delete_own_comment') */))
+			if ($auth->acl_get('a_') || ($poster == $user->data['user_id']))
 			{
 				$this->p_master->comments->del($this->commentModule, $comment_id);
 
@@ -417,9 +390,6 @@ if (!class_exists('socialnet_userstatus'))
 
 		/**
 		 * Load more comments
-		 *
-		 * Načtení dalších kometářů pro zadaný status
-		 * Funkce zároveň ukončí běh PHP po výpisu
 		 */
 		function _comment_more()
 		{
@@ -431,24 +401,26 @@ if (!class_exists('socialnet_userstatus'))
 
 			$return = array(
 				'moreComments' => $comments['more'],
-				'comments'     => $comments['comments']
+				'comments'     => $comments['comments'],
 			);
 
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($return));
 		}
 
 		function _get_status()
 		{
 			global $template;
+			
 			$status_id = request_var('status', 0);
 			$wall_id = request_var('wall', 0);
 
 			$template->set_filenames(array(
-					'body' => 'socialnet/userstatus_status.html'
-				));
+				'body' => 'socialnet/userstatus_status.html',
+			));
+			
 			$data = $this->_get_last_status($wall_id, $status_id);
 			$data['B_SN_US_CAN_COMMENT'] = false;
 			$data['DELETE_STATUS'] = false;
@@ -457,26 +429,21 @@ if (!class_exists('socialnet_userstatus'))
 
 			$return['content'] = str_replace(array(
 				'<a ',
-				'</a>'
+				'</a>',
 			), array(
 				'<span ',
-				'</span>'
+				'</span>',
 			), $this->p_master->get_page());
 			$return['content'] = preg_replace('/<img[^>]*>/si', '', $return['content']);
 
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($return));
-
 		}
 
 		/**
-		 * Načti poslední status pro "on header"
-		 *
-		 * Funkce načítá poslední uživatelův status pro stránku
-		 * @access private
-		 * @return array Pole dat s uživatelovým statusem pro zobrazení
+		 * Load last status
 		 */
 		function _get_last_userstatus()
 		{
@@ -490,7 +457,7 @@ if (!class_exists('socialnet_userstatus'))
 		}
 
 		/**
-		 * Nacti posledni
+		 * Load last status
 		 */
 		function _get_last_status($user_id, $user_status = 0)
 		{
@@ -500,11 +467,12 @@ if (!class_exists('socialnet_userstatus'))
 			$my_friends[] = $user->data['user_id'];
 
 			$sql = "SELECT s.*, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-					FROM " . SN_STATUS_TABLE . " AS s LEFT OUTER JOIN " . USERS_TABLE . " AS u
-						ON u.user_id = s.poster_id
-					WHERE s.wall_id = '{$user_id}'" . ($user_status != 0 ? " AND status_id = {$user_status}" : "") . "
-					ORDER BY s.status_id DESC";
-
+								FROM " . SN_STATUS_TABLE . " AS s
+									LEFT OUTER JOIN " . USERS_TABLE . " AS u
+										ON u.user_id = s.poster_id
+									WHERE s.wall_id = '{$user_id}'" . ($user_status != 0 ? "
+										AND status_id = {$user_status}" : "") . "
+								ORDER BY s.status_id DESC";
 			$res = $db->sql_query_limit($sql, 1);
 			$status_row = $db->sql_fetchrow($res);
 			$db->sql_freeresult($res);
@@ -515,14 +483,11 @@ if (!class_exists('socialnet_userstatus'))
 		/**
 		 * Load statuses
 		 *
-		 * Funkce načítá statusy zadaného uživatele.
-		 * Podle zadaných parametrů vrátí příslušný počet statusů s komentáři
-		 * @access private
+		 * Load statuses of the user
 		 * @param integer $user_id Identifikátor uživatele, kterému mají být načteny statusy s komentáři
 		 * @param integer $last_status_id Identifikátor posledního již načteného statusu, od něho budou načteny další
 		 * @param integer $status_limit Limitní počet kolik statusů má být načteno
 		 * @param integer $comment_limit Limitní počet komentářů kolik jich má být načteno ke každému statusu
-		 * @return boolean Vrací informaci, jestli existují další statusy daného uživatele
 		 */
 		function _get_statuses($user_id, $last_status_id = 0, $status_limit = 10, $comment_limit = 3, $only_one = false)
 		{
@@ -552,8 +517,6 @@ if (!class_exists('socialnet_userstatus'))
 				$template_block_data = $this->_get_status_array($status_row, $my_friends, $comment_limit);
 
 				$template->assign_block_vars('us_status', $template_block_data);
-
-				//$template->_tpldata['us_status'][$j]['SN_US_MORE_COMMENTS'] = $this->_get_comments($status_row['status_id'], 0, $comment_limit);
 			}
 
 			return (count($status_rows) > $status_limit) ? true : false;
@@ -561,14 +524,8 @@ if (!class_exists('socialnet_userstatus'))
 
 		/**
 		 * Prepare status array
-		 * Funkce vytvori nezbytne pole pro vyplneni sablony se statusem.
-		 * Potreba pro jednotne plneni v libovolne casti SN
-		 *
-		 * @since 0.6.0
-		 * @author Culprit <jankalach@gmail.com>
 		 * @param array $status_row Fetched array row from DB of current status
 		 * @param array $my_friends Array of friends
-		 * @return array Array with template data for status
 		 */
 		function _get_status_array($status_row, $my_friends = array(), $comment_limit = 3)
 		{
@@ -586,33 +543,22 @@ if (!class_exists('socialnet_userstatus'))
 
 				$pageData['video'] = html_entity_decode($pageData['video']);
 
-				//preg_match_all( '/(width|height)="?([0-9]*)"?/si', $pageData['video'],$size);
 				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 style="width:150px;height:150px;"/>', $pageData['video']);
 				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 style="width:150px;height:150px;">', $pageData['video']);
 
-				//
-				// WITHOUT EMBED???? START
-				//
-				if (1 == 1)
+				preg_match('/<param name="movie" value="([^&]+)&amp;[^"]+"/si', $pageData['video'], $match);
+
+				if (isset($match[1]))
 				{
-					preg_match('/<param name="movie" value="([^&]+)&amp;[^"]+"/si', $pageData['video'], $match);
-
-					if (isset($match[1]))
-					{
-						$pageData['video'] = '<object width="425" height="344" style="width:150px;height:150px;" type="application/x-shockwave-flash" data="' . $match[1] . '">
-											<param value="' . $match[1] . '" name="movie" />
-											<param value="transparent" name="wmode" />
-											<param value="true" name="allowFullScreen" />
-											<param value="always" name="allowScriptAccess" />
-											<param value="http://get.adobe.com/flashplayer/" name="pluginspage" />
-										</object>';
-					}
+					$pageData['video'] = '<object width="425" height="344" style="width:150px;height:150px;" type="application/x-shockwave-flash" data="' . $match[1] . '">
+										<param value="' . $match[1] . '" name="movie" />
+										<param value="transparent" name="wmode" />
+										<param value="true" name="allowFullScreen" />
+										<param value="always" name="allowScriptAccess" />
+										<param value="http://get.adobe.com/flashplayer/" name="pluginspage" />
+									</object>';
 				}
-				//
-				// WITHOUT EMBED???? END
-				//
 
-				//$pageData['video'] = preg_replace('/<(param[^>]*)>/si', '<\1 />', $pageData['video']);
 				foreach ($pageData as $key => $value)
 				{
 					$template_block_data['PAGE_' . strtoupper($key)] = $value;
@@ -621,12 +567,13 @@ if (!class_exists('socialnet_userstatus'))
 
 			$wall_id = $this->_wall_id();
 
-			$another_wall = ($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile') ? true : false; // && $status_row['wall_id'] != $wall_id;
+			$another_wall = ($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile') ? true : false;
 
 			$wall_row = array(
 				'username'    => '',
-				'user_colour' => ''
+				'user_colour' => '',
 			);
+			
 			if ($another_wall)
 			{
 				$sql = 'SELECT username, user_colour
@@ -639,38 +586,30 @@ if (!class_exists('socialnet_userstatus'))
 
 			$st_time = $this->p_master->time_ago($status_row['status_time']);
 
-			//$comments = $this->_get_comments($status_row['status_id'], 0, $comment_limit);
 			$comments = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_row['status_id'], 0, $comment_limit);
-			return array_merge(
-				array(
-					'SN_US_STATUS'        => $status_row['status_text'],
-					'SN_US_STATUS_POSTED' => $st_time,
-					'STATUS_ID'           => $status_row['status_id'],
-					'U_POSTER_PROFILE'    => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['poster_id'], $status_row['username'], $status_row['user_colour']),
-					'U_PROFILE'           => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['poster_id']),
-					'POSTER_AVATAR'       => $avatar_img,
-					'TIME'                => $st_time,
-					'TEXT'                => $status_text_format,
-					'DELETE_STATUS'       => ($auth->acl_get('a_') || ($status_row['poster_id'] == $user->data['user_id'])) ? true : false,
-					'B_SN_US_CAN_COMMENT' => (in_array($status_row['poster_id'], $my_friends) || in_array($status_row['wall_id'], $my_friends) || $status_row['poster_id'] == $user->data['user_id']) ? true : false,
-					'B_ISPAGE'            => !empty($pageData) && !empty($pageData['title']),
-					'WALL_ID'             => $status_row['wall_id'],
-					'U_WALL'              => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['wall_id']),
-					'ANOTHER_WALL'        => $another_wall,
-					'U_WALL_PROFILE'      => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['wall_id'], $wall_row['username'], $wall_row['user_colour']),
-					'COMMENTS'            => $comments['comments'],
-					'SN_US_MORE_COMMENTS' => $comments['more'],
-				), $template_block_data);
+			return array_merge(array(
+				'SN_US_STATUS'        => $status_row['status_text'],
+				'SN_US_STATUS_POSTED' => $st_time,
+				'STATUS_ID'           => $status_row['status_id'],
+				'U_POSTER_PROFILE'    => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['poster_id'], $status_row['username'], $status_row['user_colour']),
+				'U_PROFILE'           => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['poster_id']),
+				'POSTER_AVATAR'       => $avatar_img,
+				'TIME'                => $st_time,
+				'TEXT'                => $status_text_format,
+				'DELETE_STATUS'       => ($auth->acl_get('a_') || ($status_row['poster_id'] == $user->data['user_id'])) ? true : false,
+				'B_SN_US_CAN_COMMENT' => (in_array($status_row['poster_id'], $my_friends) || in_array($status_row['wall_id'], $my_friends) || $status_row['poster_id'] == $user->data['user_id']) ? true : false,
+				'B_ISPAGE'            => !empty($pageData) && !empty($pageData['title']),
+				'WALL_ID'             => $status_row['wall_id'],
+				'U_WALL'              => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['wall_id']),
+				'ANOTHER_WALL'        => $another_wall,
+				'U_WALL_PROFILE'      => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['wall_id'], $wall_row['username'], $wall_row['user_colour']),
+				'COMMENTS'            => $comments['comments'],
+				'SN_US_MORE_COMMENTS' => $comments['more'],
+			), $template_block_data);
 		}
 
 		/**
 		 * Select wall
-		 * Postuji li na jinou wall nez svoji, potrebuji znat ID uzivatele, komu wall nalezi
-		 *
-		 * @author Culprit <jankalach@gmail.com>
-		 * @since 0.6.0
-		 * @access private
-		 * @return integer ID of user, which belongs current wall.
 		 */
 		function _wall_id()
 		{
@@ -679,7 +618,6 @@ if (!class_exists('socialnet_userstatus'))
 			$user_id = (int) request_var('u', $user->data['user_id']);
 			$username = request_var('un', '');
 
-			// Get user...
 			$sql = 'SELECT user_id
 								FROM ' . USERS_TABLE . '
 									WHERE ' . (($username) ? 'username_clean = "' . $db->sql_escape(utf8_clean_string($username)) . '"' : 'user_id = ' . $user_id);
@@ -693,7 +631,6 @@ if (!class_exists('socialnet_userstatus'))
 			}
 			return $member['user_id'];
 		}
-
 	}
 }
 
@@ -701,10 +638,9 @@ if (isset($socialnet) && defined('SN_USERSTATUS'))
 {
 	if ($user->data['user_type'] == USER_IGNORE || $config['board_disable'] == 1)
 	{
-
 		header('Content-type: text/html');
-		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		die('');
 		return;
 	}

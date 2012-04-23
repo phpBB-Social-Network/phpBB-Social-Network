@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -23,6 +23,7 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
 	include_once($phpbb_root_path . 'common.' . $phpEx);
 	include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
+	
 	// Start session management
 	$user->session_begin(false);
 	$auth->acl($user->data);
@@ -31,11 +32,6 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 
 if (!class_exists('socialnet_profile'))
 {
-
-	/**
-	 * @package MainPage
-	 */
-
 	class socialnet_profile
 	{
 		var $p_master = null;
@@ -75,8 +71,8 @@ if (!class_exists('socialnet_profile'))
 			}
 
 			$sql = "SELECT emote_id, emote_name, emote_image
-					FROM " . SN_EMOTES_TABLE . "
-					ORDER BY emote_order";
+							FROM " . SN_EMOTES_TABLE . "
+								ORDER BY emote_order";
 			$rs = $db->sql_query($sql);
 			$row_emotes = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);
@@ -84,10 +80,10 @@ if (!class_exists('socialnet_profile'))
 			for ($i = 0; isset($row_emotes[$i]); $i++)
 			{
 				$template->assign_block_vars('sn_up_emote', array(
-						'EMOTE_ID'    => $row_emotes[$i]['emote_id'],
-						'EMOTE_NAME'  => $row_emotes[$i]['emote_name'],
-						'EMOTE_IMAGE' => $row_emotes[$i]['emote_image'],
-					));
+					'EMOTE_ID'    => $row_emotes[$i]['emote_id'],
+					'EMOTE_NAME'  => $row_emotes[$i]['emote_name'],
+					'EMOTE_IMAGE' => $row_emotes[$i]['emote_image'],
+				));
 			}
 
 			$template_assign_vars = array(
@@ -95,12 +91,10 @@ if (!class_exists('socialnet_profile'))
 				'SN_UP_MONTH_NAMES'       => $monthNames,
 				'SN_UP_MONTH_NAMES_SHORT' => $monthNamesShort,
 				'S_SN_UP_EMOTES_ENABLED'  => $this->p_master->config['up_emotes'],
-				// Should be changed for config variable
 				'SN_UP_EMOTE_FOLDER'      => $phpbb_root_path . SN_UP_EMOTE_FOLDER,
 			);
 
 			$template->assign_vars($template_assign_vars);
-
 		}
 
 		function load($mode, $user_id)
@@ -122,14 +116,15 @@ if (!class_exists('socialnet_profile'))
 				$this->$call_mode($user_id);
 
 				$template->assign_vars(array(
-						'USER_ID'          => $user_id,
-						'FMS_LIMIT'        => $this->p_master->config['fas_friendlist_limit'],
-						'S_DISPLAY_SEARCH' => (!$this->p_master->config['load_search']) ? 0 : (isset($auth) ? ($auth->acl_get('u_search') && $auth->acl_getf_global('f_search')) : 1),
-					));
+					'USER_ID'          => $user_id,
+					'FMS_LIMIT'        => $this->p_master->config['fas_friendlist_limit'],
+					'S_DISPLAY_SEARCH' => (!$this->p_master->config['load_search']) ? 0 : (isset($auth) ? ($auth->acl_get('u_search') && $auth->acl_getf_global('f_search')) : 1),
+				));
 
 				$template->set_filenames(array(
-						"sn_{$call_mode}" => "socialnet/user_profile_{$call_mode}.html"
-					));
+					"sn_{$call_mode}" => "socialnet/user_profile_{$call_mode}.html",
+				));
+				
 				$content = $this->p_master->get_page("sn_{$call_mode}");
 				header('Content-type: text/html; charset=UTF-8');
 				die($content);
@@ -259,60 +254,58 @@ if (!class_exists('socialnet_profile'))
 				$profile_fields = (isset($profile_fields[$user_id])) ? $cp->generate_profile_fields_template('show', false, $profile_fields[$user_id]) : array();
 			}
 
-			$template
-				->assign_vars(
-					array(
-						'ABOUT_ME'              => ($member['about_me']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['about_me']) : '',
-						'SEX'                   => ((int) $member['sex'] != '0') ? (($member['sex'] == '1') ? $user->lang['SN_UP_MALE'] : $user->lang['SN_UP_FEMALE']) : '',
-						'INTERESTED_IN'         => $interested_in,
-						'BIRTHDAY'              => ($member['user_birthday']) ? $birthday : '',
-						'AGE'                   => $age,
-						'LOCATION'              => ($member['user_from']) ? $member['user_from'] : '',
-						'HOMETOWN'              => ($member['hometown']) ? $member['hometown'] : '',
-						'LANGUAGES'             => ($member['languages']) ? $member['languages'] : '',
-						'SIGNATURE'             => ($member['user_sig']) ? $member['user_sig'] : '',
-						'EMPLOYER'              => ($member['employer']) ? $member['employer'] : '',
-						'UNIVERSITY'            => ($member['university']) ? $member['university'] : '',
-						'HIGH_SCHOOL'           => ($member['high_school']) ? $member['high_school'] : '',
-						'OCCUPATION'            => ($member['user_occ']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_occ']) : '',
-						'RELIGION'              => ($member['religion']) ? $member['religion'] : '',
-						'POLITICAL_VIEWS'       => ($member['political_views']) ? $member['political_views'] : '',
-						'QUOTATIONS'            => ($member['quotations']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['quotations']) : '',
-						'INTERESTS'             => ($member['user_interests']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_interests']) : '',
-						'MUSIC'                 => ($member['music']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['music']) : '',
-						'BOOKS'                 => ($member['books']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['books']) : '',
-						'MOVIES'                => ($member['movies']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['movies']) : '',
-						'GAMES'                 => ($member['games']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['games']) : '',
-						'FOODS'                 => ($member['foods']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['foods']) : '',
-						'SPORTS'                => ($member['sports']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sports']) : '',
-						'SPORT_TEAMS'           => ($member['sport_teams']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sport_teams']) : '',
-						'ACTIVITIES'            => ($member['activities']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['activities']) : '',
-						'S_JABBER_ENABLED'      => ($config['jab_enable']) ? true : false,
-						'U_EMAIL'               => $email,
-						'U_WWW'                 => ($member['user_website']) ? $member['user_website'] : '',
-						'U_ICQ'                 => ($member['user_icq']) ? 'http://www.icq.com/people/webmsg.php?to=' . urlencode($member['user_icq']) : '',
-						'U_AIM'                 => ($member['user_aim'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=aim&amp;u=' . $user_id) : '',
-						'U_YIM'                 => ($member['user_yim']) ? 'http://edit.yahoo.com/config/send_webmesg?.target=' . urlencode($member['user_yim']) . '&amp;.src=pg' : '',
-						'U_MSN'                 => ($member['user_msnm'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=msnm&amp;u=' . $user_id) : '',
-						'U_JABBER'              => ($member['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=jabber&amp;u=' . $user_id) : '',
-						'U_FACEBOOK'            => ($member['facebook']) ? $member['facebook'] : '',
-						'U_TWITTER'             => ($member['twitter']) ? $member['twitter'] : '',
-						'U_YOUTUBE'             => ($member['youtube']) ? $member['youtube'] : '',
-						'S_CUSTOM_FIELDS'       => (isset($profile_fields['row']) && sizeof($profile_fields['row'])) ? true : false,
-						'UP_EDIT_SEX'           => "1:'{$user->lang['SN_UP_MALE']}',2:'{$user->lang['SN_UP_FEMALE']}'",
-						'UP_EDIT_INTERESTED_IN' => "1:'{$user->lang['SN_UP_MALES']}',2:'{$user->lang['SN_UP_FEMALES']}',3:'{$user->lang['SN_UP_BOTH']}'",
-						'UP_EDIT_SIGNATURE'     => preg_replace("/\r?\n/s", '\\n', $member['user_sig_bbcode']),
-						'BB_UID'                => $member['user_sig_bbcode_uid'],
-						'BB_BITFIELD'           => $member['user_sig_bbcode_bitfield'],
-						'USER_WWW'              => $member['user_website'],
-						'USER_ICQ'              => $member['user_icq'],
-						'USER_AIM'              => $member['user_aim'],
-						'USER_YIM'              => $member['user_yim'],
-						'USER_MSN'              => $member['user_msnm'],
-						'USER_JABBER'           => $member['user_jabber'],
-						'USER_SKYPE'            => $member['skype'],
-						'USER_MSNM'             => $member['user_msnm'],
-					));
+			$template->assign_vars(array(
+				'ABOUT_ME'              => ($member['about_me']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['about_me']) : '',
+				'SEX'                   => ((int) $member['sex'] != '0') ? (($member['sex'] == '1') ? $user->lang['SN_UP_MALE'] : $user->lang['SN_UP_FEMALE']) : '',
+				'INTERESTED_IN'         => $interested_in,
+				'BIRTHDAY'              => ($member['user_birthday']) ? $birthday : '',
+				'AGE'                   => $age,
+				'LOCATION'              => ($member['user_from']) ? $member['user_from'] : '',
+				'HOMETOWN'              => ($member['hometown']) ? $member['hometown'] : '',
+				'LANGUAGES'             => ($member['languages']) ? $member['languages'] : '',
+				'SIGNATURE'             => ($member['user_sig']) ? $member['user_sig'] : '',
+				'EMPLOYER'              => ($member['employer']) ? $member['employer'] : '',
+				'UNIVERSITY'            => ($member['university']) ? $member['university'] : '',
+				'HIGH_SCHOOL'           => ($member['high_school']) ? $member['high_school'] : '',
+				'OCCUPATION'            => ($member['user_occ']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_occ']) : '',
+				'RELIGION'              => ($member['religion']) ? $member['religion'] : '',
+				'POLITICAL_VIEWS'       => ($member['political_views']) ? $member['political_views'] : '',
+				'QUOTATIONS'            => ($member['quotations']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['quotations']) : '',
+				'INTERESTS'             => ($member['user_interests']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_interests']) : '',
+				'MUSIC'                 => ($member['music']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['music']) : '',
+				'BOOKS'                 => ($member['books']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['books']) : '',
+				'MOVIES'                => ($member['movies']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['movies']) : '',
+				'GAMES'                 => ($member['games']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['games']) : '',
+				'FOODS'                 => ($member['foods']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['foods']) : '',
+				'SPORTS'                => ($member['sports']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sports']) : '',
+				'SPORT_TEAMS'           => ($member['sport_teams']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sport_teams']) : '',
+				'ACTIVITIES'            => ($member['activities']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['activities']) : '',
+				'S_JABBER_ENABLED'      => ($config['jab_enable']) ? true : false,
+				'U_EMAIL'               => $email,
+				'U_WWW'                 => ($member['user_website']) ? $member['user_website'] : '',
+				'U_ICQ'                 => ($member['user_icq']) ? 'http://www.icq.com/people/webmsg.php?to=' . urlencode($member['user_icq']) : '',
+				'U_AIM'                 => ($member['user_aim'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=aim&amp;u=' . $user_id) : '',
+				'U_YIM'                 => ($member['user_yim']) ? 'http://edit.yahoo.com/config/send_webmesg?.target=' . urlencode($member['user_yim']) . '&amp;.src=pg' : '',
+				'U_MSN'                 => ($member['user_msnm'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=msnm&amp;u=' . $user_id) : '',
+				'U_JABBER'              => ($member['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=jabber&amp;u=' . $user_id) : '',
+				'U_FACEBOOK'            => ($member['facebook']) ? $member['facebook'] : '',
+				'U_TWITTER'             => ($member['twitter']) ? $member['twitter'] : '',
+				'U_YOUTUBE'             => ($member['youtube']) ? $member['youtube'] : '',
+				'S_CUSTOM_FIELDS'       => (isset($profile_fields['row']) && sizeof($profile_fields['row'])) ? true : false,
+				'UP_EDIT_SEX'           => "1:'{$user->lang['SN_UP_MALE']}',2:'{$user->lang['SN_UP_FEMALE']}'",
+				'UP_EDIT_INTERESTED_IN' => "1:'{$user->lang['SN_UP_MALES']}',2:'{$user->lang['SN_UP_FEMALES']}',3:'{$user->lang['SN_UP_BOTH']}'",
+				'UP_EDIT_SIGNATURE'     => preg_replace("/\r?\n/s", '\\n', $member['user_sig_bbcode']),
+				'BB_UID'                => $member['user_sig_bbcode_uid'],
+				'BB_BITFIELD'           => $member['user_sig_bbcode_bitfield'],
+				'USER_WWW'              => $member['user_website'],
+				'USER_ICQ'              => $member['user_icq'],
+				'USER_AIM'              => $member['user_aim'],
+				'USER_YIM'              => $member['user_yim'],
+				'USER_MSN'              => $member['user_msnm'],
+				'USER_JABBER'           => $member['user_jabber'],
+				'USER_SKYPE'            => $member['skype'],
+				'USER_MSNM'             => $member['user_msnm'],
+			));
 
 			if (!empty($profile_fields['row']))
 			{
@@ -326,25 +319,17 @@ if (!class_exists('socialnet_profile'))
 					$template->assign_block_vars('custom_fields', $field_data);
 				}
 			}
-/*
-			$addons = array();
-			$addons = $this->p_master->sn_addons_load('1');
-			foreach ($addons as $addon)
-			{
-				include("{$phpbb_root_path}socialnet/addons/" . $addon);
-			}
-*/
 		}
 
 		function tab_friends($user_id)
 		{
 			$this->p_master->fms_users(array_merge(array(
-					'mode'            => 'friendProfile',
-					'slider'          => false,
-					'user_id'         => $user_id,
-					'limit'           => 30,
-					'add_friend_link' => true,
-				), $this->p_master->fms_users_sqls('friendProfile', $user_id)));
+				'mode'            => 'friendProfile',
+				'slider'          => false,
+				'user_id'         => $user_id,
+				'limit'           => 30,
+				'add_friend_link' => true,
+			), $this->p_master->fms_users_sqls('friendProfile', $user_id)));
 		}
 
 		function tab_stats($user_id)
@@ -354,10 +339,10 @@ if (!class_exists('socialnet_profile'))
 
 			$sql = 'SELECT u.user_posts, u.user_regdate, u.user_allow_viewonline, u.user_lastvisit, u.user_warnings, u.user_rank, s.profile_views, s.profile_last_change, u.group_id,
         					u.user_id, u.username, u.user_type, u.user_colour, u.user_inactive_reason, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_allow_pm
-					FROM ' . USERS_TABLE . ' u
-					LEFT JOIN ' . SN_USERS_TABLE . ' s
-						ON s.user_id = u.user_id
-					WHERE u.user_id = ' . $user_id;
+								FROM ' . USERS_TABLE . ' u
+									LEFT JOIN ' . SN_USERS_TABLE . ' s
+										ON s.user_id = u.user_id
+									WHERE u.user_id = ' . $user_id;
 			$result = $db->sql_query($sql);
 			$member = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
@@ -366,9 +351,9 @@ if (!class_exists('socialnet_profile'))
 			if ($auth->acl_getf_global('m_approve') || $auth->acl_get('a_user'))
 			{
 				$sql = 'SELECT COUNT(post_id) as posts_in_queue
-			    		FROM ' . POSTS_TABLE . '
-			    		WHERE poster_id = ' . $user_id . '
-			    			AND post_approved = 0';
+			    				FROM ' . POSTS_TABLE . '
+			    					WHERE poster_id = ' . $user_id . '
+			    						AND post_approved = 0';
 				$result = $db->sql_query($sql);
 				$member['posts_in_queue'] = (int) $db->sql_fetchfield('posts_in_queue');
 				$db->sql_freeresult($result);
@@ -419,18 +404,18 @@ if (!class_exists('socialnet_profile'))
 
 			// Load profile visitors
 			$sql = 'SELECT v.visitor_uid, u.username, u.user_colour
-			              FROM ' . SN_PROFILE_VISITORS_TABLE . ' v
-			                LEFT JOIN ' . USERS_TABLE . ' u
-			                  ON u.user_id = v.visitor_uid
-			                WHERE v.profile_uid = ' . $user_id . '
-			                  ORDER BY v.visit_time DESC';
+	              FROM ' . SN_PROFILE_VISITORS_TABLE . ' v
+	                LEFT JOIN ' . USERS_TABLE . ' u
+	                  ON u.user_id = v.visitor_uid
+	                WHERE v.profile_uid = ' . $user_id . '
+	                  ORDER BY v.visit_time DESC';
 			$result = $db->sql_query_limit($sql, 10);
 
 			while ($visitors = $db->sql_fetchrow($result))
 			{
 				$template->assign_block_vars('visitors', array(
-						'USERNAME' => get_username_string('full', $visitors['visitor_uid'], $visitors['username'], $visitors['user_colour']),
-					));
+					'USERNAME' => get_username_string('full', $visitors['visitor_uid'], $visitors['username'], $visitors['user_colour']),
+				));
 			}
 			$db->sql_freeresult($result);
 
@@ -443,19 +428,19 @@ if (!class_exists('socialnet_profile'))
 			// Also get visiting user's groups to determine hidden group memberships if necessary.
 			$auth_hidden_groups = ($user_id === (int) $user->data['user_id'] || $auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel')) ? true : false;
 			$sql_uid_ary = ($auth_hidden_groups) ? array(
-				$user_id
+				$user_id,
 			) : array(
 				$user_id,
-				(int) $user->data['user_id']
+				(int) $user->data['user_id'],
 			);
 
 			// Do the SQL thang
 			$sql = 'SELECT g.group_id, g.group_name, g.group_type, g.group_colour, ug.user_id
-			              FROM ' . GROUPS_TABLE . ' g,
-			                   ' . USER_GROUP_TABLE . ' ug
-			              WHERE ' . $db->sql_in_set('ug.user_id', $sql_uid_ary) . '
-			                AND g.group_id = ug.group_id
-			                AND ug.user_pending = 0';
+	              FROM ' . GROUPS_TABLE . ' g,
+	                   ' . USER_GROUP_TABLE . ' ug
+	              WHERE ' . $db->sql_in_set('ug.user_id', $sql_uid_ary) . '
+	                AND g.group_id = ug.group_id
+	                AND ug.user_pending = 0';
 			$result = $db->sql_query($sql);
 
 			// Divide data into profile data and current user data
@@ -521,38 +506,28 @@ if (!class_exists('socialnet_profile'))
 			unset($group_data);
 			unset($group_sort);
 
-			$template
-				->assign_vars(
-					array(
-						'L_POSTS_IN_QUEUE' => $user->lang('NUM_POSTS_IN_QUEUE', $member['posts_in_queue']),
-						'POSTS_IN_QUEUE'   => $member['posts_in_queue'],
-						'PROFILE_VIEWS'    => ($member['profile_views']) ? $member['profile_views'] : 0,
-						'POSTS_DAY'        => sprintf($user->lang['POST_DAY'], $posts_per_day),
-						'POSTS_PCT'        => sprintf($user->lang['POST_PCT'], $percentage),
-						'JOINED'           => $user->format_date($member['user_regdate']),
-						'VISITED'          => (empty($last_visit)) ? ' - ' : $user->format_date($last_visit),
-						'LAST_CHANGE'      => ((int) $member['profile_last_change'] == '0') ? '' : $user->format_date($member['profile_last_change']),
-						'POSTS'            => ($member['user_posts']) ? $member['user_posts'] : 0,
-						'WARNINGS'         => isset($member['user_warnings']) ? $member['user_warnings'] : 0,
-						'S_WARNINGS'       => ($auth->acl_getf_global('m_') || $auth->acl_get('m_warn')) ? true : false,
-						'U_SEARCH_USER'    => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.$phpEx", "author_id=$user_id&amp;sr=posts") : '',
-						'U_NOTES'          => ($user_notes_enabled && $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $user_id, true, $user->session_id) : '',
-						'U_WARN'           => ($warn_user_enabled && $auth->acl_get('m_warn')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_user&amp;u=' . $user_id, true, $user->session_id) : '',
-						'S_USER_NOTES'     => ($user_notes_enabled) ? true : false,
-						'S_WARN_USER'      => ($warn_user_enabled) ? true : false,
-						'RANK_IMG'         => $rank_img,
-						'RANK_IMG_SRC'     => $rank_img_src,
-						'RANK_TITLE'       => $rank_title,
-						'S_GROUPS'         => $groups,
-					));
-/*
-			$addons = array();
-			$addons = $this->p_master->sn_addons_load('2');
-			foreach ($addons as $addon)
-			{
-				include("{$phpbb_root_path}socialnet/addons/" . $addon);
-			}
-*/
+			$template->assign_vars(array(
+				'L_POSTS_IN_QUEUE' => $user->lang('NUM_POSTS_IN_QUEUE', $member['posts_in_queue']),
+				'POSTS_IN_QUEUE'   => $member['posts_in_queue'],
+				'PROFILE_VIEWS'    => ($member['profile_views']) ? $member['profile_views'] : 0,
+				'POSTS_DAY'        => sprintf($user->lang['POST_DAY'], $posts_per_day),
+				'POSTS_PCT'        => sprintf($user->lang['POST_PCT'], $percentage),
+				'JOINED'           => $user->format_date($member['user_regdate']),
+				'VISITED'          => (empty($last_visit)) ? ' - ' : $user->format_date($last_visit),
+				'LAST_CHANGE'      => ((int) $member['profile_last_change'] == '0') ? '' : $user->format_date($member['profile_last_change']),
+				'POSTS'            => ($member['user_posts']) ? $member['user_posts'] : 0,
+				'WARNINGS'         => isset($member['user_warnings']) ? $member['user_warnings'] : 0,
+				'S_WARNINGS'       => ($auth->acl_getf_global('m_') || $auth->acl_get('m_warn')) ? true : false,
+				'U_SEARCH_USER'    => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.$phpEx", "author_id=$user_id&amp;sr=posts") : '',
+				'U_NOTES'          => ($user_notes_enabled && $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $user_id, true, $user->session_id) : '',
+				'U_WARN'           => ($warn_user_enabled && $auth->acl_get('m_warn')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_user&amp;u=' . $user_id, true, $user->session_id) : '',
+				'S_USER_NOTES'     => ($user_notes_enabled) ? true : false,
+				'S_WARN_USER'      => ($warn_user_enabled) ? true : false,
+				'RANK_IMG'         => $rank_img,
+				'RANK_IMG_SRC'     => $rank_img_src,
+				'RANK_TITLE'       => $rank_title,
+				'S_GROUPS'         => $groups,
+			));
 		}
 
 		function tab_wall($user_id)
@@ -571,17 +546,17 @@ if (!class_exists('socialnet_profile'))
 			$report_text = utf8_normalize_nfc(request_var('report_text', '', true));
 
 			$sql = 'SELECT *
-			              FROM ' . SN_REPORTS_REASONS_TABLE . '
-			                ORDER BY reason_id ASC';
+	              FROM ' . SN_REPORTS_REASONS_TABLE . '
+	                ORDER BY reason_id ASC';
 			$result = $db->sql_query($sql);
 
 			while ($row = $db->sql_fetchrow($result))
 			{
 				$template->assign_block_vars('reason', array(
-						'ID'         => $row['reason_id'],
-						'TEXT'       => $row['reason_text'],
-						'S_SELECTED' => ($row['reason_id'] == $reason_id) ? true : false,
-					));
+					'ID'         => $row['reason_id'],
+					'TEXT'       => $row['reason_text'],
+					'S_SELECTED' => ($row['reason_id'] == $reason_id) ? true : false,
+				));
 			}
 			$db->sql_freeresult($result);
 
@@ -596,8 +571,8 @@ if (!class_exists('socialnet_profile'))
 			if ($submit && $reason_id)
 			{
 				$sql = 'SELECT *
-			                FROM ' . SN_REPORTS_REASONS_TABLE . '
-			                  WHERE reason_id = ' . $reason_id;
+	                FROM ' . SN_REPORTS_REASONS_TABLE . '
+	                  WHERE reason_id = ' . $reason_id;
 				$result = $db->sql_query($sql);
 				$row = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
@@ -626,13 +601,12 @@ if (!class_exists('socialnet_profile'))
 			}
 
 			$template->assign_vars(array(
-					'REPORT_TEXT'     => $report_text,
-					'S_REPORT_ACTION' => append_sid("{$socialnet_root_path}profile.$phpEx", 'mode=report_user&amp;u=' . $user_id),
-				));
+				'REPORT_TEXT'     => $report_text,
+				'S_REPORT_ACTION' => append_sid("{$socialnet_root_path}profile.$phpEx", 'mode=report_user&amp;u=' . $user_id),
+			));
 
 			$page_title = $user->lang['SN_UP_REPORT_PROFILE'];
 			$page_template = 'socialnet/user_profile_report_user.html';
-
 		}
 
 		function last_profile_change()
@@ -657,7 +631,7 @@ if (!class_exists('socialnet_profile'))
 					'signature',
 					'avatar',
 					'reg_details',
-					'module_profile'
+					'module_profile',
 				)
 			);
 
@@ -665,345 +639,259 @@ if (!class_exists('socialnet_profile'))
 			{
 				switch ($mode)
 				{
-				case 'profile_info':
-					if (!check_form_key('ucp_profile_info'))
-					{
-						return;
-					}
-
-					/**
-					 * /includes/ucp/ucp_profile.php LINE 271
-					 */
-					$data = array(
-						'user_icq'       => request_var('icq', $user->data['user_icq']),
-						'user_aim'       => request_var('aim', $user->data['user_aim']),
-						'user_msnm'      => request_var('msn', $user->data['user_msnm']),
-						'user_yim'       => request_var('yim', $user->data['user_yim']),
-						'user_jabber'    => utf8_normalize_nfc(request_var('jabber', $user->data['user_jabber'], true)),
-						'user_website'   => request_var('website', $user->data['user_website']),
-						'user_from'      => utf8_normalize_nfc(request_var('location', $user->data['user_from'], true)),
-						'user_occ'       => utf8_normalize_nfc(request_var('occupation', $user->data['user_occ'], true)),
-						'user_interests' => utf8_normalize_nfc(request_var('interests', $user->data['user_interests'], true)),
-					);
-
-					if ($this->p_master->config['allow_birthdays'])
-					{
-						$data['bday_day'] = $data['bday_month'] = $data['bday_year'] = 0;
-
-						if ($user->data['user_birthday'])
-						{
-							list($data['bday_day'], $data['bday_month'], $data['bday_year']) = explode('-', $user->data['user_birthday']);
-							$user->data['bday_day'] = (int) $data['bday_day'];
-							$user->data['bday_month'] = (int) $data['bday_month'];
-							$user->data['bday_year'] = (int) $data['bday_year'];
-						}
-
-						$data['bday_day'] = request_var('bday_day', $data['bday_day']);
-						$data['bday_month'] = request_var('bday_month', $data['bday_month']);
-						$data['bday_year'] = request_var('bday_year', $data['bday_year']);
-
-						$data['user_birthday'] = sprintf('%2d-%2d-%4d', $data['bday_day'], $data['bday_month'], $data['bday_year']);
-					}
-
-					$validate_array = array(
-						'user_icq'       => array(
-							array(
-								'string',
-								true,
-								3,
-								15
-							),
-							array(
-								'match',
-								true,
-								'#^[0-9]+$#i'
-							)
-						),
-						'user_aim'       => array(
-							'string',
-							true,
-							3,
-							255
-						),
-						'user_msnm'      => array(
-							'string',
-							true,
-							5,
-							255
-						),
-						'user_jabber'    => array(
-							array(
-								'string',
-								true,
-								5,
-								255
-							),
-							array(
-								'jabber'
-							)
-						),
-						'user_yim'       => array(
-							'string',
-							true,
-							5,
-							255
-						),
-						'user_website'   => array(
-							array(
-								'string',
-								true,
-								12,
-								255
-							),
-							array(
-								'match',
-								true,
-								'#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i'
-							)
-						),
-						'user_from'      => array(
-							'string',
-							true,
-							2,
-							100
-						),
-						'user_occ'       => array(
-							'string',
-							true,
-							2,
-							500
-						),
-						'user_interests' => array(
-							'string',
-							true,
-							2,
-							500
-						),
-					);
-
-					if ($this->p_master->config['allow_birthdays'])
-					{
-						$validate_array = array_merge($validate_array, array(
-							'bday_day'   => array(
-								'num',
-								true,
-								1,
-								31
-							),
-							'bday_month' => array(
-								'num',
-								true,
-								1,
-								12
-							),
-							'bday_year'  => array(
-								'num',
-								true,
-								1901,
-								gmdate('Y', time()) + 50
-							),
-						//								'user_birthday'	 => array('date', true),
-						));
-					}
-
-					$error = validate_data($data, $validate_array);
-
-					if (sizeof($error))
-					{
-						return;
-					}
-
-					$changed = array_diff_assoc($data, $user->data);
-					if (!empty($changed['user_birthday']) && $data['bday_year'] != 0 && $data['bday_month'] != 0 && $data['bday_day'] != 0)
-					{
-						//$changed['user_birthday'] = $user->format_date(mktime(0, 0, 1, $data['bday_month'], $data['bday_day'], $data['bday_year']), '|j. F Y|');
-						$changed['user_birthday'] = date('j. F Y', mktime(0, 0, 1, $data['bday_month'], $data['bday_day'], $data['bday_year']));
-						unset($changed['bday_year']);
-						unset($changed['bday_month']);
-						unset($changed['bday_day']);
-					}
-					else
-					{
-						unset($changed['user_birthday']);
-					}
-
-					if ($this->p_master->config['allow_birthdays'])
-					{
-						unset($user->data['bday_day']);
-						unset($user->data['bday_month']);
-						unset($user->data['bday_year']);
-					}
-					break;
-
-				case 'signature':
-					if (!check_form_key('ucp_sig'))
-					{
-						return;
-					}
-
-					$original['user_sig'] = preg_replace('/\[[^]]*\]/si', '', $user->data['user_sig']);
-					$data['user_sig'] = preg_replace('/\[[^]]*\]/si', '', utf8_normalize_nfc(request_var('signature', (string) $original['user_sig'], true)));
-
-					$changed = array_diff_assoc($data, $original);
-
-					break;
-
-				case 'avatar':
-					if (!check_form_key('ucp_avatar'))
-					{
-						return;
-					}
-
-					$data = array(
-						'uploadurl'  => request_var('uploadurl', ''),
-						'remotelink' => request_var('remotelink', ''),
-						'width'      => request_var('width', 0),
-						'height'     => request_var('height', 0),
-						'delete'     => request_var('delete', 0),
-					);
-
-					$error = validate_data($data, array(
-						'uploadurl'  => array(
-							'string',
-							true,
-							5,
-							255
-						),
-						'remotelink' => array(
-							'string',
-							true,
-							5,
-							255
-						),
-						'width'      => array(
-							'string',
-							true,
-							1,
-							3
-						),
-						'height'     => array(
-							'string',
-							true,
-							1,
-							3
-						),
-					));
-					if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] == 0)
-					{
-						$image = getimagesize($_FILES['uploadfile']['tmp_name']);
-						$aw = $image[0];
-						$ah = $image[1];
-					}
-					else if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] != 0 && $_FILES['uploadfile']['name'] != '')
-					{
-						return;
-					}
-					else if (isset($data['uploadurl']) && !empty($data['uploadurl']))
-					{
-						$data['user_id'] = $user->data['user_id'];
-						avatar_upload($data, $error);
-						if (!empty($error))
+					case 'profile_info':
+					
+						if (!check_form_key('ucp_profile_info'))
 						{
 							return;
 						}
-						$aw = &$data['width'];
-						$ah = &$data['height'];
-					}
-					else
-					{
-						$aw = &$data['width'];
-						$ah = &$data['height'];
-					}
 
-					$cfg = &$this->p_master->config;
-					$correct_size = ($cfg['avatar_min_width'] <= $aw && $aw <= $cfg['avatar_max_width']) && ($cfg['avatar_min_height'] <= $ah && $ah <= $cfg['avatar_max_height']);
-					// Just deleting or error or nothing submitted
-					if (sizeof($error) || !$correct_size || isset($_POST['delete']) || ($data['uploadurl'] == '' && $data['remotelink'] == ''))
-					{
-						return;
-					}
-					// Can we upload?
-					$change_avatar = $auth->acl_get('u_chgavatar');
-					$can_upload = ($this->p_master->config['allow_avatar_upload'] && file_exists($phpbb_root_path . $this->p_master->config['avatar_path']) && phpbb_is_writable($phpbb_root_path . $this->p_master->config['avatar_path']) && $change_avatar && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
-					if (!$can_upload)
-					{
-						return;
-					}
+						/**
+						 * /includes/ucp/ucp_profile.php LINE 271
+						 */
+						$data = array(
+							'user_icq'       => request_var('icq', $user->data['user_icq']),
+							'user_aim'       => request_var('aim', $user->data['user_aim']),
+							'user_msnm'      => request_var('msn', $user->data['user_msnm']),
+							'user_yim'       => request_var('yim', $user->data['user_yim']),
+							'user_jabber'    => utf8_normalize_nfc(request_var('jabber', $user->data['user_jabber'], true)),
+							'user_website'   => request_var('website', $user->data['user_website']),
+							'user_from'      => utf8_normalize_nfc(request_var('location', $user->data['user_from'], true)),
+							'user_occ'       => utf8_normalize_nfc(request_var('occupation', $user->data['user_occ'], true)),
+							'user_interests' => utf8_normalize_nfc(request_var('interests', $user->data['user_interests'], true)),
+						);
 
-					$changed['user_avatar'] = 'user_avatar';
+						if ($this->p_master->config['allow_birthdays'])
+						{
+							$data['bday_day'] = $data['bday_month'] = $data['bday_year'] = 0;
+
+							if ($user->data['user_birthday'])
+							{
+								list($data['bday_day'], $data['bday_month'], $data['bday_year']) = explode('-', $user->data['user_birthday']);
+								$user->data['bday_day'] = (int) $data['bday_day'];
+								$user->data['bday_month'] = (int) $data['bday_month'];
+								$user->data['bday_year'] = (int) $data['bday_year'];
+							}
+
+							$data['bday_day'] = request_var('bday_day', $data['bday_day']);
+							$data['bday_month'] = request_var('bday_month', $data['bday_month']);
+							$data['bday_year'] = request_var('bday_year', $data['bday_year']);
+
+							$data['user_birthday'] = sprintf('%2d-%2d-%4d', $data['bday_day'], $data['bday_month'], $data['bday_year']);
+						}
+
+						$validate_array = array(
+							'user_icq'       => array(
+								array('string', true, 3, 15),
+								array('match', true, '#^[0-9]+$#i')
+							),
+							'user_aim'       => array('string', true, 3, 255),
+							'user_msnm'      => array('string', true, 5, 255),
+							'user_jabber'    => array(
+								array('string', true, 5, 255),
+								array('jabber')
+							),
+							'user_yim'       => array('string', true, 5 ,255),
+							'user_website'   => array(
+								array('string', true, 12, 255),
+								array('match', true, '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
+							'user_from'      => array('string', true, 2, 100),
+							'user_occ'       => array('string', true, 2, 500),
+							'user_interests' => array('string', true, 2, 500),
+						);
+
+						if ($this->p_master->config['allow_birthdays'])
+						{
+							$validate_array = array_merge($validate_array, array(
+								'bday_day'   => array('num', true, 1, 31),
+								'bday_month' => array('num', true, 1, 12),
+								'bday_year'  => array('num', true, 1901, gmdate('Y', time()) + 50),
+							));
+						}
+
+						$error = validate_data($data, $validate_array);
+
+						if (sizeof($error))
+						{
+							return;
+						}
+
+						$changed = array_diff_assoc($data, $user->data);
+						if (!empty($changed['user_birthday']) && $data['bday_year'] != 0 && $data['bday_month'] != 0 && $data['bday_day'] != 0)
+						{
+							$changed['user_birthday'] = date('j. F Y', mktime(0, 0, 1, $data['bday_month'], $data['bday_day'], $data['bday_year']));
+							unset($changed['bday_year']);
+							unset($changed['bday_month']);
+							unset($changed['bday_day']);
+						}
+						else
+						{
+							unset($changed['user_birthday']);
+						}
+
+						if ($this->p_master->config['allow_birthdays'])
+						{
+							unset($user->data['bday_day']);
+							unset($user->data['bday_month']);
+							unset($user->data['bday_year']);
+						}
+						
+					break;
+
+					case 'signature':
+					
+						if (!check_form_key('ucp_sig'))
+						{
+							return;
+						}
+
+						$original['user_sig'] = preg_replace('/\[[^]]*\]/si', '', $user->data['user_sig']);
+						$data['user_sig'] = preg_replace('/\[[^]]*\]/si', '', utf8_normalize_nfc(request_var('signature', (string) $original['user_sig'], true)));
+
+						$changed = array_diff_assoc($data, $original);
 
 					break;
 
-				case 'reg_details':
-				// Try to manually determine the timezone and adjust the dst if the server date/time complies with the default setting +/- 1
+					case 'avatar':
+					
+						if (!check_form_key('ucp_avatar'))
+						{
+							return;
+						}
 
-					$data = array(
-						'username'   => utf8_normalize_nfc(request_var('username', $user->data['username'], true)),
-						'user_email' => strtolower(request_var('email', $user->data['user_email'])),
-					);
+						$data = array(
+							'uploadurl'  => request_var('uploadurl', ''),
+							'remotelink' => request_var('remotelink', ''),
+							'width'      => request_var('width', 0),
+							'height'     => request_var('height', 0),
+							'delete'     => request_var('delete', 0),
+						);
 
-					$changed = array_diff_assoc($data, $user->data);
+						$error = validate_data($data, array(
+							'uploadurl'  => array('string', true, 5, 255),
+							'remotelink' => array('string', true, 5, 255),
+							'width'      => array('string', true, 1, 3),
+							'height'     => array('string', true, 1, 3),
+						));
+						
+						if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] == 0)
+						{
+							$image = getimagesize($_FILES['uploadfile']['tmp_name']);
+							$aw = $image[0];
+							$ah = $image[1];
+						}
+						else if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] != 0 && $_FILES['uploadfile']['name'] != '')
+						{
+							return;
+						}
+						else if (isset($data['uploadurl']) && !empty($data['uploadurl']))
+						{
+							$data['user_id'] = $user->data['user_id'];
+							avatar_upload($data, $error);
+							if (!empty($error))
+							{
+								return;
+							}
+							$aw = &$data['width'];
+							$ah = &$data['height'];
+						}
+						else
+						{
+							$aw = &$data['width'];
+							$ah = &$data['height'];
+						}
+
+						$cfg = &$this->p_master->config;
+						$correct_size = ($cfg['avatar_min_width'] <= $aw && $aw <= $cfg['avatar_max_width']) && ($cfg['avatar_min_height'] <= $ah && $ah <= $cfg['avatar_max_height']);
+						// Just deleting or error or nothing submitted
+						if (sizeof($error) || !$correct_size || isset($_POST['delete']) || ($data['uploadurl'] == '' && $data['remotelink'] == ''))
+						{
+							return;
+						}
+						// Can we upload?
+						$change_avatar = $auth->acl_get('u_chgavatar');
+						$can_upload = ($this->p_master->config['allow_avatar_upload'] && file_exists($phpbb_root_path . $this->p_master->config['avatar_path']) && phpbb_is_writable($phpbb_root_path . $this->p_master->config['avatar_path']) && $change_avatar && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
+						if (!$can_upload)
+						{
+							return;
+						}
+
+						$changed['user_avatar'] = 'user_avatar';
+
 					break;
 
-				case 'module_profile':
-					$data = array(
-						'hometown'        => utf8_normalize_nfc(request_var('hometown', $user->data['hometown'], true)),
-						'sex'             => request_var('sex', $user->data['sex']),
-						'interested_in'   => request_var('interested_in', $user->data['interested_in']),
-						'languages'       => utf8_normalize_nfc(request_var('languages', $user->data['languages'], true)),
-						'about_me'        => utf8_normalize_nfc(request_var('about_me', $user->data['about_me'], true)),
-						'employer'        => utf8_normalize_nfc(request_var('employer', $user->data['employer'], true)),
-						'university'      => utf8_normalize_nfc(request_var('university', $user->data['university'], true)),
-						'high_school'     => utf8_normalize_nfc(request_var('high_school', $user->data['high_school'], true)),
-						'religion'        => utf8_normalize_nfc(request_var('religion', $user->data['religion'], true)),
-						'political_views' => utf8_normalize_nfc(request_var('political_views', $user->data['political_views'], true)),
-						'quotations'      => utf8_normalize_nfc(request_var('quotations', $user->data['quotations'], true)),
-						'music'           => utf8_normalize_nfc(request_var('music', $user->data['music'], true)),
-						'books'           => utf8_normalize_nfc(request_var('books', $user->data['books'], true)),
-						'movies'          => utf8_normalize_nfc(request_var('movies', $user->data['movies'], true)),
-						'games'           => utf8_normalize_nfc(request_var('games', $user->data['games'], true)),
-						'foods'           => utf8_normalize_nfc(request_var('foods', $user->data['foods'], true)),
-						'sports'          => utf8_normalize_nfc(request_var('sports', $user->data['sports'], true)),
-						'sport_teams'     => utf8_normalize_nfc(request_var('sport_teams', $user->data['sport_teams'], true)),
-						'activities'      => utf8_normalize_nfc(request_var('activities', $user->data['activities'], true)),
-						'skype'           => utf8_normalize_nfc(request_var('skype', $user->data['skype'], true)),
-						'facebook'        => request_var('facebook', $user->data['facebook']),
-						'twitter'         => request_var('twitter', $user->data['twitter']),
-						'youtube'         => request_var('youtube', $user->data['youtube']),
-					);
+					case 'reg_details':
+					
+						// Try to manually determine the timezone and adjust the dst if the server date/time complies with the default setting +/- 1
 
-					$changed = array_diff_assoc($data, $user->data);
+						$data = array(
+							'username'   => utf8_normalize_nfc(request_var('username', $user->data['username'], true)),
+							'user_email' => strtolower(request_var('email', $user->data['user_email'])),
+						);
 
-					if (!empty($changed['sex']))
-					{
-						$changed['sex'] = ($changed['sex'] == '1') ? $user->lang['SN_UP_MALE'] : $user->lang['SN_UP_FEMALE'];
-
-						$my_friends = $this->p_master->friends['user_id'];
-
-						for ($i = 0; isset($my_friends[$i]); $i++)
-						{
-							$this->p_master->purge_friends($my_friends[$i]);
-						}
-					}
-
-					if (!empty($changed['interested_in']))
-					{
-						if ($changed['interested_in'] == '1')
-						{
-							$changed['interested_in'] = $user->lang['SN_UP_MALES'];
-						}
-						elseif ($changed['interested_in'] == '2')
-						{
-							$changed['interested_in'] = $user->lang['SN_UP_FEMALES'];
-						}
-						elseif ($changed['interested_in'] == '3')
-						{
-							$changed['interested_in'] = $user->lang['SN_UP_BOTH'];
-						}
-					}
-
+						$changed = array_diff_assoc($data, $user->data);
+						
 					break;
 
+					case 'module_profile':
+					
+						$data = array(
+							'hometown'        => utf8_normalize_nfc(request_var('hometown', $user->data['hometown'], true)),
+							'sex'             => request_var('sex', $user->data['sex']),
+							'interested_in'   => request_var('interested_in', $user->data['interested_in']),
+							'languages'       => utf8_normalize_nfc(request_var('languages', $user->data['languages'], true)),
+							'about_me'        => utf8_normalize_nfc(request_var('about_me', $user->data['about_me'], true)),
+							'employer'        => utf8_normalize_nfc(request_var('employer', $user->data['employer'], true)),
+							'university'      => utf8_normalize_nfc(request_var('university', $user->data['university'], true)),
+							'high_school'     => utf8_normalize_nfc(request_var('high_school', $user->data['high_school'], true)),
+							'religion'        => utf8_normalize_nfc(request_var('religion', $user->data['religion'], true)),
+							'political_views' => utf8_normalize_nfc(request_var('political_views', $user->data['political_views'], true)),
+							'quotations'      => utf8_normalize_nfc(request_var('quotations', $user->data['quotations'], true)),
+							'music'           => utf8_normalize_nfc(request_var('music', $user->data['music'], true)),
+							'books'           => utf8_normalize_nfc(request_var('books', $user->data['books'], true)),
+							'movies'          => utf8_normalize_nfc(request_var('movies', $user->data['movies'], true)),
+							'games'           => utf8_normalize_nfc(request_var('games', $user->data['games'], true)),
+							'foods'           => utf8_normalize_nfc(request_var('foods', $user->data['foods'], true)),
+							'sports'          => utf8_normalize_nfc(request_var('sports', $user->data['sports'], true)),
+							'sport_teams'     => utf8_normalize_nfc(request_var('sport_teams', $user->data['sport_teams'], true)),
+							'activities'      => utf8_normalize_nfc(request_var('activities', $user->data['activities'], true)),
+							'skype'           => utf8_normalize_nfc(request_var('skype', $user->data['skype'], true)),
+							'facebook'        => request_var('facebook', $user->data['facebook']),
+							'twitter'         => request_var('twitter', $user->data['twitter']),
+							'youtube'         => request_var('youtube', $user->data['youtube']),
+						);
+
+						$changed = array_diff_assoc($data, $user->data);
+
+						if (!empty($changed['sex']))
+						{
+							$changed['sex'] = ($changed['sex'] == '1') ? $user->lang['SN_UP_MALE'] : $user->lang['SN_UP_FEMALE'];
+
+							$my_friends = $this->p_master->friends['user_id'];
+
+							for ($i = 0; isset($my_friends[$i]); $i++)
+							{
+								$this->p_master->purge_friends($my_friends[$i]);
+							}
+						}
+
+						if (!empty($changed['interested_in']))
+						{
+							if ($changed['interested_in'] == '1')
+							{
+								$changed['interested_in'] = $user->lang['SN_UP_MALES'];
+							}
+							elseif ($changed['interested_in'] == '2')
+							{
+								$changed['interested_in'] = $user->lang['SN_UP_FEMALES'];
+							}
+							elseif ($changed['interested_in'] == '3')
+							{
+								$changed['interested_in'] = $user->lang['SN_UP_BOTH'];
+							}
+						}
+
+					break;
 				}
 
 				$changed = array_filter($changed);
@@ -1052,14 +940,15 @@ if (!class_exists('socialnet_profile'))
 				$emote_image = '<img src="'.$image.'" alt="'.$row['emote_name'].'" />';
 			}
 			
-			$link = ''; // LINK TO DISPLAY;
+			$link = '';
+			
 			$emote_notify = array(
 				'text'     => 'SN_NTF_EMOTE',
 				'user'     => $user->data['username'],
 				'emote'    => $row['emote_name'],
 				'image'    => $emote_image,
 				'link'     => $link,
-				'emote_id' => $emote_id
+				'emote_id' => $emote_id,
 			);
 			$this->p_master->notify->add(SN_NTF_EMOTE, $user_id, $emote_notify);
 			$this->p_master->record_entry($user->data['user_id'], $user_id, SN_TYPE_EMOTE, $emote_data);
@@ -1074,8 +963,8 @@ if (!class_exists('socialnet_profile'))
 			);
 			
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($send_emote));
 		}
 
@@ -1134,7 +1023,7 @@ if (!class_exists('socialnet_profile'))
 						'user_sig'                 => (string) $message_parser->message,
 						'user_options'             => $user->data['user_options'],
 						'user_sig_bbcode_uid'      => (string) $message_parser->bbcode_uid,
-						'user_sig_bbcode_bitfield' => $message_parser->bbcode_bitfield
+						'user_sig_bbcode_bitfield' => $message_parser->bbcode_bitfield,
 					);
 
 					$edit = $value;
@@ -1148,7 +1037,7 @@ if (!class_exists('socialnet_profile'))
 			}
 			else if ($b_date)
 			{
-				/* CONVERT DATE */
+				/* Convert date */
 				$month = '';
 				for ($i = 1; $i <= 12; $i++)
 				{
@@ -1180,24 +1069,25 @@ if (!class_exists('socialnet_profile'))
 
 			}
 
-			$sql = "UPDATE {$table} SET " . $db->sql_build_array('UPDATE', $fieldset) . " WHERE user_id = '{$user->data['user_id']}'";
+			$sql = "UPDATE {$table}
+								SET " . $db->sql_build_array('UPDATE', $fieldset) . "
+									WHERE user_id = '{$user->data['user_id']}'";
 
 			$db->sql_query($sql);
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode(array(
 				'origin' => $value,
 				'edit'   => $edit,
-				'sql'    => $sql
+				'sql'    => $sql,
 			)));
 		}
-
 	}
 }
+
 if (!function_exists('hook_template_userstatus_profile_array_callback'))
 {
-
 	function hook_template_userstatus_profile_array_callback(&$item, $key)
 	{
 		global $phpEx;
@@ -1213,15 +1103,13 @@ if (!function_exists('hook_template_userstatus_profile_array_callback'))
 
 if (!function_exists('profile_change_cut_string'))
 {
-
 	function profile_change_cut_string(&$value)
 	{
 		global $config;
 
-		if (strlen($value) > $config['mp_max_profile_value'])
+		if (strlen($value) > $config['ap_max_profile_value'])
 		{
-
-			$value = truncate_string($value, $config['mp_max_profile_value'] + 1);
+			$value = truncate_string($value, $config['ap_max_profile_value'] + 1);
 			$value = substr($value, 0, strrpos($value, ' ')) . '&nbsp;...';
 		}
 	}
@@ -1234,12 +1122,12 @@ if (isset($socialnet) && defined('SN_PROFILE'))
 		$ann_data = array(
 			'user_id'     => 'ANONYMOUS',
 			'more'        => false,
-			'onlineCount' => 0
+			'onlineCount' => 0,
 		);
 
 		header('Content-type: application/json');
-		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		die(json_encode($ann_data));
 	}
 

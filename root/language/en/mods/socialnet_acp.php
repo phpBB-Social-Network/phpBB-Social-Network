@@ -3,11 +3,10 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
-
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -18,8 +17,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge($lang,
-	array(
+$lang = array_merge($lang, array(
 	'ACP_CAT_SOCIALNET'						 => 'Social Network',
 	'ACP_CAT_SOCIALNET_EXPLAIN'				 => '',
 	'ACP_SN_WELCOME_TEXT'					 => 'phpBB Social Network is a modification for phpBB boards, which turns your board into a full-valued social network software. Our goal is to provide you a community software solution with favourite features from all major social network websites. phpBB3 Social Network is a modular based application, which means that you can turn on/off each module and it is easy to create your own new modules. If you miss some module or feature, you can look at the bottom of this page and choose which module you want to download. Feel free to visit <a href="http://phpbbsocialnetwork.com">phpbbsocialnetwork.com</a> to ask for support or ask us to create a new module ',
@@ -57,13 +55,13 @@ $lang = array_merge($lang,
 	'SN_MODULE_IM'							 => 'Instant messenger',
 	'SN_MODULE_USERSTATUS'					 => 'User status',
 	'SN_MODULE_APPROVAL'					 => 'Friends management system',
-	'SN_MODULE_MAINPAGE'					 => 'Mainpage',
+	'SN_MODULE_ACTIVITYPAGE'					 => 'Activity page',
 	'SN_MODULE_NOTIFY'						 => 'Notifications',
 	'SN_MODULE_PROFILE'						 => 'User profile',
 	'ACP_SN_IM_SETTINGS'					 => 'Instant messenger settings',
 	'ACP_SN_USERSTATUS_SETTINGS'			 => 'User status settings',
 	'ACP_SN_APPROVAL_SETTINGS'				 => 'Friends management system settings',
-	'ACP_SN_MAINPAGE_SETTINGS'				 => 'Mainpage settings',
+	'ACP_SN_ACTIVITYPAGE_SETTINGS'				 => 'Activity page settings',
 	'ACP_SN_NOTIFY_SETTINGS'				 => 'Notifications settings',
 	'ACP_SN_PROFILE_SETTINGS'				 => 'User profile settings',
 	'SN_NTF_THEME'							 => 'Notification bubble color',
@@ -141,8 +139,7 @@ $lang = array_merge($lang,
 ));
 
 // INSTANT MESSENGER ACP
-$lang = array_merge($lang,
-	array(
+$lang = array_merge($lang, array(
 	'IM_ONLY_FRIENDS'						 => 'Allow chat only with friends',
 	'IM_ONLY_FRIENDS_EXPLAIN'				 => 'This option allows you turn on/off chatting only with friends',
 	'IM_ALLOW_SOUND'						 => 'Play sound when receive messages',
@@ -166,8 +163,7 @@ $lang = array_merge($lang,
 ));
 
 // ADDONS MANAGEMENT ACP
-$lang = array_merge($lang,
-	array(
+$lang = array_merge($lang, array(
 	'ACP_SN_ADDONS_CONFIGURATION'			 => 'Addons Management',
 	'ACP_SN_ADDONS_CONFIGURATION_EXPLAIN'	 => 'You can manage external addons via this panel.',
 	'SN_ADDONS_NO_ADDONS'					 => 'You have not added any addon yet',
@@ -185,10 +181,10 @@ $lang = array_merge($lang,
 	'SN_ADDONS_ADDON_ACTIVE_EXPLAIN'		 => 'You can enable/disable the addon here',
 	'SN_ADDONS_LOCATIONS_1'					 => 'User Profile -> Info',
 	'SN_ADDONS_LOCATIONS_2'					 => 'User Profile -> Statistics',
-	'SN_ADDONS_LOCATIONS_3'					 => 'Mainpage -> Header',
-	'SN_ADDONS_LOCATIONS_4'					 => 'Mainpage -> Left column',
-	'SN_ADDONS_LOCATIONS_5'					 => 'Mainpage -> Right column',
-	'SN_ADDONS_LOCATIONS_6'					 => 'Mainpage post',
+	'SN_ADDONS_LOCATIONS_3'					 => 'Activity page -> Header',
+	'SN_ADDONS_LOCATIONS_4'					 => 'Activity page -> Left column',
+	'SN_ADDONS_LOCATIONS_5'					 => 'Activity page -> Right column',
+	'SN_ADDONS_LOCATIONS_6'					 => 'Activity page post',
 	'SN_ADDONS_DELETE_ADDON_CONFIRM'		 => 'Are you sure you want to delete this addon?',
 	'SN_ADDONS_ADDON_ADDED'					 => 'Addon has been added succesfully.',
 	'SN_ADDONS_ADDON_EDITED'				 => 'Addon has been edited succesfully.',
@@ -198,8 +194,7 @@ $lang = array_merge($lang,
 	'SN_ADDONS_NO_LOCATION'					 => 'Please specify the location for this addon.',
 ));
 
-$lang = array_merge($lang,
-	array(
+$lang = array_merge($lang, array(
 	'ACP_SN_ADDONS_HOOK_CONFIGURATION'			 => 'Addons Hook System Management',
 	'SN_ADDONS_ADDONS_MANAGEMENT'				 => 'AddOns Management',
 	'SN_ADDONS_PLACEHOLDER_MANAGEMENT'			 => 'Placeholders Management',
@@ -259,48 +254,44 @@ $lang = array_merge($lang, array(
 	'SN_FAS_FRIENDS_PER_PAGE_EXPLAIN'		 => 'How many friends per page will be displayed',
 	'SN_FMS_PURGE_ALL_FRIENDS_DELETED_USERS' => 'Purge all friends and friend groups deleted users',
 ));
-// MAINPAGE ACP
-$lang = array_merge($lang,
-	array(
-	'MP_NUM_LAST_POSTS'							 => 'Limit last posts displaying',
-	'MP_NUM_LAST_POSTS_EXPLAIN'					 => 'Limits the number of last posts loaded for Recent discussion',
-	'MP_SHOW_NEW_FRIENDSHIPS'					 => 'Display notification about new friendships',
-	'MP_SHOW_NEW_FRIENDSHIPS_EXPLAIN'			 => 'Display notification about adding new friends by one of your friends on Mainpage',
-	'MP_SHOW_PROFILE_UPDATED'					 => 'Display notification about profile update',
-	'MP_SHOW_PROFILE_UPDATED_EXPLAIN'			 => 'Display notification about updating the profile by one of your friends on Mainpage',
-	'MP_SHOW_NEW_FAMILY'						 => 'Display notification about new family member',
-	'MP_SHOW_NEW_FAMILY_EXPLAIN'				 => 'Display notification about adding the family member by one of your friends on Mainpage',
-	'MP_SHOW_NEW_RELATIONSHIP'					 => 'Display notification about new relationship',
-	'MP_SHOW_NEW_RELATIONSHIP_EXPLAIN'			 => 'Display notification about new relationship of one of your friends on Mainpage',
-	'MP_DISPLAY_WELCOME'						 => 'Display welcome block on Mainpage',
-	'MP_DISPLAY_WELCOME_EXPLAIN'				 => 'Display welcome block for unregistered users on Mainpage. You can edit it following instructions below.',
-	'MP_HIDE_FOR_GUEST'							 => 'Hide mainpage for guests',
-	'MP_HIDE_FOR_GUEST_EXPLAIN'					 => 'Mainpage module will be redirected to index when accessed by a guest',
-	'ACP_SN_MAINPAGE_IS_MAIN'					 => 'Set Mainpage as first page',
-	'ACP_SN_MAINPAGE_IS_MAIN_EXPLAIN'			 => 'If you want to have the Mainpage as the first page of your web instead of index.php page, please follow these instructions.',
-	'ACP_SN_MAINPAGE_IS_MAIN_OPEN_FIND'			 => 'Open file .htaccess (located in the root of your web) and find:',
-	'ACP_SN_MAINPAGE_IS_MAIN_AFTER_ADD'			 => 'After add:',
-	'ACP_SN_MAINPAGE_IS_MAIN_SAVE'				 => 'Save the file and upload to your web.',
-	'ACP_SN_MAINPAGE_IS_MAIN_NO_DIRECTORY_INDEX' => 'If you can not find the DirectoryIndex in your .htaccess file, go to the bottom of the file and add this line',
-	'ACP_SN_MAINPAGE_NOT_MAIN'					 => 'Unset Mainpage as first page',
-	'ACP_SN_MAINPAGE_NOT_MAIN_EXPLAIN'			 => 'If you dont want to have the Mainpage as the first page of your web instead of index.php page, please follow these instructions.',
-	'ACP_SN_MAINPAGE_NOT_MAIN_OPEN_FIND'		 => 'Open file .htaccess (located in the root of your web) and find:',
-	'ACP_SN_MAINPAGE_NOT_MAIN_DELETE'			 => 'Delete it, save the file and upload to your web.',
-	'ACP_SN_MAINPAGE_WELCOME'					 => 'Edit Welcome text on Mainpage',
-	'ACP_SN_MAINPAGE_WELCOME_EXPLAIN'			 => 'If you want to display the Welcome text for guests on Mainpage, you can follow these instructions.',
-	'ACP_SN_MAINPAGE_WELCOME_INSTRUCTIONS'		 => 'Open file language/en/mods/socialnet.php using a <a href="http://www.pspad.com/">text editor</a> and find:',
-	'ACP_SN_MAINPAGE_WELCOME_EDIT'				 => 'There you can see two lines containing the title and the text of Welcome block. Feel free to edit them and also style them using <a href="http://www.w3.org/wiki/HTML">HTML</a> and CSS.',
+// ACTIVITYPAGE ACP
+$lang = array_merge($lang, array(
+	'AP_NUM_LAST_POSTS'							 => 'Limit last posts displaying',
+	'AP_NUM_LAST_POSTS_EXPLAIN'					 => 'Limits the number of last posts loaded for Recent discussion',
+	'AP_SHOW_NEW_FRIENDSHIPS'					 => 'Display notification about new friendships',
+	'AP_SHOW_NEW_FRIENDSHIPS_EXPLAIN'			 => 'Display notification about adding new friends by one of your friends on Activity page',
+	'AP_SHOW_PROFILE_UPDATED'					 => 'Display notification about profile update',
+	'AP_SHOW_PROFILE_UPDATED_EXPLAIN'			 => 'Display notification about updating the profile by one of your friends on Activity page',
+	'AP_SHOW_NEW_FAMILY'						 => 'Display notification about new family member',
+	'AP_SHOW_NEW_FAMILY_EXPLAIN'				 => 'Display notification about adding the family member by one of your friends on Activity page',
+	'AP_SHOW_NEW_RELATIONSHIP'					 => 'Display notification about new relationship',
+	'AP_SHOW_NEW_RELATIONSHIP_EXPLAIN'			 => 'Display notification about new relationship of one of your friends on Activity page',
+	'AP_DISPLAY_WELCOME'						 => 'Display welcome block on Activity page',
+	'AP_DISPLAY_WELCOME_EXPLAIN'				 => 'Display welcome block for unregistered users on Activity page. You can edit it following instructions below.',
+	'AP_HIDE_FOR_GUEST'							 => 'Hide Activity page for guests',
+	'AP_HIDE_FOR_GUEST_EXPLAIN'					 => 'Activity page module will be redirected to index when accessed by a guest',
+	'ACP_SN_ACTIVITYPAGE_IS_MAIN'					 => 'Set Activity page as first page',
+	'ACP_SN_ACTIVITYPAGE_IS_MAIN_EXPLAIN'			 => 'If you want to have the Activity page as the first page of your web instead of index.php page, please follow these instructions.',
+	'ACP_SN_ACTIVITYPAGE_IS_MAIN_OPEN_FIND'			 => 'Open file .htaccess (located in the root of your web) and find:',
+	'ACP_SN_ACTIVITYPAGE_IS_MAIN_AFTER_ADD'			 => 'After add:',
+	'ACP_SN_ACTIVITYPAGE_IS_MAIN_SAVE'				 => 'Save the file and upload to your web.',
+	'ACP_SN_ACTIVITYPAGE_IS_MAIN_NO_DIRECTORY_INDEX' => 'If you can not find the DirectoryIndex in your .htaccess file, go to the bottom of the file and add this line',
+	'ACP_SN_ACTIVITYPAGE_NOT_MAIN'					 => 'Unset Activity page as first page',
+	'ACP_SN_ACTIVITYPAGE_NOT_MAIN_EXPLAIN'			 => 'If you dont want to have the Activity page as the first page of your web instead of index.php page, please follow these instructions.',
+	'ACP_SN_ACTIVITYPAGE_NOT_MAIN_OPEN_FIND'		 => 'Open file .htaccess (located in the root of your web) and find:',
+	'ACP_SN_ACTIVITYPAGE_NOT_MAIN_DELETE'			 => 'Delete it, save the file and upload to your web.',
+	'ACP_SN_ACTIVITYPAGE_WELCOME'					 => 'Edit Welcome text on Activity page',
+	'ACP_SN_ACTIVITYPAGE_WELCOME_EXPLAIN'			 => 'If you want to display the Welcome text for guests on Activity page, you can follow these instructions.',
+	'ACP_SN_ACTIVITYPAGE_WELCOME_INSTRUCTIONS'		 => 'Open file language/en/mods/socialnet.php using a <a href="http://www.pspad.com/">text editor</a> and find:',
+	'ACP_SN_ACTIVITYPAGE_WELCOME_EDIT'				 => 'There you can see two lines containing the title and the text of Welcome block. Feel free to edit them and also style them using <a href="http://www.w3.org/wiki/HTML">HTML</a> and CSS.',
 ));
 
 // USER PROFILE ACP
-$lang = array_merge($lang,
-	array(
+$lang = array_merge($lang, array(
 	'SN_ENABLE_REPORT'							 => 'Enable reporting users',
 	'SN_ENABLE_REPORT_EXPLAIN'					 => 'Users will be able to report other users',
-	'SN_ENABLE_SUBSCRIPTIONS'					 => 'Enable subscribing users',
-	'SN_ENABLE_SUBSCRIPTIONS_EXPLAIN'			 => 'Users will be able to subscribe other users to see their activity on Mainpage',
-	'SN_MAX_PROFILE_VALUE'						 => 'Max length of value displayed on Mainpage',
-	'SN_MAX_PROFILE_VALUE_EXPLAIN'				 => 'Set the maximum number of characters of values displayed on Mainpage after the profile update.',
+	'SN_MAX_PROFILE_VALUE'						 => 'Max length of value displayed on Activity page',
+	'SN_MAX_PROFILE_VALUE_EXPLAIN'				 => 'Set the maximum number of characters of values displayed on Activity page after the profile update.',
 	'SN_PROFILE_NO_REASON'						 => 'You need to create at least one report reason',
 	'SN_PROFILE_REPORT_REASONS'					 => 'Report user reasons',
 	'SN_PROFILE_REPORT_REASONS_EXPLAIN'			 => 'Here you can manage reasons for reporting users',
@@ -325,8 +316,7 @@ $lang = array_merge($lang,
 // PHPBB LOG CONFIG
 $lang_log_main = '<strong>Social Network &raquo</strong> ';
 
-$lang = array_merge($lang,
-	array(
+$lang = array_merge($lang, array(
 	'LOG_CONFIG_SN_MAIN'									 => $lang_log_main . 'Global settings changed',
 	'LOG_CONFIG_SN_MODULES'									 => $lang_log_main . 'Available modules changed',
 	'LOG_CONFIG_SN_CB'										 => $lang_log_main . 'Confirmation box settings changed',
@@ -353,7 +343,7 @@ $lang = array_merge($lang,
 	'LOG_CONFIG_SN_USERSTATUS_BASICTOOLS_USER_DELETED'		 => $lang_log_main . 'Userstatuses and userstatus comments deleted for user deleted users',
 	'LOG_CONFIG_SN_FMS'										 => $lang_log_main . 'Friend Management module settings changed',
 	'LOG_CONFIG_SN_FMS_BASICTOOLS_DELETED_USER'				 => $lang_log_main . 'Purged all friends and friend groups of deleted users',
-	'LOG_CONFIG_SN_MP'										 => $lang_log_main . 'Mainpage module settings changed',
+	'LOG_CONFIG_SN_AP'										 => $lang_log_main . 'Mainpage module settings changed',
 	'LOG_CONFIG_SN_NTF'										 => $lang_log_main . 'Notifications module settings changed',
 	'LOG_CONFIG_SN_UP'										 => $lang_log_main . 'Profile module settings changed',
 ));

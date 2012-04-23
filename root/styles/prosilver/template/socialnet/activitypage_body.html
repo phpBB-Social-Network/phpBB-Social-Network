@@ -1,0 +1,79 @@
+<!-- INCLUDE overall_header.html -->
+<!-- DEFINE $BLOCK_HEADER_TYPE = 'forabg' -->
+<div id="sn-ap" class="sn-page">
+	{SN_ADDONS_PLACEHOLDER_ACTIVITYPAGE_HEADER_CONTENT}
+	<!-- STARTING LEFT COLUMN -->
+	<div id="sn-page-columnLeft" class="sn-page-columnLeft">
+		<!-- INCLUDE socialnet/block_myprofile.html -->
+		<!-- INCLUDE socialnet/block_menu.html -->
+		{SN_ADDONS_PLACEHOLDER_ACTIVITYPAGE_LEFTCOLUMN_CONTENT}
+		<!-- INCLUDE socialnet/block_search.html -->
+		<!-- INCLUDE socialnet/block_online_users.html -->
+	</div>
+	<!-- ENDING LEFT COLUMN -->
+	
+	<!-- STARTING RIGHT COLUMN -->
+	<div id="sn-page-columnRight" class="sn-page-columnRight">
+		<!-- INCLUDE socialnet/block_friends_suggestions.html -->		
+		<!-- INCLUDE socialnet/block_friend_requests.html -->		
+		<!-- INCLUDE socialnet/block_birthday.html -->		
+		<!-- INCLUDE socialnet/block_recent_discussions.html -->
+		{SN_ADDONS_PLACEHOLDER_ACTIVITYPAGE_RIGHTCOLUMN_CONTENT}
+		<!-- INCLUDE socialnet/block_statistics.html -->		
+	</div>
+	<!-- ENDING RIGHT COLUMN -->
+
+	<!-- STARTING MIDDLE COLUMN -->
+	<div id="sn-page-content"	class="sn-page-content sn-page-content-noRightBorder sn-us-profile">
+		<!-- IF S_SN_AP_VIEW_MAIN -->
+
+	  	<!-- IF SN_MODULE_USERSTATUS_ENABLED -->
+				<div class="sn-us-membShareStatus">
+					<div class="sn-us-share">
+						<textarea id="sn-us-wallInput" rows="" cols="" style="height:20px"></textarea>
+						<!-- INCLUDE socialnet/userstatus_fetch.html -->
+						<input type="button" name="sn-us-wallButton" class="ui-button ui-widget ui-state-default ui-corner-all {wall:'{SN_US_USER_ID}'}" value="{L_SN_US_SHARE_STATUS}" />
+					</div>
+					<div class="clear"></div>
+				</div>
+	  		<div class="clear"></div>
+	  		<div class="sn-ap-loadNewsOver">
+	  			<a href="javascript:void(0)" class="sn-ap-loadNews">{L_SN_AP_LOAD_NEWS}</a>
+	  		</div>
+	  	<!-- ENDIF -->
+
+  		<!-- IF .ap_entries -->
+    		<!-- INCLUDE socialnet/activitypage_body_entries.html -->
+    		<!-- IF B_SN_AP_MORE_ENTRIES -->
+      		<div class="sn-more">
+      			<a href="javascript:void(0)" class="sn-ap-getMore {user:{USER_ID}}">{L_SN_US_LOAD_MORE}</a>
+      			<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-ap-statusLoader" style="display:none" />
+      		</div>
+    		<!-- ENDIF -->
+  		<!-- ELSE -->
+    		<div class="sn-ap-noEntry">
+    			{L_SN_AP_NO_ENTRY}
+    		</div>
+  		<!-- ENDIF -->
+
+		<!-- ELSEIF S_SN_AP_VIEW_SUGGESTIONS -->
+
+  		<!-- IF SN_FMS_BLOCK_SUGGESTIONFULL_IS_NOT_EMPTY -->
+  		  {SN_FMS_BLOCK_SUGGESTIONFULL_CONTENT}<div class="clear"></div>
+    		{SN_FMS_BLOCK_SUGGESTIONFULL_PAGINATION_STRING}<div class="clear"></div>
+  		<!-- ELSE -->
+    		<div class="sn-ap-noEntry">
+    			{L_SN_AP_NO_SUGGESTIONS}
+    		</div>
+  		<!-- ENDIF -->
+
+		<!-- ELSEIF S_SN_AP_NOTIFY -->
+				<!-- INCLUDE socialnet/activitypage_notify.html -->
+		<!-- ELSEIF not S_USER_LOGGED_IN -->
+				<!-- INCLUDE socialnet/block_login.html -->
+		<!-- ENDIF -->
+	</div>
+	<!-- ENDING MIDDLE COLUMN -->
+</div>
+
+<!-- INCLUDE overall_footer.html -->

@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 /**
  * @ignore

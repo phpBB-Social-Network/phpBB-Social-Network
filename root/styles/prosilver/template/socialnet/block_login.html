@@ -1,17 +1,17 @@
 <!-- IF S_DISPLAY_WELCOME -->
-<!-- DEFINE $BLOCK_HEADER = '{L_SN_MP_WELCOME_TITLE}' -->
+<!-- DEFINE $BLOCK_HEADER = '{L_SN_AP_WELCOME_TITLE}' -->
 <!-- INCLUDE socialnet/block_page_header.html -->
-<div class="sn-page-blocktext">{L_SN_MP_WELCOME_TEXT}</div>
+<div class="sn-page-blocktext">{L_SN_AP_WELCOME_TEXT}</div>
 <!-- ENDIF -->
 
-<form action="{U_SN_MAINPAGE}" method="post">
+<form action="{U_SN_ACTIVITYPAGE}" method="post">
 	<!-- DEFINE $BLOCK_HEADER = '{L_LOGIN}' -->
 	<!-- DEFINE $BLOCK_HEADER_ADDITIONAL = '{L_REGISTER}' -->
 	<!-- DEFINE $BLOCK_HEADER_ADDITIONAL_LINK = '{U_REGISTER}' -->
 	<!-- INCLUDE socialnet/block_page_header.html -->
-	<div class="sn-page-blocktext sn-mp-login">
+	<div class="sn-page-blocktext sn-ap-login">
 			<fieldset>
-				<dl class="sn-mp-loginHeader">
+				<dl class="sn-ap-loginHeader">
 					<dt><label for="username">{L_USERNAME}</label></dt>
 					<dd><label for="password">{L_PASSWORD}</label></dd>
 				</dl>
@@ -20,13 +20,13 @@
 					<dd>
 						<input type="password" name="password" id="password" size="25" title="{L_PASSWORD}" class="inputbox" />
 					</dd>
-					<dd class="sn-mp-loginButton">
+					<dd class="sn-ap-loginButton">
 						<input type="submit" class="button1" name="login" value="{L_LOGIN}" />
 					</dd>
 				</dl>
 				<dl>
-					<dt><input type="checkbox" name="autologin" id="autologin" /> <label for="autologin" style="font-weight:normal">{L_SN_MP_KEEP_LOGGEDIN}</label></dt>
-					<dd class="sn-mp-loginRegister">
+					<dt><input type="checkbox" name="autologin" id="autologin" /> <label for="autologin" style="font-weight:normal">{L_SN_AP_KEEP_LOGGEDIN}</label></dt>
+					<dd class="sn-ap-loginRegister">
 						<a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a> | <a href="{U_REGISTER}">{L_REGISTER}</a>					
 					</dd>
 				</dl>

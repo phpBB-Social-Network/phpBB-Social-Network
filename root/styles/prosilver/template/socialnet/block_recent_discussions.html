@@ -1,19 +1,19 @@
 	<!-- IF S_ALLOW_LAST_POSTS and B_SN_BLOCK_RECENT_DISCUSSIONS_ENABLED -->
-		<!-- DEFINE $BLOCK_HEADER = '{L_SN_MP_LAST_POSTS}' -->
+		<!-- DEFINE $BLOCK_HEADER = '{L_SN_AP_LAST_POSTS}' -->
 		<!-- INCLUDE socialnet/block_page_header.html -->
 		<div class="sn-page-blocktext">
 			<!-- BEGIN last_posts -->
-			<div class="sn-mp-textBlock">
+			<div class="sn-ap-textBlock">
 				<a href="{last_posts.POST_LINK}" title="{last_posts.TOPIC_TITLE}" class="topictitle">{last_posts.TOPIC_TITLE}</a>
-				<span class="sn-mp-postTime">
+				<span class="sn-ap-postTime">
 					<span>{last_posts.POST_TIME} · {L_SN_IN}</span>
 					<a href="{last_posts.TOPIC_FORUM_LINK}">{last_posts.TOPIC_FORUM}</a>
 				</span>
 			</div>
 			<!-- END last_posts -->
 			<!-- IF not .last_posts -->
-			<div class="sn-mp-blocktext">
-				{L_SN_MP_NO_DISCUSSION}
+			<div class="sn-ap-blocktext">
+				{L_SN_AP_NO_DISCUSSION}
 			</div>
 			<!-- ENDIF -->
 			<div class="clear"></div>

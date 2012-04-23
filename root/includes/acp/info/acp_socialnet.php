@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -26,11 +26,10 @@ class acp_socialnet_info
 				'addons_config'		 => array('title' => 'ACP_SN_ADDONS_CONFIGURATION', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),
 				'addons'			 => array('title' => 'ACP_SN_ADDONS_CONFIGURATION', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),
 
-				// CORE MODULES
 				'module_im'			 => array('title' => 'ACP_SN_IM_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),
 				'module_userstatus'	 => array('title' => 'ACP_SN_USERSTATUS_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),
 				'module_approval'	 => array('title' => 'ACP_SN_APPROVAL_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),
-				'module_mainpage'	 => array('title' => 'ACP_SN_MAINPAGE_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),
+				'module_activitypage'	 => array('title' => 'ACP_SN_ACTIVITYPAGE_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),
 				'module_notify'		 => array('title' => 'ACP_SN_NOTIFY_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),
 				'module_profile'	 => array('title' => 'ACP_SN_PROFILE_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),
 			),

@@ -34,7 +34,7 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>0.6.3.a3</mod-version>
+		<mod-version>0.6.3</mod-version>
 		<installation>
 			<level>easy</level>
 			<time>300</time>
@@ -56,9 +56,9 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 				<find><![CDATA[			$location = $user->lang['VIEWING_MCP'];
 			$location_url = append_sid("{$phpbb_root_path}index.$phpEx");
 		break;]]></find>
-				<action type="after-add"><![CDATA[		case 'mainpage':
-			$location = isset($user->lang['SN_MP_VIEWING_MAINPAGE']) ? $user->lang['SN_MP_VIEWING_MAINPAGE'] : 'Viewing Mainpage';
-			$location_url = append_sid("{$phpbb_root_path}mainpage.$phpEx");
+				<action type="after-add"><![CDATA[		case 'activitypage':
+			$location = isset($user->lang['SN_AP_VIEWING_ACTIVITYPAGE']) ? $user->lang['SN_AP_VIEWING_ACTIVITYPAGE'] : 'Viewing Activity Page';
+			$location_url = append_sid("{$phpbb_root_path}activitypage.$phpEx");
 		break;]]></action>
 			</edit>
 		</open>
@@ -102,7 +102,7 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 			</edit>
 			<edit>
 				<find><![CDATA[			<ul class="linklist navlinks">]]></find>
-				<action type="after-add"><![CDATA[			  <!-- IF SN_MODULE_MAINPAGE_ENABLED --><li class="icon-mainpage"><a href="{U_SN_MAINPAGE}">{L_SN_MP_MAINPAGE}</a><span id="snNtfNotify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></action>
+				<action type="after-add"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="snNtfNotify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></action>
 			</edit>
 			<edit>
 				<find><![CDATA[				<li class="icon-ucp">]]></find>

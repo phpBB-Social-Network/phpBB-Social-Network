@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 define('IN_PHPBB', true);
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
@@ -23,7 +23,7 @@ $user_id = (int) request_var('u', ANONYMOUS);
 $username = request_var('un', '', true);
 $action = request_var('action', '');
 
-if ( (int) $user_id == 0)
+if ((int) $user_id == 0)
 {
 	$user_id = $user->data['user_id'];
 }
@@ -44,9 +44,8 @@ if (!$auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 	login_box('', ((isset($user->lang['LOGIN_EXPLAIN_' . strtoupper('viewprofile')])) ? $user->lang['LOGIN_EXPLAIN_' . strtoupper('viewprofile')] : $user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
 }
 
-$page_template = 'socialnet/user_profile_body.html';
 $template->set_filenames(array(
-	'body'	 => $page_template
+	'body'	 => 'socialnet/user_profile_body.html',
 ));
 
 if ($user_id == ANONYMOUS && !$username)
@@ -88,7 +87,6 @@ if (!$auth->acl_get('a_user') && $user->data['user_type'] != USER_FOUNDER)
 $user_id = (int) $member['user_id'];
 
 // What colour is the zebra
-
 $sql_app = ($socialnet->is_enabled('approval')) ? ', approval' : '';
 
 $sql = "SELECT friend, foe {$sql_app}
@@ -123,49 +121,6 @@ if ($user->data['is_registered'])
 
 	unset($module);
 }
-
-// Subscribe user
-/*
- $can_subscribe = false;
- $user_subscribed = false;
- if ($config['up_enable_subscriptions'] && $user->data['user_id'] != $user_id && $user->data['user_id'] != ANONYMOUS)
- {
- $sql = 'SELECT id
- FROM ' . SN_SUBSCRIPTIONS_TABLE . '
- WHERE user_id = ' . $user->data['user_id'] . '
- AND subscribed_uid = ' . $user_id;
- $result = $db->sql_query($sql);
- $user_subscribed = $db->sql_fetchfield('id');
- $db->sql_freeresult($result);
-
- $can_subscribe = (!$friend && !$user_subscribed) ? true : false;
-
- if ($action == 'subscribe')
- {
- if ($can_subscribe)
- {
- $sql = 'INSERT INTO ' . SN_SUBSCRIPTIONS_TABLE . ' (user_id, subscribed_uid, approved)
- VALUES (' . $user->data['user_id'] . ', ' . $user_id . ', 0)';
- $db->sql_query($sql);
-
- $redirect_url = append_sid("{$phpbb_root_path}profile.$phpEx", "u=".$user_id);
- $message = $user->lang['SN_UP_SUBSCRIBE_SUCCESS'] . '<br /><br />' . sprintf($user->lang['SN_UP_RETURN_TO_PROFILE'], '<a href="' . $redirect_url . '">', '</a>');
- }
- else
- {
- $sql = "DELETE FROM " . SN_SUBSCRIPTIONS_TABLE . "
- WHERE user_id = " . $user->data['user_id'] . "
- AND subscribed_uid = " . $user_id;
- $db->sql_query($sql);
-
- $redirect_url = append_sid("{$phpbb_root_path}profile.$phpEx", "u=".$user_id);
- $message = $user->lang['SN_UP_UNSUBSCRIBE_SUCCESS'] . '<br /><br />' . sprintf($user->lang['SN_UP_RETURN_TO_PROFILE'], '<a href="' . $redirect_url . '">', '</a>');
- }
-
- meta_refresh(3, $redirect_url);
- trigger_error($message);
- }
- }   */
 
 $online = false;
 if ($config['load_onlinetrack'])
@@ -222,19 +177,17 @@ $template->assign_vars(array(
 	'ONLINE_IMG'			 => (!$config['load_onlinetrack']) ? '' : (($online) ? 'online' : 'offline'),
 	'S_ONLINE'				 => ($config['load_onlinetrack'] && $online) ? true : false,
 	'U_USER_REPORT'			 => ($config['up_enable_report']) ? append_sid("{$phpbb_root_path}profile.$phpEx", 'action=report_user&amp;u=' . $user_id) : '',
-	//'U_USER_SUBSCRIBE'			=> ($can_subscribe) ? append_sid("{$phpbb_root_path}profile.$phpEx", 'action=subscribe&amp;u=' . $user_id) : '',
-	//'U_USER_UNSUBSCRIBE'		=> ($user_subscribed) ? append_sid("{$phpbb_root_path}profile.$phpEx", 'action=subscribe&amp;u=' . $user_id) : '',
 	'TOTAL_FRIENDS'			 => $total_friends,
 ));
 
 // Load relationships and family
 $sql = 'SELECT f.status_id, f.anniversary, f.relative_user_id, f.family, f.name, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-                      FROM ' . SN_FAMILY_TABLE . ' f
-                        LEFT JOIN ' . USERS_TABLE . ' u
-                          ON u.user_id = f.relative_user_id
-                        WHERE f.user_id = ' . $user_id . '
-                          AND f.approved = 1
-                          ORDER BY f.status_id ASC';
+	        FROM ' . SN_FAMILY_TABLE . ' f
+	          LEFT JOIN ' . USERS_TABLE . ' u
+	            ON u.user_id = f.relative_user_id
+	          WHERE f.user_id = ' . $user_id . '
+	            AND f.approved = 1
+	            ORDER BY f.status_id ASC';
 $result = $db->sql_query($sql);
 
 while ($relation = $db->sql_fetchrow($result))
@@ -312,19 +265,19 @@ if ($member['user_type'] == USER_INACTIVE)
 	{
 		case INACTIVE_REGISTER:
 			$inactive_reason = $user->lang['INACTIVE_REASON_REGISTER'];
-			break;
+		break;
 
 		case INACTIVE_PROFILE:
 			$inactive_reason = $user->lang['INACTIVE_REASON_PROFILE'];
-			break;
+		break;
 
 		case INACTIVE_MANUAL:
 			$inactive_reason = $user->lang['INACTIVE_REASON_MANUAL'];
-			break;
+		break;
 
 		case INACTIVE_REMIND:
 			$inactive_reason = $user->lang['INACTIVE_REASON_REMIND'];
-			break;
+		break;
 	}
 
 	$template->assign_vars(array(
@@ -337,17 +290,17 @@ if ($member['user_type'] == USER_INACTIVE)
 if ($user->data['is_registered'] && $user->data['user_id'] != $user_id)
 {
 	$sql = 'DELETE FROM ' . SN_PROFILE_VISITORS_TABLE . '
-                  WHERE profile_uid = ' . $user_id . '
-                    AND visitor_uid = ' . $user->data['user_id'];
+            WHERE profile_uid = ' . $user_id . '
+              AND visitor_uid = ' . $user->data['user_id'];
 	$db->sql_query($sql);
 
 	$sql = 'INSERT INTO ' . SN_PROFILE_VISITORS_TABLE . ' (profile_uid, visitor_uid, visit_time)
-                VALUES (' . $user_id . ', ' . $user->data['user_id'] . ', ' . time() . ')';
+            VALUES (' . $user_id . ', ' . $user->data['user_id'] . ', ' . time() . ')';
 	$db->sql_query($sql);
 
 	$sql = 'UPDATE ' . SN_USERS_TABLE . '
-                SET profile_views = profile_views + 1
-                  WHERE user_id = ' . $user_id;
+	          SET profile_views = profile_views + 1
+	            WHERE user_id = ' . $user_id;
 	$db->sql_query($sql);
 }
 
@@ -361,9 +314,7 @@ $template->assign_vars(array(
 	'U_USER_REPORT'		 => ($config['up_enable_report']) ? append_sid("{$socialnet_root_path}profile.$phpEx", 'mode=report_user&amp;u=' . $user_id) : '',
 ));
 
-$page_title = sprintf($user->lang['VIEWING_PROFILE'], $member['username']);
-// Output page
-page_header($page_title);
+page_header(sprintf($user->lang['VIEWING_PROFILE'], $member['username']));
 
 page_footer();
 

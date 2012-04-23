@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -26,16 +26,6 @@ if (!defined('SOCIALNET_INSTALLED'))
 
 $snFunctions_avatars = array();
 
-/**
- * Funkce pro Social Network
- *
- * @package Socialnet
- *
- * @author Culprit
- * @since 0.5.0
- * @version 1.0.0
- * @copyright CC BY-NB {@link http://creativecommons.org/licenses/by-nd/3.0/}
- */
 class snFunctions
 {
 
@@ -84,11 +74,7 @@ class snFunctions
 		);
 
 	}
-	/**
-	 * Sepis vsechny online uzivatele
-	 * @access private
-	 * @return void
-	 */
+
 	function onlineUsers($all_online = false)
 	{
 		global $socialnet_root_path, $phpbb_root_path, $user;
@@ -106,14 +92,11 @@ class snFunctions
 		}
 
 		$this->onlineUsersLoaded = true;
-		// $this->items['onlineUsers']
 		return $this->onlineUsers;
 	}
 
 	/**
-	 * Vyber vsechny online uzivatele
-	 * @access private
-	 * @return array Pole online uzivatelu, stejne jako z dbal::sql_fetchrowset
+	 * Select online users
 	 */
 	function onlineSelect($all_online = false)
 	{
@@ -151,7 +134,6 @@ class snFunctions
 		$online_users = array();
 		for ($j = 0; $j < count($rows) && isset($rows[$j]); $j++)
 		{
-
 			$row = $rows[$j];
 			$user_id = $row['user_id'];
 
@@ -199,14 +181,10 @@ class snFunctions
 		}
 
 		return $this->users_online = $online_users;
-
 	}
 
 	/**
 	 * Queries the session table to get information about online users
-	 * phpBB 3 function - pridana filtrace uzivatele samotneho a nenacitani guests
-	 * @access private
-	 * @return array An array containing the ids of online, hidden and visible users, as well as statistical info
 	 */
 	function obtain_users_online($time)
 	{
@@ -219,7 +197,7 @@ class snFunctions
 			'visible_users'		 => array(),
 			'total_online'		 => 0,
 			'visible_online'	 => 0,
-			'hidden_online'		 => 0
+			'hidden_online'		 => 0,
 		);
 
 		// a little discrete magic to cache this for 30 seconds
@@ -228,7 +206,6 @@ class snFunctions
 				WHERE u.user_type <> 2
 				 	AND s.session_time >= ' . ($time - ((int) ($time % 30))) . '
 					AND s.session_user_id <> ' . $user->data['user_id'];
-
 		$result = $db->sql_query($sql);
 		$rowset = $db->sql_fetchrowset($result);
 		$db->sql_freeresult($result);
@@ -267,22 +244,20 @@ class snFunctions
 			return;
 		}
 
-		//		$rows = $this->onlineUsers($block);
 		$rows = $this->onlineSelect($this->config['block_uo_all_users']);
 
 		if (sizeOf($rows))
 		{
 			foreach ($rows as $user_id => $usr)
 			{
-
 				$template->assign_block_vars('block_online_user', array(
-					'USER_ID'		 => $usr['user_id'],
-					'USERNAME'		 => $usr['userName'],
-					'USERNAME_CLEAN' => $usr['userClean'],
-					'U_USER_PROFILE' => $usr['userProfile'],
-					'ONLINE'		 => $usr['online'],
-					'AVATAR'		 => $usr['avatar'],
-					'B_IS_ONLINE'	 => $usr['im_online'],
+					'USER_ID'		 			=> $usr['user_id'],
+					'USERNAME'		 		=> $usr['userName'],
+					'USERNAME_CLEAN' 	=> $usr['userClean'],
+					'U_USER_PROFILE' 	=> $usr['userProfile'],
+					'ONLINE'		 			=> $usr['online'],
+					'AVATAR'		 			=> $usr['avatar'],
+					'B_IS_ONLINE'	 		=> $usr['im_online'],
 				));
 			}
 		}
@@ -293,15 +268,15 @@ class snFunctions
 		{
 			$template->assign_vars(array(
 				'S_USER_LOGGED_IN'					 => true,
-				'B_SN_BLOCK_ONLINE_USERS_ENABLED'	 => true
+				'B_SN_BLOCK_ONLINE_USERS_ENABLED'	 => true,
 			));
 
 			$template->set_filenames(array('sn_im_online_list' => 'socialnet/block_online_users.html'));
 			$onlineList = $this->get_page('sn_im_online_list', false);
 
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode(array('onlineUsers' => $rows, 'user_online' => $user->data['user_im_online'], 'list' => $onlineList)));
 		}
 	}
@@ -313,95 +288,94 @@ class snFunctions
 		$fms_user_sqls = array();
 		switch ($mode)
 		{
-		case 'friendProfile':
-			$fms_user_sqls = array_merge($fms_user_sqls, array('mode_short' => 'friend'));
-		case 'friend':
-			/**
-			 * Pratele / priatelia / friends
-			 */
-			$fms_user_sqls = array_merge($fms_user_sqls, array(
-				'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
-										FROM ' . ZEBRA_TABLE . ' z
-										WHERE z.user_id = ' . $user_id . "
-										AND z.friend = 1",
-				'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-										FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
-										WHERE z.user_id = ' . $user_id . "
-											AND z.friend = 1
-											AND u.user_id = z.zebra_id
-										ORDER BY u.username_clean ASC",
-			));
-			break;
-		case 'approve':
-			/**
-			 * Udelene zadosti / udelene ziadosti / granted requests
-			 */
-			$fms_user_sqls = array_merge($fms_user_sqls, array(
-				'user_id_field'	 => 'user_id',
-				'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
-										FROM ' . ZEBRA_TABLE . ' z
-										WHERE z.zebra_id = ' . $user_id . "
-											AND z.approval = 1",
-				'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-										FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
-										WHERE z.zebra_id = ' . $user_id . "
-											AND z.approval = 1
-											AND u.user_id = z.user_id
-										ORDER BY u.username_clean ASC",
-			));
-			break;
-		case 'cancel':
-			/**
-			 * Uzivatelovy zadosti / uzivatelovi ziadosti / Users requests
-			 */
-			$fms_user_sqls = array_merge($fms_user_sqls, array(
-				'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
-										FROM ' . ZEBRA_TABLE . ' z
-										WHERE z.user_id = ' . $user_id . "
-											AND z.approval = 1",
-				'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-										FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
-										WHERE z.user_id = ' . $user_id . "
-											AND z.approval = 1
-											AND u.user_id = z.zebra_id
-										ORDER BY u.username_clean ASC",
-			));
-			break;
-		case 'mutual':
-			/**
-			 * Spolecni pratele / spolocni priatelia / mutual friends
-			 */
-			if (count($this->friends['user_id']))
-			{
-				$sql_in_set = ' AND ' . $db->sql_in_set('z.zebra_id', $this->friends['user_id']);
-			}
-			else
-			{
-				$sql_in_set = ' AND 1 = 0';
-			}
+			case 'friendProfile':
+				$fms_user_sqls = array_merge($fms_user_sqls, array('mode_short' => 'friend'));
 
-			$fms_user_sqls = array_merge($fms_user_sqls, array(
-				'sql_pagination' => "SELECT COUNT(z.zebra_id) AS total
-											FROM " . ZEBRA_TABLE . " AS z
-											WHERE z.user_id = {$user_id} AND z.friend = 1 {$sql_in_set}",
-				'sql_content'	 => "SELECT DISTINCT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-											FROM " . ZEBRA_TABLE . " z, " . USERS_TABLE . " u
-											WHERE z.user_id = {$user_id} AND u.user_id = z.zebra_id AND z.friend = 1 {$sql_in_set}
+			case 'friend':
+
+				$fms_user_sqls = array_merge($fms_user_sqls, array(
+					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
+											FROM ' . ZEBRA_TABLE . ' z
+											WHERE z.user_id = ' . $user_id . "
+											AND z.friend = 1",
+					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
+											WHERE z.user_id = ' . $user_id . "
+												AND z.friend = 1
+												AND u.user_id = z.zebra_id
 											ORDER BY u.username_clean ASC",
-			));
-			break;
-		case 'suggestion':
-			/**
-			 * Doporuceni pratele / Odporucanie priatelia / suggested friends
-			 */
-			$cache_people_to_know = $this->friendsCacheNameMutual . $user->data['user_id'];
-			$rowset = $cache->get($cache_people_to_know);
+				));
 
-			$fms_user_sqls = array_merge($fms_user_sqls, array(
-				'user_id_field'	 => 'user_id',
-				'rowset'		 => $rowset,
-				'total'			 => count($rowset),
-			));
+			break;
+
+			case 'approve':
+
+				$fms_user_sqls = array_merge($fms_user_sqls, array(
+					'user_id_field'	 => 'user_id',
+					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
+											FROM ' . ZEBRA_TABLE . ' z
+											WHERE z.zebra_id = ' . $user_id . "
+												AND z.approval = 1",
+					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
+											WHERE z.zebra_id = ' . $user_id . "
+												AND z.approval = 1
+												AND u.user_id = z.user_id
+											ORDER BY u.username_clean ASC",
+				));
+
+			break;
+
+			case 'cancel':
+
+				$fms_user_sqls = array_merge($fms_user_sqls, array(
+					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
+											FROM ' . ZEBRA_TABLE . ' z
+											WHERE z.user_id = ' . $user_id . "
+												AND z.approval = 1",
+					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
+											WHERE z.user_id = ' . $user_id . "
+												AND z.approval = 1
+												AND u.user_id = z.zebra_id
+											ORDER BY u.username_clean ASC",
+				));
+
+			break;
+
+			case 'mutual':
+
+				if (count($this->friends['user_id']))
+				{
+					$sql_in_set = ' AND ' . $db->sql_in_set('z.zebra_id', $this->friends['user_id']);
+				}
+				else
+				{
+					$sql_in_set = ' AND 1 = 0';
+				}
+
+				$fms_user_sqls = array_merge($fms_user_sqls, array(
+					'sql_pagination' => "SELECT COUNT(z.zebra_id) AS total
+												FROM " . ZEBRA_TABLE . " AS z
+												WHERE z.user_id = {$user_id} AND z.friend = 1 {$sql_in_set}",
+					'sql_content'	 => "SELECT DISTINCT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+												FROM " . ZEBRA_TABLE . " z, " . USERS_TABLE . " u
+												WHERE z.user_id = {$user_id} AND u.user_id = z.zebra_id AND z.friend = 1 {$sql_in_set}
+												ORDER BY u.username_clean ASC",
+				));
+			break;
+
+			case 'suggestion':
+
+				$cache_people_to_know = $this->friendsCacheNameMutual . $user->data['user_id'];
+				$rowset = $cache->get($cache_people_to_know);
+
+				$fms_user_sqls = array_merge($fms_user_sqls, array(
+					'user_id_field'	 => 'user_id',
+					'rowset'		 => $rowset,
+					'total'			 => count($rowset),
+				));
+
 			break;
 		}
 
@@ -429,23 +403,23 @@ class snFunctions
 	 * @property string		tpl_name		- Specific template. Default: 'socialnet/block_fms_users'.
 	 */
 	var $fms_users_default = array(
-		'mode'				 => 'friend',
-		'user_id'			 => 0,
-		'fmsf'				 => 0,
-		'limit'				 => 0,
-		'checkbox'			 => '',
-		'ajax_load'			 => false,
-		'slider'			 => true,
-		'avatar_size'		 => 50,
-		'add_friend_link'	 => false,
-		'total'				 => 0,
-		'rowset'			 => null,
-		'sql_pagination'	 => '',
-		'sql_content'		 => '',
-		'user_id_field'		 => 'zebra_id',
-		'random'			 => false,
-		'tpl_name'			 => 'socialnet/block_fms_users',
-		'profile_link'		 => true,
+		'mode'				 			=> 'friend',
+		'user_id'			 			=> 0,
+		'fmsf'				 			=> 0,
+		'limit'				 			=> 0,
+		'checkbox'			 		=> '',
+		'ajax_load'			 		=> false,
+		'slider'			 			=> true,
+		'avatar_size'		 		=> 50,
+		'add_friend_link'	 	=> false,
+		'total'				 			=> 0,
+		'rowset'			 			=> null,
+		'sql_pagination'	 	=> '',
+		'sql_content'		 		=> '',
+		'user_id_field'		 	=> 'zebra_id',
+		'random'			 			=> false,
+		'tpl_name'			 		=> 'socialnet/block_fms_users',
+		'profile_link'		 	=> true,
 	);
 
 	/**
@@ -498,12 +472,12 @@ class snFunctions
 		}
 
 		$template->assign_vars(array(
-			'SN_FMS_BLOCK_USER_PAGINATION_MODE'	 => $mode,
-			'SN_FMS_BLOCK_USER_AJAX_LOAD'		 => $ajax_load,
-			'SN_FMS_BLOCK_USER_USE_SLIDER'		 => $slider,
-			'SN_FMS_BLOCK_USER_B_CHECKBOX'		 => $checkbox != '',
-			'SN_FMS_BLOCK_USER_CHECKBOX_NAME'	 => $checkbox,
-			'SN_FMS_BLOCK_PROFILE_LINK'			 => $profile_link,
+			'SN_FMS_BLOCK_USER_PAGINATION_MODE'	 	=> $mode,
+			'SN_FMS_BLOCK_USER_AJAX_LOAD'		 			=> $ajax_load,
+			'SN_FMS_BLOCK_USER_USE_SLIDER'		 		=> $slider,
+			'SN_FMS_BLOCK_USER_B_CHECKBOX'		 		=> $checkbox != '',
+			'SN_FMS_BLOCK_USER_CHECKBOX_NAME'	 		=> $checkbox,
+			'SN_FMS_BLOCK_PROFILE_LINK'			 			=> $profile_link,
 		));
 
 		$pagination = $this->_fms_users_pagination($mode_short, $total, $fmsf, $limit, $user_id, $tpl_name, $profile_link);
@@ -539,9 +513,9 @@ class snFunctions
 		}
 
 		$template->assign_vars(array(
-			'SN_FMS_BLOCK_' . $lmode . '_PAGINATION_STRING' => $pagination,
-			'SN_FMS_BLOCK_' . $lmode . '_CONTENT'			 => $block_content['content'],
-			'SN_FMS_BLOCK_' . $lmode . '_IS_NOT_EMPTY'		 => $block_content['is_not_empty'],
+			'SN_FMS_BLOCK_' . $lmode . '_PAGINATION_STRING'		=> $pagination,
+			'SN_FMS_BLOCK_' . $lmode . '_CONTENT'			 				=> $block_content['content'],
+			'SN_FMS_BLOCK_' . $lmode . '_IS_NOT_EMPTY'		 		=> $block_content['is_not_empty'],
 		));
 
 		return array('pagination' => $pagination, 'content' => $block_content['content'], 'is_not_empty' => $block_content['is_not_empty']);
@@ -568,19 +542,16 @@ class snFunctions
 		$pagination_total_lang .= '_TOTAL';
 
 		$template->assign_vars(array(
-			'SN_FMS_BLOCK_USER_PAGINATION_START_CNT'	 => $start_cnt,
-			'SN_FMS_BLOCK_USER_PAGINATION_END_CNT'		 => $end_cnt,
-			'SN_FMS_BLOCK_USER_PAGINATION_ON_PAGE'		 => $on_page,
-
-			'SN_FMS_BLOCK_USER_PAGINATION_USER_ID'		 => $user_id,
-			'SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES'	 => $total_pages,
-			'SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES_1' => $total_pages - 1,
-			'SN_FMS_BLOCK_USER_PAGINATION_LIMIT'		 => $limit,
-
-			'SN_FMS_BLOCK_USER_PAGINATION_CURRENT_PAGE'	 => sprintf($user->lang['PAGE_OF'], $on_page, $total_pages),
-
-			'SN_FMS_BLOCK_USER_PAGINATION_TOTAL'		 => sprintf(@$user->lang[$pagination_total_lang], $total),
-			'SN_FMS_BLOCK_PROFILE_LINK'					 => $profile_link ? '1' : '0'
+			'SN_FMS_BLOCK_USER_PAGINATION_START_CNT'	 		=> $start_cnt,
+			'SN_FMS_BLOCK_USER_PAGINATION_END_CNT'		 		=> $end_cnt,
+			'SN_FMS_BLOCK_USER_PAGINATION_ON_PAGE'		 		=> $on_page,
+			'SN_FMS_BLOCK_USER_PAGINATION_USER_ID'		 		=> $user_id,
+			'SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES'	 	=> $total_pages,
+			'SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES_1' 	=> $total_pages - 1,
+			'SN_FMS_BLOCK_USER_PAGINATION_LIMIT'		 			=> $limit,
+			'SN_FMS_BLOCK_USER_PAGINATION_CURRENT_PAGE'		=> sprintf($user->lang['PAGE_OF'], $on_page, $total_pages),
+			'SN_FMS_BLOCK_USER_PAGINATION_TOTAL'		 			=> sprintf(@$user->lang[$pagination_total_lang], $total),
+			'SN_FMS_BLOCK_PROFILE_LINK'					 					=> $profile_link ? '1' : '0'
 		));
 
 		if ($total_pages > 1)
@@ -601,7 +572,6 @@ class snFunctions
 					'PAGE_NUMBER'	 => $i,
 					'PAGE_ACTIVE'	 => $on_page == $i,
 				));
-
 			}
 
 			if ($end_cnt < $total_pages)
@@ -611,7 +581,6 @@ class snFunctions
 					'PAGE_NUMBER'	 => $total_pages,
 					'PAGE_ACTIVE'	 => $on_page == $total_pages,
 				));
-
 			}
 		}
 		$template->set_filenames(array('sn_fms_block_user_pagination' => $tpl_name . '_pagination.html'));
@@ -647,13 +616,13 @@ class snFunctions
 
 				$is_not_empty = true;
 				$template->assign_block_vars('sn_fms_block_user', array(
-					'USER_ID'			 => $row[$user_id_field],
-					'USERNAME'			 => $this->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USER_PROFILE'		 => $this->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USERNAME_NO_COLOR'	 => $row['username'],
-					'U_PROFILE'			 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
-					'U_ADD_FRIEND'		 => $u_add_friend,
-					'AVATAR'			 => $img_avatar,
+					'USER_ID'			 				=> $row[$user_id_field],
+					'USERNAME'			 			=> $this->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USER_PROFILE'		 		=> $this->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USERNAME_NO_COLOR'	 	=> $row['username'],
+					'U_PROFILE'			 			=> append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
+					'U_ADD_FRIEND'		 		=> $u_add_friend,
+					'AVATAR'			 				=> $img_avatar,
 				));
 				$counter++;
 			}
@@ -689,18 +658,14 @@ class snFunctions
 		$db->sql_freeresult($result);
 
 		header('Content-type: application/json');
-		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		die(json_encode($return_arr));
 	}
 
 	/**
 	 * Load block using block function
-	 *
 	 * @param string $block_name Name of Block that should be load
-	 * @return mixed
-	 * @since 0.6.1
-	 * @author Culprit
 	 */
 	function block($block_name)
 	{
@@ -709,11 +674,7 @@ class snFunctions
 
 	/**
 	 * Load blocks using block function
-	 *
 	 * @param array $blocks Name of Blocks that should be load
-	 * @return mixed
-	 * @since 0.6.1
-	 * @author Culprit
 	 */
 	function blocks($blocks)
 	{
@@ -737,10 +698,6 @@ class snFunctions
 
 	/**
 	 * Load login block id necessary
-	 *
-	 * @access public
-	 * @since 0.5.2
-	 * @return void
 	 */
 	function login()
 	{
@@ -752,7 +709,7 @@ class snFunctions
 			return false;
 		}
 
-		if ($this->config['mp_hide_for_guest'])
+		if ($this->config['ap_hide_for_guest'])
 		{
 			header('Location: index.php');
 		}
@@ -784,7 +741,7 @@ class snFunctions
 			// The result parameter is always an array, holding the relevant information...
 			if ($result['status'] == LOGIN_SUCCESS)
 			{
-				$redirect = redirect(append_sid("{$phpbb_root_path}mainpage.$phpEx"));
+				$redirect = redirect(append_sid("{$phpbb_root_path}activitypage.$phpEx"));
 			}
 
 			// Something failed, determine what...
@@ -796,45 +753,48 @@ class snFunctions
 			// Special cases... determine
 			switch ($result['status'])
 			{
-			case LOGIN_ERROR_ATTEMPTS:
-				$captcha = phpbb_captcha_factory::get_instance($this->config['captcha_plugin']);
-				$captcha->init(CONFIRM_LOGIN);
+				case LOGIN_ERROR_ATTEMPTS:
 
-				$template->assign_vars(array(
-					'CAPTCHA_TEMPLATE' => $captcha->get_template(), ));
+					$captcha = phpbb_captcha_factory::get_instance($this->config['captcha_plugin']);
+					$captcha->init(CONFIRM_LOGIN);
 
-				$err = $user->lang[$result['error_msg']];
+					$template->assign_vars(array(
+						'CAPTCHA_TEMPLATE' => $captcha->get_template(), ));
+
+					$err = $user->lang[$result['error_msg']];
+
 				break;
 
-			case LOGIN_ERROR_PASSWORD_CONVERT:
-				$err = sprintf($user->lang[$result['error_msg']], ($this->config['email_enable']) ? '<a href="' . append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=sendpassword') . '">' : '', ($this->config['email_enable']) ? '</a>' : '', ($this->config['board_contact']) ? '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">' : '', ($this->config['board_contact']) ? '</a>' : '');
+				case LOGIN_ERROR_PASSWORD_CONVERT:
+					$err = sprintf($user->lang[$result['error_msg']], ($this->config['email_enable']) ? '<a href="' . append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=sendpassword') . '">' : '', ($this->config['email_enable']) ? '</a>' : '', ($this->config['board_contact']) ? '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">' : '', ($this->config['board_contact']) ? '</a>' : '');
 				break;
 
-			default:
-				// Username, password, etc...
-				$err = $user->lang[$result['error_msg']];
+				default:
 
-				// Assign admin contact to some error messages
-				if ($result['error_msg'] == 'LOGIN_ERROR_USERNAME' || $result['error_msg'] == 'LOGIN_ERROR_PASSWORD')
-				{
-					$err = (!$this->config['board_contact']) ? sprintf($user->lang[$result['error_msg']], '', '') : sprintf($user->lang[$result['error_msg']], '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">', '</a>');
-				}
+					// Username, password, etc...
+					$err = $user->lang[$result['error_msg']];
+
+					// Assign admin contact to some error messages
+					if ($result['error_msg'] == 'LOGIN_ERROR_USERNAME' || $result['error_msg'] == 'LOGIN_ERROR_PASSWORD')
+					{
+						$err = (!$this->config['board_contact']) ? sprintf($user->lang[$result['error_msg']], '', '') : sprintf($user->lang[$result['error_msg']], '<a href="mailto:' . htmlspecialchars($this->config['board_contact']) . '">', '</a>');
+					}
+
 				break;
 			}
 		}
 
 		$s_hidden_fields = array(
-			'sid'		 => $user->session_id,
-			'redirect'	 => append_sid("{$phpbb_root_path}mainpage.{$phpEx}"),
+			'sid'		 			=> $user->session_id,
+			'redirect'	 	=> append_sid("{$phpbb_root_path}activitypage.{$phpEx}"),
 		);
 
 		$template->assign_vars(array(
-			'LOGIN_ERROR'			 => $err,
-			'U_SEND_PASSWORD'		 => ($this->config['email_enable']) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=sendpassword') : '',
-			'U_RESEND_ACTIVATION'	 => ($this->config['require_activation'] == USER_ACTIVATION_SELF && $this->config['email_enable']) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=resend_act') : '',
-			'S_HIDDEN_FIELDS'		 => build_hidden_fields($s_hidden_fields),
-
-			'S_DISPLAY_WELCOME'		 => $this->config['mp_display_welcome'],
+			'LOGIN_ERROR'			 			=> $err,
+			'U_SEND_PASSWORD'		 		=> ($this->config['email_enable']) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=sendpassword') : '',
+			'U_RESEND_ACTIVATION'	 	=> ($this->config['require_activation'] == USER_ACTIVATION_SELF && $this->config['email_enable']) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=resend_act') : '',
+			'S_HIDDEN_FIELDS'		 		=> build_hidden_fields($s_hidden_fields),
+			'S_DISPLAY_WELCOME'		 	=> $this->config['ap_display_welcome'],
 		));
 
 		return true;
@@ -842,10 +802,6 @@ class snFunctions
 
 	/**
 	 * Load my profile Block
-	 *
-	 * @access public
-	 * @since 0.6.1
-	 * @return void
 	 */
 	function myprofile()
 	{
@@ -858,10 +814,10 @@ class snFunctions
 		}
 
 		$template_vars = array(
-			'S_MY_USERNAME'		 => $this->get_username_string($this->config['mp_colour_username'], 'full', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
-			'S_MY_USER_AVATAR'	 => $this->get_user_avatar_resized($user->data['user_avatar'], $user->data['user_avatar_type'], $user->data['user_avatar_width'], $user->data['user_avatar_height'], 50),
-			'U_EDIT_MY_PROFILE'	 => append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=profile'),
-			'USER_ID'			 => $user->data['user_id'],
+			'S_MY_USERNAME'		 		=> $this->get_username_string($this->config['ap_colour_username'], 'full', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
+			'S_MY_USER_AVATAR'	 	=> $this->get_user_avatar_resized($user->data['user_avatar'], $user->data['user_avatar_type'], $user->data['user_avatar_width'], $user->data['user_avatar_height'], 50),
+			'U_EDIT_MY_PROFILE'	 	=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=profile'),
+			'USER_ID'			 				=> $user->data['user_id'],
 		);
 
 		$template->assign_vars($template_vars);
@@ -871,10 +827,6 @@ class snFunctions
 
 	/**
 	 * Load Menu Block
-	 *
-	 * @access public
-	 * @since 0.6.1
-	 * @return void
 	 */
 	function menu()
 	{
@@ -896,10 +848,6 @@ class snFunctions
 
 	/**
 	 * Load board Statistics Block
-	 *
-	 * @access public
-	 * @since 0.6.1
-	 * @return void
 	 */
 	function statistics()
 	{
@@ -932,12 +880,12 @@ class snFunctions
 			$users_per_day = $total_users;
 		}
 
-		$l_total_user_s = 'SN_MP_TOTAL_USERS';
-		$l_total_post_s = 'SN_MP_TOTAL_POSTS';
-		$l_total_topic_s = 'SN_MP_TOTAL_TOPICS';
-		$l_topics_per_day_s = 'SN_MP_TOPICS_PER_DAY';
-		$l_posts_per_day_s = 'SN_MP_POSTS_PER_DAY';
-		$l_users_per_day_s = 'SN_MP_USERS_PER_DAY';
+		$l_total_user_s = 'SN_AP_TOTAL_USERS';
+		$l_total_post_s = 'SN_AP_TOTAL_POSTS';
+		$l_total_topic_s = 'SN_AP_TOTAL_TOPICS';
+		$l_topics_per_day_s = 'SN_AP_TOPICS_PER_DAY';
+		$l_posts_per_day_s = 'SN_AP_POSTS_PER_DAY';
+		$l_users_per_day_s = 'SN_AP_USERS_PER_DAY';
 
 		$template->assign_vars(array(
 			'TOTAL_POSTS'	 => sprintf($user->lang[$l_total_post_s], $total_posts),
@@ -951,10 +899,6 @@ class snFunctions
 
 	/**
 	 * Thanks to Silli for this function
-	 *
-	 * @access public
-	 * @since 0.6.0
-	 * @return void
 	 */
 	function birthday()
 	{
@@ -965,11 +909,10 @@ class snFunctions
 			return;
 		}
 
-		$cache_friends_birthday = '_snMpFriendsBirthday' . $user->data['user_id'];
+		$cache_friends_birthday = '_snApFriendsBirthday' . $user->data['user_id'];
 		$friends_birthday = $cache->get($cache_friends_birthday);
 
 		$now = getdate(time() + $user->timezone + $user->dst - date('Z'));
-		//$now = getdate(time());
 
 		if (empty($friends_birthday))
 		{
@@ -981,35 +924,34 @@ class snFunctions
 			while ($cache_days >= 0)
 			{
 				$day = getdate(time() + 86400 * $cache_days + $user->timezone + $user->dst - date('Z'));
-				//$day = getdate(time() + 86400 * $cache_days);
 				$sql_days[] = "u.user_birthday LIKE '" . $db->sql_escape(sprintf('%2d-%2d-', $day['mday'], $day['mon'])) . "%'";
 				$cache_days--;
 			}
 
 			switch ($db->sql_layer)
 			{
-			case 'mssql':
-			case 'mssql_odbc':
-				$order_by = 'u.user_birthday ASC';
+				case 'mssql':
+				case 'mssql_odbc':
+					$order_by = 'u.user_birthday ASC';
 				break;
 
-			default:
-				$order_by = 'SUBSTRING(u.user_birthday FROM 4 FOR 2) ASC, SUBSTRING(u.user_birthday FROM 1 FOR 2) ASC, u.username_clean ASC';
+				default:
+					$order_by = 'SUBSTRING(u.user_birthday FROM 4 FOR 2) ASC, SUBSTRING(u.user_birthday FROM 1 FOR 2) ASC, u.username_clean ASC';
 				break;
 			}
+			
 			$sql = 'SELECT u.user_id, u.username, u.user_birthday, u.user_colour
-							FROM ' . USERS_TABLE . ' u
-							LEFT JOIN ' . BANLIST_TABLE . " b ON (u.user_id = b.ban_userid)
-							WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
-								AND " . $db->sql_in_set('u.user_id', $my_friends, false, true) . "
-								AND (" . implode(" OR ", $sql_days) . ")
-								AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')
-							ORDER BY ' . $order_by;
+								FROM ' . USERS_TABLE . ' u
+									LEFT JOIN ' . BANLIST_TABLE . " b ON (u.user_id = b.ban_userid)
+										WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
+											AND " . $db->sql_in_set('u.user_id', $my_friends, false, true) . "
+											AND (" . implode(" OR ", $sql_days) . ")
+											AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')
+										ORDER BY ' . $order_by;
 			$rs = $db->sql_query($sql);
 
 			$friends_birthday = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);
-			// Cache up to midnight
 			$cache->put($cache_friends_birthday, $friends_birthday, mktime(23, 59, 59) - time());
 		}
 
@@ -1022,26 +964,20 @@ class snFunctions
 			$birth_time = mktime(0, 0, 1, $arr_birthday[1], $arr_birthday[0], $now['year']);
 			$diff_days = round(abs($birth_time - strtotime(date('Y-m-d'))) / 3600 / 24);
 
-			$row['username'] = sprintf($user->lang['SN_MP_BIRTHDAY_USERNAME'], $row['username']);
+			$row['username'] = sprintf($user->lang['SN_AP_BIRTHDAY_USERNAME'], $row['username']);
 			$template->assign_block_vars('friends_birthday', array(
-				'USERNAME'			 => $this->get_username_string($this->config['mp_colour_username'], 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
-				'SN_MP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_MP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $user->format_date($birth_time, '|j. n.|', false)),
-				'U_FRIEND_LINK'		 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u=" . $row['user_id']),
+				'USERNAME'			 				=> $this->get_username_string($this->config['ap_colour_username'], 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
+				'SN_AP_BIRTHDAY_ON'		 	=> sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $user->format_date($birth_time, '|j. n.|', false)),
+				'U_FRIEND_LINK'		 			=> append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u=" . $row['user_id']),
 			));
 		}
-
 	}
 
 	/**
 	 * Load Search Block
-	 *
-	 * @access public
-	 * @since 0.6.1
-	 * @return void
 	 */
 	function search()
 	{
-		// NOTHING TO FILL
 		if (!$this->config['sn_block_search'])
 		{
 			return;
@@ -1050,18 +986,13 @@ class snFunctions
 		global $template, $phpEx, $phpbb_root_path;
 
 		$template->assign_vars(array(
-			'U_USERS_AUTOCOMPLETE'	 => append_sid("{$phpbb_root_path}socialnet/mainpage.{$phpEx}", 'mode=users_autocomplete'),
-			'U_SN_MP_SEARCH'		 => append_sid("{$phpbb_root_path}socialnet/mainpage.{$phpEx}", 'mode=search'),
+			'U_USERS_AUTOCOMPLETE'	 	=> append_sid("{$phpbb_root_path}socialnet/activitypage.{$phpEx}", 'mode=users_autocomplete'),
+			'U_SN_AP_SEARCH'		 			=> append_sid("{$phpbb_root_path}socialnet/activitypage.{$phpEx}", 'mode=search'),
 		));
 	}
 
 	/**
 	 * Load Friends Suggestions Block
-	 *
-	 * @param integer $limit How much Friend Sugessions should be displayed
-	 * @access public
-	 * @since 0.6.1
-	 * @return void
 	 */
 	function friends_suggestions($limit = 4)
 	{
@@ -1083,24 +1014,24 @@ class snFunctions
 					WHERE user_id = {$user->data['user_id']} AND (friend = 1 OR approval = 1)";
 			$rs = $db->sql_query($sql);
 
-			$mp_my_friends_ary = $mp_my_friends_me_ary = array();
+			$ap_my_friends_ary = $ap_my_friends_me_ary = array();
 
 			while ($row = $db->sql_fetchrow($rs))
 			{
-				$mp_my_friends_ary[] = $row['zebra_id'];
+				$ap_my_friends_ary[] = $row['zebra_id'];
 			}
 
-			if (empty($mp_my_friends_ary))
+			if (empty($ap_my_friends_ary))
 			{
 				return;
 			}
 
-			$mp_my_friends_me_ary = $mp_my_friends_ary;
-			$mp_my_friends_me_ary[] = $user->data['user_id'];
+			$ap_my_friends_me_ary = $ap_my_friends_ary;
+			$ap_my_friends_me_ary[] = $user->data['user_id'];
 
 			$sql = "SELECT DISTINCT u.user_id, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 					FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
-					WHERE " . $db->sql_in_set('z.user_id', $mp_my_friends_ary, false, true) . " AND " . $db->sql_in_set('z.zebra_id', $mp_my_friends_me_ary, true, true) . " AND z.friend = 1 AND z.zebra_id = u.user_id";
+					WHERE " . $db->sql_in_set('z.user_id', $ap_my_friends_ary, false, true) . " AND " . $db->sql_in_set('z.zebra_id', $ap_my_friends_me_ary, true, true) . " AND z.friend = 1 AND z.zebra_id = u.user_id";
 			$rs = $db->sql_query($sql);
 
 			$people_to_know = $db->sql_fetchrowset($rs);
@@ -1110,25 +1041,21 @@ class snFunctions
 		}
 
 		$this->fms_users(array(
-			'mode'				 => 'suggestion',
-			'user_id'			 => $user->data['user_id'],
-			'fmsf'				 => 0,
-			'limit'				 => $limit,
-			'slider'			 => false,
-			'avatar_size'		 => 50,
-			'add_friend_link'	 => true,
-			'user_id_field'		 => 'user_id',
-			'rowset'			 => $people_to_know,
-			'random'			 => true
+			'mode'				 			=> 'suggestion',
+			'user_id'			 			=> $user->data['user_id'],
+			'fmsf'				 			=> 0,
+			'limit'				 			=> $limit,
+			'slider'			 			=> false,
+			'avatar_size'		 		=> 50,
+			'add_friend_link'	 	=> true,
+			'user_id_field'		 	=> 'user_id',
+			'rowset'			 			=> $people_to_know,
+			'random'			 			=> true,
 		));
 	}
 
 	/**
 	 * Load Friend Requests
-	 *
-	 * @access public
-	 * @since 0.5.2
-	 * @return void
 	 */
 	function friend_requests()
 	{
@@ -1140,9 +1067,10 @@ class snFunctions
 		}
 
 		$sql = "SELECT u.user_id, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-					FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
-					WHERE z.approval = 1 AND z.zebra_id = {$user->data['user_id']} AND z.user_id = u.user_id";
-
+							FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
+								WHERE z.approval = 1
+									AND z.zebra_id = {$user->data['user_id']}
+									AND z.user_id = u.user_id";
 		$limit_requests = 5;
 		$i_avatar_maxHeight = 36;
 
@@ -1160,30 +1088,24 @@ class snFunctions
 			$img_avatar = $this->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], $i_avatar_maxHeight);
 
 			$template->assign_block_vars('friend_requests', array(
-				'AVATAR'			 => $img_avatar,
-				'USERNAME'			 => $this->get_username_string($this->config['mp_colour_username'], 'full', $row['user_id'], $row['username'], $row['user_colour']),
-				'USERNAME_PROFILE'	 => $this->get_username_string($this->config['mp_colour_username'], 'profile', $row['user_id'], $row['username'], $row['user_colour']),
-				'USERNAME_CLEAN'	 => $row['username'],
-				'USER_ID'			 => $row['user_id'],
+				'AVATAR'			 			=> $img_avatar,
+				'USERNAME'			 		=> $this->get_username_string($this->config['ap_colour_username'], 'full', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME_PROFILE'	=> $this->get_username_string($this->config['ap_colour_username'], 'profile', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME_CLEAN'	 	=> $row['username'],
+				'USER_ID'			 			=> $row['user_id'],
 			));
-
 		}
-
 	}
 
 	/**
 	 * Load Last Recent Discussions Block
-	 *
-	 * @access public
-	 * @since 0.6.1
-	 * @return void
 	 */
 	function recent_discussions()
 	{
 		global $db, $auth, $template, $user;
 		global $phpbb_root_path, $phpEx;
 
-		if (!isset($this->config['mp_num_last_posts']) || $this->config['mp_num_last_posts'] == 0 || !$this->config['sn_block_recent_discussions'])
+		if (!isset($this->config['ap_num_last_posts']) || $this->config['ap_num_last_posts'] == 0 || !$this->config['sn_block_recent_discussions'])
 		{
 			return;
 		}
@@ -1202,13 +1124,13 @@ class snFunctions
 		}
 
 		$last_posts = 'SELECT p.post_id, p.topic_id, p.post_time, p.forum_id, t.topic_title, f.forum_name
-						FROM ' . POSTS_TABLE . ' p
-							LEFT JOIN ' . TOPICS_TABLE . ' t ON p.topic_id = t.topic_id
-							LEFT JOIN ' . FORUMS_TABLE . ' f ON p.forum_id = f.forum_id
-						WHERE p.post_approved = 1
-							AND ' . $db->sql_in_set('p.forum_id', $a_f_read, false, true) . '
-						ORDER BY p.post_id DESC';
-		$last_posts_result = $db->sql_query_limit($last_posts, $this->config['mp_num_last_posts']);
+										FROM ' . POSTS_TABLE . ' p
+											LEFT JOIN ' . TOPICS_TABLE . ' t ON p.topic_id = t.topic_id
+											LEFT JOIN ' . FORUMS_TABLE . ' f ON p.forum_id = f.forum_id
+										WHERE p.post_approved = 1
+											AND ' . $db->sql_in_set('p.forum_id', $a_f_read, false, true) . '
+										ORDER BY p.post_id DESC';
+		$last_posts_result = $db->sql_query_limit($last_posts, $this->config['ap_num_last_posts']);
 		$last_posts_rowset = $db->sql_fetchrowset($last_posts_result);
 		$db->sql_freeresult($last_posts_result);
 
@@ -1216,23 +1138,17 @@ class snFunctions
 		{
 			$last_posts_row = $last_posts_rowset[$i];
 			$template->assign_block_vars('last_posts', array(
-				'TOPIC_TITLE'		 => $last_posts_row['topic_title'],
-				'POST_LINK'			 => append_sid("{$phpbb_root_path}viewtopic.$phpEx", "t=" . $last_posts_row['topic_id'] . "&amp;p=" . $last_posts_row['post_id'] . "#p" . $last_posts_row['post_id']),
-				'TOPIC_FORUM'		 => $last_posts_row['forum_name'],
-				'TOPIC_FORUM_LINK'	 => append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=" . $last_posts_row['forum_id']),
-				'POST_TIME'			 => $this->time_ago($last_posts_row['post_time']),
+				'TOPIC_TITLE'		 			=> $last_posts_row['topic_title'],
+				'POST_LINK'			 			=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", "t=" . $last_posts_row['topic_id'] . "&amp;p=" . $last_posts_row['post_id'] . "#p" . $last_posts_row['post_id']),
+				'TOPIC_FORUM'		 			=> $last_posts_row['forum_name'],
+				'TOPIC_FORUM_LINK'	 	=> append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=" . $last_posts_row['forum_id']),
+				'POST_TIME'			 			=> $this->time_ago($last_posts_row['post_time']),
 			));
 		}
 	}
 
 	/**
 	 * Post new status from PHP code
-	 *
-	 * @since 0.5.2
-	 * @author Culprit
-	 * @access public
-	 * @param string $new_status
-	 * @return void
 	 */
 	function post_status($new_status, $wall_id = 0)
 	{
@@ -1261,10 +1177,10 @@ class snFunctions
 		global $template, $db, $user;
 
 		$sql = "SELECT *
-		            FROM " . SN_MENU_TABLE . "
-		              WHERE button_display = 1
-		                AND parent_id = {$parent_id}
-		              ORDER BY left_id";
+	            FROM " . SN_MENU_TABLE . "
+	              WHERE button_display = 1
+	                AND parent_id = {$parent_id}
+	              ORDER BY left_id";
 		$result = $db->sql_query($sql);
 
 		$menu = array();
@@ -1277,14 +1193,13 @@ class snFunctions
 			}
 
 			$menu[] = array(
-				'ID'		 => $row['button_id'],
-				'PARENT'	 => $parent_id,
-				'URL'		 => $row['button_url'],
-				'NAME'		 => $row['button_name'],
-				'EXTERNAL'	 => $row['button_external'],
-				'SUBMENU'	 => $this->_gen_menu($row['button_id']),
+				'ID'		 		=> $row['button_id'],
+				'PARENT'	 	=> $parent_id,
+				'URL'		 		=> $row['button_url'],
+				'NAME'		 	=> $row['button_name'],
+				'EXTERNAL'	=> $row['button_external'],
+				'SUBMENU'	 	=> $this->_gen_menu($row['button_id']),
 			);
-
 		}
 
 		$db->sql_freeresult($result);
@@ -1304,35 +1219,35 @@ class snFunctions
 
 		switch ($status_id)
 		{
-		case '1':
-			$status = $user->lang['SN_UP_SINGLE'];
+			case '1':
+				$status = $user->lang['SN_UP_SINGLE'];
 			break;
-		case '2':
-			$status = $user->lang['SN_UP_IN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
+			case '2':
+				$status = $user->lang['SN_UP_IN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
 			break;
-		case '3':
-			$status = $user->lang['SN_UP_ENGAGED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
+			case '3':
+				$status = $user->lang['SN_UP_ENGAGED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
 			break;
-		case '4':
-			$status = $user->lang['SN_UP_MARRIED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
+			case '4':
+				$status = $user->lang['SN_UP_MARRIED'] . (($approved) ? ' ' . $user->lang['SN_UP_TO'] : '');
 			break;
-		case '5':
-			$status = $user->lang['SN_UP_ITS_COMPLICATED'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
+			case '5':
+				$status = $user->lang['SN_UP_ITS_COMPLICATED'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
 			break;
-		case '6':
-			$status = $user->lang['SN_UP_OPEN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
+			case '6':
+				$status = $user->lang['SN_UP_OPEN_RELATIONSHIP'] . (($approved) ? ' ' . $user->lang['SN_UP_WITH'] : '');
 			break;
-		case '7':
-			$status = $user->lang['SN_UP_WIDOWED'];
+			case '7':
+				$status = $user->lang['SN_UP_WIDOWED'];
 			break;
-		case '8':
-			$status = $user->lang['SN_UP_SEPARATED'];
+			case '8':
+				$status = $user->lang['SN_UP_SEPARATED'];
 			break;
-		case '9':
-			$status = $user->lang['SN_UP_DIVORCED'];
+			case '9':
+				$status = $user->lang['SN_UP_DIVORCED'];
 			break;
-		default:
-			$status = '';
+			default:
+				$status = '';
 		}
 
 		return $status;
@@ -1344,74 +1259,74 @@ class snFunctions
 
 		switch ($status_id)
 		{
-		case '20':
-			$status = $user->lang['SN_UP_SISTER'];
+			case '20':
+				$status = $user->lang['SN_UP_SISTER'];
 			break;
-		case '21':
-			$status = $user->lang['SN_UP_BROTHER'];
+			case '21':
+				$status = $user->lang['SN_UP_BROTHER'];
 			break;
-		case '22':
-			$status = $user->lang['SN_UP_DAUGHTER'];
+			case '22':
+				$status = $user->lang['SN_UP_DAUGHTER'];
 			break;
-		case '23':
-			$status = $user->lang['SN_UP_SON'];
+			case '23':
+				$status = $user->lang['SN_UP_SON'];
 			break;
-		case '24':
-			$status = $user->lang['SN_UP_MOTHER'];
+			case '24':
+				$status = $user->lang['SN_UP_MOTHER'];
 			break;
-		case '25':
-			$status = $user->lang['SN_UP_FATHER'];
+			case '25':
+				$status = $user->lang['SN_UP_FATHER'];
 			break;
-		case '26':
-			$status = $user->lang['SN_UP_AUNT'];
+			case '26':
+				$status = $user->lang['SN_UP_AUNT'];
 			break;
-		case '27':
-			$status = $user->lang['SN_UP_UNCLE'];
+			case '27':
+				$status = $user->lang['SN_UP_UNCLE'];
 			break;
-		case '28':
-			$status = $user->lang['SN_UP_NIECE'];
+			case '28':
+				$status = $user->lang['SN_UP_NIECE'];
 			break;
-		case '29':
-			$status = $user->lang['SN_UP_NEPHEW'];
+			case '29':
+				$status = $user->lang['SN_UP_NEPHEW'];
 			break;
-		case '30':
-			$status = $user->lang['SN_UP_COUSIN_FEMALE'];
+			case '30':
+				$status = $user->lang['SN_UP_COUSIN_FEMALE'];
 			break;
-		case '31':
-			$status = $user->lang['SN_UP_COUSIN_MALE'];
+			case '31':
+				$status = $user->lang['SN_UP_COUSIN_MALE'];
 			break;
-		case '32':
-			$status = $user->lang['SN_UP_GRANDDAUGHTER'];
+			case '32':
+				$status = $user->lang['SN_UP_GRANDDAUGHTER'];
 			break;
-		case '33':
-			$status = $user->lang['SN_UP_GRANDSON'];
+			case '33':
+				$status = $user->lang['SN_UP_GRANDSON'];
 			break;
-		case '34':
-			$status = $user->lang['SN_UP_GRANDMOTHER'];
+			case '34':
+				$status = $user->lang['SN_UP_GRANDMOTHER'];
 			break;
-		case '35':
-			$status = $user->lang['SN_UP_GRANDFATHER'];
+			case '35':
+				$status = $user->lang['SN_UP_GRANDFATHER'];
 			break;
-		case '36':
-			$status = $user->lang['SN_UP_SISTER_IN_LAW'];
+			case '36':
+				$status = $user->lang['SN_UP_SISTER_IN_LAW'];
 			break;
-		case '37':
-			$status = $user->lang['SN_UP_BROTHER_IN_LAW'];
+			case '37':
+				$status = $user->lang['SN_UP_BROTHER_IN_LAW'];
 			break;
-		case '38':
-			$status = $user->lang['SN_UP_MOTHER_IN_LAW'];
+			case '38':
+				$status = $user->lang['SN_UP_MOTHER_IN_LAW'];
 			break;
-		case '39':
-			$status = $user->lang['SN_UP_FATHER_IN_LAW'];
+			case '39':
+				$status = $user->lang['SN_UP_FATHER_IN_LAW'];
 			break;
-		case '40':
-			$status = $user->lang['SN_UP_DAUGHTER_IN_LAW'];
+			case '40':
+				$status = $user->lang['SN_UP_DAUGHTER_IN_LAW'];
 			break;
-		case '41':
-			$status = $user->lang['SN_UP_SON_IN_LAW'];
+			case '41':
+				$status = $user->lang['SN_UP_SON_IN_LAW'];
 			break;
-		default:
-			$status = '';
+			default:
+				$status = '';
 		}
 
 		return $status;
@@ -1578,7 +1493,6 @@ class snFunctions
 
 		$update_xml = get_remote_file($file['host'], $file['directory'], $file['filename'], $errstr, $errno);
 
-		//$update_xml = 'Destination host forbidden';
 		if (!$update_xml || empty($update_xml) || $update_xml == 'Destination host forbidden')
 		{
 			$template->assign_var('SN_VERSION_AVAILABLE', true);
@@ -1615,13 +1529,13 @@ class snFunctions
 				$not_up_to_date = version_compare(@$version, @$config['version_socialNet']);
 
 				$template->assign_vars(array(
-					'SN_VERSION_CHECK_NOT_UP_TO_DATE'	 => ($not_up_to_date == 1) ? true : false,
-					'SN_VERSION_CHECK_DOWNLOAD'			 => $download,
-					'SN_VERSION_CHECK_NAME'				 => isset($user->lang[$name]) ? $user->lang[$name] : $name,
-					'L_ACP_SN_VERSION_UP_TO_DATE'		 => sprintf($user->lang['ACP_SN_VERSION_UP_TO_DATE'], $name),
-					'L_ACP_SN_VERSION_NOT_UP_TO_DATE'	 => sprintf($user->lang['ACP_SN_VERSION_NOT_UP_TO_DATE'], $name, $download),
-					'SN_VERSION_INSTALLED'				 => $config['version_socialNet'],
-					'SN_VERSION_AVAILABLE'				 => $version,
+					'SN_VERSION_CHECK_NOT_UP_TO_DATE'	 	=> ($not_up_to_date == 1) ? true : false,
+					'SN_VERSION_CHECK_DOWNLOAD'			 		=> $download,
+					'SN_VERSION_CHECK_NAME'				 			=> isset($user->lang[$name]) ? $user->lang[$name] : $name,
+					'L_ACP_SN_VERSION_UP_TO_DATE'		 		=> sprintf($user->lang['ACP_SN_VERSION_UP_TO_DATE'], $name),
+					'L_ACP_SN_VERSION_NOT_UP_TO_DATE'	 	=> sprintf($user->lang['ACP_SN_VERSION_NOT_UP_TO_DATE'], $name, $download),
+					'SN_VERSION_INSTALLED'				 			=> $config['version_socialNet'],
+					'SN_VERSION_AVAILABLE'				 			=> $version,
 				));
 
 				continue;
@@ -1634,26 +1548,23 @@ class snFunctions
 			}
 
 			$template->assign_block_vars('avail_module', array(
-				'CODE_NAME'			 => $code_name,
-				'NAME'				 => isset($user->lang[$name]) ? $user->lang[$name] : $name,
-				'VERSION'			 => $version,
-				'MSG'				 => ($msg != '') ? $msg : '',
-				'STATUS'			 => $status,
-				'INSTALLED_VERSION'	 => @$config['version_' . $code_name],
-				'DOWNLOAD'			 => $download,
-				'B_PAY'				 => $pay,
+				'CODE_NAME'			 			=> $code_name,
+				'NAME'				 				=> isset($user->lang[$name]) ? $user->lang[$name] : $name,
+				'VERSION'			 				=> $version,
+				'MSG'				 					=> ($msg != '') ? $msg : '',
+				'STATUS'			 				=> $status,
+				'INSTALLED_VERSION'	 	=> @$config['version_' . $code_name],
+				'DOWNLOAD'			 			=> $download,
+				'B_PAY'				 				=> $pay,
 			));
 		}
-
 	}
 
 	/**
 	 * XML parser
-	 *
-	 * Rozparsování xml souboru do pole
-	 * Převzato z {@link http://startrekguide.com/community/viewtopic.php?f=87&t=3584 [MODDB]MOD Version Check 1.0.2}
-	 * Pro PHP < 5.0.0
-	 *
+	 * Parse xml into field
+	 * From {@link http://startrekguide.com/community/viewtopic.php?f=87&t=3584 [MODDB]MOD Version Check 1.0.2}
+	 * For PHP < 5.0.0
 	 * @param string $xml XML data
 	 * @param boolean $get_attributes Vrátit atributy xml tagů
 	 * @param string $priority
@@ -1789,10 +1700,8 @@ class snFunctions
 
 	/**
 	 * Converts a simpleXML element into an array. Preserves attributes and everything.
-	 * You can choose to get your elements either flattened, or stored in a custom index that
-	 * you define.
-	 * For example, for a given element
-	 * <field name="someName" type="someType"/>
+	 * You can choose to get your elements either flattened, or stored in a custom index that you define.
+	 * For example, for a given element <field name="someName" type="someType"/>
 	 * if you choose to flatten attributes, you would get:
 	 * $array['field']['name'] = 'someName';
 	 * $array['field']['type'] = 'someType';
@@ -1830,19 +1739,20 @@ class snFunctions
 	 */
 	function _simpleXMLToArray($xml, $flattenValues = true, $flattenAttributes = true, $flattenChildren = true, $valueKey = '@value', $attributesKey = '@attributes', $childrenKey = '@children')
 	{
-
 		$return = array();
+		
 		if (!is_a($xml, 'SimpleXMLElement'))
 		{
 			return $return;
 		}
+		
 		$name = $xml->getName();
 		$_value = trim((string) $xml);
+		
 		if (strlen($_value) == 0)
 		{
 			$_value = null;
 		}
-		;
 
 		if ($_value !== null)
 		{
@@ -1908,7 +1818,6 @@ class snFunctions
 
 		return $return;
 	}
-
 }
 
 function snFunctions_absolutePath($matches)
@@ -1921,7 +1830,7 @@ function snFunctions_absolutePathString($string)
 {
 	global $phpbb_root_path, $config;
 
-	// WINDOWS SERVER FIX
+	// Windows server fix
 	$_phpbb_root_path = str_replace('\\', '/', $phpbb_root_path);
 	$_script_path = str_replace('//', '/', str_replace('\\', '/', $config['script_path']) . '/');
 	$path = preg_replace('#^' . preg_quote($_phpbb_root_path) . '#si', $_script_path, $string);
@@ -2035,7 +1944,6 @@ if (!function_exists('json_decode'))
 	 * */
 	function json_decode($json)
 	{
-		//
 		$comment = false;
 		$out = '$x=';
 
@@ -2123,7 +2031,6 @@ function sn_backtrace()
 		}
 		$msg .= '<strong style="color:#112299">$' . (isset($dg['class']) ? $dg['class'] . '->' : '') . $dg['function'] . '()</strong><br />';
 		$msg .= (isset($dg['file']) ? $dg['file'] : 'unknown file') . ' - ' . (isset($dg['line']) ? $dg['line'] : 'unknown line') . '<br />';
-		//print_r( $dg);
 		$msg .= '</li>';
 	}
 	$msg .= '</ol>';

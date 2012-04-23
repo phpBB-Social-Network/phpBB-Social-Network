@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 {
@@ -23,6 +23,7 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
 	include_once($phpbb_root_path . 'common.' . $phpEx);
 	include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
+	
 	// Start session management
 	$user->session_begin(false);
 	$auth->acl($user->data);
@@ -39,12 +40,12 @@ if (isset($socialnet) && defined('SN_FMS'))
 			'message'		 => array(),
 			'user_online'	 => 0,
 			'message'		 => array(),
-			'onlineCount'	 => 0
+			'onlineCount'	 => 0,
 		);
 
 		header('Content-type: application/json');
-		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		die(json_encode($ann_data));
 	}
 
@@ -70,10 +71,11 @@ if (isset($socialnet) && defined('SN_FMS'))
 			'limit'			 => - 1,
 			'user_id_field'	 => 'user_id',
 			'sql_content'	 => "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-								FROM " . SN_FMS_USERS_GROUP_TABLE . " fms_g, " . USERS_TABLE . " u
-								WHERE fms_g.user_id = u.user_id AND fms_g.owner_id = {$user->data['user_id']}
-									AND fms_g.fms_gid = {$gid}
-								ORDER BY u.username_clean ASC",
+													FROM " . SN_FMS_USERS_GROUP_TABLE . " fms_g, " . USERS_TABLE . " u
+														WHERE fms_g.user_id = u.user_id
+															AND fms_g.owner_id = {$user->data['user_id']}
+															AND fms_g.fms_gid = {$gid}
+													ORDER BY u.username_clean ASC",
 		));
 	}
 	else if ( $mode == 'friendprofiletab')
@@ -85,8 +87,7 @@ if (isset($socialnet) && defined('SN_FMS'))
 	{
 		$params = array_merge( $params, array(
 			'mode_short'		 => 'suggestion',
-			//'avatar_size'		 => 50,
-			'add_friend_link'	 => true
+			'add_friend_link'	 => true,
 		));
 		$params = array_merge( $params, $socialnet->fms_users_sqls('suggestion', $user->data['user_id']));
 		
@@ -101,9 +102,8 @@ if (isset($socialnet) && defined('SN_FMS'))
 	$data = $socialnet->fms_users($params);
 
 	header('Content-type: application/json');
-	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+	header("Cache-Control: no-cache, must-revalidate");
+	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 	die(json_encode($data));
-
 }
 ?>

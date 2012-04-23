@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -11,27 +11,12 @@
 include_once("{$phpbb_root_path}/includes/functions_display.{$phpEx}");
 include_once("{$phpbb_root_path}/includes/functions_privmsgs.{$phpEx}");
 
-/**
- * ucp Im php
- * @package FriendApproval
- */
-
-/**
- * @package FriendApproval
- */
 class ucp_approval
 {
 	var $p_master = null;
 	var $p_approval;
 	var $p_notify = null;
 
-	/**
-	 * Konstruktor
-	 *
-	 * @access private
-	 * @param object $p_master Pointer na parent objekt
-	 * @return void
-	 */
 	function ucp_approval(&$p_master)
 	{
 		global $socialnet;
@@ -41,9 +26,6 @@ class ucp_approval
 		$this->p_notify =& $socialnet->notify;
 	}
 
-	/**
-	 * Zakladni funkce na rozdeleni pro jednotlive casti modulu
-	 */
 	function main($id, $module)
 	{
 		$this->p_master->tpl_name = 'socialnet/ucp_approval_friends';
@@ -57,10 +39,6 @@ class ucp_approval
 		}
 	}
 
-	/**
-	 * UCP module Manage Friends
-	 *
-	 */
 	function friends($id, $mode)
 	{
 		global $template, $user, $db, $phpEx, $phpbb_root_path, $cache, $socialnet, $config;
@@ -74,15 +52,15 @@ class ucp_approval
 			$data = $error = array();
 
 			$var_ary = array(
-				'usernames'				 => array(0),
-				'approvals'				 => array(0),
-				'approvalsName'			 => array(),
-				'approve'				 => '',
-				'no_approve'			 => '',
-				'cancel_request'		 => array(0),
-				'cancel_request_submit'	 => '',
-				'add'					 => '',
-				'redirect'				 => base64_encode(append_sid("{$phpbb_root_path}mainpage.{$phpEx}")),
+				'usernames'				 				=> array(0),
+				'approvals'				 				=> array(0),
+				'approvalsName'			 			=> array(),
+				'approve'				 					=> '',
+				'no_approve'			 				=> '',
+				'cancel_request'		 			=> array(0),
+				'cancel_request_submit'	 	=> '',
+				'add'					 						=> '',
+				'redirect'				 				=> base64_encode(append_sid("{$phpbb_root_path}activitypage.{$phpEx}")),
 			);
 
 			foreach ($var_ary as $var => $default)
@@ -93,22 +71,13 @@ class ucp_approval
 
 			if (!empty($data['add']) || sizeof($data['usernames']) || sizeof($data['approvals']) || sizeof($data['cancel_request']))
 			{
-				/*
-				 * CONFIRM BOX - pouze pri mazani
-				 */
 				if (!confirm_box(true) && sizeof($data['usernames']))
 				{
 					confirm_box(false, $user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
 						'mode'		 => 'module_approval_' . $mode,
 						'submit'	 => true,
 						'usernames'	 => $data['usernames'],
-						//'approvals'				 => $data['approvals'],
-						//'approve'				 => $data['approve'],
-						//'no_approve'			 => $data['no_approve'],
-						//'cancel_request'		 => $data['cancel_request'],
-						//'cancel_request_submit'	 => $data['cancel_request_submit'],
-						//'add'					 => $data['add'],
-						'redirect'	 => base64_encode($data['redirect'])
+						'redirect'	 => base64_encode($data['redirect']),
 					)));
 				}
 				else
@@ -205,7 +174,7 @@ class ucp_approval
 							foreach ($data['approvals'] as $user_id)
 							{
 								$sql_update = "DELETE FROM " . ZEBRA_TABLE . "
-                                WHERE user_id = " . $user_id . "
+																WHERE user_id = " . $user_id . "
                                   AND zebra_id = " . $user->data['user_id'];
 								$db->sql_query($sql_update);
 								$socialnet->purge_friends($user_id);
@@ -214,9 +183,7 @@ class ucp_approval
 							}
 							$error[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
 							$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
-
-							// SEND NTF INFO ZE ZAMITNUTO
-							}
+						}
 					}
 
 					// Remove users
@@ -267,60 +234,59 @@ class ucp_approval
                                         AND approval = 1";
 							$db->sql_query($sql_cancel_request);
 							$socialnet->purge_friends($user_id);
-
 						}
 						$ntf_text = 'SN_NTF_FRIENDSHIP_CANCEL';
 						$this->p_notify->add(SN_NTF_FRIENDSHIP, $data['cancel_request'], array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 						$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
-
 					}
 
-					$cache->destroy('_snMpFriendsToKnow' . $user->data['user_id']);
-					//$template->assign_var('ERROR', implode('<br />', $error));
+					$cache->destroy('_snApFriendsToKnow' . $user->data['user_id']);
 
 					meta_refresh(3, $data['redirect']);
 					trigger_error(implode('<br />', $message) . '<br /><br />' . sprintf($user->lang['RETURN_PAGE'], '<a href="' . $data['redirect'] . '">', '</a>'));
 				}
 			}
-		} // FRIEND
+		}
+
+		// FRIEND
 		$socialnet->fms_users(array_merge(array(
-			'mode'			 => 'friend',
-			'checkbox'		 => 'usernames',
-			'limit'			 => $config['fas_friendlist_limit'],
-			'slider'		 => false,
-			'profile_link'	 => false,
+			'mode'			 		=> 'friend',
+			'checkbox'		 	=> 'usernames',
+			'limit'			 		=> $config['fas_friendlist_limit'],
+			'slider'		 		=> false,
+			'profile_link'	=> false,
 		), $socialnet->fms_users_sqls('friend', $user->data['user_id'])));
 
 		$s_username_approval_options = '';
 		$s_username_cancel_request_options = '';
+		
 		if ($mode == 'friends')
 		{
 			// APROVE
 			$socialnet->fms_users(array_merge(array(
-				'mode'			 => 'approve',
-				'checkbox'		 => 'approvals',
-				'slider'		 => false,
-				'profile_link'	 => false,
+				'mode'			 			=> 'approve',
+				'checkbox'		 		=> 'approvals',
+				'slider'		 			=> false,
+				'profile_link'	 	=> false,
 			), $socialnet->fms_users_sqls('approve', $user->data['user_id'])));
 
 			// CANCEL
 			$socialnet->fms_users(array_merge(array(
-				'mode'			 => 'cancel',
-				'checkbox'		 => 'cancel_request',
-				'slider'		 => false,
-				'profile_link'	 => false,
+				'mode'			 			=> 'cancel',
+				'checkbox'		 		=> 'cancel_request',
+				'slider'		 			=> false,
+				'profile_link'	 	=> false,
 			), $socialnet->fms_users_sqls('cancel', $user->data['user_id'])));
 		}
 
 		$s_hidden_fields = build_hidden_fields(array('redirect' => request_var('redirect', base64_encode($this->p_master->u_action))));
 
 		$template->assign_vars(array(
-			'S_MODE'			 => 'approval_' . $mode,
-			'L_TITLE'			 => $user->lang['UCP_ZEBRA_' . $l_mode],
-			'U_FIND_USERNAME'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=searchuser&amp;form=ucp&amp;field=add'),
-			//'S_USERNAME_OPTIONS' => $s_username_options,
-			'S_HIDDEN_FIELDS'	 => $s_hidden_fields,
-			'U_ACTION'			 => $this->p_master->u_action,
+			'S_MODE'			 				=> 'approval_' . $mode,
+			'L_TITLE'			 				=> $user->lang['UCP_ZEBRA_' . $l_mode],
+			'U_FIND_USERNAME'	 		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=searchuser&amp;form=ucp&amp;field=add'),
+			'S_HIDDEN_FIELDS'	 		=> $s_hidden_fields,
+			'U_ACTION'			 			=> $this->p_master->u_action,
 		));
 	}
 
@@ -470,7 +436,7 @@ class ucp_approval
 					$sql_ary[] = array(
 						'user_id'	 => (int) $user->data['user_id'],
 						'zebra_id'	 => (int) $zebra_id,
-						$sql_mode	 => 1
+						$sql_mode	 => 1,
 					);
 				}
 
@@ -478,7 +444,6 @@ class ucp_approval
 
 				if ($sql_mode == 'approval')
 				{
-					// POSLI NTF REQUEST
 					$link = "ucp.{$phpEx}?i=socialnet&amp;mode=module_approval_friends";
 					$ntf_text = 'SN_NTF_FRIENDSHIP_REQUEST';
 					$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id_ary, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
@@ -516,10 +481,7 @@ class ucp_approval
 	}
 
 	/**
-	 * Odeslání PM při žádosti přátelství
-	 *
-	 * @param integer $send_to Komu má být poslána zpráva
-	 * @return void
+	 * Send PM
 	 */
 	function send_pm($send_to)
 	{
@@ -560,15 +522,14 @@ class ucp_approval
 	}
 
 	/**
-	 * Odeslání emailu při žádosti ořátelství
-	 * -Prozatím nepoužito
+	 * Send email
 	 */
 	function send_mail($user_lang, $user_email, $username, $user_jabber, $user_notify_type)
 	{
 		global $messenger, $user, $config;
 
 		$messenger = new messenger();
-		$messenger->template('new_ad', $user_lang); // treba vytvorit txt subor v languages/en/email
+		$messenger->template('new_ad', $user_lang);
 		$messenger->to($user_email, $username);
 		$messenger->im($user_jabber, $username);
 
@@ -607,7 +568,6 @@ class ucp_approval
 			if (!empty($data['add']))
 			{
 				// CREATE GROUP
-
 				$sql = "SELECT MAX(fms_gid) AS max_id FROM " . SN_FMS_GROUPS_TABLE . " WHERE user_id = {$user->data['user_id']}";
 				$rs = $db->sql_query($sql);
 				$max_id = (int) $db->sql_fetchfield('max_id');
@@ -649,17 +609,17 @@ class ucp_approval
 		{
 			$row = $rowset[$i];
 			$template->assign_block_vars('ufg', array(
-				'GID'	 => $row['fms_gid'],
-				'NAME'	 => $row['fms_name'],
-				'CLEAN'	 => $row['fms_clean'],
-				'COUNT'	 => $row['count']
+				'GID'	 			=> $row['fms_gid'],
+				'NAME'	 		=> $row['fms_name'],
+				'CLEAN'	 		=> $row['fms_clean'],
+				'COUNT'	 		=> $row['count'],
 			));
 		}
 
 		$socialnet->fms_users(array_merge(array(
-			'mode'	 => 'friend',
-			'slider' => false,
-			'limit'	 => 20,
+			'mode'	 		=> 'friend',
+			'slider' 		=> false,
+			'limit'	 		=> 20,
 		), $socialnet->fms_users_sqls('friend', $user->data['user_id'])));
 	}
 }

@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -18,7 +18,6 @@ if (!defined('IN_PHPBB') || !defined('SOCIALNET_INSTALLED'))
 
 $socialnet_root_path = $phpbb_root_path . 'socialnet/';
 
-// Load neccessary scripts
 /**
  * @ignore
  */
@@ -38,19 +37,9 @@ closedir( $dir);
 
 include_once($socialnet_root_path . 'includes/functions.' . $phpEx);
 
-
-
-/**
- * Main class of Social Network for phpBB
- *
- * @package Socialnet
- */
 class socialnet extends snFunctions
 {
 	var $notify = null, $comments = null, $addons = null;
-	/**
-	 * @var array
-	 */
 	var $periods = array(
 		"SECOND",
 		"MINUTE",
@@ -59,11 +48,8 @@ class socialnet extends snFunctions
 		"WEEK",
 		"MONTH",
 		"YEAR",
-		"DECADE"
+		"DECADE",
 	);
-	/**
-	 * @var array
-	 */
 	var $lengths = array(
 		"60",
 		"60",
@@ -71,12 +57,9 @@ class socialnet extends snFunctions
 		"7",
 		"4.35",
 		"12",
-		"10"
+		"10",
 	);
 
-	/**
-	 * @var array $config pointer to $config
-	 */
 	var $config = array();
 	var $socialnet_root_path = '';
 	var $modules = array();
@@ -97,7 +80,7 @@ class socialnet extends snFunctions
 		'username'		 => array(),
 		'friends'		 => array(),
 		'sex'			 => array(),
-		'colourNames'	 => array()
+		'colourNames'	 => array(),
 	);
 	var $groups = array();
 
@@ -118,12 +101,6 @@ class socialnet extends snFunctions
 		$this->config =& $config;
 
 		// Extend Config data;
-		/**
-		 $sql = "SELECT config_value FROM " . SN_CONFIG_TABLE . " WHERE config_name = 'sn_global_enable'";
-		 $result = $db->sql_query($sql);
-		 $row = $db->sql_fetchrow($result);
-		 $config['sn_global_enable'] = $row['config_value'];
-		 */
 		$sql = "SELECT config_name, config_value FROM " . SN_CONFIG_TABLE . " WHERE config_name <> 'sn_global_enable'";
 
 		$result = $db->sql_query($sql);
@@ -140,19 +117,13 @@ class socialnet extends snFunctions
 				$enable_modules[$moduleName] = ($row['config_value'] == 1 ? true : false) && ($config['sn_global_enable'] == 1);
 
 				/* DOCASNE ODEBRANO - OPRAVNENI POUZIT MODUL */
-				$permission_allow = $user->data['is_registered'] == 1 || $row['config_name'] == 'module_mainpage';
+				$permission_allow = ($user->data['is_registered'] == 1 || $row['config_name'] == 'module_activitypage') ? true : false;
 
 				if ($this->_permission_exists('u_sn_' . $module_match[1]))
 				{
 					$permission_allow = $auth->acl_get('u_sn_' . $module_match[1]);
 				}
 
-				/*
-				 if (isset($user->data['user_sn_module_' . $module_match[1]]) && $user->data['user_sn_module_' . $module_match[1]] == 0)
-				 {
-				 $permission_allow = 0;
-				 }
-				 */
 				$this->existing[] = $module_match[1];
 
 				if (!defined('ADMIN_START') && $enable_modules[$moduleName] == 1 && $permission_allow == 1)
@@ -186,7 +157,6 @@ class socialnet extends snFunctions
 			}
 
 			// SN BLOCKS
-
 			if (preg_match('/^sn_block_(.*)$/si', $row['config_name'], $block_match))
 			{
 				$block_settings['B_' . strtoupper($row['config_name']) . '_ENABLED'] = $row['config_value'];
@@ -198,6 +168,7 @@ class socialnet extends snFunctions
 				$confirmBox_settings['S_' . strtoupper($row['config_name'])] = $row['config_value'];
 			}
 		}
+		
 		$this->load_friends();
 		$this->load_groups();
 
@@ -205,23 +176,23 @@ class socialnet extends snFunctions
 		$socialnet_web_path = ((defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? $board_url : $phpbb_root_path) . 'socialnet/';
 
 		$template->assign_vars(array_merge(array(
-			'B_SOCIALNET_ENABLED'				 => true,
-			'SOCIALNET_ROOT_PATH'				 => $socialnet_root_path,
-			'SOCIALNET_JS_PATH'					 => $socialnet_web_path . 'js/',
-			'T_SOCIALNET_JS_PATH'				 => $socialnet_web_path . 'js',
-			'T_SOCIALNET_STYLE_PATH'			 => $socialnet_web_path . 'styles',
-			'T_SOCIALNET_IMAGES_PATH'			 => $socialnet_web_path . 'styles/images',
-			'T_SOCIALNET_CSS_PATH'				 => $socialnet_web_path . 'styles/css',
-			'COOKIE_NAME'						 => $config['cookie_name'],
-			'COOKIE_PATH'						 => $config['cookie_path'],
-			'COOKIE_DOMAIN'						 => $config['cookie_domain'],
-			'COOKIE_SECURE'						 => $config['cookie_secure'],
-			'U_SN_MAINPAGE'						 => append_sid("{$phpbb_root_path}mainpage.$phpEx"),
-			'S_ON_' . strtoupper($this->script_name)									 => true,
-			'I_SN_BLOCK_ONLINE_USERS_CHECK_TIME' => $this->config['block_uo_check_every'] * 1000,
-			'B_AJAX_LOAD_ALLOW'					 => $config['board_disable'] == 0 ? 'true' : 'false',
-			'I_POST_MIN_CHARS'					 => $config['min_post_chars'],
-			'U_SN_MY_PROFILE'					 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u={$user->data['user_id']}")
+			'B_SOCIALNET_ENABLED'				 							=> true,
+			'SOCIALNET_ROOT_PATH'				 							=> $socialnet_root_path,
+			'SOCIALNET_JS_PATH'					 							=> $socialnet_web_path . 'js/',
+			'T_SOCIALNET_JS_PATH'				 							=> $socialnet_web_path . 'js',
+			'T_SOCIALNET_STYLE_PATH'			 						=> $socialnet_web_path . 'styles',
+			'T_SOCIALNET_IMAGES_PATH'			 						=> $socialnet_web_path . 'styles/images',
+			'T_SOCIALNET_CSS_PATH'				 						=> $socialnet_web_path . 'styles/css',
+			'COOKIE_NAME'						 									=> $config['cookie_name'],
+			'COOKIE_PATH'						 									=> $config['cookie_path'],
+			'COOKIE_DOMAIN'												 		=> $config['cookie_domain'],
+			'COOKIE_SECURE'						 								=> $config['cookie_secure'],
+			'U_SN_ACTIVITYPAGE'						 						=> append_sid("{$phpbb_root_path}activitypage.$phpEx"),
+			'S_ON_' . strtoupper($this->script_name)	=> true,
+			'I_SN_BLOCK_ONLINE_USERS_CHECK_TIME'			=> $this->config['block_uo_check_every'] * 1000,
+			'B_AJAX_LOAD_ALLOW'					 							=> $config['board_disable'] == 0 ? 'true' : 'false',
+			'I_POST_MIN_CHARS'					 							=> $config['min_post_chars'],
+			'U_SN_MY_PROFILE'					 								=> append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u={$user->data['user_id']}"),
 		), $enable_modules, $confirmBox_settings, $block_settings));
 
 		$this->_calc_bbcodeFlags();
@@ -242,18 +213,21 @@ class socialnet extends snFunctions
 		if (!isset($friends) || empty($friends) || !isset($friends['user_id']) || empty($friends['user_id']) || in_array(ANONYMOUS, $friends['user_id']))
 		{
 			$sql = "SELECT u.user_id, u.username, su.sex
-				    FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u, " . SN_USERS_TABLE . " AS su
-    				WHERE z.user_id = {$user_id} AND z.zebra_id = u.user_id AND su.user_id = z.zebra_id AND z.friend = 1";
+				    		FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u, " . SN_USERS_TABLE . " AS su
+    							WHERE z.user_id = {$user_id}
+										AND z.zebra_id = u.user_id
+										AND su.user_id = z.zebra_id
+										AND z.friend = 1";
 			$rs = $db->sql_query($sql);
 			$rowset = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);
 
 			$friends = array(
-				'user_id'		 => array(),
-				'usernames'		 => array(),
-				'friends'		 => array(),
-				'sex'			 => array(),
-				'colourNames'	 => array(),
+				'user_id'		 		=> array(),
+				'usernames'		 	=> array(),
+				'friends'		 		=> array(),
+				'sex'			 			=> array(),
+				'colourNames'	 	=> array(),
 			);
 
 			for ($i = 0; isset($rowset[$i]); $i++)
@@ -306,9 +280,9 @@ class socialnet extends snFunctions
 		if (empty($groups))
 		{
 			$sql = "SELECT DISTINCT g.fms_gid, g.fms_name, g.fms_collapse, ug.user_id
-				FROM " . SN_FMS_GROUPS_TABLE . " AS g LEFT OUTER JOIN " . SN_FMS_USERS_GROUP_TABLE . " AS ug ON g.fms_gid = ug.fms_gid AND g.user_id = ug.owner_id AND ug.owner_id = {$user_id}
-				WHERE g.user_id = {$user_id}
-				ORDER BY g.fms_name";
+								FROM " . SN_FMS_GROUPS_TABLE . " AS g LEFT OUTER JOIN " . SN_FMS_USERS_GROUP_TABLE . " AS ug ON g.fms_gid = ug.fms_gid AND g.user_id = ug.owner_id AND ug.owner_id = {$user_id}
+									WHERE g.user_id = {$user_id}
+								ORDER BY g.fms_name";
 			$result = $db->sql_query($sql);
 			$rowset = $db->sql_fetchrowset($result);
 			$db->sql_freeresult($result);
@@ -319,9 +293,9 @@ class socialnet extends snFunctions
 				if (!isset($groups[$gu['fms_gid']]))
 				{
 					$groups[$gu['fms_gid']] = array(
-						'name'		 => $gu['fms_name'],
-						'collapse'	 => $gu['fms_collapse'],
-						'users'		 => array()
+						'name'		 		=> $gu['fms_name'],
+						'collapse'	 	=> $gu['fms_collapse'],
+						'users'		 		=> array(),
 					);
 				}
 
@@ -335,7 +309,6 @@ class socialnet extends snFunctions
 		}
 
 		$this->groups = $groups;
-
 	}
 
 	function purge_groups($user_id = 0)
@@ -356,7 +329,7 @@ class socialnet extends snFunctions
 
 	/**
 	 * Run start script for any active module of Social Network
-	 * Mainpage module must be loaded as latest module if enabled
+	 * Activity page module must be loaded as latest module if enabled
 	 * @ example class: socialnet_im function socialnet_im
 	 * @return void
 	 */
@@ -381,23 +354,20 @@ class socialnet extends snFunctions
 
 		if (sizeOf($this->modules) != 0)
 		{
-
-			if (in_array('mainpage', $this->modules))
+			if (in_array('activitypage', $this->modules))
 			{
 				$this->modules = array_diff($this->modules, array(
-					'mainpage'
+					'activitypage',
 				));
-				$this->modules[] = 'mainpage';
+				$this->modules[] = 'activitypage';
 			}
 
 			foreach ($this->modules as $idx => $module)
 			{
-
 				$module_class = 'socialnet_' . $module;
 				$this->modules_obj[$module] = new $module_class($this);
 			}
 		}
-
 	}
 
 	/**
@@ -484,7 +454,6 @@ class socialnet extends snFunctions
 				{
 					$avatar_width = (int) ceil($avatar_width * ($max_height / $avatar_height));
 					$avatar_height = $max_height;
-
 				}
 			}
 			else
@@ -522,6 +491,7 @@ class socialnet extends snFunctions
 		}
 
 		$snFunctions_avatars[$avatar . $max_height] = '<span class="' . $add_class . '" style="width:' . $avatar_width . 'px;height:' . $avatar_height . 'px;' . $add_style . '">' . $user_avatar . '</span>';
+
 		return $snFunctions_avatars[$avatar . $max_height];
 	}
 
@@ -556,7 +526,7 @@ class socialnet extends snFunctions
 					return '';
 				}
 				$avatar_img = $phpbb_root_path . "download/file.$phpEx?avatar=";
-				break;
+			break;
 
 			case AVATAR_GALLERY:
 				if (!$config['allow_avatar_local'] && !$ignore_config)
@@ -564,14 +534,14 @@ class socialnet extends snFunctions
 					return '';
 				}
 				$avatar_img = $phpbb_root_path . $config['avatar_gallery_path'] . '/';
-				break;
+			break;
 
 			case AVATAR_REMOTE:
 				if (!$config['allow_avatar_remote'] && !$ignore_config)
 				{
 					return '';
 				}
-				break;
+			break;
 		}
 
 		$avatar_img .= $avatar;
@@ -584,8 +554,8 @@ class socialnet extends snFunctions
 		global $cache, $user, $db;
 
 		$sql = "SELECT u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-				FROM " . USERS_TABLE . " AS u
-				WHERE u.user_id = {$user_id}";
+							FROM " . USERS_TABLE . " AS u
+								WHERE u.user_id = {$user_id}";
 		$rs = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($rs);
 		$db->sql_freeresult($rs);
@@ -795,11 +765,11 @@ class socialnet extends snFunctions
 		$now = time();
 
 		$sql_arr = array(
-			'user_id'			 => $user_id,
-			'entry_target'		 => $target,
-			'entry_type'		 => $type,
-			'entry_time'		 => $now,
-			'entry_additionals'	 => serialize($additionals),
+			'user_id'			 				=> $user_id,
+			'entry_target'		 		=> $target,
+			'entry_type'		 			=> $type,
+			'entry_time'		 			=> $now,
+			'entry_additionals'	 	=> serialize($additionals),
 		);
 
 		$sql = "INSERT INTO " . SN_ENTRIES_TABLE . $db->sql_build_array('INSERT', $sql_arr);
@@ -871,7 +841,7 @@ class socialnet extends snFunctions
 				global $db;
 
 				$sql = 'SELECT bbcode_id, bbcode_tag, second_pass_match
-              FROM ' . BBCODES_TABLE;
+              		FROM ' . BBCODES_TABLE;
 				$result = $db->sql_query($sql, 3600);
 
 				while ($row = $db->sql_fetchrow($result))
@@ -968,7 +938,7 @@ class socialnet extends snFunctions
 		$unsafe_tags = array(
 			array('<', '>'),
 			array('[quote=&quot;', "&quot;:$uid]"), // 3rd parameter true here too for now
-			);
+		);
 
 		// If bitfield is given only check for those tags that are surely existing in the text
 		if (!empty($bitfield))
@@ -1064,7 +1034,7 @@ class socialnet extends snFunctions
 	{
 		global $template, $user, $config, $phpbb_root_path, $phpEx;
 
-		$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network">phpBB Social Network</a> ' . $config['version_socialNet'] . ' Kamahl &amp; Culprit &copy; 2010, 2011';
+		$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network">phpBB Social Network</a> ' . $config['version_socialNet'] . ' Kamahl &amp; Culprit &copy; 2010-2012';
 		if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
 		{
 			$template->_tpldata['.'][0]['TRANSLATION_INFO'] = '';
@@ -1086,14 +1056,6 @@ class socialnet extends snFunctions
 				$this->_version_checker(array('host' => 'update.phpbb3hacks.com', 'directory' => '/socialnet', 'filename' => 'sn_modules.xml'));
 			}
 
-			if ($module->p_class == 'acp' && $module->p_name == 'main' && $module->p_mode == 'main')
-			{
-				/*print '<pre>';
-				 unset($template->_tpldata);
-				 unset($template->_rootref);
-				 print_r( $template);
-				 die( __FILE__ . ' ' . __LINE__);*/
-			}
 			return;
 		}
 
@@ -1129,9 +1091,7 @@ class socialnet extends snFunctions
 				$this->modules_obj[$module]->hook_template();
 			}
 		}
-
 	}
-
 }
 
 ?>

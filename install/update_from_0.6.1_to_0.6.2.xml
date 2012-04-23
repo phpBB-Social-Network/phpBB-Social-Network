@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
+	<header>
+		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>
+		<meta name="generator" content="MODX file generated with PP MODX Creator 1.0.1 by tumba25 (offline version)"/>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		<title lang="en"><![CDATA[phpBB Social Network]]></title>
+		<description lang="en"><![CDATA[The phpBB3 Social Network is modification for phpBB3 boards, which turns your board to full valued social network software. This modification is modular based, it means admin can switch on/off each module. phpBB3 Social Network will create your own small "Facebook" page with all main features of social network such as : extended profiles with all informations about person, personal galleries, user statuses with comments, Friends approval system with friendlist, main page looking like facebook main page, private Instant messenger, creating events and inviting others, writing own blogs, notifications about your friends activities, "sharing" and "likeing" and even more.
+
+The phpBB3 Social Network 0.6.2 includes these modules:
+1. Extended User Profiles - includes Wall (statuses), personal information, list of friends and family, user statistics and much more
+2. User status / Wall - adds Wall to the profile of all users. Users can add their own statuses and others can comment them
+3. Instant Messenger - adds private chat similar to Facebook chat with many features
+4. Friends Management System - adds management system for friends. Users can send the request if they want to add a friend, then the request has to be approved by the other side
+5. Friends Groups - possibility to create groups of friends. In next versions users will be able to add some special permissions to these groups
+6. Main Page - the page similar to Facebook main page. It means it collects new updates about statuses, comments, friendships, profil updates etc. from all your friends
+7. Notifications - displays a pop-up bubble with notification about new commentes or request / confirm friendships]]></description>
+		<author-notes lang="en"><![CDATA[Updating from 0.6.1 to 0.6.2 has just 4 simple steps:
+1) copy all files from the root/ file to your FTP root path and rewrite old files
+2) follow edit instructions below
+3) run socialnet/update_database.php in your browser
+4) purge the cache and refresh template and skin via ACP
+
+Feel free to ask for support or more modules here http://socialnetwork.phpbb3hacks.com/]]></author-notes>
+		<author-group>
+			<author>
+				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>
+				<homepage><![CDATA[http://www.phpbb3hacks.com/]]></homepage>
+				<contributions-group>
+					<contributions status="current" from="2010-02-01" position="Developer"/>
+				</contributions-group>
+			</author>
+			<author>
+				<realname><![CDATA[Jan Kalach]]></realname>
+				<username phpbbcom="no"><![CDATA[Culprit]]></username>
+				<homepage><![CDATA[http://socialnetwork.phpbb3hacks.com/]]></homepage>
+				<contributions-group>
+					<contributions status="current" from="2010-06-01" position="Developer"/>
+				</contributions-group>
+			</author>
+		</author-group>
+		<mod-version>0.6.2</mod-version>
+		<installation>
+			<level>easy</level>
+			<time>300</time>
+			<target-version>3.0.9</target-version>
+		</installation>
+		<history>
+			<entry>
+				<date>2011-02-03</date>
+				<rev-version>0.5.0</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Initial release - it includes these modules: private instant messenger, user wall with statuses and comments, mainpage looking like Facebook mainpage, Friends approval system with friendlist.]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-02-22</date>
+				<rev-version>0.5.1</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Option to log in / log out from Instant Messenger]]></change>
+					<change><![CDATA[Lower load for IM]]></change>
+					<change><![CDATA[Option to swith on/off sound via IM online list]]></change>
+					<change><![CDATA[Option to chat with all members of the board, not only friends]]></change>
+					<change><![CDATA[Corected English language]]></change>
+					<change><![CDATA[Changed look of Friendlist and Friends management]]></change>
+					<change><![CDATA[Added "Add as a friend" to the block People you may know on Mainpage]]></change>
+					<change><![CDATA[Option in ACP to hide notices about new friendships from Mainpage]]></change>
+					<change><![CDATA[Notification bout new message in the name of page if you have opened another aplication or page]]></change>
+					<change><![CDATA[Canceled mainpage header, now we use original overall_header.html for Mainpage]]></change>
+					<change><![CDATA[Fixed problem with allowing Friends approval system via ACP]]></change>
+					<change><![CDATA[Fixed sound after receiving a message]]></change>
+					<change><![CDATA[Fixed bug with nicknames]]></change>
+					<change><![CDATA[Renamed jquery cookies plugin due to incompatibility with some servers]]></change>
+					<change><![CDATA[Fixed missing language variables for Confirm Box]]></change>
+					<change><![CDATA[Fixed problem with seting max number of recent discussions]]></change>
+					<change><![CDATA[Fixed bug with smilies]]></change>
+					<change><![CDATA[Fixed bug installation script]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-03-17</date>
+				<rev-version>0.5.2</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Improved DB loading time]]></change>
+					<change><![CDATA[Added pagination to Friend list in user profile]]></change>
+					<change><![CDATA[Fixed copyright]]></change>
+					<change><![CDATA[Fixed CSS - IM overwrites page footer]]></change>
+					<change><![CDATA[Adding friends is more simple]]></change>
+					<change><![CDATA[Purging IM history]]></change>
+					<change><![CDATA[Purging IM Chatboxes]]></change>
+					<change><![CDATA[Added View chat history]]></change>
+					<change><![CDATA[Added link to profile in chat window]]></change>
+					<change><![CDATA[Added image to see your IM status online/offline]]></change>
+					<change><![CDATA[Fixed loading MP online list]]></change>
+					<change><![CDATA[Allow to user change sound of incoming messages via UCP]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-05-11</date>
+				<rev-version>0.6.0</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[IM: When the page loads scrollDown ChatBox]]></change>
+					<change><![CDATA[MP:: Board index the url wrong (viewtopic.php?f=21&t=298)]]></change>
+					<change><![CDATA[MP:: Online Sheet does not open chat window when you're offline.]]></change>
+					<change><![CDATA[SN: Who is online again shows who's where]]></change>
+					<change><![CDATA[SN: Improved display of avatars (Windows), the path "\/"]]></change>
+					<change><![CDATA[SN: Repair check reveals new version of the SN module]]></change>
+					<change><![CDATA[FAS: It is already the request and attempt another request. General Error (viewtopic.php?f=21&t=364)]]></change>
+					<change><![CDATA[IM:: View Avatar when the page loads, if you are not a standard forum page as UCP, SEARCH, ETC.]]></change>
+					<change><![CDATA[SO, IM:: Closing the button status when entering the online list and clicking the status (tracker.php?p=4&t=93)]]></change>
+					<change><![CDATA[IM: hidden users'forum (Friends not appearing in chat box?)]]></change>
+					<change><![CDATA[SN: Loading module SN, Loading News ...]]></change>
+					<change><![CDATA[ADD: Notify module]]></change>
+					<change><![CDATA[US: By fetch page description can be changed by user]]></change>
+					<change><![CDATA[MP: Logged out -> Board link corrected]]></change>
+					<change><![CDATA[IM: FIX: Delivering offline message]]></change>
+					<change><![CDATA[IM: Automatic messages delete option]]></change>
+					<change><![CDATA[US: Friends can share on friend wall - Notify added]]></change>
+					<change><![CDATA[NTF: Link fixed by posting notify to commment to friends wall]]></change>
+					<change><![CDATA[US: Friends can share on friend wall]]></change>
+					<change><![CDATA[US,MP: Fetch button - URL placed using mouse]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-11-07</date>
+				<rev-version>0.6.1</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[[FEATURE] new user profiles]]></change>
+					<change><![CDATA[[FEATURE] added many profile fields for information about user to UCP]]></change>
+					<change><![CDATA[[FEATURE] possibility to add users as family members or relationship partners]]></change>
+					<change><![CDATA[[FEATURE] possibility to create groups from your friends]]></change>
+					<change><![CDATA[[FEATURE] reporting users]]></change>
+					<change><![CDATA[[FEATURE] possibility to switch on / off all blocks on Mainpage via ACP]]></change>
+					<change><![CDATA[[FEATURE] fully cutomizable menu via ACP for Mainpage]]></change>
+					<change><![CDATA[[FEATURE] display all profile changes and other friend's activity on Mainpage]]></change>
+					<change><![CDATA[[FEATURE] switch on/off coloured usernames on Wall and Mainpage via ACP]]></change>
+					<change><![CDATA[[FEATURE] display all People you may know on mainpage]]></change>
+					<change><![CDATA[[FEATURE] display mutual friends in user profile]]></change>
+					<change><![CDATA[[FEATURE] export Instane Messenger history to .txt file]]></change>
+					<change><![CDATA[[FEATURE] hide Mainpage for guest via ACP]]></change>
+					<change><![CDATA[[FEATURE] administrator will receive a PM after releasing the new version of Social Network MOD]]></change>
+					<change><![CDATA[[FEATURE] purging statuses, comments and friends via ACP]]></change>
+					<change><![CDATA[[CHANGE] improved notifications - added profile image, user profile link]]></change>
+					<change><![CDATA[[CHANGE] sort friends in Online list according to your Friends groups]]></change>
+					<change><![CDATA[[CHANGE] loading friends with ajax]]></change>
+					<change><![CDATA[[CHANGE] improved and faster instant messenger]]></change>
+					<change><![CDATA[[CHANGE] removed adding the status via notifications page]]></change>
+					<change><![CDATA[[CHANGE] improved instructions how to set mainpage.php as a index page via ACP]]></change>
+					<change><![CDATA[[CHANGE] improved fetching urls on Wall]]></change>
+					<change><![CDATA[[CHANGE] improved checking the newest version of Social Network MOD]]></change>
+					<change><![CDATA[[FIX] optimized for phpbb 3.0.9]]></change>
+					<change><![CDATA[[FIX] renamed table indexes]]></change>
+					<change><![CDATA[[FIX] Instant messenger optimized for mobile devices]]></change>
+					<change><![CDATA[[FIX] dont display mutual friends twice]]></change>
+					<change><![CDATA[[FIX] corrected languages in notifications]]></change>
+					<change><![CDATA[[FIX] online list optimized for RTL languages]]></change>
+					<change><![CDATA[[FIX] disable buttons in Friends management when no user selected]]></change>
+					<change><![CDATA[[FIX] dont display Mainpage if board is disabled]]></change>
+					<change><![CDATA[[FIX] count number of days to birthday correctly]]></change>
+					<change><![CDATA[[FIX] center narrow profile images on Wall and Mainpage]]></change>
+					<change><![CDATA[[FIX] added languages for log in ACP]]></change>
+					<change><![CDATA[[FIX] changed font size to be the same on all pages]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-12-28</date>
+				<rev-version>0.6.2</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[[FIX] js error on profile]]></change>
+					<change><![CDATA[[FIX] duplicate entries after Load new]]></change>
+					<change><![CDATA[[FIX] birthday date bug]]></change>
+					<change><![CDATA[[FIX] improved IM css]]></change>
+					<change><![CDATA[[FIX] html bugs]]></change>
+					<change><![CDATA[[FIX] fixed bugs in People you may know block]]></change>
+					<change><![CDATA[[FIX] fixed bugs in Birthday block]]></change>
+					<change><![CDATA[[FIX] fixed bugs in fetching]]></change>
+					<change><![CDATA[[FIX] fixed bug with unicode characters]]></change>
+					<change><![CDATA[[FIX] improved loging in via Mainpage]]></change>
+					<change><![CDATA[[FIX] colourde username in My profile block]]></change>
+					<change><![CDATA[[FIX] added css for RTL]]></change>
+					<change><![CDATA[[FIX] fixed captcha on Mainpage]]></change>
+					<change><![CDATA[[FIX] missing langiage variable No friends]]></change>
+					<change><![CDATA[[CHANGE] added wall_id parameter to function post_status()]]></change>
+					<change><![CDATA[[FEATURE] editing personal information via user profile]]></change>
+				</changelog>
+			</entry>
+		</history>
+	</header>
+	<action-group>
+		<copy>
+			<file from="root/*.*" to="*.*"/>
+		</copy>
+		<php-installer><![CDATA[socialnet/update_database.php]]></php-installer>
+		<diy-instructions lang="en"><![CDATA[When you copy all new files to your board, do all edits above and run installation via update_database.php, do not forget to clear the cache and refresh your template. Then set up the user permissions.]]></diy-instructions>
+	</action-group>
+</mod>

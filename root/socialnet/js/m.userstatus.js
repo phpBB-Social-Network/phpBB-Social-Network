@@ -132,9 +132,9 @@
 						},
 						success : function(data) {
 							$('.sn-us-noStatus').remove();
-							$('.sn-mp-noEntry').remove();
-							if ($('.sn-mp-loadNewsOver').size() != 0) {
-								$(data).hide().insertAfter('.sn-mp-loadNewsOver').slideDown('slow');
+							$('.sn-ap-noEntry').remove();
+							if ($('.sn-ap-loadNewsOver').size() != 0) {
+								$(data).hide().insertAfter('.sn-ap-loadNewsOver').slideDown('slow');
 							} else {
 								$(data).hide().prependTo('#sn-us-profile').slideDown('slow');
 							}

@@ -20,7 +20,7 @@
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.notify.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.approval.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.userstatus.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.mainpage.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.activitypage.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.profile.js"></script>
 <script type="text/javascript">
 // <![CDATA[
@@ -50,7 +50,7 @@ jQuery(document).ready(function($){
 			us : '{SN_MODULE_USERSTATUS_ENABLED}' == '1',
 			ntf : '{SN_MODULE_NOTIFY_ENABLED}' == '1',
 			fms : '{SN_MODULE_APPROVAL_ENABLED}' == '1',
-			mp : '{SN_MODULE_MAINPAGE_ENABLED}' == '1' && '{S_ON_MAINPAGE}' == 1 && '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
+			ap : '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == 1 && '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
 			up : '{SN_MODULE_PROFILE_ENABLED}' == '1'
 		},
 		comments : {
@@ -132,16 +132,16 @@ jQuery(document).ready(function($){
 <!-- ENDIF -->
 // ## USER STATUS -=- END ##
 
-// ## MAIN PAGE -=- START ##
-<!-- IF SN_MODULE_MAINPAGE_ENABLED and S_ON_MAINPAGE and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
-	$.sn.mp.init({
-		url : '{SOCIALNET_ROOT_PATH}mainpage.php',
+// ## ACTIVITY PAGE -=- START ##
+<!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
+	$.sn.ap.init({
+		url : '{SOCIALNET_ROOT_PATH}activitypage.php',
 		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
 		tikTakOnline : {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
 		urlUsersAutocomplete: '{U_USERS_AUTOCOMPLETE}'
 	});
 <!-- ENDIF -->
-// ## MAIN PAGE -=- END ##
+// ## ACTIVITY PAGE -=- END ##
 
 // ## PROFILE -=- START ##
 <!-- IF SN_MODULE_PROFILE_ENABLED -->

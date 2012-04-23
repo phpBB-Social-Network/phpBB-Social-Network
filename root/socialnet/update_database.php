@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -18,10 +18,8 @@ define('UMIL_AUTO', true);
 define('IN_PHPBB', true);
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './../';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
-/**
- * Default phpBB common file
- */
 include_once($phpbb_root_path . 'common.' . $phpEx);
+
 $user->session_begin();
 $auth->acl($user->data);
 $user->setup();
@@ -309,7 +307,7 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'fas_friendlist_limit', 'config_value' => '20')),
 			array(SN_CONFIG_TABLE, array('config_name' => 'mp_num_last_topics', 'config_value' => '10')),
 		),
-
+		
 		'module_add'		 => array(
 			array('ucp', 'UCP_SOCIALNET', array(
 				'module_basename'	 => 'socialnet',
@@ -381,7 +379,6 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'mp_display_welcome', 'config_value' => '0', 'is_dynamic' => 0)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_msg_purged_automatic_time', 'config_value' => '0')),
 		),
-
 	),
 
 	'0.6.0.9'	 => array(
@@ -487,19 +484,6 @@ $versions = array(
 					'b'	 => array('INDEX', array('fms_gid')),
 				),
 			)),
-			/*array(SN_SUBSCRIPTIONS_TABLE, array(
-			 'COLUMNS'		 => array(
-			 'id'				 => array('UINT', NULL, 'auto_increment'),
-			 'user_id'			 => array('UINT', '0'),
-			 'subscribed_uid'	 => array('UINT', '0'),
-			 'approved'	 => array('TINT:1', '0'),
-			 ),
-			 'PRIMARY_KEY'	 => array('id'),
-			 'KEY'			 => array(
-			 'a'	 => array('user_id'),
-			 'b'	 => array('subscribed_uid'),
-			 ),
-			 )),  */
 		),
 
 		'table_column_add' => array(
@@ -530,7 +514,7 @@ $versions = array(
 			array(SN_USERS_TABLE, 'profile_last_change', array('UINT:11', 0)),
 			array(SN_ENTRIES_TABLE, 'entry_additionals', array('TEXT', '')),
 		),
-
+		
 		'table_row_insert' => array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'mp_hide_for_guest', 'config_value' => 0)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_colour_username', 'config_value' => 0)),
@@ -568,7 +552,7 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'up_enable_subscriptions', 'config_value' => 1)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'up_alert_relation_pm', 'config_value' => '0')),
 		),
-
+		
 		'permission_add' => array(
 			array('m_sn_close_reports', true),
 		),
@@ -639,7 +623,6 @@ $versions = array(
 		),
 
 		'custom'	 => 'phpbb_SN_umil_auto',
-
 	),
 
 	'0.6.2'		 => array(
@@ -737,7 +720,6 @@ $versions = array(
 
 	'0.6.2.6'	 => array(
 		'custom' => 'phpbb_SN_umil_0_6_2_6',
-
 	),
 
 	'0.6.2.7'	 => array(
@@ -792,6 +774,10 @@ $versions = array(
 			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab info')),
 		),
 	),
+	
+	'0.6.2.8'	 => array(
+		'custom' => 'phpbb_SN_umil_0_6_2_8',
+	),
 		
 );
 
@@ -832,7 +818,6 @@ function phpbb_SN_umil_auto($action, $version)
 		{
 			$db->sql_query("UPDATE " . SN_STATUS_TABLE . " SET wall_id = poster_id");
 		}
-
 	}
 }
 
@@ -858,7 +843,6 @@ function phpbb_SN_umil_0_6_2_4($action, $version)
 	$return_status = '';
 	if ($umil->table_exists(SN_COMMENTS_TABLE) && $umil->table_exists(SN_STATUS_COMMENTS_TABLE) && $action != 'uninstall')
 	{
-
 		if ((int) $module_id == 0)
 		{
 			$db->sql_query("INSERT INTO " . SN_COMMENTS_MODULES_TABLE . " (cmtmd_name) VALUE ('userstatus')");
@@ -875,7 +859,6 @@ function phpbb_SN_umil_0_6_2_4($action, $version)
 		$umil->table_remove(SN_STATUS_COMMENTS_TABLE);
 
 		$return_status = "- updated";
-
 	}
 	else if ($action == 'uninstall')
 	{
@@ -885,8 +868,9 @@ function phpbb_SN_umil_0_6_2_4($action, $version)
 		}
 
 		$sql = "INSERT INTO " . SN_STATUS_COMMENTS_TABLE . " (comment_time, status_id, poster_id, comment_text, bbcode_bitfield, bbcode_uid)
-				SELECT cmt_time AS comment_time, cmt_mid AS status_id, cmt_poster AS poster_id, cmt_text AS comment_text, bbcode_bitfield, bbcode_uid
-					FROM " . SN_COMMENTS_TABLE . " WHERE cmt_module = '{$module_id}'";
+							SELECT cmt_time AS comment_time, cmt_mid AS status_id, cmt_poster AS poster_id, cmt_text AS comment_text, bbcode_bitfield, bbcode_uid
+								FROM " . SN_COMMENTS_TABLE . "
+									WHERE cmt_module = '{$module_id}'";
 		$db->sql_query($sql);
 		$return_status = "- reverted back";
 	}
@@ -951,11 +935,32 @@ function phpbb_SN_umil_0_6_2_6($action, $version)
 
 		$db->sql_query('ALTER TABLE ' . SN_FMS_USERS_GROUP_TABLE . ' DROP PRIMARY KEY');
 		$db->sql_query('ALTER TABLE ' . SN_FMS_USERS_GROUP_TABLE . ' ADD PRIMARY KEY (fms_gid, user_id, owner_id)');
-
 	}
 	return 'Social Network::FMS Groups updated' . $return_status;
 }
 
+function phpbb_SN_umil_0_6_2_8($action, $version)
+{
+	global $db;
+	
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_show_new_friendships" WHERE config_name = "mp_show_new_friendships"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_num_last_topics" WHERE config_name = "mp_num_last_topics"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_display_welcome" WHERE config_name = "mp_display_welcome"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_hide_for_guest" WHERE config_name = "mp_hide_for_guest"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_colour_username" WHERE config_name = "mp_colour_username"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_show_profile_updated" WHERE config_name = "mp_show_profile_updated"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_show_new_family" WHERE config_name = "mp_show_new_family"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_show_new_relationship" WHERE config_name = "mp_show_new_relationship"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_num_last_posts" WHERE config_name = "mp_num_last_posts"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_max_profile_value" WHERE config_name = "mp_max_profile_value"');
+	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "module_activitypage" WHERE config_name = "module_mainpage"');
+	
+	$db->sql_query('UPDATE ' . SN_ADDONS_PLACEHOLDER_TABLE . ' SET ph_script = "activitypage" WHERE ph_id = 1');
+	$db->sql_query('UPDATE ' . SN_ADDONS_PLACEHOLDER_TABLE . ' SET ph_script = "activitypage" WHERE ph_id = 2');
+	$db->sql_query('UPDATE ' . SN_ADDONS_PLACEHOLDER_TABLE . ' SET ph_script = "activitypage" WHERE ph_id = 3');
+	
+	$db->sql_query('UPDATE ' . MODULES_TABLE . ' SET module_langname = "ACP_SN_ACTIVITYPAGE_SETTINGS", module_mode = "module_activitypage" WHERE module_mode = "module_mainpage"');
+}
 
 /**
  * Function for table rename by install/update
@@ -970,7 +975,6 @@ function phpBB_SN_rename_table($action, $version)
 			sql_rename_table($value);
 		}
 	}
-
 }
 
 /**
@@ -994,27 +998,26 @@ function sql_rename_table($new_name)
 	{
 		switch ($db->sql_layer)
 		{
-		case 'firebird':
-		case 'postgres':
-		case 'oracle':
-		case 'sqlite':
-		case 'mysql_40':
-		case 'mysql_41':
-		case 'mysqli':
-		case 'mysql':
-		case 'mysql4':
-			$sql = "ALTER TABLE {$old_name} RENAME TO {$new_name}";
+			case 'firebird':
+			case 'postgres':
+			case 'oracle':
+			case 'sqlite':
+			case 'mysql_40':
+			case 'mysql_41':
+			case 'mysqli':
+			case 'mysql':
+			case 'mysql4':
+				$sql = "ALTER TABLE {$old_name} RENAME TO {$new_name}";
 			break;
 
-		case 'mssql':
-		case 'mssqlnative':
-			$sql = "EXEC sp_rename '{$old_name}', '{$new_name}'";
+			case 'mssql':
+			case 'mssqlnative':
+				$sql = "EXEC sp_rename '{$old_name}', '{$new_name}'";
 			break;
 		}
 
 		$db->sql_query($sql);
 	}
-
 }
 
 ?>

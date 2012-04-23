@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -35,16 +35,6 @@ if (!defined('SOCIALNET_INSTALLED'))
 
 if (!class_exists('socialnet_notify'))
 {
-
-	/**
-	 * Notify Module
-	 * Notify module generates popup windows that inform users about updates to the board.
-	 *
-	 * @since 0.6.0
-	 * @access public
-	 * @author Culprit <jankalach@gmail.com>
-	 *
-	 */
 	class socialnet_notify
 	{
 		var $p_master = null;
@@ -71,24 +61,21 @@ if (!class_exists('socialnet_notify'))
 
 			$this->ntf_check_MARK();
 
-			$this->ntf_mp_show();
+			$this->ntf_ap_show();
 
 			$template->assign_vars(array(
-				'U_VIEW_NOTIFY'				 => append_sid("{$phpbb_root_path}mainpage.$phpEx", 'mode=notify'),
-				'S_SN_USER_UNREAD_NOTIFY'	 => $this->ntf_notify_count(),
-				'S_SN_NTF_THEME'			 => $config['ntf_theme'],
-				'SN_NTF_LIFE'				 => $config['ntf_life'] * 1000,
-				'SN_NTF_CHECKTIME'			 => $config['ntf_checktime'] * 1000
+				'U_VIEW_NOTIFY'				 			=> append_sid("{$phpbb_root_path}activitypage.$phpEx", 'mode=notify'),
+				'S_SN_USER_UNREAD_NOTIFY'		=> $this->ntf_notify_count(),
+				'S_SN_NTF_THEME'			 			=> $config['ntf_theme'],
+				'SN_NTF_LIFE'				 				=> $config['ntf_life'] * 1000,
+				'SN_NTF_CHECKTIME'			 		=> $config['ntf_checktime'] * 1000,
 			));
-
 		}
 
 		/**
 		 * socialnet_norify::load
 		 * Function is called by ajax function from page.
 		 * Main function for generating the popups
-		 *
-		 * @author Culprit <jankalach@gmail.com>
 		 * @access public
 		 * @return void
 		 */
@@ -111,7 +98,9 @@ if (!class_exists('socialnet_notify'))
 				/**
 				 * DELETE NOTIFY - Not Implemented in PAGE
 				 */
-				$sql = "DELETE FROM " . SN_NOTIFY_TABLE . " WHERE ntf_user = '{$user->data['user_id']}' AND ntf_id = '{$ntf_id}'";
+				$sql = "DELETE FROM " . SN_NOTIFY_TABLE . "
+									WHERE ntf_user = '{$user->data['user_id']}'
+										AND ntf_id = '{$ntf_id}'";
 
 				$db->sql_return_on_error(true);
 				$return = array();
@@ -143,16 +132,17 @@ if (!class_exists('socialnet_notify'))
 				);
 
 				$sql = "SELECT ntf.*, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, u.user_colour
-						FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
-						WHERE " . implode(" AND ", $sql_where) . " AND ntf.ntf_poster = u.user_id
-						ORDER BY ntf.ntf_time DESC";
-
+									FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
+										WHERE " . implode(" AND ", $sql_where) . "
+											AND ntf.ntf_poster = u.user_id
+									ORDER BY ntf.ntf_time DESC";
 				$rs = $db->sql_query($sql);
 				$rowset = $db->sql_fetchrowset($rs);
 				$db->sql_freeresult($rs);
 
-				$sql = "UPDATE " . SN_NOTIFY_TABLE . " SET ntf_read = " . SN_NTF_STATUS_DISPLAYED . ", ntf_change = {$this->time}
-				WHERE " . implode(" AND ", $sql_where);
+				$sql = "UPDATE " . SN_NOTIFY_TABLE . "
+									SET ntf_read = " . SN_NTF_STATUS_DISPLAYED . ", ntf_change = {$this->time}
+										WHERE " . implode(" AND ", $sql_where);
 				$db->sql_query($sql);
 
 				$ntf_return = array();
@@ -187,15 +177,12 @@ if (!class_exists('socialnet_notify'))
 				$ntf_return['cnt'] = $this->ntf_notify_count();
 				die(json_encode($ntf_return));
 			}
-
 		}
 
 		/**
 		 * socialnet_notify::ntf_check_FAMILY
 		 * The function is called when creating a module, check and create the appropriate notification to the user.
 		 * Notification relating to "user added as a family member"
-		 *
-		 * @author Kamahl <kamahl19@gmail.com>
 		 * @access private
 		 * @return void
 		 */
@@ -213,7 +200,7 @@ if (!class_exists('socialnet_notify'))
 				'text'	 => 'SN_NTF_APPROVE_FAMILY',
 				'user'	 => $user->data['username'],
 				'status' => $status,
-				'link'	 => $link
+				'link'	 => $link,
 			));
 		}
 
@@ -221,8 +208,6 @@ if (!class_exists('socialnet_notify'))
 		 * socialnet_notify::ntf_check_RELATIONSHIP
 		 * The function is called when creating a module, check and create the appropriate notification to the user.
 		 * Notification relating to "relationship has been created"
-		 *
-		 * @author Kamahl <kamahl19@gmail.com>
 		 * @access private
 		 * @return void
 		 */
@@ -238,32 +223,30 @@ if (!class_exists('socialnet_notify'))
 			$this->ntf_generate(SN_NTF_REALTION, $relative_user_id, array(
 				'text'	 => 'SN_NTF_APPROVE_RELATIONSHIP',
 				'user'	 => $user->data['username'],
-				'link'	 => $link
+				'link'	 => $link,
 			));
 		}
 
 		/**
-		 * socialnet_notify::ntf_mp_show
-		 * The function is called when creating a module for displaying user notifications on the mainpage.
-		 *
-		 * @author Culprit <jankalach@gmail.com>
+		 * socialnet_notify::ntf_ap_show
+		 * The function is called when creating a module for displaying user notifications on the Activity page.
 		 * @access private
 		 * @return void
 		 */
-		function ntf_mp_show()
+		function ntf_ap_show()
 		{
 			global $db, $phpbb_root_path, $phpEx, $template, $user;
 
-			if ($this->p_master->script_name == 'mainpage')
+			if ($this->p_master->script_name == 'activitypage')
 			{
 				$mode = request_var('mode', '');
 				if ($mode == 'notify')
 				{
 					$sql = "SELECT ntf.*, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, u.user_colour
-					FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
-					WHERE ntf_user = {$user->data['user_id']} AND ntf_poster = user_id
-					ORDER BY ntf_time DESC";
-
+										FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
+											WHERE ntf_user = {$user->data['user_id']}
+												AND ntf_poster = user_id
+										ORDER BY ntf_time DESC";
 					$rs = $db->sql_query($sql);
 					$rowset = $db->sql_fetchrowset($rs);
 					$db->sql_freeresult($rs);
@@ -287,32 +270,27 @@ if (!class_exists('socialnet_notify'))
 
 						$data['link'] = append_sid($phpbb_root_path . $ntf_link[0], $ntf_link[1]);
 
-						$template->assign_block_vars('mp_notify', array(
-							'NTF_ID'			 => $row['ntf_id'],
-							'DATA'				 => @vsprintf($user->lang[$text], $data),
-							'POSTER_AVATAR'		 => $poster_avatar,
-							'B_UNREAD'			 => $row['ntf_read'] > SN_NTF_STATUS_READ,
-							'U_POSTER_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
+						$template->assign_block_vars('ap_notify', array(
+							'NTF_ID'			 				=> $row['ntf_id'],
+							'DATA'				 				=> @vsprintf($user->lang[$text], $data),
+							'POSTER_AVATAR'		 		=> $poster_avatar,
+							'B_UNREAD'			 			=> $row['ntf_read'] > SN_NTF_STATUS_READ,
+							'U_POSTER_PROFILE'		=> $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
 						));
 					}
 
-					// MARK AS READ for SN_NTF_EMOTE;
+					// Mark as read for SN_NTF_EMOTE;
 					$this->ntf_mark(SN_NTF_STATUS_READ, SN_NTF_STATUS_UNREAD, $user->data['user_id'], 'SN_NTF_EMOTE');
 				}
 			}
-
 		}
 
 		/**
 		 * socialnet_notify::ntf_generate
 		 * Prepare and store into db notification rows
-		 *
-		 * @author Culprit <jankalach@gmail.com>
-		 * @access private
 		 * @param integer $type Type of notification
 		 * @param mixed $to_user ID user(s), which belongs the notification
 		 * @param array $data Notification data to be displayed
-		 * @return void
 		 */
 		function ntf_generate($type, $to_user, $data)
 		{
@@ -336,13 +314,9 @@ if (!class_exists('socialnet_notify'))
 		/**
 		 * socialnet_notify::ntf_prepare_sql
 		 * Prepare sql array for store into db notification row
-		 *
-		 * @author Culprit <jankalach@gmail.com>
-		 * @access private
 		 * @param integer $type Type of notification
 		 * @param indeget $to_user ID user, which belongs the notification
 		 * @param array $data Notification data to be displayed
-		 * @return array
 		 */
 		function ntf_prepare_sql($type, $to_user, $data)
 		{
@@ -354,21 +328,17 @@ if (!class_exists('socialnet_notify'))
 				'ntf_poster' => $user->data['user_id'],
 				'ntf_read'	 => SN_NTF_STATUS_NEW,
 				'ntf_change' => $this->time,
-				'ntf_data'	 => serialize($data)
+				'ntf_data'	 => serialize($data),
 			);
 		}
 
 		/**
 		 * socialnet_notify::mtf_mark
 		 * Change notification status from defined notification status to new notification status
-		 *
-		 * @author Culprit <jankalach@gmail.com>
-		 * @access private
 		 * @param integer $status New status of notfication
 		 * @param integer $from_status Old status of notofication. Default SN_NTF_STATUS_NEW
 		 * @param integer $user ID user, which belongs the notifications, 0 all users
 		 * @param string $for string that contain field ntf_data, almost NTF_TEXT string
-		 * @return void
 		 */
 		function ntf_mark($status, $from_status = SN_NTF_STATUS_NEW, $user = 0, $for = false)
 		{
@@ -386,37 +356,28 @@ if (!class_exists('socialnet_notify'))
 			}
 
 			$sql = "UPDATE " . SN_NOTIFY_TABLE . "
-					SET ntf_read = {$status}, ntf_change = '{$this->time}'
-					WHERE ntf_read >= {$from_status}
-						AND " . $sql_where;
-
+								SET ntf_read = {$status}, ntf_change = '{$this->time}'
+									WHERE ntf_read >= {$from_status}
+										AND " . $sql_where;
 			$db->sql_query($sql);
-
 		}
 
 		/**
 		 * socialnet_notify::mtf_mark
 		 * Change notification status from defined notification status to new notification status
-		 *
-		 * @author Culprit <jankalach@gmail.com>
-		 * @access private
 		 * @param integer $status New status of notfication
 		 * @param integer $from_status Old status of notofication. Default SN_NTF_STATUS_NEW
 		 * @param integer $user ID user, which belongs the notifications, 0 all users
-		 * @return void
 		 */
-
 		function ntf_markID($status, $from_status = SN_NTF_STATUS_NEW, $ntf = 0)
 		{
 			global $db;
 
 			$sql = "UPDATE " . SN_NOTIFY_TABLE . "
-			SET ntf_read = {$status}, ntf_change = '{$this->time}'
-			WHERE ntf_read >= {$from_status}
-			AND ntf_id = {$ntf}";
-
+								SET ntf_read = {$status}, ntf_change = '{$this->time}'
+									WHERE ntf_read >= {$from_status}
+										AND ntf_id = {$ntf}";
 			$db->sql_query($sql);
-
 		}
 
 		function ntf_check_MARK()
@@ -430,19 +391,16 @@ if (!class_exists('socialnet_notify'))
 			}
 
 			$sql = "UPDATE " . SN_NOTIFY_TABLE . "
-						SET ntf_read = " . SN_NTF_STATUS_READ . "
-						WHERE ntf_id = {$ntf_mark} AND ntf_user = {$user->data['user_id']}";
+								SET ntf_read = " . SN_NTF_STATUS_READ . "
+									WHERE ntf_id = {$ntf_mark}
+										AND ntf_user = {$user->data['user_id']}";
 			$db->sql_query($sql);
 		}
 
 		/**
 		 * socialnet_notify::ntf_delete
 		 * Delete user notification
-		 *
-		 * @author Culprit <jankalach@gmail.com>
-		 * @access private
 		 * @param integer $ntf_id ID of notification to be deleted. 0 delete all readed notification readed older than 1 day.
-		 * @return void
 		 */
 		function ntf_delete($ntf_id = 0)
 		{
@@ -456,15 +414,13 @@ if (!class_exists('socialnet_notify'))
 			{
 				$sql_where = "ntf_id = {$ntf_id}";
 			}
+			
 			$db->sql_query("DELETE FROM " . SN_NOTIFY_TABLE . " WHERE " . $sql_where);
-
 		}
 
 		/**
 		 * socialnet_notify::ntf_notify_count
 		 * Get count of new unread notification for current user
-		 *
-		 * @author Culprit <jankalach@gmail.com>
 		 * @access private
 		 * @param integer $status lowest ID notification status to be counted
 		 * @return integer Count of notifications with greater or equal ID status than $status
@@ -475,11 +431,10 @@ if (!class_exists('socialnet_notify'))
 			$sql_where = array(
 				"ntf_user = {$user->data['user_id']}",
 				"ntf_read >= " . $status,
-				//"ntf_time >= " . ( $this->time - $this->time_new),
-				);
+			);
 
 			$sql = "SELECT count(*) AS computed
-									FROM " . SN_NOTIFY_TABLE . "
+								FROM " . SN_NOTIFY_TABLE . "
 									WHERE " . implode(" AND ", $sql_where);
 			$rs = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($rs);
@@ -488,14 +443,14 @@ if (!class_exists('socialnet_notify'))
 		}
 
 		/**
-		 * Zasahni do linku a dej info o confirm boxu
-		 * -- DO NOT TOUCH THE CODE
+		 * Return info about confirm box
 		 */
 		function hook_template()
 		{
 			global $template, $user, $config, $phpbb_root_path, $phpEx;
 
 			return;
+			
 			$confirmBox = request_var('confirmBox', 0);
 			if ($confirmBox == 1)
 			{
@@ -517,7 +472,6 @@ if (!class_exists('socialnet_notify'))
 
 			if ($config['sn_cb_enable'])
 			{
-
 				// UCP
 				if (isset($template->_tpldata['.'][0]['S_FORM_TOKEN']))
 				{
@@ -535,7 +489,6 @@ if (!class_exists('socialnet_notify'))
 				if (isset($template->_tpldata['.'][0]['S_PM_ACTION']) && !preg_match('/confirmBox/si', $template->_tpldata['.'][0]['S_PM_ACTION']))
 				{
 					$template->_tpldata['.'][0]['S_PM_ACTION'] .= '&confirmBox=1';
-
 				}
 				// FORM ???
 				else if (isset($template->_tpldata['.'][0]['U_ACTION']))
@@ -549,6 +502,7 @@ if (!class_exists('socialnet_notify'))
 
 				array_walk_recursive($template->_tpldata, 'hook_template_confirmBox_URL_array_callback');
 			}
+			
 			if (1 == 0)
 			{
 				print '<pre>';
@@ -561,7 +515,6 @@ if (!class_exists('socialnet_notify'))
 
 if (!function_exists('hook_template_confirmBox_URL_array_callback'))
 {
-
 	function hook_template_confirmBox_URL_array_callback(&$item, $key)
 	{
 		if (!empty($item))
@@ -586,12 +539,12 @@ if (isset($socialnet) && defined('SN_NOTIFY'))
 			'user_id'	 => 'ANONYMOUS',
 			'del'		 => false,
 			'cnt'		 => 0,
-			'message'	 => array()
+			'message'	 => array(),
 		);
 
 		header('Content-type: application/json');
-		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		die(json_encode($ann_data));
 		return;
 	}

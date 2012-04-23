@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -45,10 +45,10 @@ class sn_core_addons
 		}
 
 		$sql = "SELECT ad.*, ph.ph_script, ph.ph_block
-		FROM " . SN_ADDONS_TABLE . " AS ad, " . SN_ADDONS_PLACEHOLDER_TABLE . " AS ph
-		WHERE ad.addon_placeholder = ph.ph_id AND ph.ph_script = '{$script}' {$sql_add}
-		ORDER BY ph.ph_block, ad.addon_order";
-
+							FROM " . SN_ADDONS_TABLE . " AS ad, " . SN_ADDONS_PLACEHOLDER_TABLE . " AS ph
+								WHERE ad.addon_placeholder = ph.ph_id
+									AND ph.ph_script = '{$script}' {$sql_add}
+							ORDER BY ph.ph_block, ad.addon_order";
 		$rs = $db->sql_query($sql);
 		$rowset = $db->sql_fetchrowset($rs);
 		$db->sql_freeresult($rs);
@@ -92,7 +92,6 @@ class sn_core_addons
 		}
 
 		$template->assign_vars($content);
-		
 	}
 
 	public function get_placeholder_name($script, $block)
@@ -104,7 +103,6 @@ class sn_core_addons
 		$block = preg_replace('/[^A-Z0-9]/si', '_', $block);
 
 		return sprintf(SN_ADDONS_PLACEHOLDER_CONTENT, $script, $block);
-
 	}
 
 	public function get_template_name($file, $function, $script, $block = null)
@@ -117,6 +115,7 @@ class sn_core_addons
 		}
 		$implode = array(preg_replace('/^addon_/si', '', $file), $function, $script, $block);
 		$template = implode('_', $implode) . '.html';
+		
 		return $template;
 	}
 }

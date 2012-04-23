@@ -64,7 +64,7 @@
 		enableModules : {
 			im : false,
 			us : false,
-			mp : false,
+			ap : false,
 			up : false,
 			ntf : false,
 			fms : false

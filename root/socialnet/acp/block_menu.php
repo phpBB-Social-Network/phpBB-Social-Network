@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 if (!defined('IN_PHPBB'))
 {
@@ -51,8 +51,8 @@ class acp_socialnet_block_menu
 					$db->sql_freeresult($result);
 
 					$sql = "SELECT button_name
-							FROM " . SN_MENU_TABLE . "
-							WHERE button_id = {$button_id}";
+										FROM " . SN_MENU_TABLE . "
+											WHERE button_id = {$button_id}";
 					$rs = $db->sql_query($sql);
 					$button_name = $db->sql_fetchfield($rs);
 					$db->sql_freeresult($rs);
@@ -60,6 +60,7 @@ class acp_socialnet_block_menu
 					$sql = 'DELETE FROM ' . SN_MENU_TABLE . '
 					 				  WHERE button_id = ' . $button_id;
 					$db->sql_query($sql);
+					
 					add_log('admin', 'LOG_CONFIG_SN_BLOCK_MENU_' . strtoupper($action), 'aaa' . $button_name);
 					redirect($this->p_master->u_action . '&amp;block=block_menu&amp;parent_id=' . $parent_id);
 				}
@@ -75,7 +76,7 @@ class acp_socialnet_block_menu
 					redirect($this->p_master->u_action . '&amp;block=block_menu&amp;parent_id=' . $parent_id);
 				}
 
-				break;
+			break;
 
 			case "add_button":
 
@@ -132,7 +133,7 @@ class acp_socialnet_block_menu
 					trigger_error($user->lang['BLOCK_MENU_BUTTON_ADDED'] . adm_back_link($this->p_master->u_action . '&amp;block=block_menu&amp;parent_id=' . $button_parent));
 				}
 
-				break;
+			break;
 
 			case "edit_button":
 
@@ -207,7 +208,7 @@ class acp_socialnet_block_menu
 					trigger_error($user->lang['BLOCK_MENU_BUTTON_EDITED'] . adm_back_link($this->p_master->u_action . '&amp;block=block_menu&amp;parent_id=' . $button_parent));
 				}
 
-				break;
+			break;
 
 			case 'move_up':
 			case 'move_down':
@@ -223,7 +224,7 @@ class acp_socialnet_block_menu
 				add_log('admin', 'LOG_CONFIG_SN_BLOCK_MENU_' . strtoupper($action), $row['button_name'], $button_moved_by);
 				redirect($this->p_master->u_action . '&amp;block=block_menu&amp;parent_id=' . $parent_id);
 
-				break;
+			break;
 
 			default:
 
@@ -275,7 +276,6 @@ class acp_socialnet_block_menu
 					'S_PARENT_ID'			 => $parent_id,
 				));
 		}
-
 	}
 }
 

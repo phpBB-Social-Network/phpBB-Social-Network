@@ -1,0 +1,21 @@
+<!-- BEGIN ap_notify -->
+<div class="sn-ap-textBlock sn-action-blockHidden sn-ntf-block<!-- IF ap_notify.B_UNREAD --> sn-ntf-unread<!-- ENDIF -->">
+    <div class="sn-actions">
+    	<!-- IF ap_notify.B_UNREAD --><div class="sn-ntf-markRead sn-action-check {ntf_id:{ap_notify.NTF_ID}}" title="Mark as read"></div><!-- ENDIF -->
+        <div class="sn-ntf-delete sn-action-delete-red {ntf_id:{ap_notify.NTF_ID}}" title="{L_DELETE}"></div>
+    </div>
+    <span class="sn-us-posterAvatar">
+        <a href="{ap_notify.U_POSTER_PROFILE}">
+        {ap_notify.POSTER_AVATAR}
+        </a>
+    </span>
+    {ap_notify.DATA}
+    <div class="clear">
+    </div>
+</div>
+<!-- END ap_notify -->
+<div class="sn-ntf-no-ntf"<!-- IF .ap_notify --> style="display:none"<!-- ENDIF -->>
+    {L_SN_NO_NOTIFY}
+</div>
+
+

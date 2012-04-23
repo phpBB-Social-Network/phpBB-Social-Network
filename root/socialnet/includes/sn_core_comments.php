@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -26,7 +26,6 @@ class sn_core_comments
 	 * Constructor
 	 * - load existing modules using cache
 	 */
-
 	public function sn_core_comments(&$p_master)
 	{
 		global $cache, $template, $phpbb_root_path, $user, $config;
@@ -43,7 +42,6 @@ class sn_core_comments
 			$t_imaset_path = preg_replace('#^' . preg_quote($_phpbb_root_path) . '#si', $_script_path, $t_imaset_path);
 			$template->assign_var('T_IMAGESET_PATH', $t_imaset_path);
 		}
-
 	}
 
 	/**
@@ -54,7 +52,6 @@ class sn_core_comments
 	 * @param $text Comment text
 	 * @return integer Comment ID
 	 */
-
 	public function add($module, $module_id, $poster, $text)
 	{
 		global $db;
@@ -77,16 +74,15 @@ class sn_core_comments
 		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
 
 		$sql = "INSERT INTO " . SN_COMMENTS_TABLE . " (cmt_module, cmt_mid, cmt_time, cmt_poster, cmt_text, bbcode_bitfield, bbcode_uid)
-		VALUES ({$cmt_module}, {$module_id}, {$this->time}, {$poster}, '" . $db->sql_escape($text) . "', '{$bitfield}','{$uid}')";
-
+							VALUES ({$cmt_module}, {$module_id}, {$this->time}, {$poster}, '" . $db->sql_escape($text) . "', '{$bitfield}','{$uid}')";
 		$db->sql_query($sql);
 
 		$sql = "SELECT cmt_id
-				FROM " . SN_COMMENTS_TABLE . "
-				WHERE cmt_module = {$cmt_module}
-					AND cmt_mid = {$module_id}
-					AND cmt_time = {$this->time}
-					AND cmt_poster = {$poster}";
+							FROM " . SN_COMMENTS_TABLE . "
+								WHERE cmt_module = {$cmt_module}
+									AND cmt_mid = {$module_id}
+									AND cmt_time = {$this->time}
+									AND cmt_poster = {$poster}";
 		$rs = $db->sql_query($sql);
 		$cmt_id = $db->sql_fetchfield('cmt_id');
 		$db->sql_freeresult($rs);
@@ -134,14 +130,11 @@ class sn_core_comments
 		$sql_where = '';
 		if ($limit == false && $cmt_id != 0)
 		{
-			// PRAVE JEDEN KOMMENT ZADANY POMOCI $CMT_ID
 			$sql_where = "AND cmt_id = '{$cmt_id}'";
 			$limit = 1;
 		}
 		else
 		{
-			// PRAVE TOLIK KOLIK JE V LIMITU
-			// cas commentu
 			if ($cmt_id != 0)
 			{
 				$sql = "SELECT cmt_time FROM " . SN_COMMENTS_TABLE . " WHERE cmt_id = {$cmt_id}";
@@ -157,7 +150,6 @@ class sn_core_comments
 				FROM " . SN_COMMENTS_TABLE . " AS cmt LEFT OUTER JOIN " . USERS_TABLE . " AS u ON cmt.cmt_poster = u.user_id
 				WHERE cmt_module = '{$cmt_module}' AND cmt_mid = '{$module_id}' {$sql_where}
 				ORDER BY cmt.cmt_time " . ($order ? 'ASC' : 'DESC');
-
 		$rs = $db->sql_query($sql, $limit + 1);
 		$rowset = $db->sql_fetchrowset($rs);
 		$db->sql_freeresult($rs);
@@ -197,36 +189,33 @@ class sn_core_comments
 			$comment_text_format = generate_text_for_display($row['cmt_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $this->p_master->bbCodeFlags);
 
 			$template->assign_block_vars('comment', array(
-				'COMMENT_ID'				 => $row['cmt_id'],
-				'POSTER_USERNAME'			 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'no_profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
-				'POSTER_USERNAME_NO_COLOR'	 => $row['username'],
-				'U_POSTER_PROFILE'			 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
-				'POSTER_AVATAR'				 => $avatar_img,
-				'TIME'						 => $this->p_master->time_ago($row['cmt_time']),
-				'TEXT'						 => $comment_text_format,
-				'DELETE_COMMENT'			 => ($auth->acl_get('a_') || ($row['cmt_poster'] == $user->data['user_id'])) ? true : false,
+				'COMMENT_ID'				 				=> $row['cmt_id'],
+				'POSTER_USERNAME'			 			=> $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'no_profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
+				'POSTER_USERNAME_NO_COLOR'	=> $row['username'],
+				'U_POSTER_PROFILE'			 		=> $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
+				'POSTER_AVATAR'				 			=> $avatar_img,
+				'TIME'						 					=> $this->p_master->time_ago($row['cmt_time']),
+				'TEXT'						 					=> $comment_text_format,
+				'DELETE_COMMENT'			 			=> ($auth->acl_get('a_') || ($row['cmt_poster'] == $user->data['user_id'])) ? true : false,
 			));
 		}
 
 		$template->assign_vars(array(
-			'SN_COMMENTS_MORE'					 => $cmt_more,
-			'B_LOAD_FIRST_USERSTATUS_COMMENTS'	 => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
-			'SN_COMMENT_MODULE'					 => $module,
-			'SN_CLASS_PREFIX'					 => $classPrefix,
-			'SN_CLASS_PREFIX_DOT'				 => preg_replace('/[^a-z0-9]/si', '.', $classPrefix),
-			'SN_COMMENT_MODULE_ID'				 => $module_id,
-			'B_SN_NOT_ONLY_COMMENT'				 => $only_comments,
+			'SN_COMMENTS_MORE'					 					=> $cmt_more,
+			'B_LOAD_FIRST_USERSTATUS_COMMENTS'		=> isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
+			'SN_COMMENT_MODULE'					 					=> $module,
+			'SN_CLASS_PREFIX'					 						=> $classPrefix,
+			'SN_CLASS_PREFIX_DOT'				 					=> preg_replace('/[^a-z0-9]/si', '.', $classPrefix),
+			'SN_COMMENT_MODULE_ID'				 				=> $module_id,
+			'B_SN_NOT_ONLY_COMMENT'				 				=> $only_comments,
 		));
 
 		$template->set_filenames(array('comments' => $this->commentTemplate));
 
 		$content = $this->p_master->get_page('comments');
 
-		//$content = $template->assign_display('comments');
-
 		$template->destroy_block_vars('comment');
 		return array('more' => $cmt_more, 'comments' => $content);
-
 	}
 
 	public function getField($module, $cmt_id, $field)
@@ -287,9 +276,9 @@ class sn_core_comments
 		$moduleName = $this->_moduleName($module);
 		return $this->modulesName[$moduleName];
 	}
+	
 	/**
 	 * Load existing modules from DB
-	 *
 	 * @param $force boolean Force load modules;
 	 */
 	private function _loadModules($force = false)
@@ -306,6 +295,7 @@ class sn_core_comments
 		{
 			$modules = array('ID' => array(), 'NAMES' => array());
 			$rowset = array();
+			
 			//READ MODULES FROM DB
 			$sql = "SELECT cmtmd_id, cmtmd_name FROM " . SN_COMMENTS_MODULES_TABLE;
 			$rs = $db->sql_query($sql);
@@ -327,7 +317,6 @@ class sn_core_comments
 	/**
 	 * Create a new comment module
 	 */
-
 	private function _addModule($moduleName)
 	{
 		global $db;

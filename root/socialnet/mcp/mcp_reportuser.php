@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 /**
  * @ignore
@@ -133,7 +133,6 @@ class mcp_reportuser
   	$message = $user->lang['SN_UP_'.strtoupper($action).'_REPORT'.((sizeof($report_id_list) == 1) ? '' : 'S').'_SUCCESS'] . '<br /><br />' . sprintf($user->lang['RETURN_PAGE'], '<a href="' . $redirect . '">', '</a>');
     trigger_error($message);
   }
-
 }
 
 ?>

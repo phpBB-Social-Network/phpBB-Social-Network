@@ -3,7 +3,7 @@
  *
  * @package phpBB Social Network
  * @version 0.6.3
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
@@ -13,10 +13,6 @@ if (!defined('SOCIALNET_INSTALLED') && !defined('IN_PHPBB'))
 	return;
 }
 
-/**
- * Admin class fro module User Profile for Social Network
- * @package User Profile
- */
 class acp_profile extends socialnet
 {
 	var $p_master = null;
@@ -33,20 +29,22 @@ class acp_profile extends socialnet
 		$manage = request_var('manage', '');
 
 		$template->assign_block_vars('sn_tabs', array(
-				'HREF'     => $this->p_master->u_action,
-				'SELECTED' => empty($manage) ? true : false,
-				'NAME'     => $user->lang['SETTINGS']
-			));
+			'HREF'     => $this->p_master->u_action,
+			'SELECTED' => empty($manage) ? true : false,
+			'NAME'     => $user->lang['SETTINGS']
+		));
+		
 		$template->assign_block_vars('sn_tabs', array(
-				'HREF'     => $this->p_master->u_action . '&amp;manage=reason',
-				'SELECTED' => $manage == 'reason' ? true : false,
-				'NAME'     => $user->lang['SN_PROFILE_REPORT_REASONS']
-			));
+			'HREF'     => $this->p_master->u_action . '&amp;manage=reason',
+			'SELECTED' => $manage == 'reason' ? true : false,
+			'NAME'     => $user->lang['SN_PROFILE_REPORT_REASONS']
+		));
+		
 		$template->assign_block_vars('sn_tabs', array(
-				'HREF'     => $this->p_master->u_action . '&amp;manage=emotes',
-				'SELECTED' => $manage == 'emotes' ? true : false,
-				'NAME'     => $user->lang['SN_PROFILE_MANAGE_EMOTES']
-			));
+			'HREF'     => $this->p_master->u_action . '&amp;manage=emotes',
+			'SELECTED' => $manage == 'emotes' ? true : false,
+			'NAME'     => $user->lang['SN_PROFILE_MANAGE_EMOTES']
+		));
 
 		if (empty($manage))
 		{
@@ -60,8 +58,7 @@ class acp_profile extends socialnet
 						'type'     => 'radio:yes_no',
 						'explain'  => true
 					),
-					//'up_enable_subscriptions'		 => array('lang' => 'SN_ENABLE_SUBSCRIPTIONS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
-					'mp_max_profile_value' => array(
+					'ap_max_profile_value' => array(
 						'lang'     => 'SN_MAX_PROFILE_VALUE',
 						'validate' => 'int:0:255',
 						'type'     => 'text:3:4',
@@ -90,9 +87,9 @@ class acp_profile extends socialnet
 		}
 
 		$template->assign_vars(array(
-				'B_ACP_SN_MANAGE_REASONS' => ($manage == 'reason' ? true : false),
-				'B_ACP_SN_MANAGE_EMOTES'  => ($manage == 'emotes' ? true : false)
-			));
+			'B_ACP_SN_MANAGE_REASONS' => ($manage == 'reason' ? true : false),
+			'B_ACP_SN_MANAGE_EMOTES'  => ($manage == 'emotes' ? true : false)
+		));
 
 		if ($manage == 'reason')
 		{
@@ -117,59 +114,61 @@ class acp_profile extends socialnet
 
 		switch ($action)
 		{
-		case "delete_reason":
-			if (confirm_box(true))
-			{
-				$sql = 'DELETE FROM ' . SN_REPORTS_REASONS_TABLE . '
-					WHERE reason_id = ' . $reason_id;
-				$db->sql_query($sql);
+			case "delete_reason":
+			
+				if (confirm_box(true))
+				{
+					$sql = 'DELETE FROM ' . SN_REPORTS_REASONS_TABLE . '
+										WHERE reason_id = ' . $reason_id;
+					$db->sql_query($sql);
 
-				trigger_error($user->lang['SN_PROFILE_REASON_DELETED'] . adm_back_link($this->p_master->u_action . '&amp;manage=reason'));
-			}
-			else
-			{
-				confirm_box(false, $user->lang['SN_PROFILE_DELETE_REASON_CONFIRM']);
-			}
+					trigger_error($user->lang['SN_PROFILE_REASON_DELETED'] . adm_back_link($this->p_master->u_action . '&amp;manage=reason'));
+				}
+				else
+				{
+					confirm_box(false, $user->lang['SN_PROFILE_DELETE_REASON_CONFIRM']);
+				}
 
-			redirect($this->p_master->u_action);
+				redirect($this->p_master->u_action);
 
 			break;
 
-		default:
-			$sql = 'SELECT reason_id, reason_text
-				FROM ' . SN_REPORTS_REASONS_TABLE . '
-				ORDER BY reason_id';
-			$result = $db->sql_query($sql);
+			default:
 
-			$counter = 0;
-			while ($row = $db->sql_fetchrow($result))
-			{
-				$template->assign_block_vars('reason', array(
-						'TEXT'     => $row['reason_text'],
-						'U_DELETE' => $this->p_master->u_action . '&amp;action=delete_reason&amp;manage=reason&amp;reason_id=' . $row['reason_id'],
-						'LINE'     => (($counter % 2) + 1)
-					));
-				$counter++;
-			}
-			$db->sql_freeresult($result);
+				$sql = 'SELECT reason_id, reason_text
+									FROM ' . SN_REPORTS_REASONS_TABLE . '
+										ORDER BY reason_id';
+				$result = $db->sql_query($sql);
 
-			$add_reason = (isset($_POST['add_reason'])) ? true : false;
-
-			if ($add_reason)
-			{
-				$reason_text = request_var('reason_text', '', true);
-
-				if ($reason_text == '')
+				$counter = 0;
+				while ($row = $db->sql_fetchrow($result))
 				{
-					redirect($this->p_master->u_action);
+					$template->assign_block_vars('reason', array(
+							'TEXT'     => $row['reason_text'],
+							'U_DELETE' => $this->p_master->u_action . '&amp;action=delete_reason&amp;manage=reason&amp;reason_id=' . $row['reason_id'],
+							'LINE'     => (($counter % 2) + 1),
+						));
+					$counter++;
 				}
+				$db->sql_freeresult($result);
 
-				$sql = 'INSERT INTO ' . SN_REPORTS_REASONS_TABLE . ' (reason_text)
-					VALUES ("' . $reason_text . '")';
-				$db->sql_query($sql);
+				$add_reason = (isset($_POST['add_reason'])) ? true : false;
 
-				trigger_error($user->lang['SN_PROFILE_REASON_ADDED'] . adm_back_link($this->p_master->u_action . '&amp;manage=reason'));
-			}
+				if ($add_reason)
+				{
+					$reason_text = request_var('reason_text', '', true);
+
+					if ($reason_text == '')
+					{
+						redirect($this->p_master->u_action);
+					}
+
+					$sql = 'INSERT INTO ' . SN_REPORTS_REASONS_TABLE . ' (reason_text)
+										VALUES ("' . $reason_text . '")';
+					$db->sql_query($sql);
+
+					trigger_error($user->lang['SN_PROFILE_REASON_ADDED'] . adm_back_link($this->p_master->u_action . '&amp;manage=reason'));
+				}
 		}
 
 	}
@@ -193,23 +192,24 @@ class acp_profile extends socialnet
 
 		switch ($action)
 		{
-		case 'add':
-		case 'edit':
-			$this->emote_edit($error);
+			case 'add':
+			case 'edit':
+				$this->emote_edit($error);
 			break;
 
-		case 'mdown':
-		case 'mup':
-			$this->emote_order($error, $action);
+			case 'mdown':
+			case 'mup':
+				$this->emote_order($error, $action);
 			break;
-		case 'delete':
-			$this->emote_delete($error);
+			
+			case 'delete':
+				$this->emote_delete($error);
 			break;
 		}
 
 		$sql = "SELECT *
-				FROM " . SN_EMOTES_TABLE . "
-				ORDER BY emote_order";
+						FROM " . SN_EMOTES_TABLE . "
+							ORDER BY emote_order";
 		$rs = $db->sql_query($sql);
 
 		while ($row = $db->sql_fetchrow($rs))
@@ -280,7 +280,7 @@ class acp_profile extends socialnet
 				$sql_ary = array(
 					'emote_name'  => $emote_name,
 					'emote_image' => $emote_image,
-					'emote_order' => 0
+					'emote_order' => 0,
 				);
 
 				if ($emote_id == 0)
@@ -352,7 +352,7 @@ class acp_profile extends socialnet
 		$template->assign_vars(array(
 			'EMOTE_ID'    => $emote_id,
 			'EMOTE_NAME'  => $emote_name,
-			'EMOTE_IMAGE' => $emote_image
+			'EMOTE_IMAGE' => $emote_image,
 		));
 	}
 

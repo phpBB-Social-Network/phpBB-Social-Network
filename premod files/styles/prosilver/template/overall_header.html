@@ -135,7 +135,7 @@
 			<div class="inner"><span class="corners-top"><span></span></span>
 
 			<ul class="linklist navlinks">
-			  <!-- IF SN_MODULE_MAINPAGE_ENABLED --><li class="icon-mainpage"><a href="{U_SN_MAINPAGE}">{L_SN_MP_MAINPAGE}</a><span id="sn-ntf-notify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->
+				<!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->
 				<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a> <!-- BEGIN navlinks --> <strong>&#8249;</strong> <a href="{navlinks.U_VIEW_FORUM}">{navlinks.FORUM_NAME}</a><!-- END navlinks --></li>
 
 				<li class="rightside"><a href="#" onclick="fontsizeup(); return false;" onkeypress="return fontsizeup(event);" class="fontsize" title="{L_CHANGE_FONT_SIZE}">{L_CHANGE_FONT_SIZE}</a></li>

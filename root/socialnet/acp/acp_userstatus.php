@@ -1,42 +1,27 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 if (!defined('SOCIALNET_INSTALLED') && !defined('IN_PHPBB'))
 {
 	return;
 }
 
-/**
- * Admin class for module User Status for Social Network
- * @package UserStatus
- */
-
 class acp_userstatus extends socialnet
 {
 	var $p_master;
 
-	/**
-	 * Constructor for this class
-	 * @param $p_master object Social Network class
-	 */
 	function acp_userstatus(&$p_master)
 	{
 		$this->p_master =& $p_master;
 	}
 
-	/**
-	 * Main function for User Status
-	 * Prepare config data for configuring
-	 * @param $id int phpBB variable
-	 * @return void
-	 */
 	function main($id)
 	{
 		global $config, $db, $user, $auth, $template;
@@ -45,11 +30,10 @@ class acp_userstatus extends socialnet
 		$display_vars = array(
 			'title'	 => 'ACP_SN_USERSTATUS_SETTINGS',
 			'vars'	 => array(
-				'legend1'						 => 'ACP_SN_USERSTATUS_SETTINGS',
-				//'userstatus_comments'			 => array('lang' => 'US_COMMENTS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
-				'userstatus_comments_load_last'	 => array('lang' => 'US_LOAD_LAST_USERSTATUS_COMMENTS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
-				'userstatus_override_cfg'		 => array('lang' => 'OVERRIDE_USER_SETTINGS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
-				'us_colour_username'			 => array('lang' => 'SN_COLOUR_NAME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+				'legend1'						 							=> 'ACP_SN_USERSTATUS_SETTINGS',
+				'userstatus_comments_load_last'		=> array('lang' => 'US_LOAD_LAST_USERSTATUS_COMMENTS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+				'userstatus_override_cfg'		 			=> array('lang' => 'OVERRIDE_USER_SETTINGS', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+				'us_colour_username'			 				=> array('lang' => 'SN_COLOUR_NAME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
 			)
 		);
 
@@ -79,10 +63,14 @@ class acp_userstatus extends socialnet
 				switch ($action)
 				{
 					case 'delete_comments':
+					
 						$sql = "DELETE FROM " . SN_STATUS_COMMENTS_TABLE . " WHERE poster_id = '{$user_id}'";
 						$db->sql_query($sql);
-						break;
+						
+					break;
+					
 					case 'delete_statuses':
+					
 						$sql = "SELECT status_id FROM " . SN_STATUS_TABLE . " WHERE poster_id = '{$user_id}'";
 						$rs = $db->sql_query($sql);
 						$rowset = $db->sql_fetchrowset($rs);
@@ -111,12 +99,12 @@ class acp_userstatus extends socialnet
 
 						$sql = "DELETE FROM " . SN_STATUS_TABLE . " WHERE $sql_in_set";
 						$db->sql_query($sql);
-						break;
+						
+					break;
 				}
 
 				add_log('admin', 'LOG_CONFIG_SN_USERSTATUS_BASICTOOLS_' . strtoupper($action), $username_);
 				trigger_error($user->lang[$user_tools[$action]]);
-
 			}
 			else if ($action == 'user_deleted')
 			{
@@ -140,7 +128,7 @@ class acp_userstatus extends socialnet
 				$commen_in_set = str_replace('status_id', 'entry_target', $sql_in_set);
 
 				$sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
-						WHERE entry_type IN (" . SN_TYPE_NEW_STATUS . ", " . SN_TYPE_NEW_STATUS_COMMENT . ") AND {$commen_in_set}";
+									WHERE entry_type IN (" . SN_TYPE_NEW_STATUS . ", " . SN_TYPE_NEW_STATUS_COMMENT . ") AND {$commen_in_set}";
 				$db->sql_query($sql);
 
 				$sql = "DELETE FROM " . SN_STATUS_COMMENTS_TABLE . " WHERE $sql_in_set";
@@ -164,7 +152,6 @@ class acp_userstatus extends socialnet
 		}
 
 		$template->assign_var('SN_BASICTOOLS_NEED_USERNAME', true);
-
 	}
 }
 

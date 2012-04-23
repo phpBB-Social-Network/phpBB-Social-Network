@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 {
@@ -23,6 +23,7 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
 	include_once($phpbb_root_path . 'common.' . $phpEx);
 	include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
+	
 	// Start session management
 	$user->session_begin(false);
 	$auth->acl($user->data);
@@ -31,13 +32,6 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 
 if (!class_exists('socialnet_approval'))
 {
-	/**
-	 * Socialnet_approval trida
-	 *
-	 * @package FriendApproval
-	 * @author Culprit
-	 */
-
 	class socialnet_approval
 	{
 		var $p_master = null;
@@ -54,7 +48,6 @@ if (!class_exists('socialnet_approval'))
 
 			if ($this->script_name == 'memberlist' && $mode == 'viewprofile')
 			{
-
 				$user_id = request_var('u', ANONYMOUS);
 				$username = request_var('un', '', true);
 
@@ -71,10 +64,10 @@ if (!class_exists('socialnet_approval'))
 					}
 				}
 
-				// Get user...
+				// Get user
 				$sql = 'SELECT *
-  							FROM ' . USERS_TABLE . '
-  							WHERE ' . (($username) ? "username_clean = '" . $db->sql_escape(utf8_clean_string($username)) . "'" : "user_id = $user_id");
+  								FROM ' . USERS_TABLE . '
+  									WHERE ' . (($username) ? "username_clean = '" . $db->sql_escape(utf8_clean_string($username)) . "'" : "user_id = $user_id");
 				$result = $db->sql_query($sql);
 				$member = $db->sql_fetchrow($result);
 				$db->sql_freeresult($result);
@@ -96,9 +89,7 @@ if (!class_exists('socialnet_approval'))
 						'add_friend_link'	 => true,
 					), $this->p_master->fms_users_sqls('friend', $user_id)));
 				}
-
 			}
-
 		}
 
 		function load()
@@ -106,17 +97,24 @@ if (!class_exists('socialnet_approval'))
 			global $template;
 			$mode = request_var('mode', '');
 
-			
 			$this->$mode();
+			
 			switch ($mode)
 			{
 				case 'memberlist':
+				
 					$template->set_filenames(array('body' => "socialnet/memberlist_viewprofile_friends.html"));
-					break;
+					
+				break;
+				
 				case 'mutual':
+				
 					$template->set_filenames(array('body' => "socialnet/memberlist_viewprofile_mutual.html"));
-					break;
+					
+				break;
+				
 				default:
+				
 					$template->set_filenames(array('body' => "socialnet/ucp_approval_block_{$mode}.html"));
 			}
 
@@ -124,7 +122,6 @@ if (!class_exists('socialnet_approval'))
 			header('Content-type: text/html; charset=UTF-8');
 			die($page);
 		}
-
 
 		function group()
 		{
@@ -135,27 +132,35 @@ if (!class_exists('socialnet_approval'))
 			$sub = request_var('sub', '');
 
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 			if ($gid == 0 || $uid == 0 || $sub == '')
 			{
-				die(json_encode(array('error' => 1, 'text' => "some user problem recognized\nReload Page using F5 or CTRL+F5")));
+				die(json_encode(array('error' => 1, 'text' => "some user problem occured\nReload page using F5 or CTRL+F5")));
 			}
 
 			switch ($sub)
 			{
 				case 'add':
+				
 					$sql = "INSERT INTO " . SN_FMS_USERS_GROUP_TABLE . " (fms_gid,user_id,owner_id) VALUES ({$gid},{$uid},{$user->data['user_id']})";
-					break;
+					
+				break;
+				
 				case 'remove':
+				
 					$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$uid}";
-					break;
+					
+				break;
+				
 				case 'delete':
+				
 					$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND owner_id = {$user->data['user_id']}";
 					$db->sql_query($sql);
 					$sql = "DELETE FROM " . SN_FMS_GROUPS_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$user->data['user_id']}";
-
+					
+				break;
 			}
 
 			$db->sql_query($sql);
@@ -173,10 +178,11 @@ if (!class_exists('socialnet_approval'))
 			$gid = request_var('gid', 0);
 
 			$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-						FROM " . SN_FMS_USERS_GROUP_TABLE . " fms_g, " . USERS_TABLE . " u
-						WHERE fms_g.user_id = u.user_id
-							AND fms_g.fms_gid = {$gid} AND fms_g.user_id = {$user->data['user_id']}
-						ORDER BY u.username_clean ASC";
+								FROM " . SN_FMS_USERS_GROUP_TABLE . " fms_g, " . USERS_TABLE . " u
+									WHERE fms_g.user_id = u.user_id
+										AND fms_g.fms_gid = {$gid}
+										AND fms_g.user_id = {$user->data['user_id']}
+								ORDER BY u.username_clean ASC";
 			$rs = $db->sql_query($sql);
 			$rowset = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);
@@ -198,21 +204,20 @@ if (!class_exists('socialnet_approval'))
 				}
 
 				$template->assign_block_vars('fas_friend', array(
-					'USER_ID'			 => $row[$user_id_field],
-					'USERNAME'			 => $this->p_master->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USER_PROFILE'		 => $this->p_master->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USERNAME_NO_COLOR'	 => $row['username'],
-					'U_PROFILE'			 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
-					'AVATAR'			 => $img_avatar,
+					'USER_ID'			 					=> $row[$user_id_field],
+					'USERNAME'			 				=> $this->p_master->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USER_PROFILE'		 			=> $this->p_master->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USERNAME_NO_COLOR'	 		=> $row['username'],
+					'U_PROFILE'			 				=> append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
+					'AVATAR'			 					=> $img_avatar,
 				));
 			}
 
 			$html = $this->p_master->get_page();
 			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode(array('html' => $html)));
-
 		}
 
 		function hook_template()
@@ -237,8 +242,7 @@ if (!function_exists('hook_template_approval_array_callback'))
 
 		$preg_match_profile = '/ucp\.' . $phpEx . '\?i=zebra([^"\']*?)/si';
 
-		if (preg_match($preg_match_profile, $item) && !preg_match('/mode=foes/si', $item)) //FOES ZATIM ZUSTAVAJI NA phpBB
-
+		if (preg_match($preg_match_profile, $item) && !preg_match('/mode=foes/si', $item))
 		{
 			$item = preg_replace($preg_match_profile, 'ucp.' . $phpEx . '?i=socialnet&amp;mode=module_approval_friends\2', $item);
 		}
@@ -255,17 +259,16 @@ if (isset($socialnet) && defined('SN_FAS'))
 			'message'		 => array(),
 			'user_online'	 => 0,
 			'message'		 => array(),
-			'onlineCount'	 => 0
+			'onlineCount'	 => 0,
 		);
 
 		header('Content-type: application/json');
-		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		die(json_encode($ann_data));
 	}
 
 	$socialnet->modules_obj['approval']->load();
-
 }
 
 ?>

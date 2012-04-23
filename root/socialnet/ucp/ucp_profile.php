@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 /**
  * @ignore
@@ -15,6 +15,7 @@ if (!defined('IN_PHPBB'))
 {
 	exit;
 }
+
 class ucp_profile
 {
 	var $p_master = null;
@@ -41,56 +42,56 @@ class ucp_profile
 				$row =& $user->data;
 
 				$data = array(
-					'hometown'			 => utf8_normalize_nfc(request_var('hometown', $row['hometown'], true)),
-					'sex'				 => request_var('sex', $row['sex']),
-					'interested_in'		 => request_var('interested_in', $row['interested_in']),
-					'languages'			 => utf8_normalize_nfc(request_var('languages', $row['languages'], true)),
-					'about_me'			 => utf8_normalize_nfc(request_var('about_me', $row['about_me'], true)),
-					'employer'			 => utf8_normalize_nfc(request_var('employer', $row['employer'], true)),
-					'university'		 => utf8_normalize_nfc(request_var('university', $row['university'], true)),
-					'high_school'		 => utf8_normalize_nfc(request_var('high_school', $row['high_school'], true)),
-					'religion'			 => utf8_normalize_nfc(request_var('religion', $row['religion'], true)),
-					'political_views'	 => utf8_normalize_nfc(request_var('political_views', $row['political_views'], true)),
-					'quotations'		 => utf8_normalize_nfc(request_var('quotations', $row['quotations'], true)),
-					'music'				 => utf8_normalize_nfc(request_var('music', $row['music'], true)),
-					'books'				 => utf8_normalize_nfc(request_var('books', $row['books'], true)),
-					'movies'			 => utf8_normalize_nfc(request_var('movies', $row['movies'], true)),
-					'games'				 => utf8_normalize_nfc(request_var('games', $row['games'], true)),
-					'foods'				 => utf8_normalize_nfc(request_var('foods', $row['foods'], true)),
-					'sports'			 => utf8_normalize_nfc(request_var('sports', $row['sports'], true)),
-					'sport_teams'		 => utf8_normalize_nfc(request_var('sport_teams', $row['sport_teams'], true)),
-					'activities'		 => utf8_normalize_nfc(request_var('activities', $row['activities'], true)),
-					'skype'				 => utf8_normalize_nfc(request_var('skype', $row['skype'], true)),
-					'facebook'			 => request_var('facebook', $row['facebook']),
-					'twitter'			 => request_var('twitter', $row['twitter']),
-					'youtube'			 => request_var('youtube', $row['youtube']),
+					'hometown'			 	=> utf8_normalize_nfc(request_var('hometown', $row['hometown'], true)),
+					'sex'				 			=> request_var('sex', $row['sex']),
+					'interested_in'		=> request_var('interested_in', $row['interested_in']),
+					'languages'			 	=> utf8_normalize_nfc(request_var('languages', $row['languages'], true)),
+					'about_me'				=> utf8_normalize_nfc(request_var('about_me', $row['about_me'], true)),
+					'employer'			 	=> utf8_normalize_nfc(request_var('employer', $row['employer'], true)),
+					'university'		 	=> utf8_normalize_nfc(request_var('university', $row['university'], true)),
+					'high_school'		 	=> utf8_normalize_nfc(request_var('high_school', $row['high_school'], true)),
+					'religion'			 	=> utf8_normalize_nfc(request_var('religion', $row['religion'], true)),
+					'political_views'	=> utf8_normalize_nfc(request_var('political_views', $row['political_views'], true)),
+					'quotations'		 	=> utf8_normalize_nfc(request_var('quotations', $row['quotations'], true)),
+					'music'				 		=> utf8_normalize_nfc(request_var('music', $row['music'], true)),
+					'books'				 		=> utf8_normalize_nfc(request_var('books', $row['books'], true)),
+					'movies'			 		=> utf8_normalize_nfc(request_var('movies', $row['movies'], true)),
+					'games'				 		=> utf8_normalize_nfc(request_var('games', $row['games'], true)),
+					'foods'				 		=> utf8_normalize_nfc(request_var('foods', $row['foods'], true)),
+					'sports'			 		=> utf8_normalize_nfc(request_var('sports', $row['sports'], true)),
+					'sport_teams'		 	=> utf8_normalize_nfc(request_var('sport_teams', $row['sport_teams'], true)),
+					'activities'		 	=> utf8_normalize_nfc(request_var('activities', $row['activities'], true)),
+					'skype'				 		=> utf8_normalize_nfc(request_var('skype', $row['skype'], true)),
+					'facebook'			 	=> request_var('facebook', $row['facebook']),
+					'twitter'			 		=> request_var('twitter', $row['twitter']),
+					'youtube'			 		=> request_var('youtube', $row['youtube']),
 				);
 
 				// display settings
 				$template->assign_vars(array(
-					'HOMETOWN'			 => $data['hometown'],
-					'SEX'				 => $data['sex'],
-					'INTERESTED_IN'		 => $data['interested_in'],
-					'LANGUAGES'			 => $data['languages'],
-					'ABOUT_ME'			 => $data['about_me'],
-					'EMPLOYER'			 => $data['employer'],
-					'UNIVERSITY'		 => $data['university'],
-					'HIGH_SCHOOL'		 => $data['high_school'],
-					'RELIGION'			 => $data['religion'],
-					'POLITICAL_VIEWS'	 => $data['political_views'],
-					'QUOTATIONS'		 => $data['quotations'],
-					'MUSIC'				 => $data['music'],
-					'BOOKS'				 => $data['books'],
-					'MOVIES'			 => $data['movies'],
-					'GAMES'				 => $data['games'],
-					'FOODS'				 => $data['foods'],
-					'SPORTS'			 => $data['sports'],
-					'SPORT_TEAMS'		 => $data['sport_teams'],
-					'ACTIVITIES'		 => $data['activities'],
-					'SKYPE'				 => $data['skype'],
-					'FACEBOOK'			 => $data['facebook'],
-					'TWITTER'			 => $data['twitter'],
-					'YOUTUBE'			 => $data['youtube'],
+					'HOMETOWN'			 		=> $data['hometown'],
+					'SEX'				 				=> $data['sex'],
+					'INTERESTED_IN'		 	=> $data['interested_in'],
+					'LANGUAGES'			 		=> $data['languages'],
+					'ABOUT_ME'			 		=> $data['about_me'],
+					'EMPLOYER'			 		=> $data['employer'],
+					'UNIVERSITY'		 		=> $data['university'],
+					'HIGH_SCHOOL'		 		=> $data['high_school'],
+					'RELIGION'			 		=> $data['religion'],
+					'POLITICAL_VIEWS'		=> $data['political_views'],
+					'QUOTATIONS'		 		=> $data['quotations'],
+					'MUSIC'				 			=> $data['music'],
+					'BOOKS'				 			=> $data['books'],
+					'MOVIES'			 			=> $data['movies'],
+					'GAMES'				 			=> $data['games'],
+					'FOODS'				 			=> $data['foods'],
+					'SPORTS'			 			=> $data['sports'],
+					'SPORT_TEAMS'		 		=> $data['sport_teams'],
+					'ACTIVITIES'		 		=> $data['activities'],
+					'SKYPE'				 			=> $data['skype'],
+					'FACEBOOK'			 		=> $data['facebook'],
+					'TWITTER'			 			=> $data['twitter'],
+					'YOUTUBE'			 			=> $data['youtube'],
 				));
 
 				$submit = (isset($_POST['submit'])) ? true : false;
@@ -98,62 +99,62 @@ class ucp_profile
 				if ($submit)
 				{
 					$validate_array = array(
-						'facebook'			 => array(
+						'facebook'			 	=> array(
 							array('string', true, 12, 255),
 							array('match', true, '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
-						'twitter'			 => array(
+						'twitter'			 		=> array(
 							array('string', true, 12, 255),
 							array('match', true, '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
-						'youtube'			 => array(
+						'youtube'			 		=> array(
 							array('string', true, 12, 255),
 							array('match', true, '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
-						'hometown'			 => array('string', true, 2, 255),
-						'languages'			 => array('string', true, 2, 500),
-						'employer'			 => array('string', true, 2, 1024),
-						'university'		 => array('string', true, 2, 500),
-						'high_school'		 => array('string', true, 2, 500),
-						'religion'			 => array('string', true, 2, 500),
-						'political_views'	 => array('string', true, 2, 1024),
-						'about_me'			 => array('string', true, 2, 1024),
-						'quotations'		 => array('string', true, 2, 1024),
-						'music'				 => array('string', true, 2, 1024),
-						'books'				 => array('string', true, 2, 1024),
-						'movies'			 => array('string', true, 2, 1024),
-						'games'				 => array('string', true, 2, 1024),
-						'foods'				 => array('string', true, 2, 1024),
-						'sports'			 => array('string', true, 2, 1024),
-						'sport_teams'		 => array('string', true, 2, 1024),
-						'activities'		 => array('string', true, 2, 1024),
-						'skype'				 => array('string', true, 6, 32),
+						'hometown'			 	=> array('string', true, 2, 255),
+						'languages'			 	=> array('string', true, 2, 500),
+						'employer'			 	=> array('string', true, 2, 1024),
+						'university'		 	=> array('string', true, 2, 500),
+						'high_school'		 	=> array('string', true, 2, 500),
+						'religion'			 	=> array('string', true, 2, 500),
+						'political_views'	=> array('string', true, 2, 1024),
+						'about_me'			 	=> array('string', true, 2, 1024),
+						'quotations'		 	=> array('string', true, 2, 1024),
+						'music'				 		=> array('string', true, 2, 1024),
+						'books'				 		=> array('string', true, 2, 1024),
+						'movies'			 		=> array('string', true, 2, 1024),
+						'games'				 		=> array('string', true, 2, 1024),
+						'foods'				 		=> array('string', true, 2, 1024),
+						'sports'			 		=> array('string', true, 2, 1024),
+						'sport_teams'		 	=> array('string', true, 2, 1024),
+						'activities'		 	=> array('string', true, 2, 1024),
+						'skype'				 		=> array('string', true, 6, 32),
 					);
 
 					$error = validate_data($data, $validate_array);
 
 					$sql_ary = (array(
-						'user_id'			 => $user->data['user_id'],
-						'hometown'			 => $data['hometown'],
-						'sex'				 => $data['sex'],
-						'interested_in'		 => $data['interested_in'],
-						'languages'			 => $data['languages'],
-						'about_me'			 => $data['about_me'],
-						'employer'			 => $data['employer'],
-						'university'		 => $data['university'],
-						'high_school'		 => $data['high_school'],
-						'religion'			 => $data['religion'],
-						'political_views'	 => $data['political_views'],
-						'quotations'		 => $data['quotations'],
-						'music'				 => $data['music'],
-						'books'				 => $data['books'],
-						'movies'			 => $data['movies'],
-						'games'				 => $data['games'],
-						'foods'				 => $data['foods'],
-						'sports'			 => $data['sports'],
-						'sport_teams'		 => $data['sport_teams'],
-						'activities'		 => $data['activities'],
-						'skype'				 => $data['skype'],
-						'facebook'			 => $data['facebook'],
-						'twitter'			 => $data['twitter'],
-						'youtube'			 => $data['youtube'],
+						'user_id'			 			=> $user->data['user_id'],
+						'hometown'			 		=> $data['hometown'],
+						'sex'				 				=> $data['sex'],
+						'interested_in'		 	=> $data['interested_in'],
+						'languages'			 		=> $data['languages'],
+						'about_me'			 		=> $data['about_me'],
+						'employer'			 		=> $data['employer'],
+						'university'		 		=> $data['university'],
+						'high_school'		 		=> $data['high_school'],
+						'religion'			 		=> $data['religion'],
+						'political_views'	 	=> $data['political_views'],
+						'quotations'		 		=> $data['quotations'],
+						'music'				 			=> $data['music'],
+						'books'				 			=> $data['books'],
+						'movies'			 			=> $data['movies'],
+						'games'				 			=> $data['games'],
+						'foods'				 			=> $data['foods'],
+						'sports'			 			=> $data['sports'],
+						'sport_teams'		 		=> $data['sport_teams'],
+						'activities'		 		=> $data['activities'],
+						'skype'				 			=> $data['skype'],
+						'facebook'			 		=> $data['facebook'],
+						'twitter'			 			=> $data['twitter'],
+						'youtube'			 			=> $data['youtube'],
 					));
 
 					if (!sizeof($error))
@@ -181,9 +182,10 @@ class ucp_profile
 					'ERROR'		 => (sizeof($error)) ? implode('<br />', $error) : '',
 				));
 
-				break;
+			break;
 
 			case 'relations':
+			
 				$this->p_master->tpl_name = 'socialnet/ucp_profile_relations';
 
 				$error = $data = array();
@@ -192,28 +194,28 @@ class ucp_profile
 
 				switch ($action)
 				{
-					case 'select_friends': // select users for autocomplete
+					case 'select_friends':
 						$socialnet->users_autocomplete();
-						break;
+					break;
 
 					case 'delete_relation':
 						$this->delete_relation();
-						break;
+					break;
 
 					case 'approve_relation':
 						$this->approve_relation();
-						break;
+					break;
 
 					default:
 
 						$relation_with_partner = array(2, 3, 4, 5, 6);
 
 						$data = array(
-							'relationship_status'	 => request_var('relationship_status', 0),
-							'relationship_user'		 => utf8_normalize_nfc(request_var('relationship_user', '', true)),
-							'anniversary'			 => request_var('anniversary_picker', ''),
-							'family_user'			 => utf8_normalize_nfc(request_var('family_user', '', true)),
-							'family_status'			 => request_var('family_status', 0),
+							'relationship_status'	 		=> request_var('relationship_status', 0),
+							'relationship_user'		 		=> utf8_normalize_nfc(request_var('relationship_user', '', true)),
+							'anniversary'			 				=> request_var('anniversary_picker', ''),
+							'family_user'			 				=> utf8_normalize_nfc(request_var('family_user', '', true)),
+							'family_status'				 		=> request_var('family_status', 0),
 						);
 
 						$submit = (isset($_POST['submit'])) ? true : false;
@@ -236,8 +238,8 @@ class ucp_profile
 								if ($data['relationship_user'] != '' && $relationship_with_partner)
 								{
 									$sql = 'SELECT user_id, username
-										      FROM ' . USERS_TABLE . '
-										        WHERE username = "' . $db->sql_escape($data['relationship_user']) . '"';
+										      	FROM ' . USERS_TABLE . '
+										        	WHERE username = "' . $db->sql_escape($data['relationship_user']) . '"';
 									$result = $db->sql_query($sql);
 									$new_relationship = $db->sql_fetchrow($result);
 
@@ -264,11 +266,11 @@ class ucp_profile
 											$db->sql_query($sql);
 
 											$sql = 'SELECT id
-													FROM ' . SN_FAMILY_TABLE . '
-													WHERE user_id = ' . $user->data['user_id'] . '
-                                  						AND relative_user_id = ' . $new_relationship['user_id'] . '
-                                  						AND status_id = ' . $data['relationship_status'] . '
-                                					ORDER BY id DESC';
+																FROM ' . SN_FAMILY_TABLE . '
+																	WHERE user_id = ' . $user->data['user_id'] . '
+                                  	AND relative_user_id = ' . $new_relationship['user_id'] . '
+                                  		AND status_id = ' . $data['relationship_status'] . '
+                             		ORDER BY id DESC';
 											$db->sql_query($sql);
 											$new_relationship_id = $db->sql_fetchfield('id');
 
@@ -286,18 +288,18 @@ class ucp_profile
 												generate_text_for_storage($message, $uid, $bitfield, $options, true, true, true);
 
 												$pm_data = array(
-													'address_list'		 => array('u' => array($new_relationship['user_id'] => 'to')),
-													'from_user_id'		 => $user->data['user_id'],
-													'from_username'		 => $user->data['username'],
-													'icon_id'			 => 0,
-													'from_user_ip'		 => $user->data['user_ip'],
-													'enable_bbcode'		 => true,
-													'enable_smilies'	 => true,
-													'enable_urls'		 => true,
-													'enable_sig'		 => false,
-													'message'			 => $message,
-													'bbcode_bitfield'	 => $bitfield,
-													'bbcode_uid'		 => $uid,
+													'address_list'		 	=> array('u' => array($new_relationship['user_id'] => 'to')),
+													'from_user_id'		 	=> $user->data['user_id'],
+													'from_username'		 	=> $user->data['username'],
+													'icon_id'			 			=> 0,
+													'from_user_ip'		 	=> $user->data['user_ip'],
+													'enable_bbcode'		 	=> true,
+													'enable_smilies'	 	=> true,
+													'enable_urls'		 		=> true,
+													'enable_sig'		 		=> false,
+													'message'			 			=> $message,
+													'bbcode_bitfield'		=> $bitfield,
+													'bbcode_uid'		 		=> $uid,
 												);
 												submit_pm('post', $subject, $pm_data, false);
 											}
@@ -314,7 +316,7 @@ class ucp_profile
 								elseif ($data['relationship_status'])
 								{
 									$sql = 'INSERT INTO ' . SN_FAMILY_TABLE . ' (user_id, relative_user_id, status_id, approved, anniversary, family)
-											VALUES (' . $user->data['user_id'] . ', 0, ' . $data['relationship_status'] . ', 1, "' . $data['anniversary'] . '", 0)';
+														VALUES (' . $user->data['user_id'] . ', 0, ' . $data['relationship_status'] . ', 1, "' . $data['anniversary'] . '", 0)';
 									$db->sql_query($sql);
 
 									$socialnet->record_entry($user->data['user_id'], $data['relationship_status'], SN_TYPE_NEW_RELATIONSHIP);
@@ -325,18 +327,18 @@ class ucp_profile
 							if ($data['family_user'] != '' && $data['family_status'] != '0')
 							{
 								$sql = 'SELECT user_id, username
-										FROM ' . USERS_TABLE . '
-										WHERE username = "' . $db->sql_escape($data['family_user']) . '"';
+													FROM ' . USERS_TABLE . '
+														WHERE username = "' . $db->sql_escape($data['family_user']) . '"';
 								$result = $db->sql_query($sql);
 								$family = $db->sql_fetchrow($result);
 
 								if ($family['user_id'])
 								{
 									$sql = 'SELECT id
-											FROM ' . SN_FAMILY_TABLE . '
-											WHERE family = 1
-												AND user_id = ' . $user->data['user_id'] . '
-												AND relative_user_id = ' . $family['user_id'];
+														FROM ' . SN_FAMILY_TABLE . '
+															WHERE family = 1
+																AND user_id = ' . $user->data['user_id'] . '
+																AND relative_user_id = ' . $family['user_id'];
 									$result = $db->sql_query($sql);
 									$relation_exist = $db->sql_fetchfield('id');
 
@@ -356,7 +358,7 @@ class ucp_profile
 									if (!$family['user_id'])
 									{
 										$sql = 'INSERT INTO ' . SN_FAMILY_TABLE . ' (user_id, relative_user_id, status_id, approved, anniversary, family, name)
-												    VALUES (' . $user->data['user_id'] . ', 0, ' . $data['family_status'] . ', 1, "", 1, "' . $data['family_user'] . '")';
+												    	VALUES (' . $user->data['user_id'] . ', 0, ' . $data['family_status'] . ', 1, "", 1, "' . $data['family_user'] . '")';
 										$db->sql_query($sql);
 
 										$changed['family'] = $data['family_user'];
@@ -365,15 +367,15 @@ class ucp_profile
 									else
 									{
 										$sql = 'INSERT INTO ' . SN_FAMILY_TABLE . ' (user_id, relative_user_id, status_id, approved, anniversary, family)
-												    VALUES (' . $user->data['user_id'] . ', ' . $family['user_id'] . ', ' . $data['family_status'] . ', 0, "", 1)';
+												    	VALUES (' . $user->data['user_id'] . ', ' . $family['user_id'] . ', ' . $data['family_status'] . ', 0, "", 1)';
 										$db->sql_query($sql);
 
 										$sql = 'SELECT id
-												    FROM ' . SN_FAMILY_TABLE . '
-												      WHERE user_id = ' . $user->data['user_id'] . '
-													      AND relative_user_id = ' . $family['user_id'] . '
-													      AND status_id = ' . $data['family_status'] . '
-												    ORDER BY id DESC';
+													    FROM ' . SN_FAMILY_TABLE . '
+													      WHERE user_id = ' . $user->data['user_id'] . '
+														      AND relative_user_id = ' . $family['user_id'] . '
+														      AND status_id = ' . $data['family_status'] . '
+													    ORDER BY id DESC';
 										$db->sql_query($sql);
 										$family_id = $db->sql_fetchfield('id');
 
@@ -391,18 +393,18 @@ class ucp_profile
 											generate_text_for_storage($message, $uid, $bitfield, $options, true, true, true);
 
 											$pm_data = array(
-												'address_list'		 => array('u' => array($family['user_id'] => 'to')),
-												'from_user_id'		 => $user->data['user_id'],
-												'from_username'		 => $user->data['username'],
-												'icon_id'			 => 0,
-												'from_user_ip'		 => $user->data['user_ip'],
-												'enable_bbcode'		 => true,
-												'enable_smilies'	 => true,
-												'enable_urls'		 => true,
-												'enable_sig'		 => false,
-												'message'			 => $message,
-												'bbcode_bitfield'	 => $bitfield,
-												'bbcode_uid'		 => $uid,
+												'address_list'		 	=> array('u' => array($family['user_id'] => 'to')),
+												'from_user_id'		 	=> $user->data['user_id'],
+												'from_username'		 	=> $user->data['username'],
+												'icon_id'			 			=> 0,
+												'from_user_ip'		 	=> $user->data['user_ip'],
+												'enable_bbcode'		 	=> true,
+												'enable_smilies'	 	=> true,
+												'enable_urls'		 		=> true,
+												'enable_sig'		 		=> false,
+												'message'					 	=> $message,
+												'bbcode_bitfield'	 	=> $bitfield,
+												'bbcode_uid'		 		=> $uid,
 											);
 											submit_pm('post', $subject, $pm_data, false);
 										}
@@ -413,7 +415,6 @@ class ucp_profile
 											$status = $socialnet->family_status($data['family_status']);
 
 											$socialnet->notify->add(SN_NTF_FAMILY, $family['user_id'], array('text' => 'SN_NTF_APPROVE_FAMILY', 'user' => $user->data['username'], 'status' => $status, 'link' => $link));
-
 										}
 									}
 								}
@@ -423,11 +424,11 @@ class ucp_profile
 						// Load relationships and family                                                                                                   
 						$sql = 'SELECT f.id, f.status_id, f.anniversary, f.approved, f.relative_user_id, f.family, f.name,
                            u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-						        FROM ' . SN_FAMILY_TABLE . ' f
-						          LEFT JOIN ' . USERS_TABLE . ' u        
-						            ON u.user_id = f.relative_user_id   
-						          WHERE f.user_id = ' . $user->data['user_id'] . '
-						        ORDER BY f.approved DESC, f.status_id ASC';
+							        FROM ' . SN_FAMILY_TABLE . ' f
+							          LEFT JOIN ' . USERS_TABLE . ' u
+							            ON u.user_id = f.relative_user_id
+							          WHERE f.user_id = ' . $user->data['user_id'] . '
+							        ORDER BY f.approved DESC, f.status_id ASC';
 						$result = $db->sql_query($sql);                
 
 						while ($relation = $db->sql_fetchrow($result))
@@ -439,14 +440,14 @@ class ucp_profile
 							if ($relation['family'])
 							{
 								$template->assign_block_vars('family', array(
-									'USER_ID'			 => $relation['relative_user_id'],
-									'STATUS'			 => $socialnet->family_status($relation['status_id']),
-									'U_RELATIVE'		 => ($relation['name']) ? $relation['name'] : $username,
-									'USERNAME_NO_COLOR'	 => ($relation['username']) ? $relation['username'] : '',
-									'U_PROFILE_LINK'	 => $profile_link,
-									'AVATAR'			 => $avatar_img,
-									'APPROVED'			 => $relation['approved'],
-									'U_DELETE'			 => append_sid($this->p_master->u_action, "action=delete_relation&amp;id=" . $relation['id']),
+									'USER_ID'			 			=> $relation['relative_user_id'],
+									'STATUS'			 			=> $socialnet->family_status($relation['status_id']),
+									'U_RELATIVE'		 		=> ($relation['name']) ? $relation['name'] : $username,
+									'USERNAME_NO_COLOR'	=> ($relation['username']) ? $relation['username'] : '',
+									'U_PROFILE_LINK'	 	=> $profile_link,
+									'AVATAR'			 			=> $avatar_img,
+									'APPROVED'			 		=> $relation['approved'],
+									'U_DELETE'			 		=> append_sid($this->p_master->u_action, "action=delete_relation&amp;id=" . $relation['id']),
 								));
 							}
 							else
@@ -458,15 +459,15 @@ class ucp_profile
 								}
 
 								$template->assign_block_vars('relationship', array(
-									'USER_ID'			 => $relation['relative_user_id'],
-									'STATUS'			 => $socialnet->relationship_status($relation['status_id'], false),
-									'U_RELATIVE'		 => ($relation['name']) ? $relation['name'] : $username,
-									'USERNAME_NO_COLOR'	 => ($relation['username']) ? $relation['username'] : '',
-									'U_PROFILE_LINK'	 => $profile_link,
-									'AVATAR'			 => $avatar_img,
-									'APPROVED'			 => $relation['approved'],
-									'U_DELETE'			 => append_sid($this->p_master->u_action, "action=delete_relation&amp;id=" . $relation['id']),
-									'ANNIVERSARY'		 => ($relation['anniversary']) ? $relationship_anniversary : '',
+									'USER_ID'			 				=> $relation['relative_user_id'],
+									'STATUS'			 				=> $socialnet->relationship_status($relation['status_id'], false),
+									'U_RELATIVE'		 			=> ($relation['name']) ? $relation['name'] : $username,
+									'USERNAME_NO_COLOR'		=> ($relation['username']) ? $relation['username'] : '',
+									'U_PROFILE_LINK'			=> $profile_link,
+									'AVATAR'			 				=> $avatar_img,
+									'APPROVED'			 			=> $relation['approved'],
+									'U_DELETE'			 			=> append_sid($this->p_master->u_action, "action=delete_relation&amp;id=" . $relation['id']),
+									'ANNIVERSARY'		 			=> ($relation['anniversary']) ? $relationship_anniversary : '',
 								));
 							}
 						}
@@ -475,12 +476,12 @@ class ucp_profile
 						// Load relationships and family requests
 						$sql = 'SELECT f.id, f.status_id, f.anniversary, f.approved, f.relative_user_id, f.user_id, f.family, f.name,
                            u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
-						        FROM ' . SN_FAMILY_TABLE . ' f
-						          LEFT JOIN ' . USERS_TABLE . ' u        
-						            ON u.user_id = f.user_id   
-						          WHERE f.relative_user_id = ' . $user->data['user_id'] . '
-						            AND f.approved = 0
-						        ORDER BY f.approved DESC, f.status_id ASC';
+							        FROM ' . SN_FAMILY_TABLE . ' f
+							          LEFT JOIN ' . USERS_TABLE . ' u
+							            ON u.user_id = f.user_id
+							          WHERE f.relative_user_id = ' . $user->data['user_id'] . '
+							            AND f.approved = 0
+							        ORDER BY f.approved DESC, f.status_id ASC';
 						$result = $db->sql_query($sql);
 						
 						while ($relation = $db->sql_fetchrow($result))
@@ -496,15 +497,15 @@ class ucp_profile
 							}
 
 					     $template->assign_block_vars('requests', array(
-								'USER_ID'			 => $relation['user_id'],
-								'STATUS'			 => ($relation['status_id'] < 20) ? $socialnet->relationship_status($relation['status_id']) : $socialnet->family_status($relation['status_id']),
-								'U_RELATIVE'		 => ($relation['name']) ? $relation['name'] : $username,
-								'USERNAME_NO_COLOR'	 => ($relation['username']) ? $relation['username'] : '',
-								'U_PROFILE_LINK'	 => $profile_link,
-								'AVATAR'			 => $avatar_img,
-								'U_DELETE'			 => append_sid($this->p_master->u_action, "action=delete_relation&amp;id=" . $relation['id']),    
-								'U_APPROVE'			 => append_sid($this->p_master->u_action, "action=approve_relation&amp;id=" . $relation['id']),
-								'ANNIVERSARY'		 => ($relation['anniversary']) ? $relationship_anniversary : '',
+								'USER_ID'			 			=> $relation['user_id'],
+								'STATUS'			 			=> ($relation['status_id'] < 20) ? $socialnet->relationship_status($relation['status_id']) : $socialnet->family_status($relation['status_id']),
+								'U_RELATIVE'		 		=> ($relation['name']) ? $relation['name'] : $username,
+								'USERNAME_NO_COLOR'	=> ($relation['username']) ? $relation['username'] : '',
+								'U_PROFILE_LINK'	 	=> $profile_link,
+								'AVATAR'			 			=> $avatar_img,
+								'U_DELETE'			 		=> append_sid($this->p_master->u_action, "action=delete_relation&amp;id=" . $relation['id']),
+								'U_APPROVE'			 		=> append_sid($this->p_master->u_action, "action=approve_relation&amp;id=" . $relation['id']),
+								'ANNIVERSARY'		 		=> ($relation['anniversary']) ? $relationship_anniversary : '',
 							)); 
 						}
 						$db->sql_freeresult($result);
@@ -515,9 +516,9 @@ class ucp_profile
 						}
 
 						$template->assign_vars(array(
-							'U_ACTION'			 => $this->p_master->u_action,
-							'ERROR'				 => (sizeof($error)) ? implode('<br />', $error) : '',
-							'U_SELECT_FRIENDS'	 => append_sid($this->p_master->u_action, "action=select_friends"),
+							'U_ACTION'						 	=> $this->p_master->u_action,
+							'ERROR'				 					=> (sizeof($error)) ? implode('<br />', $error) : '',
+							'U_SELECT_FRIENDS'	 		=> append_sid($this->p_master->u_action, "action=select_friends"),
 						));
 				}
 
@@ -548,7 +549,7 @@ class ucp_profile
                 FROM ' . SN_FAMILY_TABLE . ' f
 						      LEFT JOIN ' . USERS_TABLE . ' u
 							      ON u.user_id = f.relative_user_id
-					     WHERE f.id = ' . $relation_id;
+					     	WHERE f.id = ' . $relation_id;
 			$result = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($result);
 
@@ -591,9 +592,9 @@ class ucp_profile
 		}
 
 		$template->assign_vars(array(
-			'S_REL_AVATAR'		 => $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
-			'S_REL_USERNAME'	 => $socialnet->get_username_string($socialnet->config['us_colour_username'], 'full', $row['user_id'], $row['username'], $row['user_colour']),
-			'U_REL_PROFILE_LINK' => $socialnet->get_username_string($socialnet->config['us_colour_username'], 'profile', $row['user_id'], $row['username'], $row['user_colour']),
+			'S_REL_AVATAR'		 		=> $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
+			'S_REL_USERNAME'	 		=> $socialnet->get_username_string($socialnet->config['us_colour_username'], 'full', $row['user_id'], $row['username'], $row['user_colour']),
+			'U_REL_PROFILE_LINK' 	=> $socialnet->get_username_string($socialnet->config['us_colour_username'], 'profile', $row['user_id'], $row['username'], $row['user_colour']),
 		));
 
 		if (confirm_box(true))
@@ -657,9 +658,9 @@ class ucp_profile
 				}
 
 				$template->assign_vars(array(
-					'S_REL_STATUS'				 => $socialnet->relationship_status($row['status_id'], true),
-					'S_REL_ANNIVERSARY'			 => ($row['anniversary']) ? $relationship_anniversary : '',
-					'L_SN_UP_APPROVE_VICE_VERSA' => $user->lang['SN_UP_APPROVE_RELATION_VICE_VERSA'],
+					'S_REL_STATUS'				 				=> $socialnet->relationship_status($row['status_id'], true),
+					'S_REL_ANNIVERSARY'			 			=> ($row['anniversary']) ? $relationship_anniversary : '',
+					'L_SN_UP_APPROVE_VICE_VERSA'	=> $user->lang['SN_UP_APPROVE_RELATION_VICE_VERSA'],
 				));
 
 				$s_hidden_fields = '';
@@ -669,11 +670,11 @@ class ucp_profile
 			else
 			{
 				$template->assign_vars(array(
-					'S_REL_STATUS'						 => $socialnet->family_status($row['status_id']),
-					'L_SN_UP_APPROVE_VICE_VERSA'		 => sprintf($user->lang['SN_UP_APPROVE_FAMILY_VICE_VERSA'], $row['username']),
-					'S_FAMILY'							 => true,
-					'L_SN_UP_APPROVE_FAMILY_USERNAME'	 => sprintf($user->lang['SN_UP_APPROVE_FAMILY_USERNAME'], $row['username']),
-					'S_STATUS_OPTIONS'					 => $socialnet->return_family($row['status_id'], $row['sex']),
+					'S_REL_STATUS'						 					=> $socialnet->family_status($row['status_id']),
+					'L_SN_UP_APPROVE_VICE_VERSA'		 		=> sprintf($user->lang['SN_UP_APPROVE_FAMILY_VICE_VERSA'], $row['username']),
+					'S_FAMILY'							 						=> true,
+					'L_SN_UP_APPROVE_FAMILY_USERNAME'	 	=> sprintf($user->lang['SN_UP_APPROVE_FAMILY_USERNAME'], $row['username']),
+					'S_STATUS_OPTIONS'								 	=> $socialnet->return_family($row['status_id'], $row['sex']),
 				));
 
 				$s_hidden_fields = '';

@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* @package phpBB Social Network
-* @version 0.6.3
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package phpBB Social Network
+ * @version 0.6.3
+ * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 if ( !defined( 'IN_PHPBB'))
 {
@@ -18,17 +18,8 @@ if ( !defined( 'IN_PHPBB'))
  */
 class mcp_socialnet
 {
-	/**
-	 * @var object odkaz na parent tridu
-	 */
 	var $p_master;
-	/**
-	 * @var string URL pro formulare
-	 */
 	var $u_action;
-	/**
-	 * @var string Sablona
-	 */
 	var $tpl_name;
 
 	function mcp_socialnet(&$p_master)
@@ -51,7 +42,6 @@ class mcp_socialnet
 			'L_TITLE' => $mcpPanel_title,
 			'U_ACTION' => $this->u_action,
 		));
-		
 		
 		$call_mode = '';
 		
@@ -85,7 +75,6 @@ class mcp_socialnet
 
 		$modul = new $mcp_module($this);
 		$modul->main($id, $call_mode);
-
 	}
 
 	/**
@@ -116,16 +105,11 @@ class mcp_socialnet
 		$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc(request_var('config', array('' => ''), true)) : $this->new_config;
 		$error = array();
 
-		// We validate the complete config if whished
-		if (sizeOf($display_vars['vars']))
-		{
-			//validate_config_vars($display_vars['vars'], $cfg_array, $error);
-		}
-
 		if ($submit && !check_form_key($form_key))
 		{
 			$error[] = $user->lang['FORM_INVALID'];
 		}
+		
 		// Do not write values if there is an error
 		if (sizeof($error))
 		{
@@ -151,13 +135,6 @@ class mcp_socialnet
 			}
 		}
 
-		if ($submit)
-		{
-			//add_log('mcp', 'LOG_CONFIG_' . strtoupper($mode));
-
-			//trigger_error($user->lang['CONFIG_UPDATED'] . adm_back_link($this->u_action));
-		}
-
 		$template->assign_vars(array(
 			'S_SETTINGS' => true,
 			'S_ERROR'	 => (sizeof($error)) ? true : false,
@@ -166,7 +143,8 @@ class mcp_socialnet
 			'S_MODE'	 => $mode,
 			'S_FOUNDER'	 => ($user->data['user_type'] == USER_FOUNDER) ? true : false,
 
-			'U_ACTION'	 => $this->u_action));
+			'U_ACTION'	 => $this->u_action,
+		));
 
 		// Output relevant page
 		if (sizeOf($display_vars['vars']))
@@ -217,7 +195,6 @@ class mcp_socialnet
 				unset($display_vars['vars'][$config_key]);
 			}
 		}
-
 	}
 
 	/**
@@ -231,14 +208,11 @@ class mcp_socialnet
 		global $db, $user;
 
 		$sql = "UPDATE " . SN_USERS_TABLE . "
-				SET " . $config_name . " = '" . $db->sql_escape($config_value) ."'
-				WHERE user_id = '{$user->data['user_id']}'";
+							SET " . $config_name . " = '" . $db->sql_escape($config_value) ."'
+								WHERE user_id = '{$user->data['user_id']}'";
 		$db->sql_query( $sql);
-		
 	}
-
 }
-
 
 /**
 * Build select field options in acp pages
@@ -584,9 +558,9 @@ function validate_range($value_ary, &$error)
 		'UINT'	=> array('php_type' => 'int', 		'min' => 0, 				'max' => (int) 0x7fffffff),
 		'INT'	=> array('php_type' => 'int', 		'min' => (int) 0x80000000, 	'max' => (int) 0x7fffffff),
 		'TINT'	=> array('php_type' => 'int',		'min' => -128,				'max' => 127),
-
 		'VCHAR'	=> array('php_type' => 'string', 	'min' => 0, 				'max' => 255),
 	);
+	
 	foreach ($value_ary as $value)
 	{
 		$column = explode(':', $value['column_type']);
@@ -626,8 +600,5 @@ function validate_range($value_ary, &$error)
 		}
 	}
 }
-
-
-
 
 ?>
