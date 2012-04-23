@@ -16,10 +16,10 @@
 
 [phpBB Social Network](http://phpbbsocialnetwork.com) is a modification for [phpBB3](http://phpbb.com), which turns your bulletin board to full valued social network website.
 
-[Detailed description of phpBB Social Network and its features here](http://phpbbsocialnetwork.com/viewtopic.php?t=32)
+You can read [detailed description of phpBB Social Network and its features here](http://phpbbsocialnetwork.com/viewtopic.php?t=32)
 
 Feel free to ask for a support or request more features on [official phpBB Social Network website](http://phpbbsocialnetwork.com/index.php
 
-[View Changelog here](http://phpbbsocialnetwork.com/viewtopic.php?t=1023)
+You can view [Changelog here](http://phpbbsocialnetwork.com/viewtopic.php?t=1023)
 
 phpBB Social Network [Facebook fan page](http://www.facebook.com/pages/phpBB-Social-Network/180271885389370)
