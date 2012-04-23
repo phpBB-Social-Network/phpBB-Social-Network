@@ -353,6 +353,11 @@ if (!class_exists('socialnet_userstatus'))
 					$rowset = array_unique(array_merge($rowset,array($row['wall_id'])));
 				}
 				
+				if ( $user->data['user_id'] != $row['poster_id'])
+				{
+					$rowset = array_diff( $rowset, array($row['poster_id']));
+				}
+				
 				for ($i = 0; isset($rowset[$i]); $i++)
 				{
 					$this->p_master->notify->add(SN_NTF_COMMENT, $rowset[$i], array(
