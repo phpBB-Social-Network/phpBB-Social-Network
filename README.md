@@ -18,7 +18,7 @@
 
 You can read [detailed description of phpBB Social Network and its features here](http://phpbbsocialnetwork.com/viewtopic.php?t=32)
 
-Feel free to ask for a support or request more features on [official phpBB Social Network website](http://phpbbsocialnetwork.com/index.php
+Feel free to ask for a support or request more features on [official phpBB Social Network website](http://phpbbsocialnetwork.com/index.php)
 
 You can view [Changelog here](http://phpbbsocialnetwork.com/viewtopic.php?t=1023)
 
