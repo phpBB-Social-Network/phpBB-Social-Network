@@ -70,14 +70,14 @@
 			var p = this.className.match(/expand(\d+)\-*(\d+)*/i);
 			this.expandMin = minHeight || (p ? parseInt('0'+p[1], 10) : 0);
 			this.expandMax = maxHeight || (p ? parseInt('0'+p[2], 10) : 99999);
-			$(this).css('line-height', this.expandMin+'px');
+			//$(this).css('line-height', this.expandMin+'px');
 
 			
 			this.expandPad=0;
 			if ( $.browser.opera || $.browser.safari){
-				$(this).css('padding-top',2*parseInt($(this).css('padding-top')));
+				$(this).css('padding-top',parseInt($(this).css('padding-top')));
 				//console.log(this.id);
-				this.expandPad=2*parseInt($(this).css('padding-top'))+parseInt($(this).css('border-top-width'))+parseInt($(this).css('border-bottom-width'));
+				this.expandPad=parseInt($(this).css('padding-top'))+parseInt($(this).css('border-top-width'))+parseInt($(this).css('border-bottom-width'));
 			}
 			// initial resize
 			ResizeTextarea(this);
