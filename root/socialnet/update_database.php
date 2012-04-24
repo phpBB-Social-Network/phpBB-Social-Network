@@ -673,7 +673,7 @@ $versions = array(
 				),
 				'PRIMARY_KEY'	 => array('emote_id'),
 				'KEYS'			 => array(
-					'u'	 => array('UNIQUE_KEY', array('emote_name')),
+					'u'	 => array('UNIQUE', array('emote_name')),
 					'a'	 => array('INDEX', array('emote_name', 'emote_order')),
 					'b'	 => array('INDEX', array('emote_order')),
 				)
