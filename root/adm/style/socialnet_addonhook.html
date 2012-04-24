@@ -200,7 +200,7 @@
 	function ctrl_tpl(){
 		addon = document.getElementById('sn_addon').value;
 		place = document.getElementById('sn_placeholder').value;
-		tpl = addon.replace(/^.+::addon_/gi,'').replace(/::/gi,'_') +'_'+ places[place];
+		tpl = addon.replace(/^.+::addon_/gi,'').replace(/::/gi,'_');
 		document.getElementById('sn_addon_tpl').innerHTML = tpl;
 		
 		tpl_exist = '#660000';

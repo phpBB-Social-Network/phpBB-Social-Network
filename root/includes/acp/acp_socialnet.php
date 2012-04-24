@@ -1314,6 +1314,9 @@ class AddOnsHookSystem
 		);
 
 		confirm_box(false, vsprintf($user->lang['SN_ADDONS_ADDON_DELETE_CONFIRM'], $data), build_hidden_fields($data));
+		
+		$this->aoh_sub = 'addon';
+		$this->sub_addon($id,$error);
 	}
 
 	function sub_placeholder($id, &$error)
@@ -1444,6 +1447,10 @@ class AddOnsHookSystem
 		$db->sql_freeresult($rs);
 
 		confirm_box(false, vsprintf($user->lang['SN_ADDONS_PLACEHOLDER_DELETE_CONFIRM'], $row), build_hidden_fields($data));
+		
+		$this->aoh_sub = 'placeholder';
+		$this->sub_placeholder($id,$error);
+		
 	}
 
 	function _available_placeholders($ph_id = 0)

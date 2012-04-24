@@ -88,10 +88,14 @@ class sn_core_addons
 			$addonClass->$addon['addon_function']($addon['ph_script'], $addon['ph_block']);
 
 			$template->set_filenames(array($addonTemplate => 'socialnet/addons/' . $addonTemplate));
+			
+			$tpl_script = $this->get_namefortemplate($addon['ph_script']);
+			$tpl_block = $this->get_namefortemplate($addon['ph_block']);
+			
 			$template->assign_vars(array(
-				'SN_ADDONS_CURRENT_SCRIPT'		 => $this->get_namefortemplate($addon['ph_script']),
-				'SN_ADDONS_CURRENT_BLOCK'		 => $this->get_namefortemplate($addon['ph_block']),
-				'SN_ADDONS_CURRENT_PLACEHOLDER'	 => $this->get_placeholder_name($addon['ph_script'], $addon['ph_block']),
+				'SN_ADDONS_CURRENT_SCRIPT'		 => $tpl_script,
+				'SN_ADDONS_CURRENT_BLOCK'		 => $tpl_block,
+				'SN_ADDONS_CURRENT_PLACEHOLDER'	 => "{$tpl_script}_{$tpl_block}",
 			));
 
 			$content[$placeHolder] .= $this->p_master->get_page($addonTemplate);
@@ -124,8 +128,8 @@ class sn_core_addons
 			$script = $ph[0];
 			$block = $ph[1];
 		}
-		$implode = array(preg_replace('/^addon_/si', '', $file), $function, $script, $block); // Long template file name
-		// $implode = array(preg_replace('/^addon_/si', '', $file), $function); //Short template file name
+		//$implode = array(preg_replace('/^addon_/si', '', $file), $function, $script, $block); // Long template file name
+		$implode = array(preg_replace('/^addon_/si', '', $file), $function); //Short template file name
 		$template = implode('_', $implode) . '.html';
 
 		return $template;
