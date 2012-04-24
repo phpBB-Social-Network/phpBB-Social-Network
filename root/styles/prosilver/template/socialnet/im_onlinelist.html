@@ -1,5 +1,5 @@
 <!-- BEGIN sn_im_online_ufg --><!-- IF sn_im_online_ufg.COUNT --><!-- IF sn_im_online_ufg.GROUP --><div id="gid_{sn_im_online_ufg.GID}" class="sn-im-chatGroup ui-widget-header" style="padding:0 3px;border-width: 1px 0;">{sn_im_online_ufg.NAME} ({sn_im_online_ufg.COUNT})<span style="float: right; cursor: pointer;" class="sn-im-hideGroup ui-icon<!-- IF sn_im_online_ufg.HIDDEN --> ui-icon-arrowstop-1-n<!-- ELSE --> ui-icon-arrowstop-1-s<!-- ENDIF --> {gid:'{sn_im_online_ufg.GID}'}">&nbsp;</span></div><!-- ENDIF -->
-<div id="sub_gid{sn_im_online_ufg.GID}"<!-- IF sn_im_online_ufg.HIDDEN --> style="display: none;"<!-- ENDIF -->>
+<div id="sub_gid{sn_im_online_ufg.GID}" class="sn-im-chatSub" style="<!-- IF sn_im_online_ufg.HIDDEN -->display: none;<!-- ENDIF -->">
 <!-- BEGIN user --><div class="sn-im-canchat sn-im-userLine {user:{sn_im_online_ufg.user.USER_ID},username:'{sn_im_online_ufg.user.USERCLEAN}'}" style="background-image: url('{sn_im_online_ufg.user.ONLINE}');">{sn_im_online_ufg.user.AVATAR}{sn_im_online_ufg.user.USERNAME}</div>
 <!-- END user -->
 </div><!-- ENDIF --><!-- END sn_im_online_ufg --><!-- IF not SN_IM_ONLINE --><span class="sn-im-userLine">{L_SN_IM_YOU_ARE_OFFLINE}</span><!-- ELSEIF not SN_IM_ONLINE_COUNT --><div class="sn-im-userLine">{L_SN_IM_NO_ONLINE_USER}</div><!-- ENDIF -->

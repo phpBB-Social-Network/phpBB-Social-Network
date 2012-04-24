@@ -471,6 +471,14 @@ div:not(.sn-page) .sn-userName a
 .sn-im-onlineList
 {
 	min-height:26px;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+.sn-im-chatSub
+{
+	overflow:hidden;
+	width:100%;
 }
 
 .sn-im-opener
