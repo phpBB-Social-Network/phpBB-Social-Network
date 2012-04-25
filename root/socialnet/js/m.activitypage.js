@@ -14,7 +14,7 @@
 		tikTakOnline : 30000,
 		tikTakName : 'sn-ap-onlineTicker',
 		loadingNews : false,
-		loadMoreTime : 2000,
+		loadMoreTime : 4000,
 
 		init : function(opts) {
 			if (!$.sn._inited) {

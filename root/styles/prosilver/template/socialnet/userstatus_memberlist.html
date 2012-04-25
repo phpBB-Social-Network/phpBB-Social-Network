@@ -4,7 +4,7 @@
 	<!-- IF SN_MODULE_USERSTATUS_CAN_POST_STATUS -->       
 		<div class="sn-us-membShareStatus">
 			<div class="sn-us-share">
-				<textarea id="sn-us-wallInput" rows="" cols="" style="height:20px"></textarea>
+				<textarea id="sn-us-wallInput" rows="" cols=""></textarea>
 				<!-- INCLUDE socialnet/userstatus_fetch.html -->
 				<input type="button" name="sn-us-wallButton" class="sn-us-wallButton ui-button ui-widget ui-state-default ui-corner-all {wall:{SN_US_USER_ID}}" value="{L_SN_US_SHARE_STATUS}" />
 			</div>   
@@ -16,6 +16,7 @@
 	  <!-- INCLUDE socialnet/userstatus_status.html -->
 	  <!-- IF SN_US_DISPLAY_LOAD_MORE_STATUS -->
 			<div class="sn-more">
+				<a href="#top" class="sn-back-top">{L_BACK_TO_TOP}</a>
 				<a href="javascript:void(0);" class="sn-us-getMore {user:{SN_US_USER_ID}}">{L_SN_US_LOAD_MORE}</a>
 				<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-us-statusLoader" style="display:none" />
 			</div>

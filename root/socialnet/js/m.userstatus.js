@@ -8,7 +8,7 @@
  */
 (function($) {
 	$.sn.us = {
-		loadMoreTime : 2000,
+		loadMoreTime : 4000,
 		watermark : '',
 		emptyStatus : '',
 		watermarkComment : '',
