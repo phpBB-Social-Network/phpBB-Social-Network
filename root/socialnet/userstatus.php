@@ -49,17 +49,14 @@ if (!class_exists('socialnet_userstatus'))
 		{
 			global $db, $template, $user, $config, $auth, $phpEx, $phpbb_root_path, $phpEx;
 
-			$this->p_master = &$p_master;
+			$this->p_master =& $p_master;
 
 			$this->script_name = $this->p_master->script_name;
 			$mode = request_var('mode', '', true);
 
 			$template_assign_vars = array(
-				'B_SN_US_ON_HEADER'		=> in_array(array(
-					$this->script_name,
-					$mode,
-				), $this->on_header) || in_array($this->script_name, $this->on_header) || in_array('all', $this->on_header),
-				'B_LOAD_FIRST_USERSTATUS_COMMENTS' => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
+				//'B_SN_US_ON_HEADER'					 => in_array(array($this->script_name, $mode, ), $this->on_header) || in_array($this->script_name, $this->on_header) || in_array('all', $this->on_header),
+				'B_LOAD_FIRST_USERSTATUS_COMMENTS'	 => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
 			);
 
 			if (!isset($template->_tpldata['.'][0]['T_IMAGESET_PATH']))
@@ -68,61 +65,61 @@ if (!class_exists('socialnet_userstatus'))
 				$_phpbb_root_path = str_replace('\\', '/', $phpbb_root_path);
 				$_script_path = str_replace('//', '/', str_replace('\\', '/', $config['script_path']) . '/');
 				$t_imaset_path = preg_replace('#^' . preg_quote($_phpbb_root_path) . '#si', $_script_path, $t_imaset_path);
-				
+
 				$template_assign_vars = array_merge($template_assign_vars, array(
-					'T_IMAGESET_PATH'			=> $t_imaset_path,
+					'T_IMAGESET_PATH'	 => $t_imaset_path,
 				));
 			}
 
 			switch ($this->script_name)
 			{
-				case 'memberlist':
-				case 'profile':
-				
-					$user_id = $this->_wall_id();
+			case 'memberlist':
+			case 'profile':
 
-					if ($user_id != ANONYMOUS)
+				$user_id = $this->_wall_id();
+
+				if ($user_id != ANONYMOUS)
+				{
+					$status_id = request_var('status_id', 0);
+
+					$my_friends = $this->p_master->friends['user_id'];
+					$my_friends[] = $user->data['user_id'];
+
+					if ($status_id == 0)
 					{
-						$status_id = request_var('status_id', 0);
+						$more_statuses = $this->_get_statuses($user_id);
 
-						$my_friends = $this->p_master->friends['user_id'];
-						$my_friends[] = $user->data['user_id'];
+						$template_assign_vars = array_merge($template_assign_vars, array(
+							'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+							'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends) ? '1' : '0',
+							'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => $more_statuses,
+							'SN_US_USER_ID'								 => $user_id,
+						));
 
-						if ($status_id == 0)
+						if (!isset($template->_tpldata['.'][0]['USERNAME']))
 						{
-							$more_statuses = $this->_get_statuses($user_id);
-
-							$template_assign_vars = array_merge($template_assign_vars, array(
-								'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE' => true,
-								'SN_MODULE_USERSTATUS_CAN_POST_STATUS'    => in_array($user_id, $my_friends) ? '1' : '0',
-								'SN_US_DISPLAY_LOAD_MORE_STATUS'          => $more_statuses,
-								'SN_US_USER_ID'                           => $user_id,
-							));
-
-							if (!isset($template->_tpldata['.'][0]['USERNAME']))
-							{
-								$sql = 'SELECT username
+							$sql = 'SELECT username
 													FROM ' . USERS_TABLE . '
 														WHERE user_id = ' . $user_id;
-								$rs = $db->sql_query($sql);
-								$username = $db->sql_fetchfield('username');
-								$db->sql_freeresult($rs);
-								$template->assign_var('USERNAME', $username);
-							}
-						}
-						else
-						{
-							$this->_get_statuses($user_id, $status_id, 1, 15, true);
-							$more_statuses = false;
-
-							$template_assign_vars = array_merge($template_assign_vars, array(
-								'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE' => true,
-								'SN_MODULE_USERSTATUS_CAN_POST_STATUS'    => in_array($user_id, $my_friends),
-								'SN_US_DISPLAY_LOAD_MORE_STATUS'          => false,
-								'SN_US_USER_ID'                           => $user_id,
-							));
+							$rs = $db->sql_query($sql);
+							$username = $db->sql_fetchfield('username');
+							$db->sql_freeresult($rs);
+							$template->assign_var('USERNAME', $username);
 						}
 					}
+					else
+					{
+						$this->_get_statuses($user_id, $status_id, 1, 15, true);
+						$more_statuses = false;
+
+						$template_assign_vars = array_merge($template_assign_vars, array(
+							'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+							'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
+							'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
+							'SN_US_USER_ID'								 => $user_id,
+						));
+					}
+				}
 				break;
 			}
 
@@ -135,36 +132,36 @@ if (!class_exists('socialnet_userstatus'))
 
 			switch ($mode)
 			{
-				case 'status_share':
-					$this->_status_share();
+			case 'status_share':
+				$this->_status_share();
 				break;
 
-				case 'status_share_wall':
-					$this->_status_share(true);
+			case 'status_share_wall':
+				$this->_status_share(true);
 				break;
 
-				case 'status_more':
-					$this->_status_more();
+			case 'status_more':
+				$this->_status_more();
 				break;
 
-				case 'status_delete':
-					$this->_status_delete();
+			case 'status_delete':
+				$this->_status_delete();
 				break;
 
-				case 'comment_share':
-					$this->_comment_share();
+			case 'comment_share':
+				$this->_comment_share();
 				break;
 
-				case 'comment_delete':
-					$this->_comment_delete();
+			case 'comment_delete':
+				$this->_comment_delete();
 				break;
 
-				case 'comment_more':
-					$this->_comment_more();
+			case 'comment_more':
+				$this->_comment_more();
 				break;
 
-				case 'get_status':
-					$this->_get_status();
+			case 'get_status':
+				$this->_get_status();
 				break;
 			}
 		}
@@ -194,7 +191,7 @@ if (!class_exists('socialnet_userstatus'))
 				if ($isPage)
 				{
 					$page = request_var('page', array(
-						'' => ''
+						''	 => ''
 					), true);
 					$page['title'] = htmlspecialchars_decode($page['title'], ENT_QUOTES);
 					$page['desc'] = htmlspecialchars_decode($page['desc'], ENT_QUOTES);
@@ -232,14 +229,14 @@ if (!class_exists('socialnet_userstatus'))
 					if ($user->data['user_id'] != $wall_id)
 					{
 						$this->p_master->notify->add(SN_NTF_WALL, $wall_id, array(
-							'text' => 'SN_NTF_STATUS_FRIEND_WALL',
-							'user' => $user->data['username'],
-							'link' => $link,
+							'text'	 => 'SN_NTF_STATUS_FRIEND_WALL',
+							'user'	 => $user->data['username'],
+							'link'	 => $link,
 						));
 					}
 
 					$template->set_filenames(array(
-						'body' => 'socialnet/userstatus_status.html',
+						'body'	 => 'socialnet/userstatus_status.html',
 					));
 
 					$data = $this->_get_last_status($wall_id);
@@ -294,7 +291,7 @@ if (!class_exists('socialnet_userstatus'))
 			$last_status_id = request_var('lStatusID', 0);
 
 			$template->set_filenames(array(
-				'body' => 'socialnet/userstatus_status.html',
+				'body'	 => 'socialnet/userstatus_status.html',
 			));
 
 			$return = array();
@@ -341,30 +338,30 @@ if (!class_exists('socialnet_userstatus'))
 				if ($user->data['user_id'] != $row['poster_id'])
 				{
 					$this->p_master->notify->add(SN_NTF_COMMENT, $row['poster_id'], array(
-						'text' => 'SN_NTF_STATUS_AUTHOR_COMMENT',
-						'user' => $user->data['username'],
-						'link' => $link,
+						'text'	 => 'SN_NTF_STATUS_AUTHOR_COMMENT',
+						'user'	 => $user->data['username'],
+						'link'	 => $link,
 					));
 				}
 
 				$rowset = $this->p_master->comments->getPosters($this->commentModule, $status_id);
-				if ( $row['wall_id'] != $user->data['user_id'])
+				if ($row['wall_id'] != $user->data['user_id'])
 				{
-					$rowset = array_unique(array_merge($rowset,array($row['wall_id'])));
+					$rowset = array_unique(array_merge($rowset, array($row['wall_id'])));
 				}
-				
-				if ( $user->data['user_id'] != $row['poster_id'])
+
+				if ($user->data['user_id'] != $row['poster_id'])
 				{
-					$rowset = array_diff( $rowset, array($row['poster_id']));
+					$rowset = array_diff($rowset, array($row['poster_id']));
 				}
-				
+
 				for ($i = 0; isset($rowset[$i]); $i++)
 				{
 					$this->p_master->notify->add(SN_NTF_COMMENT, $rowset[$i], array(
-						'text'   => 'SN_NTF_STATUS_USER_COMMENT',
-						'user'   => $user->data['username'],
+						'text'	 => 'SN_NTF_STATUS_USER_COMMENT',
+						'user'	 => $user->data['username'],
 						'author' => $row['username'],
-						'link'   => $link,
+						'link'	 => $link,
 					));
 				}
 
@@ -405,8 +402,8 @@ if (!class_exists('socialnet_userstatus'))
 			$comments = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_id, $last_comment_id, 10, true);
 
 			$return = array(
-				'moreComments' => $comments['more'],
-				'comments'     => $comments['comments'],
+				'moreComments'	 => $comments['more'],
+				'comments'		 => $comments['comments'],
 			);
 
 			header('Content-type: application/json');
@@ -418,14 +415,14 @@ if (!class_exists('socialnet_userstatus'))
 		function _get_status()
 		{
 			global $template;
-			
+
 			$status_id = request_var('status', 0);
 			$wall_id = request_var('wall', 0);
 
 			$template->set_filenames(array(
-				'body' => 'socialnet/userstatus_status.html',
+				'body'	 => 'socialnet/userstatus_status.html',
 			));
-			
+
 			$data = $this->_get_last_status($wall_id, $status_id);
 			$data['B_SN_US_CAN_COMMENT'] = false;
 			$data['DELETE_STATUS'] = false;
@@ -456,8 +453,8 @@ if (!class_exists('socialnet_userstatus'))
 			$return = $this->_get_last_status($wall_id);
 
 			return array(
-				'SN_US_MY_STATUS'     => $return['SN_US_STATUS'],
-				'SN_US_STATUS_POSTED' => $return['SN_US_STATUS_POSTED'],
+				'SN_US_MY_STATUS'		 => $return['SN_US_STATUS'],
+				'SN_US_STATUS_POSTED'	 => $return['SN_US_STATUS_POSTED'],
 			);
 		}
 
@@ -502,13 +499,13 @@ if (!class_exists('socialnet_userstatus'))
 			$my_friends[] = $user->data['user_id'];
 
 			$sql_ary = array(
-				'SELECT'   => 's.*, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour',
-				'FROM'     => array(
+				'SELECT'	 => 's.*, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour',
+				'FROM'		 => array(
 					SN_STATUS_TABLE => 's',
-					USERS_TABLE     => 'u',
+					USERS_TABLE => 'u',
 				),
-				'WHERE'    => 'u.user_id = s.poster_id AND s.wall_id = ' . $user_id . (($last_status_id != 0) ? (($only_one) ? ' AND s.status_id = ' . $last_status_id : ' AND s.status_id < ' . $last_status_id) : ''),
-				'ORDER_BY' => 's.status_id DESC',
+				'WHERE'		 => 'u.user_id = s.poster_id AND s.wall_id = ' . $user_id . (($last_status_id != 0) ? (($only_one) ? ' AND s.status_id = ' . $last_status_id : ' AND s.status_id < ' . $last_status_id) : ''),
+				'ORDER_BY'	 => 's.status_time DESC', // ORDER BY time NOT BY id
 			);
 			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query($sql, $status_limit + 1);
@@ -575,10 +572,10 @@ if (!class_exists('socialnet_userstatus'))
 			$another_wall = ($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile') ? true : false;
 
 			$wall_row = array(
-				'username'    => '',
-				'user_colour' => '',
+				'username'		 => '',
+				'user_colour'	 => '',
 			);
-			
+
 			if ($another_wall)
 			{
 				$sql = 'SELECT username, user_colour
@@ -593,23 +590,23 @@ if (!class_exists('socialnet_userstatus'))
 
 			$comments = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_row['status_id'], 0, $comment_limit);
 			return array_merge(array(
-				'SN_US_STATUS'        => $status_row['status_text'],
-				'SN_US_STATUS_POSTED' => $st_time,
-				'STATUS_ID'           => $status_row['status_id'],
-				'U_POSTER_PROFILE'    => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['poster_id'], $status_row['username'], $status_row['user_colour']),
-				'U_PROFILE'           => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['poster_id']),
-				'POSTER_AVATAR'       => $avatar_img,
-				'TIME'                => $st_time,
-				'TEXT'                => $status_text_format,
-				'DELETE_STATUS'       => ($auth->acl_get('a_') || ($status_row['poster_id'] == $user->data['user_id'])) ? true : false,
-				'B_SN_US_CAN_COMMENT' => (in_array($status_row['poster_id'], $my_friends) || in_array($status_row['wall_id'], $my_friends) || $status_row['poster_id'] == $user->data['user_id']) ? true : false,
-				'B_ISPAGE'            => !empty($pageData) && !empty($pageData['title']),
-				'WALL_ID'             => $status_row['wall_id'],
-				'U_WALL'              => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['wall_id']),
-				'ANOTHER_WALL'        => $another_wall,
-				'U_WALL_PROFILE'      => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['wall_id'], $wall_row['username'], $wall_row['user_colour']),
-				'COMMENTS'            => $comments['comments'],
-				'SN_US_MORE_COMMENTS' => $comments['more'],
+				'SN_US_STATUS'			 => $status_row['status_text'],
+				'SN_US_STATUS_POSTED'	 => $st_time,
+				'STATUS_ID'				 => $status_row['status_id'],
+				'U_POSTER_PROFILE'		 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['poster_id'], $status_row['username'], $status_row['user_colour']),
+				'U_PROFILE'				 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['poster_id']),
+				'POSTER_AVATAR'			 => $avatar_img,
+				'TIME'					 => $st_time,
+				'TEXT'					 => $status_text_format,
+				'DELETE_STATUS'			 => ($auth->acl_get('a_') || ($status_row['poster_id'] == $user->data['user_id'])) ? true : false,
+				'B_SN_US_CAN_COMMENT'	 => (in_array($status_row['poster_id'], $my_friends) || in_array($status_row['wall_id'], $my_friends) || $status_row['poster_id'] == $user->data['user_id']) ? true : false,
+				'B_ISPAGE'				 => !empty($pageData) && !empty($pageData['title']),
+				'WALL_ID'				 => $status_row['wall_id'],
+				'U_WALL'				 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['wall_id']),
+				'ANOTHER_WALL'			 => $another_wall,
+				'U_WALL_PROFILE'		 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['wall_id'], $wall_row['username'], $wall_row['user_colour']),
+				'COMMENTS'				 => $comments['comments'],
+				'SN_US_MORE_COMMENTS'	 => $comments['more'],
 			), $template_block_data);
 		}
 
