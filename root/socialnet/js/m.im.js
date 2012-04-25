@@ -19,7 +19,6 @@
 			timersMin : 1,
 			timersMax : 60,
 			curPosit : 0,
-			maxChatBoxes : 4,
 			sound : false,
 			sendSequence : {
 				alt : false,
@@ -69,7 +68,7 @@
 
 				$('.sn-im-chatBoxes .sn-im-button.sn-im-opener').each(function() {
 					if (self !== this) {
-						$.sn.im._cwClose($(this).parents('.sn-im-chatBox'));
+						//$.sn.im._cwClose($(this).parents('.sn-im-chatBox'));
 					}
 				});
 
@@ -110,9 +109,10 @@
 			$('.sn-im-canchat').live('click', function() {
 				var uid = $.sn.getAttr($(this), 'user');
 
+				/*
 				$('.sn-im-chatBox').each(function() {
 					$.sn.im._cwClose($(this));
-				});
+				});*/
 
 				if ($('#sn-im-chatBox' + uid).size() > 0) {
 					$.sn.im._cwOpen($('#sn-im-chatBox' + uid));
@@ -238,6 +238,13 @@
 			/** Zobraz IM */
 			$('#sn-im').removeAttr('style');
 			this._scrollable();
+			$('.sn-im-nav.sn-im-prev').live('click',function(){
+				$.sn.im._scrollable(1);
+			});
+			$('.sn-im-nav.sn-im-next').live('click',function(){
+				$.sn.im._scrollable(2);
+			});
+			
 			if ($('.sn-im-block .sn-im-msgs:visible').is(':visible')) {
 				var $block = $('.sn-im-block .sn-im-msgs:visible').parents('.sn-im-block');
 				this._cwClose($block);
@@ -451,10 +458,9 @@
 			$.sn.setCookie(id, true);
 
 			$.sn.im._unRead(obj,0);
-			//obj.find('.sn-im-unRead').html('0').hide();
-			//$.sn.setCookie(id + 'Unread', 0);
-
+			$.sn.im._scrollable(obj);
 		},
+
 		_cwClose : function(obj) {
 			var id = obj.attr('id');
 			var im_button = obj.find('.sn-im-button');
@@ -463,10 +469,9 @@
 
 			$.sn.setCookie(id, false);
 			$.sn.im._unRead(obj,0);
-			//obj.find('.sn-im-unRead').html('0').hide();
-			//$.sn.setCookie(id + 'Unread', 0);
-
+			$.sn.im._scrollable();
 		},
+
 		_cwToggle : function(obj) {
 			if (obj.find('.sn-im-button').hasClass('sn-im-opener'))
 				$.sn.im._cwClose(obj);
@@ -537,6 +542,7 @@
 
 		},
 
+		
 		/**
 		 * Posouvani chat boxiku
 		 * 
@@ -547,7 +553,22 @@
 		 */
 		_scrollable : function(m) {
 			var $nav = $('#sn-im-chatBoxes');
-			if ($nav.children().length > this.maxChatBoxes) {
+			var totalWidth = 0;
+
+			totalWidth = $('body').width()-parseInt($('.sn-im-dockWrapper').css('right'))- parseInt($('.sn-im-dockWrapper').css('left'))
+				- parseInt($('#sn-im-online').outerWidth(true))
+				- parseInt($('.sn-im-nav.sn-im-prev').outerWidth(true))
+				- parseInt($('.sn-im-nav.sn-im-next').outerWidth(true));
+			
+			$nav.width(totalWidth);
+			totalWidth=0;
+			$nav.children('.sn-im-chatBox').each(function(){
+				$(this).show();
+				totalWidth += $(this).outerWidth(true);
+			})
+
+			var navWidth = $nav.width();
+			if (navWidth < totalWidth) {
 				switch (m) {
 				case 10:
 					if (this.opts.curPosit === 0) {
@@ -568,11 +589,50 @@
 				 */
 				}
 				$.sn.setCookie('sn_im_curPosit', this.opts.curPosit);
-				for (i = 0; i < this.opts.maxChatBoxes; i++) {
-					$snImCB.children(this.opts.curPosit + i).show();
+				
+				$nav.children('.sn-im-chatBox:lt('+this.opts.curPosit+')').hide();
+				
+				totalWidth = 0;
+				for(i=this.opts.curPosit;i<=$nav.children('.sn-im-chatBox').length;i++){
+					totalWidth += $nav.children('.sn-im-chatBox:eq('+i+')').outerWidth(true);
+					if ( totalWidth > navWidth){
+						$nav.children('.sn-im-chatBox:eq('+i+')').hide();
+					}
 				}
+				var bw = 0;
+				if ( totalWidth < navWidth){
+					for(i=this.opts.curPosit-1;i>=0;i--){
+						bw = $nav.children('.sn-im-chatBox:eq('+i+')').outerWidth(true);
+						if (totalWidth + bw < navWidth){
+							$nav.children('.sn-im-chatBox:eq('+i+')').show();
+							totalWidth+=bw;
+							this.opts.curPosit--;
+							$.sn.setCookie('sn_im_curPosit', this.opts.curPosit);
+						}
+					}
+				}
+				
+				if ( typeof m == 'object'){
+					if ( $(m).is(':hidden')){
+						$.sn.im._scrollable(2);
+					}
+				}
+				
+				totalWidth = 0;
+				$nav.children('.sn-im-chatBox:visible').each(function(){
+					totalWidth += $(this).outerWidth(true);
+				});
+				$nav.width(totalWidth);
+				
+				/*
+				for (i = 0; i < this.opts.maxChatBoxes; i++) {
+					$nav.children(this.opts.curPosit + i).show();
+				}
+
+				
 				$nav.children(':lt(' + this.opts.curPosit + '):visible').hide();
 				$nav.children(':gt(' + (this.opts.curPosit + this.opts.maxChatBoxes - 1) + '):visible').hide();
+				*/
 			} else {
 				$nav.children('.sn-im-chatBox').show();
 			}
@@ -598,6 +658,7 @@
 		 */
 		_resize : function() {
 			$('#sn-im #sn-im-onlineList').css('max-height', ($(window).height() - 100 > 50 ? $(window).height() - 100 : 50) + 'px');
+			$.sn.im._scrollable();
 		},
 
 		_documentClick : function(event) {
