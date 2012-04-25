@@ -383,7 +383,9 @@ div:not(.sn-page) .sn-userName a
 {
 	bottom:0;
 	height:24px;
+	left:20px;
 	position:fixed;
+	right:20px;
 	z-index:999;
 }
 
@@ -399,7 +401,7 @@ div:not(.sn-page) .sn-userName a
 	width:180px;
 }
 
-.sn-im-button .label
+.sn-im-button .label,.sn-im-button.sn-im-nav
 {
 	display:block;
 	line-height:24px;
@@ -666,6 +668,7 @@ div:not(.sn-page) .sn-userName a
 
 .sn-im-nav
 {
+	font-size:1.25em;
 	font-weight:bold;
 	width:auto;
 }
@@ -793,15 +796,7 @@ div:not(.sn-page) .sn-userName a
 	margin-top:.5em;
 }
 
-.ltr .sn-im-dockWrapper
-{
-	border-right-color:#bbb;
-	border-right-style:solid;
-	border-right-width:1px;
-	right:20px;
-}
-
-.ltr .sn-im-chatBoxes .sn-im-group
+.ltr .sn-im-chatBoxes .sn-im-group,.ltr .sn-im-nav
 {
 	margin-right:4px;
 }
@@ -891,15 +886,7 @@ div:not(.sn-page) .sn-userName a
 	margin-right:5px;
 }
 
-.rtl .sn-im-dockWrapper
-{
-	border-left-color:#bbb;
-	border-left-style:solid;
-	border-left-width:1px;
-	left:20px;
-}
-
-.rtl .sn-im-chatBoxes .sn-im-group
+.rtl .sn-im-chatBoxes .sn-im-group,.rtl .sn-im-nav
 {
 	margin-left:4px;
 }
@@ -1649,14 +1636,14 @@ a.ui-button
 	display:none;
 }
 
-.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button
+.ltr .sn-im-dockWrapper,.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.ltr .sn-im-nav .sn-im-button,.ltr .sn-im-nav,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-nav .sn-im-button
 {
 	border-right-color:#bbb;
 	border-right-style:solid;
 	border-right-width:1px;
 }
 
-.ltr .sn-im-button,.rtl .sn-im-button
+.ltr .sn-im-button,.rtl .sn-im-dockWrapper,.rtl .sn-im-nav,.rtl .sn-im-button
 {
 	border-left-color:#bbb;
 	border-left-style:solid;
