@@ -38,22 +38,22 @@
 			}).TextAreaExpander(22, 150).live('focusin keyup input', function() {
 				var snUsShare = $(this).val();
 				$(this).parent('.sn-us-share').children('input[name=sn-us-wallButton]').show();
-				if ($.sn.isValidURL(snUsShare)) {
-					$('input[name=sn-us-fetchButton]').show();
+				if ($.sn.isValidURL(snUsShare) == true) {
+					$('input[name="sn-us-fetchButton"]').show();
 				} else {
-					$('input[name=sn-us-fetchButton]').hide();
-					$('input[name=sn-us-fetchClear]').trigger('click');
+					$('input[name="sn-us-fetchButton"]').hide();
+					$('input[name="sn-us-fetchClear"]').trigger('click');
 				}
 			}).live('focusout', function() {
 				var self = $(this);
 				var snUsShare = self.val();
-				var snUsButton = self.parent('.sn-us-share').children('input[name=sn-us-wallButton]');
 				if (snUsShare == '') {
+					var snUsButton = self.parent('.sn-us-share').children('input[name=sn-us-wallButton]');
 					snUsButton.hide();
-					$('input[name=sn-us-fetchButton]').hide();
-					$('input[name=sn-us-fetchClear]').hide();
+					$('input[name="sn-us-fetchButton"]').hide();
+					$('input[name="sn-us-fetchClear"]').hide();
 				}
-			}).trigger('focusout');
+			});
 
 			// Delete status
 			$(".sn-us-deleteStatus").live('click', function() {
@@ -361,7 +361,9 @@
 				$('.sn-us-fetchBlock .sn-us-fetchPreview').hide();
 				$('.sn-us-thumbs').hide();
 				$(this).hide();
-				$('input[name=sn-us-fetchButton]').show();
+				if ($.sn.isValidURL($('#sn-us-wallInput').val()) == true) {
+					$('input[name="sn-us-fetchButton"]').show();
+				}
 			}).hide();
 
 			$('#sn-us-noImg').change(function() {
