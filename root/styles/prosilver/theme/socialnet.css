@@ -1639,7 +1639,7 @@ a.ui-button
 	font-size:1.1em;
 }
 
-.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton
+.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton
 {
 	display:none;
 }
