@@ -25,21 +25,21 @@ include_once($socialnet_root_path . 'includes/constants.' . $phpEx);
 /**
  * @ignore
  */
-$dir = opendir( "{$socialnet_root_path}includes/");
-while( $file = readdir( $dir))
+$dir = opendir("{$socialnet_root_path}includes/");
+while ($file = readdir($dir))
 {
-	if ( preg_match("/^sn_core_.*\.{$phpEx}$/i", $file, $match ))
+	if (preg_match("/^sn_core_.*\.{$phpEx}$/i", $file, $match))
 	{
-		include( "{$socialnet_root_path}includes/$file");
+		include("{$socialnet_root_path}includes/$file");
 	}
 }
-closedir( $dir);
+closedir($dir);
 
 include_once($socialnet_root_path . 'includes/functions.' . $phpEx);
 
 class socialnet extends snFunctions
 {
-	var $notify = null, $comments = null, $addons = null;
+	var $notify = null, $comments = null, $addons = null, $activity = null;
 	var $periods = array(
 		"SECOND",
 		"MINUTE",
@@ -168,7 +168,7 @@ class socialnet extends snFunctions
 				$confirmBox_settings['S_' . strtoupper($row['config_name'])] = $row['config_value'];
 			}
 		}
-		
+
 		$this->load_friends();
 		$this->load_groups();
 
@@ -176,23 +176,23 @@ class socialnet extends snFunctions
 		$socialnet_web_path = ((defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? $board_url : $phpbb_root_path) . 'socialnet/';
 
 		$template->assign_vars(array_merge(array(
-			'B_SOCIALNET_ENABLED'				 							=> true,
-			'SOCIALNET_ROOT_PATH'				 							=> $socialnet_root_path,
-			'SOCIALNET_JS_PATH'					 							=> $socialnet_web_path . 'js/',
-			'T_SOCIALNET_JS_PATH'				 							=> $socialnet_web_path . 'js',
-			'T_SOCIALNET_STYLE_PATH'			 						=> $socialnet_web_path . 'styles',
-			'T_SOCIALNET_IMAGES_PATH'			 						=> $socialnet_web_path . 'styles/images',
-			'T_SOCIALNET_CSS_PATH'				 						=> $socialnet_web_path . 'styles/css',
-			'COOKIE_NAME'						 									=> $config['cookie_name'],
-			'COOKIE_PATH'						 									=> $config['cookie_path'],
-			'COOKIE_DOMAIN'												 		=> $config['cookie_domain'],
-			'COOKIE_SECURE'						 								=> $config['cookie_secure'],
-			'U_SN_ACTIVITYPAGE'						 						=> append_sid("{$phpbb_root_path}activitypage.$phpEx"),
-			'S_ON_' . strtoupper($this->script_name)	=> true,
-			'I_SN_BLOCK_ONLINE_USERS_CHECK_TIME'			=> $this->config['block_uo_check_every'] * 1000,
-			'B_AJAX_LOAD_ALLOW'					 							=> $config['board_disable'] == 0 ? 'true' : 'false',
-			'I_POST_MIN_CHARS'					 							=> $config['min_post_chars'],
-			'U_SN_MY_PROFILE'					 								=> append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u={$user->data['user_id']}"),
+			'B_SOCIALNET_ENABLED'				 => true,
+			'SOCIALNET_ROOT_PATH'				 => $socialnet_root_path,
+			'SOCIALNET_JS_PATH'					 => $socialnet_web_path . 'js/',
+			'T_SOCIALNET_JS_PATH'				 => $socialnet_web_path . 'js',
+			'T_SOCIALNET_STYLE_PATH'			 => $socialnet_web_path . 'styles',
+			'T_SOCIALNET_IMAGES_PATH'			 => $socialnet_web_path . 'styles/images',
+			'T_SOCIALNET_CSS_PATH'				 => $socialnet_web_path . 'styles/css',
+			'COOKIE_NAME'						 => $config['cookie_name'],
+			'COOKIE_PATH'						 => $config['cookie_path'],
+			'COOKIE_DOMAIN'						 => $config['cookie_domain'],
+			'COOKIE_SECURE'						 => $config['cookie_secure'],
+			'U_SN_ACTIVITYPAGE'					 => append_sid("{$phpbb_root_path}activitypage.$phpEx"),
+			'S_ON_' . strtoupper($this->script_name)									 => true,
+			'I_SN_BLOCK_ONLINE_USERS_CHECK_TIME' => $this->config['block_uo_check_every'] * 1000,
+			'B_AJAX_LOAD_ALLOW'					 => $config['board_disable'] == 0 ? 'true' : 'false',
+			'I_POST_MIN_CHARS'					 => $config['min_post_chars'],
+			'U_SN_MY_PROFILE'					 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u={$user->data['user_id']}"),
 		), $enable_modules, $confirmBox_settings, $block_settings));
 
 		$this->_calc_bbcodeFlags();
@@ -223,11 +223,11 @@ class socialnet extends snFunctions
 			$db->sql_freeresult($rs);
 
 			$friends = array(
-				'user_id'		 		=> array(),
-				'usernames'		 	=> array(),
-				'friends'		 		=> array(),
-				'sex'			 			=> array(),
-				'colourNames'	 	=> array(),
+				'user_id'		 => array(),
+				'usernames'		 => array(),
+				'friends'		 => array(),
+				'sex'			 => array(),
+				'colourNames'	 => array(),
 			);
 
 			for ($i = 0; isset($rowset[$i]); $i++)
@@ -293,9 +293,9 @@ class socialnet extends snFunctions
 				if (!isset($groups[$gu['fms_gid']]))
 				{
 					$groups[$gu['fms_gid']] = array(
-						'name'		 		=> $gu['fms_name'],
-						'collapse'	 	=> $gu['fms_collapse'],
-						'users'		 		=> array(),
+						'name'		 => $gu['fms_name'],
+						'collapse'	 => $gu['fms_collapse'],
+						'users'		 => array(),
 					);
 				}
 
@@ -366,6 +366,10 @@ class socialnet extends snFunctions
 			{
 				$module_class = 'socialnet_' . $module;
 				$this->modules_obj[$module] = new $module_class($this);
+				if (method_exists($this->modules_obj[$module], 'init'))
+				{
+					$this->modules_obj[$module]->init();
+				}
 			}
 		}
 	}
@@ -520,27 +524,27 @@ class socialnet extends snFunctions
 
 		switch ($avatar_type)
 		{
-			case AVATAR_UPLOAD:
-				if (!$config['allow_avatar_upload'] && !$ignore_config)
-				{
-					return '';
-				}
-				$avatar_img = $phpbb_root_path . "download/file.$phpEx?avatar=";
+		case AVATAR_UPLOAD:
+			if (!$config['allow_avatar_upload'] && !$ignore_config)
+			{
+				return '';
+			}
+			$avatar_img = $phpbb_root_path . "download/file.$phpEx?avatar=";
 			break;
 
-			case AVATAR_GALLERY:
-				if (!$config['allow_avatar_local'] && !$ignore_config)
-				{
-					return '';
-				}
-				$avatar_img = $phpbb_root_path . $config['avatar_gallery_path'] . '/';
+		case AVATAR_GALLERY:
+			if (!$config['allow_avatar_local'] && !$ignore_config)
+			{
+				return '';
+			}
+			$avatar_img = $phpbb_root_path . $config['avatar_gallery_path'] . '/';
 			break;
 
-			case AVATAR_REMOTE:
-				if (!$config['allow_avatar_remote'] && !$ignore_config)
-				{
-					return '';
-				}
+		case AVATAR_REMOTE:
+			if (!$config['allow_avatar_remote'] && !$ignore_config)
+			{
+				return '';
+			}
 			break;
 		}
 
@@ -765,11 +769,11 @@ class socialnet extends snFunctions
 		$now = time();
 
 		$sql_arr = array(
-			'user_id'			 				=> $user_id,
-			'entry_target'		 		=> $target,
-			'entry_type'		 			=> $type,
-			'entry_time'		 			=> $now,
-			'entry_additionals'	 	=> serialize($additionals),
+			'user_id'			 => $user_id,
+			'entry_target'		 => $target,
+			'entry_type'		 => $type,
+			'entry_time'		 => $now,
+			'entry_additionals'	 => serialize($additionals),
 		);
 
 		$sql = "INSERT INTO " . SN_ENTRIES_TABLE . $db->sql_build_array('INSERT', $sql_arr);
@@ -938,7 +942,7 @@ class socialnet extends snFunctions
 		$unsafe_tags = array(
 			array('<', '>'),
 			array('[quote=&quot;', "&quot;:$uid]"), // 3rd parameter true here too for now
-		);
+			);
 
 		// If bitfield is given only check for those tags that are surely existing in the text
 		if (!empty($bitfield))
@@ -1073,10 +1077,9 @@ class socialnet extends snFunctions
 			}
 		}
 
-		
-		if ( class_exists('sn_core_addons') && method_exists($this->addons, 'get'))
+		if (class_exists('sn_core_addons') && method_exists($this->addons, 'get'))
 		{
-			$this->addons->get(); 
+			$this->addons->get();
 		}
 
 		if (sizeOf($this->modules) == 0)

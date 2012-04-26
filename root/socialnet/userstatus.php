@@ -47,9 +47,12 @@ if (!class_exists('socialnet_userstatus'))
 
 		function socialnet_userstatus(&$p_master)
 		{
-			global $db, $template, $user, $config, $auth, $phpEx, $phpbb_root_path, $phpEx;
-
 			$this->p_master =& $p_master;
+		}
+
+		function init()
+		{
+			global $db, $template, $user, $config, $auth, $phpEx, $phpbb_root_path, $phpEx;
 
 			$this->script_name = $this->p_master->script_name;
 			$mode = request_var('mode', '', true);
@@ -87,7 +90,14 @@ if (!class_exists('socialnet_userstatus'))
 
 					if ($status_id == 0)
 					{
-						$more_statuses = $this->_get_statuses($user_id);
+						$entries = $this->p_master->activity->get(0, 15, true, $user_id);
+						$more_statuses = $entries['more'];
+						//$more_statuses = $this->_get_statuses($user_id);
+
+						foreach ($entries['entries'] as $idx => $entry)
+						{
+							$template->assign_block_vars('ap_entries', $entry);
+						}
 
 						$template_assign_vars = array_merge($template_assign_vars, array(
 							'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
@@ -285,8 +295,8 @@ if (!class_exists('socialnet_userstatus'))
 		 */
 		function _status_more()
 		{
-			global $template, $phpbb_root_path;
-
+			global $template;
+/*
 			$user_id = request_var('u', ANONYMOUS);
 			$last_status_id = request_var('lStatusID', 0);
 
@@ -306,6 +316,35 @@ if (!class_exists('socialnet_userstatus'))
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($return));
+*/
+			$user_id = request_var('u', ANONYMOUS);
+			$last_status_id = request_var('lStatusID', 0);
+			$last_entry_time = request_var('ltime',0);
+				
+			$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15, true, $user_id);
+			
+			foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
+			{
+				$template->assign_block_vars('ap_entries', $a_ap_entry);
+			}
+			
+			$return = array();
+			$return['moreStatuses'] = $a_ap_entries['more'];
+			
+			$template->assign_vars(array(
+					'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+					'B_SN_AP_MORE_LOAD'		 => true,
+			));
+			
+			$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
+			
+			$return['statuses'] = $this->p_master->get_page();
+			
+			header('Content-type: application/json');
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+			die(json_encode($return));
+				
 		}
 
 		/**
@@ -506,7 +545,7 @@ if (!class_exists('socialnet_userstatus'))
 				),
 				'WHERE'		 => 'u.user_id = s.poster_id AND s.wall_id = ' . $user_id . (($last_status_id != 0) ? (($only_one) ? ' AND s.status_id = ' . $last_status_id : ' AND s.status_id < ' . $last_status_id) : ''),
 				'ORDER_BY'	 => 's.status_time DESC', // ORDER BY time NOT BY id
-			);
+				);
 			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query($sql, $status_limit + 1);
 			$status_rows = $db->sql_fetchrowset($result);
@@ -569,7 +608,7 @@ if (!class_exists('socialnet_userstatus'))
 
 			$wall_id = $this->_wall_id();
 
-			$another_wall = ($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile') ? true : false;
+			$another_wall = (($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile' )&& ($this->script_name != 'userstatus' )) ? true : false;
 
 			$wall_row = array(
 				'username'		 => '',

@@ -23,7 +23,7 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
 	include_once($phpbb_root_path . 'common.' . $phpEx);
 	include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
-	
+
 	// Start session management
 	$user->session_begin(false);
 	$auth->acl($user->data);
@@ -39,11 +39,14 @@ if (!class_exists('socialnet_activitypage'))
 
 		function socialnet_activitypage(&$p_master = null)
 		{
-			global $phpEx, $user, $template, $phpbb_root_path, $db, $socialnet;
 			$this->p_master =& $p_master;
+		}
+		function init()
+		{
+			global $phpEx, $user, $template, $phpbb_root_path, $db, $socialnet;
 
 			$template_vars = array();
-			
+
 			$on_login = false;
 			if ($this->p_master->script_name == 'activitypage')
 			{
@@ -56,70 +59,70 @@ if (!class_exists('socialnet_activitypage'))
 
 				switch ($mode)
 				{
-					case 'view_suggestions':
-					
-						$this->p_master->fms_users(array_merge(array(
-							'mode'				 			=> 'suggestionfull',
-							'mode_short'		 		=> 'suggestion',
-							'slider'			 			=> false,
-							'user_id'			 			=> $user->data['user_id'],
-							'limit'				 			=> 50,
-							'fmsf'				 			=> 0,
-							'avatar_size'		 		=> 50,
-							'add_friend_link'		=> true
-						), $this->p_master->fms_users_sqls('suggestion', $user->data['user_id'])));
-						
+				case 'view_suggestions':
+
+					$this->p_master->fms_users(array_merge(array(
+						'mode'				 => 'suggestionfull',
+						'mode_short'		 => 'suggestion',
+						'slider'			 => false,
+						'user_id'			 => $user->data['user_id'],
+						'limit'				 => 50,
+						'fmsf'				 => 0,
+						'avatar_size'		 => 50,
+						'add_friend_link'	 => true
+					), $this->p_master->fms_users_sqls('suggestion', $user->data['user_id'])));
+
 					break;
 
-					case 'view_main':
-					
-						$last_entry_time = request_var('lEntryTime', 0);
+				case 'view_main':
 
-						$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
+					$last_entry_time = request_var('lEntryTime', 0);
 
-						foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
-						{
-							$template->assign_block_vars('ap_entries', $a_ap_entry);
-						}
+					//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
+					$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15);
+					foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
+					{
+						$template->assign_block_vars('ap_entries', $a_ap_entry);
+					}
 
-						$template_vars = array_merge($template_vars, array(
-							'B_SN_AP_MORE_ENTRIES'			=> $a_ap_entries['more'],
-						));
-						
+					$template_vars = array_merge($template_vars, array(
+						'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+					));
+
 					break;
 
-					case 'users_autocomplete':
-					
-						$socialnet->users_autocomplete();
-						
+				case 'users_autocomplete':
+
+					$socialnet->users_autocomplete();
+
 					break;
 
-					case 'search':
-					
-						$username = utf8_clean_string(request_var('username', '', true));
+				case 'search':
 
-						$sql = 'SELECT user_id
+					$username = utf8_clean_string(request_var('username', '', true));
+
+					$sql = 'SELECT user_id
         		          FROM ' . USERS_TABLE . '
         		            WHERE username_clean LIKE "%' . $username . '%"';
-						$result = $db->sql_query($sql);
-						$search_user_id = $db->sql_fetchfield('user_id');
-						$db->sql_freeresult($result);
+					$result = $db->sql_query($sql);
+					$search_user_id = $db->sql_fetchfield('user_id');
+					$db->sql_freeresult($result);
 
-						redirect(append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $search_user_id));
+					redirect(append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $search_user_id));
 
 					break;
 				}
 
 				$template_vars = array_merge($template_vars, array(
-					'S_MY_USERNAME'									=> $user->data['username'],
-					'S_MY_USER_AVATAR'							=> $this->p_master->get_user_avatar_resized($user->data['user_avatar'], $user->data['user_avatar_type'], $user->data['user_avatar_width'], $user->data['user_avatar_height'], 50),
-					'U_VIEW_SUGGESTIONS'						=> append_sid("activitypage.$phpEx", 'mode=view_suggestions'),
-					'U_MANAGE_FRIEND'								=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra'),
-					'U_ADD_FRIEND'									=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra'),
-					'U_EDIT_MY_PROFILE'							=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=profile'),
-					'U_MY_USERNAME_LINK'						=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $user->data['user_id']),
-					'S_SN_AP_' . strtoupper($mode)	=> true,
-					'USER_ID'												=> $user->data['user_id'],
+					'S_MY_USERNAME'		 => $user->data['username'],
+					'S_MY_USER_AVATAR'	 => $this->p_master->get_user_avatar_resized($user->data['user_avatar'], $user->data['user_avatar_type'], $user->data['user_avatar_width'], $user->data['user_avatar_height'], 50),
+					'U_VIEW_SUGGESTIONS' => append_sid("activitypage.$phpEx", 'mode=view_suggestions'),
+					'U_MANAGE_FRIEND'	 => append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra'),
+					'U_ADD_FRIEND'		 => append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra'),
+					'U_EDIT_MY_PROFILE'	 => append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=profile'),
+					'U_MY_USERNAME_LINK' => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $user->data['user_id']),
+					'S_SN_AP_' . strtoupper($mode)					 => true,
+					'USER_ID'			 => $user->data['user_id'],
 				));
 			}
 
@@ -128,7 +131,7 @@ if (!class_exists('socialnet_activitypage'))
 			if ($user->data['is_registered'])
 			{
 				$my_friends = $this->p_master->friends['user_id'];
-				
+
 				if ($my_friends)
 				{
 					$sql = 'SELECT COUNT(entry_id) as count
@@ -137,9 +140,9 @@ if (!class_exists('socialnet_activitypage'))
 												AND entry_type = ' . SN_TYPE_NEW_STATUS_COMMENT . '
 			                	AND ' . $db->sql_in_set('user_id', $my_friends);
 					$result = $db->sql_query($sql);
-					
+
 					$template_vars = array_merge($template_vars, array(
-						'SN_AP_NEW_COMMENTS_COUNT'			=> $db->sql_fetchfield('count', false, $result),
+						'SN_AP_NEW_COMMENTS_COUNT'	 => $db->sql_fetchfield('count', false, $result),
 					));
 					$db->sql_freeresult($result);
 				}
@@ -150,7 +153,7 @@ if (!class_exists('socialnet_activitypage'))
 			}
 
 			$template_vars = array_merge($template_vars, array(
-				'SN_MODULE_ACTIVITYPAGE_ENABLED'			=> $ap_enabled,
+				'SN_MODULE_ACTIVITYPAGE_ENABLED' => $ap_enabled,
 			));
 
 			$template->assign_vars($template_vars);
@@ -162,70 +165,72 @@ if (!class_exists('socialnet_activitypage'))
 
 			switch ($mode)
 			{
-				case 'onlineUsers':
-				
-					$this->p_master->online_users(true);
-					
+			case 'onlineUsers':
+
+				$this->p_master->online_users(true);
+
 				break;
-				
-				case 'snApOlderEntries':
-				
-					$last_entry_time = request_var('lEntryTime', 0);
 
-					$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
+			case 'snApOlderEntries':
 
-					foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
-					{
-						$template->assign_block_vars('ap_entries', $a_ap_entry);
-					}
+				$last_entry_time = request_var('lEntryTime', 0);
 
-					$return = array();
-					$return['more'] = $a_ap_entries['more'];
+				//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
+				$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15);
 
-					$template->assign_vars(array(
-						'B_SN_AP_MORE_ENTRIES'			=> $a_ap_entries['more'],
-						'B_SN_AP_MORE_LOAD'					=> true,
-					));
+				foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
+				{
+					$template->assign_block_vars('ap_entries', $a_ap_entry);
+				}
 
-					$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
+				$return = array();
+				$return['more'] = $a_ap_entries['more'];
 
-					$return['content'] = $this->p_master->get_page();
+				$template->assign_vars(array(
+					'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+					'B_SN_AP_MORE_LOAD'		 => true,
+				));
 
-					header('Content-type: application/json');
-					header("Cache-Control: no-cache, must-revalidate");
-					header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-					die(json_encode($return));
-					
+				$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
+
+				$return['content'] = $this->p_master->get_page();
+
+				header('Content-type: application/json');
+				header("Cache-Control: no-cache, must-revalidate");
+				header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+				die(json_encode($return));
+
 				break;
-				
-				case 'snApNewestEntries':
-				
-					$last_entry_time = request_var('lEntryTime', 0);
 
-					$a_ap_entries = $this->ap_load_entries($last_entry_time, 15, false);
+			case 'snApNewestEntries':
 
-					foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
-					{
-						$template->assign_block_vars('ap_entries', $a_ap_entry);
-					}
+				$last_entry_time = request_var('lEntryTime', 0);
 
-					$return = array();
-					$return['more'] = $a_ap_entries['more'];
+				//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15, false);
+				$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15, false);
 
-					$template->assign_vars(array(
-						'B_SN_AP_MORE_ENTRIES'			=> $a_ap_entries['more'],
-						'B_SN_AP_MORE_LOAD'					=> true,
-					));
+				foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
+				{
+					$template->assign_block_vars('ap_entries', $a_ap_entry);
+				}
 
-					$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
+				$return = array();
+				$return['more'] = $a_ap_entries['more'];
 
-					$return['content'] = $this->p_master->get_page();
+				$template->assign_vars(array(
+					'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+					'B_SN_AP_MORE_LOAD'		 => true,
+				));
 
-					header('Content-type: application/json');
-					header("Cache-Control: no-cache, must-revalidate");
-					header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-					die(json_encode($return));
-					
+				$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
+
+				$return['content'] = $this->p_master->get_page();
+
+				header('Content-type: application/json');
+				header("Cache-Control: no-cache, must-revalidate");
+				header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+				die(json_encode($return));
+
 				break;
 			}
 
@@ -271,7 +276,7 @@ if (!class_exists('socialnet_activitypage'))
 
 			$sql_ary = array(
 				'SELECT'	 => '*',
-				'FROM'		 => array(SN_ENTRIES_TABLE => 'sn_e',),
+				'FROM'		 => array(SN_ENTRIES_TABLE => 'sn_e', ),
 				'WHERE'		 => $db->sql_in_set('sn_e.user_id', $my_friends, false, true) . (($last_entry_time != 0) ? ' AND sn_e.entry_time ' . ($older ? '<' : '>') . ' ' . $last_entry_time : '') . ' AND ' . $db->sql_in_set('sn_e.entry_type', $avail_entry_types),
 				'ORDER_BY'	 => 'sn_e.entry_time DESC, sn_e.entry_id DESC'
 			);
@@ -298,28 +303,28 @@ if (!class_exists('socialnet_activitypage'))
 
 				switch ($entries_row['entry_type'])
 				{
-					case SN_TYPE_NEW_STATUS:
-						$a_ap_entries[$i] = $this->ap_load_status_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_time']);
+				case SN_TYPE_NEW_STATUS:
+					$a_ap_entries[$i] = $this->ap_load_status_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_time']);
 					break;
-					
-					case SN_TYPE_NEW_FRIENDSHIP:
-						$a_ap_entries[$i] = $this->ap_load_friends_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target']);
+
+				case SN_TYPE_NEW_FRIENDSHIP:
+					$a_ap_entries[$i] = $this->ap_load_friends_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target']);
 					break;
-					
-					case SN_TYPE_PROFILE_UPDATED:
-						$a_ap_entries[$i] = $this->ap_load_profile_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+
+				case SN_TYPE_PROFILE_UPDATED:
+					$a_ap_entries[$i] = $this->ap_load_profile_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
 					break;
-					
-					case SN_TYPE_NEW_FAMILY:
-						$a_ap_entries[$i] = $this->ap_load_family_relation_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+
+				case SN_TYPE_NEW_FAMILY:
+					$a_ap_entries[$i] = $this->ap_load_family_relation_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
 					break;
-					
-					case SN_TYPE_NEW_RELATIONSHIP:
-						$a_ap_entries[$i] = $this->ap_load_family_relation_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+
+				case SN_TYPE_NEW_RELATIONSHIP:
+					$a_ap_entries[$i] = $this->ap_load_family_relation_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
 					break;
-					
-					case SN_TYPE_EMOTE:
-						$a_ap_entries[$i] = $this->ap_load_emote_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+
+				case SN_TYPE_EMOTE:
+					$a_ap_entries[$i] = $this->ap_load_emote_entry($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
 					break;
 				}
 
@@ -364,9 +369,9 @@ if (!class_exists('socialnet_activitypage'))
 
 			$template_data = $this->p_master->page_footer();
 			return array(
-				'ID'			=> $entry_id,
-				'TYPE'		=> $entry_type,
-				'DATA'		=> $template_data,
+				'ID'	 => $entry_id,
+				'TYPE'	 => $entry_type,
+				'DATA'	 => $template_data,
 			);
 		}
 
@@ -398,12 +403,12 @@ if (!class_exists('socialnet_activitypage'))
 			}
 
 			return array(
-				'ID'				 				=> $entry_id,
-				'TYPE'				 			=> $entry_type,
-				'USER1_USERNAME'		=> $this->friends_entry[$entry_uid]['username'],
-				'USER2_USERNAME'		=> $this->friends_entry[$entry_target]['username'],
-				'U_USER1_PROFILE'		=> $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $this->friends_entry[$entry_uid]['user_id'], $this->friends_entry[$entry_uid]['username'], $this->friends_entry[$entry_uid]['user_colour']),
-				'U_USER2_PROFILE'		=> $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $this->friends_entry[$entry_target]['user_id'], $this->friends_entry[$entry_target]['username'], $this->friends_entry[$entry_target]['user_colour']),
+				'ID'				 => $entry_id,
+				'TYPE'				 => $entry_type,
+				'USER1_USERNAME'	 => $this->friends_entry[$entry_uid]['username'],
+				'USER2_USERNAME'	 => $this->friends_entry[$entry_target]['username'],
+				'U_USER1_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $this->friends_entry[$entry_uid]['user_id'], $this->friends_entry[$entry_uid]['username'], $this->friends_entry[$entry_uid]['user_colour']),
+				'U_USER2_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $this->friends_entry[$entry_target]['user_id'], $this->friends_entry[$entry_target]['username'], $this->friends_entry[$entry_target]['user_colour']),
 			);
 		}
 
@@ -438,12 +443,12 @@ if (!class_exists('socialnet_activitypage'))
 					$entry_size = sizeof($entry_addArray);
 					$entry_size--;
 					$idx = 0;
-					
+
 					foreach ($entry_addArray as $field => $value)
 					{
 						$field = strtoupper($field);
 						$field_ = strtoupper(preg_replace('/^user_/s', '', $field));
-						
+
 						if (!empty($entry_add))
 						{
 							if ($idx < $entry_size)
@@ -467,13 +472,13 @@ if (!class_exists('socialnet_activitypage'))
 			}
 
 			return array(
-				'ID'			 										=> $entry_id,
-				'TYPE'			 									=> $entry_type,
-				'USERNAME'		 								=> $entry_user['username'],
-				'U_PROFILE'		 								=> $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
-				'PROFILE_FIELDS'							=> $entry_add,
-				'L_SN_AP_CHANGED_PROFILE'			=> $user->lang[$this->p_master->gender_lang('SN_AP_CHANGED_PROFILE', $entry_user['user_id'])],
-				'L_SN_UP_CHANGED_AVATAR'			=> $user->lang[$this->p_master->gender_lang('SN_UP_CHANGED_AVATAR', $entry_user['user_id'])],
+				'ID'						 => $entry_id,
+				'TYPE'						 => $entry_type,
+				'USERNAME'					 => $entry_user['username'],
+				'U_PROFILE'					 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
+				'PROFILE_FIELDS'			 => $entry_add,
+				'L_SN_AP_CHANGED_PROFILE'	 => $user->lang[$this->p_master->gender_lang('SN_AP_CHANGED_PROFILE', $entry_user['user_id'])],
+				'L_SN_UP_CHANGED_AVATAR'	 => $user->lang[$this->p_master->gender_lang('SN_UP_CHANGED_AVATAR', $entry_user['user_id'])],
 			);
 		}
 
@@ -571,31 +576,31 @@ if (!class_exists('socialnet_activitypage'))
 			}
 
 			return array(
-				'ID'								 								=> $entry_id,
-				'TYPE'								 							=> $entry_type,
-				'STATUS'							 							=> ($entry_status && $entry_type == SN_TYPE_NEW_RELATIONSHIP) ? $entry_status : '',
-				'USERNAME'							 						=> $entry_user['username'],
-				'U_PROFILE'							 						=> $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
-				'U_PARTNER_PROFILE'					 				=> $rel_msg,
-				'L_SN_AP_ADDED_NEW_FAMILY_MEMBER'		=> $family_msg,
-				'L_SN_AP_CHANGED_RELATIONSHIP'			=> $user->lang[$this->p_master->gender_lang('SN_AP_CHANGED_RELATIONSHIP', $entry_user['user_id'])],
+				'ID'								 => $entry_id,
+				'TYPE'								 => $entry_type,
+				'STATUS'							 => ($entry_status && $entry_type == SN_TYPE_NEW_RELATIONSHIP) ? $entry_status : '',
+				'USERNAME'							 => $entry_user['username'],
+				'U_PROFILE'							 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
+				'U_PARTNER_PROFILE'					 => $rel_msg,
+				'L_SN_AP_ADDED_NEW_FAMILY_MEMBER'	 => $family_msg,
+				'L_SN_AP_CHANGED_RELATIONSHIP'		 => $user->lang[$this->p_master->gender_lang('SN_AP_CHANGED_RELATIONSHIP', $entry_user['user_id'])],
 			);
 		}
-		
+
 		/**
-	 	* Load Emotes entries
-		*/
+		 * Load Emotes entries
+		 */
 		function ap_load_emote_entry($entry_id, $entry_type, $entry_uid, $entry_target, $entry_additionals = '')
 		{
 			global $db, $template, $phpbb_root_path, $phpEx;
 
-      $sql = "SELECT user_id, username, user_colour
+			$sql = "SELECT user_id, username, user_colour
 		        		FROM " . USERS_TABLE . "
 									WHERE user_id = " . $entry_uid;
 			$result = $db->sql_query($sql);
 			$entry_user = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
-			
+
 			$u2_sql = "SELECT user_id, username, user_colour
 	        				FROM " . USERS_TABLE . "
 										WHERE user_id = " . $entry_target;
@@ -612,18 +617,18 @@ if (!class_exists('socialnet_activitypage'))
 			$result = $db->sql_query($sql);
 			$emote = $db->sql_fetchrow($result);
 			$db->sql_freeresult($result);
-			
+
 			$template->assign_vars(array(
-				'SN_UP_EMOTE_FOLDER'		=> $phpbb_root_path . SN_UP_EMOTE_FOLDER,
+				'SN_UP_EMOTE_FOLDER' => $phpbb_root_path . SN_UP_EMOTE_FOLDER,
 			));
 
 			return array(
-				'ID'								=> $entry_id,
-				'TYPE'							=> $entry_type,
-				'U_USER1_PROFILE'		=> $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
-				'U_USER2_PROFILE'		=> $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $user2['user_id'], $user2['username'], $user2['user_colour']),
-				'EMOTE_NAME'				=> $emote['emote_name'],
-				'EMOTE_IMAGE'				=> ($emote['emote_image'] != '') ? $emote['emote_image'] : '',
+				'ID'				 => $entry_id,
+				'TYPE'				 => $entry_type,
+				'U_USER1_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
+				'U_USER2_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $user2['user_id'], $user2['username'], $user2['user_colour']),
+				'EMOTE_NAME'		 => $emote['emote_name'],
+				'EMOTE_IMAGE'		 => ($emote['emote_image'] != '') ? $emote['emote_image'] : '',
 			);
 		}
 
@@ -659,9 +664,9 @@ if (isset($socialnet) && defined('SN_AP'))
 	if ($user->data['user_type'] == USER_IGNORE || $config['board_disable'] == 1)
 	{
 		$ann_data = array(
-			'user_id'		 		=> 'ANONYMOUS',
-			'more'			 		=> false,
-			'onlineCount'	 	=> 0,
+			'user_id'		 => 'ANONYMOUS',
+			'more'			 => false,
+			'onlineCount'	 => 0,
 		);
 
 		header('Content-type: application/json');
