@@ -503,10 +503,6 @@ $lang = array_merge($lang, array(
 
 $lang = array_merge($lang, array(
 	'SN_UP_EMOTES_USER'	 => 'Emotes',
-	'SN_EMOTES_STRINGS'	 => array(
-		'*icon_emotes_wave.png* wave',
-		'*icon_emotes_poke.png* poke'
-	),
 ));
 
 ?>
