@@ -1680,7 +1680,7 @@ a.ui-button
 	background-image:url({T_THEME_PATH}/images/ui-icons_222222_256x240.png);
 }
 
-.ltr .sn-fms-users-fullWidth .sn-fms-friend,.rtl .sn-fms-users-fullWidth .sn-fms-friend,.ltr .sn-ap-search .sn-ap-searchInput,.rtl .sn-ap-search .sn-ap-searchInput,.ltr .sn-ap-search .sn-ap-searchImage,.rtl .sn-ap-search .sn-ap-searchImage
+.sn-fms-friend.sn-fms-user-suggestion,.ltr .sn-fms-users-fullWidth .sn-fms-friend,.rtl .sn-fms-users-fullWidth .sn-fms-friend,.ltr .sn-ap-search .sn-ap-searchInput,.rtl .sn-ap-search .sn-ap-searchInput,.ltr .sn-ap-search .sn-ap-searchImage,.rtl .sn-ap-search .sn-ap-searchImage
 {
 	float:none;
 }
