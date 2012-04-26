@@ -51,8 +51,12 @@ if (!class_exists('socialnet_notify'))
 		 */
 		function socialnet_notify(&$p_master)
 		{
-			global $user, $db, $phpbb_root_path, $phpEx, $template, $config;
 			$this->p_master =& $p_master;
+		}
+		
+		function init()
+		{
+			global $user, $db, $phpbb_root_path, $phpEx, $template, $config;
 			$this->time = time();
 
 			$this->ntf_delete();

@@ -41,6 +41,7 @@ if (!class_exists('socialnet_activitypage'))
 		{
 			$this->p_master =& $p_master;
 		}
+
 		function init()
 		{
 			global $phpEx, $user, $template, $phpbb_root_path, $db, $socialnet;

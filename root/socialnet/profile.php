@@ -40,9 +40,13 @@ if (!class_exists('socialnet_profile'))
 
 		function socialnet_profile(&$p_master = null)
 		{
+			$this->p_master = &$p_master;
+		}
+		
+		function init()
+		{
 			global $db, $template, $user, $config, $auth, $phpEx, $phpbb_root_path, $phpEx;
 
-			$this->p_master = &$p_master;
 
 			$mode = request_var('mode', '', true);
 

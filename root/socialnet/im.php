@@ -67,9 +67,13 @@ if (!class_exists('socialnet_im'))
 		 */
 		function socialnet_im(&$p_master = null)
 		{
+			$this->p_master =& $p_master;
+		}
+		
+		function init()
+		{
 			global $template, $db, $config, $user, $phpbb_root_path, $phpEx;
 
-			$this->p_master =& $p_master;
 
 			$this->config = array(
 				'only_friends'		 => $config['im_only_friends'],

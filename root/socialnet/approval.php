@@ -39,9 +39,12 @@ if (!class_exists('socialnet_approval'))
 
 		function socialnet_approval(&$p_master)
 		{
-			global $config, $user, $phpEx, $db, $template, $phpbb_root_path;
-
 			$this->p_master =& $p_master;
+		}
+
+		function init()
+		{
+			global $config, $user, $phpEx, $db, $template, $phpbb_root_path;
 
 			$this->script_name = $this->p_master->script_name;
 			$mode = request_var('mode', '', true);

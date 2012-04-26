@@ -366,11 +366,16 @@ class socialnet extends snFunctions
 			{
 				$module_class = 'socialnet_' . $module;
 				$this->modules_obj[$module] = new $module_class($this);
+			}
+
+			foreach ($this->modules as $idx => $module)
+			{
 				if (method_exists($this->modules_obj[$module], 'init'))
 				{
 					$this->modules_obj[$module]->init();
 				}
 			}
+				
 		}
 	}
 
