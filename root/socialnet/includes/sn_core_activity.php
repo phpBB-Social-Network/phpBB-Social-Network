@@ -59,6 +59,15 @@ class sn_core_activity
 		$this->friends[] = $user->data['user_id'];
 	}
 
+	/**
+	 * Load entries for Activity
+	 *
+	 * @param integer $last_time The last loaded entry
+	 * @param integet $limit How many entries will be loaded
+	 * @param boolean $older Load older entries (true), load newer entries (false)
+	 * @param integer $user_id Load entries for specifics user
+	 * @return array pole plne dat se vstupy na AP
+	 */
 	function get($last_time, $limit = 15, $older = true, $user_id = 0)
 	{
 		global $db;
@@ -135,6 +144,9 @@ class sn_core_activity
 		return array('entries' => $entries, 'more' => count($entries_rowset) > $limit);
 	}
 
+	/**
+	 * Load statuses on Activity page
+	 */
 	function entry_status($entry_id, $entry_type, $entry_uid, $entry_target, $entry_time)
 	{
 		global $db, $template;
@@ -170,6 +182,9 @@ class sn_core_activity
 		);
 	}
 
+	/**
+	 * Load FMS entries
+	 */
 	function entry_friends($entry_id, $entry_type, $entry_uid, $entry_target)
 	{
 		global $db;
@@ -204,6 +219,9 @@ class sn_core_activity
 		);
 	}
 
+	/**
+	 * Load Profile entries
+	 */
 	function entry_profile($entry_id, $entry_type, $entry_uid, $entry_target, $entry_additionals = '')
 	{
 		global $db, $template, $user;
