@@ -68,7 +68,7 @@
 
 				$('.sn-im-chatBoxes .sn-im-button.sn-im-opener').each(function() {
 					if (self !== this) {
-						//$.sn.im._cwClose($(this).parents('.sn-im-chatBox'));
+						// $.sn.im._cwClose($(this).parents('.sn-im-chatBox'));
 					}
 				});
 
@@ -77,25 +77,21 @@
 				$(cBlock).find('.sn-im-message').focus();
 
 			});
-			/**
-			 * Bottom Button Click - ONLINE LIST
-			 */
+
+			/** Bottom Button Click - ONLINE LIST */
 			$('.sn-im-online.sn-im-button').live('click', function() {
 				$.sn.im._onlineListLoad();
 				$.sn.im._cwToggle($(this).parents('#sn-im-online'));
 			})
-			/**
-			 * Title Click - CLOSE
-			 */
+			/** Title Click - CLOSE */
 			$('.sn-im-block .sn-im-title .sn-userName').live('click', function() {
 				$.sn.im._cwClose($(this).parents('.sn-im-chatBox'));
 			});
 			$('.sn-im-online .sn-im-title').live('click', function() {
 				$.sn.im._cwClose($(this).parents('#sn-im-online'));
 			})
-			/**
-			 * FOCUS ON CHATBOX
-			 */
+
+			/** FOCUS ON CHATBOX */
 			$('.sn-im-msgs').live('click', function() {
 				$(this).next('.sn-im-textArea').find('.sn-im-message').focus();
 			})
@@ -110,9 +106,9 @@
 				var uid = $.sn.getAttr($(this), 'user');
 
 				/*
-				$('.sn-im-chatBox').each(function() {
-					$.sn.im._cwClose($(this));
-				});*/
+				 * $('.sn-im-chatBox').each(function() {
+				 * $.sn.im._cwClose($(this)); });
+				 */
 
 				if ($('#sn-im-chatBox' + uid).size() > 0) {
 					$.sn.im._cwOpen($('#sn-im-chatBox' + uid));
@@ -215,11 +211,11 @@
 					url : $.sn.im.opts.url,
 					data : {
 						mode : 'snImUserGroup' + (hidden ? 'Show' : 'Hide'),
-						gid  : gid
+						gid : gid
 					},
 					success : function(data) {
-    				$('#sub_gid'+gid).toggle();
-						$('#gid_'+gid+' .sn-im-hideGroup').toggleClass('ui-icon-arrowstop-1-n ui-icon-arrowstop-1-s');
+						$('#sub_gid' + gid).toggle();
+						$('#gid_' + gid + ' .sn-im-hideGroup').toggleClass('ui-icon-arrowstop-1-n ui-icon-arrowstop-1-s');
 					}
 				});
 			});
@@ -227,7 +223,7 @@
 			/** MESSAGE TIME */
 			$('.sn-im-msg').live('mouseover', function() {
 				$(this).find('.sn-im-msgTime').show();
-				
+
 			}).live('mouseout', function() {
 				$(this).find('.sn-im-msgTime').hide();
 			});
@@ -238,13 +234,13 @@
 			/** Zobraz IM */
 			$('#sn-im').removeAttr('style');
 			this._scrollable();
-			$('.sn-im-nav.sn-im-prev').live('click',function(){
+			$('.sn-im-nav.sn-im-prev').live('click', function() {
 				$.sn.im._scrollable(1);
 			});
-			$('.sn-im-nav.sn-im-next').live('click',function(){
+			$('.sn-im-nav.sn-im-next').live('click', function() {
 				$.sn.im._scrollable(2);
 			});
-			
+
 			if ($('.sn-im-block .sn-im-msgs:visible').is(':visible')) {
 				var $block = $('.sn-im-block .sn-im-msgs:visible').parents('.sn-im-block');
 				this._cwClose($block);
@@ -343,7 +339,7 @@
 								var $msgs = $(chatBox).find('.sn-im-msgs');
 								var $lmsg = $msgs.find('.sn-im-msg:last');
 								var from = $.sn.getAttr($lmsg, 'from');
-								if ( $msgs.find('.sn-im-msg[class*="'+message.time+'"]').size() == 0){
+								if ($msgs.find('.sn-im-msg[class*="' + message.time + '"]').size() == 0) {
 									$msgs.append(message.message);
 									$msgs.scrollTop(99999);
 									if (from == message.uid) {
@@ -358,7 +354,7 @@
 						$.sn.im._startTimers(true);
 					}
 					$.sn.im.opts.lastCheckTime = data.lastCheckTime;
-					
+
 					$.sn.im._onlineList(data);
 					$.sn.im._onlineUsersCB(data.onlineUsers);
 					$.sn.im.opts._inCore = false;
@@ -374,7 +370,7 @@
 				tHandler.stopTime($.sn.im.opts._namesChat);
 				return;
 			}
-			if (typeof(sh) != 'undefined' && sh) {
+			if (typeof (sh) != 'undefined' && sh) {
 				$.sn.im.opts._imCounter = $.sn.im.opts.timersMin;
 				tHandler.stopTime($.sn.im.opts._namesChat);
 			} else {
@@ -386,8 +382,6 @@
 			}
 			$.sn.setCookie('sn-im-curCheckTime', $.sn.im.opts._imCounter);
 
-			
-			
 			tHandler.oneTime($.sn.im.opts._imCounter * 1000, $.sn.im.opts._namesChat, function(i) {
 				$.sn.im._core();
 				$.sn.im._startTimers();
@@ -454,10 +448,10 @@
 				obj.find('.sn-im-message').focus();
 			}
 			obj.find('.sn-im-msgs').scrollTop(99999);
-			
+
 			$.sn.setCookie(id, true);
 
-			$.sn.im._unRead(obj,0);
+			$.sn.im._unRead(obj, 0);
 			$.sn.im._scrollable(obj);
 		},
 
@@ -468,7 +462,7 @@
 			obj.find('.sn-im-block').hide();
 
 			$.sn.setCookie(id, false);
-			$.sn.im._unRead(obj,0);
+			$.sn.im._unRead(obj, 0);
 			$.sn.im._scrollable();
 		},
 
@@ -528,8 +522,12 @@
 		},
 
 		_unRead : function(chatBox, c) {
+			if ($.sn.getAttr($(chatBox), 'uid') == false) {
+				return;
+			}
+
 			var $snImUnread = $(chatBox).find('.sn-im-unRead');
-			var endValue = parseInt($snImUnread.text());
+			var endValue = parseInt(endValue) || 0;
 			if (c == 0) {
 				endValue = 0;
 				$snImUnread.hide();
@@ -538,11 +536,10 @@
 				$snImUnread.show();
 			}
 			$snImUnread.html(endValue);
-			$.sn.setCookie('sn-im-chatBox' + $.sn.getAttr($(chatBox),'uid') + 'Unread', endValue);
+			$.sn.setCookie('sn-im-chatBox' + $.sn.getAttr($(chatBox), 'uid') + 'Unread', endValue);
 
 		},
 
-		
 		/**
 		 * Posouvani chat boxiku
 		 * 
@@ -555,14 +552,11 @@
 			var $nav = $('#sn-im-chatBoxes');
 			var totalWidth = 0;
 
-			totalWidth = $('body').width()-parseInt($('.sn-im-dockWrapper').css('right'))- parseInt($('.sn-im-dockWrapper').css('left'))
-				- parseInt($('#sn-im-online').outerWidth(true))
-				- parseInt($('.sn-im-nav.sn-im-prev').outerWidth(true))
-				- parseInt($('.sn-im-nav.sn-im-next').outerWidth(true));
-			
+			totalWidth = $('body').width() - parseInt($('.sn-im-dockWrapper').css('right')) - parseInt($('.sn-im-dockWrapper').css('left')) - parseInt($('#sn-im-online').outerWidth(true)) - parseInt($('.sn-im-nav.sn-im-prev').outerWidth(true)) - parseInt($('.sn-im-nav.sn-im-next').outerWidth(true));
+
 			$nav.width(totalWidth);
-			totalWidth=0;
-			$nav.children('.sn-im-chatBox').each(function(){
+			totalWidth = 0;
+			$nav.children('.sn-im-chatBox').each(function() {
 				$(this).show();
 				totalWidth += $(this).outerWidth(true);
 			})
@@ -589,50 +583,51 @@
 				 */
 				}
 				$.sn.setCookie('sn_im_curPosit', this.opts.curPosit);
-				
-				$nav.children('.sn-im-chatBox:lt('+this.opts.curPosit+')').hide();
-				
+
+				$nav.children('.sn-im-chatBox:lt(' + this.opts.curPosit + ')').hide();
+
 				totalWidth = 0;
-				for(i=this.opts.curPosit;i<=$nav.children('.sn-im-chatBox').length;i++){
-					totalWidth += $nav.children('.sn-im-chatBox:eq('+i+')').outerWidth(true);
-					if ( totalWidth > navWidth){
-						$nav.children('.sn-im-chatBox:eq('+i+')').hide();
+				for (i = this.opts.curPosit; i <= $nav.children('.sn-im-chatBox').length; i++) {
+					totalWidth += $nav.children('.sn-im-chatBox:eq(' + i + ')').outerWidth(true);
+					if (totalWidth > navWidth) {
+						$nav.children('.sn-im-chatBox:eq(' + i + ')').hide();
 					}
 				}
 				var bw = 0;
-				if ( totalWidth < navWidth){
-					for(i=this.opts.curPosit-1;i>=0;i--){
-						bw = $nav.children('.sn-im-chatBox:eq('+i+')').outerWidth(true);
-						if (totalWidth + bw < navWidth){
-							$nav.children('.sn-im-chatBox:eq('+i+')').show();
-							totalWidth+=bw;
+				if (totalWidth < navWidth) {
+					for (i = this.opts.curPosit - 1; i >= 0; i--) {
+						bw = $nav.children('.sn-im-chatBox:eq(' + i + ')').outerWidth(true);
+						if (totalWidth + bw < navWidth) {
+							$nav.children('.sn-im-chatBox:eq(' + i + ')').show();
+							totalWidth += bw;
 							this.opts.curPosit--;
 							$.sn.setCookie('sn_im_curPosit', this.opts.curPosit);
 						}
 					}
 				}
-				
-				if ( typeof m == 'object'){
-					if ( $(m).is(':hidden')){
+
+				if (typeof m == 'object') {
+					if ($(m).is(':hidden')) {
 						$.sn.im._scrollable(2);
 					}
 				}
-				
+
 				totalWidth = 0;
-				$nav.children('.sn-im-chatBox:visible').each(function(){
+				$nav.children('.sn-im-chatBox:visible').each(function() {
 					totalWidth += $(this).outerWidth(true);
 				});
 				$nav.width(totalWidth);
-				
-				/*
-				for (i = 0; i < this.opts.maxChatBoxes; i++) {
-					$nav.children(this.opts.curPosit + i).show();
-				}
 
-				
-				$nav.children(':lt(' + this.opts.curPosit + '):visible').hide();
-				$nav.children(':gt(' + (this.opts.curPosit + this.opts.maxChatBoxes - 1) + '):visible').hide();
-				*/
+				/*
+				 * for (i = 0; i < this.opts.maxChatBoxes; i++) {
+				 * $nav.children(this.opts.curPosit + i).show(); }
+				 * 
+				 * 
+				 * $nav.children(':lt(' + this.opts.curPosit +
+				 * '):visible').hide(); $nav.children(':gt(' +
+				 * (this.opts.curPosit + this.opts.maxChatBoxes - 1) +
+				 * '):visible').hide();
+				 */
 			} else {
 				$nav.children('.sn-im-chatBox').show();
 			}
