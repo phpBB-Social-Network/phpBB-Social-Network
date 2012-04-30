@@ -22,12 +22,12 @@
     <!-- ELSEIF ap_entries.TYPE eq 6 -->
 	    <div class="sn-ap-textBlock sn-page-innerContent sn-ap-textBlock-newRelationship {t:{ap_entries.TIME}}" id="sn-ap-entry{ap_entries.ID}"<!-- IF B_SN_AP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
 	    	<span class="sn-ap-entryIcon">&nbsp;</span>
-				<span class="snUsername">{ap_entries.U_PROFILE}</span> {ap_entries.L_SN_AP_CHANGED_RELATIONSHIP}: {ap_entries.STATUS}<!-- IF ap_entries.U_PARTNER_PROFILE --> {ap_entries.U_PARTNER_PROFILE}<!-- ENDIF -->.
+				<span class="snUsername">{ap_entries.U_PROFILE}</span> {ap_entries.L_SN_AP_CHANGED_RELATIONSHIP}: {ap_entries.STATUS}<!-- IF ap_entries.U_PARTNER_PROFILE --> {ap_entries.U_PARTNER_PROFILE}<!-- ENDIF -->
 	    </div>
     <!-- ELSEIF ap_entries.TYPE eq 7 -->
 	    <div class="sn-ap-textBlock sn-page-innerContent sn-ap-textBlock-sendEmote {t:{ap_entries.TIME}}" id="sn-ap-entry{ap_entries.ID}"<!-- IF B_SN_AP_MORE_LOAD --> style="display:none"<!-- ENDIF -->>
 	    	<span class="sn-ap-entryIcon">&nbsp;</span>
-				<span class="snUsername">{ap_entries.U_USER1_PROFILE}</span> {L_SN_UP_SEND_EMOTE} {ap_entries.U_USER2_PROFILE}: {ap_entries.EMOTE_NAME}<!-- IF ap_entries.EMOTE_IMAGE != '' --> <img src="{SN_UP_EMOTE_FOLDER}{ap_entries.EMOTE_IMAGE}" alt="{ap_entries.EMOTE_NAME}" style="vertical-align: middle;" /><!-- ENDIF -->.
+				<span class="snUsername">{ap_entries.U_USER1_PROFILE}</span> {L_SN_UP_SEND_EMOTE} {ap_entries.U_USER2_PROFILE}: <strong>{ap_entries.EMOTE_NAME}</strong><!-- IF ap_entries.EMOTE_IMAGE != '' --> <img src="{SN_UP_EMOTE_FOLDER}{ap_entries.EMOTE_IMAGE}" alt="{ap_entries.EMOTE_NAME}" style="vertical-align: middle;" /><!-- ENDIF -->
 	    </div>
     <!-- ENDIF -->
 <!-- END ap_entries-->

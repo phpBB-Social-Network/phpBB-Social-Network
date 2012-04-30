@@ -26,7 +26,6 @@
 	        at : "right bottom"
 	    },
 
-
 	    init : function(opts) {
 		    if (!$.sn._inited) { return false; }
 		    if ($.sn.enableModules.up == undefined || !$.sn.enableModules.up) { return false; }
@@ -113,8 +112,9 @@
 				    return false;
 			    });
 		    }
-		    
-		    //$('a[href$=reportUser] .sn-action-tabClose').live('click', function() { << Nemelo by stacit toto?
+
+		    // $('a[href$=reportUser] .sn-action-tabClose').live('click',
+		    // function() { << Nemelo by stacit toto?
 		    $('#sn-up-profileTabs .ui-tabs-nav li a[href$=reportUser] .sn-action-tabClose').live('click', function() {
 			    $('#sn-up-profileTabs').tabs('select', $.sn.up.tabCurrent).tabs('remove', $.sn.up.tabReportUser);
 			    $.sn.up.tabReportUser = -1;
@@ -173,7 +173,6 @@
 		        dayNamesMin : $.sn.up.dayNamesShort,
 		        monthNamesShort : $.sn.up.monthNamesShort
 		    });
-
 	    },
 
 	    _ucpProfile : function() {

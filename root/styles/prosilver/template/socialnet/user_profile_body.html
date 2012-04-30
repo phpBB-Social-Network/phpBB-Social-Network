@@ -45,22 +45,21 @@
   	</ul>
 
 	<!-- DEFINE $BLOCK_HEADER_TYPE = 'forabg' -->
+	
   	<!-- IF .relationship -->
   		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_RELATIONSHIP}' -->
   		<!-- INCLUDE socialnet/block_page_header.html -->
     	<div class="sn-fms-users sn-fms-users-friend sn-fms-users-fullWidth">
     	<!-- BEGIN relationship -->
       	<div class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
-          <!-- IF relationship.U_RELATIVE -->
+          <!-- IF relationship.U_RELATIVE and relationship.APPROVED -->
             <span class="user_avatar ui-widget ui- widget-header ui- corner-all">
             	<a href="{relationship.U_PROFILE_LINK}"<!-- IF relationship.U_PROFILE_LINK == 'javascript:return false;' --> style="cursor:default;"<!-- ENDIF -->>{relationship.AVATAR}</a>
             </span>
           <!-- ENDIF -->
-            <span class="sn-fms-username">
-	          {relationship.STATUS}
-			  <!-- IF relationship.U_RELATIVE -->{relationship.U_RELATIVE}<!-- ENDIF -->
-			</span>
-          
+          <span class="sn-fms-username">
+          	{relationship.STATUS}<!-- IF relationship.U_RELATIVE and relationship.APPROVED --> <span class="sn-fms-username">{relationship.U_RELATIVE}</span><!-- ENDIF -->
+					</span>
           <!-- IF relationship.ANNIVERSARY --><div style="margin-top: 4px;">{L_SN_UP_ANNIVERSARY}: {relationship.ANNIVERSARY}</div><!-- ENDIF -->
         </div>   
       <!-- END relationship -->
@@ -72,16 +71,16 @@
   		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_FAMILY}' -->
   		<!-- INCLUDE socialnet/block_page_header.html -->
     	<div class="sn-fms-users sn-fms-users-friend sn-fms-users-fullWidth">
-		<!-- BEGIN family -->
-			<div class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
-            	<span class="user_avatar ui-widget ui- widget-header ui- corner-all">
-					<a href="{family.U_PROFILE_LINK}"<!-- IF family.U_PROFILE_LINK == 'javascript:return false;' --> style="cursor:normal;"<!-- ENDIF -->>{family.AVATAR}</a>
-				</span>
-				<span class="sn-fms-username">{family.U_RELATIVE}</span>
-				<div style="margin-top: 4px;">{family.STATUS}</div>
-			</div> 
-		<!-- END family -->
-		</div>
+				<!-- BEGIN family -->
+					<div class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
+		        <span class="user_avatar ui-widget ui- widget-header ui- corner-all">
+							<a href="{family.U_PROFILE_LINK}"<!-- IF family.U_PROFILE_LINK == 'javascript:return false;' --> style="cursor:normal;"<!-- ENDIF -->>{family.AVATAR}</a>
+						</span>
+						<span class="sn-fms-username">{family.U_RELATIVE}</span>
+						<div style="margin-top: 4px;">{family.STATUS}</div>
+					</div>
+				<!-- END family -->
+			</div>
       <div class="clear" style="margin-bottom: 10px;"></div>
   	<!-- ENDIF -->                                
   	
@@ -91,12 +90,13 @@
   		<!-- INCLUDE socialnet/block_page_header.html -->
   		<!-- UNDEFINE $BLOCK_HEADER_ADDITIONAL -->
   		<div class="sn-fms-users-fullWidth">
-    	{SN_FMS_BLOCK_FRIEND_CONTENT}
-    </div>
+	    	{SN_FMS_BLOCK_FRIEND_CONTENT}
+	    </div>
   	  <div class="clear"></div>
   	<!-- ENDIF -->
   	
 	</div>
+	
 	<div id="sn-page-content" class="sn-page-content sn-page-content-noRightBorder"> 
 	
 		<h2 class="sn-up-userName">{USERNAME} <!-- IF S_ONLINE -->&nbsp;<img src="{T_IMAGESET_PATH}/socialnet/im_user_{ONLINE_IMG}.png" alt="" /><!-- ENDIF --></h2>

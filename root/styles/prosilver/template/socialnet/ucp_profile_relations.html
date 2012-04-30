@@ -1,5 +1,6 @@
 <!-- INCLUDE ucp_header.html -->
 <h2>{L_TITLE}</h2>
+
 <form id="ucp" method="post" action="{U_ACTION}">
 	<div class="panel">
 		<div class="inner">
@@ -27,9 +28,9 @@
 							<option value="8">{L_SN_UP_SEPARATED}</option>
 							<option value="9">{L_SN_UP_DIVORCED}</option>
 						</select>
-						<span id="sn-up-relationShipPartner"> {L_SN_UP_TO}
-							<input type="text" name="relationship_user" id="sn-up-relationShipUser" value="" class="inputbox" style="width: 15%;" />
-							<input type="text" name="anniversary_picker" id="sn-up-annivesaryPicker" value="" maxlength="10" class="inputbox" style="width: 15%;" />
+						<span id="sn-up-relationShipPartner">
+							<input type="text" name="relationship_user" id="sn-up-relationShipUser" class="inputbox" style="width: 15%;" value="" />
+							<input type="text" name="anniversary_picker" id="sn-up-annivesaryPicker" maxlength="10" class="inputbox" style="width: 15%;" value="" />
 						</span>
 					</dd>
 				</dl>
@@ -64,7 +65,7 @@
 							<option value="41">{L_SN_UP_SON_IN_LAW}</option>
 						</select>
 						<span id="sn-up-familyPartner">
-							<input type="text" name="family_user" id="sn-up-familyUser" value="" class="inputbox" style="width: 15%;" />
+							<input type="text" name="family_user" id="sn-up-familyUser" class="inputbox" style="width: 15%;" value="" />
 						</span>
 					</dd>
 				</dl>
@@ -79,6 +80,7 @@
 		{S_FORM_TOKEN}
 	</fieldset>
 </form>
+
 <div class="panel">
 	<div class="inner">
 		<span class="corners-top"><span></span></span>
@@ -86,14 +88,15 @@
 		<!-- IF .relationship -->
   		<div class="sn-fms-users">
   			<!-- BEGIN relationship -->
-  			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF not relationship.APPROVED --> sn-bg-red<!-- ENDIF --> {uid:{relationship.USER_ID}}" title="{relationship.USERNAME_NO_COLOR}<!-- IF not relationship.APPROVED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
+  			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF not relationship.UNANSWERED --> sn-bg-red<!-- ENDIF --> {uid:{relationship.USER_ID}}" title="{relationship.USERNAME_NO_COLOR}<!-- IF relationship.UNANSWERED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
   				<div class="sn-actions">
-  					<a href="{relationship.U_DELETE}"><div class="sn-action-close"></div></a>
+  					<a href="{relationship.U_DELETE}" title="{L_DELETE}"><div class="sn-action-close"></div></a>
   				</div>
   				<!-- IF relationship.U_PROFILE_LINK --><a href="{relationship.U_PROFILE_LINK}"><!-- ENDIF -->{relationship.AVATAR}<!-- IF relationship.U_PROFILE_LINK --></a><!-- ENDIF -->
   				<!-- IF relationship.U_RELATIVE --><div class="sn-userName">{relationship.U_RELATIVE}</div><!-- ENDIF -->
   				<span>{relationship.STATUS}<!-- IF relationship.ANNIVERSARY --><br />{relationship.ANNIVERSARY}<!-- ENDIF --></span>
-  				<!-- IF not relationship.APPROVED --><div class="sn-fms-unapproved">({L_SN_UP_NOT_APPROVED})</div><!-- ENDIF -->
+  				<!-- IF relationship.UNANSWERED --><div class="sn-fms-unapproved">({L_SN_UP_NOT_APPROVED})</div><!-- ENDIF -->
+  				<!-- IF relationship.REFUSED --><div class="sn-fms-unapproved">({L_SN_UP_RELATION_REFUSED})</div><!-- ENDIF -->
   			</div>
   			<!-- END relationship -->
   		</div>
@@ -103,6 +106,7 @@
 		<span class="corners-bottom"><span></span></span>
 	</div>
 </div>
+
 <div class="panel">
 	<div class="inner">
 		<span class="corners-top"><span></span></span>
@@ -110,14 +114,15 @@
 		<!-- IF .family -->
   		<div class="sn-fms-users">
   			<!-- BEGIN family -->
-  			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF not family.APPROVED --> sn-bg-red<!-- ENDIF --> {uid:{family.USER_ID}}" title="{family.USERNAME_NO_COLOR}<!-- IF not family.APPROVED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
+  			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF family.UNANSWERED --> sn-bg-red<!-- ENDIF --> {uid:{family.USER_ID}}" title="{family.USERNAME_NO_COLOR}<!-- IF family.UNANSWERED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
   				<div class="sn-actions">
-  					<a href="{family.U_DELETE}"><div class="sn-action-close"></div></a>
+  					<a href="{family.U_DELETE}" title="{L_DELETE}"><div class="sn-action-close"></div></a>
   				</div>
   				<!-- IF family.U_PROFILE_LINK --><a href="{family.U_PROFILE_LINK}"><!-- ENDIF -->{family.AVATAR}<!-- IF family.U_PROFILE_LINK --></a><!-- ENDIF -->
   				<!-- IF family.U_RELATIVE --><div class="sn-userName">{family.U_RELATIVE}</div><!-- ENDIF -->
   				<span>{family.STATUS}</span>
-  				<!-- IF not family.APPROVED --><div class="sn-fms-unapproved">({L_SN_UP_NOT_APPROVED})</div><!-- ENDIF -->
+  				<!-- IF family.UNANSWERED --><div class="sn-fms-unapproved">({L_SN_UP_NOT_APPROVED})</div><!-- ENDIF -->
+  				<!-- IF family.REFUSED --><div class="sn-fms-unapproved">({L_SN_UP_RELATION_REFUSED})</div><!-- ENDIF -->
   			</div>
   			<!-- END family -->
   		</div>
@@ -127,21 +132,21 @@
 		<span class="corners-bottom"><span></span></span>
 	</div>
 </div>
+
 <!-- IF .requests -->
 <div class="panel">
 	<div class="inner">
 		<span class="corners-top"><span></span></span>
-		<h3>{L_SN_UP_NOT_APPROVED}</h3>
+		<h3>{L_SN_UP_RELATION_REQUESTS}</h3>
 		<div class="sn-fms-users">
 			<!-- BEGIN requests -->
 			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block sn-bg-red {uid:{requests.USER_ID}}" title="{requests.USERNAME_NO_COLOR}">
 				<div class="sn-actions">
-					<a href="{requests.U_CONFIRM}" title="{L_SN_APPROVE}"><span class="sn-action-ok-green"></span></a><a href="{requests.U_DELETE}" title="{L_SN_NO_APPROVE}"><span class="sn-action-delete sn-action-delete-red"></span></a>
+					<a href="{requests.U_APPROVE}" title="{L_SN_APPROVE}"><span class="sn-action-ok-green"></span></a><a href="{requests.U_REFUSE}" title="{L_SN_REFUSE}"><span class="sn-action-delete sn-action-delete-red"></span></a>
 				</div>
 				<!-- IF requests.U_PROFILE_LINK --><a href="{requests.U_PROFILE_LINK}"><!-- ENDIF -->{requests.AVATAR}<!-- IF requests.U_PROFILE_LINK --></a><!-- ENDIF -->
 				<!-- IF requests.U_RELATIVE --><div class="sn-userName">{requests.U_RELATIVE}</div><!-- ENDIF -->
 				<span>{requests.STATUS}<!-- IF requests.ANNIVERSARY --><br />{requests.ANNIVERSARY}<!-- ENDIF --></span>
-				<span style="font-size: 1.1em; font-weight: bold;"><br /><a href="{requests.U_APPROVE}">{L_SN_UP_APPROVE}</a></span>
 			</div>
 			<!-- END requests -->
 		</div>

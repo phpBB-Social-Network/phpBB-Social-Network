@@ -1,5 +1,6 @@
 <!-- INCLUDE overall_header.html -->
-<!-- IF S_FAMILY -->
+
+<!-- IF S_FAMILY and S_APPROVE -->
 <script type="text/javascript">
 	// <![CDATA[
 	jQuery(document).ready(function() {
@@ -17,50 +18,53 @@
 	// ]]>
 </script>
 <!-- ENDIF -->
+
 <form id="confirm" action="{S_CONFIRM_ACTION}" method="post">
 	<div class="panel">
 		<div class="inner">
 			<span class="corners-top"><span></span></span>
 			<h2>{MESSAGE_TITLE}</h2>
-			<p>
-				{MESSAGE_TEXT}
-			</p>
-			<span class="sn-fms-friend ui-widget-content ui-corner-all">
-				<!-- IF not S_FAMILY -->{S_REL_STATUS}<!-- ENDIF -->
-				<a href="{U_REL_PROFILE_LINK}">{S_REL_AVATAR}</a>
-				<div class="sn-userName">{S_REL_USERNAME}</div>
-				<!-- IF S_FAMILY -->
-				{S_REL_STATUS}
-				<!-- ENDIF -->
-				<!-- IF S_REL_ANNIVERSARY -->
-				<div style="margin-top: 4px;">
-					{L_SN_UP_ANNIVERSARY}: {S_REL_ANNIVERSARY}
-				</div>
-				<!-- ENDIF -->
-			</span>
-			<div class="clear"></div>
-			<br />
-			<p>
-				<input type="checkbox" value="1" id="vice_versa" name="vice_versa" id="vice_versa" checked="checked" /> <label for="vice_versa">{L_SN_UP_APPROVE_VICE_VERSA}</label>
-				<!-- IF S_FAMILY -->
-				<span id="family_status_id">
-					<br />
-					<br />
-					{L_SN_UP_APPROVE_FAMILY_USERNAME}
-					<select name="family_status_id">
-						{S_STATUS_OPTIONS}
-					</select>
+			<p>{MESSAGE_TEXT}</p>
+			<!-- IF S_APPROVE -->
+				<span class="sn-fms-friend ui-widget-content ui-corner-all">
+					<!-- IF not S_FAMILY -->{S_REL_STATUS}<!-- ENDIF -->
+					<a href="{U_REL_PROFILE_LINK}">{S_REL_AVATAR}</a>
+					<div class="sn-userName">{S_REL_USERNAME}</div>
+					<!-- IF S_FAMILY -->
+					{S_REL_STATUS}
+					<!-- ENDIF -->
+					<!-- IF S_REL_ANNIVERSARY -->
+					<div style="margin-top: 4px;">
+						{L_SN_UP_ANNIVERSARY}: {S_REL_ANNIVERSARY}
+					</div>
+					<!-- ENDIF -->
 				</span>
-				<!-- ENDIF -->
-			</p>
+				<div class="clear"></div>
+				<br />
+				<p>
+					<input type="checkbox" value="1" id="vice_versa" name="vice_versa" id="vice_versa" checked="checked" /> <label for="vice_versa">{L_SN_UP_APPROVE_VICE_VERSA}</label>
+					<!-- IF S_FAMILY -->
+					<span id="family_status_id">
+						<br />
+						<br />
+						{L_SN_UP_APPROVE_FAMILY_USERNAME}
+						<select name="family_status_id">
+							{S_STATUS_OPTIONS}
+						</select>
+					</span>
+					<!-- ENDIF -->
+				</p>
+			<!-- ENDIF -->
+			
 			<fieldset class="submit-buttons">
 				{S_HIDDEN_FIELDS}
-				<input type="submit" name="confirm" value="{L_YES}" class="button1" />
-				&nbsp;
+				<input type="submit" name="confirm" value="{L_YES}" class="button1" /> &nbsp;
 				<input type="submit" name="cancel" value="{L_NO}" class="button2" />
 			</fieldset>
+			
 			<span class="corners-bottom"><span></span></span>
 		</div>
 	</div>
 </form>
+
 <!-- INCLUDE overall_footer.html -->

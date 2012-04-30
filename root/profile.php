@@ -181,12 +181,12 @@ $template->assign_vars(array(
 ));
 
 // Load relationships and family
-$sql = 'SELECT f.status_id, f.anniversary, f.relative_user_id, f.family, f.name, u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
+$sql = 'SELECT f.status_id, f.anniversary, f.relative_user_id, f.family, f.name, f.approved,
+							 u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 	        FROM ' . SN_FAMILY_TABLE . ' f
 	          LEFT JOIN ' . USERS_TABLE . ' u
 	            ON u.user_id = f.relative_user_id
 	          WHERE f.user_id = ' . $user_id . '
-	            AND f.approved = 1
 	            ORDER BY f.status_id ASC';
 $result = $db->sql_query($sql);
 
@@ -198,12 +198,20 @@ while ($relation = $db->sql_fetchrow($result))
 
 	if ($relation['family'])
 	{
+		if ($relation['approved'] != SN_RELATIONSHIP_APPROVED)
+		{
+			continue;
+  	}
+		
 		$template->assign_block_vars('family', array(
-			'USER_ID'		 => $relation['relative_user_id'],
-			'STATUS'		 => $socialnet->family_status($relation['status_id']),
-			'U_RELATIVE'	 => ($relation['name']) ? '<strong>'.$relation['name'].'</strong>' : $username,
-			'U_PROFILE_LINK' => ($relation['name']) ? 'javascript:return false;' : $profile_link,
-			'AVATAR'		 => $avatar_img,
+			'USER_ID'		 			=> $relation['relative_user_id'],
+			'STATUS'		 			=> $socialnet->family_status($relation['status_id']),
+			'U_RELATIVE'	 		=> ($relation['name']) ? '<strong>'.$relation['name'].'</strong>' : $username,
+			'U_PROFILE_LINK' 	=> ($relation['name']) ? 'javascript:return false;' : $profile_link,
+			'APPROVED'			 	=> ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false,
+			'REFUSED'			 		=> ($relation['approved'] == SN_RELATIONSHIP_REFUSED) ? true : false,
+			'UNANSWERED'			=> ($relation['approved'] == SN_RELATIONSHIP_UNANSWERED) ? true : false,
+			'AVATAR'		 			=> $avatar_img,
 		));
 	}
 	else
@@ -215,12 +223,15 @@ while ($relation = $db->sql_fetchrow($result))
 		}
 
 		$template->assign_block_vars('relationship', array(
-			'USER_ID'		 => $relation['relative_user_id'],
-			'STATUS'		 => $socialnet->relationship_status($relation['status_id'], ($relation['relative_user_id'] || $relation['name']) ? true : false),
-			'U_RELATIVE'	 => ($relation['name']) ? '<strong>'.$relation['name'].'</strong>' : $username,
-			'U_PROFILE_LINK' => ($relation['name']) ? 'javascript:return false;' : $profile_link,
-			'AVATAR'		 => $avatar_img,
-			'ANNIVERSARY'	 => ($relation['anniversary']) ? $relationship_anniversary : '',
+			'USER_ID'		 			=> $relation['relative_user_id'],
+			'STATUS'		 			=> $socialnet->relationship_status($relation['status_id'], ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false),
+			'U_RELATIVE'	 		=> ($relation['name']) ? '<strong>'.$relation['name'].'</strong>' : $username,
+			'U_PROFILE_LINK' 	=> ($relation['name']) ? 'javascript:return false;' : $profile_link,
+			'APPROVED'			 	=> ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false,
+			'REFUSED'			 		=> ($relation['approved'] == SN_RELATIONSHIP_REFUSED) ? true : false,
+			'UNANSWERED'			=> ($relation['approved'] == SN_RELATIONSHIP_UNANSWERED) ? true : false,
+			'AVATAR'		 			=> $avatar_img,
+			'ANNIVERSARY'	 		=> ($relation['anniversary']) ? $relationship_anniversary : '',
 		));
 	}
 }
