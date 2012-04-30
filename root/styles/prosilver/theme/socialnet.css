@@ -207,7 +207,7 @@ div:not(.sn-page) .sn-userName a
 	width:99%;
 }
 
-.sn-menu .ui-icon
+.sn-menu .sn-menu-icon.ui-icon
 {
 	background-image:url({T_THEME_PATH}/images/ui-icons_phpBB_256x240.png);
 }
