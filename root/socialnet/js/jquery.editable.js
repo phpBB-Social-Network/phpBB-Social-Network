@@ -184,11 +184,15 @@
 					}));
 					break;
 				case 'select':
-					console.log(obj.data);
+					var nopt;
 					_input = $('<select name="editable-' + idx + '" class="' + opts.inputClass + '" />').css(opts.cssSelect);
 					$.each(obj.data, function(o_idx, o_item) {
 						if (!isNaN(parseInt(o_idx))) {
-							$(_input).append(new Option(o_item, o_idx));
+							nopt = new Option(o_item, o_idx);
+							if ( o_item == obj.edit){
+								nopt.selected=true;
+							}
+							$(_input).append(nopt);
 						}
 					});
 					th.html(_input);
