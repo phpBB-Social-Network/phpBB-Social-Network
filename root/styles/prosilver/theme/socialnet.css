@@ -207,7 +207,7 @@ div:not(.sn-page) .sn-userName a
 	width:99%;
 }
 
-.sn-menu .sn-menu-icon.ui-icon
+.sn-menu .ui-icon.sn-menu-icon
 {
 	background-image:url({T_THEME_PATH}/images/ui-icons_phpBB_256x240.png);
 }
@@ -271,11 +271,6 @@ div:not(.sn-page) .sn-userName a
 {
 	background-color:#0a8fd1;
 	color:#fff;
-}
-
-.sn-menu .ui-menu-item.active a .ui-icon,.sn-menu .ui-menu-item.active a.ui-state-focus .ui-icon
-{
-	background-image:url({T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png);
 }
 
 .sn-menu .ui-menu-item.active a:hover,.sn-menu .ui-menu-item.active a.ui-state-focus:hover
@@ -1253,6 +1248,11 @@ a.ui-button
 	margin:0;
 }
 
+.sn-up-menu .sn-up-submenu
+{
+	position:absolute;
+}
+
 .sn-up-menu .ui-menu-item a
 {
 	border-color:#e4e4e4;
@@ -1370,6 +1370,11 @@ a.ui-button
 	margin-top:5px;
 }
 
+.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active
+{
+	background:#0a8fd1 url({T_THEME_PATH}/images/ui-bg_glass_65_0a8fd1_1x400.png) repeat-x 50% 50%;
+}
+
 .sn-fms-block.ui-accordion .grps.ui-accordion-content
 {
 	padding:4px;
@@ -1391,6 +1396,11 @@ a.ui-button
 {
 	float:right;
 	margin-left:5px;
+}
+
+.section-activitypage #wrap
+{
+	min-width:1070px;
 }
 
 .sn-ap-avatar
@@ -1560,12 +1570,12 @@ a.ui-button
 	padding-left:10px;
 }
 
-.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.ltr .sn-im-loginlogout,.ltr .sn-im-history-time,.ltr .sn-im-history-export,.rtl .sn-im-sound.ui-icon,.rtl .sn-button,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.rtl .sn-im-msgAvatar,.rtl .sn-im-history-title,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-fms-friend,.rtl .sn-ap-avatar
+.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.ltr .sn-im-loginlogout,.ltr .sn-im-history-time,.ltr .sn-im-history-export,.rtl .sn-im-sound.ui-icon,.rtl .sn-button,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.rtl .sn-im-msgAvatar,.rtl .sn-im-history-title,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.rtl .sn-ap-avatar
 {
 	float:right;
 }
 
-.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-button,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.ltr .sn-im-msgAvatar,.ltr .sn-im-history-title,.rtl .sn-im-group,.rtl .sn-im-buttons .ui-icon,.rtl .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-fms-friend,.ltr .sn-ap-avatar
+.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-button,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.ltr .sn-im-msgAvatar,.ltr .sn-im-history-title,.rtl .sn-im-group,.rtl .sn-im-buttons .ui-icon,.rtl .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.ltr .sn-ap-avatar
 {
 	float:left;
 }
@@ -1595,6 +1605,11 @@ a.ui-button
 	background-position:0 100%;
 }
 
+.sn-menu .ui-menu-item.active a .ui-icon,.sn-menu .ui-menu-item.active a.ui-state-focus .ui-icon,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active .ui-accordion-header-icon
+{
+	background-image:url({T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png);
+}
+
 .sn-posterAvatar,#sn-ntf-notify,.sn-us-posterAvatar,.sn-up-editable,.sn-up-editable:hover .sn-up-editableButton
 {
 	display:inline-block;
@@ -1605,7 +1620,7 @@ a.ui-button
 	color:#888;
 }
 
-.sn-im-loginlogout .sn-im-selected span,.jGrowl .jGrowl-notification,.jGrowl .jGrowl-closer
+.sn-im-loginlogout .sn-im-selected span,.jGrowl .jGrowl-notification,.jGrowl .jGrowl-closer,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active a
 {
 	color:#fff;
 }
