@@ -100,16 +100,24 @@ if (!class_exists('socialnet_activitypage'))
 
 				case 'search':
 
-					$username = utf8_clean_string(request_var('username', '', true));
+					$username = request_var('username', '', true);
 
 					$sql = 'SELECT user_id
         		          FROM ' . USERS_TABLE . '
-        		            WHERE username_clean LIKE "%' . $username . '%"';
+        		            WHERE username_clean LIKE "%' . utf8_clean_string($username) . '%"';
 					$result = $db->sql_query($sql);
 					$search_user_id = $db->sql_fetchfield('user_id');
 					$db->sql_freeresult($result);
 
-					redirect(append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $search_user_id));
+					if ($search_user_id)
+					{
+						$redirect = append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $search_user_id);
+					}
+					else
+					{
+						$redirect = append_sid("{$phpbb_root_path}activitypage.{$phpEx}", "search={$username}");
+					}
+					redirect($redirect);
 
 					break;
 				}
