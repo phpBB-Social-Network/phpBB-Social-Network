@@ -229,6 +229,7 @@ if (!class_exists('socialnet_activitypage'))
 				$template->assign_vars(array(
 					'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
 					'B_SN_AP_MORE_LOAD'		 => true,
+					'B_SN_ONLY_ONE'			 => true
 				));
 
 				$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
