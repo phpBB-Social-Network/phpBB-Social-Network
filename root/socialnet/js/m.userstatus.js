@@ -179,7 +179,7 @@
 				snUsCommentText = snUsCommentText.replace(/^\s+|\s+$/g, '');
 
 				if (snUsCommentText == '' || snUsCommentText == $.sn.us.watermarkComment) {
-					snConfirmBox($.sn.us.emptyComment, $.sn.us.emptyComment);
+					snConfirmBox($.sn.comments.empty, $.sn.comments.empty);
 				} else {
 					$.ajax({
 						type : "POST",
