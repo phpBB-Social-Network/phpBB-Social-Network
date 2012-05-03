@@ -51,6 +51,7 @@
 				var h = Math.max(e.expandMin, Math.min(e.scrollHeight-this.expandPad, e.expandMax));
 				if ( !this.Initialized)h=e.expandMin;
 				e.style.overflow = (e.scrollHeight > h ? "auto" : "hidden");
+				if ( h < e.expandMin )h=e.expandMin;
 				e.style.height = h + "px";
 				e.valLength = vlen;
 				e.boxWidth = ewidth;
