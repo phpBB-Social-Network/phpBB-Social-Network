@@ -159,8 +159,11 @@
 				var _deac = true;
 				var _input = $('<input type="text" name="editable-' + idx + '" value="' + obj.edit + '" class="' + opts.inputClass + '" />').css(opts.cssInput);
 
-				th.html(_input);
+				if ( obj.editMax){
+					_input.attr('maxlength',obj.editMax);
+				}
 
+				th.html(_input);
 				var _position = obj.origin.length;
 				switch (obj.editType) {
 				case 'text':
@@ -241,6 +244,8 @@
 					obj.editName = meta.name;
 				if (meta.value != undefined)
 					obj.editValue = meta.value;
+				if (meta.max != undefined)
+					obj.editMax = meta.max;
 				if (meta.data != undefined) {
 					obj.editOptions = th.attr('class').replace(/^.*?data\s*?:\s*?([\[\{]{1}.*?[\}\]]{1})[^\}\]]*?.*?$/, '$1');
 					eval('obj\.data = ' + obj.editOptions + ';');
@@ -252,6 +257,7 @@
 				obj.editType = th.attr('editType');
 				obj.editName = th.attr('editName');
 				obj.editValue = th.attr('editValue');
+				obj.editMax = th.attr('editMax');
 				eval('obj\.editOptions = ' + th.attr('editOptions') + ';');
 			}
 			if (obj.editType == undefined || obj.editName == undefined || (obj.editType == 'select' && obj.editOptions == undefined)) {
