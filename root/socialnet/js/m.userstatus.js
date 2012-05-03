@@ -276,7 +276,7 @@
 						$('div[id^=sn-ap-entry]:hidden').slideDown('slow');
 						
 						if (data.moreStatuses == false) {
-							$('.sn-more').remove();
+							$('.sn-more .sn-us-getMore').remove();
 						}
 						$.sn.comments.waterMark();
 					}

@@ -35,9 +35,10 @@
 			}
 
 			$('.sn-ap-getMore').click(function() {
-				var o_loader = $(this).next('.sn-ap-statusLoader');
+				var o_more = $(this)
+				var o_loader = o_more.next('.sn-ap-statusLoader');
 				$(o_loader).show();
-				var o_prev = $(this).parents('.sn-more');
+				var o_prev = o_more.parents('.sn-more');
 				var i_obj = $(o_prev).prev('div[id^=sn-ap-entry]');
 				var i_lEntry = $.sn.getAttr($(i_obj), 't');
 
@@ -56,7 +57,7 @@
 						$('div[id^=sn-ap-entry]:hidden').slideDown('slow');
 						$(o_loader).hide();
 						if (data.more === false) {
-							$(o_prev).remove();
+							$(o_more).remove();
 						}
 					}
 				});
