@@ -43,7 +43,6 @@
 		},
 
 		init : function(options) {
-			console.log($(window));
 			if (!$.sn._inited) {
 				return false;
 			}
