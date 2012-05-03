@@ -35,6 +35,16 @@
 	padding:10px 0;
 }
 
+.section-activitypage #wrap
+{
+	min-width:1070px;
+}
+
+.section-profile #wrap
+{
+	min-width:800px;
+}
+
 .sn-page-blockHeader
 {
 	clear:both;
@@ -1396,11 +1406,6 @@ a.ui-button
 {
 	float:right;
 	margin-left:5px;
-}
-
-.section-activitypage #wrap
-{
-	min-width:1070px;
 }
 
 .sn-ap-avatar
