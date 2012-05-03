@@ -10,37 +10,37 @@
     <ul class="sn-menu">     
   		<!-- IF S_USER_LOGGED_IN and S_ZEBRA -->
       	<!-- IF U_REMOVE_FRIEND -->
-          <li class="sn-menu-icon-main"><a href="{U_REMOVE_FRIEND}"><span class="ui-icon ui-icon-close"></span>{L_REMOVE_FRIEND}</a></li>
+          <li><a href="{U_REMOVE_FRIEND}"><span class="ui-icon sn-menu-icon ui-icon-close"></span>{L_REMOVE_FRIEND}</a></li>
       	<!-- ELSEIF U_ADD_FRIEND -->
-          <li class="sn-menu-icon-main"><a href="{U_ADD_FRIEND}"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li>
+          <li><a href="{U_ADD_FRIEND}"><span class="ui-icon sn-menu-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li>
       	<!-- ENDIF -->
       <!-- ENDIF -->
       <!-- IF S_USER_LOGGED_IN -->
       	<!-- IF U_USER_SUBSCRIBE -->
-          <li class="sn-menu-icon-main"><a href="{U_USER_SUBSCRIBE}"><span class="ui-icon ui-icon-check"></span>{L_SN_UP_SUBSCRIBE}</a></li>
+          <li><a href="{U_USER_SUBSCRIBE}"><span class="ui-icon sn-menu-icon ui-icon-check"></span>{L_SN_UP_SUBSCRIBE}</a></li>
       	<!-- ELSEIF U_USER_UNSUBSCRIBE -->
-          <li class="sn-menu-icon-main"><a href="{U_USER_UNSUBSCRIBE}"><span class="ui-icon ui-icon-cancel"></span>{L_SN_UP_UNSUBSCRIBE}</a></li>
+          <li><a href="{U_USER_UNSUBSCRIBE}"><span class="ui-icon sn-menu-icon ui-icon-cancel"></span>{L_SN_UP_UNSUBSCRIBE}</a></li>
       	<!-- ENDIF -->
       <!-- ENDIF -->
       <!-- IF U_PM && not S_OWN_PROFILE -->
-        <li class="sn-menu-icon-main"><a href="{U_PM}"><span class="ui-icon ui-icon-mail-closed"></span>{L_SEND_MESSAGE}</a></li>
+        <li><a href="{U_PM}"><span class="ui-icon sn-menu-icon ui-icon-mail-closed"></span>{L_SEND_MESSAGE}</a></li>
       <!-- ENDIF -->
       <!-- IF not S_OWN_PROFILE && S_USER_LOGGED_IN && U_USER_REPORT -->
-        <li class="sn-menu-icon-main sn-up-reportUser"><a href="{U_USER_REPORT}#sn-up-profileTabs-reportUser"><span class="ui-icon ui-icon-alert"></span>{L_SN_UP_REPORT_PROFILE}</a></li>
+        <li class="sn-menu-icon-main sn-up-reportUser"><a href="{U_USER_REPORT}#sn-up-profileTabs-reportUser"><span class="ui-icon sn-menu-icon ui-icon-alert"></span>{L_SN_UP_REPORT_PROFILE}</a></li>
       <!-- ENDIF -->
       <!-- IF U_SWITCH_PERMISSIONS -->
-        <li class="sn-menu-icon-main"><a href="{U_SWITCH_PERMISSIONS}"><span class="ui-icon ui-icon-shuffle"></span>{L_USE_PERMISSIONS}</a></li>
+        <li><a href="{U_SWITCH_PERMISSIONS}"><span class="ui-icon sn-menu-icon ui-icon-shuffle"></span>{L_USE_PERMISSIONS}</a></li>
       <!-- ENDIF -->
       <!-- IF U_USER_BAN -->
-        <li class="sn-menu-icon-main"><a href="{U_USER_BAN}"><span class="ui-icon ui-icon-locked"></span>{L_USER_BAN}</a></li>
+        <li><a href="{U_USER_BAN}"><span class="ui-icon sn-menu-icon ui-icon-locked"></span>{L_USER_BAN}</a></li>
       <!-- ENDIF -->
       <!-- IF S_OWN_PROFILE && S_USER_LOGGED_IN -->
-        <li class="sn-menu-icon-main"><a href="{U_EDIT_PROFILE}"><span class="ui-icon ui-icon-pencil"></span>{L_SN_UP_EDIT_PROFILE}</a></li>
-        <li class="sn-menu-icon-main"><a href="{U_EDIT_FRIENDS}"><span class="ui-icon ui-icon-person"></span>{L_SN_UP_EDIT_FRIENDS}</a></li>
-        <li class="sn-menu-icon-main"><a href="{U_EDIT_RELATIONS}"><span class="ui-icon ui-icon-heart"></span>{L_SN_UP_EDIT_RELATIONS}</a></li>
+        <li><a href="{U_EDIT_PROFILE}"><span class="ui-icon sn-menu-icon ui-icon-pencil"></span>{L_SN_UP_EDIT_PROFILE}</a></li>
+        <li><a href="{U_EDIT_FRIENDS}"><span class="ui-icon sn-menu-icon ui-icon-person"></span>{L_SN_UP_EDIT_FRIENDS}</a></li>
+        <li><a href="{U_EDIT_RELATIONS}"><span class="ui-icon sn-menu-icon ui-icon-heart"></span>{L_SN_UP_EDIT_RELATIONS}</a></li>
       <!-- ENDIF -->
       <!-- IF U_USER_ADMIN -->
-        <li class="sn-menu-icon-main"><a href="{U_USER_ADMIN}"><span class="ui-icon ui-icon-gear"></span>{L_USER_ADMIN}</a></li>
+        <li><a href="{U_USER_ADMIN}"><span class="ui-icon sn-menu-icon ui-icon-gear"></span>{L_USER_ADMIN}</a></li>
       <!-- ENDIF -->
   	</ul>
 
