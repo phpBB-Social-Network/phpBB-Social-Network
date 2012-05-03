@@ -52,15 +52,15 @@ class ucp_approval
 			$data = $error = array();
 
 			$var_ary = array(
-				'usernames'				 				=> array(0),
-				'approvals'				 				=> array(0),
-				'approvalsName'			 			=> array(),
-				'approve'				 					=> '',
-				'no_approve'			 				=> '',
-				'cancel_request'		 			=> array(0),
-				'cancel_request_submit'	 	=> '',
-				'add'					 						=> '',
-				'redirect'				 				=> base64_encode(append_sid("{$phpbb_root_path}activitypage.{$phpEx}")),
+				'usernames'				 => array(0),
+				'approvals'				 => array(0),
+				'approvalsName'			 => array(),
+				'approve'				 => '',
+				'no_approve'			 => '',
+				'cancel_request'		 => array(0),
+				'cancel_request_submit'	 => '',
+				'add'					 => '',
+				'redirect'				 => base64_encode(append_sid("{$phpbb_root_path}activitypage.{$phpEx}")),
 			);
 
 			foreach ($var_ary as $var => $default)
@@ -101,7 +101,7 @@ class ucp_approval
 					}
 
 					// Add Freinds in approval request
-					if ((isset($data['add_approval']) && !empty($data['add_approval'])) || !empty($data['approvals']))
+					if ((isset($data['add_approval']) && !empty($data['add_approval'])) || !empty($data['approvals']) || !empty($data['cancel_request']))
 					{
 						if (isset($data['add_approval']) && !empty($data['add_approval']))
 						{
@@ -112,6 +112,10 @@ class ucp_approval
 						{
 							$where = "user_id IN ('" . implode("','", $data['approvals']) . "')";
 							$data['approvals'] = array();
+						}
+						if (isset($data['cancel_request']) && !empty($data['cancel_request']))
+						{
+							$where = "user_id IN ('" . implode("','", $data['cancel_request']) . "')";
 						}
 
 						$sql = "SELECT user_id, username
@@ -125,6 +129,7 @@ class ucp_approval
 						{
 							$data['approvals'][] = $rowset[$i]['user_id'];
 							$data['approvalsName'][] = $rowset[$i]['username'];
+							$data['cancelName'][] =  $rowset[$i]['username'];
 						}
 
 					}
@@ -137,7 +142,8 @@ class ucp_approval
 
 						if ($approve)
 						{
-							foreach ($data['approvals'] as $user_id)
+
+							foreach ($data['approvals'] as $idx => $user_id)
 							{
 								$sql = "SELECT * FROM " . ZEBRA_TABLE . " WHERE user_id = {$user->data['user_id']} AND zebra_id = {$user_id}";
 								$rs = $db->sql_query($sql);
@@ -155,23 +161,25 @@ class ucp_approval
 
 									$socialnet->purge_friends($user_id);
 									$socialnet->record_entry($user->data['user_id'], $user_id, SN_TYPE_NEW_FRIENDSHIP);
-									$error[] = $user->lang[$l_mode . '_APPROVALS_SUCCESS'];
-									$message[] = $user->lang[$l_mode . '_APPROVALS_SUCCESS'];
+									$error[] = $user->lang[$l_mode . '_APPROVALS_SUCCESS'] . " ({$data['approvalsName'][$idx]})";
+									$message[] = $user->lang[$l_mode . '_APPROVALS_SUCCESS'] . " ({$data['approvalsName'][$idx]})";
 									$ntf_text = 'SN_NTF_FRIENDSHIP_ACCEPT';
 									$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 
 								}
 								else
 								{
-									$error[] = $user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'];
-									$message[] = $user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'];
+									$error[] = $user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'] . " \"{$data['add_approval'][$idx]}\"";
+									$message[] = $user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'] . " \"{$data['add_approval'][$idx]}\"";
 								}
 							}
 
 						}
 						else
 						{
-							foreach ($data['approvals'] as $user_id)
+							$data['approvals'] = array_diff($data['approvals'], $data['cancel_request']);
+							
+							foreach ($data['approvals'] as $idx =>$user_id)
 							{
 								$sql_update = "DELETE FROM " . ZEBRA_TABLE . "
 																WHERE user_id = " . $user_id . "
@@ -179,10 +187,10 @@ class ucp_approval
 								$db->sql_query($sql_update);
 								$socialnet->purge_friends($user_id);
 								$ntf_text = 'SN_NTF_FRIENDSHIP_DENY';
+								$message[] = $user->lang[$l_mode . '_APPROVALS_DENY']  . " \"{$data['approvalsName'][$idx]}\"";
 								$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 							}
 							$error[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
-							$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
 						}
 					}
 
@@ -226,7 +234,7 @@ class ucp_approval
 					if (!empty($data['cancel_request']))
 					{
 
-						foreach ($data['cancel_request'] as $user_id)
+						foreach ($data['cancel_request'] as $idx => $user_id)
 						{
 							$sql_cancel_request = "DELETE FROM " . ZEBRA_TABLE . "
                                       WHERE user_id = {$user->data['user_id']}
@@ -234,10 +242,11 @@ class ucp_approval
                                         AND approval = 1";
 							$db->sql_query($sql_cancel_request);
 							$socialnet->purge_friends($user_id);
+							$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'] . " \"{$data['cancelName'][$idx]}\"";
 						}
 						$ntf_text = 'SN_NTF_FRIENDSHIP_CANCEL';
 						$this->p_notify->add(SN_NTF_FRIENDSHIP, $data['cancel_request'], array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
-						$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
+						;
 					}
 
 					$cache->destroy('_snApFriendsToKnow' . $user->data['user_id']);
@@ -250,43 +259,43 @@ class ucp_approval
 
 		// FRIEND
 		$socialnet->fms_users(array_merge(array(
-			'mode'			 		=> 'friend',
-			'checkbox'		 	=> 'usernames',
-			'limit'			 		=> $config['fas_friendlist_limit'],
-			'slider'		 		=> false,
-			'profile_link'	=> false,
+			'mode'			 => 'friend',
+			'checkbox'		 => 'usernames',
+			'limit'			 => $config['fas_friendlist_limit'],
+			'slider'		 => false,
+			'profile_link'	 => false,
 		), $socialnet->fms_users_sqls('friend', $user->data['user_id'])));
 
 		$s_username_approval_options = '';
 		$s_username_cancel_request_options = '';
-		
+
 		if ($mode == 'friends')
 		{
 			// APROVE
 			$socialnet->fms_users(array_merge(array(
-				'mode'			 			=> 'approve',
-				'checkbox'		 		=> 'approvals',
-				'slider'		 			=> false,
-				'profile_link'	 	=> false,
+				'mode'			 => 'approve',
+				'checkbox'		 => 'approvals',
+				'slider'		 => false,
+				'profile_link'	 => false,
 			), $socialnet->fms_users_sqls('approve', $user->data['user_id'])));
 
 			// CANCEL
 			$socialnet->fms_users(array_merge(array(
-				'mode'			 			=> 'cancel',
-				'checkbox'		 		=> 'cancel_request',
-				'slider'		 			=> false,
-				'profile_link'	 	=> false,
+				'mode'			 => 'cancel',
+				'checkbox'		 => 'cancel_request',
+				'slider'		 => false,
+				'profile_link'	 => false,
 			), $socialnet->fms_users_sqls('cancel', $user->data['user_id'])));
 		}
 
 		$s_hidden_fields = build_hidden_fields(array('redirect' => request_var('redirect', base64_encode($this->p_master->u_action))));
 
 		$template->assign_vars(array(
-			'S_MODE'			 				=> 'approval_' . $mode,
-			'L_TITLE'			 				=> $user->lang['UCP_ZEBRA_' . $l_mode],
-			'U_FIND_USERNAME'	 		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=searchuser&amp;form=ucp&amp;field=add'),
-			'S_HIDDEN_FIELDS'	 		=> $s_hidden_fields,
-			'U_ACTION'			 			=> $this->p_master->u_action,
+			'S_MODE'			 => 'approval_' . $mode,
+			'L_TITLE'			 => $user->lang['UCP_ZEBRA_' . $l_mode],
+			'U_FIND_USERNAME'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=searchuser&amp;form=ucp&amp;field=add'),
+			'S_HIDDEN_FIELDS'	 => $s_hidden_fields,
+			'U_ACTION'			 => $this->p_master->u_action,
 		));
 	}
 
@@ -609,17 +618,17 @@ class ucp_approval
 		{
 			$row = $rowset[$i];
 			$template->assign_block_vars('ufg', array(
-				'GID'	 			=> $row['fms_gid'],
-				'NAME'	 		=> $row['fms_name'],
-				'CLEAN'	 		=> $row['fms_clean'],
-				'COUNT'	 		=> $row['count'],
+				'GID'	 => $row['fms_gid'],
+				'NAME'	 => $row['fms_name'],
+				'CLEAN'	 => $row['fms_clean'],
+				'COUNT'	 => $row['count'],
 			));
 		}
 
 		$socialnet->fms_users(array_merge(array(
-			'mode'	 		=> 'friend',
-			'slider' 		=> false,
-			'limit'	 		=> 20,
+			'mode'	 => 'friend',
+			'slider' => false,
+			'limit'	 => 20,
 		), $socialnet->fms_users_sqls('friend', $user->data['user_id'])));
 	}
 }
