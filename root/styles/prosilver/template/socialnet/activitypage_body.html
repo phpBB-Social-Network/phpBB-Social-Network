@@ -44,13 +44,14 @@
 
   		<!-- IF .ap_entries -->
     		<!-- INCLUDE socialnet/activitypage_body_entries.html -->
-    		<!-- IF B_SN_AP_MORE_ENTRIES -->
       		<div class="sn-more">
 				<a href="#top" class="sn-back-top">{L_BACK_TO_TOP}</a>
+				<!-- IF B_SN_AP_MORE_ENTRIES -->
       			<a href="javascript:void(0)" class="sn-ap-getMore {user:{USER_ID}}">{L_SN_US_LOAD_MORE}</a>
       			<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-ap-statusLoader" style="display:none" />
+	    		<!-- ENDIF -->
+	    		<div class="clear"></div>
       		</div>
-    		<!-- ENDIF -->
   		<!-- ELSE -->
     		<div class="sn-ap-noEntry">
     			{L_SN_AP_NO_ENTRY}
