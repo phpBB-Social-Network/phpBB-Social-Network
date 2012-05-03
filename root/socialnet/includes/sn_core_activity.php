@@ -79,7 +79,7 @@ class sn_core_activity
 		}
 		else
 		{
-			$sql_where[] = "( sn_e.user_id = '{$user_id}') OR ( sn_e.entry_type = " . SN_TYPE_EMOTE . " AND  sn_e.entry_target = '{$user_id}' )";
+			$sql_where[] = "( ( sn_e.user_id = '{$user_id}') OR ( sn_e.entry_type = " . SN_TYPE_EMOTE . " AND  sn_e.entry_target = '{$user_id}' ) )";
 		}
 
 		if ($last_time != 0)
@@ -92,7 +92,7 @@ class sn_core_activity
 			'SELECT'	 => '*',
 			'FROM'		 => array(SN_ENTRIES_TABLE => 'sn_e'),
 			'WHERE'		 => implode(' AND ', $sql_where),
-			'ORDER_BY'	 => 'sn_e.entry_time DESC, sn_e.entry_id DESC'
+			'ORDER_BY'	 => 'sn_e.entry_time DESC'
 		);
 		$sql = $db->sql_build_query('SELECT', $sql_ary);
 

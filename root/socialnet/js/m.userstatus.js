@@ -253,14 +253,14 @@
 				var o_prev = t_obj.parents('.sn-more');
 				var i_obj = $(o_prev).prev('div[id^=sn-ap-entry]');
 				var i_lEntry = $.sn.getAttr($(i_obj), 't');
-				
+				var i_lStatusID = $.sn.getAttr($(this).parents('div.sn-more').prev('.sn-us-statusBlock'), 'sid');
+
 				$.ajax({
 					type : 'POST',
 					cache : false,
 					url : $.sn.us.url,
 					data : {
 						smode : 'status_more',
-						lStatusID : $.sn.getAttr($(this).parents('div.sn-more').prev('.sn-us-statusBlock'), 'sid'),
 						ltime: i_lEntry,
 						u : $.sn.getAttr($(this),'user')
 					},

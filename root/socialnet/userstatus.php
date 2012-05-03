@@ -298,7 +298,7 @@ if (!class_exists('socialnet_userstatus'))
 			global $template;
 
 			$user_id = request_var('u', ANONYMOUS);
-			$last_status_id = request_var('lStatusID', 0);
+			//$last_status_id = request_var('lStatusID', 0);
 			$last_entry_time = request_var('ltime', 0);
 
 			$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15, true, $user_id);
