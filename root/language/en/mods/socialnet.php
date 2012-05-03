@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 	'SN_US_WRITE_COMMENT'					 => 'Write a comment...',
 	'SN_US_COMMENT_STATUS'					 => 'Comment',
 	'SN_US_HAS_NO_STATUS'					 => 'has no status',
+	'SN_US_HAS_NO_ACTIVITY'					 => 'has no activity',
 	'SN_US_SHARED_STATUS'					 => 'You have shared your status',
 	'SN_US_DELETE_STATUS'					 => 'Delete',
 	'SN_US_LOAD_MORE'						 => 'Older posts',
@@ -315,7 +316,7 @@ $lang = array_merge($lang, array(
 	'SN_UP_TABS_SPINNER'					 => '<em>Loading&#8230;<\/em>',
 	'SN_UP_EMOTES'							 => 'Send Emote',
 	'SN_NTF_EMOTE_CB_TITLE'					 => 'Emote sent',
-	'SN_NTF_EMOTE_CB_TEXT'					 => 'Emote %2$s %3$s has been sent succesfully to %1$s',
+	'SN_NTF_EMOTE_CB_TEXT'					 => 'Emote %2$s %3$s has been sent successfully to %1$s',
 
 	'SN_IN'									 => 'in',
 
@@ -414,7 +415,7 @@ $lang = array_merge($lang, array(
 	'SN_FAS_REQUEST_ADDED'					 => '%1$s wants to be your friend',
 	'SN_FAS_REQUEST_ADDED_MESSAGE'			 => '%1$s sent you a friend request.<br />You can accept or deny this request here <a href="%2$s">%3$s</a>.',
 	'FRIENDS_APPROVALS_SUCCESS'				 => 'The friend has been added successfully',
-	'FRIENDS_APPROVALS_REQUEST_EXIST'		 => 'You have already sent the request to this user',
+	'FRIENDS_APPROVALS_REQUEST_EXIST'		 => 'You have already sent the request to',
 	'FRIENDS_APPROVALS_DENY'				 => 'The friend request has been canceled successfully',
 	'FRIENDS_APPROVALS_REMOVE'				 => 'The friend has been removed successfully',
 	'FRIENDS_APPROVALS_ADDED'				 => 'The friend request has been send successfully',
