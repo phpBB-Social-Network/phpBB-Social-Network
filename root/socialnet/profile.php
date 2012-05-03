@@ -94,7 +94,7 @@ if (!class_exists('socialnet_profile'))
 				'S_OWN_PROFILE'           => $user->data['user_id'] == $user_id,
 				'SN_UP_MONTH_NAMES'       => $monthNames,
 				'SN_UP_MONTH_NAMES_SHORT' => $monthNamesShort,
-				'S_SN_UP_EMOTES_ENABLED'  => $this->p_master->config['up_emotes'],
+				'S_SN_UP_EMOTES_ENABLED'  => isset($this->p_master->config['up_emotes']) ? $this->p_master->config['up_emotes'] : 0,
 				'SN_UP_EMOTE_FOLDER'      => $phpbb_root_path . SN_UP_EMOTE_FOLDER,
 			);
 
@@ -1076,15 +1076,18 @@ if (!class_exists('socialnet_profile'))
 			$sql = "UPDATE {$table}
 								SET " . $db->sql_build_array('UPDATE', $fieldset) . "
 									WHERE user_id = '{$user->data['user_id']}'";
-
 			$db->sql_query($sql);
+			
+			$sql = "UPDATE " . SN_USERS_TABLE . " SET profile_last_change = " . time() . " WHERE user_id = '{$user->data['user_id']}'";
+			$db->sql_query($sql);
+			
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode(array(
 				'origin' => $value,
 				'edit'   => $edit,
-				'sql'    => $sql,
+				//'sql'    => $sql,
 			)));
 		}
 	}
