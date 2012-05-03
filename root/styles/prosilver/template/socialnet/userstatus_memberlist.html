@@ -13,8 +13,11 @@
 	<!-- ENDIF -->
 
 	<div id="sn-us-profile" class="sn-us-profile">
-		<!-- INCLUDE socialnet/activitypage_body_entries.html -->
-	  <!-- socialnet/userstatus_status.html -->
+		<!-- IF B_SN_ONLY_ONE -->
+			<!-- INCLUDE socialnet/userstatus_status.html -->
+		<!-- ELSE -->
+			<!-- INCLUDE socialnet/activitypage_body_entries.html -->
+		<!-- ENDIF --> 
 	  <!-- IF SN_US_DISPLAY_LOAD_MORE_STATUS -->
 			<div class="sn-more">
 				<a href="#top" class="sn-back-top">{L_BACK_TO_TOP}</a>

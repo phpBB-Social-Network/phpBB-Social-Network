@@ -58,7 +58,6 @@ if (!class_exists('socialnet_userstatus'))
 			$mode = request_var('mode', '', true);
 
 			$template_assign_vars = array(
-				//'B_SN_US_ON_HEADER'					 => in_array(array($this->script_name, $mode, ), $this->on_header) || in_array($this->script_name, $this->on_header) || in_array('all', $this->on_header),
 				'B_LOAD_FIRST_USERSTATUS_COMMENTS'	 => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
 			);
 
@@ -109,8 +108,8 @@ if (!class_exists('socialnet_userstatus'))
 						if (!isset($template->_tpldata['.'][0]['USERNAME']))
 						{
 							$sql = 'SELECT username
-													FROM ' . USERS_TABLE . '
-														WHERE user_id = ' . $user_id;
+												FROM ' . USERS_TABLE . '
+													WHERE user_id = ' . $user_id;
 							$rs = $db->sql_query($sql);
 							$username = $db->sql_fetchfield('username');
 							$db->sql_freeresult($rs);
@@ -127,6 +126,7 @@ if (!class_exists('socialnet_userstatus'))
 							'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
 							'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
 							'SN_US_USER_ID'								 => $user_id,
+							'B_SN_ONLY_ONE'								 => true,
 						));
 					}
 				}
@@ -296,55 +296,34 @@ if (!class_exists('socialnet_userstatus'))
 		function _status_more()
 		{
 			global $template;
-/*
+
 			$user_id = request_var('u', ANONYMOUS);
 			$last_status_id = request_var('lStatusID', 0);
+			$last_entry_time = request_var('ltime', 0);
 
-			$template->set_filenames(array(
-				'body'	 => 'socialnet/userstatus_status.html',
-			));
-
-			$return = array();
-			$return['moreStatuses'] = $this->_get_statuses($user_id, $last_status_id);
-
-			$this->p_master->page_header();
-			$content = $this->p_master->page_footer();
-
-			$return['statuses'] = $content;
-
-			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate");
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-			die(json_encode($return));
-*/
-			$user_id = request_var('u', ANONYMOUS);
-			$last_status_id = request_var('lStatusID', 0);
-			$last_entry_time = request_var('ltime',0);
-				
 			$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15, true, $user_id);
-			
+
 			foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
 			{
 				$template->assign_block_vars('ap_entries', $a_ap_entry);
 			}
-			
+
 			$return = array();
 			$return['moreStatuses'] = $a_ap_entries['more'];
-			
+
 			$template->assign_vars(array(
-					'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
-					'B_SN_AP_MORE_LOAD'		 => true,
+				'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+				'B_SN_AP_MORE_LOAD'		 => true,
 			));
-			
+
 			$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
-			
+
 			$return['statuses'] = $this->p_master->get_page();
-			
+
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($return));
-				
 		}
 
 		/**
@@ -366,8 +345,9 @@ if (!class_exists('socialnet_userstatus'))
 
 				// Notify
 				$sql = "SELECT sn.poster_id, u.username, sn.wall_id
-						FROM " . SN_STATUS_TABLE . " AS sn, " . USERS_TABLE . " AS u
-						WHERE sn.status_id = {$status_id} AND sn.poster_id = u.user_id";
+									FROM " . SN_STATUS_TABLE . " AS sn, " . USERS_TABLE . " AS u
+										WHERE sn.status_id = {$status_id}
+											AND sn.poster_id = u.user_id";
 				$rs = $db->sql_query($sql);
 				$row = $db->sql_fetchrow();
 				$db->sql_freeresult($rs);
@@ -545,7 +525,7 @@ if (!class_exists('socialnet_userstatus'))
 				),
 				'WHERE'		 => 'u.user_id = s.poster_id AND s.wall_id = ' . $user_id . (($last_status_id != 0) ? (($only_one) ? ' AND s.status_id = ' . $last_status_id : ' AND s.status_id < ' . $last_status_id) : ''),
 				'ORDER_BY'	 => 's.status_time DESC', // ORDER BY time NOT BY id
-				);
+			);
 			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query($sql, $status_limit + 1);
 			$status_rows = $db->sql_fetchrowset($result);
@@ -556,7 +536,7 @@ if (!class_exists('socialnet_userstatus'))
 				$status_row = $status_rows[$j];
 
 				$template_block_data = $this->_get_status_array($status_row, $my_friends, $comment_limit);
-
+				$template_block_data['B_SN_US_NOT_ONLY_COMMENT'] = false;
 				$template->assign_block_vars('us_status', $template_block_data);
 			}
 
@@ -608,7 +588,7 @@ if (!class_exists('socialnet_userstatus'))
 
 			$wall_id = $this->_wall_id();
 
-			$another_wall = (($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile' )&& ($this->script_name != 'userstatus' )) ? true : false;
+			$another_wall = (($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile') && ($this->script_name != 'userstatus')) ? true : false;
 
 			$wall_row = array(
 				'username'		 => '',
