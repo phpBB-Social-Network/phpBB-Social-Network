@@ -103,7 +103,7 @@
 			<div class="sn-up-buttons">
 	     	<!-- IF not S_OWN_PROFILE -->
 		    	<ul class="sn-up-menu">
-						<!-- IF SN_MODULE_APPROVAL_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST and .sn_fms_group -->
+					<!-- IF SN_MODULE_APPROVAL_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST -->
 		      		<li class="sn-fms-grpmenu">
 		      			<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-folder-open"></span>{L_SN_UP_ADD_FRIEND_TO_GROUP}</a>
 		      			<ul class="sn-fms-groups sn-up-submenu">
@@ -115,35 +115,40 @@
 					      		</a>
 					      	</li>
 		      				<!-- END sn_fms_group -->
+							<li class="sn-fms-grpCreate">
+								<a href="#" id="sn-fms-grpCreate"><span class="ui-icon ui-icon-circle-plus"></span>
+									<input id="sn-fms-grpCreateText" class="{gid:0,uid:{USER_ID}}" type="text" value="{L_CREATE_NEW_GROUP}" />
+								</a>
+							</li>
 		      			</ul>
 		      		</li>
-						<!-- ENDIF -->
-						<!-- IF U_PM -->
-							<li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li>
+					<!-- ENDIF -->
+					<!-- IF U_PM -->
+					<li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li>
 						<!-- ENDIF -->
 						<!-- IF S_USER_LOGGED_IN and S_SN_UP_EMOTES_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST -->
-							<li class="sn-up-emotes">
-								<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-tag"></span>{L_SN_UP_EMOTES}</a>
-								<!-- IF .sn_up_emote -->
-									<ul class="sn-up-emote sn-up-submenu">
-										<!-- BEGIN sn_up_emote -->
-											<li>
-												<a href="#" class="{emote:{sn_up_emote.EMOTE_ID},u:{USER_ID}}">
-													{sn_up_emote.EMOTE_NAME}
-													<!-- IF sn_up_emote.EMOTE_IMAGE != '' --><img src="{SN_UP_EMOTE_FOLDER}{sn_up_emote.EMOTE_IMAGE}" alt="{sn_up_emote.EMOTE_NAME}" style="vertical-align: middle; float: right;" /><!-- ENDIF -->
-												</a>
-											</li>
-										<!-- END sn_up_emote -->
-									</ul>
-								<!-- ENDIF -->
-							</li>
-						<!-- ENDIF -->
-						<!-- IF U_CANCEL_REQUEST -->
-							<li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li>
-						<!-- ENDIF -->
-						<!-- IF U_ADD_FRIEND -->
-							<li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li>
-						<!-- ENDIF -->
+						<li class="sn-up-emotes">
+							<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-tag"></span>{L_SN_UP_EMOTES}</a>
+							<!-- IF .sn_up_emote -->
+								<ul class="sn-up-emote sn-up-submenu">
+									<!-- BEGIN sn_up_emote -->
+										<li>
+											<a href="#" class="{emote:{sn_up_emote.EMOTE_ID},u:{USER_ID}}">
+												{sn_up_emote.EMOTE_NAME}
+												<!-- IF sn_up_emote.EMOTE_IMAGE != '' --><img src="{SN_UP_EMOTE_FOLDER}{sn_up_emote.EMOTE_IMAGE}" alt="{sn_up_emote.EMOTE_NAME}" style="vertical-align: middle; float: right;" /><!-- ENDIF -->
+											</a>
+										</li>
+									<!-- END sn_up_emote -->
+								</ul>
+							<!-- ENDIF -->
+						</li>
+					<!-- ENDIF -->
+					<!-- IF U_CANCEL_REQUEST -->
+					<li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li>
+					<!-- ENDIF -->
+					<!-- IF U_ADD_FRIEND -->
+					<li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li>
+					<!-- ENDIF -->
 				</ul>
 			<!-- ENDIF -->
 			</div>

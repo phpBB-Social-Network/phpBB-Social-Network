@@ -23,7 +23,7 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 	$phpEx = substr(strrchr(__FILE__, '.'), 1);
 	include_once($phpbb_root_path . 'common.' . $phpEx);
 	include_once($phpbb_root_path . 'includes/functions_display.' . $phpEx);
-	
+
 	// Start session management
 	$user->session_begin(false);
 	$auth->acl($user->data);
@@ -101,24 +101,24 @@ if (!class_exists('socialnet_approval'))
 			$mode = request_var('mode', '');
 
 			$this->$mode();
-			
+
 			switch ($mode)
 			{
-				case 'memberlist':
-				
-					$template->set_filenames(array('body' => "socialnet/memberlist_viewprofile_friends.html"));
-					
+			case 'memberlist':
+
+				$template->set_filenames(array('body' => "socialnet/memberlist_viewprofile_friends.html"));
+
 				break;
-				
-				case 'mutual':
-				
-					$template->set_filenames(array('body' => "socialnet/memberlist_viewprofile_mutual.html"));
-					
+
+			case 'mutual':
+
+				$template->set_filenames(array('body' => "socialnet/memberlist_viewprofile_mutual.html"));
+
 				break;
-				
-				default:
-				
-					$template->set_filenames(array('body' => "socialnet/ucp_approval_block_{$mode}.html"));
+
+			default:
+
+				$template->set_filenames(array('body' => "socialnet/ucp_approval_block_{$mode}.html"));
 			}
 
 			$page = $this->p_master->get_page();
@@ -133,36 +133,58 @@ if (!class_exists('socialnet_approval'))
 			$gid = request_var('gid', 0);
 			$uid = request_var('uid', 0);
 			$sub = request_var('sub', '');
+			$tid = request_var('tid', '', true);
 
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
-			if ($gid == 0 || $uid == 0 || $sub == '')
+			if (($gid == 0 && $tid == '') || $uid == 0 || $sub == '')
 			{
 				die(json_encode(array('error' => 1, 'text' => "some user problem occured\nReload page using F5 or CTRL+F5")));
 			}
 
 			switch ($sub)
 			{
-				case 'add':
+			case 'create':
+
 				
-					$sql = "INSERT INTO " . SN_FMS_USERS_GROUP_TABLE . " (fms_gid,user_id,owner_id) VALUES ({$gid},{$uid},{$user->data['user_id']})";
-					
+				$sql = "SELECT MAX(fms_gid) AS max_id FROM " . SN_FMS_GROUPS_TABLE . " WHERE user_id = {$user->data['user_id']}";
+				$rs = $db->sql_query($sql);
+				$max_id = (int) $db->sql_fetchfield('max_id');
+				$gid = $max_id + 1;
+
+				$sql_ary = array(
+					'fms_gid'		 => $gid,
+					'user_id'		 => $user->data['user_id'],
+					'fms_name'		 => $db->sql_escape($tid),
+					'fms_clean'		 => utf8_clean_string($tid),
+					'fms_collapse'	 => 0,
+				);
+				$db->sql_return_on_error(true);
+				
+				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . $db->sql_build_array('INSERT', $sql_ary);
+				$db->sql_query($sql);
+				$db->sql_return_on_error(false);
+				
+			case 'add':
+
+				$sql = "INSERT INTO " . SN_FMS_USERS_GROUP_TABLE . " (fms_gid,user_id,owner_id) VALUES ({$gid},{$uid},{$user->data['user_id']})";
+
 				break;
-				
-				case 'remove':
-				
-					$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$uid}";
-					
+
+			case 'remove':
+
+				$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$uid}";
+
 				break;
-				
-				case 'delete':
-				
-					$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND owner_id = {$user->data['user_id']}";
-					$db->sql_query($sql);
-					$sql = "DELETE FROM " . SN_FMS_GROUPS_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$user->data['user_id']}";
-					
+
+			case 'delete':
+
+				$sql = "DELETE FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE fms_gid = {$gid} AND owner_id = {$user->data['user_id']}";
+				$db->sql_query($sql);
+				$sql = "DELETE FROM " . SN_FMS_GROUPS_TABLE . " WHERE fms_gid = {$gid} AND user_id = {$user->data['user_id']}";
+
 				break;
 			}
 
@@ -170,7 +192,7 @@ if (!class_exists('socialnet_approval'))
 
 			$this->p_master->reload_groups();
 
-			die(json_encode(array('error' => 0, 'text' => "GID:{$gid}\nUID:{$uid}\nSUB:{$sub}\nUSER:{$user->data['user_id']}")));
+			die(json_encode(array('error' => 0, 'gid' => $gid, 'uid' => $uid, 'sub' => $sub, 'user' => $user->data['user_id'])));
 		}
 
 		function _group_load()
@@ -207,12 +229,12 @@ if (!class_exists('socialnet_approval'))
 				}
 
 				$template->assign_block_vars('fas_friend', array(
-					'USER_ID'			 					=> $row[$user_id_field],
-					'USERNAME'			 				=> $this->p_master->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USER_PROFILE'		 			=> $this->p_master->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USERNAME_NO_COLOR'	 		=> $row['username'],
-					'U_PROFILE'			 				=> append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
-					'AVATAR'			 					=> $img_avatar,
+					'USER_ID'			 => $row[$user_id_field],
+					'USERNAME'			 => $this->p_master->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USER_PROFILE'		 => $this->p_master->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USERNAME_NO_COLOR'	 => $row['username'],
+					'U_PROFILE'			 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
+					'AVATAR'			 => $img_avatar,
 				));
 			}
 

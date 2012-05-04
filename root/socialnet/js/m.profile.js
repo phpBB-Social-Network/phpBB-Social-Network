@@ -234,8 +234,10 @@
 
 			        $(this).children('a').prepend('<span class="ui-menu-icon ui-icon ui-icon-carat-1-s"></span>');
 
-			        $subMenu.addClass('ui-menu ui-widget ui-widget-content ui-menu-icons ui-corner-bottom ui-corner-' + ($.sn.rtl ? 'tr' : 'tl')).attr('role', 'menu').children('li:not( .ui-menu-item ):has( a )').addClass('ui-menu-item').attr('role', 'menu-item').children('a').addClass('ui-corner-all').hover(function() {
-				        $(this).toggleClass('ui-state-active')
+			        $subMenu.addClass('ui-menu ui-widget ui-widget-content ui-menu-icons ui-corner-bottom ui-corner-' + ($.sn.rtl ? 'tr' : 'tl')).attr('role', 'menu');
+			        $subMenu.children('li:not( .ui-menu-item ):has( a )').addClass('ui-menu-item').attr('role', 'menu-item');
+			        $subMenu.children('li.ui-menu-item:has( a )').find('a').addClass('ui-corner-all').hover(function() {
+				        $(this).toggleClass('ui-state-focus')
 			        });
 
 			        $(this).children('a').bind('click', function() {
