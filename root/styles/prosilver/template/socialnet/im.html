@@ -25,7 +25,7 @@
 	<!-- IF not sn_im_chatbox.B_SN_IM_ONLY_MESSAGE -->
 	<div id="sn-im-chatBox{sn_im_chatbox.USER_ID}" class="sn-im-group sn-im-chatBox sn-im-noChatBar {uid:{sn_im_chatbox.USER_ID}}">
 		<div class="sn-im-button sn-action-block<!-- IF sn_im_chatbox.S_OPEN --> sn-im-opener<!-- ENDIF -->">
-			<span class="sn-im-unRead<!-- IF sn_im_chatbox.UNREAD eq 0 --> sn-hiddenDefault<!-- ENDIF -->"></span>
+			<span class="sn-im-unRead<!-- IF sn_im_chatbox.UNREAD eq 0 --> sn-hiddenDefault<!-- ENDIF -->">{sn_im_chatbox.UNREAD}</span>
 			<div class="sn-actions">
 				<div class="sn-im-close sn-action-close"></div>
 			</div>

@@ -47,14 +47,14 @@ if (!class_exists('socialnet_im'))
 			'onlineCount'	 => 0,
 			'recd'			 => true,
 		);
-		
+
 		var $closeSequence = array(
 			'alt'	 => false,
 			'ctrl'	 => false,
 			'shift'	 => false,
 			'key'	 => 27,
 		);
-		
+
 		var $sendSequence = array(
 			'alt'	 => false,
 			'ctrl'	 => false,
@@ -69,11 +69,10 @@ if (!class_exists('socialnet_im'))
 		{
 			$this->p_master =& $p_master;
 		}
-		
+
 		function init()
 		{
 			global $template, $db, $config, $user, $phpbb_root_path, $phpEx;
-
 
 			$this->config = array(
 				'only_friends'		 => $config['im_only_friends'],
@@ -105,10 +104,10 @@ if (!class_exists('socialnet_im'))
 
 				$c_onlinelistName = $config['cookie_name'] . '_sn_im_online';
 				$c_onlinelist = request_var($c_onlinelistName, 'true', false, true);
-				
+
 				$template_assign_vars = array_merge($template_assign_vars, array(
-					'SN_IM_MODE'			 				=> 'startIM',
-					'SN_IM_ONLINELIST_SHOW'		=> $c_onlinelist == 'true',
+					'SN_IM_MODE'			 => 'startIM',
+					'SN_IM_ONLINELIST_SHOW'	 => $c_onlinelist == 'true',
 				));
 
 				$this->_startIM();
@@ -118,26 +117,26 @@ if (!class_exists('socialnet_im'))
 			$sendKey = $this->_keyboardString($this->sendSequence);
 
 			$template_assign_vars = array_merge($template_assign_vars, array(
-				'SN_IM_ONLINE'			 			=> $user->data['user_im_online'] == 1 ? true : false,
-				'S_SN_USERNAME'			 			=> addslashes($user->data['username']),
-				'S_SN_IM_ONLINE'		 			=> $user->data['user_im_online'] == 1 ? 'online' : 'offline',
-				'SN_IM_USERNAME'		 			=> $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
-				'SN_IM_USER_AVATAR'		 		=> $this->config['my_avatar'],
-				'S_SN_IM_USER_SOUND'	 		=> $user->data['user_im_sound'],
-				'S_SN_IM_USER_SOUNDNAME'	=> $user->data['user_im_soundname'],
-				'SN_IM_MIN_CHECK'		 			=> $this->p_master->config['im_checkTime_min'],
-				'SN_IM_MAX_CHECK'		 			=> $this->p_master->config['im_checkTime_max'],
-				'SN_IM_LAST_CHECKTIME'	 	=> $this->items['lastCheckTime'],
-				'SN_IM_PRESS_TO_CLOSE'	 	=> sprintf($user->lang['SN_IM_PRESS_TO_CLOSE'], $closeKey),
-				'SN_IM_PRESS_TO_SEND'	 		=> sprintf($user->lang['SN_IM_PRESS_TO_SEND'], $sendKey),
-				'SN_IM_CLOSESEQ_ALT'	 		=> $this->closeSequence['alt'] ? 'true' : 'false',
-				'SN_IM_CLOSESEQ_CTRL'	 		=> $this->closeSequence['ctrl'] ? 'true' : 'false',
-				'SN_IM_CLOSESEQ_SHIFT'	 	=> $this->closeSequence['shift'] ? 'true' : 'false',
-				'SN_IM_CLOSESEQ_KEY'	 		=> $this->closeSequence['key'],
-				'SN_IM_SENDSEQ_ALT'				=> $this->sendSequence['alt'] ? 'true' : 'false',
-				'SN_IM_SENDSEQ_CTRL'	 		=> $this->sendSequence['ctrl'] ? 'true' : 'false',
-				'SN_IM_SENDSEQ_SHIFT'	 		=> $this->sendSequence['shift'] ? 'true' : 'false',
-				'SN_IM_SENDSEQ_KEY'		 		=> $this->sendSequence['key'],
+				'SN_IM_ONLINE'			 => $user->data['user_im_online'] == 1 ? true : false,
+				'S_SN_USERNAME'			 => addslashes($user->data['username']),
+				'S_SN_IM_ONLINE'		 => $user->data['user_im_online'] == 1 ? 'online' : 'offline',
+				'SN_IM_USERNAME'		 => $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
+				'SN_IM_USER_AVATAR'		 => $this->config['my_avatar'],
+				'S_SN_IM_USER_SOUND'	 => $user->data['user_im_sound'],
+				'S_SN_IM_USER_SOUNDNAME' => $user->data['user_im_soundname'],
+				'SN_IM_MIN_CHECK'		 => $this->p_master->config['im_checkTime_min'],
+				'SN_IM_MAX_CHECK'		 => $this->p_master->config['im_checkTime_max'],
+				'SN_IM_LAST_CHECKTIME'	 => $this->items['lastCheckTime'],
+				'SN_IM_PRESS_TO_CLOSE'	 => sprintf($user->lang['SN_IM_PRESS_TO_CLOSE'], $closeKey),
+				'SN_IM_PRESS_TO_SEND'	 => sprintf($user->lang['SN_IM_PRESS_TO_SEND'], $sendKey),
+				'SN_IM_CLOSESEQ_ALT'	 => $this->closeSequence['alt'] ? 'true' : 'false',
+				'SN_IM_CLOSESEQ_CTRL'	 => $this->closeSequence['ctrl'] ? 'true' : 'false',
+				'SN_IM_CLOSESEQ_SHIFT'	 => $this->closeSequence['shift'] ? 'true' : 'false',
+				'SN_IM_CLOSESEQ_KEY'	 => $this->closeSequence['key'],
+				'SN_IM_SENDSEQ_ALT'		 => $this->sendSequence['alt'] ? 'true' : 'false',
+				'SN_IM_SENDSEQ_CTRL'	 => $this->sendSequence['ctrl'] ? 'true' : 'false',
+				'SN_IM_SENDSEQ_SHIFT'	 => $this->sendSequence['shift'] ? 'true' : 'false',
+				'SN_IM_SENDSEQ_KEY'		 => $this->sendSequence['key'],
 			));
 
 			$template->assign_vars($template_assign_vars);
@@ -164,65 +163,65 @@ if (!class_exists('socialnet_im'))
 
 			switch ($mode)
 			{
-				case 'startIM':
-					$this->_startIM();
-					
-				case 'snImLogin':
-				case 'sn-im-login':
-					$this->_snImLogout(1);
-					
-				case 'onlineUsers':
-					//$this->items['onlineUsers'] = $this->p_master->onlineUsers();
+			case 'startIM':
+				$this->_startIM();
+
+			case 'snImLogin':
+			case 'sn-im-login':
+				$this->_snImLogout(1);
+
+			case 'onlineUsers':
+				//$this->items['onlineUsers'] = $this->p_master->onlineUsers();
 				break;
-					
-				case 'onlineUsersCount':
-					//$this->_onlineUsersCount('startIM');
+
+			case 'onlineUsersCount':
+				//$this->_onlineUsersCount('startIM');
 				break;
-				
-				case 'openChatBox':
-					$this->openChatBox();
+
+			case 'openChatBox':
+				$this->openChatBox();
 				break;
-				
-				case 'closeChatBox':
-					$this->closeChatBox();
+
+			case 'closeChatBox':
+				$this->closeChatBox();
 				break;
-				
-				case 'sendMessage':
-					$this->sendMessage();
+
+			case 'sendMessage':
+				$this->sendMessage();
 				break;
-				
-				case 'coreIM':
-					$this->core();
+
+			case 'coreIM':
+				$this->core();
 				break;
-				
-				case 'msg_time':
-					$this->_msgTime();
+
+			case 'msg_time':
+				$this->_msgTime();
 				break;
-				
-				case 'snImLogout':
-				case 'sn-im-logout':
-					$this->_snImLogout(0);
+
+			case 'snImLogout':
+			case 'sn-im-logout':
+				$this->_snImLogout(0);
 				break;
-				
-				case 'snImSoundOff':
-					$this->_snImSound(0);
+
+			case 'snImSoundOff':
+				$this->_snImSound(0);
 				break;
-				
-				case 'snImSoundOn':
-					$this->_snImSound(1);
+
+			case 'snImSoundOn':
+				$this->_snImSound(1);
 				break;
-				
-				case 'snImUserGroupHide':
-					$this->_snImUserGroup(1);
+
+			case 'snImUserGroupHide':
+				$this->_snImUserGroup(1);
 				break;
-				
-				case 'snImUserGroupShow':
-					$this->_snImUserGroup(0);
+
+			case 'snImUserGroupShow':
+				$this->_snImUserGroup(0);
 				break;
-				
-				case 'snImTyping':
-					$this->_snImTyping();
-					return;
+
+			case 'snImTyping':
+				$this->_snImTyping();
+				return;
 				break;
 			}
 			header('Content-type: application/json');
@@ -290,18 +289,18 @@ if (!class_exists('socialnet_im'))
 
 			$b_no_avatar_me = stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false;
 			$b_no_avatar_sender = stripos($userto_avatar, 'socialnet/no_avatar') !== false ? true : false;
-			
+
 			$template->assign_block_vars('sn_im_chatbox', array(
-				'USER_ID'				 				=> $userTo,
-				'U_PROFILE_USER'		 		=> $this->p_master->friends['colourNames'][$userTo]['full'],
-				'USERNAME_TO'			 			=> $this->p_master->friends['friends'][$userTo],
-				'USERNAME_TO_NO_COLOR'	=> html_entity_decode($usernameTo),
-				'USERNAME_TO_PROFILE'	 	=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $userTo),
-				'U_UCP_IM_HISTORY'		 	=> append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $userTo),
-				'S_OPEN'				 				=> true,
-				'STATUS'				 				=> $status,
-				'AVATAR'				 				=> $userto_avatar,
-				'UNREAD'				 				=> 0,
+				'USER_ID'				 => $userTo,
+				'U_PROFILE_USER'		 => $this->p_master->friends['colourNames'][$userTo]['full'],
+				'USERNAME_TO'			 => $this->p_master->friends['friends'][$userTo],
+				'USERNAME_TO_NO_COLOR'	 => html_entity_decode($usernameTo),
+				'USERNAME_TO_PROFILE'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $userTo),
+				'U_UCP_IM_HISTORY'		 => append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $userTo),
+				'S_OPEN'				 => true,
+				'STATUS'				 => $status,
+				'AVATAR'				 => $userto_avatar,
+				'UNREAD'				 => 0,
 			));
 
 			$sql_from = $db->sql_in_set('uid_from', array(
@@ -344,13 +343,13 @@ if (!class_exists('socialnet_im'))
 				}
 
 				$template->assign_block_vars('sn_im_chatbox.message', array(
-					'S_ME'			 		=> $user->data['user_id'] == $msg['uid_from'],
-					'UID_FROM'		 	=> $msg['uid_from'],
-					'S_UID_SAME'	 	=> $same_sender,
-					'B_NO_AVATAR'	 	=> $b_no_avatar,
-					'MESSAGE'		 		=> $message,
-					'TIME'			 		=> $msg['sent'],
-					'TIME_STRING'		=> $user->format_date($msg['sent'], "h:i"),
+					'S_ME'			 => $user->data['user_id'] == $msg['uid_from'],
+					'UID_FROM'		 => $msg['uid_from'],
+					'S_UID_SAME'	 => $same_sender,
+					'B_NO_AVATAR'	 => $b_no_avatar,
+					'MESSAGE'		 => $message,
+					'TIME'			 => $msg['sent'],
+					'TIME_STRING'	 => $user->format_date($msg['sent'], "h:i"),
 				));
 			}
 
@@ -453,11 +452,11 @@ if (!class_exists('socialnet_im'))
 				));
 
 				$template->assign_block_vars('sn_im_chatbox', array(
-					'USER_ID'				 					=> $row['uid_from'],
-					'AVATAR'				 					=> $userto_avatar,
-					'U_PROFILE_USER'		 			=> $this->p_master->get_username_string($this->config['colour_username'], 'full', $row['uid_from'], $row['username'], $row['user_colour']),
-					'B_SN_IM_ONLY_MESSAGE'		=> true,
-					'UNREAD'				 					=> 0,
+					'USER_ID'				 => $row['uid_from'],
+					'AVATAR'				 => $userto_avatar,
+					'U_PROFILE_USER'		 => $this->p_master->get_username_string($this->config['colour_username'], 'full', $row['uid_from'], $row['username'], $row['user_colour']),
+					'B_SN_IM_ONLY_MESSAGE'	 => true,
+					'UNREAD'				 => 0,
 				));
 
 				$b_no_avatar = false;
@@ -472,26 +471,26 @@ if (!class_exists('socialnet_im'))
 				}
 
 				$template->assign_block_vars('sn_im_chatbox.message', array(
-					'S_ME'			 			=> false,
-					'UID_FROM'		 		=> $row['uid_from'],
-					'S_UID_SAME'	 		=> $same_sender,
-					'MESSAGE'		 			=> $message,
-					'B_NO_AVATAR'		 	=> $b_no_avatar,
-					'TIME'			 			=> $row['sent'],
-					'TIME_STRING'			=> $user->format_date($row['sent'], "h:i"),
+					'S_ME'			 => false,
+					'UID_FROM'		 => $row['uid_from'],
+					'S_UID_SAME'	 => $same_sender,
+					'MESSAGE'		 => $message,
+					'B_NO_AVATAR'	 => $b_no_avatar,
+					'TIME'			 => $row['sent'],
+					'TIME_STRING'	 => $user->format_date($row['sent'], "h:i"),
 				));
 
 				$template->assign_var('T_IMAGESET_PATH', $this->t_imaset_path);
 				$content = $this->p_master->get_page();
-				
+
 				$this->items['message'][] = array(
-					'uid'		 				=> $row['uid_from'],
-					'userName'	 		=> $row['username'],
-					'from'		 			=> $row['uid_from'],
-					'message'	 			=> $content,
-					'time'		 			=> $row['sent'],
-					'chatBox'	 			=> $row['cb_from'] != '' && $row['cb_to'] != '',
-					'sameSender'		=> $same_sender,
+					'uid'		 => $row['uid_from'],
+					'userName'	 => $row['username'],
+					'from'		 => $row['uid_from'],
+					'message'	 => $content,
+					'time'		 => $row['sent'],
+					'chatBox'	 => $row['cb_from'] != '' && $row['cb_to'] != '',
+					'sameSender' => $same_sender,
 				);
 
 			}
@@ -542,20 +541,20 @@ if (!class_exists('socialnet_im'))
 					$this->p_master->get_friend('full', $row['uid_to'], $this->p_master->config['im_colour_username'], false);
 				}
 
-				$unread = request_var("{$config['cookie_name']}_sn_im_chatBox{$row['uid_to']}Unread", 0, false, true);
+				$unread = (string) request_var("{$config['cookie_name']}_sn_im_chatBox{$row['uid_to']}Unread", 0, false, true);
 
 				$template->assign_block_vars('sn_im_chatbox', array(
-					'USER_ID'				 				=> $row['uid_to'],
-					'U_PROFILE_USER'			 	=> $this->p_master->friends['colourNames'][$row['uid_to']]['full'],
-					'USERNAME_TO'			 			=> $this->p_master->friends['friends'][$row['uid_to']],
-					'USERNAME_TO_NO_COLOR'	=> html_entity_decode($row['username_to']),
-					'USERNAME_TO_PROFILE'	 	=> append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $row['uid_to']),
-					'U_UCP_IM_HISTORY'		 	=> append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $row['uid_to']),
-					'S_OPEN'				 				=> $s_open == 'true',
-					'USER_AVATAR'			 			=> '',
-					'STATUS'				 				=> $status,
-					'AVATAR'				 				=> $userto_avatar,
-					'UNREAD'				 				=> $unread,
+					'USER_ID'				 => $row['uid_to'],
+					'U_PROFILE_USER'		 => $this->p_master->friends['colourNames'][$row['uid_to']]['full'],
+					'USERNAME_TO'			 => $this->p_master->friends['friends'][$row['uid_to']],
+					'USERNAME_TO_NO_COLOR'	 => html_entity_decode($row['username_to']),
+					'USERNAME_TO_PROFILE'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $row['uid_to']),
+					'U_UCP_IM_HISTORY'		 => append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $row['uid_to']),
+					'S_OPEN'				 => $s_open == 'true',
+					'USER_AVATAR'			 => '',
+					'STATUS'				 => $status,
+					'AVATAR'				 => $userto_avatar,
+					'UNREAD'				 => $unread,
 				));
 
 				$sql_from = $db->sql_in_set('uid_from', array(
@@ -606,13 +605,13 @@ if (!class_exists('socialnet_im'))
 					}
 
 					$template->assign_block_vars('sn_im_chatbox.message', array(
-						'S_ME'			 			=> $user->data['user_id'] == $msg['uid_from'],
-						'UID_FROM'		 		=> $msg['uid_from'],
-						'S_UID_SAME'	 		=> $previous_sender == $msg['uid_from'],
-						'MESSAGE'		 			=> $message,
-						'B_NO_AVATAR'	 		=> $b_no_avatar,
-						'TIME'			 			=> $msg['sent'],
-						'TIME_STRING'			=> $user->format_date($msg['sent'], "h:i"),
+						'S_ME'			 => $user->data['user_id'] == $msg['uid_from'],
+						'UID_FROM'		 => $msg['uid_from'],
+						'S_UID_SAME'	 => $previous_sender == $msg['uid_from'],
+						'MESSAGE'		 => $message,
+						'B_NO_AVATAR'	 => $b_no_avatar,
+						'TIME'			 => $msg['sent'],
+						'TIME_STRING'	 => $user->format_date($msg['sent'], "h:i"),
 					));
 					$previous_sender = $msg['uid_from'];
 				}
@@ -645,11 +644,11 @@ if (!class_exists('socialnet_im'))
 					}
 
 					$template->assign_block_vars('sn_im_online_ufg', array(
-						'GID'	 		=> $gid,
-						'NAME'	 	=> $group['name'],
-						'HIDDEN' 	=> $group['collapse'],
-						'COUNT'	 	=> count($in_group),
-						'GROUP'	 	=> true,
+						'GID'	 => $gid,
+						'NAME'	 => $group['name'],
+						'HIDDEN' => $group['collapse'],
+						'COUNT'	 => count($in_group),
+						'GROUP'	 => true,
 					));
 
 					if (!empty($in_group))
@@ -657,12 +656,12 @@ if (!class_exists('socialnet_im'))
 						foreach ($in_group as $user_id => $usr)
 						{
 							$template->assign_block_vars('sn_im_online_ufg.user', array(
-								'USER_ID'	 		=> $user_id,
-								'AVATAR'	 		=> $usr['avatar'],
-								'STATUS'	 		=> $usr['status'],
-								'USERNAME'	 	=> $usr['userName'],
-								'USERCLEAN'	 	=> addslashes($usr['userClean']),
-								'ONLINE'	 		=> $usr['online'],
+								'USER_ID'	 => $user_id,
+								'AVATAR'	 => $usr['avatar'],
+								'STATUS'	 => $usr['status'],
+								'USERNAME'	 => $usr['userName'],
+								'USERCLEAN'	 => addslashes($usr['userClean']),
+								'ONLINE'	 => $usr['online'],
 							));
 							$users[$user_id]['in_group'] = true;
 							$in_group_added[$user_id] = 'in_group';
@@ -673,44 +672,44 @@ if (!class_exists('socialnet_im'))
 
 				$in_group = array_diff_key($users, $in_group_added);
 				$template->assign_block_vars('sn_im_online_ufg', array(
-					'GID'	 		=> '0',
-					'NAME'	 	=> $user->lang['IM_GROUP_UNDECIDED'],
-					'HIDDEN' 	=> $groups[0]['collapse'],
-					'COUNT'	 	=> count($in_group),
-					'GROUP'	 	=> true,
+					'GID'	 => '0',
+					'NAME'	 => $user->lang['IM_GROUP_UNDECIDED'],
+					'HIDDEN' => $groups[0]['collapse'],
+					'COUNT'	 => count($in_group),
+					'GROUP'	 => true,
 				));
 
 				foreach ($in_group as $user_id => $usr)
 				{
 					$template->assign_block_vars('sn_im_online_ufg.user', array(
-						'USER_ID'	 			=> $user_id,
-						'AVATAR'	 			=> $usr['avatar'],
-						'STATUS'	 			=> $usr['status'],
-						'USERNAME'	 		=> $usr['userName'],
-						'USERCLEAN'			=> addslashes($usr['userClean']),
-						'ONLINE'	 			=> $usr['online'],
+						'USER_ID'	 => $user_id,
+						'AVATAR'	 => $usr['avatar'],
+						'STATUS'	 => $usr['status'],
+						'USERNAME'	 => $usr['userName'],
+						'USERCLEAN'	 => addslashes($usr['userClean']),
+						'ONLINE'	 => $usr['online'],
 					));
 				}
 			}
 			else
 			{
 				$template->assign_block_vars('sn_im_online_ufg', array(
-					'GID'	 		=> '0',
-					'NAME'	 	=> '',
-					'HIDDEN' 	=> false,
-					'COUNT'	 	=> 1,
-					'GROUP'	 	=> false,
+					'GID'	 => '0',
+					'NAME'	 => '',
+					'HIDDEN' => false,
+					'COUNT'	 => 1,
+					'GROUP'	 => false,
 				));
 
 				foreach ($users as $user_id => $usr)
 				{
 					$template->assign_block_vars('sn_im_online_ufg.user', array(
-						'USER_ID'	 		=> $user_id,
-						'AVATAR'			=> $usr['avatar'],
-						'STATUS'	 		=> $usr['status'],
-						'USERNAME'	 	=> $usr['userName'],
-						'USERCLEAN'	 	=> addslashes($usr['userClean']),
-						'ONLINE'	 		=> $usr['online'],
+						'USER_ID'	 => $user_id,
+						'AVATAR'	 => $usr['avatar'],
+						'STATUS'	 => $usr['status'],
+						'USERNAME'	 => $usr['userName'],
+						'USERCLEAN'	 => addslashes($usr['userClean']),
+						'ONLINE'	 => $usr['online'],
 					));
 				}
 			}
@@ -718,7 +717,7 @@ if (!class_exists('socialnet_im'))
 			$template->set_filenames(array(
 				'sn_im_online_list'	 => 'socialnet/im_onlinelist.html',
 			));
-			
+
 			$return = $this->p_master->get_page('sn_im_online_list', false);
 
 			return $this->items['onlineList'] = $return;
@@ -746,30 +745,30 @@ if (!class_exists('socialnet_im'))
 			$bbuid = $bitfield = $flags = '';
 
 			generate_text_for_storage($message, $bbuid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
-			
+
 			if (!is_array($uid))
 			{
 				$sql_arr = array(
-					'uid_from'		=> $user->data['user_id'],
-					'uid_to'			=> $uid,
+					'uid_from'	 => $user->data['user_id'],
+					'uid_to'	 => $uid,
 				);
 			}
 			else
 			{
 				$sql_arr = array(
-					'uid_from'		=> $uid['from'],
-					'uid_to'			=> $uid['to']
+					'uid_from'	 => $uid['from'],
+					'uid_to'	 => $uid['to']
 				);
 			}
 
 			$message_time = $starttime;
 
 			$sql_arr = array_merge($sql_arr, array(
-				'message'			 			=> $message,
-				'sent'				 			=> $message_time,
-				'recd'				 			=> 0,
-				'bbcode_bitfield'	 	=> $bitfield,
-				'bbcode_uid'		 		=> $bbuid,
+				'message'			 => $message,
+				'sent'				 => $message_time,
+				'recd'				 => 0,
+				'bbcode_bitfield'	 => $bitfield,
+				'bbcode_uid'		 => $bbuid,
 			));
 
 			$sql = "INSERT INTO " . SN_IM_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_arr);
@@ -786,29 +785,29 @@ if (!class_exists('socialnet_im'))
 			}
 
 			$template->destroy();
-			
+
 			$template->set_filenames(array(
 				'body'	 => 'socialnet/im.html',
 			));
-			
+
 			$template->assign_var('SN_IM_MODE', 'sendMessage');
 			$template->assign_var('SN_IM_USERNAME', $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']));
 			$template->assign_var('SN_IM_USER_AVATAR', $this->config['my_avatar']);
 			$template->assign_var('T_IMAGESET_PATH', $this->t_imaset_path);
-			
+
 			$template->assign_block_vars('sn_im_chatbox', array(
-				'USER_ID'				 					=> $uid['to'],
-				'B_SN_IM_ONLY_MESSAGE'		=> true,
+				'USER_ID'				 => $uid['to'],
+				'B_SN_IM_ONLY_MESSAGE'	 => true,
 			));
-			
+
 			$template->assign_block_vars('sn_im_chatbox.message', array(
-				'S_ME'			 			=> true,
-				'UID_FROM'		 		=> $user->data['user_id'],
-				'S_UID_SAME'	 		=> $user->data['user_id'] == $pp,
-				'MESSAGE'		 			=> $message,
-				'B_NO_AVATAR'	 		=> stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false,
-				'TIME'			 			=> $message_time,
-				'TIME_STRING'	 		=> $user->format_date($message_time, "h:i"),
+				'S_ME'			 => true,
+				'UID_FROM'		 => $user->data['user_id'],
+				'S_UID_SAME'	 => $user->data['user_id'] == $pp,
+				'MESSAGE'		 => $message,
+				'B_NO_AVATAR'	 => stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false,
+				'TIME'			 => $message_time,
+				'TIME_STRING'	 => $user->format_date($message_time, "h:i"),
 			));
 
 			$this->p_master->page_header();
@@ -898,17 +897,17 @@ if (!class_exists('socialnet_im'))
 		}
 
 		/**
-		* Show / hide user group
-		* @access private
-		* @param integer $enable
-		* @return void
-		*/
+		 * Show / hide user group
+		 * @access private
+		 * @param integer $enable
+		 * @return void
+		 */
 		function _snImUserGroup($hide)
 		{
 			global $db, $user;
-		
+
 			$gid = request_var('gid', 0);
-		
+
 			$sql = "UPDATE " . SN_FMS_GROUPS_TABLE . "
 							SET fms_collapse = '{$hide}'
 								WHERE fms_gid = '{$gid}'
@@ -916,7 +915,7 @@ if (!class_exists('socialnet_im'))
 			$db->sql_query($sql);
 			$this->p_master->reload_groups($user->data['user_id']);
 		}
-		
+
 		function _snImTyping()
 		{
 			global $db, $user;
