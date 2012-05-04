@@ -364,12 +364,20 @@
 			    var g_t = $(this).val();
 			    data = $.sn.fms._groupChange('create', gid, uid, g_t);
 			    //data = {gid:24,uid:56};
+			    
+			    if( $('a[class*="gid:'+data.gid+'"]').size() > 0){
+			    	$('a[class*="gid:'+data.gid+'"]').children('.ui-icon').toggleClass('ui-icon-no ui-icon-check');
+			    	$(this).val('');
+			    	return;
+			    }
+			    
 			    var ll = $('<li></li>').attr('role','menu-item').addClass('ui-menu-item');
 			    $('li.sn-fms-grpCreate').before(ll);
 			    var la = $('<a href="#" class="{gid:'+data.gid+';uid:'+data.uid+'} ui-corner-all"><span class="ui-icon ui-icon-check"></span>' + g_t+ '</a>').hover(function() {
 			        $(this).toggleClass('ui-state-focus')
 		        });
 			    $(ll).append(la);
+			    $(this).val('');
 
 		    }).bind('focusin focusout', function() {
 			    $(this).parents('a#sn-fms-grpCreate').toggleClass('ui-state-active');

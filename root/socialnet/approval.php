@@ -164,11 +164,12 @@ if (!class_exists('socialnet_approval'))
 
 				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . $db->sql_build_array('INSERT', $sql_ary);
 				$db->sql_query($sql);
+				$is_error =  $db->sql_error_sql;
 				$db->sql_return_on_error(false);
-				if ($db->sql_error_sql != '')
+				if ($is_error != '')
 				{
 					unset($sql_ary['fms_gid']);
-					$sql = "SELECT fms_gid FROM " . SN_FMS_GROUP_TABLE . $db->sql_build_array('SELECT', $sql_ary);
+					$sql = "SELECT fms_gid FROM " . SN_FMS_GROUPS_TABLE ." WHERE " .$db->sql_build_array('SELECT', $sql_ary);
 					$rs = $db->sql_query($sql);
 					$gid = $db->sql_fetchfield('fms_gid');
 				}
@@ -194,8 +195,10 @@ if (!class_exists('socialnet_approval'))
 				break;
 			}
 
+			$db->sql_return_on_error(true);
 			$db->sql_query($sql);
-
+			$db->sql_return_on_error(false);
+				
 			$this->p_master->reload_groups();
 
 			die(json_encode(array('error' => 0, 'gid' => $gid, 'uid' => $uid, 'sub' => $sub, 'user' => $user->data['user_id'])));
