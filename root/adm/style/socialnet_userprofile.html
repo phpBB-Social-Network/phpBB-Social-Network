@@ -47,11 +47,14 @@
 				</dl>
 				<dl>
 					<dt><label for="emote_image">{L_SN_PROFILE_EMOTE_IMAGE}:</label></dt>
-					<dd><select id="emote_image" name="emote_image" onchange="update_image(this.options[selectedIndex].value);">
-						<option value="">------</option><!-- BEGIN emote_image -->
-						<option value="{emote_image.PATH}"<!-- IF emote_image.SELECTED --> selected="selected"<!-- ENDIF -->>{emote_image.NAME}</option>
-					<!-- END emote_image --></select></dd>
-					<dd><img src="{SN_UP_EMOTE_FOLDER}{EMOTE_IMAGE}" id="image" alt="" /></dd>
+					<dd>
+						<select id="emote_image" name="emote_image" onchange="update_image(this.options[selectedIndex].value);">
+							<option value="">------</option>
+							<!-- BEGIN emote_image -->
+								<option value="{emote_image.PATH}"<!-- IF emote_image.SELECTED --> selected="selected"<!-- ENDIF -->>{emote_image.NAME}</option>
+							<!-- END emote_image -->
+						</select>
+					</dd>
 					<dd><img src="<!-- IF EMOTE_IMAGE -->{SN_UP_EMOTE_FOLDER}{EMOTE_IMAGE}<!-- ELSE -->./images/spacer.gif<!-- ENDIF -->" id="image" alt="{EMOTE_NAME}" /></dd>
 				</dl>
 				<p class="submit-buttons">

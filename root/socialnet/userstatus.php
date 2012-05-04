@@ -127,7 +127,9 @@ if (!class_exists('socialnet_userstatus'))
 							'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
 							'SN_US_USER_ID'								 => $user_id,
 							'B_SN_ONLY_ONE'								 => true,
+							'SN_US_DISPLAY_GOTO_TOP'					 => true
 						));
+
 					}
 				}
 				break;
