@@ -148,7 +148,6 @@ if (!class_exists('socialnet_approval'))
 			{
 			case 'create':
 
-				
 				$sql = "SELECT MAX(fms_gid) AS max_id FROM " . SN_FMS_GROUPS_TABLE . " WHERE user_id = {$user->data['user_id']}";
 				$rs = $db->sql_query($sql);
 				$max_id = (int) $db->sql_fetchfield('max_id');
@@ -162,11 +161,18 @@ if (!class_exists('socialnet_approval'))
 					'fms_collapse'	 => 0,
 				);
 				$db->sql_return_on_error(true);
-				
+
 				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . $db->sql_build_array('INSERT', $sql_ary);
 				$db->sql_query($sql);
 				$db->sql_return_on_error(false);
-				
+				if ($db->sql_error_sql != '')
+				{
+					unset($sql_ary['fms_gid']);
+					$sql = "SELECT fms_gid FROM " . SN_FMS_GROUP_TABLE . $db->sql_build_array('SELECT', $sql_ary);
+					$rs = $db->sql_query($sql);
+					$gid = $db->sql_fetchfield('fms_gid');
+				}
+
 			case 'add':
 
 				$sql = "INSERT INTO " . SN_FMS_USERS_GROUP_TABLE . " (fms_gid,user_id,owner_id) VALUES ({$gid},{$uid},{$user->data['user_id']})";
