@@ -361,6 +361,12 @@
 
 		    var dbg_IM = $('<div />').attr('id', 'IM_timer');
 		    var dbg_NTF = $('<div />').attr('id', 'NTF_timer');
+		    var dbg_browser = $('<div />').attr('id','browser').html('Browser');
+		    
+		    $.each($.browser, function(idx,val){
+		    	dbg_browser.html(dbg_browser.html()+'<br />&nbsp; &nbsp;'+idx+': '+val);
+		    })
+		    
 
 		    var IM_downcount = 1;
 		    var IM_counter = $.sn.im.opts._imCounter;
@@ -368,6 +374,7 @@
 		    var NTF_counter = $.sn.ntf.checkTime / 1000 - 1;
 
 		    dbg.appendTo('body');
+		    dbg_browser.appendTo(dbg);
 		    dbg_IM.appendTo(dbg);
 		    dbg_NTF.appendTo(dbg);
 		    dbg.dialog({
