@@ -757,6 +757,7 @@ div:not(.sn-page) .sn-userName a
 {
 	border:none;
 	height:16px;
+	line-height:22px;
 	outline:none;
 	resize:none;
 	width:236px;

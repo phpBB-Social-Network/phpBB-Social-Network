@@ -46,16 +46,16 @@
 
 			// find content length and box width
 			var vlen = e.value.length, ewidth = e.offsetWidth;
-			if (vlen != e.valLength || e.width != e.boxWidth) {
+			if (vlen != e.valLength || ewidth != e.boxWidth) {
+
 				if (hCheck && (vlen < e.valLength || ewidth != e.boxWidth)) e.style.height = "0px";
-				var h = Math.max(e.expandMin, Math.min(e.scrollHeight-this.expandPad, e.expandMax));
-				if ( !this.Initialized)h=e.expandMin;
+				var h = Math.max(e.expandMin, Math.min(e.scrollHeight, e.expandMax));
+
 				e.style.overflow = (e.scrollHeight > h ? "auto" : "hidden");
-				if ( h < e.expandMin )h=e.expandMin;
 				e.style.height = h + "px";
+
 				e.valLength = vlen;
 				e.boxWidth = ewidth;
-				
 			}
 
 			return true;
@@ -71,21 +71,14 @@
 			var p = this.className.match(/expand(\d+)\-*(\d+)*/i);
 			this.expandMin = minHeight || (p ? parseInt('0'+p[1], 10) : 0);
 			this.expandMax = maxHeight || (p ? parseInt('0'+p[2], 10) : 99999);
-			//$(this).css('line-height', this.expandMin+'px');
 
-			
-			this.expandPad=0;
-			if ( $.browser.opera || $.browser.safari){
-				$(this).css('padding-top',parseInt($(this).css('padding-top')));
-				//console.log(this.id);
-				this.expandPad=parseInt($(this).css('padding-top'))+parseInt($(this).css('border-top-width'))+parseInt($(this).css('border-bottom-width'));
-			}
 			// initial resize
 			ResizeTextarea(this);
-			
+
 			// zero vertical padding and add events
 			if (!this.Initialized) {
 				this.Initialized = true;
+				$(this).css("padding-top", 0).css("padding-bottom", 0);
 				$(this).bind("keyup", ResizeTextarea).bind("focus", ResizeTextarea);
 			}
 		});
@@ -97,8 +90,6 @@
 
 
 // initialize all expanding textareas
-/*
 jQuery(document).ready(function() {
 	jQuery("textarea[class*=expand]").TextAreaExpander();
 });
-*/
