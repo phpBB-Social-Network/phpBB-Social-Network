@@ -341,7 +341,7 @@
 	    _initUpGroupMenu : function() {
 		    if ($('.sn-up-menu li').size() == 0) { return; }
 
-		    $('.sn-fms-groups a:not( #sn-fms-grpCreate )').click(function() {
+		    $('.sn-fms-groups a:not( #sn-fms-grpCreate )').live('click', function() {
 			    var gid = $.sn.getAttr($(this), 'gid');
 			    var uid = $.sn.getAttr($(this), 'uid');
 			    var $chld = $(this).children('.ui-icon');
@@ -351,17 +351,12 @@
 			    return false;
 		    });
 
-		    $('#sn-fms-grpCreateText').watermark($('#sn-fms-grpCreateText').val(), {
-		        useNative : false,
-		        className : 'sn-watermark'
-		    }).bind('keypress', function(e) {
-			    var code = (e.keyCode ? e.keyCode : e.which);
+		    $('.sn-fms-grpCreate .ui-icon').click(function(){
+		    	var $text = $('#sn-fms-grpCreateText');
 
-			    if (!$.sn.isKey(e, $.sn.im.opts.sendSequence)) { return; }
-
-			    var gid = $.sn.getAttr($(this), 'gid');
-			    var uid = $.sn.getAttr($(this), 'uid');
-			    var g_t = $(this).val();
+			    var gid = $.sn.getAttr($text, 'gid');
+			    var uid = $.sn.getAttr($text, 'uid');
+			    var g_t = $text.val();
 			    data = $.sn.fms._groupChange('create', gid, uid, g_t);
 			    //data = {gid:24,uid:56};
 			    
@@ -373,11 +368,22 @@
 			    
 			    var ll = $('<li></li>').attr('role','menu-item').addClass('ui-menu-item');
 			    $('li.sn-fms-grpCreate').before(ll);
-			    var la = $('<a href="#" class="{gid:'+data.gid+';uid:'+data.uid+'} ui-corner-all"><span class="ui-icon ui-icon-check"></span>' + g_t+ '</a>').hover(function() {
+			    var la = $('<a href="#" class="{gid:'+data.gid+',uid:'+data.uid+'} ui-corner-all"><span class="ui-icon ui-icon-check"></span>' + g_t+ '</a>').hover(function() {
 			        $(this).toggleClass('ui-state-focus')
 		        });
 			    $(ll).append(la);
-			    $(this).val('');
+			    $text.val('');
+		    
+		    });
+		    
+		    $('#sn-fms-grpCreateText').watermark($('#sn-fms-grpCreateText').val(), {
+		        useNative : false,
+		        className : 'sn-watermark'
+		    }).bind('keypress', function(e) {
+			    var code = (e.keyCode ? e.keyCode : e.which);
+
+			    if (!$.sn.isKey(e, $.sn.im.opts.sendSequence)) { return; }
+			    $('.sn-fms-grpCreate .ui-icon').trigger('click');
 
 		    }).bind('focusin focusout', function() {
 			    $(this).parents('a#sn-fms-grpCreate').toggleClass('ui-state-active');
