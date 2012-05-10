@@ -249,6 +249,7 @@ $lang = array_merge($lang, array(
 	'SN_UP_DAUGHTER_IN_LAW'					 => 'Daughter-in-law',
 	'SN_UP_SON_IN_LAW'						 => 'Son-in-law',
 	'SN_UP_ADD_FAMILY_MEMBER'				 => 'Add family member',
+	'SN_UP_ADD_FAMILY_ERR_MEMBER_EMPTY'		 => 'Empty family member name',
 	'SN_UP_APPROVE'							 => 'Approve',
 	'SN_UP_IGNORE'							 => 'Ignore',
 	'SN_UP_APPROVE_RELATION_SUBJECT'		 => '%1$s has created a relationship with you',

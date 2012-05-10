@@ -447,7 +447,10 @@ class ucp_profile
 							}
 						}
 					}
-
+					else if ($data['family_status'])
+					{
+						$error[] = $user->lang['SN_UP_ADD_FAMILY_ERR_MEMBER_EMPTY'];
+					}
 				}
 
 				// Load relationships and family
