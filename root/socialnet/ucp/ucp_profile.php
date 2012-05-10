@@ -752,8 +752,9 @@ class ucp_profile
 				confirm_box(false, $message, $s_hidden_fields, 'socialnet/confirm_relation_body.html');
 			}
 		}
+		$icat = request_var('icat',0);
 
-		redirect(append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_profile_relations"));
+		redirect(append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet".(($icat==0)?"&amp;icat={$icat}":"")."&amp;mode=module_profile_relations"));
 	}
 
 	function delete_relation()
@@ -761,6 +762,7 @@ class ucp_profile
 		global $db, $user, $phpbb_root_path, $phpEx;
 
 		$relation_id = request_var('id', 0);
+		$icat = request_var('icat',0);
 
 		if (confirm_box(true))
 		{
@@ -784,7 +786,7 @@ class ucp_profile
 			confirm_box(false, $message);
 		}
 
-		redirect(append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_profile_relations"));
+		redirect(append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet".(($icat!=0)?"&amp;icat={$icat}":"")."&amp;mode=module_profile_relations"));
 	}
 }
 
