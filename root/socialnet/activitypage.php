@@ -110,8 +110,8 @@ if (!class_exists('socialnet_activitypage'))
 					{
 						global $db;
 						$sql = "SELECT user_id, username_clean, username
-        		          FROM " . USERS_TABLE . "
-        		            WHERE {$expr} AND user_type <> 2";
+								FROM " . USERS_TABLE . "
+								WHERE {$expr} AND user_type <> 2";
 						$result = $db->sql_query($sql);
 						return $db->sql_fetchfield('user_id');
 					}
@@ -119,7 +119,7 @@ if (!class_exists('socialnet_activitypage'))
 					$search_user_id = sn_ap_cmp_username("username = '{$username}'");
 					if ($search_user_id == 0)
 					{
-						$search_user_id = sn_ap_cmp_username("username_clean LIKE '{$username_clean}'");
+						$search_user_id = sn_ap_cmp_username("username_clean = '{$username_clean}'");
 					}
 					if ($search_user_id == 0)
 					{
