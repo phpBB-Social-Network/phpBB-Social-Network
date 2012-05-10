@@ -104,15 +104,33 @@ if (!class_exists('socialnet_activitypage'))
 				case 'search':
 
 					$username = request_var('username', '', true);
+					$username_clean = utf8_clean_string($username);
 
-					$sql = 'SELECT user_id
-        		          FROM ' . USERS_TABLE . '
-        		            WHERE username_clean LIKE "%' . utf8_clean_string($username) . '%" AND user_type <> 2';
-					$result = $db->sql_query($sql);
-					$search_user_id = $db->sql_fetchfield('user_id');
-					$db->sql_freeresult($result);
+					function sn_ap_cmp_username($expr)
+					{
+						global $db;
+						$sql = "SELECT user_id, username_clean, username
+        		          FROM " . USERS_TABLE . "
+        		            WHERE {$expr} AND user_type <> 2";
+						$result = $db->sql_query($sql);
+						return $db->sql_fetchfield('user_id');
+					}
 
-					if ($search_user_id)
+					$search_user_id = sn_ap_cmp_username("username = '{$username}'");
+					if ($search_user_id == 0)
+					{
+						$search_user_id = sn_ap_cmp_username("username_clean LIKE '{$username_clean}'");
+					}
+					if ($search_user_id == 0)
+					{
+						$search_user_id = sn_ap_cmp_username("username_clean LIKE '{$username_clean}%'");
+					}
+					if ($search_user_id == 0)
+					{
+						$search_user_id = sn_ap_cmp_username("username_clean LIKE '%{$username_clean}%'");
+					}
+
+					if ($search_user_id != 0)
 					{
 						$redirect = append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $search_user_id);
 					}
@@ -171,7 +189,6 @@ if (!class_exists('socialnet_activitypage'))
 			$template->assign_vars($template_vars);
 		}
 
-		
 		function load($mode)
 		{
 			global $socialnet_root_path, $phpEx, $socialnet, $template, $phpbb_root_path;
