@@ -375,7 +375,7 @@ class socialnet extends snFunctions
 					$this->modules_obj[$module]->init();
 				}
 			}
-				
+
 		}
 	}
 
@@ -573,6 +573,37 @@ class socialnet extends snFunctions
 	}
 
 	/**
+	 * Get non-freinds data, no cache
+	 */
+	function get_friend_data($part, $user_id)
+	{
+		global $user, $db;
+
+		$sql = "SELECT u.user_id, u.username, su.sex
+		FROM " . USERS_TABLE . " AS u, " . SN_USERS_TABLE . " AS su
+		WHERE su.user_id = u.user_id
+		AND {$user_id} = u.user_id";
+		$rs = $db->sql_query($sql);
+		$friend = $db->sql_fetchrow($rs);
+		$db->sql_freeresult($rs);
+
+		$this->friends['user_id'][] = $friend['user_id'];
+		$this->friends['usernames'][] = $friend['username'];
+		$this->friends['sex'][$user_id] = $friend['sex'];
+		$this->friends['friends'][$user_id] = $friend['username'];
+
+		if ($part == '')
+		{
+			return $friend;
+		}
+		else
+		{
+			return $this->friends[$part][$user_id];
+		}
+
+	}
+
+	/**
 	 * socialnet::get_username_string
 	 * Function generate user coloured nick dependent on module config
 	 */
@@ -738,7 +769,18 @@ class socialnet extends snFunctions
 	{
 		global $user;
 
-		$gender = ($user_id = $user->data['user_id']) ? $user->data['sex'] : $this->friends['sex'][$user_id];
+		if ($user_id == $user->data['user_id'])
+		{
+			$gender = $user->data['sex'];
+		}
+		else if (isset($this->friends['sex'][$user_id]))
+		{
+			$gender = $this->friends['sex'][$user_id];
+		}
+		else
+		{
+			$gender = $this->get_friend_data('sex', $user_id);
+		}
 
 		if ($gender == 1)
 		{
