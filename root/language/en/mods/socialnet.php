@@ -73,7 +73,7 @@ $lang = array_merge($lang, array(
 	'SN_CB_FETCH_ERROR'						 => 'An error was encountered when fetching the web page',
 	'SN_US_FETCH_NO_DESCRIPTION'			 => 'No description',
 
-	'SN_AP_ACTIVITYPAGE'						 => 'Activity page',
+	'SN_AP_ACTIVITYPAGE'					 => 'Activity page',
 	'SN_AP_AND'								 => 'and',
 	'SN_AP_ARE_FRIENDS'						 => 'are now friends',
 	'SN_AP_ADD_AS_FRIEND'					 => 'Add as Friend',
@@ -110,7 +110,7 @@ $lang = array_merge($lang, array(
 	'SN_AP_BIRTHDAY_2'						 => 'birthday on %1$s',
 	'SN_AP_BIRTHDAY_USERNAME'				 => '%1$s\'s',
 	'SN_AP_WELCOME'							 => 'Welcome',
-	'SN_AP_VIEWING_ACTIVITYPAGE'				 => 'Viewing Activity page',
+	'SN_AP_VIEWING_ACTIVITYPAGE'			 => 'Viewing Activity page',
 	'SN_AP_NO_SUGGESTIONS'					 => 'There are no friend suggestions for you',
 	'SN_AP_SEARCH'							 => 'Search…',
 	'SN_AP_CHANGED_PROFILE_HIS'				 => 'has updated his profile',
@@ -254,7 +254,7 @@ $lang = array_merge($lang, array(
 	'SN_UP_APPROVE_RELATION_SUBJECT'		 => '%1$s has created a relationship with you',
 	'SN_UP_APPROVE_RELATION_TEXT'			 => '%2$s has created the relationship with you: <strong>%3$s %2$s</strong>.<br /><br />%1$sYou can approve this relationship here%4$s',
 	'SN_UP_APPROVE_RELATION_CONFIRM'		 => 'Are you sure you want to approve this relationship?',
-	'SN_UP_REFUSE_RELATION_CONFIRM'		 => 'Are you sure you want to refuse this relationship?',
+	'SN_UP_REFUSE_RELATION_CONFIRM'			 => 'Are you sure you want to refuse this relationship?',
 	'SN_UP_APPROVE_RELATION_ERROR_CANCELED'	 => 'This relationship has been canceled',
 	'SN_UP_APPROVE_RELATION_ERROR_MYSELF'	 => 'You can not create a relationship with yourself',
 	'SN_UP_APPROVE_RELATION_ERROR_APPROVED'	 => 'This relationship has already been approved',
@@ -265,7 +265,7 @@ $lang = array_merge($lang, array(
 	'SN_UP_APPROVE_FAMILY_SUBJECT'			 => '%1$s has added you as a %2$s',
 	'SN_UP_APPROVE_FAMILY_TEXT'				 => '%2$s has added you as a <strong>%3$s</strong>.<br /><br />%1$sYou can approve this relationship here%4$s',
 	'SN_UP_APPROVE_FAMILY_CONFIRM'			 => 'Are you sure you want to approve this relationship?',
-	'SN_UP_REFUSE_FAMILY_CONFIRM'           => 'Are you sure you want to refuse this relationship?',
+	'SN_UP_REFUSE_FAMILY_CONFIRM'			 => 'Are you sure you want to refuse this relationship?',
 	'SN_UP_APPROVE_FAMILY_ERROR_CANCELED'	 => 'This relationship has been canceled',
 	'SN_UP_APPROVE_FAMILY_ERROR_MYSELF'		 => 'You can not add yourself as your family member',
 	'SN_UP_APPROVE_FAMILY_ERROR_APPROVED'	 => 'This relationship has already been approved.',
@@ -277,8 +277,8 @@ $lang = array_merge($lang, array(
 	'SN_UP_DELETE_FAMILY_CONFIRM'			 => 'Are you sure you want to delete <strong>%1$s</strong> from your family members?',
 	'SN_UP_USERNAME_NOT_EXIST'				 => 'This username you entered does not exist',
 	'SN_UP_NOT_APPROVED'					 => 'not approved yet',
-	'SN_UP_RELATION_REFUSED'					 => 'refused',
-	'SN_UP_RELATION_REQUESTS'       => 'Requests',
+	'SN_UP_RELATION_REFUSED'				 => 'refused',
+	'SN_UP_RELATION_REQUESTS'				 => 'Requests',
 	'SN_UP_APPROVE_REQUESTS'				 => 'Approve relationship',
 	'WRONG_DATA_FACEBOOK'					 => 'The Facebook address has to be a valid URL, including the protocol. For example http://www.facebook.com/facebook/.',
 	'WRONG_DATA_TWITTER'					 => 'The Twitter address has to be a valid URL, including the protocol. For example http://twitter.com/#!/twitter/.',
@@ -398,7 +398,7 @@ $lang = array_merge($lang, array(
 
 	'SN_APPROVE'							 => 'Accept',
 	'SN_NO_APPROVE'							 => 'Deny',
-	'SN_REFUSE'							 => 'Refuse',
+	'SN_REFUSE'								 => 'Refuse',
 
 	'SN_APPROVAL_REQUESTS'					 => 'Your requests',
 	'SN_APPROVAL_REQUESTS_EXPLAIN'			 => 'Here you can cancel requests which you have sent.',
@@ -457,6 +457,7 @@ $lang = array_merge($lang, array(
 	'UFG_CREATE_EXPLAIN'					 => 'You can create a friends group here to divide your friends into groups.',
 	'UFG_MANAGE'							 => 'Friends groups',
 	'UFG_DRAG_FRIENDS_INTO_UFG'				 => 'Drag and drop users into the friends group',
+	'SN_CREATE_NEW_GROUP'					 => 'Create new group',
 	//'CONFIRM_CREATE_UFG'					 => 'Are you sure you want to create <strong>%1$s</strong> friends group?',
 	'CONFIRM_DELETE_UFG'					 => 'Are you sure you want to delete <strong>%1$s</strong> friends group?',
 	'ADD_FRIEND_TO_GROUP'					 => 'Add friend to friends group',
@@ -487,30 +488,30 @@ $lang = array_merge($lang, array(
 
 // NOTIFY
 $lang = array_merge($lang, array(
-	'SN_AP_NOTIFY'					 				=> 'Notifications',
-	'SN_NO_NOTIFY'					 				=> 'You have no notification',
-	'SN_NTF_FRIENDSHIP_ACCEPT'		 	=> '%1$s accepted your <a href="%2$s">friendship request</a>',
-	'SN_NTF_FRIENDSHIP_DENY'		 		=> '%1$s denied your <a href="%2$s">friendship request</a>',
-	'SN_NTF_FRIENDSHIP_REQUEST'		 	=> '%1$s sent you a <a href="%2$s">friendship request</a>',
-	'SN_NTF_FRIENDSHIP_CANCEL'		 	=> '%1$s canceled your <a href="%2$s">friendship request</a>',
+	'SN_AP_NOTIFY'					 => 'Notifications',
+	'SN_NO_NOTIFY'					 => 'You have no notification',
+	'SN_NTF_FRIENDSHIP_ACCEPT'		 => '%1$s accepted your <a href="%2$s">friendship request</a>',
+	'SN_NTF_FRIENDSHIP_DENY'		 => '%1$s denied your <a href="%2$s">friendship request</a>',
+	'SN_NTF_FRIENDSHIP_REQUEST'		 => '%1$s sent you a <a href="%2$s">friendship request</a>',
+	'SN_NTF_FRIENDSHIP_CANCEL'		 => '%1$s canceled your <a href="%2$s">friendship request</a>',
 
-	'SN_NTF_STATUS_AUTHOR_COMMENT'	=> '%1$s has commented on <a href="%2$s">your status</a>',
-	'SN_NTF_STATUS_USER_COMMENT'	 	=> '%1$s has commented on <a href="%3$s">%2$s\'s status</a>',
-	'SN_NTF_STATUS_FRIEND_WALL'		 	=> '%1$s has left a message on <a href="%2$s">your Profile page</a>',
+	'SN_NTF_STATUS_AUTHOR_COMMENT'	 => '%1$s has commented on <a href="%2$s">your status</a>',
+	'SN_NTF_STATUS_USER_COMMENT'	 => '%1$s has commented on <a href="%3$s">%2$s\'s status</a>',
+	'SN_NTF_STATUS_FRIEND_WALL'		 => '%1$s has left a message on <a href="%2$s">your Profile page</a>',
 
-	'SN_NTF_APPROVE_FAMILY'			 		=> '%1$s has added you as a %2$s. You can <a href="%3$s">approve this relationship here</a>',
-	'SN_NTF_APPROVE_RELATIONSHIP'		=> '%1$s has created a relationship with you. You can <a href="%2$s">approve this relationship here</a>',
+	'SN_NTF_APPROVE_FAMILY'			 => '%1$s has added you as a %2$s. You can <a href="%3$s">approve this relationship here</a>',
+	'SN_NTF_APPROVE_RELATIONSHIP'	 => '%1$s has created a relationship with you. You can <a href="%2$s">approve this relationship here</a>',
 
-	'SN_NTF_EMOTE'					 				=> '%1$s has sent you an emote: %2$s %3$s',
-	
-	'SN_NTF_RELATIONSHIP_APPROVED'  => '%1$s has confirmed <a href="%2$s">relationship</a> with you',
-	'SN_NTF_FAMILY_APPROVED'  			=> '%1$s has confirmed <a href="%2$s">family relation</a> with you',
-	
-	'SN_NTF_RELATIONSHIP_VICEVERSA'	=> '%1$s has confirmed <a href="%2$s">relationship</a> with you and has added it to their profile too',
-	'SN_NTF_FAMILY_VICEVERSA'				=> '%1$s has confirmed <a href="%2$s">family relation</a> with you and has added it to their profile too',
-	
-	'SN_NTF_RELATIONSHIP_REFUSED'  	=> '%1$s has refused <a href="%2$s">relationship</a> with you',
-	'SN_NTF_FAMILY_REFUSED'  				=> '%1$s has refused <a href="%2$s">family relation</a> with you',
+	'SN_NTF_EMOTE'					 => '%1$s has sent you an emote: %2$s %3$s',
+
+	'SN_NTF_RELATIONSHIP_APPROVED'	 => '%1$s has confirmed <a href="%2$s">relationship</a> with you',
+	'SN_NTF_FAMILY_APPROVED'		 => '%1$s has confirmed <a href="%2$s">family relation</a> with you',
+
+	'SN_NTF_RELATIONSHIP_VICEVERSA'	 => '%1$s has confirmed <a href="%2$s">relationship</a> with you and has added it to their profile too',
+	'SN_NTF_FAMILY_VICEVERSA'		 => '%1$s has confirmed <a href="%2$s">family relation</a> with you and has added it to their profile too',
+
+	'SN_NTF_RELATIONSHIP_REFUSED'	 => '%1$s has refused <a href="%2$s">relationship</a> with you',
+	'SN_NTF_FAMILY_REFUSED'			 => '%1$s has refused <a href="%2$s">family relation</a> with you',
 ));
 
 // EMOTES
