@@ -35,6 +35,9 @@ if (!defined('SOCIALNET_INSTALLED'))
 
 if (!class_exists('socialnet_notify'))
 {
+	/**
+	 * class notify
+	 */
 	class socialnet_notify
 	{
 		var $p_master = null;
