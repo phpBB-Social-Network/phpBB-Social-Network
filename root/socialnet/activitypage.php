@@ -32,6 +32,9 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 
 if (!class_exists('socialnet_activitypage'))
 {
+	/**
+	 * socialnet_activity
+	 */
 	class socialnet_activitypage
 	{
 		var $p_master = null;
@@ -104,7 +107,7 @@ if (!class_exists('socialnet_activitypage'))
 
 					$sql = 'SELECT user_id
         		          FROM ' . USERS_TABLE . '
-        		            WHERE username_clean LIKE "%' . utf8_clean_string($username) . '%"';
+        		            WHERE username_clean LIKE "%' . utf8_clean_string($username) . '%" AND user_type <> 2';
 					$result = $db->sql_query($sql);
 					$search_user_id = $db->sql_fetchfield('user_id');
 					$db->sql_freeresult($result);
@@ -168,6 +171,7 @@ if (!class_exists('socialnet_activitypage'))
 			$template->assign_vars($template_vars);
 		}
 
+		
 		function load($mode)
 		{
 			global $socialnet_root_path, $phpEx, $socialnet, $template, $phpbb_root_path;
