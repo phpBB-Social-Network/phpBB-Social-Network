@@ -89,7 +89,7 @@
 			$('.sn-us-fetchData .sn-us-fetchDesc').TextAreaExpander(18, 70);
 
 			// Share status on Wall
-			$('.sn-us-share input[name=sn-us-wallButton]').on('click', function() {
+			$('.sn-us-share input[name=sn-us-wallButton]').live('click', function() {
 				var status_text = $("#sn-us-wallInput").val();
 
 				status_text = status_text.replace(/^\s+|\s+$/g, '');
