@@ -15,8 +15,6 @@
 		emptyComment : '',
 		deleteStatusTitle : '',
 		deleteStatusText : '',
-		deleteCommentTitle : '',
-		deleteCommentText : '',
 		url : './socialnet/userstatus.php',
 		urlFetch : './socialnet/fetch.php',
 		_inited : false,
@@ -35,7 +33,7 @@
 			$("#sn-us-wallInput").watermark($.sn.us.watermark, {
 				useNative : false,
 				className : 'sn-us-watermark'
-			}).TextAreaExpander(22, 150).live('focusin keyup input', function() {
+			}).TextAreaExpander(22, 150).css({height:22}).live('focusin keyup input', function() {
 				var snUsShare = $(this).val();
 				$(this).parent('.sn-us-share').children('input[name=sn-us-wallButton]').show();
 				if ($.sn.isValidURL(snUsShare) == true) {
