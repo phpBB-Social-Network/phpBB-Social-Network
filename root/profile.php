@@ -150,18 +150,18 @@ $total_friends = $db->sql_fetchfield('num_friends');
 $db->sql_freeresult($result);
 
 // Template variables for Left column
-$redirect = '&amp;redirect='. base64_encode(append_sid($_SERVER['PHP_SELF'] , 'u=' . $user_id));
+$redirect = '&amp;redirect=' . base64_encode(append_sid($_SERVER['PHP_SELF'], 'u=' . $user_id));
 $template->assign_vars(array(
 	'USER_ID'				 => $user_id,
 	'S_OWN_PROFILE'			 => ($user_id === (int) $user->data['user_id']) ? true : false,
-	'USERNAME_FULL'			 => $socialnet->get_username_string(1,'full', $user_id, $member['username'], $member['user_colour']),
-	'USERNAME'				 => $socialnet->get_username_string(1,'username', $user_id, $member['username'], $member['user_colour']),
+	'USERNAME_FULL'			 => $socialnet->get_username_string(1, 'full', $user_id, $member['username'], $member['user_colour']),
+	'USERNAME'				 => $socialnet->get_username_string(1, 'username', $user_id, $member['username'], $member['user_colour']),
 	'USER_AVATAR'			 => $socialnet->get_user_avatar_resized($member['user_avatar'], $member['user_avatar_type'], $member['user_avatar_width'], $member['user_avatar_height'], 150, false),
 	'U_EDIT_PROFILE'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_profile') : '',
 	'U_EDIT_FRIENDS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_approval_friends') : '',
 	'U_EDIT_RELATIONS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_profile_relations') : '',
 	'U_CREATE_FRIENDS_GROUP' => append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_approval_ufg'),
-	'U_VIEW_PROFILE'		 => $socialnet->get_username_string(1,'profile', $user_id, $member['username'], $member['user_colour']),
+	'U_VIEW_PROFILE'		 => $socialnet->get_username_string(1, 'profile', $user_id, $member['username'], $member['user_colour']),
 	'S_ZEBRA'				 => ($user->data['user_id'] != $user_id && $user->data['is_registered'] && $zebra_enabled) ? true : false,
 	'U_ADD_FRIEND'			 => (!$friend && !$request && !$foe && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
 	'U_ADD_FOE'				 => (!$friend && !$request && !$foe && $foes_enabled) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra&amp;mode=foes&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
@@ -201,17 +201,17 @@ while ($relation = $db->sql_fetchrow($result))
 		if ($relation['approved'] != SN_RELATIONSHIP_APPROVED)
 		{
 			continue;
-  	}
-		
+		}
+
 		$template->assign_block_vars('family', array(
-			'USER_ID'		 			=> $relation['relative_user_id'],
-			'STATUS'		 			=> $socialnet->family_status($relation['status_id']),
-			'U_RELATIVE'	 		=> ($relation['name']) ? '<strong>'.$relation['name'].'</strong>' : $username,
-			'U_PROFILE_LINK' 	=> ($relation['name']) ? 'javascript:return false;' : $profile_link,
-			'APPROVED'			 	=> ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false,
-			'REFUSED'			 		=> ($relation['approved'] == SN_RELATIONSHIP_REFUSED) ? true : false,
-			'UNANSWERED'			=> ($relation['approved'] == SN_RELATIONSHIP_UNANSWERED) ? true : false,
-			'AVATAR'		 			=> $avatar_img,
+			'USER_ID'		 => $relation['relative_user_id'],
+			'STATUS'		 => $socialnet->family_status($relation['status_id']),
+			'U_RELATIVE'	 => ($relation['name']) ? '<strong>' . $relation['name'] . '</strong>' : $username,
+			'U_PROFILE_LINK' => ($relation['name']) ? 'javascript:return false;' : $profile_link,
+			'APPROVED'		 => ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false,
+			'REFUSED'		 => ($relation['approved'] == SN_RELATIONSHIP_REFUSED) ? true : false,
+			'UNANSWERED'	 => ($relation['approved'] == SN_RELATIONSHIP_UNANSWERED) ? true : false,
+			'AVATAR'		 => $avatar_img,
 		));
 	}
 	else
@@ -223,15 +223,15 @@ while ($relation = $db->sql_fetchrow($result))
 		}
 
 		$template->assign_block_vars('relationship', array(
-			'USER_ID'		 			=> $relation['relative_user_id'],
-			'STATUS'		 			=> $socialnet->relationship_status($relation['status_id'], ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false),
-			'U_RELATIVE'	 		=> ($relation['name']) ? '<strong>'.$relation['name'].'</strong>' : $username,
-			'U_PROFILE_LINK' 	=> ($relation['name']) ? 'javascript:return false;' : $profile_link,
-			'APPROVED'			 	=> ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false,
-			'REFUSED'			 		=> ($relation['approved'] == SN_RELATIONSHIP_REFUSED) ? true : false,
-			'UNANSWERED'			=> ($relation['approved'] == SN_RELATIONSHIP_UNANSWERED) ? true : false,
-			'AVATAR'		 			=> $avatar_img,
-			'ANNIVERSARY'	 		=> ($relation['anniversary']) ? $relationship_anniversary : '',
+			'USER_ID'		 => $relation['relative_user_id'],
+			'STATUS'		 => $socialnet->relationship_status($relation['status_id'], ($relation['approved'] == SN_RELATIONSHIP_APPROVED && $relation['relative_user_id'] != 0) ? true : false),
+			'U_RELATIVE'	 => (!empty($relation['name'])) ? '<strong>' . $relation['name'] . '</strong>' : $username,
+			'U_PROFILE_LINK' => (!empty($relation['name'])) ? 'javascript:return false;' : $profile_link,
+			'APPROVED'		 => ($relation['approved'] == SN_RELATIONSHIP_APPROVED) ? true : false,
+			'REFUSED'		 => ($relation['approved'] == SN_RELATIONSHIP_REFUSED) ? true : false,
+			'UNANSWERED'	 => ($relation['approved'] == SN_RELATIONSHIP_UNANSWERED) ? true : false,
+			'AVATAR'		 => $avatar_img,
+			'ANNIVERSARY'	 => ($relation['anniversary']) ? $relationship_anniversary : '',
 		));
 	}
 }
@@ -253,7 +253,7 @@ if (in_array('approval', $socialnet->existing) && !($user_id === (int) $user->da
 {
 	foreach ($socialnet->groups as $gid => $g_data)
 	{
-		if ( $gid == 0)
+		if ($gid == 0)
 		{
 			continue;
 		}
@@ -274,20 +274,20 @@ if ($member['user_type'] == USER_INACTIVE)
 
 	switch ($member['user_inactive_reason'])
 	{
-		case INACTIVE_REGISTER:
-			$inactive_reason = $user->lang['INACTIVE_REASON_REGISTER'];
+	case INACTIVE_REGISTER:
+		$inactive_reason = $user->lang['INACTIVE_REASON_REGISTER'];
 		break;
 
-		case INACTIVE_PROFILE:
-			$inactive_reason = $user->lang['INACTIVE_REASON_PROFILE'];
+	case INACTIVE_PROFILE:
+		$inactive_reason = $user->lang['INACTIVE_REASON_PROFILE'];
 		break;
 
-		case INACTIVE_MANUAL:
-			$inactive_reason = $user->lang['INACTIVE_REASON_MANUAL'];
+	case INACTIVE_MANUAL:
+		$inactive_reason = $user->lang['INACTIVE_REASON_MANUAL'];
 		break;
 
-		case INACTIVE_REMIND:
-			$inactive_reason = $user->lang['INACTIVE_REASON_REMIND'];
+	case INACTIVE_REMIND:
+		$inactive_reason = $user->lang['INACTIVE_REASON_REMIND'];
 		break;
 	}
 

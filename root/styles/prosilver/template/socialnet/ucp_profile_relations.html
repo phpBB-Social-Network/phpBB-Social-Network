@@ -90,7 +90,7 @@
   			<!-- BEGIN relationship -->
   			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF not relationship.UNANSWERED --> sn-bg-red<!-- ENDIF --> {uid:{relationship.USER_ID}}" title="{relationship.USERNAME_NO_COLOR}<!-- IF relationship.UNANSWERED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
   				<div class="sn-actions">
-  					<a href="{relationship.U_DELETE}" title="{L_DELETE}"><div class="sn-action-close"></div></a>
+  					<a href="{relationship.U_DELETE}" title="{L_DELETE}"><span class="sn-action-close"></span></a>
   				</div>
   				<!-- IF relationship.U_PROFILE_LINK --><a href="{relationship.U_PROFILE_LINK}"><!-- ENDIF -->{relationship.AVATAR}<!-- IF relationship.U_PROFILE_LINK --></a><!-- ENDIF -->
   				<!-- IF relationship.U_RELATIVE --><div class="sn-userName">{relationship.U_RELATIVE}</div><!-- ENDIF -->
@@ -116,7 +116,7 @@
   			<!-- BEGIN family -->
   			<div class="sn-fms-friend ui-widget-content ui-corner-all sn-action-block<!-- IF family.UNANSWERED --> sn-bg-red<!-- ENDIF --> {uid:{family.USER_ID}}" title="{family.USERNAME_NO_COLOR}<!-- IF family.UNANSWERED --> ({L_SN_UP_NOT_APPROVED})<!-- ENDIF -->">
   				<div class="sn-actions">
-  					<a href="{family.U_DELETE}" title="{L_DELETE}"><div class="sn-action-close"></div></a>
+  					<a href="{family.U_DELETE}" title="{L_DELETE}"><span class="sn-action-close"></span></a>
   				</div>
   				<!-- IF family.U_PROFILE_LINK --><a href="{family.U_PROFILE_LINK}"><!-- ENDIF -->{family.AVATAR}<!-- IF family.U_PROFILE_LINK --></a><!-- ENDIF -->
   				<!-- IF family.U_RELATIVE --><div class="sn-userName">{family.U_RELATIVE}</div><!-- ENDIF -->
