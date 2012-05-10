@@ -3,14 +3,14 @@
 			<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_BASIC_INFO}' -->
 			<!-- INCLUDE socialnet/block_page_header.html -->
         	<dl class="details">
-        	  <!-- IF ABOUT_ME --><dt>{L_SN_UP_ABOUT_ME}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {type:'text',name:'up-about_me'}"<!-- ENDIF -->>{ABOUT_ME}</dd><!-- ENDIF -->
+        	  <!-- IF ABOUT_ME --><dt>{L_SN_UP_ABOUT_ME}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {type:'textarea',name:'up-about_me',max:1024}"<!-- ENDIF -->>{ABOUT_ME}</dd><!-- ENDIF -->
         	  <!-- IF SEX --><dt>{L_SN_UP_SEX}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'select',name:'up-sex',data:{{UP_EDIT_SEX}}}"<!-- ENDIF -->>{SEX}</dd><!-- ENDIF -->
         	  <!-- IF INTERESTED_IN --><dt>{L_SN_UP_INTERESTED_IN}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'select',name:'up-interested_in',data:{{UP_EDIT_INTERESTED_IN}}}"<!-- ENDIF -->>{INTERESTED_IN}</dd><!-- ENDIF -->
         	  <!-- IF BIRTHDAY --><dt>{L_SN_UP_BIRTHDAY}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'date',name:'usr-user_birthday',data:{date:true}}"<!-- ENDIF -->>{BIRTHDAY}</dd><!-- ENDIF -->
         	  <!-- IF AGE --><dt>{L_AGE}:</dt> <dd>{AGE}</dd><!-- ENDIF -->
-        	  <!-- IF HOMETOWN --><dt>{L_SN_UP_HOMETOWN}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-hometown'}"<!-- ENDIF -->>{HOMETOWN}</dd><!-- ENDIF -->
-        	  <!-- IF LOCATION --><dt>{L_LOCATION}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_from'}"<!-- ENDIF -->>{LOCATION}</dd><!-- ENDIF -->
-        	  <!-- IF LANGUAGES --><dt>{L_SN_UP_LANGUAGES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-languages'}"<!-- ENDIF -->>{LANGUAGES}</dd><!-- ENDIF -->
+        	  <!-- IF HOMETOWN --><dt>{L_SN_UP_HOMETOWN}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-hometown',max:255}"<!-- ENDIF -->>{HOMETOWN}</dd><!-- ENDIF -->
+        	  <!-- IF LOCATION --><dt>{L_LOCATION}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_from',max:100}"<!-- ENDIF -->>{LOCATION}</dd><!-- ENDIF -->
+        	  <!-- IF LANGUAGES --><dt>{L_SN_UP_LANGUAGES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-languages',max:1024}"<!-- ENDIF -->>{LANGUAGES}</dd><!-- ENDIF -->
         	  <!-- IF SIGNATURE --><dt>{L_SIGNATURE}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'usr-user_sig',value:'{UP_EDIT_SIGNATURE}',data:{bbcode:true}}"<!-- ENDIF -->>{SIGNATURE}</dd><!-- ENDIF -->
         	</dl>
         <!-- ENDIF -->
@@ -18,9 +18,9 @@
         	<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_EDU_WORK}' -->
 			<!-- INCLUDE socialnet/block_page_header.html -->
         	<dl class="details">
-        	  <!-- IF HIGH_SCHOOL --><dt>{L_SN_UP_HIGH_SCHOOL}:</dt><dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-high_school'}"<!-- ENDIF -->>{HIGH_SCHOOL}</dd><!-- ENDIF -->
-        	  <!-- IF UNIVERSITY --><dt>{L_SN_UP_UNIVERSITY}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-university'}"<!-- ENDIF -->>{UNIVERSITY}</dd><!-- ENDIF -->
-        	  <!-- IF EMPLOYER --><dt>{L_SN_UP_EMPLOYER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-employer'}"<!-- ENDIF -->>{EMPLOYER}</dd><!-- ENDIF -->
+        	  <!-- IF HIGH_SCHOOL --><dt>{L_SN_UP_HIGH_SCHOOL}:</dt><dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-high_school',max:1024}"<!-- ENDIF -->>{HIGH_SCHOOL}</dd><!-- ENDIF -->
+        	  <!-- IF UNIVERSITY --><dt>{L_SN_UP_UNIVERSITY}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-university',max:1024}"<!-- ENDIF -->>{UNIVERSITY}</dd><!-- ENDIF -->
+        	  <!-- IF EMPLOYER --><dt>{L_SN_UP_EMPLOYER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-employer',max:1024}"<!-- ENDIF -->>{EMPLOYER}</dd><!-- ENDIF -->
         	  <!-- IF OCCUPATION --><dt>{L_SN_UP_OCCUPATION}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_occ'}"<!-- ENDIF -->>{OCCUPATION}</dd><!-- ENDIF -->
         	</dl>
       	<!-- ENDIF -->
@@ -28,41 +28,41 @@
         	<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_PHILOSOPHY}' -->
 			<!-- INCLUDE socialnet/block_page_header.html -->
         	<dl class="details">
-        	  <!-- IF RELIGION --><dt>{L_SN_UP_RELIGION}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-religion'}"<!-- ENDIF -->>{RELIGION}</dd><!-- ENDIF -->
-        	  <!-- IF POLITICAL_VIEWS --><dt>{L_SN_UP_POLITICAL_VIEWS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-political_views'}"<!-- ENDIF -->>{POLITICAL_VIEWS}</dd><!-- ENDIF -->
-        	  <!-- IF QUOTATIONS --><dt>{L_SN_UP_QUOTATIONS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-quotations'}"<!-- ENDIF -->>{QUOTATIONS}</dd><!-- ENDIF -->
+        	  <!-- IF RELIGION --><dt>{L_SN_UP_RELIGION}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-religion',max:1024}"<!-- ENDIF -->>{RELIGION}</dd><!-- ENDIF -->
+        	  <!-- IF POLITICAL_VIEWS --><dt>{L_SN_UP_POLITICAL_VIEWS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-political_views',max:1024}"<!-- ENDIF -->>{POLITICAL_VIEWS}</dd><!-- ENDIF -->
+        	  <!-- IF QUOTATIONS --><dt>{L_SN_UP_QUOTATIONS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-quotations',max:1024}"<!-- ENDIF -->>{QUOTATIONS}</dd><!-- ENDIF -->
         	</dl>
       	<!-- ENDIF -->
       	<!-- IF INTERESTS or MUSIC or BOOKS or MOVIES or GAMES or FOODS or SPORTS or SPORT_TEAMS or ACTIVITIES -->
         	<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_ENT_ACT}' -->
 			<!-- INCLUDE socialnet/block_page_header.html -->
         	<dl class="details">
-        	  <!-- IF INTERESTS --><dt>{L_SN_UP_INTERESTS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_interests'}"<!-- ENDIF -->>{INTERESTS}</dd><!-- ENDIF -->
-        	  <!-- IF ACTIVITIES --><dt>{L_SN_UP_ACTIVITIES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-activities'}"<!-- ENDIF -->>{ACTIVITIES}</dd><!-- ENDIF -->
-        	  <!-- IF MUSIC --><dt>{L_SN_UP_MUSIC}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-music'}"<!-- ENDIF -->>{MUSIC}</dd><!-- ENDIF -->
-        	  <!-- IF BOOKS --><dt>{L_SN_UP_BOOKS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-books'}"<!-- ENDIF -->>{BOOKS}</dd><!-- ENDIF -->
-        	  <!-- IF MOVIES --><dt>{L_SN_UP_MOVIES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-movies'}"<!-- ENDIF -->>{MOVIES}</dd><!-- ENDIF -->
-        	  <!-- IF GAMES --><dt>{L_SN_UP_GAMES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-fames'}"<!-- ENDIF -->>{GAMES}</dd><!-- ENDIF -->
-        	  <!-- IF FOODS --><dt>{L_SN_UP_FOODS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-foods'}"<!-- ENDIF -->>{FOODS}</dd><!-- ENDIF -->
-        	  <!-- IF SPORTS --><dt>{L_SN_UP_SPORTS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-sports'}"<!-- ENDIF -->>{SPORTS}</dd><!-- ENDIF -->
-        	  <!-- IF SPORT_TEAMS --><dt>{L_SN_UP_SPORT_TEAMS}:</dt<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-sport_teams'}"<!-- ENDIF -->> <dd>{SPORT_TEAMS}</dd><!-- ENDIF -->
+        	  <!-- IF INTERESTS --><dt>{L_SN_UP_INTERESTS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'usr-user_interests'}"<!-- ENDIF -->>{INTERESTS}</dd><!-- ENDIF -->
+        	  <!-- IF ACTIVITIES --><dt>{L_SN_UP_ACTIVITIES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-activities',max:1024}"<!-- ENDIF -->>{ACTIVITIES}</dd><!-- ENDIF -->
+        	  <!-- IF MUSIC --><dt>{L_SN_UP_MUSIC}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-music',max:1024}"<!-- ENDIF -->>{MUSIC}</dd><!-- ENDIF -->
+        	  <!-- IF BOOKS --><dt>{L_SN_UP_BOOKS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-books',max:1024}"<!-- ENDIF -->>{BOOKS}</dd><!-- ENDIF -->
+        	  <!-- IF MOVIES --><dt>{L_SN_UP_MOVIES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-movies',max:1024}"<!-- ENDIF -->>{MOVIES}</dd><!-- ENDIF -->
+        	  <!-- IF GAMES --><dt>{L_SN_UP_GAMES}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-games',max:1024}"<!-- ENDIF -->>{GAMES}</dd><!-- ENDIF -->
+        	  <!-- IF FOODS --><dt>{L_SN_UP_FOODS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-foods',max:1024}"<!-- ENDIF -->>{FOODS}</dd><!-- ENDIF -->
+        	  <!-- IF SPORTS --><dt>{L_SN_UP_SPORTS}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-sports',max:1024}"<!-- ENDIF -->>{SPORTS}</dd><!-- ENDIF -->
+        	  <!-- IF SPORT_TEAMS --><dt>{L_SN_UP_SPORT_TEAMS}:</dt<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-sport_teams',max:1024}"<!-- ENDIF -->> <dd>{SPORT_TEAMS}</dd><!-- ENDIF -->
         	</dl>
       	<!-- ENDIF -->
       		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_CONTACT_INFO}' -->
 			<!-- INCLUDE socialnet/block_page_header.html -->
       	<dl class="details">
-      	  <!-- IF U_WWW --><dt>{L_WEBSITE}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_website',value:'{USER_WWW}'}"<!-- ENDIF -->><a href="{U_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">{U_WWW}</a></dd><!-- ENDIF -->
-      	  <!-- IF U_FACEBOOK --><dt>{L_SN_UP_FACEBOOK}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-facebook',value:'{USER_FACEBOOK}'}"<!-- ENDIF -->><a href="{U_FACEBOOK}" title="{L_VISIT_WEBSITE}: {U_FACEBOOK}">{U_FACEBOOK}</a></dd><!-- ENDIF -->
-      	  <!-- IF U_TWITTER --><dt>{L_SN_UP_TWITTER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-twitter',value:'{USER_TWITTER}'}"<!-- ENDIF -->><a href="{U_TWITTER}" title="{L_VISIT_WEBSITE}: {U_TWITTER}">{U_TWITTER}</a></dd><!-- ENDIF -->
-      	  <!-- IF U_YOUTUBE --><dt>{L_SN_UP_YOUTUBE}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-youtube',value:'{USER_YOUTUBE}'}"<!-- ENDIF -->><a href="{U_YOUTUBE}" title="{L_VISIT_WEBSITE}: {U_YOUTUBE}">{U_YOUTUBE}</a></dd><!-- ENDIF -->
+      	  <!-- IF U_WWW --><dt>{L_WEBSITE}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_website',value:'{USER_WWW}',max:200}"<!-- ENDIF -->><a href="{U_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">{U_WWW}</a></dd><!-- ENDIF -->
+      	  <!-- IF U_FACEBOOK --><dt>{L_SN_UP_FACEBOOK}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-facebook',value:'{USER_FACEBOOK}',max:255}"<!-- ENDIF -->><a href="{U_FACEBOOK}" title="{L_VISIT_WEBSITE}: {U_FACEBOOK}">{U_FACEBOOK}</a></dd><!-- ENDIF -->
+      	  <!-- IF U_TWITTER --><dt>{L_SN_UP_TWITTER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-twitter',value:'{USER_TWITTER}',max:255}"<!-- ENDIF -->><a href="{U_TWITTER}" title="{L_VISIT_WEBSITE}: {U_TWITTER}">{U_TWITTER}</a></dd><!-- ENDIF -->
+      	  <!-- IF U_YOUTUBE --><dt>{L_SN_UP_YOUTUBE}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-youtube',value:'{USER_YOUTUBE}',max:255}"<!-- ENDIF -->><a href="{U_YOUTUBE}" title="{L_VISIT_WEBSITE}: {U_YOUTUBE}">{U_YOUTUBE}</a></dd><!-- ENDIF -->
       	  <!-- IF U_PM --><dt>{L_PRIVATE_MESSAGE}:</dt> <dd><a href="{U_PM}">{L_SEND_PRIVATE_MESSAGE}</a></dd><!-- ENDIF -->
       	  <!-- IF U_EMAIL --><dt>{L_EMAIL_ADDRESS}:</dt> <dd><a href="{U_EMAIL}">{L_SEND_EMAIL_USER} {USERNAME}</a></dd><!-- ENDIF -->
-      		<!-- IF U_MSN or USER_MSN --><dt>{L_MSNM}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_msnm',value:'{USER_MSNM}'}"<!-- ENDIF -->><!-- IF U_MSN --><a href="{U_MSN}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_MSNM_MESSAGE}</a><!-- ELSE -->{USER_MSN}<!-- ENDIF --></dd><!-- ENDIF -->
-      		<!-- IF U_YIM or USER_YIM --><dt>{L_YIM}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_yim',value:'{USER_YIM}'}"<!-- ENDIF -->><!-- IF U_YIM --><a href="{U_YIM}" onclick="popup(this.href, 780, 550); return false;">{L_SEND_YIM_MESSAGE}</a><!-- ELSE -->{USER_YIM}<!-- ENDIF --></dd><!-- ENDIF -->
-      		<!-- IF U_AIM or USER_AIM --><dt>{L_AIM}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_aim',value:'{USER_AIM}'}"<!-- ENDIF -->><!-- IF U_AIM --><a href="{U_AIM}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_AIM_MESSAGE}</a><!-- ELSE -->{USER_AIM}<!-- ENDIF --></dd><!-- ENDIF -->
-      		<!-- IF U_ICQ or USER_ICQ --><dt>{L_ICQ}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_icq',value:'{USER_ICQ}'}"<!-- ENDIF -->><!-- IF U_ICQ --><a href="{U_ICQ}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_ICQ_MESSAGE}</a><!-- ELSE -->{USER_ICQ}<!-- ENDIF --></dd><!-- ENDIF -->
-      		<!-- IF USER_SKYPE --><dt>{L_SN_UP_SKYPE}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-skype',value:'{USER_SKYPE}'}"<!-- ENDIF -->>{USER_SKYPE}</dd><!-- ENDIF -->
-          <!-- IF U_JABBER and S_JABBER_ENABLED --><dt>{L_JABBER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_jabber',value:'{USER_JABBER}'}"<!-- ENDIF -->><a href="{U_JABBER}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_JABBER_MESSAGE}</a></dd><!-- ELSEIF USER_JABBER --><dt>{L_JABBER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_jabber',value:'{USER_JABBER}'}"<!-- ENDIF -->>{USER_JABBER}</dd><!-- ENDIF -->
+      		<!-- IF U_MSN or USER_MSN --><dt>{L_MSNM}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_msnm',value:'{USER_MSNM}',max:255}"<!-- ENDIF -->><!-- IF U_MSN --><a href="{U_MSN}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_MSNM_MESSAGE}</a><!-- ELSE -->{USER_MSN}<!-- ENDIF --></dd><!-- ENDIF -->
+      		<!-- IF U_YIM or USER_YIM --><dt>{L_YIM}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_yim',value:'{USER_YIM}',max:255}"<!-- ENDIF -->><!-- IF U_YIM --><a href="{U_YIM}" onclick="popup(this.href, 780, 550); return false;">{L_SEND_YIM_MESSAGE}</a><!-- ELSE -->{USER_YIM}<!-- ENDIF --></dd><!-- ENDIF -->
+      		<!-- IF U_AIM or USER_AIM --><dt>{L_AIM}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_aim',value:'{USER_AIM}',max:255}"<!-- ENDIF -->><!-- IF U_AIM --><a href="{U_AIM}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_AIM_MESSAGE}</a><!-- ELSE -->{USER_AIM}<!-- ENDIF --></dd><!-- ENDIF -->
+      		<!-- IF U_ICQ or USER_ICQ --><dt>{L_ICQ}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_icq',value:'{USER_ICQ}',max:15}"<!-- ENDIF -->><!-- IF U_ICQ --><a href="{U_ICQ}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_ICQ_MESSAGE}</a><!-- ELSE -->{USER_ICQ}<!-- ENDIF --></dd><!-- ENDIF -->
+      		<!-- IF USER_SKYPE --><dt>{L_SN_UP_SKYPE}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-skype',value:'{USER_SKYPE}',max:32}"<!-- ENDIF -->>{USER_SKYPE}</dd><!-- ENDIF -->
+          <!-- IF U_JABBER and S_JABBER_ENABLED --><dt>{L_JABBER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_jabber',value:'{USER_JABBER}',max:255}"<!-- ENDIF -->><a href="{U_JABBER}" onclick="popup(this.href, 550, 320); return false;">{L_SEND_JABBER_MESSAGE}</a></dd><!-- ELSEIF USER_JABBER --><dt>{L_JABBER}:</dt> <dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_jabber',value:'{USER_JABBER}'}"<!-- ENDIF -->>{USER_JABBER}</dd><!-- ENDIF -->
       	</dl>
       	<!-- IF .custom_fields -->
 			<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_OTHER_INFO}' -->
