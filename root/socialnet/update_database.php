@@ -778,6 +778,18 @@ $versions = array(
 	'0.6.2.8'	 => array(
 		'custom' => 'phpbb_SN_umil_0_6_2_8',
 	),
+
+	'0.6.2.11'	 => array(
+		'table_row_remove'	 => array(
+			array(SN_CONFIG_TABLE, array('config_name' => 'up_alert_relation_pm')),
+		),
+	),
+
+	'0.6.2.12'	 => array(
+		'table_row_remove'	 => array(
+			array(SN_CONFIG_TABLE, array('config_name' => 'fas_alert_friend_pm')),
+		),
+	),
 		
 );
 
