@@ -32,6 +32,9 @@ if (!defined('SOCIALNET_INSTALLED'))
 
 if (!class_exists('socialnet_im'))
 {
+	/**
+	 * class im
+	 */
 	class socialnet_im
 	{
 		var $p_master = null;
