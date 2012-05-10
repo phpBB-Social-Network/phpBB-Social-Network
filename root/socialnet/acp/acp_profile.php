@@ -64,12 +64,6 @@ class acp_profile extends socialnet
 						'type'     => 'text:3:4',
 						'explain'  => true
 					),
-					'up_alert_relation_pm' => array(
-						'lang'     => 'SN_PROFILE_ALERT_RELATION_BY_PM',
-						'validate' => 'bool',
-						'type'     => 'radio:yes:no',
-						'explain'  => true
-					),
 					'up_emotes'            => array(
 						'lang'     => 'SN_UP_EMOTES',
 						'validate' => 'bool',
