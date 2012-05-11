@@ -271,7 +271,7 @@ class EmbeVi{
   private $embeviSupport = array(
     array(
       'provider' => array('http://www.youtube.com/'),
-      'info' => 'youtube-playlist',
+      'info' => 'YouTube playlist',
       'width' => 530,
       'height' => 370,
       'src' => 'http://www.youtube.com/p/~to_replace1~',
@@ -279,7 +279,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.youtube.com/'),
-      'info' => 'youtube-video',
+      'info' => 'YouTube video',
       'width' => 425,
       'height' => 344,
       'src' => 'http://www.youtube.com/v/~to_replace2~&f=videos&app=youtube_gdata',
@@ -295,7 +295,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.google.com/'),
-      'info' => 'google video',
+      'info' => 'Google video',
       'width' => 400,
       'height' => 326,
       'src' => 'http://video.google.com/googleplayer.swf?docid=~to_replace1~&hl=en&fs=true',
@@ -303,7 +303,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.dailymotion.com/'),
-      'info' => 'dailymotion video',
+      'info' => 'Dailymotion video',
       'width' => 420,
       'height' => 399,
       'src' => 'http://www.dailymotion.com/swf/~to_replace1~',
@@ -311,7 +311,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.trilulilu.ro/'),
-      'info' => 'trilulilu video',
+      'info' => 'Trilulilu video',
       'width' => 440,
       'height' => 362,
       'src' => 'http://embed.trilulilu.ro/source/go2player.php?type=video&hash=~to_replace2~&userid=~to_replace1~&src=hi5',
@@ -319,7 +319,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.metacafe.com/'),
-      'info' => 'metacafe video',
+      'info' => 'Metacafe video',
       'width' => 400,
       'height' => 345,
       'src' => 'http://www.metacafe.com/fplayer/~to_replace1~/~to_replace2~.swf',
@@ -327,7 +327,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.youtube.com/'),
-      'info' => 'youtube playlist v2',
+      'info' => 'YouTube playlist',
       'width' => 530,
       'height' => 370,
       'src' => 'http://www.youtube.com/p/~to_replace1~',
@@ -335,7 +335,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.collegehumor.com/'),
-      'info' => 'collegehumor video',
+      'info' => 'Collegehumor video',
       'width' => 480,
       'height' => 360,
       'src' => 'http://www.collegehumor.com/moogaloop/moogaloop.swf?clip_id=~to_replace1~&fullscreen=1',
@@ -343,7 +343,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.cnet.com/'),
-      'info' => 'cnettv video',
+      'info' => 'CnetTV video',
       'width' => 364, 
       'height' => 280,
       'src' => 'http://www.cnet.com/av/video/flv/universalPlayer/universalSmall.swf?playerType=embedded&type=id&value=~to_replace4~',
@@ -351,16 +351,15 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.glumbert.com/'),
-      'info' => 'glumbert video',
+      'info' => 'Glumbert video',
       'width' => 448, 
       'height' => 336,
       'src' => 'http://www.glumbert.com/embed/~to_replace1~',
       'matchExpr' => 'glumbert\.com\/media\/([0-9a-z]+)'
     ),
     array(
-      'provider' => array('http://www.myvideo.at', 'http://www.myvideo.de', 'http://www.myvideo.ch', 'http://www.myvideo.be',
-        'http://www.myvideo.nl'),
-      'info' => 'myvideo .at .de .ch .be .nl video',
+      'provider' => array('http://www.myvideo.at', 'http://www.myvideo.de', 'http://www.myvideo.ch', 'http://www.myvideo.be', 'http://www.myvideo.nl'),
+      'info' => 'Myvideo video',
       'width' => 470, 
       'height' => 406,
       'src' => 'http://www.myvideo.~to_replace1~/movie/~to_replace2~',
@@ -368,7 +367,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.yahoo.com'),
-      'info' => 'video.yahoo.com video',
+      'info' => 'Yahoo video',
       'flashvars' => 'id=~to_replace2~&vid=~to_replace1~&lang=en-us&intl=us',
       'width' => 512,
       'height' => 322,
@@ -377,7 +376,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://vids.myspace.com'),
-      'info' => 'vids.myspace.com video',
+      'info' => 'Byspace video',
       'width' => 425,
       'height' => 360,
       'src' => 'http://mediaservices.myspace.com/services/media/embed.aspx/m=~to_replace1~,t=1,mt=video',
@@ -385,7 +384,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.liveleak.com/'),
-      'info' => 'liveleak.com video',
+      'info' => 'Liveleak video',
       'width' => 450,
       'height' => 370,
       'src' => 'http://www.liveleak.com/e/~to_replace1~',
@@ -393,7 +392,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://vimeo.com/'),
-      'info' => 'vimeo.com video',
+      'info' => 'Vimeo video',
       'width' => 400,
       'height' => 255,
       'src' => 'http://vimeo.com/moogaloop.swf?clip_id=~to_replace1~&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
@@ -401,7 +400,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.gametrailers.com/'),
-      'info' => 'gametrailers.com video',
+      'info' => 'Gametrailers video',
       'width' => 480,
       'height' => 392,
       'src' => 'http://www.gametrailers.com/remote_wrap.php?mid=~to_replace2~',
@@ -409,7 +408,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.ustream.tv/'),
-      'info' => 'ustream.tv video',
+      'info' => 'Ustream video',
       'flashvars' => 'viewcount=true&autoplay=false&brand=embed',
       'width' => 400,
       'height' => 320,
@@ -418,7 +417,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://clipshack.com/'),
-      'info' => 'clipshack.com video',
+      'info' => 'Clipshack video',
       'width' => 430,
       'height' => 370,
       'src' => 'http://clipshack.com/player.swf?key=~to_replace1~',
@@ -426,7 +425,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://funnyordie.com/'),
-      'info' => 'funnyordie.com video',
+      'info' => 'Funnyordie video',
       'width' => 480,
       'height' => 400,
       'src' => 'http://funnyordie.com/public/flash/fodplayer.swf?key=~to_replace1~',
@@ -434,7 +433,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.filebox.ro/video/'),
-      'info' => 'filebox.ro video',
+      'info' => 'Filebox video',
       'flashvars' => 'source_script=http://videoserver273.filebox.ro/get_video.php&key=~to_replace1~&autostart=0&getLink=http://fbx.ro/v/~to_replace1~&splash=http://imageserver.filebox.ro/get_splash.php?key=~to_replace1~&link=http://fbx.ro/v/~to_replace1~',
       'width' => 420,
       'height' => 315,
@@ -443,7 +442,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.last.fm/music/videos/'),
-      'info' => 'last.fm video',
+      'info' => 'Last.FM video',
       'flashvars' => 'uniqueName=~to_replace1~&autostart=&FSSupport=false&track=false&http://userserve-ak.last.fm/serve/image:320/~to_replace1~.jpg&title=&albumArt=&duration=&creator=',
       'width' => 450,
       'height' => 373,
@@ -460,7 +459,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://ishare.rediff.com/'),
-      'info' => 'ishare.rediff.com video',
+      'info' => 'Rediff.com video',
       'flashvars' => 'videoURL=http://ishare.rediff.com/embedcodeplayer_config_REST.php?content_id=~to_replace1~&x=3',
       'width' => 400,
       'height' => 322,
@@ -477,7 +476,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.tudou.com/'),
-      'info' => 'tudou.com video',
+      'info' => 'Tudou.com video',
       'width' => 400,
       'height' => 340,
       'src' => 'http://www.tudou.com/v/~to_replace2~',
@@ -493,7 +492,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.tinypic.com/'),
-      'info' => 'tinypic.com video',
+      'info' => 'Tinypic.com video',
       'width' => 440,
       'height' => 420,
       'src' => 'http://v5.tinypic.com/player.swf?file=~to_replace1~&s=~to_replace2~',
@@ -501,7 +500,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.libero.it/'),
-      'info' => 'video.libero.it video',
+      'info' => 'Libero.it video',
       'width' => 440,
       'height' => 420,
       'src' => 'http://video.libero.it/static/swf/eltvplayer.swf?id=~to_replace1~.flv&ap=0',
@@ -526,7 +525,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.web.de'),
-      'info' => 'video.web.de video',
+      'info' => 'web.de video',
       'width' => 470,
       'height' => 406,
       'src' => 'http://video.web.de/movie/~to_replace1~',
@@ -534,7 +533,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.eksenim.mynet.com/'),
-      'info' => 'video.eksenim.mynet.com video',
+      'info' => 'eksenim.mynet.com video',
       'flashvars' => 'videolist=http://video.eksenim.mynet.com/batch/video_xml_embed.php?video_id=~to_replace1~&adxml=&autoplay=0',
       'width' => 400,
       'height' => 344,
@@ -640,7 +639,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.vol.at/'),
-      'info' => 'video.vol.at video',
+      'info' => 'vol.at video',
       'width' => 480,
       'height' => 388,
       'src' => 'http://video.vol.at/media_tp/custom/flowplayer/swf/FlowPlayerDark.swf?config={embedded:true,baseURL:\'http://video.vol.at/media_tp/custom/flowplayer/swf\',loop:false,playList:[{suggestedClipsInfoUrl:\'http://video.vol.at/suggestions.php?id=~to_replace1~\',url:\'http://video.vol.at/media/video_at/~to_replace1~.flv\'}],initialScale:\'scale\',controlBarBackgroundColor:\'0x000000\',autoBuffering:true,autoPlay:false}',
@@ -889,7 +888,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://jaycut.com/'),
-      'info' => 'jaycut.com video v2',
+      'info' => 'jaycut.com video',
       'flashvars' => 'file=http://jaycut.com/mixes/send_preview/~to_replace1~&type=flv&returnUrl=http://jaycut.com/&locale=en&author=Toffan&autostart=false&mixerUrl=http://jaycut.com/mixer&inviteFriendsUrl=http://jaycut.com/myjaycut/friends/invite&createGroupUrl=http://jaycut.com/group/create&image=http://jaycut.com/video/~to_replace1~/thumbnail_big.jpeg&profileUrl=',
       'width' => 408,
       'height' => 324,
@@ -1084,7 +1083,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.mtv.com/videos/'),
-      'info' => 'mtv.com video v2',
+      'info' => 'mtv.com video',
       'flashvars' => 'configParams=vid=~to_replace1~',
       'width' => 512,
       'height' => 319,
@@ -1323,7 +1322,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://msnbc.msn.com'),
-      'info' => 'msnbc.msn.com video',
+      'info' => 'msn.com video',
       'width' => 425,
       'height' => 339,
       'matchExpr' => 'msnbc\.msn\.com\/id\/[a-z0-9-_=]+\/vp\/((?:[a-z0-9-_=]+#)?([a-z0-9-_=]+))',
@@ -1331,7 +1330,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.mail.ru'),
-      'info' => 'video.mail.ru video',
+      'info' => 'mail.ru video',
       'width' => 585,
       'height' => 387,
       'src' => 'http://img.mail.ru/r/video2/player_v2.swf?ver=8&par=http://content.video.mail.ru/mail/~to_replace1~/~to_replace2~/$~to_replace3~$0$',
@@ -1347,7 +1346,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://video.milliyet.com.tr/'),
-      'info' => 'video.milliyet.com.tr video',
+      'info' => 'milliyet.com.tr video',
       'width' => 340,
       'height' => 325,
       'src' => 'http://video.milliyet.com.tr/m.swf?prm=~to_replace1~,~to_replace2~&kanal=~to_replace3~&id=~to_replace4~&tarih=~to_replace5~&get=~to_replace6~',
@@ -1425,7 +1424,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.sevenload.com/'),
-      'info' => 'sevenload.com .en .de .tr .fr .es .it .nl .pl .ru .uk .in .cn .jp .kr .sg .au .se .co .mx .ph .my .id video',
+      'info' => 'sevenload.com video',
       'width' => 500,
       'height' => 408,
       'src' => 'http://static.sevenload.com/swf/player/player.swf?v=143',
@@ -1434,7 +1433,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://www.sevenload.com/'),
-      'info' => 'sevenload.com .en .de .tr .fr .es .it .nl .pl .ru .uk .in .cn .jp .kr .sg .au .se .co .mx .ph .my .id shows',
+      'info' => 'sevenload.com video',
       'width' => 500,
       'height' => 408,
       'src' => 'http://sevenload.com/pl/~to_replace1~/500x408/swf',
@@ -1459,7 +1458,7 @@ class EmbeVi{
     ),
     array(
       'provider' => array('http://southparkstudios.com/'),
-      'info' => 'southparkstudios.com video clip',
+      'info' => 'southparkstudios.com video',
       'width' => 480,
       'height' => 400,
       'src' => 'http://media.mtvnservices.com/mgid:cms:item:southparkstudios.com:~to_replace1~',
