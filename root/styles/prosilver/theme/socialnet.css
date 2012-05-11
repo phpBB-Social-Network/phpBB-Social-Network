@@ -1434,7 +1434,7 @@ a.ui-button
 .sn-ap-search input,.sn-ap-search input:hover,.sn-ap-search input:focus
 {
 	border:none;
-	width:201px;
+	width:200px;
 }
 
 .sn-ap-search:hover,.sn-ap-search:focus,.sn-ap-search.sn-inputbox-focus
@@ -1662,7 +1662,7 @@ a.ui-button
 	font-size:1.1em;
 }
 
-.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton
+.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider
 {
 	display:none;
 }
