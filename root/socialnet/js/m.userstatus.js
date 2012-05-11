@@ -75,7 +75,7 @@
 					                s_id : status_id
 					            },
 					            success : function(data) {
-						            $('#sn-us-status' + status_id).fadeOut('slow').remove();
+						            $('#sn-us-status' + status_id).parents('.sn-ap-textBlock').fadeOut('slow').remove();
 					            }
 					        });
 				        });
