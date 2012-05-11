@@ -47,10 +47,10 @@ if (!isset($urldata['query']))
 if ($urldata['host'] == 'www.youtube.com')
 {
 	$urlOrig = $url;
-	$url = preg_replace( '/feature=player_embedded&?/i', '', $url);
+	$url = preg_replace('/feature=player_embedded&?/i', '', $url);
 	list($string, $status) = get_remote_page($url, $urldata);
 
-	if ( $status != "200")
+	if ($status != "200")
 	{
 		parse_str($urldata['query'], $query);
 
@@ -125,11 +125,11 @@ $video_array = array(
 	'object'	 => '',
 );
 
-if ($img = @imagecreatefromstring($string) )
+if ($img = @imagecreatefromstring($string))
 {
 	/**
-	* Is it an image?
-	*/
+	 * Is it an image?
+	 */
 	$width = imagesx($img);
 	$height = imagesy($img);
 	imagedestroy($img);
@@ -168,8 +168,8 @@ else if (!empty($ytData))
 else if (!$is_file)
 {
 	/**
-	* Is it file?
-	*/
+	 * Is it file?
+	 */
 	preg_match('/<meta http-equiv="Content-Type" content="text\/html; charset=([^"]*)" ?\/?>/si', $string, $match);
 
 	if (isset($match[1]) && $match[1] != 'UTF-8')
@@ -202,10 +202,10 @@ else if (!$is_file)
 	$content = preg_replace("'<script[^>]*>.*</script>'siU", '', $content); // strip css
 	$split = explode("\n", $content);
 	$split_content = array();
-	
+
 	$user->add_lang('mods/socialnet');
-	$url_desc = isset($user->lang['SN_US_FETCH_NO_DESCRIPTION']) ? $user->lang['SN_US_FETCH_NO_DESCRIPTION'] : '{ SN US FETCH NO DESCRIPTION }';
-	
+	$url_desc = '';
+
 	foreach ($split as $k => $v)
 	{
 		if (strpos(' ' . $v, '<meta'))
@@ -225,10 +225,10 @@ else if (!$is_file)
 	/**
 	 * Fetch page: images
 	 */
-	$image_regex = '/<img[^>]*' . 'src=[\"|\'](.*)[\"|\']/Ui';
+	$image_regex = '/(img|src)=("|\')[^"\'>]+/i';// '/<img[^>]*' . 'src=[\"|\'](.*)[\"|\']/Ui';
 	preg_match_all($image_regex, $string, $img, PREG_PATTERN_ORDER);
-
-	$images_array = array_unique($img[1]);
+	
+	$images_array = preg_replace('/(img|src)("|\'|="|=\')(.*)/i',"$3",$img[0]);;
 
 	/**
 	 * Fetch page: videos
@@ -265,6 +265,7 @@ else if (!$is_file)
 
 	$j = 0;
 	$images_ary = array();
+
 	for ($i = 0; isset($images_array[$i]); $i++)
 	{
 		if (list($width, $height, $type, $attr) = @getimagesize($images_array[$i]))
@@ -272,6 +273,7 @@ else if (!$is_file)
 
 			if ($width >= 50 && $height >= 50)
 			{
+				//if ( strpos($images_array)
 				$j++;
 				$images_ary[] = array('img' => $images_array[$i], 'width' => $width, 'height' => $height, 'num' => $j);
 			}
@@ -290,14 +292,13 @@ else
 	$images_ary = array();
 	/*
 	 * P ircure
-	*/
-	if ( in_array( $fileExt, $exts['IMAGES']))
+	 */
+	if (in_array($fileExt, $exts['IMAGES']))
 	{
 		list($width, $height, $type, $attr) = @getimagesize($url);
 		$images_ary[] = array('img' => $url, 'width' => $width, 'height' => $height, 'num' => 1);
 	}
 }
-
 die(json_encode(array(
 	'title'		 => trim(htmlspecialchars_decode($url_title, ENT_QUOTES)),
 	'url'		 => trim($url),
@@ -318,22 +319,22 @@ function get_remote_page($url, &$urldata)
 		"Keep-Alive: 300",
 		"Pragma: no-cache",
 	);
-	
+
 	$ch = curl_init();
 	$curl_opts = array(
-		CURLOPT_URL 						=> $url,
-		CURLOPT_USERAGENT 			=> 'Googlebot/2.1 (+http://www.google.com/bot.html)', //"User-Agent: " . $useragent,
-		CURLOPT_AUTOREFERER 		=> true,
-		CURLOPT_REFERER 				=> 'http://www.google.com',
-		CURLOPT_FOLLOWLOCATION 	=> true,
-		CURLOPT_RETURNTRANSFER 	=> true,
-		CURLOPT_HTTPHEADER 			=> $headers,
-		CURLOPT_SSL_VERIFYPEER 	=> false,
-		CURLOPT_SSL_VERIFYHOST 	=> false,
-		CURLOPT_CONNECTTIMEOUT 	=> 5,
-		CURLOPT_TIMEOUT 				=> 5,
-		CURLOPT_HEADER 					=> false,
-		CURLOPT_BUFFERSIZE 			=> 128,
+		CURLOPT_URL => $url,
+		CURLOPT_USERAGENT => 'Googlebot/2.1 (+http://www.google.com/bot.html)', //"User-Agent: " . $useragent,
+		CURLOPT_AUTOREFERER => true,
+		CURLOPT_REFERER => 'http://www.google.com',
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_HTTPHEADER => $headers,
+		CURLOPT_SSL_VERIFYPEER => false,
+		CURLOPT_SSL_VERIFYHOST => false,
+		CURLOPT_CONNECTTIMEOUT => 5,
+		CURLOPT_TIMEOUT => 5,
+		CURLOPT_HEADER => false,
+		CURLOPT_BUFFERSIZE => 128,
 	);
 
 	$error_str = '';
@@ -357,8 +358,8 @@ function get_remote_page($url, &$urldata)
 function error_fetch($status)
 {
 	$status_reason = array(
-		0 	=> 'Timeout',
-		1 	=> 'Unsuported protocol',
+		0 => 'Timeout',
+		1 => 'Unsuported protocol',
 		100 => 'Continue',
 		101 => 'Switching Protocols',
 		102 => 'Processing',
@@ -413,8 +414,8 @@ function error_fetch($status)
 	);
 
 	$status_msg = array(
-		0 	=> 'Read time out error',
-		1 	=> '"HTTPS" protocol is unsupported<br />SSL is disabled<p>If you get this output when trying to get anything from a https:// server, it means that the instance of curl/libcurl that you\'re using was built without support for this protocol.<br />
+		0 => 'Read time out error',
+		1 => '"HTTPS" protocol is unsupported<br />SSL is disabled<p>If you get this output when trying to get anything from a https:// server, it means that the instance of curl/libcurl that you\'re using was built without support for this protocol.<br />
 					This could\'ve happened if the configure script that was run at build time couldn\'t find all libs and include files curl requires for SSL to work. If the configure script fails to find them, curl is simply built without SSL support.<br />
 					To get the https:// support into a curl that was previously built but that reports that https:// is not supported, you should dig through the document and logs and check out why the configure script doesn\'t find the SSL libs and/or include files.<br />
 					Also, check out the other paragraph in this FAQ labelled "configure doesn\'t find OpenSSL even when it is installed". </p>',
