@@ -237,13 +237,13 @@ while ($relation = $db->sql_fetchrow($result))
 }
 $db->sql_freeresult($result);
 
-// Load 10 random friends
+// Load 7 random friends
 $socialnet->fms_users(array_merge(array(
 	'mode'		 => 'friend',
 	'user_id'	 => $user_id,
-	'limit'		 => 10,
+	'limit'		 => 7,
 	'slider'	 => false,
-	'total'		 => 10,
+	'total'		 => 7,
 	'random'	 => true,
 ), $socialnet->fms_users_sqls('friend', $user_id)));
 
