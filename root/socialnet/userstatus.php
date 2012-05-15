@@ -296,7 +296,7 @@ if (!class_exists('socialnet_userstatus'))
 				$this->p_master->comments->del($this->commentModule, $status_id, false);
 
 				// Delete record of new status
-				$this->p_master->delete_entry($status_id, SN_TYPE_NEW_STATUS);
+				$this->p_master->entry->del($status_id, SN_TYPE_NEW_STATUS);
 			}
 		}
 
@@ -335,23 +335,14 @@ if (!class_exists('socialnet_userstatus'))
 		{
 			global $db, $auth, $user;
 
-			$entry_id = request_var('entry_id', 0);
+			$entry_id = (int) request_var('entry_id', 0);
 
 			if (!$entry_id)
 			{
 				return;
 			}
 
-			$sql = 'SELECT user_id
-      					FROM ' . SN_ENTRIES_TABLE . '
-									WHERE entry_id = ' . $entry_id;
-			$db->sql_query($sql);
-			$entry_user_id = $db->sql_fetchfield('user_id');
-
-			if ($auth->acl_get('a_') || ($entry_user_id == $user->data['user_id']))
-			{
-				$this->p_master->delete_entry($entry_id);
-			}
+			$this->p_master->entry->del($entry_id);//delete_entry($entry_id);
 		}
 
 		/**
