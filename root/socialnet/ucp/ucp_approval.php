@@ -458,7 +458,14 @@ class ucp_approval
 					$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id_ary, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 				}
 
-				$this->_send_mail($id, $mode, $user_id_ary);
+				// Do not send mail by adding foes
+				if ($mode != 'foes' && !empty($user_id_ary))
+				{
+			 		foreach ($user_id_ary as $idx => $user_id)
+					{
+						$this->send_pm($user_id);
+					}
+				}
 
 				unset($user_id_ary);
 			}
@@ -467,26 +474,6 @@ class ucp_approval
 				$error[] = $user->lang['USER_NOT_FOUND_OR_INACTIVE'];
 			}
 		}
-	}
-
-	/**
-	 * Send Mail, PM by requests
-	 */
-	function _send_mail($id, $mode, $user_id_ary)
-	{
-		global $db, $config;
-
-		// Do not send mail by adding foes
-		if ($mode == 'foes' || $config['fas_alert_friend_pm'] == 0 || empty($user_id_ary))
-		{
-			return true;
-		}
-
-		foreach ($user_id_ary as $idx => $user_id)
-		{
-			$this->send_pm($user_id);
-		}
-
 	}
 
 	/**
@@ -528,27 +515,6 @@ class ucp_approval
 			'bbcode_uid'		 => $uid,
 		);
 		submit_pm('post', $my_subject, $data, false);
-	}
-
-	/**
-	 * Send email
-	 */
-	function send_mail($user_lang, $user_email, $username, $user_jabber, $user_notify_type)
-	{
-		global $messenger, $user, $config;
-
-		$messenger = new messenger();
-		$messenger->template('new_ad', $user_lang);
-		$messenger->to($user_email, $username);
-		$messenger->im($user_jabber, $username);
-
-		$messenger->assign_vars(array(
-			'USERNAME'	 => $username,
-			'SITE_NAME'	 => $config['sitename'],
-		));
-
-		$messenger->send($user_notify_type);
-		$messenger->save_queue();
 	}
 
 	function ufg($id, $mode)
