@@ -13,7 +13,7 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 	return;
 }
 
-class sn_core_activity
+class sn_core_entry extends sn_core_entry_gets
 {
 	var $p_master = null;
 
@@ -21,12 +21,12 @@ class sn_core_activity
 	var $friend = array();
 	var $friends_entry = array();
 
-	function sn_core_activity(&$p_master)
+	function sn_core_entry(&$p_master)
 	{
 		global $cache, $user;
 		$this->p_master =& $p_master;
 
-		$this->types = $cache->get('sn_activity');
+		$this->types = $cache->get('sn_entry');
 
 		//if (empty($this->types))
 		{
@@ -52,7 +52,7 @@ class sn_core_activity
 				$this->types[] = SN_TYPE_NEW_RELATIONSHIP;
 			}
 			$this->types[] = SN_TYPE_EMOTE;
-			$cache->put('sn_activity', $this->types);
+			$cache->put('sn_entry', $this->types);
 		}
 
 		$this->friends = $this->p_master->friends['user_id'];
@@ -68,9 +68,64 @@ class sn_core_activity
 	 * @param integer $user_id Load entries for specifics user
 	 * @return array pole plne dat se vstupy na AP
 	 */
+	function get_entry_array($entry_id)
+	{
+		global $db, $user;
+
+		$sql = 'SELECT *
+				FROM ' . SN_ENTRIES_TABLE . '
+				WHERE entry_id = ' . $entry_id;
+		$res = $db->sql_query_limit($sql, 1);
+		$entry_row = $db->sql_fetchrow($res);
+		$db->sql_freeresult($res);
+
+		$entry_arr = array();
+
+		switch ($entry_row['entry_type'])
+		{
+			case SN_TYPE_NEW_STATUS:
+				$entry_arr = $this->entry_status($entry_row['user_id'], $entry_row['entry_target'], $entry_row['entry_time']);
+				break;
+
+			case SN_TYPE_NEW_FRIENDSHIP:
+				$entry_arr = $this->entry_friends($entry_row['user_id'], $entry_row['entry_target']);
+				break;
+
+			case SN_TYPE_PROFILE_UPDATED:
+				$entry_arr = $this->entry_profile($entry_row['user_id'], $entry_row['entry_target'], $entry_row['entry_additionals']);
+				break;
+
+			case SN_TYPE_NEW_FAMILY:
+			case SN_TYPE_NEW_RELATIONSHIP:
+				$entry_arr = $this->entry_relation($entry_row['entry_type'], $entry_row['user_id'], $entry_row['entry_target'], $entry_row['entry_additionals']);
+				break;
+
+			case SN_TYPE_EMOTE:
+				$entry_arr = $this->entry_emote($entry_row['user_id'], $entry_row['entry_target'], $entry_row['entry_additionals']);
+				break;
+		}
+
+		$entry_arr['ID'] = $entry_row['entry_id'];
+		$entry_arr['TYPE'] = $entry_row['entry_type'];
+		$entry_arr['TIME'] = $entry_row['entry_time'];
+		$entry_arr['TARGET'] = $entry_row['entry_target'];
+		$entry_arr['DELETE_ENTRY'] = ($entry_row['user_id'] == $user->data['user_id']) ? true : false;
+
+		return $entry_arr;
+	}
+
+	/**
+	 * Load entries for Activity
+	 *
+	 * @param integer $last_time The last loaded entry
+	 * @param integet $limit How many entries will be loaded
+	 * @param boolean $older Load older entries (true), load newer entries (false)
+	 * @param integer $user_id Load entries for specifics user
+	 * @return array pole plne dat se vstupy na AP
+	 */
 	function get($last_time, $limit = 15, $older = true, $user_id = 0)
 	{
-		global $db;
+		global $db, $user;
 
 		$sql_where = array();
 		if ($user_id == 0)
@@ -116,38 +171,113 @@ class sn_core_activity
 
 			switch ($entries_row['entry_type'])
 			{
-			case SN_TYPE_NEW_STATUS:
-				$entries[$i] = $this->entry_status($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_time']);
-				break;
+				case SN_TYPE_NEW_STATUS:
+					$entries[$i] = $this->entry_status($entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_time']);
+					break;
 
-			case SN_TYPE_NEW_FRIENDSHIP:
-				$entries[$i] = $this->entry_friends($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target']);
-				break;
+				case SN_TYPE_NEW_FRIENDSHIP:
+					$entries[$i] = $this->entry_friends($entries_row['user_id'], $entries_row['entry_target']);
+					break;
 
-			case SN_TYPE_PROFILE_UPDATED:
-				$entries[$i] = $this->entry_profile($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
-				break;
+				case SN_TYPE_PROFILE_UPDATED:
+					$entries[$i] = $this->entry_profile($entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+					break;
 
-			case SN_TYPE_NEW_FAMILY:
-			case SN_TYPE_NEW_RELATIONSHIP:
-				$entries[$i] = $this->entry_relation($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
-				break;
+				case SN_TYPE_NEW_FAMILY:
+				case SN_TYPE_NEW_RELATIONSHIP:
+					$entries[$i] = $this->entry_relation($entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+					break;
 
-			case SN_TYPE_EMOTE:
-				$entries[$i] = $this->entry_emote($entries_row['entry_id'], $entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
-				break;
+				case SN_TYPE_EMOTE:
+					$entries[$i] = $this->entry_emote($entries_row['user_id'], $entries_row['entry_target'], $entries_row['entry_additionals']);
+					break;
 			}
 
+			$entries[$i]['ID'] = $entries_row['entry_id'];
+			$entries[$i]['TYPE'] = $entries_row['entry_type'];
 			$entries[$i]['TIME'] = $entries_row['entry_time'];
+			$entries[$i]['TARGET'] = $entries_row['entry_target'];
+			$entries[$i]['DELETE_ENTRY'] = ($user_id == $user->data['user_id'] && $user_id != 0) ? true : false;
 		}
 
 		return array('entries' => $entries, 'more' => count($entries_rowset) > $limit);
 	}
 
 	/**
+	 * entries ADD
+	 *
+	 * @param integer $user_id User ID
+	 * @param integer $target Target
+	 * @param integer $type Type of entry
+	 * @param array $additionals Additionals infromation for entry
+	 */
+	function add($user_id, $target, $type, $additionals = array())
+	{
+		global $db;
+		
+		$now = time();
+		
+		$sql_arr = array(
+				'user_id'			 => $user_id,
+				'entry_target'		 => $target,
+				'entry_type'		 => $type,
+				'entry_time'		 => $now,
+				'entry_additionals'	 => serialize($additionals),
+		);
+		
+		$sql = "INSERT INTO " . SN_ENTRIES_TABLE . $db->sql_build_array('INSERT', $sql_arr);
+		$db->sql_query($sql);
+		
+	}
+
+	/**
+	 * entries DELETE
+	 *
+	 * * 1 param
+	 * @param integer $entry Entry ID to be deleted
+	 * * 2 params
+	 * @param integer $entry Entry target to be deleted
+	 * @param integer $entry_type Entry tabe to be deleted
+	 *
+	 * @return void
+	 */
+	function del($entry)
+	{
+		global $db;
+		$num_args = func_num_args();
+
+		$sql_where = '';
+		switch ($num_args)
+		{
+			case 1:
+				// DELETE by Entry ID
+				$sql_where = "entry_id = {$entry}";
+				break;
+			case 2:
+				$type = func_get_arg(1);
+				$sql_where = "entry_target = {$entry} AND entry_type = {$type}";
+				break;
+		}
+
+		if ($sql_where == '')
+		{
+			return;
+		}
+
+		$sql = "DELETE FROM " . SN_ENTRIES_TABLE . " WHERE {$sql_where}";
+		$db->sql_query($sql);
+		return;
+	}
+
+}
+
+class sn_core_entry_gets
+{
+
+	/**
 	 * Load statuses on Activity page
 	 */
-	function entry_status($entry_id, $entry_type, $entry_uid, $entry_target, $entry_time)
+	function entry_status($entry_uid, $entry_target, $entry_time)
 	{
 		global $db, $template;
 
@@ -176,8 +306,6 @@ class sn_core_activity
 
 		$template_data = $this->p_master->page_footer();
 		return array(
-			'ID'	 => $entry_id,
-			'TYPE'	 => $entry_type,
 			'DATA'	 => $template_data,
 		);
 	}
@@ -185,7 +313,7 @@ class sn_core_activity
 	/**
 	 * Load FMS entries
 	 */
-	function entry_friends($entry_id, $entry_type, $entry_uid, $entry_target)
+	function entry_friends($entry_uid, $entry_target)
 	{
 		global $db;
 
@@ -210,8 +338,6 @@ class sn_core_activity
 		}
 
 		return array(
-			'ID'				 => $entry_id,
-			'TYPE'				 => $entry_type,
 			'USER1_USERNAME'	 => $this->friends_entry[$entry_uid]['username'],
 			'USER2_USERNAME'	 => $this->friends_entry[$entry_target]['username'],
 			'U_USER1_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $this->friends_entry[$entry_uid]['user_id'], $this->friends_entry[$entry_uid]['username'], $this->friends_entry[$entry_uid]['user_colour']),
@@ -222,7 +348,7 @@ class sn_core_activity
 	/**
 	 * Load Profile entries
 	 */
-	function entry_profile($entry_id, $entry_type, $entry_uid, $entry_target, $entry_additionals = '')
+	function entry_profile($entry_uid, $entry_target, $entry_additionals = '')
 	{
 		global $db, $template, $user;
 
@@ -279,8 +405,6 @@ class sn_core_activity
 		}
 
 		return array(
-			'ID'						 => $entry_id,
-			'TYPE'						 => $entry_type,
 			'USERNAME'					 => $entry_user['username'],
 			'U_PROFILE'					 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
 			'PROFILE_FIELDS'			 => $entry_add,
@@ -292,7 +416,7 @@ class sn_core_activity
 	/**
 	 * Load Family and Relation entries
 	 */
-	function entry_relation($entry_id, $entry_type, $entry_uid, $entry_target, $entry_additionals = '')
+	function entry_relation($entry_type, $entry_uid, $entry_target, $entry_additionals = '')
 	{
 		global $db, $template, $phpbb_root_path, $phpEx, $socialnet, $user;
 
@@ -383,8 +507,6 @@ class sn_core_activity
 		}
 
 		return array(
-			'ID'								 => $entry_id,
-			'TYPE'								 => $entry_type,
 			'STATUS'							 => ($entry_status && $entry_type == SN_TYPE_NEW_RELATIONSHIP) ? $entry_status : '',
 			'USERNAME'							 => $entry_user['username'],
 			'U_PROFILE'							 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
@@ -397,7 +519,7 @@ class sn_core_activity
 	/**
 	 * Load Emotes entries
 	 */
-	function entry_emote($entry_id, $entry_type, $entry_uid, $entry_target, $entry_additionals = '')
+	function entry_emote($entry_uid, $entry_target, $entry_additionals = '')
 	{
 		global $db, $template, $phpbb_root_path, $phpEx;
 
@@ -430,8 +552,6 @@ class sn_core_activity
 		));
 
 		return array(
-			'ID'				 => $entry_id,
-			'TYPE'				 => $entry_type,
 			'U_USER1_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
 			'U_USER2_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $user2['user_id'], $user2['username'], $user2['user_colour']),
 			'EMOTE_NAME'		 => $emote['emote_name'],
@@ -440,4 +560,5 @@ class sn_core_activity
 	}
 
 }
+
 ?>

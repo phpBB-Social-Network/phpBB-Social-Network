@@ -83,7 +83,7 @@ if (!class_exists('socialnet_activitypage'))
 					$last_entry_time = request_var('lEntryTime', 0);
 
 					//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
-					$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15);
+					$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15);
 					foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
 					{
 						$template->assign_block_vars('ap_entries', $a_ap_entry);
@@ -206,7 +206,7 @@ if (!class_exists('socialnet_activitypage'))
 				$last_entry_time = request_var('lEntryTime', 0);
 
 				//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
-				$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15);
+				$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15);
 
 				foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
 				{
@@ -237,7 +237,7 @@ if (!class_exists('socialnet_activitypage'))
 				$last_entry_time = request_var('lEntryTime', 0);
 
 				//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15, false);
-				$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15, false);
+				$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15, false);
 
 				foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
 				{

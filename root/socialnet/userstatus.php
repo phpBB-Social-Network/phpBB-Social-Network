@@ -75,64 +75,64 @@ if (!class_exists('socialnet_userstatus'))
 
 			switch ($this->script_name)
 			{
-			case 'memberlist':
-			case 'profile':
+				case 'memberlist':
+				case 'profile':
 
-				$user_id = $this->_wall_id();
+					$user_id = $this->_wall_id();
 
-				if ($user_id != ANONYMOUS)
-				{
-					$status_id = request_var('status_id', 0);
-
-					$my_friends = $this->p_master->friends['user_id'];
-					$my_friends[] = $user->data['user_id'];
-
-					if ($status_id == 0)
+					if ($user_id != ANONYMOUS)
 					{
-						$entries = $this->p_master->activity->get(0, 15, true, $user_id);
-						$more_statuses = $entries['more'];
-						//$more_statuses = $this->_get_statuses($user_id);
+						$status_id = request_var('status_id', 0);
 
-						foreach ($entries['entries'] as $idx => $entry)
+						$my_friends = $this->p_master->friends['user_id'];
+						$my_friends[] = $user->data['user_id'];
+
+						if ($status_id == 0)
 						{
-							$template->assign_block_vars('ap_entries', $entry);
-						}
+							$entries = $this->p_master->entry->get(0, 15, true, $user_id);
+							$more_statuses = $entries['more'];
+							//$more_statuses = $this->_get_statuses($user_id);
 
-						$template_assign_vars = array_merge($template_assign_vars, array(
-							'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
-							'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends) ? '1' : '0',
-							'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => $more_statuses,
-							'SN_US_USER_ID'								 => $user_id,
-						));
+							foreach ($entries['entries'] as $idx => $entry)
+							{
+								$template->assign_block_vars('ap_entries', $entry);
+							}
 
-						if (!isset($template->_tpldata['.'][0]['USERNAME']))
-						{
-							$sql = 'SELECT username
+							$template_assign_vars = array_merge($template_assign_vars, array(
+								'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+								'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends) ? '1' : '0',
+								'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => $more_statuses,
+								'SN_US_USER_ID'								 => $user_id,
+							));
+
+							if (!isset($template->_tpldata['.'][0]['USERNAME']))
+							{
+								$sql = 'SELECT username
 												FROM ' . USERS_TABLE . '
 													WHERE user_id = ' . $user_id;
-							$rs = $db->sql_query($sql);
-							$username = $db->sql_fetchfield('username');
-							$db->sql_freeresult($rs);
-							$template->assign_var('USERNAME', $username);
+								$rs = $db->sql_query($sql);
+								$username = $db->sql_fetchfield('username');
+								$db->sql_freeresult($rs);
+								$template->assign_var('USERNAME', $username);
+							}
+						}
+						else
+						{
+							$this->_get_statuses($user_id, $status_id, 1, 15, true);
+							$more_statuses = false;
+
+							$template_assign_vars = array_merge($template_assign_vars, array(
+								'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+								'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
+								'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
+								'SN_US_USER_ID'								 => $user_id,
+								'B_SN_ONLY_ONE'								 => true,
+								'SN_US_DISPLAY_GOTO_TOP'					 => true
+							));
+
 						}
 					}
-					else
-					{
-						$this->_get_statuses($user_id, $status_id, 1, 15, true);
-						$more_statuses = false;
-
-						$template_assign_vars = array_merge($template_assign_vars, array(
-							'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
-							'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
-							'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
-							'SN_US_USER_ID'								 => $user_id,
-							'B_SN_ONLY_ONE'								 => true,
-							'SN_US_DISPLAY_GOTO_TOP'					 => true
-						));
-
-					}
-				}
-				break;
+					break;
 			}
 
 			$template->assign_vars($template_assign_vars);
@@ -144,37 +144,45 @@ if (!class_exists('socialnet_userstatus'))
 
 			switch ($mode)
 			{
-			case 'status_share':
-				$this->_status_share();
-				break;
+				case 'status_share':
+					$this->_status_share();
+					break;
 
-			case 'status_share_wall':
-				$this->_status_share(true);
-				break;
+				case 'status_share_wall':
+					$this->_status_share(true);
+					break;
 
-			case 'status_more':
-				$this->_status_more();
-				break;
+				case 'status_more':
+					$this->_status_more();
+					break;
 
-			case 'status_delete':
-				$this->_status_delete();
-				break;
+				case 'status_delete':
+					$this->_status_delete();
+					break;
 
-			case 'comment_share':
-				$this->_comment_share();
-				break;
+				case 'comment_share':
+					$this->_comment_share();
+					break;
 
-			case 'comment_delete':
-				$this->_comment_delete();
-				break;
+				case 'comment_delete':
+					$this->_comment_delete();
+					break;
 
-			case 'comment_more':
-				$this->_comment_more();
-				break;
+				case 'comment_more':
+					$this->_comment_more();
+					break;
 
-			case 'get_status':
-				$this->_get_status();
-				break;
+				case 'get_status':
+					$this->_get_status();
+					break;
+
+				case 'get_activity':
+					$this->_get_activity();
+					break;
+
+				case 'delete_activity':
+					$this->_delete_activity();
+					break;
 			}
 		}
 
@@ -292,6 +300,60 @@ if (!class_exists('socialnet_userstatus'))
 			}
 		}
 
+		/*
+		 * Get Activity
+		 */
+		function _get_activity()
+		{
+			global $template;
+
+			$entry_id = request_var('entry_id', 0);
+
+			$template->set_filenames(array(
+				'body'	 => 'socialnet/activitypage_body_entries.html',
+			));
+
+			$data = $this->p_master->entry->get_entry_array($entry_id);
+			$data['DELETE_ENTRY'] = false;
+			$data['B_SN_ONLY_ONE'] = true;
+
+			$template->assign_block_vars('ap_entries', $data);
+
+			$return['content'] = str_replace(array('<a ', '</a>', ), array('<span ', '</span>', ), $this->p_master->get_page());
+			$return['content'] = preg_replace('/<img[^>]*>/si', '', $return['content']);
+
+			header('Content-type: application/json');
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+			die(json_encode($return));
+		}
+
+		/**
+		 * Delete Activity
+		 */
+		function _delete_activity()
+		{
+			global $db, $auth, $user;
+
+			$entry_id = request_var('entry_id', 0);
+
+			if (!$entry_id)
+			{
+				return;
+			}
+
+			$sql = 'SELECT user_id
+      					FROM ' . SN_ENTRIES_TABLE . '
+									WHERE entry_id = ' . $entry_id;
+			$db->sql_query($sql);
+			$entry_user_id = $db->sql_fetchfield('user_id');
+
+			if ($auth->acl_get('a_') || ($entry_user_id == $user->data['user_id']))
+			{
+				$this->p_master->delete_entry($entry_id);
+			}
+		}
+
 		/**
 		 * Load more comments
 		 */
@@ -303,7 +365,7 @@ if (!class_exists('socialnet_userstatus'))
 			//$last_status_id = request_var('lStatusID', 0);
 			$last_entry_time = request_var('ltime', 0);
 
-			$a_ap_entries = $this->p_master->activity->get($last_entry_time, 15, true, $user_id);
+			$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15, true, $user_id);
 
 			foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
 			{
@@ -527,7 +589,7 @@ if (!class_exists('socialnet_userstatus'))
 				),
 				'WHERE'		 => 'u.user_id = s.poster_id AND s.wall_id = ' . $user_id . (($last_status_id != 0) ? (($only_one) ? ' AND s.status_id = ' . $last_status_id : ' AND s.status_id < ' . $last_status_id) : ''),
 				'ORDER_BY'	 => 's.status_time DESC', // ORDER BY time NOT BY id
-			);
+				);
 			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query($sql, $status_limit + 1);
 			$status_rows = $db->sql_fetchrowset($result);
@@ -568,6 +630,15 @@ if (!class_exists('socialnet_userstatus'))
 
 				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 style="width:150px;height:150px;"/>', $pageData['video']);
 				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 style="width:150px;height:150px;">', $pageData['video']);
+
+				$pageData['title_title'] = str_replace('"', '', $pageData['title']);
+
+				if ($pageData['video'] == '')
+				{
+					$parsed_url = array();
+					$parsed_url = parse_url($pageData['url']);
+					$pageData['server_url'] = $parsed_url['scheme'] . '://' . $parsed_url['host'];
+				}
 
 				preg_match('/<param name="movie" value="([^&]+)&amp;[^"]+"/si', $pageData['video'], $match);
 
