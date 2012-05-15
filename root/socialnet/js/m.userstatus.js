@@ -78,13 +78,16 @@
 					            },
 					            success : function(data) {
 						            $('#sn-us-status' + status_id).parents('.sn-ap-textBlock').fadeOut('slow').remove();
+						            if ($('#sn-us-status' + status_id).size() != 0) {
+							            $('#sn-us-status' + status_id).remove();
+						            }
 					            }
 					        });
 				        });
 			        }
 			    })
 		    });
-		    
+
 		    // Delete entry
 		    $(".sn-ap-deleteEntry").live('click', function() {
 			    var entry_id = $.sn.getAttr($(this), 'eid');
@@ -104,11 +107,11 @@
 					            url : $.sn.us.url,
 					            cache : false,
 					            data : {
-                     		smode : 'delete_activity',
-                  			entry_id : entry_id
+					                smode : 'delete_activity',
+					                entry_id : entry_id
 					            },
 					            success : function(data) {
-												$('#sn-ap-entry' + entry_id).fadeOut('slow').remove();
+						            $('#sn-ap-entry' + entry_id).fadeOut('slow').remove();
 					            }
 					        });
 				        });
@@ -352,10 +355,10 @@
 						            class : '{imgH:' + image.height + ',imgW:' + image.width + '}',
 						            load : function() {
 							            $(this).attr('id', 'sn-us-fetchPreviewImg_' + idx_img).css({
-								            display : (idx_img > 0 ? 'none' : 'inline-block'),
-								            maxHeight : 150,
-								            width : 100
-								        });
+							                display : (idx_img > 0 ? 'none' : 'inline-block'),
+							                maxHeight : 150,
+							                width : 100
+							            });
 							            idx_img++;
 							            $('.sn-us-fetchImgs').append($img);
 							            $('.sn-us-fetchImages .sn-us-fetchThumb .mPic').html(idx_img);
@@ -365,7 +368,7 @@
 					        $('.sn-us-fetchImages').show();
 					        $('.sn-us-thumbs .sn-us-thumbsImg').show();
 				        }
-				        
+
 				        $('.sn-us-fetchImages .sn-us-fetchThumb .cPic').html('1');
 
 				        $('.sn-us-fetchData .title').html(data.title);
