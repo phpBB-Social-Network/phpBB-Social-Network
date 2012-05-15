@@ -7,22 +7,13 @@
     <div class="clear"></div>
 
     <ul class="sn-menu">     
+    	<!-- IF S_DISPLAY_SEARCH -->
+				<li><a href="{U_SEARCH_USER}"><span class="ui-icon sn-menu-icon ui-icon-search"></span>{L_SEARCH_USER_POSTS}</a></li>
+			<!-- ENDIF -->
   		<!-- IF S_USER_LOGGED_IN and S_ZEBRA -->
       	<!-- IF U_REMOVE_FRIEND -->
           <li><a href="{U_REMOVE_FRIEND}"><span class="ui-icon sn-menu-icon ui-icon-close"></span>{L_REMOVE_FRIEND}</a></li>
-      	<!-- ELSEIF U_ADD_FRIEND -->
-          <li><a href="{U_ADD_FRIEND}"><span class="ui-icon sn-menu-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li>
       	<!-- ENDIF -->
-      <!-- ENDIF -->
-      <!-- IF S_USER_LOGGED_IN -->
-      	<!-- IF U_USER_SUBSCRIBE -->
-          <li><a href="{U_USER_SUBSCRIBE}"><span class="ui-icon sn-menu-icon ui-icon-check"></span>{L_SN_UP_SUBSCRIBE}</a></li>
-      	<!-- ELSEIF U_USER_UNSUBSCRIBE -->
-          <li><a href="{U_USER_UNSUBSCRIBE}"><span class="ui-icon sn-menu-icon ui-icon-cancel"></span>{L_SN_UP_UNSUBSCRIBE}</a></li>
-      	<!-- ENDIF -->
-      <!-- ENDIF -->
-      <!-- IF U_PM && not S_OWN_PROFILE -->
-        <li><a href="{U_PM}"><span class="ui-icon sn-menu-icon ui-icon-mail-closed"></span>{L_SEND_MESSAGE}</a></li>
       <!-- ENDIF -->
       <!-- IF not S_OWN_PROFILE && S_USER_LOGGED_IN && U_USER_REPORT -->
         <li class="sn-menu-icon-main sn-up-reportUser"><a href="{U_USER_REPORT}#sn-up-profileTabs-reportUser"><span class="ui-icon sn-menu-icon ui-icon-alert"></span>{L_SN_UP_REPORT_PROFILE}</a></li>
@@ -95,7 +86,10 @@
   	<!-- IF SN_FMS_BLOCK_FRIEND_IS_NOT_EMPTY -->
   		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_FRIENDS}' -->
   		<!-- DEFINE $BLOCK_HEADER_ADDITIONAL = '{TOTAL_FRIENDS}' -->
-  		<!-- INCLUDE socialnet/block_page_header.html -->
+  		<!-- DEFINE $BLOCK_HEADER_LINK = 'false' -->
+  		<div class="sn-up-viewAllFriends">
+  			<!-- INCLUDE socialnet/block_page_header.html -->
+  		</div>
   		<!-- UNDEFINE $BLOCK_HEADER_ADDITIONAL -->
   		<div class="sn-fms-users-fullWidth">
 	    	{SN_FMS_BLOCK_FRIEND_CONTENT}
@@ -108,13 +102,30 @@
 	<div id="sn-page-content" class="sn-page-content sn-page-content-noRightBorder"> 
 	
 		<h2 class="sn-up-userName">{USERNAME} <!-- IF S_ONLINE -->&nbsp;<img src="{T_IMAGESET_PATH}/socialnet/im_user_{ONLINE_IMG}.png" alt="" /><!-- ENDIF --></h2>
-	
+
 		<div class="sn-up-buttons">
      	<!-- IF not S_OWN_PROFILE -->
 	    	<ul class="sn-up-menu">
+				<!-- IF U_CANCEL_REQUEST --><li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li><!-- ENDIF -->
+				<!-- IF U_ADD_FRIEND --><li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li><!-- ENDIF -->
+				<!-- IF S_USER_LOGGED_IN and S_SN_UP_EMOTES_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST -->
+				<!-- IF U_PM --><li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li><!-- ENDIF -->
+				<li class="sn-up-emotes"><a href="#" class="ui-state-default"><span class="ui-icon ui-icon-tag"></span>{L_SN_UP_EMOTES}</a>
+					<!-- IF .sn_up_emote --><ul class="sn-up-emote sn-up-submenu">
+						<!-- BEGIN sn_up_emote -->
+						<li>
+							<a href="#" class="{emote:{sn_up_emote.EMOTE_ID},u:{USER_ID}}">
+								{sn_up_emote.EMOTE_NAME}
+								<!-- IF sn_up_emote.EMOTE_IMAGE != '' --><img src="{SN_UP_EMOTE_FOLDER}{sn_up_emote.EMOTE_IMAGE}" alt="{sn_up_emote.EMOTE_NAME}" style="vertical-align: middle; float: right;" /><!-- ENDIF -->
+							</a>
+						</li>
+						<!-- END sn_up_emote -->
+					</ul>
+					<!-- ENDIF -->
+				</li>
+				<!-- ENDIF -->
 				<!-- IF SN_MODULE_APPROVAL_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST -->
-	      		<li class="sn-fms-grpmenu">
-	      			<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-folder-open"></span>{L_SN_UP_ADD_FRIEND_TO_GROUP}</a>
+	      		<li class="sn-fms-grpmenu"><a href="#" class="ui-state-default"><span class="ui-icon ui-icon-folder-open"></span>{L_SN_UP_ADD_FRIEND_TO_GROUP}</a>
 	      			<ul class="sn-fms-groups sn-up-submenu">
 	      				<!-- BEGIN sn_fms_group -->
 	      				<li>
@@ -132,32 +143,6 @@
 	      			</ul>
 	      		</li>
 				<!-- ENDIF -->
-				<!-- IF U_PM -->
-				<li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li>
-					<!-- ENDIF -->
-					<!-- IF S_USER_LOGGED_IN and S_SN_UP_EMOTES_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST -->
-					<li class="sn-up-emotes">
-						<a href="#" class="ui-state-default"><span class="ui-icon ui-icon-tag"></span>{L_SN_UP_EMOTES}</a>
-						<!-- IF .sn_up_emote -->
-							<ul class="sn-up-emote sn-up-submenu">
-								<!-- BEGIN sn_up_emote -->
-									<li>
-										<a href="#" class="{emote:{sn_up_emote.EMOTE_ID},u:{USER_ID}}">
-											{sn_up_emote.EMOTE_NAME}
-											<!-- IF sn_up_emote.EMOTE_IMAGE != '' --><img src="{SN_UP_EMOTE_FOLDER}{sn_up_emote.EMOTE_IMAGE}" alt="{sn_up_emote.EMOTE_NAME}" style="vertical-align: middle; float: right;" /><!-- ENDIF -->
-										</a>
-									</li>
-								<!-- END sn_up_emote -->
-							</ul>
-						<!-- ENDIF -->
-					</li>
-				<!-- ENDIF -->
-				<!-- IF U_CANCEL_REQUEST -->
-				<li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li>
-				<!-- ENDIF -->
-				<!-- IF U_ADD_FRIEND -->
-				<li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li>
-				<!-- ENDIF -->
 			</ul>
 		<!-- ENDIF -->
 		</div>
@@ -165,17 +150,11 @@
     
 		<div id="sn-up-profileTabs" class="sn-up-profileTabs">
 			<ul>
-				<!-- IF SN_MODULE_USERSTATUS_ENABLED --><li><a href="#sn-up-profileTabs-wall"><span>{L_SN_UP_WALL}</span></a></li><!-- ENDIF -->
+				<li><a href="{U_UP_TAB_WALL}#sn-up-profileTabs-wall"><span>{L_SN_UP_WALL}</span></a></li>
 				<li><a href="{U_UP_TAB_INFO}#sn_profile_tabs-info"><span>{L_SN_UP_INFO}</span></a></li>
 				<!-- IF SN_MODULE_APPROVAL_ENABLED --><li><a href="{U_UP_TAB_FRIENDS}#sn-up-profileTabs-friends"><span>{L_SN_UP_FRIENDS}</span></a></li><!-- ENDIF -->
 				<li><a href="{U_UP_TAB_STATS}#sn-up-profileTabs-stats"><span>{L_SN_UP_STATS}</span></a></li>
 			</ul>
-	
-			<!-- IF SN_MODULE_USERSTATUS_ENABLED-->
-  			<div id="sn-up-profileTabs-wall" class="sn-us-profile ">
-  				<!-- INCLUDE socialnet/userstatus_memberlist.html -->
-  			</div>
-  			<!-- ENDIF -->
 		</div>
 
 	</div>
