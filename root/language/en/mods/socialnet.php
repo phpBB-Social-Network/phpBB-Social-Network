@@ -58,6 +58,8 @@ $lang = array_merge($lang, array(
 	'SN_US_CONFIRM'							 => 'Confirm',
 	'SN_US_CLOSE'							 => 'Close',
 	'SN_US_CANCEL'							 => 'Cancel',
+	'SN_US_SHARED_A'           => 'shared a',
+	'SN_US_LINK'           => 'link',
 	//
 	// FETCH PAGE
 	//
@@ -71,7 +73,6 @@ $lang = array_merge($lang, array(
 	'SN_US_NO_IMG_THUMB'					 => 'No image preview',
 	'SN_US_CHOOSE_THUMB'					 => 'images',
 	'SN_CB_FETCH_ERROR'						 => 'An error was encountered when fetching the web page',
-	'SN_US_FETCH_NO_DESCRIPTION'			 => 'No description',
 
 	'SN_AP_ACTIVITYPAGE'					 => 'Activity page',
 	'SN_AP_AND'								 => 'and',
@@ -325,7 +326,7 @@ $lang = array_merge($lang, array(
 	'AVATAR'								 => 'Avatar',
 
 	'FOES'									 => 'Foes',
-	'MUTUAL'								 => 'Mutual',
+	'MUTUAL'								 => 'Mutual friends',
 	'SUGGESTIONS'							 => 'Suggestions',
 
 	/**
@@ -335,6 +336,8 @@ $lang = array_merge($lang, array(
 	'SN_CB_DELETE_STATUS_TEXT'				 => 'Are you sure you want to delete this status?',
 	'SN_CB_DELETE_COMMENT_TITLE'			 => 'Delete comment',
 	'SN_CB_DELETE_COMMENT_TEXT'				 => 'Are you sure you want to delete this comment?',
+	'SN_CB_DELETE_ACTIVITY_TITLE'				 => 'Delete activity',
+	'SN_CB_DELETE_ACTIVITY_TEXT'				 => 'Are you sure you want to delete this activity?',
 
 	/**
 	 * SOCIALNET TIME AGO

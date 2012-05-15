@@ -248,8 +248,6 @@ $lang = array_merge($lang, array(
 
 // MODULE APPROVAL / FRIEND MANAGEMENT SYSTEM
 $lang = array_merge($lang, array(
-	'SN_FAS_ALERT_FRIEND_BY_PM'				 => 'Notify users about new request via PM',
-	'SN_FAS_ALERT_FRIEND_BY_PM_EXPLAIN'		 => 'Send PM to the user about a new friend request. If you set to no, then user will be notified by notification.',
 	'SN_FAS_FRIENDS_PER_PAGE'				 => 'Number of friends per page on user profile',
 	'SN_FAS_FRIENDS_PER_PAGE_EXPLAIN'		 => 'How many friends per page will be displayed',
 	'SN_FMS_PURGE_ALL_FRIENDS_DELETED_USERS' => 'Purge all friends and friend groups deleted users',
@@ -299,8 +297,6 @@ $lang = array_merge($lang, array(
 	'SN_PROFILE_DELETE_REASON_CONFIRM'			 => 'Are you sure you want to delete this reason?',
 	'SN_PROFILE_REASON_ADDED'					 => 'Report reason has been added successfully',
 	'SN_PROFILE_REASON_DELETED'					 => 'Report reason has been deleted successfully',
-	'SN_PROFILE_ALERT_RELATION_BY_PM'			 => 'Notify users about new relation via PM',
-	'SN_PROFILE_ALERT_RELATION_BY_PM_EXPLAIN'	 => 'Send PM to the user about a new relationship or family request. If you set no, then user will be notified by notification.',
 	'SN_PROFILE_MANAGE_EMOTES'					 => 'Emotes Management',
 	'SN_PROFILE_MANAGE_EMOTES_EXPLAIN'			 => 'You can manage Emotes via this panel',
 	'SN_PROFILE_EMOTE_IMAGE'					 => 'Emoticon',
