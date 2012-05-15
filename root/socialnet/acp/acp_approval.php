@@ -30,7 +30,6 @@ class acp_approval extends socialnet
 			'title'	 => 'ACP_FMS_SETTINGS',
 			'vars'	 => array(
 				'legend1'				 => 'ACP_SN_APPROVAL_SETTINGS',
-				'fas_alert_friend_pm'	 => array('lang' => 'SN_FAS_ALERT_FRIEND_BY_PM', 'validate' => 'bool', 'type' => 'radio:yes:no', 'explain' => true),
 				'fas_friendlist_limit'	 => array('lang' => 'SN_FAS_FRIENDS_PER_PAGE', 'validate' => 'int:10', 'type' => 'text:3:5', 'explain' => true),
 				'fas_colour_username'	 => array('lang' => 'SN_COLOUR_NAME', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
 			)
