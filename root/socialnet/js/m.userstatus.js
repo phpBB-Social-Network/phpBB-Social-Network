@@ -15,6 +15,8 @@
 	    emptyComment : '',
 	    deleteStatusTitle : '',
 	    deleteStatusText : '',
+	    deleteActivityTitle : '',
+	    deleteActivityText : '',
 	    url : './socialnet/userstatus.php',
 	    urlFetch : './socialnet/fetch.php',
 	    _inited : false,
@@ -81,7 +83,37 @@
 				        });
 			        }
 			    })
+		    });
+		    
+		    // Delete entry
+		    $(".sn-ap-deleteEntry").live('click', function() {
+			    var entry_id = $.sn.getAttr($(this), 'eid');
 
+			    $.ajax({
+			        type : 'POST',
+			        url : $.sn.us.url,
+			        dataType : 'json',
+			        data : {
+			            smode : 'get_activity',
+			            entry_id : entry_id
+			        },
+			        success : function(data) {
+				        snConfirmBox($.sn.us.deleteActivityTitle, $.sn.us.deleteActivityText + '<hr />' + data.content, function() {
+					        $.ajax({
+					            type : "POST",
+					            url : $.sn.us.url,
+					            cache : false,
+					            data : {
+                     		smode : 'delete_activity',
+                  			entry_id : entry_id
+					            },
+					            success : function(data) {
+												$('#sn-ap-entry' + entry_id).fadeOut('slow').remove();
+					            }
+					        });
+				        });
+			        }
+			    })
 		    });
 
 		    $('.sn-us-fetchData .sn-us-fetchDesc').TextAreaExpander(18, 70);
