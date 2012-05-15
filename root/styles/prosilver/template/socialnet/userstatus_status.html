@@ -8,36 +8,41 @@
 		<div class="sn-us-statusText sn-action-blockHidden">
 			<div class="sn-actions">
 				<!-- IF us_status.DELETE_STATUS -->
-				 <div class="sn-us-deleteStatus sn-action-delete {sid:{us_status.STATUS_ID},wid:{us_status.WALL_ID}}"></div>
-			    <!-- ENDIF -->
+					<div class="sn-us-deleteStatus sn-action-delete {sid:{us_status.STATUS_ID},wid:{us_status.WALL_ID}}"></div>
+			  <!-- ENDIF -->
 			</div>
 			<span class="sn-userName">{us_status.U_POSTER_PROFILE}</span>
 			<!-- IF us_status.ANOTHER_WALL --><span class="sn-us-postOnWall">&raquo;</span>&nbsp;<span class="sn-userName">{us_status.U_WALL_PROFILE}</span>&nbsp;<!-- ENDIF -->
-			<!-- IF not us_status.B_ISPAGE -->{us_status.TEXT}<!-- ELSE -->
-			<a href="{us_status.PAGE_URL}" title="{us_status.PAGE_TITLE}">{us_status.PAGE_URL}</a>
-			<div class="clear" style="margin-top: 4px;"></div>
-			<div class="sn-us-page-Preview">
-				<!-- IF us_status.PAGE_VIDEO neq '' -->
-				<div class="sn-us-page-Video">{us_status.PAGE_VIDEO}</div>
-				<div class="sn-us-videoOverlay">&nbsp;</div>
-				<!-- ENDIF -->
-				<!-- IF us_status.PAGE_IMAGE neq '' -->
-				<div class="sn-us-page-Image"><img src="{us_status.PAGE_IMAGE}" width="130" alt="image"/></div>
-				<!-- ENDIF -->
-			</div>
-			<div class="sn-us-page-Title">{us_status.PAGE_TITLE}</div>
-			<div class="sn-us-page-Desc">{us_status.PAGE_DESC_TEXT}</div>
-			<!-- IF us_status.PAGE_VIDEO neq '' -->
-			<div class="sn-us-page-Info">{us_status.PAGE_VIDEOI}</div>
-			<div class="sn-us-page-Provider"><a href="{us_status.PAGE_VIDEOP}" title="{us_status.PAGE_VIDEOI}">{us_status.PAGE_VIDEOP}</a></div>
-			
-			<!-- ENDIF -->		
-			<div class="sn-us-page-Additional">{us_status.PAGE_ADDITIONAL}</div>
-			<div class="clear"></div>
+			<!-- IF not us_status.B_ISPAGE -->
+				<br />{us_status.TEXT}
+			<!-- ELSE -->
+			  {L_SN_US_SHARED_A} <a href="{us_status.PAGE_URL}" title="{us_status.PAGE_TITLE_TITLE}"><!-- IF us_status.PAGE_VIDEO neq '' -->{us_status.PAGE_VIDEOI}<!-- ELSE -->{L_SN_US_LINK}<!-- ENDIF --></a>
+				<div class="clear" style="margin-top: 4px;"></div>
+				<div class="sn-us-page-Preview">
+					<!-- IF us_status.PAGE_VIDEO neq '' -->
+					<div class="sn-us-page-Video">{us_status.PAGE_VIDEO}</div>
+					<div class="sn-us-videoOverlay">&nbsp;</div>
+					<!-- ENDIF -->
+					<!-- IF us_status.PAGE_IMAGE neq '' -->
+					<div class="sn-us-page-Image"><img src="{us_status.PAGE_IMAGE}" width="130" alt="image"/></div>
+					<!-- ENDIF -->
+				</div>
+				<div class="sn-us-page-Title"><a href="{us_status.PAGE_URL}" title="{us_status.PAGE_TITLE_TITLE}">{us_status.PAGE_TITLE}</a></div>
+				<div class="sn-us-page-Provider">
+					<!-- IF us_status.PAGE_VIDEO neq '' -->
+            <a href="{us_status.PAGE_VIDEOP}">{us_status.PAGE_VIDEOP}</a>
+					<!-- ELSE -->
+						<a href="{us_status.PAGE_SERVER_URL}">{us_status.PAGE_SERVER_URL}</a>
+					<!-- ENDIF -->
+				</div>
+				<div class="sn-us-page-Desc">{us_status.PAGE_DESC_TEXT}</div>
+				<!-- IF us_status.PAGE_ADDITIONAL neq '' --><div class="sn-us-page-Additional">{us_status.PAGE_ADDITIONAL}</div><!-- ENDIF -->
+				<div class="clear"></div>
 			<!-- ENDIF -->
 			<div class="sn-statusTime">{us_status.TIME}
-				<!-- IF us_status.B_SN_US_CAN_COMMENT -->&bull;
-				<a href="#" class="sn-us-commentStatus">{L_SN_US_COMMENT_STATUS}</a><!-- ENDIF -->
+				<!-- IF us_status.B_SN_US_CAN_COMMENT -->
+					&bull; <a href="#" class="sn-us-commentStatus">{L_SN_US_COMMENT_STATUS}</a>
+				<!-- ENDIF -->
 			</div>
 		</div>
 		<div class="sn-commentsBlock">
