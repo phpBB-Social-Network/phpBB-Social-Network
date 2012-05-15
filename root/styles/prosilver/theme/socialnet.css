@@ -717,7 +717,6 @@ div:not(.sn-page) .sn-userName a
 	border-radius:4px;
 	bottom:30px;
 	display:none;
-	height:100px;
 	padding:5px;
 	position:absolute;
 	width:150px;
@@ -743,6 +742,17 @@ div:not(.sn-page) .sn-userName a
 .sn-im-msg:not(.sn-im-noborderTop)
 {
 	clear:both;
+}
+
+.sn-im-msg .sn-im-msgText
+{
+	word-wrap:break-word;
+}
+
+.sn-im-msg.sn-im-history .sn-im-msgText
+{
+	font-size:1.1em;
+	word-wrap:break-word;
 }
 
 .sn-im-msg.sn-im-history .sn-im-history-time
@@ -1233,6 +1243,11 @@ h2.sn-up-userName img
 	position:absolute;
 }
 
+.sn-up-profileTabs .ui-tabs-nav a
+{
+	font-size:1.1em;
+}
+
 .sn-up-profileTabs .ui-tabs-panel
 {
 	padding:1em 0;
@@ -1702,11 +1717,6 @@ a.ui-button
 {
 	font-size:1.2em;
 	font-weight:bold;
-}
-
-.sn-im-msg.sn-im-history .sn-im-msgText,.sn-up-profileTabs .ui-tabs-nav a
-{
-	font-size:1.1em;
 }
 
 .sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider
