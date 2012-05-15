@@ -39,7 +39,7 @@ include_once($socialnet_root_path . 'includes/functions.' . $phpEx);
 
 class socialnet extends snFunctions
 {
-	var $notify = null, $comments = null, $addons = null, $activity = null;
+	//var $notify = null, $comments = null, $addons = null, $activity = null;
 	var $periods = array(
 		"SECOND",
 		"MINUTE",
@@ -809,7 +809,7 @@ class socialnet extends snFunctions
 	 * @param integer $type ...
 	 * @return void
 	 */
-	function record_entry($user_id, $target, $type, $additionals = array())
+	function record_entry($user_id, $target, $type, $additionals = array()) // sn_core_entry->add
 	{
 		global $db;
 
@@ -837,14 +837,26 @@ class socialnet extends snFunctions
 	 * @param integer $type
 	 * @return void
 	 */
-	function delete_entry($target, $type)
+	function delete_entry() // sn_core_entry->del
 	{
 		global $db;
-
-		$sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
-							WHERE entry_target = " . $target . "
-								AND entry_type = " . $type;
+		
+		$num_args = func_num_args();
+		
+		if ($num_args > 1)
+		{
+      $sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
+								WHERE entry_target = " . func_get_arg(0) . "
+									AND entry_type = " . func_get_arg(1);
+		}
+		else
+		{
+      $sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
+								WHERE entry_id = " . func_get_arg(0);
+		}
 		$db->sql_query($sql);
+		
+		echo $num_args;
 	}
 
 	function is_enabled($module_name)
