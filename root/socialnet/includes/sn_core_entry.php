@@ -26,7 +26,7 @@ class sn_core_entry extends sn_core_entry_gets
 		global $cache, $user;
 		$this->p_master =& $p_master;
 
-		$this->types = $cache->get('sn_entry');
+		$this->types = $cache->get(__CLASS__);
 
 		//if (empty($this->types))
 		{
@@ -52,7 +52,7 @@ class sn_core_entry extends sn_core_entry_gets
 				$this->types[] = SN_TYPE_NEW_RELATIONSHIP;
 			}
 			$this->types[] = SN_TYPE_EMOTE;
-			$cache->put('sn_entry', $this->types);
+			$cache->put(__CLASS__, $this->types);
 		}
 
 		$this->friends = $this->p_master->friends['user_id'];
@@ -109,7 +109,7 @@ class sn_core_entry extends sn_core_entry_gets
 		$entry_arr['TYPE'] = $entry_row['entry_type'];
 		$entry_arr['TIME'] = $entry_row['entry_time'];
 		$entry_arr['TARGET'] = $entry_row['entry_target'];
-		$entry_arr['DELETE_ENTRY'] = ($entry_row['user_id'] == $user->data['user_id']) ? true : false;
+		$entry_arr['DELETE_ENTRY'] = ($this->_can_delete($entry_row['entry_type'], $entry_row['user_id'], $entry_row['entry_target'])) ? true : false;
 
 		return $entry_arr;
 	}
@@ -197,7 +197,7 @@ class sn_core_entry extends sn_core_entry_gets
 			$entries[$i]['TYPE'] = $entries_row['entry_type'];
 			$entries[$i]['TIME'] = $entries_row['entry_time'];
 			$entries[$i]['TARGET'] = $entries_row['entry_target'];
-			$entries[$i]['DELETE_ENTRY'] = ($user_id == $user->data['user_id'] && $user_id != 0) ? true : false;
+			$entries[$i]['DELETE_ENTRY'] = ($this->_can_delete($entries_row['entry_type'], $user_id, $entries_row['entry_target'])) ? true : false;
 		}
 
 		return array('entries' => $entries, 'more' => count($entries_rowset) > $limit);
@@ -214,20 +214,20 @@ class sn_core_entry extends sn_core_entry_gets
 	function add($user_id, $target, $type, $additionals = array())
 	{
 		global $db;
-		
+
 		$now = time();
-		
+
 		$sql_arr = array(
-				'user_id'			 => $user_id,
-				'entry_target'		 => $target,
-				'entry_type'		 => $type,
-				'entry_time'		 => $now,
-				'entry_additionals'	 => serialize($additionals),
+			'user_id'			 => $user_id,
+			'entry_target'		 => $target,
+			'entry_type'		 => $type,
+			'entry_time'		 => $now,
+			'entry_additionals'	 => serialize($additionals),
 		);
-		
+
 		$sql = "INSERT INTO " . SN_ENTRIES_TABLE . $db->sql_build_array('INSERT', $sql_arr);
 		$db->sql_query($sql);
-		
+
 	}
 
 	/**
@@ -243,7 +243,7 @@ class sn_core_entry extends sn_core_entry_gets
 	 */
 	function del($entry)
 	{
-		global $db;
+		global $db, $user, $auth;
 		$num_args = func_num_args();
 
 		$sql_where = '';
@@ -264,11 +264,41 @@ class sn_core_entry extends sn_core_entry_gets
 			return;
 		}
 
-		$sql = "DELETE FROM " . SN_ENTRIES_TABLE . " WHERE {$sql_where}";
-		$db->sql_query($sql);
+		$sql = "SELECT * FROM " . SN_ENTRIES_TABLE . " WHERE {$sql_where}";
+		$rs = $db->sql_query($sql);
+		$row = $db->sql_fetchrow($rs);
+		$db->sql_freeresult($rs);
+
+		if ($this->_can_delete($row['entry_type'], $row['user_id'], $row['entry_target']))
+		{
+			$sql = "DELETE FROM " . SN_ENTRIES_TABLE . " WHERE {$sql_where}";
+			$db->sql_query($sql);
+		}
 		return;
 	}
 
+	private function _can_delete($entry_type, $user_id, $target)
+	{
+		global $user, $auth;
+
+		$can_delete = false;
+		switch ($entry_type)
+		{
+			case SN_TYPE_NEW_STATUS:
+			case SN_TYPE_PROFILE_UPDATED:
+				$can_delete = $user->data['user_id'] == $user_id;
+				break;
+
+			case SN_TYPE_NEW_FRIENDSHIP:
+			case SN_TYPE_NEW_FAMILY:
+			case SN_TYPE_NEW_RELATIONSHIP:
+			case SN_TYPE_EMOTE:
+				$can_delete = $user->data['user_id'] == $user_id || $user->data['user_id'] == $target;
+				break;
+		}
+
+		return ($can_delete || $auth->acl_get('a_'));
+	}
 }
 
 class sn_core_entry_gets
