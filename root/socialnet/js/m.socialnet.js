@@ -262,6 +262,31 @@
 		    return 0;
 	    },
 
+	    insertAtCaret : function(textarea,myValue) {
+		    return textarea.each(function(i) {
+			    if (document.selection) {
+				    // For browsers like Internet Explorer
+				    this.focus();
+				    sel = document.selection.createRange();
+				    sel.text = myValue;
+				    this.focus();
+			    } else if (this.selectionStart || this.selectionStart == '0') {
+				    // For browsers like Firefox and Webkit based
+				    var startPos = this.selectionStart;
+				    var endPos = this.selectionEnd;
+				    var scrollTop = this.scrollTop;
+				    this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
+				    this.focus();
+				    this.selectionStart = startPos + myValue.length;
+				    this.selectionEnd = startPos + myValue.length;
+				    this.scrollTop = scrollTop;
+			    } else {
+				    this.value += myValue;
+				    this.focus();
+			    }
+		    });
+	    },
+
 	    metadataInit : function() {
 	    },
 
@@ -361,12 +386,11 @@
 
 		    var dbg_IM = $('<div />').attr('id', 'IM_timer');
 		    var dbg_NTF = $('<div />').attr('id', 'NTF_timer');
-		    var dbg_browser = $('<div />').attr('id','browser').html('Browser');
-		    
-		    $.each($.browser, function(idx,val){
-		    	dbg_browser.html(dbg_browser.html()+'<br />&nbsp; &nbsp;'+idx+': '+val);
+		    var dbg_browser = $('<div />').attr('id', 'browser').html('Browser');
+
+		    $.each($.browser, function(idx, val) {
+			    dbg_browser.html(dbg_browser.html() + '<br />&nbsp; &nbsp;' + idx + ': ' + val);
 		    })
-		    
 
 		    var IM_downcount = 1;
 		    var IM_counter = $.sn.im.opts._imCounter;
