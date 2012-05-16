@@ -1136,7 +1136,7 @@ class socialnet extends snFunctions
 			}
 		}
 
-		if (class_exists('sn_core_addons') && method_exists($this->addons, 'get'))
+		if (class_exists('sn_core_addons') && isset($this->addons) && method_exists($this->addons, 'get'))
 		{
 			$this->addons->get();
 		}
