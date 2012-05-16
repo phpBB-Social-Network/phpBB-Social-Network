@@ -1,6 +1,6 @@
 <!-- IF B_SN_BLOCK_MENU_ENABLED -->		
 	<ul class="sn-menu">
-		<li class="<!-- IF S_SN_AP_VIEW_MAIN or not S_USER_LOGGED_IN -->active<!-- ENDIF -->">
+		<li class="<!-- IF S_SN_AP_VIEW_MAIN or not S_USER_LOGGED_IN -->sn-menu-active<!-- ENDIF -->">
 			<a href="{U_SN_ACTIVITYPAGE}"><span class="sn-menu-icon ui-icon ui-icon-document-b"></span>{L_SN_AP_ACTIVITYPAGE}</a>
 		</li>
 		<li class="">
@@ -17,7 +17,7 @@
 		</li>
 		<!-- ENDIF -->
 		<!-- IF SN_MODULE_NOTIFY_ENABLED -->
-		<li class="<!-- IF S_SN_AP_NOTIFY -->active<!-- ENDIF -->">
+		<li class="<!-- IF S_SN_AP_NOTIFY -->sn-menu-active<!-- ENDIF -->">
 			<a href="{U_VIEW_NOTIFY}"><span class="sn-menu-icon ui-icon ui-icon-note"></span><span class="sn-num-cube" id="sn-ntf-cube"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></span>{L_SN_AP_NOTIFY}</a>
 		</li>
 		<!-- ENDIF -->

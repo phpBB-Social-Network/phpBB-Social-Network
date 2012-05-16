@@ -292,18 +292,18 @@ div:not(.sn-page) .sn-userName a
 	color:#314260;
 }
 
-.sn-menu .ui-menu-item.active a,.sn-menu .ui-menu-item.active a.ui-state-focus
+.sn-menu .ui-menu-item.sn-menu-active a,.sn-menu .ui-menu-item.sn-menu-active a.ui-state-focus
 {
-	background-color:#0a8fd1;
+	background-color:#0c95d9;
 	color:#fff;
 }
 
-.sn-menu .ui-menu-item.active a:hover,.sn-menu .ui-menu-item.active a.ui-state-focus:hover
+.sn-menu .ui-menu-item.sn-menu-active a:hover,.sn-menu .ui-menu-item.sn-menu-active a.ui-state-focus:hover
 {
-	background-color:#006daf;
+	background-color:#0073b7;
 }
 
-.sn-menu .ui-menu-item.active a .sn-num-cube,.sn-menu .ui-menu-item.active a.ui-state-focus .sn-num-cube
+.sn-menu .ui-menu-item.sn-menu-active a .sn-num-cube,.sn-menu .ui-menu-item.sn-menu-active a.ui-state-focus .sn-num-cube
 {
 	color:#536482;
 }
@@ -702,10 +702,14 @@ div:not(.sn-page) .sn-userName a
 
 .sn-im-smilies
 {
-	background:#fff url({T_IMAGESET_PATH}/socialnet/im_smiley.png) no-repeat 4px 50%;
+	background:#fff url({T_IMAGESET_PATH}/socialnet/im_smiley.png) no-repeat 3px 50%;
 	border-top:1px solid #ccc;
+	bottom:2px;
+	cursor:pointer;
 	height:22px;
-	width:24px;
+	position:absolute;
+	right:1px;
+	width:23px;
 }
 
 .sn-im-smiliesBox
@@ -1410,6 +1414,18 @@ a.ui-button
 	text-align:center;
 }
 
+.ltr .sn-fms-friend .sn-user-avatar
+{
+	float:left;
+	margin-right:5px;
+}
+
+.rtl .sn-fms-friend .sn-user-avatar
+{
+	float:right;
+	margin-left:5px;
+}
+
 .sn-fms-friend .sn-userName
 {
 	font-size:1.1em;
@@ -1475,18 +1491,6 @@ a.ui-button
 	background-image:url({T_THEME_PATH}/images/ui-icons_454545_256x240.png);
 }
 
-.ltr .sn-fms-friend .sn-user-avatar
-{
-	float:left;
-	margin-right:5px;
-}
-
-.rtl .sn-fms-friend .sn-user-avatar
-{
-	float:right;
-	margin-left:5px;
-}
-
 .sn-ap-avatar
 {
 	display:inline-block;
@@ -1528,10 +1532,32 @@ a.ui-button
 	margin-bottom:4px;
 }
 
+.ltr .sn-ap-loadNewsOver
+{
+	text-align:right;
+}
+
+.rtl .sn-ap-loadNewsOver
+{
+	text-align:left;
+}
+
 .sn-ap-loadNews
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/button_arrow_down.png);
 	background-repeat:no-repeat;
+}
+
+.ltr .sn-ap-loadNews
+{
+	background-position:100% 60%;
+	padding-right:12px;
+}
+
+.rtl .sn-ap-loadNews
+{
+	background-position:0 60%;
+	padding-left:12px;
 }
 
 .sn-ap-textBlock
@@ -1561,6 +1587,18 @@ a.ui-button
 	width:54px;
 }
 
+.ltr .sn-ap-entryIcon
+{
+	float:left;
+	margin-left:-60px;
+}
+
+.rtl .sn-ap-entryIcon
+{
+	float:right;
+	margin-right:-60px;
+}
+
 .sn-ap-textBlock-addUser .sn-ap-entryIcon
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/icon_fms_add_user.png);
@@ -1584,40 +1622,6 @@ a.ui-button
 .sn-ap-textBlock-sendEmote .sn-ap-entryIcon
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/icon_up_send_emote.png);
-}
-
-.ltr .sn-ap-loadNewsOver
-{
-	text-align:right;
-}
-
-.ltr .sn-ap-loadNews
-{
-	background-position:100% 60%;
-	padding-right:12px;
-}
-
-.ltr .sn-ap-entryIcon
-{
-	float:left;
-	margin-left:-60px;
-}
-
-.rtl .sn-ap-loadNewsOver
-{
-	text-align:left;
-}
-
-.rtl .sn-ap-loadNews
-{
-	background-position:0 60%;
-	padding-left:12px;
-}
-
-.rtl .sn-ap-entryIcon
-{
-	float:right;
-	margin-right:-60px;
 }
 
 .sn-hiddenDefault,.sn-action-blockHidden .sn-actions,.sn-im-noborderTop .sn-userName,.sn-im-noborderTop .sn-im-msgAvatar,.sn-fms-friend input[type=checkbox]
@@ -1683,7 +1687,7 @@ a.ui-button
 	background-position:0 100%;
 }
 
-.sn-menu .ui-menu-item.active a .ui-icon,.sn-menu .ui-menu-item.active a.ui-state-focus .ui-icon,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active .ui-accordion-header-icon
+.sn-menu .ui-menu-item.sn-menu-active a .ui-icon,.sn-menu .ui-menu-item.sn-menu-active a.ui-state-focus .ui-icon,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active .ui-accordion-header-icon
 {
 	background-image:url({T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png);
 }
