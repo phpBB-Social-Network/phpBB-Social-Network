@@ -718,7 +718,6 @@ div:not(.sn-page) .sn-userName a
 	background:#fff;
 	border:4px solid #ccc;
 	border-radius:4px;
-	bottom:30px;
 	display:none;
 	padding:5px;
 	position:absolute;
@@ -1711,6 +1710,20 @@ a.ui-button
 	color:#888;
 }
 
+.ltr .sn-im-dockWrapper,.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.ltr .sn-im-nav .sn-im-button,.ltr .sn-im-nav,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-nav .sn-im-button
+{
+	border-right-color:#bbb;
+	border-right-style:solid;
+	border-right-width:1px;
+}
+
+.rtl .sn-im-dockWrapper,.ltr .sn-im-button,.rtl .sn-im-nav,.rtl .sn-im-button
+{
+	border-left-color:#bbb;
+	border-left-style:solid;
+	border-left-width:1px;
+}
+
 .sn-im-loginlogout .sn-im-selected span,.jGrowl .jGrowl-notification,.jGrowl .jGrowl-closer,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active a
 {
 	color:#fff;
@@ -1735,20 +1748,6 @@ a.ui-button
 .sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider
 {
 	display:none;
-}
-
-.ltr .sn-im-dockWrapper,.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.ltr .sn-im-nav .sn-im-button,.ltr .sn-im-nav,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-nav .sn-im-button
-{
-	border-right-color:#bbb;
-	border-right-style:solid;
-	border-right-width:1px;
-}
-
-.ltr .sn-im-button,.rtl .sn-im-dockWrapper,.rtl .sn-im-nav,.rtl .sn-im-button
-{
-	border-left-color:#bbb;
-	border-left-style:solid;
-	border-left-width:1px;
 }
 
 .ltr .sn-im-msg .sn-im-msgText-Arrow,.rtl #sn-ntf-notify
