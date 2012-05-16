@@ -33,16 +33,18 @@
 
 		    if ($('#sn-up-profileTabs').size() > 0) {
 			    var par_URL = $.sn.parseURL(window.location);
+			    var c_url = $('#sn-up-profileTabs li:first a').attr('href');
 			    if (par_URL.hash == 'socialnet_us' && par_URL.params.status_id != null) {
 				    $.sn.setCookie('sn_up_profileTab', 0);
+				    $('#sn-up-profileTabs li:first a').attr('href', $.sn.us.url +'?smode=status_one&status='+par_URL.params.status_id+'&wall='+par_URL.params.u);
 			    }
 			    $.sn.up.url = $.sn.up.url.replace(/&amp;/, '&');
 
 			    $('#sn-up-profileTabs').tabs({
 			        ajaxOptions : {
-				        cache : false
+				        cache : false,
 			        },
-			        cache: false,
+			        cache : false,
 			        spinner : $.sn.up.spinner,
 			        cookie : {
 			            name : $.sn.cookie.name + 'sn_up_profileTab',
@@ -53,9 +55,8 @@
 			        create : function(e, ui) {
 				        if ($.sn.getCookie('sn-up-profileTab') == 0) { return false; }
 			        },
-			        select : function(e,ui){
-			        	console.log($(ui.panel));
-			        	$(ui.panel).html($.sn.up.spinner);
+			        select : function(e, ui) {
+				        $(ui.panel).html($.sn.up.spinner);
 			        },
 			        load : function(e, ui) {
 				        $('#sn-us-wallInput').trigger('focusin').trigger('focusout');
@@ -66,8 +67,8 @@
 				                monthNamesShort : $.sn.up.monthNamesShort
 				            },
 				            ajaxOptions : {
-					            url : $.sn.up.urlAJAX,
-					            cache: false
+				                url : $.sn.up.urlAJAX,
+				                cache : false
 				            }
 				        });
 
@@ -85,6 +86,7 @@
 
 			        }
 			    }).removeAttr('style');
+			    $('#sn-up-profileTabs li:first a').attr('href',c_url);
 		    }
 
 		    if ($('.sn-up-reportUser a').size() > 0 && $('#sn-up-profileTabs').size() > 0) {
@@ -235,8 +237,8 @@
 
 			        $subMenu.addClass('ui-menu ui-widget ui-widget-content ui-menu-icons ui-corner-bottom ui-corner-' + ($.sn.rtl ? 'tr' : 'tl')).attr('role', 'menu');
 			        // $subMenu.addClass('ui-menu ui-widget ui-widget-content
-					// ui-menu-icons ui-corner-bottom
-					// ui-corner-all').attr('role', 'menu');
+			        // ui-menu-icons ui-corner-bottom
+			        // ui-corner-all').attr('role', 'menu');
 			        $subMenu.children('li:not( .ui-menu-item ):has( a )').addClass('ui-menu-item').attr('role', 'menu-item');
 			        $subMenu.children('li.ui-menu-item:has( a )').find('a').addClass('ui-corner-all').hover(function() {
 				        $(this).toggleClass('ui-state-focus')

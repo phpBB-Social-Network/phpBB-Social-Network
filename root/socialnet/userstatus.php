@@ -159,7 +159,9 @@ if (!class_exists('socialnet_userstatus'))
 				case 'status_delete':
 					$this->_status_delete();
 					break;
-
+				case 'status_one':
+					$this->_status_one();
+					break;
 				case 'comment_share':
 					$this->_comment_share();
 					break;
@@ -381,6 +383,38 @@ if (!class_exists('socialnet_userstatus'))
 			die(json_encode($return));
 		}
 
+		function _status_one()
+		{
+			global $template, $user;
+
+			$status_id = request_var('status', 0);
+			$user_id = request_var('wall', 0);
+			
+			$my_friends = $this->p_master->friends['user_id'];
+			$my_friends[] = $user->data['user_id'];
+				
+			$this->_get_statuses($user_id, $status_id, 1, 15, true);
+			$more_statuses = false;
+			
+			$template->assign_vars(array(
+					'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+					'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
+					'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
+					'SN_US_USER_ID'								 => $user_id,
+					'B_SN_ONLY_ONE'								 => true,
+					'SN_US_DISPLAY_GOTO_TOP'					 => true
+			));
+			
+			$template->set_filenames(array(
+					'body'	 => 'socialnet/userstatus_memberlist.html',
+			));
+			
+			$this->p_master->page_header();
+			$content = $this->p_master->page_footer();
+			header('Content-type: text/html; charset=UTF-8');
+			die($content);
+		}
+		
 		/**
 		 * Add new comment
 		 */
