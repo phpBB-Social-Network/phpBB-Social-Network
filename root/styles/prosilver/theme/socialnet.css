@@ -697,13 +697,12 @@ div:not(.sn-page) .sn-userName a
 {
 	background:#fff url({T_IMAGESET_PATH}/socialnet/im_message.png) no-repeat 2px 50%;
 	border-top:1px solid #ccc;
-	width:215px;
+	width:240px;
 }
 
 .sn-im-smilies
 {
 	background:#fff url({T_IMAGESET_PATH}/socialnet/im_smiley.png) no-repeat 3px 50%;
-	border-top:1px solid #ccc;
 	bottom:2px;
 	cursor:pointer;
 	height:22px;
@@ -810,10 +809,20 @@ div:not(.sn-page) .sn-userName a
 {
 	border:none;
 	height:22px;
-	line-height:22px;
+	line-height:18px;
 	outline:none;
 	resize:none;
 	width:211px;
+}
+
+.ltr .sn-im-message
+{
+	border-right:1px solid #ccc;
+}
+
+.rtl .sn-im-message
+{
+	border-left:1px solid #ccc;
 }
 
 .sn-im-cbAvatar
