@@ -60,7 +60,18 @@ class sn_core_comments
 		{
 			return false;
 		}
-
+		
+		$uid = $bitfield = $flags = '';
+		
+		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
+		
+		$noBBCodeText = $text;
+		strip_bbcode($noBBCodeText);
+		if ( $noBBCodeText == '')
+		{
+			return false;
+		}
+		
 		$moduleName = $this->_moduleName($module);
 
 		if (!isset($this->modulesName[$moduleName]))
@@ -69,10 +80,7 @@ class sn_core_comments
 		}
 		$cmt_module = $this->_moduleID($module);
 
-		$uid = $bitfield = $flags = '';
-
-		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
-
+		
 		$sql = "INSERT INTO " . SN_COMMENTS_TABLE . " (cmt_module, cmt_mid, cmt_time, cmt_poster, cmt_text, bbcode_bitfield, bbcode_uid)
 							VALUES ({$cmt_module}, {$module_id}, {$this->time}, {$poster}, '" . $db->sql_escape($text) . "', '{$bitfield}','{$uid}')";
 		$db->sql_query($sql);
@@ -189,25 +197,25 @@ class sn_core_comments
 			$comment_text_format = generate_text_for_display($row['cmt_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $this->p_master->bbCodeFlags);
 
 			$template->assign_block_vars('comment', array(
-				'COMMENT_ID'				 				=> $row['cmt_id'],
-				'POSTER_USERNAME'			 			=> $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'no_profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
-				'POSTER_USERNAME_NO_COLOR'	=> $row['username'],
-				'U_POSTER_PROFILE'			 		=> $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
-				'POSTER_AVATAR'				 			=> $avatar_img,
-				'TIME'						 					=> $this->p_master->time_ago($row['cmt_time']),
-				'TEXT'						 					=> $comment_text_format,
-				'DELETE_COMMENT'			 			=> ($auth->acl_get('a_') || ($row['cmt_poster'] == $user->data['user_id'])) ? true : false,
+				'COMMENT_ID'				 => $row['cmt_id'],
+				'POSTER_USERNAME'			 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'no_profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
+				'POSTER_USERNAME_NO_COLOR'	 => $row['username'],
+				'U_POSTER_PROFILE'			 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
+				'POSTER_AVATAR'				 => $avatar_img,
+				'TIME'						 => $this->p_master->time_ago($row['cmt_time']),
+				'TEXT'						 => $comment_text_format,
+				'DELETE_COMMENT'			 => ($auth->acl_get('a_') || ($row['cmt_poster'] == $user->data['user_id'])) ? true : false,
 			));
 		}
 
 		$template->assign_vars(array(
-			'SN_COMMENTS_MORE'					 					=> $cmt_more,
-			'B_LOAD_FIRST_USERSTATUS_COMMENTS'		=> isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
-			'SN_COMMENT_MODULE'					 					=> $module,
-			'SN_CLASS_PREFIX'					 						=> $classPrefix,
-			'SN_CLASS_PREFIX_DOT'				 					=> preg_replace('/[^a-z0-9]/si', '.', $classPrefix),
-			'SN_COMMENT_MODULE_ID'				 				=> $module_id,
-			'B_SN_NOT_ONLY_COMMENT'				 				=> $only_comments,
+			'SN_COMMENTS_MORE'					 => $cmt_more,
+			'B_LOAD_FIRST_USERSTATUS_COMMENTS'	 => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
+			'SN_COMMENT_MODULE'					 => $module,
+			'SN_CLASS_PREFIX'					 => $classPrefix,
+			'SN_CLASS_PREFIX_DOT'				 => preg_replace('/[^a-z0-9]/si', '.', $classPrefix),
+			'SN_COMMENT_MODULE_ID'				 => $module_id,
+			'B_SN_NOT_ONLY_COMMENT'				 => $only_comments,
 		));
 
 		$template->set_filenames(array('comments' => $this->commentTemplate));
@@ -276,7 +284,7 @@ class sn_core_comments
 		$moduleName = $this->_moduleName($module);
 		return $this->modulesName[$moduleName];
 	}
-	
+
 	/**
 	 * Load existing modules from DB
 	 * @param $force boolean Force load modules;
@@ -295,7 +303,7 @@ class sn_core_comments
 		{
 			$modules = array('ID' => array(), 'NAMES' => array());
 			$rowset = array();
-			
+
 			//READ MODULES FROM DB
 			$sql = "SELECT cmtmd_id, cmtmd_name FROM " . SN_COMMENTS_MODULES_TABLE;
 			$rs = $db->sql_query($sql);

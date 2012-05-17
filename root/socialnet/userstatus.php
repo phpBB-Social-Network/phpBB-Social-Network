@@ -198,8 +198,7 @@ if (!class_exists('socialnet_userstatus'))
 			$new_status = request_var('status', '', true);
 			$wall_id = (int) request_var('wall', 0);
 			$wall_id = $wall_id == 0 ? $user->data['user_id'] : $wall_id;
-
-			if ($new_status != '')
+			if (trim($new_status) != '')
 			{
 				$now = time();
 
@@ -209,6 +208,16 @@ if (!class_exists('socialnet_userstatus'))
 				$allow_bbcode = $this->p_master->allow_bbcode;
 				$allow_urls = $this->p_master->allow_urls;
 				$allow_smilies = $this->p_master->allow_smilies;
+
+				generate_text_for_storage($new_status, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
+
+				$is_empty_ = $new_status;
+				strip_bbcode($is_empty_);
+				if ($is_empty_ == '')
+				{
+					header('Content-type: text/html; charset=UTF-8');
+					die('');
+				}
 
 				if ($isPage)
 				{
@@ -225,7 +234,6 @@ if (!class_exists('socialnet_userstatus'))
 				{
 					$pageData = '';
 				}
-				generate_text_for_storage($new_status, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
 
 				$new_status = $db->sql_escape($new_status);
 
@@ -344,8 +352,8 @@ if (!class_exists('socialnet_userstatus'))
 				return;
 			}
 
-			$this->p_master->entry->del($entry_id);//delete_entry($entry_id);
-		}
+			$this->p_master->entry->del($entry_id); //delete_entry($entry_id);
+			}
 
 		/**
 		 * Load more comments
@@ -389,32 +397,32 @@ if (!class_exists('socialnet_userstatus'))
 
 			$status_id = request_var('status', 0);
 			$user_id = request_var('wall', 0);
-			
+
 			$my_friends = $this->p_master->friends['user_id'];
 			$my_friends[] = $user->data['user_id'];
-				
+
 			$this->_get_statuses($user_id, $status_id, 1, 15, true);
 			$more_statuses = false;
-			
+
 			$template->assign_vars(array(
-					'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
-					'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
-					'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
-					'SN_US_USER_ID'								 => $user_id,
-					'B_SN_ONLY_ONE'								 => true,
-					'SN_US_DISPLAY_GOTO_TOP'					 => true
+				'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+				'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
+				'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
+				'SN_US_USER_ID'								 => $user_id,
+				'B_SN_ONLY_ONE'								 => true,
+				'SN_US_DISPLAY_GOTO_TOP'					 => true
 			));
-			
+
 			$template->set_filenames(array(
-					'body'	 => 'socialnet/userstatus_memberlist.html',
+				'body'	 => 'socialnet/userstatus_memberlist.html',
 			));
-			
+
 			$this->p_master->page_header();
 			$content = $this->p_master->page_footer();
 			header('Content-type: text/html; charset=UTF-8');
 			die($content);
 		}
-		
+
 		/**
 		 * Add new comment
 		 */
@@ -424,12 +432,16 @@ if (!class_exists('socialnet_userstatus'))
 
 			$text_to_submit = request_var('comment', '', true);
 			$status_id = request_var('s_id', 0);
-
 			if ($text_to_submit != '')
 			{
 				$now = time();
 
 				$comment_id = $this->p_master->comments->add($this->commentModule, $status_id, $user->data['user_id'], $text_to_submit);
+				if ($comment_id == false)
+				{
+					header('Content-type: text/html; charset=UTF-8');
+					die('');
+				}
 				$comment = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_id, $comment_id);
 
 				// Notify

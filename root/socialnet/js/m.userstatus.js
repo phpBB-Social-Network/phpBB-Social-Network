@@ -163,21 +163,25 @@
 				            }
 				        },
 				        success : function(data) {
-					        $('.sn-us-noStatus').remove();
-					        $('.sn-ap-noEntry').remove();
-					        if ($('.sn-ap-loadNewsOver').size() != 0) {
-						        $(data).hide().insertAfter('.sn-ap-loadNewsOver').slideDown('slow');
+					        if (data == '') {
+						        snConfirmBox($.sn.us.emptyStatus, $.sn.us.emptyStatus);
 					        } else {
-						        $(data).hide().prependTo('#sn-us-profile').slideDown('slow');
+						        $('.sn-us-noStatus').remove();
+						        $('.sn-ap-noEntry').remove();
+						        if ($('.sn-ap-loadNewsOver').size() != 0) {
+							        $(data).hide().insertAfter('.sn-ap-loadNewsOver').slideDown('slow');
+						        } else {
+							        $(data).hide().prependTo('#sn-us-profile').slideDown('slow');
+						        }
+						        $('input[name=sn-us-fetchClear]').trigger('click');
+						        $('input[name=sn-us-fetchButton]').hide();
+						        $.sn.comments.waterMark();
+						        $('.sn-us-statusBlock .sn-actions').removeAttr('style');
 					        }
-					        $('input[name=sn-us-fetchClear]').trigger('click');
-					        $('input[name=sn-us-fetchButton]').hide();
 					        $('#sn-us-wallInput').val('').height(22).watermark($.sn.us.watermark, {
 					            useNative : false,
 					            className : 'sn-us-watermark'
 					        });
-					        $.sn.comments.waterMark();
-					        $('.sn-us-statusBlock .sn-actions').removeAttr('style');
 				        }
 				    });
 			    }
@@ -224,8 +228,13 @@
 				        },
 				        success : function(data) {
 					        var $parr = $(element).parents('.sn-us-shareComment');
-					        $parr.before(data);
-					        $parr.prev('.sn-us-commentBlock').slideDown();
+					        if (data == '') {
+						        snConfirmBox($.sn.comments.empty, $.sn.comments.empty);
+
+					        } else {
+						        $parr.before(data);
+						        $parr.prev('.sn-us-commentBlock').slideDown();
+					        }
 					        $parr.find('.sn-us-inputComment').val('');
 					        $.sn.comments.waterMark();
 				        }
