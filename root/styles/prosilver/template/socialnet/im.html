@@ -5,8 +5,8 @@
 			<span class="label" style="background-image:url('{T_IMAGESET_PATH}/socialnet/im_me_{S_SN_IM_ONLINE}.png')">{L_SN_IM_CHAT}</span>
 			<span class="count">(<!-- IF SN_IM_ONLINE -->{SN_IM_ONLINE_COUNT}<!-- ELSE -->0<!-- ENDIF -->)</span>
 		</div>
-		<div id="sn-im-onlineBlock" class="sn-im-online sn-im-block" style="<!-- IF not SN_IM_ONLINELIST_SHOW -->display:none;<!-- ENDIF -->;">
-			<div class="sn-im-title">{L_SN_IM_CHAT}</div>
+		<div id="sn-im-onlineBlock" class="sn-im-online sn-im-block ui-corner-top" style="<!-- IF not SN_IM_ONLINELIST_SHOW -->display:none;<!-- ENDIF -->;">
+			<div class="sn-im-title ui-corner-top">{L_SN_IM_CHAT}</div>
 			<div class="sn-im-buttons">
 				<div class="sn-im-sound ui-icon ui-icon-volume-<!-- IF S_SN_IM_USER_SOUND -->on<!-- ELSE -->off<!-- ENDIF -->" title="{L_SN_IM_SOUND} <!-- IF S_SN_IM_USER_SOUND -->ON<!-- ELSE -->OFF<!-- ENDIF -->"></div>
 				<div class="sn-im-loginlogout">
@@ -33,8 +33,8 @@
 			<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
 			</div>
 		</div>
-		<div id="sn-im-chatBoxBlock{sn_im_chatbox.USER_ID}" class="sn-im-block<!-- IF sn_im_chatbox.S_OPEN --> sn-im-opeBlock<!-- ENDIF -->" style="<!-- IF not sn_im_chatbox.S_OPEN -->display: none<!-- ENDIF -->">
-			<div class="sn-im-title sn-im-buttons">
+		<div id="sn-im-chatBoxBlock{sn_im_chatbox.USER_ID}" class="sn-im-block ui-corner-top<!-- IF sn_im_chatbox.S_OPEN --> sn-im-opeBlock<!-- ENDIF -->" style="<!-- IF not sn_im_chatbox.S_OPEN -->display: none<!-- ENDIF -->">
+			<div class="sn-im-title sn-im-buttons ui-corner-top">
 				<span class="ui-icon sn-im-cbClose sn-tooltip" title="{SN_IM_PRESS_TO_CLOSE}"></span>
 				<a href="{sn_im_chatbox.U_UCP_IM_HISTORY}" class="sn-tooltip" title="{L_UCP_SN_IM_HISTORY}"><span class="ui-icon sn-im-cbHistory"></span></a>
 				<a href="{sn_im_chatbox.USERNAME_TO_PROFILE}" class="sn-tooltip" title="{L_SN_PROFILE}"><span class="ui-icon sn-im-cbProfile"></span></a>
@@ -71,7 +71,11 @@
 			<div class="sn-im-textArea"><textarea name="msg" class="sn-im-message {uid:{sn_im_chatbox.USER_ID}}" title="{SN_IM_PRESS_TO_SEND}" cols="" rows=""></textarea>
 			<div class="sn-im-smilies"></div>
 			</div>
-			<div class="sn-im-smiliesBox"></div>
+			
+			<div class="sn-im-smiliesBox">
+				<!--div class="ui-widget-overlay ui-widget-shadow ui-corner-all" style="height:102px;width:156px;margin:0;padding: 4px;"></div-->
+				<div class="sn-im-smiliesContent ui-widget ui-widget-content"></div>
+			</div>
 		</div>
 	</div>
 	<!-- ENDIF -->

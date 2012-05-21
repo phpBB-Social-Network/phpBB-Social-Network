@@ -25,7 +25,7 @@ class ucp_im
 		switch ($module)
 		{
 			case 'default':
-			
+
 				$display_vars = array(
 					'title'	 => 'ACP_IM_SETTINGS',
 					'vars'	 => array(
@@ -39,14 +39,14 @@ class ucp_im
 				$this->p_master->_settings($id, 'sn_im', $display_vars);
 
 				$template->assign_vars(array(
-					'S_SN_IM_USER_SOUNDNAME'	=> $this->p_master->new_config['user_im_soundname'],
-					'SN_IM_ONLINE'			 			=> $this->p_master->new_config['user_im_online'],
+					'S_SN_IM_USER_SOUNDNAME' => $this->p_master->new_config['user_im_soundname'],
+					'SN_IM_ONLINE'			 => $this->p_master->new_config['user_im_online'],
 				));
 
-			break;
+				break;
 
 			case 'history':
-			
+
 				$this->p_master->tpl_name = 'socialnet/ucp_im_history';
 
 				$u_id = request_var('u', 0);
@@ -79,8 +79,8 @@ class ucp_im
 										AND im.sent = {$rows[$i]['sent']} )";
 						$conversations[$rows[$i]['user_id']] = $rows[$i];
 					}
-					
-					if ( $users_total == 0)
+
+					if ($users_total == 0)
 					{
 						$messages[] = '1 = 0';
 					}
@@ -99,12 +99,12 @@ class ucp_im
 						$row = array_merge($row, $conversations[$usr]);
 
 						$template->assign_block_vars('users', array(
-							'U_USERNAME'			=> $socialnet->get_username_string($config['im_colour_username'], 'no_profile', $row['user_id'], $row['username'], $row['user_colour']),
-							'AVATAR'	 				=> $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
-							'TIME'		 				=> $socialnet->time_ago($row['sent']),
-							'MSSG'		 				=> generate_text_for_display($socialnet->trim_text($row['message'], $row['bbcode_uid'], 300, 0, array(' ', "\n"), '...', $row['bbcode_bitfield']), $row['bbcode_uid'], $row['bbcode_bitfield'], $socialnet->bbCodeFlags),
-							'U_HISTORY'	 			=> append_sid($this->p_master->u_action, 'u=' . $row['user_id']),
-							'S_FROM_ME'	 			=> ($direction == 'sn-im-from') ? true : false,
+							'U_USERNAME' => $socialnet->get_username_string($config['im_colour_username'], 'no_profile', $row['user_id'], $row['username'], $row['user_colour']),
+							'AVATAR'	 => $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
+							'TIME'		 => $socialnet->time_ago($row['sent']),
+							'MSSG'		 => generate_text_for_display($socialnet->trim_text($row['message'], $row['bbcode_uid'], 300, 0, array(' ', "\n"), '...', $row['bbcode_bitfield']), $row['bbcode_uid'], $row['bbcode_bitfield'], $socialnet->bbCodeFlags),
+							'U_HISTORY'	 => append_sid($this->p_master->u_action, 'u=' . $row['user_id']),
+							'S_FROM_ME'	 => ($direction == 'sn-im-from') ? true : false,
 						));
 					}
 					$db->sql_freeresult($rs);
@@ -112,9 +112,9 @@ class ucp_im
 					$pagination_url = append_sid($this->p_master->u_action);
 
 					$template->assign_vars(array(
-						'PAGINATION'	 		=> generate_pagination($pagination_url, $users_total, $limit, $start),
-						'PAGE_NUMBER'	 		=> on_page($users_total, $limit, $start),
-						'USERS_TOTAL'	 		=> ($users_total == 1) ? $user->lang['IM_CONVERSATION_TOTAL'] : sprintf($user->lang['IM_CONVERSATIONS_TOTAL'], $users_total),
+						'PAGINATION'	 => generate_pagination($pagination_url, $users_total, $limit, $start),
+						'PAGE_NUMBER'	 => on_page($users_total, $limit, $start),
+						'USERS_TOTAL'	 => ($users_total == 1) ? $user->lang['IM_CONVERSATION_TOTAL'] : sprintf($user->lang['IM_CONVERSATIONS_TOTAL'], $users_total),
 					));
 				}
 				else
@@ -150,14 +150,18 @@ class ucp_im
 						{
 							$history_username = $row['username'];
 						}
+						$avatar = $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50);
+						$b_no_avatar = stripos($avatar, 'socialnet/no_avatar') !== false ? true : false;
 
 						$template->assign_block_vars('history', array(
-							'U_PROFILE'	 		=> $socialnet->get_username_string($config['im_colour_username'], 'profile', $row['uid_from'], $row['username'], $row['user_colour']),
-							'U_USERNAME' 		=> $socialnet->get_username_string($config['im_colour_username'], 'full', $row['uid_from'], $row['username'], $row['user_colour']),
-							'AVATAR'	 			=> $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
-							'TIME'		 			=> $socialnet->time_ago($row['sent']),
-							'MSSG'		 			=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $socialnet->bbCodeFlags),
-							'S_UID_SAME'		=> ($previous_sender == $row['uid_from']) ? true : false,
+							'U_PROFILE'		 => $socialnet->get_username_string($config['im_colour_username'], 'profile', $row['uid_from'], $row['username'], $row['user_colour']),
+							'U_USERNAME'	 => $socialnet->get_username_string($config['im_colour_username'], 'full', $row['uid_from'], $row['username'], $row['user_colour']),
+							'AVATAR'		 => $avatar,
+							'B_NO_AVATAR'	 => $b_no_avatar,
+							'TIME'			 => $socialnet->time_ago($row['sent']),
+							'MSSG'			 => generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $socialnet->bbCodeFlags),
+							'S_UID_SAME'	 => ($previous_sender == $row['uid_from']) ? true : false,
+							'S_ME'			 => ($row['uid_from'] == $user->data['user_id']) ? true : false,
 						));
 
 						$previous_sender = $row['uid_from'];
@@ -179,14 +183,14 @@ class ucp_im
 					}
 
 					$template->assign_vars(array(
-						'ERROR'					 				=> implode('<br />', $error),
-						'PAGINATION'			 			=> generate_pagination($pagination_url, $history_total, $limit, $start),
-						'PAGE_NUMBER'			 			=> on_page($history_total, $limit, $start),
-						'MSG_TOTAL'				 			=> ($history_total == 1) ? $user->lang['IM_MSG_TOTAL'] : sprintf($user->lang['IM_MSGS_TOTAL'], $history_total),
-						'U_EXPORT_IM'			 			=> append_sid($this->p_master->u_action, 'u=' . $u_id),
-						'HISTORY_USERNAME'		 	=> $history_username,
-						'L_EXPORT_IM_HISTORY'	 	=> sprintf($user->lang['EXPORT_IM_HISTORY'], $history_username),
-						'U_SN_IM_HISTORY'		 		=> append_sid($this->p_master->u_action),
+						'ERROR'					 => implode('<br />', $error),
+						'PAGINATION'			 => generate_pagination($pagination_url, $history_total, $limit, $start),
+						'PAGE_NUMBER'			 => on_page($history_total, $limit, $start),
+						'MSG_TOTAL'				 => ($history_total == 1) ? $user->lang['IM_MSG_TOTAL'] : sprintf($user->lang['IM_MSGS_TOTAL'], $history_total),
+						'U_EXPORT_IM'			 => append_sid($this->p_master->u_action, 'u=' . $u_id),
+						'HISTORY_USERNAME'		 => $history_username,
+						'L_EXPORT_IM_HISTORY'	 => sprintf($user->lang['EXPORT_IM_HISTORY'], $history_username),
+						'U_SN_IM_HISTORY'		 => append_sid($this->p_master->u_action),
 					));
 
 					// Export history to .txt file
@@ -243,7 +247,7 @@ class ucp_im
 					}
 				}
 
-			break;
+				break;
 		}
 
 	}

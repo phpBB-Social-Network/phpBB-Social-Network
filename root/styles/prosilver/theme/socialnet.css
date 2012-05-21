@@ -95,6 +95,22 @@
 	text-decoration:none;
 }
 
+.sn-shadow
+{
+	background-color:#000;
+	background-image:none;
+}
+
+.sn-button-bold
+{
+	font-weight:bold!important;
+}
+
+.sn-button-italic
+{
+	font-style:italic!important;
+}
+
 div:not(.sn-page) .sn-userName a
 {
 	font-size:11px;
@@ -516,6 +532,18 @@ div:not(.sn-page) .sn-userName a
 	z-index:990;
 }
 
+.sn-im-block.ui-corner-top
+{
+	-khtml-border-top-left-radius:5px;
+	-khtml-border-top-right-radius:5px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+	-webkit-border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+
 .sn-im-title
 {
 	background:#0076b1 url({T_THEME_PATH}/images/bg_list.gif) repeat-x 0 -5px;
@@ -709,13 +737,17 @@ div:not(.sn-page) .sn-userName a
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	background:#fff;
-	border:4px solid #ccc;
 	border-radius:4px;
 	display:none;
-	padding:5px;
 	position:absolute;
 	width:150px;
 	z-index:999;
+}
+
+.sn-im-smiliesContent
+{
+	background-color:#fff;
+	padding:4px;
 }
 
 .sn-im-msgs
