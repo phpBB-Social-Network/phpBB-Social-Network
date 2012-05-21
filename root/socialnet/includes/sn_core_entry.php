@@ -407,30 +407,32 @@ class sn_core_entry_gets
 				$entry_size--;
 				$idx = 0;
 
-				foreach ($entry_addArray as $field => $value)
+				if (is_array($entry_addArray) && !empty($entry_addArray))
 				{
-					$field = strtoupper($field);
-					$field_ = strtoupper(preg_replace('/^user_/s', '', $field));
-
-					if (!empty($entry_add))
+					foreach ($entry_addArray as $field => $value)
 					{
-						if ($idx < $entry_size)
+						$field = strtoupper($field);
+						$field_ = strtoupper(preg_replace('/^user_/s', '', $field));
+
+						if (!empty($entry_add))
 						{
-							$entry_add .= ', ';
+							if ($idx < $entry_size)
+							{
+								$entry_add .= ', ';
+							}
+							else
+							{
+								$entry_add .= ' ' . strtolower($user->lang['AND']) . ' ';
+							}
 						}
-						else
-						{
-							$entry_add .= ' ' . strtolower($user->lang['AND']) . ' ';
-						}
+
+						$entry_add .= '<strong>';
+						$entry_add .= str_replace(' ', '&nbsp;', isset($user->lang[$field]) ? $user->lang[$field] : (isset($user->lang['SN_UP_' . $field]) ? $user->lang['SN_UP_' . $field] : (isset($user->lang[$field_]) ? $user->lang[$field_] : "{ $field }")));
+						$entry_add .= '</strong>: ' . $value;
+
+						$idx++;
 					}
-
-					$entry_add .= '<strong>';
-					$entry_add .= str_replace(' ', '&nbsp;', isset($user->lang[$field]) ? $user->lang[$field] : (isset($user->lang['SN_UP_' . $field]) ? $user->lang['SN_UP_' . $field] : (isset($user->lang[$field_]) ? $user->lang[$field_] : "{ $field }")));
-					$entry_add .= '</strong>: ' . $value;
-
-					$idx++;
 				}
-
 			}
 		}
 
