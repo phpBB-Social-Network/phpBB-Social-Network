@@ -34,7 +34,7 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 				</contributions-group>
 			</author>
 		</author-group>
-		<mod-version>0.6.3</mod-version>
+		<mod-version>0.7.0</mod-version>
 		<installation>
 			<level>easy</level>
 			<time>300</time>
@@ -102,7 +102,7 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 			</edit>
 			<edit>
 				<find><![CDATA[			<ul class="linklist navlinks">]]></find>
-				<action type="after-add"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="snNtfNotify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></action>
+				<action type="after-add"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></action>
 			</edit>
 			<edit>
 				<find><![CDATA[				<li class="icon-ucp">]]></find>
