@@ -29,8 +29,12 @@ function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
 				        click : function(){
 					        $(this).dialog('close');
 				        }
-				    } ]
+				    } ],
+				    close: function(){
+				    	$('#dialog').parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
+				    }
 				}).dialog('open');
+				$.sn.dropShadow($('#dialog').parent('.ui-dialog'),{size:8});
 
 			} else {
 				$('#dialog').dialog('option', {
@@ -46,17 +50,27 @@ function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
 						        callbackConfirm.apply();
 					        }
 					        $(this).dialog('close');
-				        }
+				        },
+				        class: 'sn-button-bold'
+				    
 				    }, {
 				        text : $.sn.confirmBox.button_cancel,
 				        click : function(){
 					        $(this).dialog('close');
+					        
 				        }
-				    } ]
+				    } ],
+				    close: function(){
+				    	$('#dialog').parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
+				    }
+				    
 				}).dialog('open');
+				$.sn.dropShadow($('#dialog').parent('.ui-dialog'),{size:8});
 			}
 		} else if (callbackConfirm != null && $.isFunction(callbackConfirm)) {
 			callbackConfirm.apply();
 		}
+		
+		
 	});
 }
