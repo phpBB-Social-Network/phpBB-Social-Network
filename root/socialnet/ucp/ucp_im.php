@@ -98,11 +98,13 @@ class ucp_im
 
 						$row = array_merge($row, $conversations[$usr]);
 
+						$trim_message = $socialnet->trim_text_withsmilies($row['message'], $row['bbcode_uid'], 300, 0, array(' ', "\n"), '...', $row['bbcode_bitfield']);
+
 						$template->assign_block_vars('users', array(
 							'U_USERNAME' => $socialnet->get_username_string($config['im_colour_username'], 'no_profile', $row['user_id'], $row['username'], $row['user_colour']),
 							'AVATAR'	 => $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
 							'TIME'		 => $socialnet->time_ago($row['sent']),
-							'MSSG'		 => generate_text_for_display($socialnet->trim_text($row['message'], $row['bbcode_uid'], 300, 0, array(' ', "\n"), '...', $row['bbcode_bitfield']), $row['bbcode_uid'], $row['bbcode_bitfield'], $socialnet->bbCodeFlags),
+							'MSSG'		 => generate_text_for_display($trim_message, $row['bbcode_uid'], $row['bbcode_bitfield'], $socialnet->bbCodeFlags),
 							'U_HISTORY'	 => append_sid($this->p_master->u_action, 'u=' . $row['user_id']),
 							'S_FROM_ME'	 => ($direction == 'sn-im-from') ? true : false,
 						));

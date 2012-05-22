@@ -529,28 +529,28 @@ class socialnet extends snFunctions
 
 		switch ($avatar_type)
 		{
-		case AVATAR_UPLOAD:
-			if (!$config['allow_avatar_upload'] && !$ignore_config)
-			{
-				return '';
-			}
-			$avatar_img = $phpbb_root_path . "download/file.$phpEx?avatar=";
-			break;
+			case AVATAR_UPLOAD:
+				if (!$config['allow_avatar_upload'] && !$ignore_config)
+				{
+					return '';
+				}
+				$avatar_img = $phpbb_root_path . "download/file.$phpEx?avatar=";
+				break;
 
-		case AVATAR_GALLERY:
-			if (!$config['allow_avatar_local'] && !$ignore_config)
-			{
-				return '';
-			}
-			$avatar_img = $phpbb_root_path . $config['avatar_gallery_path'] . '/';
-			break;
+			case AVATAR_GALLERY:
+				if (!$config['allow_avatar_local'] && !$ignore_config)
+				{
+					return '';
+				}
+				$avatar_img = $phpbb_root_path . $config['avatar_gallery_path'] . '/';
+				break;
 
-		case AVATAR_REMOTE:
-			if (!$config['allow_avatar_remote'] && !$ignore_config)
-			{
-				return '';
-			}
-			break;
+			case AVATAR_REMOTE:
+				if (!$config['allow_avatar_remote'] && !$ignore_config)
+				{
+					return '';
+				}
+				break;
 		}
 
 		$avatar_img .= $avatar;
@@ -840,28 +840,41 @@ class socialnet extends snFunctions
 	function delete_entry() // sn_core_entry->del
 	{
 		global $db;
-		
+
 		$num_args = func_num_args();
-		
+
 		if ($num_args > 1)
 		{
-      $sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
+			$sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
 								WHERE entry_target = " . func_get_arg(0) . "
 									AND entry_type = " . func_get_arg(1);
 		}
 		else
 		{
-      $sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
+			$sql = "DELETE FROM " . SN_ENTRIES_TABLE . "
 								WHERE entry_id = " . func_get_arg(0);
 		}
 		$db->sql_query($sql);
-		
+
 		echo $num_args;
 	}
 
 	function is_enabled($module_name)
 	{
 		return in_array($module_name, $this->existing);
+	}
+
+	function trim_text_withsmilies($text, $uid, $max_length, $max_paragraphs = 0, $stops = array(' ', "\n"), $replacement = '…', $bitfield = '', $enable_bbcode = true)
+	{
+		global $phpbb_root_path, $config;
+
+		preg_match_all('/<!-- s([^ ]*) -->(<img.* \/>)<!-- s(\1) -->/Si', $text, $matches);
+		$text = preg_replace('/<!-- s([^ ]*) -->(<img.* \/>)<!-- s\1 -->/Si', '\1', $text);
+		$text = $this->trim_text($text, $uid, $max_length, $max_paragraphs, $stops, $replacement, $bitfield, $enable_bbcode);
+		$text = str_replace($matches[1], $matches[2], $text);
+		$text = str_replace('{SMILIES_PATH}', $phpbb_root_path . $config['smilies_path'], $text);
+
+		return $text;
 	}
 
 	/**
@@ -1001,7 +1014,7 @@ class socialnet extends snFunctions
 		$unsafe_tags = array(
 			array('<', '>'),
 			array('[quote=&quot;', "&quot;:$uid]"), // 3rd parameter true here too for now
-			);
+		);
 
 		// If bitfield is given only check for those tags that are surely existing in the text
 		if (!empty($bitfield))
