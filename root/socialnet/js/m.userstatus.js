@@ -289,7 +289,7 @@
 
 		    // Nacteni dalsich statusu
 		    $('.sn-us-getMore').live('click', function() {
-
+		    	if ($('.ui-dialog').is(':visible')){ return;}
 			    var t_obj = $(this);
 			    var o_prev = t_obj.parents('.sn-more');
 			    var i_obj = $(o_prev).prev('div[id^=sn-ap-entry]');
