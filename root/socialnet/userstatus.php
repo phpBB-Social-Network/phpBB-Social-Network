@@ -727,7 +727,7 @@ if (!class_exists('socialnet_userstatus'))
 				'POSTER_AVATAR'			 => $avatar_img,
 				'TIME'					 => $st_time,
 				'TEXT'					 => $status_text_format,
-				'DELETE_STATUS'			 => ($auth->acl_get('a_') || ($status_row['poster_id'] == $user->data['user_id'])) ? true : false,
+				'DELETE_STATUS'			 => ($auth->acl_get('a_') || ($status_row['poster_id'] == $user->data['user_id']) || $status_row['wall_id'] == $user->data['user_id']) ? true : false,
 				'B_SN_US_CAN_COMMENT'	 => (in_array($status_row['poster_id'], $my_friends) || in_array($status_row['wall_id'], $my_friends) || $status_row['poster_id'] == $user->data['user_id']) ? true : false,
 				'B_ISPAGE'				 => !empty($pageData) && !empty($pageData['title']),
 				'WALL_ID'				 => $status_row['wall_id'],
