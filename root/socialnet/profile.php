@@ -1071,7 +1071,13 @@ if (!class_exists('socialnet_profile'))
 		function _prepare_for_entry(&$changed)
 		{
 			global $user;
-			if ( isset($changed['sex']) && !empty($changed['sex']))
+
+			if (!is_array($changed) || sizeOf($changed) == 0)
+			{
+				return;
+			}
+
+			if (isset($changed['sex']) && !empty($changed['sex']))
 			{
 				$changed['sex'] = ($changed['sex'] == '1') ? $user->lang['SN_UP_MALE'] : $user->lang['SN_UP_FEMALE'];
 
@@ -1083,7 +1089,7 @@ if (!class_exists('socialnet_profile'))
 				}
 			}
 
-			if ( isset($changed['interested_in']) && !empty($changed['interested_in']))
+			if (isset($changed['interested_in']) && !empty($changed['interested_in']))
 			{
 				if ($changed['interested_in'] == '1')
 				{
@@ -1096,6 +1102,14 @@ if (!class_exists('socialnet_profile'))
 				elseif ($changed['interested_in'] == '3')
 				{
 					$changed['interested_in'] = $user->lang['SN_UP_BOTH'];
+				}
+			}
+
+			foreach ($changed as $idx => $value)
+			{
+				if (trim($value) == '')
+				{
+					$changed[$idx] = $user->lang['SN_UP_PROFILE_VALUE_DELETED'];
 				}
 			}
 
@@ -1127,7 +1141,11 @@ if (!function_exists('profile_change_cut_string'))
 		if (strlen($value) > $config['ap_max_profile_value'])
 		{
 			$value = truncate_string($value, $config['ap_max_profile_value'] + 1);
-			$value = substr($value, 0, strrpos($value, ' ')) . '&nbsp;...';
+			if (strrpos($value, ' ') != 0)
+			{
+				$value = substr($value, 0, strrpos($value, ' ')) . '&nbsp;';
+			}
+			$value .= '...';
 		}
 	}
 }
