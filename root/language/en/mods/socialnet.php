@@ -58,8 +58,8 @@ $lang = array_merge($lang, array(
 	'SN_US_CONFIRM'							 => 'Confirm',
 	'SN_US_CLOSE'							 => 'Close',
 	'SN_US_CANCEL'							 => 'Cancel',
-	'SN_US_SHARED_A'           => 'shared a',
-	'SN_US_LINK'           => 'link',
+	'SN_US_SHARED_A'						 => 'shared a',
+	'SN_US_LINK'							 => 'link',
 	//
 	// FETCH PAGE
 	//
@@ -126,7 +126,7 @@ $lang = array_merge($lang, array(
 	'SN_AP_CHANGED_RELATIONSHIP_HIS'		 => 'has added a new relationship to his profile',
 	'SN_AP_CHANGED_RELATIONSHIP_HER'		 => 'has added a new relationship to her profile',
 	'SN_AP_CHANGED_RELATIONSHIP_THEIR'		 => 'has added a new relationship to their profile',
-	'SN_UP_SEND_EMOTE'						 => 'has send an emote to',
+	'SN_UP_SEND_EMOTE'						 => 'has sent an emote to',
 
 	'SN_PROFILE'							 => 'Profile',
 	'SN_MYPROFILE'							 => 'My Profile',
@@ -318,6 +318,9 @@ $lang = array_merge($lang, array(
 	'SN_UP_RETURN_TO_PROFILE'				 => '%1$sReturn to profile%2$s',
 	'SN_UP_TABS_SPINNER'					 => '<em>Loading&#8230;<\/em>',
 	'SN_UP_EMOTES'							 => 'Send Emote',
+
+	'SN_UP_PROFILE_VALUE_DELETED'			 => '<em>Removed</em>',
+
 	'SN_NTF_EMOTE_CB_TITLE'					 => 'Emote sent',
 	'SN_NTF_EMOTE_CB_TEXT'					 => 'Emote %2$s %3$s has been sent successfully to %1$s',
 
@@ -336,8 +339,8 @@ $lang = array_merge($lang, array(
 	'SN_CB_DELETE_STATUS_TEXT'				 => 'Are you sure you want to delete this status?',
 	'SN_CB_DELETE_COMMENT_TITLE'			 => 'Delete comment',
 	'SN_CB_DELETE_COMMENT_TEXT'				 => 'Are you sure you want to delete this comment?',
-	'SN_CB_DELETE_ACTIVITY_TITLE'				 => 'Delete activity',
-	'SN_CB_DELETE_ACTIVITY_TEXT'				 => 'Are you sure you want to delete this activity?',
+	'SN_CB_DELETE_ACTIVITY_TITLE'			 => 'Delete activity',
+	'SN_CB_DELETE_ACTIVITY_TEXT'			 => 'Are you sure you want to delete this activity?',
 
 	/**
 	 * SOCIALNET TIME AGO
