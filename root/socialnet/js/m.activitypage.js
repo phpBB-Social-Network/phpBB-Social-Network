@@ -31,6 +31,7 @@
 		    }
 
 		    $('.sn-ap-getMore').click(function() {
+		    	if ($('.ui-dialog').is(':visible')){ return;}
 			    var o_more = $(this)
 			    var o_loader = o_more.next('.sn-ap-statusLoader');
 			    $(o_loader).show();
@@ -113,6 +114,7 @@
 		 * Nacti nove zaznamy
 		 */
 	    loadNews : function() {
+	    	if ($('.ui-dialog').is(':visible')){ return;}
 		    if ($.sn.ap.loadingNews) { return; }
 		    $.sn.ap.loadingNews = true;
 		    var o_next = $('.sn-ap-loadNewsOver');
@@ -169,7 +171,7 @@
 			    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 				    $(document).oneTime($.sn.ap.loadMoreTime, 'sn-ap-checkScrollDown', function() {
 					    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-						    $('.sn-ap-statusLoader').show();
+						    //$('.sn-ap-statusLoader').show();
 						    $('.sn-ap-getMore').trigger('click');
 					    }
 				    });

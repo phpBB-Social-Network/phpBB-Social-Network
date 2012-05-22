@@ -58,6 +58,16 @@
 			        });
 		        }
 
+	        },
+	        center: function(){
+			    if ( $('.ui-dialog').is(':visible')){
+			    	$('#dialog').dialog('option','position', 'center');
+			    	var position = $('.ui-dialog').position();
+			    	$('.ui-widget-shadow').css({
+			    		top: position.top,
+			    		left: position.left
+			    	});
+			    }
 	        }
 	    },
 
@@ -262,7 +272,7 @@
 		    return 0;
 	    },
 
-	    insertAtCaret : function(textarea,myValue) {
+	    insertAtCaret : function(textarea, myValue) {
 		    return textarea.each(function(i) {
 			    if (document.selection) {
 				    // For browsers like Internet Explorer
@@ -293,7 +303,7 @@
 			    if (self.is('[aria-shadow="true"]')) { return; }
 			    var pself = self.position();
 
-			    var shCSS = $.extend(true,{
+			    var shCSS = $.extend(true, {
 			        position : 'absolute',
 			        top : pself.top,
 			        left : pself.left,
@@ -311,14 +321,18 @@
 				        padding : attribs.size
 				    });
 			    }
-			    if (attribs.cornerRadius != undefined){
+			    if (attribs.cornerRadius != undefined) {
 				    shCSS = $.extend({}, shCSS, {
-				        borderRadius: attribs.cornerRadius
+					    borderRadius : attribs.cornerRadius
 				    });
-			    	
+
 			    }
 			    var $overlay = $('<div>').addClass('ui-overlay');
-			    $('<div />').addClass('ui-widget-overlay').appendTo($overlay);
+			    var $overlay_w = $('<div />').addClass('ui-widget-overlay');
+
+			    if (attribs.overlayHidden) {
+				    $overlay_w.appendTo($overlay);
+			    }
 			    $('<div />').addClass('ui-widget-shadow ui-corner-all sn-shadow').css(shCSS).appendTo($overlay);
 
 			    $overlay.insertBefore(self);
@@ -332,8 +346,7 @@
 
 		    });
 	    },
-	    
-	    
+
 	    metadataInit : function() {
 	    },
 
@@ -406,6 +419,8 @@
 				    $.sn[idx]._scroll();
 			    }
 		    });
+		    
+		    $.sn.confirmBox.center();
 
 	    },
 
@@ -416,6 +431,9 @@
 				    minHeight : Math.max($('.sn-page-columnLeft').height(), $('.sn-page-columnRight').height(), $('.sn-page-content').height(), parseInt($('.sn-page-content').css('min-height')))
 			    });
 		    }
+		    
+		    $.sn.confirmBox.center();
+		    
 	    },
 
 	    _documentClick : function(event) {
