@@ -97,7 +97,7 @@
 
 .sn-shadow
 {
-	background-color:#000;
+	background-color:#ccc;
 	background-image:none;
 }
 
@@ -1766,7 +1766,7 @@ a.ui-button
 	color:#fff;
 }
 
-.sn-im-msg:first-child,.sn-fms-inGroup:first-child,.sn-ap-textBlock:first-child
+.sn-im-msg:first-child,.ui-dialog .sn-us-statusBlock,.sn-fms-inGroup:first-child,.sn-ap-textBlock:first-child,.ui-dialog .sn-ap-textBlock
 {
 	border-top:none;
 }
