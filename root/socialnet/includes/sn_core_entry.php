@@ -197,7 +197,7 @@ class sn_core_entry extends sn_core_entry_gets
 			$entries[$i]['TYPE'] = $entries_row['entry_type'];
 			$entries[$i]['TIME'] = $entries_row['entry_time'];
 			$entries[$i]['TARGET'] = $entries_row['entry_target'];
-			$entries[$i]['DELETE_ENTRY'] = ($this->_can_delete($entries_row['entry_type'], $user_id, $entries_row['entry_target'])) ? true : false;
+			$entries[$i]['DELETE_ENTRY'] = $this->_can_delete($entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target']);
 		}
 
 		return array('entries' => $entries, 'more' => count($entries_rowset) > $limit);
@@ -285,6 +285,7 @@ class sn_core_entry extends sn_core_entry_gets
 		switch ($entry_type)
 		{
 			case SN_TYPE_NEW_STATUS:
+				$can_delete = $user->data['user_id'] == $user_id;
 			case SN_TYPE_PROFILE_UPDATED:
 				$can_delete = $user->data['user_id'] == $user_id;
 				break;
@@ -298,7 +299,7 @@ class sn_core_entry extends sn_core_entry_gets
 		}
 
 		return ($can_delete || $auth->acl_get('a_'));
-	}
+		}
 }
 
 class sn_core_entry_gets
