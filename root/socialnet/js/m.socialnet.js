@@ -293,13 +293,13 @@
 			    if (self.is('[aria-shadow="true"]')) { return; }
 			    var pself = self.position();
 
-			    var shCSS = {
+			    var shCSS = $.extend(true,{
 			        position : 'absolute',
 			        top : pself.top,
 			        left : pself.left,
 			        width : self.innerWidth() + parseInt(self.css('border-left-width')) + parseInt(self.css('border-right-width')),
 			        height : self.innerHeight() + parseInt(self.css('border-top-width')) + parseInt(self.css('border-bottom-width'))
-			    }
+			    }, attribs);
 			    if (attribs.opacity != undefined) {
 				    shCSS = $.extend({}, shCSS, {
 					    opacity : attribs.opacity
@@ -317,7 +317,6 @@
 				    });
 			    	
 			    }
-
 			    var $overlay = $('<div>').addClass('ui-overlay');
 			    $('<div />').addClass('ui-widget-overlay').appendTo($overlay);
 			    $('<div />').addClass('ui-widget-shadow ui-corner-all sn-shadow').css(shCSS).appendTo($overlay);
