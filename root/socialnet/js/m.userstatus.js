@@ -51,7 +51,7 @@
 				    $('input[name="sn-us-fetchButton"]').hide();
 				    $('input[name="sn-us-fetchClear"]').hide();
 			    }
-		    });
+		    }).trigger('focusout');
 
 		    // Delete status
 		    $(".sn-us-deleteStatus").live('click', function() {
@@ -203,7 +203,7 @@
 		    $(".sn-us-inputComment").live('focusin', function() {
 			    $('.sn-us-buttonCommentOver:visible').hide();
 			    $(this).next('.sn-us-buttonCommentOver').show();
-		    });
+		    }).next('.sn-us-buttonCommentOver').hide();
 
 		    // Post comment
 		    $(".sn-us-shareComment input[name=sn-us-buttonComment]").live('click', function() {
