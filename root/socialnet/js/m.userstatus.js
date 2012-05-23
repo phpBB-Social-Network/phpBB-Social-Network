@@ -361,7 +361,7 @@
 					        $.each(data.images, function(i, image) {
 						        var $img = $('<img />', {
 						            src : image.img,
-						            class : '{imgH:' + image.height + ',imgW:' + image.width + '}',
+						            'class' : '{imgH:' + image.height + ',imgW:' + image.width + '}',
 						            load : function() {
 							            $(this).attr('id', 'sn-us-fetchPreviewImg_' + idx_img).css({
 							                display : (idx_img > 0 ? 'none' : 'inline-block'),

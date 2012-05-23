@@ -50,13 +50,11 @@ function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
 					        }
 					        $(this).dialog('close');
 				        },
-				        class: 'sn-button-bold'
-				    
+				        'class': 'sn-button-bold'
 				    }, {
 				        text : $.sn.confirmBox.button_cancel,
 				        click : function(){
 					        $(this).dialog('close');
-					        
 				        }
 				    } ],
 				    close: function(){
