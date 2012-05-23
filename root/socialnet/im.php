@@ -357,7 +357,7 @@ if (!class_exists('socialnet_im'))
 					'B_NO_AVATAR'	 => $b_no_avatar,
 					'MESSAGE'		 => $message,
 					'TIME'			 => $msg['sent'],
-					'TIME_STRING'	 => $user->format_date($msg['sent'], "h:i"),
+					'TIME_STRING'	 => $this->p_master->format_date('time',$msg['sent'], "H:i"),
 				));
 			}
 
@@ -480,7 +480,7 @@ if (!class_exists('socialnet_im'))
 					'MESSAGE'		 => $message,
 					'B_NO_AVATAR'	 => $b_no_avatar,
 					'TIME'			 => $row['sent'],
-					'TIME_STRING'	 => $user->format_date($row['sent'], "H:i"),
+					'TIME_STRING'	 => $this->p_master->format_date('time',$row['sent'], "H:i"),
 				));
 
 				$template->assign_var('T_IMAGESET_PATH', $this->t_imaset_path);
@@ -610,7 +610,7 @@ if (!class_exists('socialnet_im'))
 						'MESSAGE'		 => $message,
 						'B_NO_AVATAR'	 => $b_no_avatar,
 						'TIME'			 => $msg['sent'],
-						'TIME_STRING'	 => $user->format_date($msg['sent'], "H:i"),
+						'TIME_STRING'	 => $this->p_master->format_date('time',$msg['sent'], 'H:i'),
 					));
 					$previous_sender = $msg['uid_from'];
 				}
@@ -801,7 +801,7 @@ if (!class_exists('socialnet_im'))
 				'MESSAGE'		 => $message,
 				'B_NO_AVATAR'	 => stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false,
 				'TIME'			 => $message_time,
-				'TIME_STRING'	 => $user->format_date($message_time, "h:i"),
+				'TIME_STRING'	 => $this->p_master->format_date('time',$message_time, "H:i"),
 			));
 
 			$this->p_master->page_header();
