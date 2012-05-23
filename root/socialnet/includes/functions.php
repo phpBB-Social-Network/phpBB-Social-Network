@@ -651,14 +651,14 @@ class snFunctions
 			case 'complete':
 				break;
 			case 'date':
-				$formatUser = trim(preg_replace('/[aABgGhHisueIOPTZcRU][ .:-]/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/[aABgGhHisueIOPTZ][ .:-]/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
 				}
 				break;
 			case 'time':
-				$formatUser = trim(preg_replace('/[cRU^aABgGhHisueIOPTZ][ .:-]/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/[^aABgGhHisueIOPTZ][ .:-]/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
