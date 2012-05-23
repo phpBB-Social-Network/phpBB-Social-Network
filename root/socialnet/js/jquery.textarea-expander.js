@@ -50,7 +50,12 @@
 
 				if (hCheck && (vlen < e.valLength || ewidth != e.boxWidth)) e.style.height = "0px";
 				var h = Math.max(e.expandMin, Math.min(e.scrollHeight, e.expandMax));
-
+				if ( h == e.expandMin){
+					$(e).css('line-height',e.expandMin+'px');
+				} else {
+					$(e).css('line-height',e.lineHeight+'px');
+				}
+				
 				e.style.overflow = (e.scrollHeight > h ? "auto" : "hidden");
 				e.style.height = h + "px";
 
@@ -71,6 +76,7 @@
 			var p = this.className.match(/expand(\d+)\-*(\d+)*/i);
 			this.expandMin = minHeight || (p ? parseInt('0'+p[1], 10) : 0);
 			this.expandMax = maxHeight || (p ? parseInt('0'+p[2], 10) : 99999);
+			this.lineHeight = parseInt($(this).css('line-height'));
 
 			// initial resize
 			ResizeTextarea(this);
