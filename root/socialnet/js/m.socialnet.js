@@ -176,24 +176,6 @@
 			    $(this).toggleClass('ui-state-hover');
 		    });
 
-		    /** TOOLTIP INIT */
-		    /*
-			 * $('.sn-fms-unapproved').tooltip({ open: function() { var tooltip =
-			 * $(this).tooltip('widget', {tooltipClass:'red'});
-			 * $(document).mousemove(function(event) { tooltip.position({ my:
-			 * "left top", at: "right top", offset: "5 10", of: event }); }) //
-			 * trigger once to override element-relative positioning
-			 * .mousemove(); }, close: function() {
-			 * $(document).unbind("mousemove"); } }); $('.sn-tooltip,
-			 * [title]:not([title^="mp3"])').tooltip({ open: function() { var
-			 * tooltip = $(this).tooltip("widget");
-			 * $(document).mousemove(function(event) { tooltip.position({ my:
-			 * "left top", at: "right top", offset: "5 10", of: event }); }) //
-			 * trigger once to override element-relative positioning
-			 * .mousemove(); }, close: function() {
-			 * $(document).unbind("mousemove"); } });
-			 */
-
 		    $(document).oneTime(250, 'sn-page-height', function() {
 			    $.sn._resize()
 		    });
@@ -426,7 +408,7 @@
 
 	    _resize : function() {
 		    if ($('.sn-page').size() > 0) {
-			    $('.sn-page-content').removeAttr('style');
+			    //$('.sn-page-content').removeAttr('style');
 			    $('.sn-page-content').css({
 				    minHeight : Math.max($('.sn-page-columnLeft').height(), $('.sn-page-columnRight').height(), $('.sn-page-content').height(), parseInt($('.sn-page-content').css('min-height')))
 			    });
