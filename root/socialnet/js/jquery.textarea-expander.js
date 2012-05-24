@@ -51,9 +51,11 @@
 				if (hCheck && (vlen < e.valLength || ewidth != e.boxWidth)) e.style.height = "0px";
 				var h = Math.max(e.expandMin, Math.min(e.scrollHeight, e.expandMax));
 				if ( h == e.expandMin){
-					$(e).css('line-height',e.expandMin+'px');
+					var pd = (e.expandMin-parseInt($(e).css('line-height')))/2;
+					$(e).css({'padding-top':pd,'padding-bottom':pd});
+					h = h-2*pd;
 				} else {
-					$(e).css('line-height',e.lineHeight+'px');
+					$(e).css({'padding-top':0,'padding-bottom':0});
 				}
 				
 				e.style.overflow = (e.scrollHeight > h ? "auto" : "hidden");
@@ -77,14 +79,13 @@
 			this.expandMin = minHeight || (p ? parseInt('0'+p[1], 10) : 0);
 			this.expandMax = maxHeight || (p ? parseInt('0'+p[2], 10) : 99999);
 			this.lineHeight = parseInt($(this).css('line-height'));
-
 			// initial resize
 			ResizeTextarea(this);
 
 			// zero vertical padding and add events
 			if (!this.Initialized) {
 				this.Initialized = true;
-				$(this).css("padding-top", 0).css("padding-bottom", 0);
+				$(this).css({"padding-top": 0,"padding-bottom": 0});
 				$(this).bind("keyup", ResizeTextarea).bind("focus", ResizeTextarea);
 			}
 		});
