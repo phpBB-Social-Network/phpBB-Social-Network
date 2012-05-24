@@ -389,31 +389,6 @@ div:not(.sn-page) .sn-userName a
 	word-wrap:break-word;
 }
 
-.ui-tooltip
-{
-	-moz-box-shadow:3px 3px 3px #888;
-	-o-box-shadow:3px 3px 3px #888;
-	-webkit-box-shadow:3px 3px 3px #888;
-	background:#333;
-	box-shadow:3px 3px 3px #888;
-	color:#fff;
-	opacity:.9;
-	padding:3px 6px;
-	position:absolute;
-	z-index:9999;
-}
-
-* html .ui-tooltip
-{
-	background-image:none;
-}
-
-.ui-tooltip-red
-{
-	background:#ecd5d8;
-	color:#000;
-}
-
 #phpbb.sn-im-page
 {
 	margin-bottom:24px;
@@ -711,11 +686,6 @@ div:not(.sn-page) .sn-userName a
 .ui-icon.sn-im-cbClose
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/button_close_im.png);
-}
-
-.sn-im-canchat
-{
-	cursor:pointer;
 }
 
 .sn-im-nav
@@ -1756,6 +1726,11 @@ a.ui-button
 .sn-watermark,.sn-us-watermark
 {
 	color:#888;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active a,.ui-tabs .ui-tabs-nav li.ui-state-disabled a,.ui-tabs .ui-tabs-nav li.ui-tabs-loading a,.sn-im-canchat
+{
+	cursor:pointer;
 }
 
 .ltr .sn-im-dockWrapper,.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.ltr .sn-im-nav .sn-im-button,.ltr .sn-im-nav,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-nav .sn-im-button
