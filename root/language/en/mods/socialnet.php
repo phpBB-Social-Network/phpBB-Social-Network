@@ -467,6 +467,9 @@ $lang = array_merge($lang, array(
 	'SN_CREATE_NEW_GROUP'					 => 'Create new group',
 	//'CONFIRM_CREATE_UFG'					 => 'Are you sure you want to create <strong>%1$s</strong> friends group?',
 	'CONFIRM_DELETE_UFG'					 => 'Are you sure you want to delete <strong>%1$s</strong> friends group?',
+	'FMS_DELETE_UFG'						 => 'Delete friend user group',
+	'FMS_DELETE_UFG_TEXT'					 => 'Are you sure you want to delete this friend user group?',
+
 	'ADD_FRIEND_TO_GROUP'					 => 'Add friend to friends group',
 	'ERROR_GROUP_EMPTY_NAME'				 => 'Empty group name',
 	'ERROR_GROUP_ALREADY_EXISTS'			 => 'You have already created this group',

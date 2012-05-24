@@ -12,6 +12,8 @@
 	    url : '',
 	    urlFMS : '',
 	    noFriends : '{ FAS FRIENDGROUP NO TOTAL }',
+	    deleteUserGroup: '{ FMS_DELETE_FRIENDUSERGROUP }',
+	    deleteUserGroupText: '{ FMS_DELETE_FRIENDUSERGROUP_TEXT }',
 	    _init : false,
 
 	    _load : function(m, s, u) {
@@ -329,11 +331,13 @@
 		    $.sn.fms.callbackInit('group');
 
 		    $('#sn-fms-groupAccordion .sn-fms-groupDelete').click(function() {
-
 			    var i_gid = $.sn.getAttr($(this), 'gid');
-			    $('#sn-fms-groupAccordion > [id^="sn-fms-grp' + i_gid + '"]').remove();
-			    $.sn.fms._groupChange('delete', i_gid, -1);
-
+			    var $grp = $('#sn-fms-groupAccordion > [id^="sn-fms-grp' + i_gid + '"]');
+			    snConfirmBox($.sn.fms.deleteUserGroup, $.sn.fms.deleteUserGroupText + '<br /><strong>' + $('#sn-fms-groupAccordion > .ui-accordion-header[id^="sn-fms-grp' + i_gid + '"] a').html().replace(/\([^\(]+\)$/i,'')+'</strong>', function() {
+				    $grp.remove();
+				    $.sn.fms._groupChange('delete', i_gid, -1);
+			    });
+			    return false;
 		    });
 
 	    },
