@@ -646,19 +646,21 @@ class snFunctions
 	{
 		global $user;
 
+		$timeChars = 'aABgGhHisueIOPTZ';
+		
 		switch ($part)
 		{
 			case 'complete':
 				break;
 			case 'date':
-				$formatUser = trim(preg_replace('/[aABgGhHisueIOPTZ][ .:-]/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/['.$timeChars.'][ ,.:-\\\|]/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
 				}
 				break;
 			case 'time':
-				$formatUser = trim(preg_replace('/[^aABgGhHisueIOPTZ][ .:-]/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/[^'.$timeChars.'][ ,.:-\\\|]/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
