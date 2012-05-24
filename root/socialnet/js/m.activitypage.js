@@ -152,18 +152,6 @@
 	    },
 
 	    _resize : function() {
-		    /*
-			 * if ($('.sn-ap-search').size() > 0) { var snApSearch =
-			 * $('.sn-ap-search input[type=image]'); var snApInput =
-			 * $('.sn-ap-search input.inputbox'); var snApSearchLabel =
-			 * snApSearch.val();
-			 * 
-			 * snApInput.css('width', $('.sn-ap-search').width() -
-			 * snApSearch.width() - parseInt(snApInput.css('padding-left')) -
-			 * parseInt(snApInput.css('padding-right')) -
-			 * -parseInt(snApInput.css('margin-left')) -
-			 * parseInt(snApInput.css('margin-right')) - 1); }
-			 */
 	    },
 
 	    _scroll : function() {
