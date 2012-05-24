@@ -121,8 +121,6 @@ class ucp_im
 				}
 				else
 				{
-					$start = request_var('start', 0);
-					$limit = request_var('limit', 30);
 
 					$error = array();
 
@@ -135,6 +133,9 @@ class ucp_im
 					$rs = $db->sql_query($sql);
 					$history_total = $db->sql_fetchfield('count');
 
+					$limit = request_var('limit', 30);
+					$start = request_var('start', (int) floor($history_total/ $limit)*$limit);
+					
 					$sql = "SELECT u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height,
 												 im.uid_from, im.message, im.bbcode_uid, im.bbcode_bitfield, im.sent
 										FROM " . SN_IM_TABLE . " AS im,
