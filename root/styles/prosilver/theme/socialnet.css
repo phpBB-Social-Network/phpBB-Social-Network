@@ -378,6 +378,17 @@ div:not(.sn-page) .sn-userName a
 	padding-right:40px;
 }
 
+.ui-dialog
+{
+	max-height:80%;
+}
+
+.ui-body-dialog
+{
+	max-height:84%;
+	word-wrap:break-word;
+}
+
 .ui-tooltip
 {
 	-moz-box-shadow:3px 3px 3px #888;
