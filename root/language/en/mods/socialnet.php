@@ -530,4 +530,11 @@ $lang = array_merge($lang, array(
 	'SN_UP_EMOTES_USER'	 => 'Emotes',
 ));
 
+// EXPANDER
+
+$lang = array_merge($lang, array(
+	'SN_EXPANDER_READ_MORE'	 => 'read more',
+	'SN_EXPANDER_READ_LESS'	 => 'read less',
+));
+
 ?>

@@ -20,6 +20,8 @@
 	    _debug : false,
 	    allow_load : true,
 	    rtl : false,
+	    expanderTextMore: '[read more]',
+	    expanderTextLess: '[read less]',
 
 	    cookie : {
 	        name : '',
@@ -148,6 +150,8 @@
 		    });
 		    $(document).click(function(event) {
 			    $.sn._documentClick(event);
+		    }).bind('DOMSubtreeModified', function(){
+		    	$.sn._DOMSubtreeModified();
 		    });
 
 		    this.rtl = $('body').hasClass('rtl');
@@ -181,6 +185,7 @@
 		    });
 		    this.confirmBox.init();
 		    this.comments.init();
+		    
 		    if (this._debug) this._debugInit();
 	    },
 
@@ -421,6 +426,23 @@
 		    });
 
 	    },
+	    
+	    _DOMSubtreeModified : function(){
+	    	var self = this;
+	    	$.each(self.enableModules, function(idx,value){
+			    if (value !== false && $.sn[idx] !== undefined && $.sn[idx]._DOMChanged !== undefined) {
+				    $.sn[idx]._DOMChanged();
+			    }
+	    	});
+	    	$('.sn-expander-text:not([aria-expander="true"]').attr('aria-expander', 'true').expander({
+	    		slicePoint: 600,
+	    		expandText: $.sn.expanderTextMore,
+	    		userCollapseText: $.sn.expanderTextLess,
+	    		moreClass: 'sn-expander-more',
+	    		lessClass: 'sn-expander-less' 
+	    	});	    	
+	    },
+	    
 
 	    _debugInit : function() {
 		    var dbg = $('<div />').attr('title', 'DEBUG');

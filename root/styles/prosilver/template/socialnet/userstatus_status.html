@@ -14,7 +14,7 @@
 			<span class="sn-userName">{us_status.U_POSTER_PROFILE}</span>
 			<!-- IF us_status.ANOTHER_WALL --><span class="sn-us-postOnWall">&raquo;</span>&nbsp;<span class="sn-userName">{us_status.U_WALL_PROFILE}</span>&nbsp;<!-- ENDIF -->
 			<!-- IF not us_status.B_ISPAGE -->
-				<br />{us_status.TEXT}
+				<br /><span class="sn-expander-text">{us_status.TEXT}</span>
 			<!-- ELSE -->
 			  {L_SN_US_SHARED_A} <a href="{us_status.PAGE_URL}" title="{us_status.PAGE_TITLE_TITLE}"><!-- IF us_status.PAGE_VIDEO neq '' -->{us_status.PAGE_VIDEOI}<!-- ELSE -->{L_SN_US_LINK}<!-- ENDIF --></a>
 				<div class="clear" style="margin-top: 4px;"></div>
