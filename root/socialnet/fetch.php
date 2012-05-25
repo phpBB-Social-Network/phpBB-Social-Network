@@ -73,10 +73,15 @@ if (empty($string))
  * If fetch error
  */
 $ytData = array();
+if (preg_match("/^Couldn\'t resolve host/s", $string))
+{
+	$status = 502;
+}
 
 if ($status != "200")
 {
-	if ($status = !0)
+	
+	if ($status != 0)
 	{
 		$error = error_fetch($status);
 	}
@@ -84,10 +89,8 @@ if ($status != "200")
 	{
 		$error = array('CURL error', $string);
 	}
-	header("HTTP/1.1 {$status} {$error[0]}", 1);
 	die("<strong>{$status} {$error[0]}</strong><br />{$error[1]}");
 }
-
 /**
  * Parse type of page
  */
