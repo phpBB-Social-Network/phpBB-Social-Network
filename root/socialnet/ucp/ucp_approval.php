@@ -8,6 +8,14 @@
  *
  */
 
+/**
+ * @ignore
+ */
+if (!defined('IN_PHPBB'))
+{
+	exit;
+}
+
 include_once("{$phpbb_root_path}/includes/functions_display.{$phpEx}");
 include_once("{$phpbb_root_path}/includes/functions_privmsgs.{$phpEx}");
 
