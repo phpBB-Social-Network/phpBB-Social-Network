@@ -399,6 +399,16 @@ div:not(.sn-page) .sn-userName a
 	z-index:999;
 }
 
+.ltr .sn-im-chatBoxes .sn-im-group
+{
+	margin-right:4px;
+}
+
+.rtl .sn-im-chatBoxes .sn-im-group
+{
+	margin-left:4px;
+}
+
 .sn-im-button
 {
 	background:#eee url({T_IMAGESET_PATH}/socialnet/im_bg_toolbar.png) repeat-x 0 0;
@@ -467,10 +477,30 @@ div:not(.sn-page) .sn-userName a
 	visibility:visible;
 }
 
+.ltr .sn-im-unRead
+{
+	right:20px;
+}
+
+.rtl .sn-im-unRead
+{
+	left:20px;
+}
+
 .sn-im-online.sn-im-button .label
 {
 	background:transparent none no-repeat 0 50%;
 	display:inline-block;
+}
+
+.ltr .sn-im-online.sn-im-button .label
+{
+	padding-left:25px;
+}
+
+.rtl .sn-im-online.sn-im-button .label
+{
+	padding-right:25px;
 }
 
 .sn-im-online.sn-im-block
@@ -663,6 +693,28 @@ div:not(.sn-page) .sn-userName a
 	background-color:#ddd;
 }
 
+.ltr .sn-im-userLine
+{
+	clear:left;
+}
+
+.ltr .sn-im-userLine .sn-user-avatar
+{
+	float:left;
+	margin:1px 4px 1px 0;
+}
+
+.sn-im-userLine .rtl *
+{
+	clear:right;
+}
+
+.sn-im-userLine .rtl * .sn-user-avatar
+{
+	float:right;
+	margin:1px 0 1px 4px;
+}
+
 .ui-icon.sn-im-cbSmiley
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/button_smiley.png);
@@ -695,6 +747,22 @@ div:not(.sn-page) .sn-userName a
 	background:#fff url({T_IMAGESET_PATH}/socialnet/im_message.png) no-repeat 2px 50%;
 	border-top:1px solid #ccc;
 	width:240px;
+}
+
+.ltr .sn-im-textArea
+{
+	background-position:1% 50%;
+	border-right:1px solid #ccc;
+	float:left;
+	padding-left:20px;
+}
+
+.rtl .sn-im-textArea
+{
+	background-position:99% 50%;
+	border-left:1px solid #ccc;
+	float:right;
+	padding-right:20px;
 }
 
 .sn-im-smilies
@@ -747,6 +815,57 @@ div:not(.sn-page) .sn-userName a
 	clear:both;
 }
 
+.ltr .sn-im-msg .sn-im-msgText
+{
+	padding-left:5px;
+}
+
+.rtl .sn-im-msg .sn-im-msgText
+{
+	padding-right:5px;
+}
+
+.ltr .sn-im-msg .sn-userName
+{
+	float:left;
+	padding-right:4px;
+}
+
+.rtl .sn-im-msg .sn-userName
+{
+	float:right;
+	padding-left:4px;
+}
+
+.ltr .sn-im-msg
+{
+	padding-left:30px;
+}
+
+.rtl .sn-im-msg
+{
+	padding-right:30px;
+}
+
+.sn-im-msg.sn-im-history .sn-userName
+{
+	float:none;
+	font-size:1.2em;
+	font-weight:bold;
+}
+
+.ltr .sn-im-msg.sn-im-history .sn-userName
+{
+	padding-left:5px;
+	padding-right:0;
+}
+
+.rtl .sn-im-msg.sn-im-history .sn-userName
+{
+	padding-left:0;
+	padding-right:5px;
+}
+
 .sn-im-msg.sn-im-history .sn-im-msgText
 {
 	font-size:1.1em;
@@ -776,10 +895,52 @@ div:not(.sn-page) .sn-userName a
 	padding:0;
 }
 
+.ltr .sn-im-msg.sn-im-history .sn-im-msgAvatar
+{
+	margin-left:-50px;
+}
+
+.rtl .sn-im-msg.sn-im-history .sn-im-msgAvatar
+{
+	margin-right:-50px;
+}
+
+.ltr .sn-im-msg.sn-im-history
+{
+	padding-left:50px;
+}
+
+.rtl .sn-im-msg.sn-im-history
+{
+	padding-right:50px;
+}
+
 .sn-im-msgAvatar > img
 {
 	bottom:5px;
 	position:absolute;
+}
+
+.ltr .sn-im-msgAvatar > img
+{
+	right:0;
+}
+
+.rtl .sn-im-msgAvatar > img
+{
+	left:0;
+}
+
+.ltr .sn-im-msgAvatar
+{
+	float:left;
+	margin-left:-30px;
+}
+
+.rtl .sn-im-msgAvatar
+{
+	float:right;
+	margin-right:-30px;
 }
 
 .sn-im-noborderTop
@@ -791,6 +952,7 @@ div:not(.sn-page) .sn-userName a
 .sn-im-msgTime
 {
 	background-color:#fff;
+	border-top:1px solid #eee;
 	color:#555;
 	display:none;
 	font-size:9px;
@@ -798,6 +960,20 @@ div:not(.sn-page) .sn-userName a
 	margin-top:-10px;
 	padding:0 3px;
 	position:static;
+}
+
+.ltr .sn-im-msgTime
+{
+	border-left:1px solid #eee;
+	float:right;
+	right:0;
+}
+
+.rtl .sn-im-msgTime
+{
+	border-right:1px solid #eee;
+	float:left;
+	left:0;
 }
 
 .sn-im-message
@@ -825,6 +1001,20 @@ div:not(.sn-page) .sn-userName a
 	height:40px;
 	margin-top:1px;
 	width:40px;
+}
+
+.ltr .sn-im-cbAvatar
+{
+	float:left;
+	margin-left:-5px;
+	margin-right:5px;
+}
+
+.rtl .sn-im-cbAvatar
+{
+	float:right;
+	margin-left:5px;
+	margin-right:-5px;
 }
 
 .sn-im-noChatBar.sn-im-chatBox .sn-im-title .sn-im-status
@@ -857,208 +1047,6 @@ div:not(.sn-page) .sn-userName a
 .sn-im-history-export
 {
 	margin-top:.5em;
-}
-
-.ltr .sn-im-chatBoxes .sn-im-group,.ltr .sn-im-nav
-{
-	margin-right:4px;
-}
-
-.ltr .sn-im-button .sn-im-unRead
-{
-	right:20px;
-}
-
-.ltr .sn-im-online.sn-im-button .label
-{
-	padding-left:25px;
-}
-
-.ltr .sn-im-userLine
-{
-	clear:left;
-}
-
-.ltr .sn-im-userLine .sn-user-avatar
-{
-	float:left;
-	margin:1px 4px 1px 0;
-}
-
-.ltr .sn-im-textArea
-{
-	background-position:1% 50%;
-	border-right:1px solid #ccc;
-	float:left;
-	padding-left:20px;
-}
-
-.ltr .sn-im-smiliesBox
-{
-	left:160px;
-}
-
-.ltr .sn-im-msg
-{
-	padding-left:30px;
-}
-
-.ltr .sn-im-msg .sn-im-msgAvatar
-{
-	margin-left:-30px;
-}
-
-.ltr .sn-im-msg .sn-im-msgText
-{
-	padding-left:5px;
-}
-
-.ltr .sn-im-msg .sn-userName
-{
-	float:left;
-	padding-right:4px;
-}
-
-.ltr .sn-im-msg.sn-im-history
-{
-	padding-left:50px;
-}
-
-.ltr .sn-im-msg.sn-im-history .sn-im-msgAvatar
-{
-	margin-left:-50px;
-}
-
-.ltr .sn-im-msg.sn-im-history .sn-userName
-{
-	float:none;
-	padding-left:5px;
-	padding-right:0;
-}
-
-.ltr .sn-im-msgAvatar > img
-{
-	right:0;
-}
-
-.ltr .sn-im-msgTime
-{
-	border-left:1px solid #eee;
-	border-top:1px solid #eee;
-	float:right;
-	right:0;
-}
-
-.ltr .sn-im-cbAvatar
-{
-	float:left;
-	margin-left:-5px;
-	margin-right:5px;
-}
-
-.rtl .sn-im-chatBoxes .sn-im-group,.rtl .sn-im-nav
-{
-	margin-left:4px;
-}
-
-.rtl .sn-im-button .sn-im-unRead
-{
-	left:20px;
-}
-
-.rtl .sn-im-online.sn-im-button .label
-{
-	background-position:100% 50%;
-	padding-right:25px;
-}
-
-.rtl .sn-im-loginlogout
-{
-	background-position:99% 1px;
-	float:left;
-}
-
-.rtl .sn-im-userLine
-{
-	background-position:2% 50%;
-	clear:right;
-}
-
-.rtl .sn-im-userLine .sn-user-avatar
-{
-	float:right;
-	margin:1px 0 1px 4px;
-}
-
-.rtl .sn-im-textArea
-{
-	background-position:99% 50%;
-	border-left:1px solid #ccc;
-	float:right;
-	padding-right:20px;
-}
-
-.rtl .sn-im-smiliesBox
-{
-	right:160px;
-}
-
-.rtl .sn-im-msg
-{
-	padding-right:30px;
-}
-
-.rtl .sn-im-msg .sn-im-msgAvatar
-{
-	margin-right:-30px;
-}
-
-.rtl .sn-im-msg .sn-im-msgText
-{
-	padding-right:5px;
-}
-
-.rtl .sn-im-msg .sn-userName
-{
-	float:right;
-	padding-left:4px;
-}
-
-.rtl .sn-im-msg.sn-im-history
-{
-	padding-right:50px;
-}
-
-.rtl .sn-im-msg.sn-im-history .sn-im-msgAvatar
-{
-	margin-right:-50px;
-}
-
-.rtl .sn-im-msg.sn-im-history .sn-userName
-{
-	float:none;
-	font-size:1.2em;
-	padding-left:0;
-}
-
-.rtl .sn-im-msgAvatar > img
-{
-	left:0;
-}
-
-.rtl .sn-im-msgTime
-{
-	border-right:1px solid #eee;
-	border-top:1px solid #eee;
-	float:left;
-	left:0;
-}
-
-.rtl .sn-im-cbAvatar
-{
-	float:right;
-	margin-left:5px;
-	margin-right:-5px;
 }
 
 .jGrowl .jGrowl-notification.blue,.jGrowl .jGrowl-closer.blue
@@ -1134,16 +1122,6 @@ div:not(.sn-page) .sn-userName a
 	overflow:hidden;
 }
 
-.ltr .sn-us-statusBox
-{
-	padding-left:60px;
-}
-
-.rtl .sn-us-statusBox
-{
-	padding-right:60px;
-}
-
 .sn-us-statusText
 {
 	min-height:50px;
@@ -1188,6 +1166,12 @@ div:not(.sn-page) .sn-userName a
 .sn-us-fetchImages
 {
 	width:120px;
+}
+
+.sn-us-fetchData .title
+{
+	font-size:1.2em;
+	font-weight:bold;
 }
 
 .sn-us-page-URL
@@ -1645,13 +1629,13 @@ a.ui-button
 	visibility:hidden;
 }
 
-.ltr .sn-page-columnLeft,.rtl .sn-page-columnRight,.ltr .sn-posterAvatar,.ltr .sn-us-posterAvatar,.ltr .sn-us-fpreviews
+.ltr .sn-page-columnLeft,.rtl .sn-page-columnRight,.ltr .sn-posterAvatar,.ltr .sn-us-fpreviews
 {
 	float:left;
 	padding-right:10px;
 }
 
-.rtl .sn-page-columnLeft,.ltr .sn-page-columnRight,.rtl .sn-posterAvatar,.rtl .sn-us-posterAvatar,.rtl .sn-us-fpreviews
+.rtl .sn-page-columnLeft,.ltr .sn-page-columnRight,.rtl .sn-posterAvatar,.rtl .sn-us-fpreviews
 {
 	float:right;
 	padding-left:10px;
@@ -1662,12 +1646,12 @@ a.ui-button
 	margin-top:10px;
 }
 
-.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.ltr .sn-im-loginlogout,.ltr .sn-im-smilies,.ltr .sn-im-history-time,.ltr .sn-im-history-export,.rtl .sn-im-sound.ui-icon,.rtl .sn-button,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.rtl .sn-im-msgAvatar,.rtl .sn-im-history-title,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.rtl .sn-ap-avatar
+.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.rtl .sn-ap-avatar
 {
 	float:right;
 }
 
-.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-button,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.ltr .sn-im-msgAvatar,.ltr .sn-im-history-title,.rtl .sn-im-group,.rtl .sn-im-buttons .ui-icon,.rtl .sn-im-smilies,.rtl .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.ltr .sn-ap-avatar
+.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-im-group,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.ltr .sn-ap-avatar
 {
 	float:left;
 }
@@ -1675,6 +1659,11 @@ a.ui-button
 .sn-userName a,.snUsername,.sn-userName,.sn-us-statusBox .sn-us-postOnWall,.sn-us-page-Title
 {
 	font-weight:bold;
+}
+
+.sn-user-avatar,.sn-posterAvatar,.sn-posterAvatar a:link,.sn-posterAvatar a:visited,.sn-posterAvatar a:hover,.sn-posterAvatar a:active,#sn-ntf-notify,.sn-up-editable,.sn-up-editable:hover .sn-up-editableButton,.sn-fms-friend.sn-fms-user-suggestion a:link,.sn-fms-friend.sn-fms-user-suggestion a:visited,.sn-fms-friend.sn-fms-user-suggestion a:hover,.sn-fms-friend.sn-fms-user-suggestion a:active,.sn-ap-avatar a:link,.sn-ap-avatar a:visited,.sn-ap-avatar a:hover,.sn-ap-avatar a:active
+{
+	display:inline-block;
 }
 
 .sn-action-block,.sn-action-blockHidden,.sn-im-group,.sn-im-msgAvatar,.sn-up-menu > li
@@ -1707,11 +1696,6 @@ a.ui-button
 	background-image:url({T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png);
 }
 
-.sn-posterAvatar,#sn-ntf-notify,.sn-us-posterAvatar,.sn-up-editable,.sn-up-editable:hover .sn-up-editableButton
-{
-	display:inline-block;
-}
-
 .sn-commentText,.sn-im-msg .sn-im-msgText
 {
 	word-wrap:break-word;
@@ -1727,14 +1711,14 @@ a.ui-button
 	cursor:pointer;
 }
 
-.ltr .sn-im-dockWrapper,.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.ltr .sn-im-nav .sn-im-button,.ltr .sn-im-nav,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-nav .sn-im-button
+.ltr .sn-im-dockWrapper,.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-button,.ltr .sn-im-nav
 {
 	border-right-color:#bbb;
 	border-right-style:solid;
 	border-right-width:1px;
 }
 
-.rtl .sn-im-dockWrapper,.ltr .sn-im-button,.rtl .sn-im-nav,.rtl .sn-im-button
+.rtl .sn-im-dockWrapper,.ltr .sn-im-button,.rtl .sn-im-nav
 {
 	border-left-color:#bbb;
 	border-left-style:solid;
@@ -1756,17 +1740,6 @@ a.ui-button
 	padding-bottom:0;
 }
 
-.sn-im-msg.sn-im-history .sn-userName,.sn-us-fetchData .title
-{
-	font-size:1.2em;
-	font-weight:bold;
-}
-
-.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-wallButton.ui-button,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider
-{
-	display:none;
-}
-
 .ltr .sn-im-msg .sn-im-msgText-Arrow,.rtl #sn-ntf-notify
 {
 	padding-right:3px;
@@ -1775,6 +1748,11 @@ a.ui-button
 .rtl .sn-im-msg .sn-im-msgText-Arrow,.ltr #sn-ntf-notify
 {
 	padding-left:3px;
+}
+
+.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-wallButton.ui-button,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider
+{
+	display:none;
 }
 
 .ltr .jGrowl .jGrowl-notification .jGrowl-message span,.rtl .sn-up-editableButton
