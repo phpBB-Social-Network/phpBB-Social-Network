@@ -244,7 +244,7 @@
 		    });
 
 		    // Nacteni dalsich komentaru
-		    $('.sn-us-getMoreComments').removeAttr('href').live('click', function() {
+		    $('.sn-us-getMoreComments').live('click', function() {
 			    var o_loader = $(this).next('.sn-us-commentsLoader');
 			    o_loader.show();
 
@@ -285,6 +285,7 @@
 				        o_loader.hide();
 			        }
 			    });
+			    return false;
 		    });
 
 		    // Nacteni dalsich statusu
