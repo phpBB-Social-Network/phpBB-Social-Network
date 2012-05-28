@@ -90,7 +90,7 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 		</open>
 		<open src="styles/prosilver/template/overall_header.html">
 			<edit>
-				<find><![CDATA[<link href="{T_THEME_PATH}/print.css" rel="stylesheet" type="text/css" media="print" title="printonly" />]]></find>
+				<find><![CDATA[</head>]]></find>
 				<action type="before-add"><![CDATA[<!-- INCLUDE socialnet/overall_header_hook.html -->]]></action>
 			</edit>
 			<edit>
