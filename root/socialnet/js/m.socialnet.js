@@ -23,6 +23,7 @@
 	    expanderTextMore: '[read more]',
 	    expanderTextLess: '[read less]',
 
+	    cookies : {},
 	    cookie : {
 	        name : '',
 	        path : '',
@@ -378,15 +379,22 @@
 
 	    getCookie : function(cookieName, defaultValue) {
 		    cookieName = cookieName.replace(/-/g, '_');
+		    
+		    /*
 		    var myCookie = $.cookie(this.cookie.name + cookieName);
 		    if (myCookie == null && defaultValue != undefined) {
 			    myCookie = defaultValue;
-		    }
-		    return myCookie;
+		    }*/
+		    eval('var cok = '+$.cookie(this.cookie.name + 'sn_cookie').replace(/("(\{)|(\})")/g,'$2$3')+';');
+		    var ret = cok[cookieName];
+		    if ( typeof ret == 'undefined') ret = defaultValue;
+		    return ret;
 	    },
 	    setCookie : function(cookieName, value) {
 		    cookieName = cookieName.replace(/-/g, '_');
-		    $.cookie(this.cookie.name + cookieName, value, this.cookie);
+		   // $.cookie(this.cookie.name + cookieName, value, this.cookie);
+		    eval('this.cookies = \$.extend({},this.cookies,{'+cookieName+':value});');
+		    $.cookie(this.cookie.name + 'sn_cookie', this.serializeJSON(this.cookies), this.cookie);
 	    },
 
 	    strpos : function(haystack, needle, offset) {

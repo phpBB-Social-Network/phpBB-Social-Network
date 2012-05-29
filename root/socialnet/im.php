@@ -105,8 +105,10 @@ if (!class_exists('socialnet_im'))
 					$db->sql_query($sql);
 				}
 
-				$c_onlinelistName = $config['cookie_name'] . '_sn_im_online';
-				$c_onlinelist = request_var($c_onlinelistName, 'true', false, true);
+				// OLD COOKIE SYSTEM
+				//$c_onlinelistName = $config['cookie_name'] . '_sn_im_online';
+				//$c_onlinelist = request_var($c_onlinelistName, 'true', false, true);
+				$c_onlinelist = $this->p_master->getCookie('sn_im_online', 'true');
 
 				$template_assign_vars = array_merge($template_assign_vars, array(
 					'SN_IM_MODE'			 => 'startIM',
@@ -357,7 +359,7 @@ if (!class_exists('socialnet_im'))
 					'B_NO_AVATAR'	 => $b_no_avatar,
 					'MESSAGE'		 => $message,
 					'TIME'			 => $msg['sent'],
-					'TIME_STRING'	 => $this->p_master->format_date('time',$msg['sent'], "H:i"),
+					'TIME_STRING'	 => $this->p_master->format_date('time', $msg['sent'], "H:i"),
 				));
 			}
 
@@ -480,7 +482,7 @@ if (!class_exists('socialnet_im'))
 					'MESSAGE'		 => $message,
 					'B_NO_AVATAR'	 => $b_no_avatar,
 					'TIME'			 => $row['sent'],
-					'TIME_STRING'	 => $this->p_master->format_date('time',$row['sent'], "H:i"),
+					'TIME_STRING'	 => $this->p_master->format_date('time', $row['sent'], "H:i"),
 				));
 
 				$template->assign_var('T_IMAGESET_PATH', $this->t_imaset_path);
@@ -536,15 +538,20 @@ if (!class_exists('socialnet_im'))
 				$row = $chatBoxRowSet[$i];
 				$status = isset($this->items['onlineUsers'][$row['uid_to']]['status']) ? $this->items['onlineUsers'][$row['uid_to']]['status'] : 0;
 				$userto_avatar = $this->_open_chatbox_avatar($row['uid_to']);
-				$c_onlinelistName = $config['cookie_name'] . '_sn_im_chatBox' . ($row['uid_to']);
-				$s_open = request_var($c_onlinelistName, 'false', false, true);
+
+				// OLD COOKIE SYSTEM
+				//$c_onlinelistName = $config['cookie_name'] . '_sn_im_chatBox' . ($row['uid_to']);
+				//$s_open = request_var($c_onlinelistName, 'false', false, true);
+				$s_open = $this->p_master->getCookie('sn_im_chatBox' . $row['uid_to'], 'false');
 
 				if (!isset($this->p_master->friends['friends'][$row['uid_to']]) || !isset($this->p_master->friends['colourNames'][$row['uid_to']]['full']))
 				{
 					$this->p_master->get_friend('full', $row['uid_to'], $this->p_master->config['im_colour_username'], false);
 				}
 
-				$unread = (string) request_var("{$config['cookie_name']}_sn_im_chatBox{$row['uid_to']}Unread", 0, false, true);
+				// OLD COOKIE SYSTEM
+				//$unread = (string) request_var("{$config['cookie_name']}_sn_im_chatBox{$row['uid_to']}Unread", 0, false, true);
+				$unread = (string) $this->p_master->getCookie("sn_im_chatBox{$row['uid_to']}Unread", 0);
 
 				$template->assign_block_vars('sn_im_chatbox', array(
 					'USER_ID'				 => $row['uid_to'],
@@ -610,7 +617,7 @@ if (!class_exists('socialnet_im'))
 						'MESSAGE'		 => $message,
 						'B_NO_AVATAR'	 => $b_no_avatar,
 						'TIME'			 => $msg['sent'],
-						'TIME_STRING'	 => $this->p_master->format_date('time',$msg['sent'], 'H:i'),
+						'TIME_STRING'	 => $this->p_master->format_date('time', $msg['sent'], 'H:i'),
 					));
 					$previous_sender = $msg['uid_from'];
 				}
@@ -801,7 +808,7 @@ if (!class_exists('socialnet_im'))
 				'MESSAGE'		 => $message,
 				'B_NO_AVATAR'	 => stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false,
 				'TIME'			 => $message_time,
-				'TIME_STRING'	 => $this->p_master->format_date('time',$message_time, "H:i"),
+				'TIME_STRING'	 => $this->p_master->format_date('time', $message_time, "H:i"),
 			));
 
 			$this->p_master->page_header();

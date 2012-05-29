@@ -1828,6 +1828,22 @@ class snFunctions
 
 		return $return;
 	}
+
+	var $cookies = array();
+	function getCookie($name, $default)
+	{
+		global $config;
+		
+		if ( sizeOf($this->cookies) == 0)
+		{
+			$cookieName = $config['cookie_name'] . '_sn_cookie';
+			$cookie = request_var($cookieName, '', false, true);
+			$cookie = str_replace('&quot;','"',$cookie);
+			$cookie = preg_replace( '/("(\{)|(\})")/s' , '$2$3',$cookie);
+			$this->cookies = json_decode($cookie);
+		}
+		return isset($this->cookies->$name)?$this->cookies->$name:$default;
+	}
 }
 
 function snFunctions_absolutePath($matches)
