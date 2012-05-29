@@ -251,9 +251,6 @@
 		        drop : function(event, ui) {
 			        var $drag = $(this).children('div[title="' + ui.draggable.attr('title').replace(/([ #;&,.+*~\':"!^$[\]()=><|\/@])/g, '\\\\$1') + '"]');
 			        if ($drag.size() > 0) {
-				        console.log($drag);
-				        console.log($(this).children('div[title="Opera\'s &lt;Uncle&gt;"]'));
-				        console.log('Is In');
 				        return;
 			        }
 
