@@ -94,6 +94,10 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 				<action type="before-add"><![CDATA[<!-- INCLUDE socialnet/overall_header_hook.html -->]]></action>
 			</edit>
 			<edit>
+				<find><![CDATA[</head>]]></find>
+				<action type="before-add"><![CDATA[<!-- INCLUDE socialnet/overall_header_hook.html -->]]></action>
+			</edit>
+			<edit>
 				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
 				<inline-edit>
 					<inline-find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}]]></inline-find>
