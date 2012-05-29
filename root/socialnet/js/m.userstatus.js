@@ -474,10 +474,8 @@
 				 */
 			    $(this).removeAttr('style');
 			    $(this).hide();
-		    });
+		    }); 
 		    
-		    // Nacteni dalsich statusu pri scroll na konec stranky
-
 	    },
 
 	    changePicture : function(dir) {

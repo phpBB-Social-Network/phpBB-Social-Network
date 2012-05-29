@@ -466,13 +466,14 @@
 				    $.sn[idx]._DOMChanged();
 			    }
 	    	});
-	    	$('.sn-expander-text:not([aria-expander="true"]').attr('aria-expander', 'true').expander({
+	    	$('.sn-expander-text:not([aria-expander="expander"])').expander({
 	    		slicePoint: 600,
 	    		expandText: $.sn.expanderTextMore,
 	    		userCollapseText: $.sn.expanderTextLess,
 	    		moreClass: 'sn-expander-more',
-	    		lessClass: 'sn-expander-less' 
-	    	});	    	
+	    		lessClass: 'sn-expander-less'
+	    	}).attr('aria-expander', 'expander');	    	
+	    	
 	    },
 	    
 
