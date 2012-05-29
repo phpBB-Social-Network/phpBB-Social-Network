@@ -24,7 +24,7 @@
 					<div class="sn-us-videoOverlay">&nbsp;</div>
 					<!-- ENDIF -->
 					<!-- IF us_status.PAGE_IMAGE neq '' -->
-					<div class="sn-us-page-Image"><img src="{us_status.PAGE_IMAGE}" width="130" alt="image"/></div>
+					<div class="sn-us-page-Image"><img src="{us_status.PAGE_IMAGE}" width="130" height="{us_status.PAGE_IMAGE_HEIGHT}" alt="image"/></div>
 					<!-- ENDIF -->
 				</div>
 				<div class="sn-us-page-Title"><a href="{us_status.PAGE_URL}" title="{us_status.PAGE_TITLE_TITLE}">{us_status.PAGE_TITLE}</a></div>
@@ -51,7 +51,7 @@
 		    <!-- IF us_status.SN_US_MORE_COMMENTS && B_LOAD_FIRST_USERSTATUS_COMMENTS -->
 		    <div class="sn-more">
 		      <a href="javascript:void(0);" class="sn-us-getMoreComments behind {user:'{SN_US_USER_ID}'}"><span class="sn-us-commentsCount">{us_status.SN_US_MORE_COMMENTS}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
-		      <img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-us-commentsLoader" style="display:none;"/>
+		      <img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" width="16" height="11" class="sn-us-commentsLoader" style="display:none;"/>
 		    </div>
 		    <!-- ENDIF -->
 			<!-- ENDIF -->
@@ -75,7 +75,7 @@
 			<!-- IF us_status.SN_US_MORE_COMMENTS && not B_LOAD_FIRST_USERSTATUS_COMMENTS -->
 			<div class="sn-more">
 				<a href="javascript:void(0);" class="sn-us-getMoreComments before {user:'{SN_US_USER_ID}'}"><span class="sn-us-commentsCount">{us_status.SN_US_MORE_COMMENTS}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
-				<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" class="sn-us-commentsLoader" style="display:none;"/>
+				<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" width="16" height="11" class="sn-us-commentsLoader" style="display:none;"/>
 			</div>
 			<!-- ENDIF -->
 <!-- END userstatus_old -->

@@ -1,5 +1,6 @@
+<!-- IF $SN_INCLUDED_CSS eq false -->
 <link href="{T_THEME_PATH}/jquery-ui.custom.css" rel="stylesheet" type="text/css" media="screen, projection" />
-<!--link href="{T_THEME_PATH}/jquery-ui.menu.css" rel="stylesheet" type="text/css" media="screen, projection" /-->
+<!-- ELSE -->
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.metadata.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery_cookie.js"></script>
@@ -13,7 +14,6 @@
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.titlealert.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.detectmobilebrowser.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.expander.min.js"></script>
-
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.editable.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.jgrowl_minimized.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.socialnet.js"></script>
@@ -175,3 +175,5 @@ jQuery(document).ready(function($){
 });
 // ]]>
 </script>
+<!-- ENDIF -->
+<!-- DEFINE $SN_INCLUDED_CSS = true -->

@@ -694,6 +694,17 @@ if (!class_exists('socialnet_userstatus'))
 				{
 					$template_block_data['PAGE_' . strtoupper($key)] = $value;
 				}
+				
+				if ( isset( $pageData['image']) && !empty($pageData['image']))
+				{
+					$size = getimagesize($pageData['image']);
+					if ( is_array($size))
+					{
+						$image_height = ceil(130/$size[0]*$size[1]);
+						$template_block_data['PAGE_IMAGE_HEIGHT'] = $image_height;
+					}
+					
+				}
 			}
 
 			$wall_id = $this->_wall_id();
