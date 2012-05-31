@@ -1833,8 +1833,8 @@ class snFunctions
 	function getCookie($name, $default)
 	{
 		global $config;
-		
-		if ( sizeOf($this->cookies) == 0)
+/*
+		if ( sizeOf($this->cookies[]) == 0)
 		{
 			$cookieName = $config['cookie_name'] . '_sn_cookie';
 			$cookie = request_var($cookieName, '', false, true);
@@ -1843,6 +1843,14 @@ class snFunctions
 			$this->cookies = json_decode($cookie);
 		}
 		return isset($this->cookies->$name)?$this->cookies->$name:$default;
+		*
+		*/
+		if( !isset($this->cookie[$name]))
+		{
+			$cookieName = $config['cookie_name'] .'_'. $name;
+			$this->cookies[$name] = request_var($cookieName, $default, false, true);
+		}
+		return $this->cookies[$name];
 	}
 }
 

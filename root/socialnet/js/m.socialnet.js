@@ -380,21 +380,24 @@
 	    getCookie : function(cookieName, defaultValue) {
 		    cookieName = cookieName.replace(/-/g, '_');
 		    
-		    /*
+		    
 		    var myCookie = $.cookie(this.cookie.name + cookieName);
 		    if (myCookie == null && defaultValue != undefined) {
 			    myCookie = defaultValue;
-		    }*/
-		    eval('var cok = '+$.cookie(this.cookie.name + 'sn_cookie').replace(/("(\{)|(\})")/g,'$2$3')+';');
-		    var ret = cok[cookieName];
+		    }
+		    return myCookie;
+		    /*if (Object.keys(this.cookies).length == 0){
+		    	eval('this.cookies = $.extend({},this.cookies,'+$.cookie(this.cookie.name + 'sn_cookie').replace(/("(\{)|(\})")/g,'$2$3')+');');
+		    }
+		    var ret = this.cookies[cookieName];
 		    if ( typeof ret == 'undefined') ret = defaultValue;
-		    return ret;
+		    return ret;*/
 	    },
 	    setCookie : function(cookieName, value) {
 		    cookieName = cookieName.replace(/-/g, '_');
-		   // $.cookie(this.cookie.name + cookieName, value, this.cookie);
-		    eval('this.cookies = \$.extend({},this.cookies,{'+cookieName+':value});');
-		    $.cookie(this.cookie.name + 'sn_cookie', this.serializeJSON(this.cookies), this.cookie);
+		    $.cookie(this.cookie.name + cookieName, value, this.cookie);
+		   // eval('this.cookies = \$.extend({},this.cookies,{'+cookieName+':value});');
+		   // $.cookie(this.cookie.name + 'sn_cookie', this.serializeJSON(this.cookies), this.cookie);
 	    },
 
 	    strpos : function(haystack, needle, offset) {
@@ -459,7 +462,6 @@
 	    
 	    _unloadBlocks: function(){
 	    	var self = this;
-	    	console.log('a');
 	    	$.each(self.enableModules, function(idx,value){
 			    if (value !== false && $.sn[idx] !== undefined && $.sn[idx]._unload !== undefined) {
 				    $.sn[idx]._unload();

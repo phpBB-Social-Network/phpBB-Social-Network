@@ -68,7 +68,8 @@
 				<!-- END message -->
   <!-- IF not sn_im_chatbox.B_SN_IM_ONLY_MESSAGE -->
 			</div>
-			<div class="sn-im-textArea"><textarea name="msg" class="sn-im-message {uid:{sn_im_chatbox.USER_ID}}" title="{SN_IM_PRESS_TO_SEND}" cols="1" rows="1"></textarea>
+			<div class="sn-im-textArea<!-- IF SN_IM_SMILIES_EXISTS --> sn-im-smilies-on<!-- ENDIF -->"><textarea name="msg" class="sn-im-message {uid:{sn_im_chatbox.USER_ID}}" title="{SN_IM_PRESS_TO_SEND}" cols="1" rows="1"></textarea>
+			<!-- IF SN_IM_SMILIES_EXISTS -->
 			<div class="sn-im-smilies"></div>
 			</div>
 			
@@ -76,6 +77,7 @@
 				<!--div class="ui-widget-overlay ui-widget-shadow ui-corner-all" style="height:102px;width:156px;margin:0;padding: 4px;"></div-->
 				<div class="sn-im-smiliesContent ui-widget ui-widget-content"></div>
 			</div>
+			<!-- ENDIF -->
 		</div>
 	</div>
 	<!-- ENDIF -->

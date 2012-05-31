@@ -983,6 +983,11 @@ div:not(.sn-page) .sn-userName a
 	line-height:18px;
 	outline:none;
 	resize:none;
+	width:236px;
+}
+
+.sn-im-textArea.sn-im-smilies-on .sn-im-message
+{
 	width:211px;
 }
 
