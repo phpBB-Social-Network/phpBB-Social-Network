@@ -393,10 +393,24 @@ div:not(.sn-page) .sn-userName a
 {
 	bottom:0;
 	height:24px;
-	left:20px;
 	position:fixed;
-	right:20px;
 	z-index:999;
+}
+
+.ltr .sn-im-dockWrapper
+{
+	border-right-color:#bbb;
+	border-right-style:solid;
+	border-right-width:1px;
+	right:20px;
+}
+
+.rtl .sn-im-dockWrapper
+{
+	border-left-color:#bbb;
+	border-left-style:solid;
+	border-left-width:1px;
+	left:20px;
 }
 
 .ltr .sn-im-chatBoxes .sn-im-group
@@ -1716,14 +1730,14 @@ a.ui-button
 	cursor:pointer;
 }
 
-.ltr .sn-im-dockWrapper,.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-button,.ltr .sn-im-nav
+.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-button,.ltr .sn-im-nav
 {
 	border-right-color:#bbb;
 	border-right-style:solid;
 	border-right-width:1px;
 }
 
-.rtl .sn-im-dockWrapper,.ltr .sn-im-button,.rtl .sn-im-nav
+.ltr .sn-im-button,.rtl .sn-im-nav
 {
 	border-left-color:#bbb;
 	border-left-style:solid;

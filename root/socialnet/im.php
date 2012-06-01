@@ -120,6 +120,7 @@ if (!class_exists('socialnet_im'))
 
 			$closeKey = $this->_keyboardString($this->closeSequence);
 			$sendKey = $this->_keyboardString($this->sendSequence);
+			$exist_smiley = strpos($config['sn_im_smilies_not_allowed'], 'X') !== false;
 
 			$template_assign_vars = array_merge($template_assign_vars, array(
 				'SN_IM_ONLINE'				 => $user->data['user_im_online'] == 1 ? true : false,
@@ -127,6 +128,7 @@ if (!class_exists('socialnet_im'))
 				'S_SN_IM_ONLINE'			 => $user->data['user_im_online'] == 1 ? 'online' : 'offline',
 				'SN_IM_USERNAME'			 => $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
 				'SN_IM_USER_AVATAR'			 => $this->config['my_avatar'],
+				'SN_IM_SMILIES_EXISTS'		 => $exist_smiley, // LOAD using parameters
 				'S_SN_IM_USER_SOUND'		 => $user->data['user_im_sound'],
 				'S_SN_IM_USER_SOUNDNAME'	 => $user->data['user_im_soundname'],
 				'S_SN_IM_LINK_NEW_WINDOW'	 => isset($config['im_url_new_window']) && $config['im_url_new_window'],
@@ -968,9 +970,8 @@ if (!class_exists('socialnet_im'))
 			global $db, $phpbb_root_path, $config, $template, $user;
 
 			$sql = 'SELECT *
-								FROM ' . SMILIES_TABLE . '
-									WHERE display_on_posting = 1
-										ORDER BY smiley_order';
+					FROM ' . SMILIES_TABLE . '
+					ORDER BY smiley_order';
 			$result = $db->sql_query($sql, 3600);
 
 			$smilies = array();
@@ -986,17 +987,21 @@ if (!class_exists('socialnet_im'))
 			if (sizeof($smilies))
 			{
 				$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_root_path;
+				$allowed = explode(',', $config['sn_im_smilies_not_allowed']);
 
 				foreach ($smilies as $row)
 				{
-					$template->assign_block_vars('im_smiley', array(
-						'SMILEY_CODE'	 => $row['code'],
-						'A_SMILEY_CODE'	 => addslashes($row['code']),
-						'SMILEY_IMG'	 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
-						'SMILEY_WIDTH'	 => $row['smiley_width'],
-						'SMILEY_HEIGHT'	 => $row['smiley_height'],
-						'SMILEY_DESC'	 => $row['emotion'],
-					));
+					if (!in_array($row['smiley_id'], $allowed))
+					{
+						$template->assign_block_vars('im_smiley', array(
+							'SMILEY_CODE'	 => $row['code'],
+							'A_SMILEY_CODE'	 => addslashes($row['code']),
+							'SMILEY_IMG'	 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
+							'SMILEY_WIDTH'	 => $row['smiley_width'],
+							'SMILEY_HEIGHT'	 => $row['smiley_height'],
+							'SMILEY_DESC'	 => $row['emotion'],
+						));
+					}
 				}
 			}
 

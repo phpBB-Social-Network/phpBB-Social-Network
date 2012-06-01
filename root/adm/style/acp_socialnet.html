@@ -62,7 +62,7 @@ document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" 
   </form>
 <!-- ENDIF -->
 
-<!-- IF B_ACP_SN_IM -->
+<!-- IF B_ACP_SN_IM && S_ACP_SN_IM_TAB eq 'settings' -->
   <form id="acp_socialnet_purge" method="post" action="{U_ACTION}">
   	<fieldset>
   		<legend>{L_PURGE}</legend>
@@ -83,6 +83,37 @@ document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" 
   	</fieldset>
   </form>
 <!-- ENDIF -->
+<!-- IF B_ACP_SN_IM && S_ACP_SN_IM_TAB eq 'smiley' -->
+<form id="acp_socialnet_im_smilies" method="post" action="{U_ACTION}&amp;manage=smiley">
+<table cellspacing="1">
+	<thead>
+		<tr>
+			<th>{L_DISPAY}</th>
+			<th>{L_CODE}</th>
+			<th>{L_EMOTION}</th>
+			<th>{L_IMAGE}</th>
+		</tr>
+	</thead>
+	<tbody>
+	<!-- BEGIN sn_smiley -->
+		<tr>
+			<td><input class="radio" type="checkbox" name="sn_im_smiley[]"<!-- IF sn_smiley.ALLOWED --> checked="checked"<!-- ENDIF --> value="{sn_smiley.ID}" /></td>
+			<td>{sn_smiley.CODE}</td>
+			<td>{sn_smiley.EMOTION}</td>
+			<td><img src="{sn_smiley.IMAGE}" width="{sn_smiley.WIDTH}" height="{sn_smiley.HEIGHT}" alt="{sn_smiley.EMOTION}" /></td>
+		</tr>
+	<!-- END sn_smiley -->
+	</tbody>
+</table>
+<p class="small"><a onclick="marklist('acp_socialnet_im_smilies','sn_im_smiley',true);return false;" href="#">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('acp_socialnet_im_smilies','sn_im_smiley',false);return false;">{L_UNMARK_ALL}</a></p>
+<p class="submit-buttons">
+	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+	<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+  	{S_FORM_TOKEN}
+</p>
+</form>
+<!-- ENDIF -->
+
 
 <!-- IF .sn_basictools -->
   <form id="acp_socialnet_sn_basictools" method="post" action="{U_ACTION}">
