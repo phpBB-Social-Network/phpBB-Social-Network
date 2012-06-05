@@ -134,7 +134,7 @@ class sn_core_entry extends sn_core_entry_gets
 		}
 		else
 		{
-			$sql_where[] = "( ( sn_e.user_id = '{$user_id}') OR ( sn_e.entry_type = " . SN_TYPE_EMOTE . " AND  sn_e.entry_target = '{$user_id}' ) )";
+			$sql_where[] = "( ( sn_e.user_id = '{$user_id}') OR ( sn_e.entry_type IN (" . SN_TYPE_EMOTE . ", " . SN_TYPE_NEW_FRIENDSHIP . ") AND  sn_e.entry_target = '{$user_id}' ) )";
 		}
 
 		if ($last_time != 0)
@@ -299,7 +299,7 @@ class sn_core_entry extends sn_core_entry_gets
 		}
 
 		return ($can_delete || $auth->acl_get('a_'));
-		}
+	}
 }
 
 class sn_core_entry_gets
