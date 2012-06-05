@@ -141,15 +141,18 @@ class acp_im extends socialnet
 		{
 			$allowed = request_var('sn_im_smiley', array(0 => 0));
 
+
 			$array_diff = array_diff($smilies_ids, $allowed);
-			array_unshift($array_diff, sizeOf($smilies_ids) == sizeOf($allowed) ? 'X' : 'Y');
+			array_unshift($array_diff, !empty($allowed) ? 'X' : 'Y');
 			$config[$config_name] = implode(',', $array_diff);
 			$sql = "UPDATE " . SN_CONFIG_TABLE . " SET config_value = '{$config[$config_name]}' WHERE config_name = '{$config_name}'";
 			$rs = $db->sql_query($sql);
 			if ($db->sql_affectedrows($rs) == 0)
 			{
 				$sql = "INSERT INTO " . SN_CONFIG_TABLE . " (config_name,config_value) VALUES ('{$config_name}', '{$config[$config_name]}')";
+				$db->sql_return_on_error(true);
 				$db->sql_query($sql);
+				$db->sql_return_on_error(false);
 			}
 		}
 
@@ -166,13 +169,13 @@ class acp_im extends socialnet
 		{
 			$is_allowed = !in_array($row['smiley_id'], $smiley_allowed);
 			$template->assign_block_vars('sn_smiley', array(
-				'ID'		 => $row['smiley_id'],
-				'CODE'		 => $row['code'],
-				'IMAGE'		 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
-				'EMOTION'	 => $row['emotion'],
-				'WIDTH'		 => $row['smiley_width'],
-				'HEIGHT'	 => $row['smiley_height'],
-				'ALLOWED'	 => $is_allowed,
+				'ID'			=> $row['smiley_id'],
+				'CODE'		=> $row['code'],
+				'IMAGE'		=> $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
+				'EMOTION'	=> $row['emotion'],
+				'WIDTH'		=> $row['smiley_width'],
+				'HEIGHT'	=> $row['smiley_height'],
+				'ALLOWED'	=> $is_allowed,
 			));
 		}
 		$db->sql_freeresult($result);
