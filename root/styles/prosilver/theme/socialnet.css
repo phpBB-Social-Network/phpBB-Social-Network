@@ -378,12 +378,6 @@ div:not(.sn-page) .sn-userName a
 	max-height:80%;
 }
 
-.ui-body-dialog
-{
-	max-height:84%;
-	word-wrap:break-word;
-}
-
 #phpbb.sn-im-page
 {
 	margin-bottom:24px;
@@ -449,6 +443,13 @@ div:not(.sn-page) .sn-userName a
 .sn-im-button.sn-im-opener:not(.sn-im-online)
 {
 	background:#fff;
+}
+
+.ltr .sn-im-button
+{
+	border-left-color:#bbb;
+	border-left-style:solid;
+	border-left-width:1px;
 }
 
 .sn-im-status
@@ -756,6 +757,22 @@ div:not(.sn-page) .sn-userName a
 	width:auto;
 }
 
+.ltr .sn-im-nav
+{
+	border-right-color:#bbb;
+	border-right-style:solid;
+	border-right-width:1px;
+	margin-right:4px;
+}
+
+.rtl .sn-im-nav
+{
+	border-left-color:#bbb;
+	border-left-style:solid;
+	border-left-width:1px;
+	margin-left:4px;
+}
+
 .sn-im-textArea
 {
 	background:#fff url({T_IMAGESET_PATH}/socialnet/im_message.png) no-repeat 2px 50%;
@@ -781,7 +798,7 @@ div:not(.sn-page) .sn-userName a
 
 .sn-im-smilies
 {
-	background:#fff url({T_IMAGESET_PATH}/socialnet/im_smiley.png) no-repeat 3px 50%;
+	background:#fff url({T_IMAGESET_PATH}/socialnet/im_smiley.png) no-repeat 4px 50%;
 	bottom:2px;
 	cursor:pointer;
 	height:22px;
@@ -1715,7 +1732,7 @@ a.ui-button
 	background-image:url({T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png);
 }
 
-.sn-commentText,.sn-im-msg .sn-im-msgText
+.sn-commentText,.ui-body-dialog,.sn-im-msg .sn-im-msgText
 {
 	word-wrap:break-word;
 }
@@ -1730,18 +1747,11 @@ a.ui-button
 	cursor:pointer;
 }
 
-.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-button,.ltr .sn-im-nav
+.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-button
 {
 	border-right-color:#bbb;
 	border-right-style:solid;
 	border-right-width:1px;
-}
-
-.ltr .sn-im-button,.rtl .sn-im-nav
-{
-	border-left-color:#bbb;
-	border-left-style:solid;
-	border-left-width:1px;
 }
 
 .sn-im-loginlogout .sn-im-selected span,.jGrowl .jGrowl-notification,.jGrowl .jGrowl-closer,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active a
