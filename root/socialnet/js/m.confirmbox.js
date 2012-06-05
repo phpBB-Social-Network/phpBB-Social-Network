@@ -64,6 +64,7 @@ function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
 				}).dialog('open');
 			}
 			$.sn.dropShadow($('#dialog').parent('.ui-dialog'),{size:8,'background-color':'#000',zIndex:$('#dialog').parent('.ui-dialog').css('z-index')});
+			$.sn.confirmBox.center();
 			
 		} else if (callbackConfirm != null && $.isFunction(callbackConfirm)) {
 			callbackConfirm.apply();

@@ -293,53 +293,6 @@ if (!class_exists('socialnet_notify'))
 		}
 
 		/**
-		 * socialnet_notify::ntf_generate
-		 * Prepare and store into db notification rows
-		 * @param integer $type Type of notification
-		 * @param mixed $to_user ID user(s), which belongs the notification
-		 * @param array $data Notification data to be displayed
-		 */
-		function ntf_generate($type, $to_user, $data)
-		{
-			global $db;
-
-			$sqls = array();
-			if (is_array($to_user))
-			{
-				foreach ($to_user as $idx => $user_id)
-				{
-					$sqls[] = $this->ntf_prepare_sql($type, $user_id, $data);
-				}
-			}
-			else
-			{
-				$sqls[] = $this->ntf_prepare_sql($type, $to_user, $data);
-			}
-			$db->sql_multi_insert(SN_NOTIFY_TABLE, $sqls);
-		}
-
-		/**
-		 * socialnet_notify::ntf_prepare_sql
-		 * Prepare sql array for store into db notification row
-		 * @param integer $type Type of notification
-		 * @param indeget $to_user ID user, which belongs the notification
-		 * @param array $data Notification data to be displayed
-		 */
-		function ntf_prepare_sql($type, $to_user, $data)
-		{
-			global $user;
-			return array(
-				'ntf_time'	 => $this->time,
-				'ntf_type'	 => $type,
-				'ntf_user'	 => $to_user,
-				'ntf_poster' => $user->data['user_id'],
-				'ntf_read'	 => SN_NTF_STATUS_NEW,
-				'ntf_change' => $this->time,
-				'ntf_data'	 => serialize($data),
-			);
-		}
-
-		/**
 		 * socialnet_notify::mtf_mark
 		 * Change notification status from defined notification status to new notification status
 		 * @param integer $status New status of notfication

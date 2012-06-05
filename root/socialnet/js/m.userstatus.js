@@ -84,6 +84,7 @@
 					            }
 					        });
 				        });
+				        $('#dialog').find('.sn-action-delete').remove();
 			        }
 			    })
 		    });

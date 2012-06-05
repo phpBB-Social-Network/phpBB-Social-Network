@@ -20,8 +20,8 @@
 	    _debug : false,
 	    allow_load : true,
 	    rtl : false,
-	    expanderTextMore: '[read more]',
-	    expanderTextLess: '[read less]',
+	    expanderTextMore : '[read more]',
+	    expanderTextLess : '[read less]',
 
 	    cookies : {},
 	    cookie : {
@@ -59,18 +59,28 @@
 			            autoOpen : false,
 			            dialogClass : 'sn-confirmBox'
 			        });
+			        this.center();
 		        }
 
 	        },
-	        center: function(){
-			    if ( $('.ui-dialog').is(':visible')){
-			    	$('#dialog').dialog('option','position', 'center');
-			    	var position = $('.ui-dialog').position();
-			    	$('.ui-widget-shadow').css({
-			    		top: position.top,
-			    		left: position.left
-			    	});
-			    }
+	        center : function() {
+		        if ($('.ui-dialog').is(':visible')) {
+			        $('#dialog').dialog('option', 'position', 'center');
+			        var $dialog = $('.ui-dialog');
+			        var position = $dialog.position();
+
+			        $('#dialog').css({
+			            height : $dialog.height() - $dialog.find('.ui-dialog-buttonpane').outerHeight(true) - $dialog.find('.ui-dialog-titlebar').outerHeight(true) - 10,
+			            overflow : 'auto'
+			        });
+
+			        $('.ui-widget-shadow').css({
+			            top : position.top,
+			            left : position.left,
+			            width : $dialog.width() + 6,
+			            height : $dialog.height() + 6
+			        });
+		        }
 	        }
 	    },
 
@@ -100,7 +110,8 @@
 		        $(".sn-deleteComment").live('click', function() {
 			        var comment_id = $.sn.getAttr($(this), "cid");
 			        var mUrl = $.sn.getAttr($(this), 'url');
-			        snConfirmBox($.sn.comments.deleteTitle, $.sn.comments.deleteText + '<hr />' + $('#sn-comment' + comment_id).find('.sn-commentText').html(), function() {
+			        var comment = $('#sn-comment' + comment_id).find('.sn-commentText').html();
+			        snConfirmBox($.sn.comments.deleteTitle, $.sn.comments.deleteText + '<hr />' + comment, function() {
 				        $.ajax({
 				            type : "POST",
 				            url : mUrl,
@@ -114,6 +125,11 @@
 				            }
 				        });
 			        });
+			        if ($('#dialog').find('.sn-expander-more').size() != 0) {
+				        $('#dialog').find('.sn-expander-more, .sn-expander-less').remove();
+				        $('#dialog').find('.sn-expander-details').show();
+				        $('#dialog').find('.sn-expander-text').removeAttr('aria-expander');
+			        }
 		        });
 
 		        $.sn.comments.waterMark();
@@ -149,12 +165,15 @@
 		    }).scroll(function() {
 			    $.sn._scrollBlocks();
 		    }).unload(function() {
-		    	$.sn._unloadBlocks();
+			    $.sn._unloadBlocks();
 		    });
 		    $(document).click(function(event) {
 			    $.sn._documentClick(event);
-		    }).bind('DOMSubtreeModified', function(){
-		    	$.sn._DOMSubtreeModified();
+		    }).ready(function() {
+			    $(document).bind('DOMSubtreeModified', function() {
+				    $.sn._DOMSubtreeModified();
+			    });
+			    // $.sn._DOMSubtreeModified();
 		    });
 
 		    this.rtl = $('body').hasClass('rtl');
@@ -188,7 +207,7 @@
 		    });
 		    this.confirmBox.init();
 		    this.comments.init();
-		    
+
 		    if (this._debug) this._debugInit();
 	    },
 
@@ -280,26 +299,26 @@
 			    }
 		    });
 	    },
-        serializeJSON: function(obj) {
-            var t = typeof(obj);
-            if(t != "object" || obj === null) {
-                // simple data type
-                if(t == "string") obj = '"' + obj + '"';
-                return String(obj);
-            } else {
-                // array or object
-                var json = [], arr = (obj && obj.constructor == Array);
- 
-                $.each(obj, function(k, v) {
-                    t = typeof(v);
-                    if(t == "string") v = '"' + v + '"';
-                    else if (t == "object" & v !== null) v = $.sn.serializeJSON(v)
-                    json.push((arr ? "" : '"' + k + '":') + String(v));
-                });
- 
-                return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
-            }
-        },
+	    serializeJSON : function(obj) {
+		    var t = typeof (obj);
+		    if (t != "object" || obj === null) {
+			    // simple data type
+			    if (t == "string") obj = '"' + obj + '"';
+			    return String(obj);
+		    } else {
+			    // array or object
+			    var json = [], arr = (obj && obj.constructor == Array);
+
+			    $.each(obj, function(k, v) {
+				    t = typeof (v);
+				    if (t == "string") v = '"' + v + '"';
+				    else if (t == "object" & v !== null) v = $.sn.serializeJSON(v)
+				    json.push((arr ? "" : '"' + k + '":') + String(v));
+			    });
+
+			    return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+		    }
+	    },
 
 	    dropShadow : function(elem, attribs) {
 		    return $(elem).each(function() {
@@ -379,25 +398,27 @@
 
 	    getCookie : function(cookieName, defaultValue) {
 		    cookieName = cookieName.replace(/-/g, '_');
-		    
-		    
+
 		    var myCookie = $.cookie(this.cookie.name + cookieName);
 		    if (myCookie == null && defaultValue != undefined) {
 			    myCookie = defaultValue;
 		    }
 		    return myCookie;
-		    /*if (Object.keys(this.cookies).length == 0){
-		    	eval('this.cookies = $.extend({},this.cookies,'+$.cookie(this.cookie.name + 'sn_cookie').replace(/("(\{)|(\})")/g,'$2$3')+');');
-		    }
-		    var ret = this.cookies[cookieName];
-		    if ( typeof ret == 'undefined') ret = defaultValue;
-		    return ret;*/
+		    /*
+			 * if (Object.keys(this.cookies).length == 0){ eval('this.cookies =
+			 * $.extend({},this.cookies,'+$.cookie(this.cookie.name +
+			 * 'sn_cookie').replace(/("(\{)|(\})")/g,'$2$3')+');'); } var ret =
+			 * this.cookies[cookieName]; if ( typeof ret == 'undefined') ret =
+			 * defaultValue; return ret;
+			 */
 	    },
 	    setCookie : function(cookieName, value) {
 		    cookieName = cookieName.replace(/-/g, '_');
 		    $.cookie(this.cookie.name + cookieName, value, this.cookie);
-		   // eval('this.cookies = \$.extend({},this.cookies,{'+cookieName+':value});');
-		   // $.cookie(this.cookie.name + 'sn_cookie', this.serializeJSON(this.cookies), this.cookie);
+		    // eval('this.cookies =
+		    // \$.extend({},this.cookies,{'+cookieName+':value});');
+		    // $.cookie(this.cookie.name + 'sn_cookie',
+		    // this.serializeJSON(this.cookies), this.cookie);
 	    },
 
 	    strpos : function(haystack, needle, offset) {
@@ -433,21 +454,21 @@
 				    $.sn[idx]._scroll();
 			    }
 		    });
-		    
+
 		    $.sn.confirmBox.center();
 
 	    },
 
 	    _resize : function() {
 		    if ($('.sn-page').size() > 0) {
-			    //$('.sn-page-content').removeAttr('style');
+			    // $('.sn-page-content').removeAttr('style');
 			    $('.sn-page-content').css({
 				    minHeight : Math.max($('.sn-page-columnLeft').height(), $('.sn-page-columnRight').height(), $('.sn-page-content').height(), parseInt($('.sn-page-content').css('min-height')))
 			    });
 		    }
-		    
+
 		    $.sn.confirmBox.center();
-		    
+
 	    },
 
 	    _documentClick : function(event) {
@@ -459,33 +480,33 @@
 		    });
 
 	    },
-	    
-	    _unloadBlocks: function(){
-	    	var self = this;
-	    	$.each(self.enableModules, function(idx,value){
+
+	    _unloadBlocks : function() {
+		    var self = this;
+		    $.each(self.enableModules, function(idx, value) {
 			    if (value !== false && $.sn[idx] !== undefined && $.sn[idx]._unload !== undefined) {
 				    $.sn[idx]._unload();
 			    }
-	    	});
+		    });
 	    },
-	    
-	    _DOMSubtreeModified : function(){
-	    	var self = this;
-	    	$.each(self.enableModules, function(idx,value){
+
+	    _DOMSubtreeModified : function() {
+		    var self = this;
+		    $.each(self.enableModules, function(idx, value) {
 			    if (value !== false && $.sn[idx] !== undefined && $.sn[idx]._DOMChanged !== undefined) {
 				    $.sn[idx]._DOMChanged();
 			    }
-	    	});
-	    	$('.sn-expander-text:not([aria-expander="expander"])').expander({
-	    		slicePoint: 600,
-	    		expandText: $.sn.expanderTextMore,
-	    		userCollapseText: $.sn.expanderTextLess,
-	    		moreClass: 'sn-expander-more',
-	    		lessClass: 'sn-expander-less'
-	    	}).attr('aria-expander', 'expander');	    	
-	    	
+		    });
+		    $('.sn-expander-text:not([aria-expander="expander"])').attr('aria-expander', 'expander').expander({
+		        slicePoint : 600,
+		        expandText : $.sn.expanderTextMore,
+		        userCollapseText : $.sn.expanderTextLess,
+		        moreClass : 'sn-expander-more',
+		        lessClass : 'sn-expander-less',
+		        detailClass : 'sn-expander-details'
+		    });
+
 	    },
-	    
 
 	    _debugInit : function() {
 		    var dbg = $('<div />').attr('title', 'DEBUG');
