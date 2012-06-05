@@ -60,18 +60,18 @@ class sn_core_comments
 		{
 			return false;
 		}
-		
+
 		$uid = $bitfield = $flags = '';
-		
+
 		generate_text_for_storage($text, $uid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
-		
+
 		$noBBCodeText = $text;
 		strip_bbcode($noBBCodeText);
-		if ( $noBBCodeText == '')
+		if ($noBBCodeText == '')
 		{
 			return false;
 		}
-		
+
 		$moduleName = $this->_moduleName($module);
 
 		if (!isset($this->modulesName[$moduleName]))
@@ -80,7 +80,6 @@ class sn_core_comments
 		}
 		$cmt_module = $this->_moduleID($module);
 
-		
 		$sql = "INSERT INTO " . SN_COMMENTS_TABLE . " (cmt_module, cmt_mid, cmt_time, cmt_poster, cmt_text, bbcode_bitfield, bbcode_uid)
 							VALUES ({$cmt_module}, {$module_id}, {$this->time}, {$poster}, '" . $db->sql_escape($text) . "', '{$bitfield}','{$uid}')";
 		$db->sql_query($sql);
@@ -194,7 +193,14 @@ class sn_core_comments
 			$row = $rowset[$i];
 			$avatar_img = $this->p_master->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 30);
 
-			$comment_text_format = generate_text_for_display($row['cmt_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $this->p_master->bbCodeFlags);
+			if ($row['cmt_text'] != '0')
+			{
+				$comment_text_format = generate_text_for_display($row['cmt_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $this->p_master->bbCodeFlags);
+			}
+			else
+			{
+				$comment_text_format = $row['cmt_text'];
+			}
 
 			$template->assign_block_vars('comment', array(
 				'COMMENT_ID'				 => $row['cmt_id'],

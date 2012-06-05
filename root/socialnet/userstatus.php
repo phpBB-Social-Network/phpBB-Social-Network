@@ -195,7 +195,7 @@ if (!class_exists('socialnet_userstatus'))
 		{
 			global $db, $user, $template, $phpbb_root_path, $phpEx, $config;
 
-			$new_status = request_var('status', '', true);
+			$new_status = (string) request_var('status', '', true);
 			$wall_id = (int) request_var('wall', 0);
 			$wall_id = $wall_id == 0 ? $user->data['user_id'] : $wall_id;
 			if (trim($new_status) != '')
@@ -654,7 +654,14 @@ if (!class_exists('socialnet_userstatus'))
 			global $phpbb_root_path, $phpEx, $auth, $user, $db;
 
 			$avatar_img = $this->p_master->get_user_avatar_resized($status_row['user_avatar'], $status_row['user_avatar_type'], $status_row['user_avatar_width'], $status_row['user_avatar_height'], 50);
-			$status_text_format = generate_text_for_display($status_row['status_text'], $status_row['bbcode_uid'], $status_row['bbcode_bitfield'], $this->p_master->bbCodeFlags);
+			if ($status_row['status_text'] != '0')
+			{
+				$status_text_format = generate_text_for_display($status_row['status_text'], $status_row['bbcode_uid'], $status_row['bbcode_bitfield'], $this->p_master->bbCodeFlags);
+			}
+			else
+			{
+				$status_text_format = $status_row['status_text'];
+			}
 
 			$pageData = array();
 			$template_block_data = array();
@@ -694,16 +701,16 @@ if (!class_exists('socialnet_userstatus'))
 				{
 					$template_block_data['PAGE_' . strtoupper($key)] = $value;
 				}
-				
-				if ( isset( $pageData['image']) && !empty($pageData['image']))
+
+				if (isset($pageData['image']) && !empty($pageData['image']))
 				{
 					$size = getimagesize($pageData['image']);
-					if ( is_array($size))
+					if (is_array($size))
 					{
-						$image_height = ceil(130/$size[0]*$size[1]);
+						$image_height = ceil(130 / $size[0] * $size[1]);
 						$template_block_data['PAGE_IMAGE_HEIGHT'] = $image_height;
 					}
-					
+
 				}
 			}
 
