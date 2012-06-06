@@ -229,7 +229,10 @@
 				        },
 				        success : function(data) {
 					        var $parr = $(element).parents('.sn-us-shareComment');
-					        if (data == '') {
+					        if (data.match(/^Error:/i)) {
+						        snConfirmBox('Error', data.replace(/^Error: /i, ''));
+						        element.parents('.sn-ap-textBlock').remove();
+					        } else if (data == '') {
 						        snConfirmBox($.sn.comments.empty, $.sn.comments.empty);
 
 					        } else {
@@ -291,7 +294,7 @@
 
 		    // Nacteni dalsich statusu
 		    $('.sn-us-getMore').live('click', function() {
-		    	if ($('.ui-dialog').is(':visible')){ return;}
+			    if ($('.ui-dialog').is(':visible')) { return; }
 			    var t_obj = $(this);
 			    var o_prev = t_obj.parents('.sn-more');
 			    var i_obj = $(o_prev).prev('div[id^=sn-ap-entry]');
@@ -475,8 +478,8 @@
 				 */
 			    $(this).removeAttr('style');
 			    $(this).hide();
-		    }); 
-		    
+		    });
+
 	    },
 
 	    changePicture : function(dir) {
@@ -522,9 +525,9 @@
 			    }
 		    }
 	    },
-	    
-	    _DOMChanged: function(){
-	    	
+
+	    _DOMChanged : function() {
+
 	    }
 
 	}

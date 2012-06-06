@@ -50,6 +50,7 @@ $lang = array_merge($lang, array(
 	'SN_US_COMMENT_STATUS'					 => 'Comment',
 	'SN_US_HAS_NO_STATUS'					 => 'has no status',
 	'SN_US_HAS_DELETED_STATUS'				 => 'This status has been deleted',
+	'SN_STATUS_NOT_EXISTS'					 => 'This status does not exist',
 	'SN_US_HAS_NO_ACTIVITY'					 => 'has no activity',
 	'SN_US_SHARED_STATUS'					 => 'You have shared your status',
 	'SN_US_DELETE_STATUS'					 => 'Delete',

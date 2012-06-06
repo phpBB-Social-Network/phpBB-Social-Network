@@ -297,10 +297,10 @@ if (!class_exists('socialnet_userstatus'))
 			$res = $db->sql_query($sql);
 			$userstatus = $db->sql_fetchrow($res);
 
-			if ($auth->acl_get('a_') || ($userstatus['poster_id'] == $user->data['user_id']))
+			if ($auth->acl_get('a_') || ($userstatus['poster_id'] == $user->data['user_id']) || ($userstatus['wall_id'] == $user->data['user_id']) )
 			{
 				$sql = "DELETE FROM " . SN_STATUS_TABLE . "
-									WHERE status_id = " . $status_id;
+						WHERE status_id = " . $status_id;
 				$db->sql_query($sql);
 
 				$this->p_master->comments->del($this->commentModule, $status_id, false);
@@ -435,7 +435,19 @@ if (!class_exists('socialnet_userstatus'))
 			if ($text_to_submit != '')
 			{
 				$now = time();
-
+				
+				$sql = "SELECT status_id
+						FROM " . SN_STATUS_TABLE . "
+						WHERE status_id = '{$status_id}'";
+				$rs = $db->sql_query( $sql);
+				if ( $db->sql_affectedrows($rs) == 0)
+				{
+					header('Content-type: text/html; charset=UTF-8');
+					die('Error: '. $user->lang['SN_STATUS_NOT_EXISTS']);
+						
+				}
+				
+				
 				$comment_id = $this->p_master->comments->add($this->commentModule, $status_id, $user->data['user_id'], $text_to_submit);
 				if ($comment_id == false)
 				{

@@ -285,7 +285,8 @@ class sn_core_entry extends sn_core_entry_gets
 		switch ($entry_type)
 		{
 			case SN_TYPE_NEW_STATUS:
-				$can_delete = $user->data['user_id'] == $user_id;
+				$can_delete = true;
+				break;
 			case SN_TYPE_PROFILE_UPDATED:
 				$can_delete = $user->data['user_id'] == $user_id;
 				break;
