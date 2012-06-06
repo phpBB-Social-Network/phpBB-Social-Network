@@ -55,6 +55,7 @@ $lang = array_merge($lang, array(
 	'SN_US_SHARED_STATUS'					 => 'You have shared your status',
 	'SN_US_DELETE_STATUS'					 => 'Delete',
 	'SN_US_LOAD_MORE'						 => 'Older posts',
+	'SN_US_LOAD_MORE_COMMENT'				 => 'More comment',
 	'SN_US_LOAD_MORE_COMMENTS'				 => 'More comments',
 	'SN_US_CONFIRM'							 => 'Confirm',
 	'SN_US_CLOSE'							 => 'Close',
