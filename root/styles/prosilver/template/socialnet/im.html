@@ -29,22 +29,24 @@
 			<div class="sn-actions">
 				<div class="sn-im-close sn-action-close"></div>
 			</div>
-			<div class="label">{sn_im_chatbox.USERNAME_TO}
-			<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
+			<div class="label">
+			  <span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
+				{sn_im_chatbox.USERNAME_TO}
 			</div>
 		</div>
 		<div id="sn-im-chatBoxBlock{sn_im_chatbox.USER_ID}" class="sn-im-block ui-corner-top<!-- IF sn_im_chatbox.S_OPEN --> sn-im-opeBlock<!-- ENDIF -->" style="<!-- IF not sn_im_chatbox.S_OPEN -->display: none<!-- ENDIF -->">
 			<div class="sn-im-title sn-im-buttons ui-corner-top">
 				<span class="ui-icon sn-im-cbClose sn-tooltip" title="{SN_IM_PRESS_TO_CLOSE}"></span>
 				<a href="{sn_im_chatbox.U_UCP_IM_HISTORY}" class="sn-tooltip" title="{L_UCP_SN_IM_HISTORY}"><span class="ui-icon sn-im-cbHistory"></span></a>
-				<a href="{sn_im_chatbox.USERNAME_TO_PROFILE}" class="sn-tooltip" title="{L_SN_PROFILE}"><span class="ui-icon sn-im-cbProfile"></span></a>
 				<span class="sn-im-cbAvatar sn-hiddenDefault">{sn_im_chatbox.AVATAR}</span>
-				<div class="sn-userName">{sn_im_chatbox.USERNAME_TO_NO_COLOR}<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span></div>
+				<div class="sn-userName">
+					<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
+					<a href="{sn_im_chatbox.USERNAME_TO_PROFILE}" title="{L_SN_PROFILE}">{sn_im_chatbox.USERNAME_TO_NO_COLOR}</a>
+				</div>
 			</div>
 			<div class="sn-im-buttons sn-hiddenDefault">
 				<a href="javascript:void(0);"><span class="ui-icon sn-im-cbClose"></span></a>
 				<a href="{sn_im_chatbox.U_UCP_IM_HISTORY}"><span class="ui-icon sn-im-cbHistory"></span></a>
-				<a href="{sn_im_chatbox.USERNAME_TO_PROFILE}"><span class="ui-icon sn-im-cbProfile"></span></a>
 				<div class="clear"></div>
 			</div>
 			<div class="sn-im-msgs">
@@ -54,11 +56,11 @@
 				  <div class="sn-im-msg<!-- IF sn_im_chatbox.message.S_UID_SAME --> sn-im-noborderTop<!-- ENDIF --> {time:{sn_im_chatbox.message.TIME},from:{sn_im_chatbox.message.UID_FROM}}">
 				    <span class="sn-im-msgTime">{sn_im_chatbox.message.TIME_STRING}</span>
 				    <!-- IF $USE_AVATAR eq 0 --> 
-						  <!-- IF not sn_im_chatbox.message.S_UID_SAME --><span class="sn-userName"><!-- IF sn_im_chatbox.message.S_ME -->{SN_IM_USERNAME}<!-- ELSE -->{sn_im_chatbox.U_PROFILE_USER}<!-- ENDIF -->:</span><!-- ENDIF -->
+						  <!-- IF not sn_im_chatbox.message.S_UID_SAME --><span class="sn-userName"><!-- IF sn_im_chatbox.message.S_ME --><a href="{U_SN_MY_PROFILE}" title="{L_SN_MYPROFILE}">{SN_IM_USERNAME}</a><!-- ELSE --><a href="{sn_im_chatbox.USERNAME_TO_PROFILE}" title="{L_SN_PROFILE}">{sn_im_chatbox.U_PROFILE_USER}</a><!-- ENDIF -->:</span><!-- ENDIF -->
 						<!-- ELSE -->
 						  <!-- IF not sn_im_chatbox.message.S_UID_SAME -->
 						  <span class="sn-im-msgAvatar">
-							<!-- IF sn_im_chatbox.message.S_ME -->{SN_IM_USER_AVATAR}<!-- ELSE -->{sn_im_chatbox.AVATAR}<!-- ENDIF -->
+							<!-- IF sn_im_chatbox.message.S_ME --><a href="{U_SN_MY_PROFILE}" title="{L_SN_MYPROFILE}">{SN_IM_USER_AVATAR}</a><!-- ELSE --><a href="{sn_im_chatbox.USERNAME_TO_PROFILE}" title="{L_SN_PROFILE}">{sn_im_chatbox.AVATAR}</a><!-- ENDIF -->
 							<!-- IF sn_im_chatbox.message.B_NO_AVATAR --><img src="{T_IMAGESET_PATH}/socialnet/im_history_<!-- IF sn_im_chatbox.message.S_ME -->outgoing<!-- ELSE -->incoming<!-- ENDIF -->.png" alt="image"/><!-- ENDIF -->
 						  	</span>
 						  <!-- ENDIF -->
