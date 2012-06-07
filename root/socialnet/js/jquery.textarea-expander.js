@@ -50,6 +50,7 @@
 
 				if (hCheck && (vlen < e.valLength || ewidth != e.boxWidth)) e.style.height = "0px";
 				var h = Math.max(e.expandMin, Math.min(e.scrollHeight, e.expandMax));
+				
 				if ( h == e.expandMin){
 					var pd = (e.expandMin-parseInt($(e).css('line-height')))/2;
 					$(e).css({'padding-top':pd,'padding-bottom':pd});
