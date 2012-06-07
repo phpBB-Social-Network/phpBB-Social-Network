@@ -584,7 +584,7 @@ div:not(.sn-page) .sn-userName a
 {
 	display:inline-block;
 	line-height:24px;
-	padding:0 2px;
+	padding:0 2px 0 0;
 	width:190px;
 }
 
@@ -740,11 +740,6 @@ div:not(.sn-page) .sn-userName a
 	background-image:url({T_IMAGESET_PATH}/socialnet/button_history.png);
 }
 
-.ui-icon.sn-im-cbProfile
-{
-	background-image:url({T_IMAGESET_PATH}/socialnet/button_user.png);
-}
-
 .ui-icon.sn-im-cbClose
 {
 	background-image:url({T_IMAGESET_PATH}/socialnet/button_close_im.png);
@@ -775,25 +770,20 @@ div:not(.sn-page) .sn-userName a
 
 .sn-im-textArea
 {
-	background:#fff url({T_IMAGESET_PATH}/socialnet/im_message.png) no-repeat 2px 50%;
 	border-top:1px solid #ccc;
-	width:240px;
+	width:260px;
 }
 
 .ltr .sn-im-textArea
 {
-	background-position:1% 50%;
 	border-right:1px solid #ccc;
 	float:left;
-	padding-left:20px;
 }
 
 .rtl .sn-im-textArea
 {
-	background-position:99% 50%;
 	border-left:1px solid #ccc;
 	float:right;
-	padding-right:20px;
 }
 
 .sn-im-smilies
@@ -1014,22 +1004,32 @@ div:not(.sn-page) .sn-userName a
 	line-height:18px;
 	outline:none;
 	resize:none;
-	width:236px;
+	width:258px;
 }
 
 .sn-im-textArea.sn-im-smilies-on .sn-im-message
 {
-	width:211px;
+	width:233px;
+}
+
+.ltr .sn-im-textArea.sn-im-smilies-on .sn-im-message
+{
+	border-right:1px solid #ddd;
+}
+
+.rtl .sn-im-textArea.sn-im-smilies-on .sn-im-message
+{
+	border-left:1px solid #ddd;
 }
 
 .ltr .sn-im-message
 {
-	border-right:1px solid #ccc;
+	padding-right:0;
 }
 
 .rtl .sn-im-message
 {
-	border-left:1px solid #ccc;
+	padding-left:0;
 }
 
 .sn-im-cbAvatar
@@ -1754,7 +1754,7 @@ a.ui-button
 	border-right-width:1px;
 }
 
-.sn-im-loginlogout .sn-im-selected span,.jGrowl .jGrowl-notification,.jGrowl .jGrowl-closer,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active a
+.sn-im-title.sn-im-buttons .sn-userName a,.sn-im-loginlogout .sn-im-selected span,.jGrowl .jGrowl-notification,.jGrowl .jGrowl-closer,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active a
 {
 	color:#fff;
 }
