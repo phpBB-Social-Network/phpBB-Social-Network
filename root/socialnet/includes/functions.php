@@ -653,14 +653,14 @@ class snFunctions
 			case 'complete':
 				break;
 			case 'date':
-				$formatUser = trim(preg_replace('/['.$timeChars.'][ ,.:-\\\|]/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/['.$timeChars.']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
 				}
 				break;
 			case 'time':
-				$formatUser = trim(preg_replace('/[^'.$timeChars.'][ ,.:-\\\|]/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/[^'.$timeChars.']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
@@ -1005,7 +1005,7 @@ class snFunctions
 			$row['username'] = sprintf($user->lang['SN_AP_BIRTHDAY_USERNAME'], $row['username']);
 			$template->assign_block_vars('friends_birthday', array(
 				'USERNAME'			 => $this->get_username_string($this->config['ap_colour_username'], 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
-				'SN_AP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $user->format_date($birth_time, '|j. n.|', false)),
+				'SN_AP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $this->format_date('date', $birth_time, '|j. n.|', false)),
 				'U_FRIEND_LINK'		 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u=" . $row['user_id']),
 			));
 		}
