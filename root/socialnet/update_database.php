@@ -790,6 +790,12 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'fas_alert_friend_pm')),
 		),
 	),
+
+		'0.6.2.13'	 => array(
+				'table_row_insert'	 => array(
+						array(SN_CONFIG_TABLE, array('config_name' => 'sn_im_smilies_not_allowed','config_value' => 'X')),
+				),
+		),
 		
 );
 

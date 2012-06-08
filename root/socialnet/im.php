@@ -120,31 +120,38 @@ if (!class_exists('socialnet_im'))
 
 			$closeKey = $this->_keyboardString($this->closeSequence);
 			$sendKey = $this->_keyboardString($this->sendSequence);
-			$exist_smiley = (strpos($config['sn_im_smilies_not_allowed'], 'X') !== false) ? true : false;
+			if (isset($config['sn_im_smilies_not_allowed']))
+			{
+				$exist_smiley = (strpos($config['sn_im_smilies_not_allowed'], 'X') !== false) ? true : false;
+			}
+			else
+			{
+				$exist_smiley = true;
+			}
 
 			$template_assign_vars = array_merge($template_assign_vars, array(
-				'SN_IM_ONLINE'				 		=> $user->data['user_im_online'] == 1 ? true : false,
-				'S_SN_USERNAME'				 		=> addslashes($user->data['username']),
-				'S_SN_IM_ONLINE'			 		=> $user->data['user_im_online'] == 1 ? 'online' : 'offline',
-				'SN_IM_USERNAME'			 		=> $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
-				'SN_IM_USER_AVATAR'				=> $this->config['my_avatar'],
-				'SN_IM_SMILIES_EXISTS'		=> $exist_smiley, // LOAD using parameters
-				'S_SN_IM_USER_SOUND'			=> $user->data['user_im_sound'],
-				'S_SN_IM_USER_SOUNDNAME'	=> $user->data['user_im_soundname'],
-				'S_SN_IM_LINK_NEW_WINDOW'	=> isset($config['im_url_new_window']) && $config['im_url_new_window'],
-				'SN_IM_MIN_CHECK'					=> $this->p_master->config['im_checkTime_min'],
-				'SN_IM_MAX_CHECK'					=> $this->p_master->config['im_checkTime_max'],
-				'SN_IM_LAST_CHECKTIME'		=> $this->items['lastCheckTime'],
-				'SN_IM_PRESS_TO_CLOSE'		=> sprintf($user->lang['SN_IM_PRESS_TO_CLOSE'], $closeKey),
-				'SN_IM_PRESS_TO_SEND'			=> sprintf($user->lang['SN_IM_PRESS_TO_SEND'], $sendKey),
-				'SN_IM_CLOSESEQ_ALT'			=> $this->closeSequence['alt'] ? 'true' : 'false',
-				'SN_IM_CLOSESEQ_CTRL'			=> $this->closeSequence['ctrl'] ? 'true' : 'false',
-				'SN_IM_CLOSESEQ_SHIFT'		=> $this->closeSequence['shift'] ? 'true' : 'false',
-				'SN_IM_CLOSESEQ_KEY'			=> $this->closeSequence['key'],
-				'SN_IM_SENDSEQ_ALT'				=> $this->sendSequence['alt'] ? 'true' : 'false',
-				'SN_IM_SENDSEQ_CTRL'			=> $this->sendSequence['ctrl'] ? 'true' : 'false',
-				'SN_IM_SENDSEQ_SHIFT'			=> $this->sendSequence['shift'] ? 'true' : 'false',
-				'SN_IM_SENDSEQ_KEY'				=> $this->sendSequence['key'],
+				'SN_IM_ONLINE'				 => $user->data['user_im_online'] == 1 ? true : false,
+				'S_SN_USERNAME'				 => addslashes($user->data['username']),
+				'S_SN_IM_ONLINE'			 => $user->data['user_im_online'] == 1 ? 'online' : 'offline',
+				'SN_IM_USERNAME'			 => $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
+				'SN_IM_USER_AVATAR'			 => $this->config['my_avatar'],
+				'SN_IM_SMILIES_EXISTS'		 => $exist_smiley, // LOAD using parameters
+				'S_SN_IM_USER_SOUND'		 => $user->data['user_im_sound'],
+				'S_SN_IM_USER_SOUNDNAME'	 => $user->data['user_im_soundname'],
+				'S_SN_IM_LINK_NEW_WINDOW'	 => isset($config['im_url_new_window']) && $config['im_url_new_window'],
+				'SN_IM_MIN_CHECK'			 => $this->p_master->config['im_checkTime_min'],
+				'SN_IM_MAX_CHECK'			 => $this->p_master->config['im_checkTime_max'],
+				'SN_IM_LAST_CHECKTIME'		 => $this->items['lastCheckTime'],
+				'SN_IM_PRESS_TO_CLOSE'		 => sprintf($user->lang['SN_IM_PRESS_TO_CLOSE'], $closeKey),
+				'SN_IM_PRESS_TO_SEND'		 => sprintf($user->lang['SN_IM_PRESS_TO_SEND'], $sendKey),
+				'SN_IM_CLOSESEQ_ALT'		 => $this->closeSequence['alt'] ? 'true' : 'false',
+				'SN_IM_CLOSESEQ_CTRL'		 => $this->closeSequence['ctrl'] ? 'true' : 'false',
+				'SN_IM_CLOSESEQ_SHIFT'		 => $this->closeSequence['shift'] ? 'true' : 'false',
+				'SN_IM_CLOSESEQ_KEY'		 => $this->closeSequence['key'],
+				'SN_IM_SENDSEQ_ALT'			 => $this->sendSequence['alt'] ? 'true' : 'false',
+				'SN_IM_SENDSEQ_CTRL'		 => $this->sendSequence['ctrl'] ? 'true' : 'false',
+				'SN_IM_SENDSEQ_SHIFT'		 => $this->sendSequence['shift'] ? 'true' : 'false',
+				'SN_IM_SENDSEQ_KEY'			 => $this->sendSequence['key'],
 			));
 
 			$template->assign_vars($template_assign_vars);
@@ -994,12 +1001,12 @@ if (!class_exists('socialnet_im'))
 					if (!in_array($row['smiley_id'], $not_allowed))
 					{
 						$template->assign_block_vars('im_smiley', array(
-							'SMILEY_CODE'			=> $row['code'],
-							'A_SMILEY_CODE'		=> addslashes($row['code']),
-							'SMILEY_IMG'			=> $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
-							'SMILEY_WIDTH'		=> $row['smiley_width'],
-							'SMILEY_HEIGHT'		=> $row['smiley_height'],
-							'SMILEY_DESC'			=> $row['emotion'],
+							'SMILEY_CODE'	 => $row['code'],
+							'A_SMILEY_CODE'	 => addslashes($row['code']),
+							'SMILEY_IMG'	 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
+							'SMILEY_WIDTH'	 => $row['smiley_width'],
+							'SMILEY_HEIGHT'	 => $row['smiley_height'],
+							'SMILEY_DESC'	 => $row['emotion'],
 						));
 					}
 				}
