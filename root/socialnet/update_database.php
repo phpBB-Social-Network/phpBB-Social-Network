@@ -307,7 +307,7 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'fas_friendlist_limit', 'config_value' => '20')),
 			array(SN_CONFIG_TABLE, array('config_name' => 'mp_num_last_topics', 'config_value' => '10')),
 		),
-		
+
 		'module_add'		 => array(
 			array('ucp', 'UCP_SOCIALNET', array(
 				'module_basename'	 => 'socialnet',
@@ -387,7 +387,7 @@ $versions = array(
 
 	'0.6.1'		 => array(
 
-		'table_add'	 => array(
+		'table_add'			 => array(
 			array(SN_REPORTS_TABLE, array(
 				'COLUMNS'		 => array(
 					'report_id'		 => array('UINT', NULL, 'auto_increment'),
@@ -486,7 +486,7 @@ $versions = array(
 			)),
 		),
 
-		'table_column_add' => array(
+		'table_column_add'	 => array(
 			array(SN_USERS_TABLE, 'hometown', array('VCHAR:255', '')),
 			array(SN_USERS_TABLE, 'sex', array('TINT:1', 0)),
 			array(SN_USERS_TABLE, 'interested_in', array('TINT:1', 0)),
@@ -514,8 +514,8 @@ $versions = array(
 			array(SN_USERS_TABLE, 'profile_last_change', array('UINT:11', 0)),
 			array(SN_ENTRIES_TABLE, 'entry_additionals', array('TEXT', '')),
 		),
-		
-		'table_row_insert' => array(
+
+		'table_row_insert'	 => array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'mp_hide_for_guest', 'config_value' => 0)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_colour_username', 'config_value' => 0)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'us_colour_username', 'config_value' => 0)),
@@ -552,12 +552,12 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'up_enable_subscriptions', 'config_value' => 1)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'up_alert_relation_pm', 'config_value' => '0')),
 		),
-		
-		'permission_add' => array(
+
+		'permission_add'	 => array(
 			array('m_sn_close_reports', true),
 		),
 
-		'module_add' => array(
+		'module_add'		 => array(
 			array('acp', 'ACP_SN_CONFIGURATION', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'ACP_SN_BLOCKS_ENABLE',
@@ -615,14 +615,14 @@ $versions = array(
 			)),
 		),
 
-		'cache_purge' => array(
+		'cache_purge'		 => array(
 			'imageset',
 			'template',
 			'theme',
 			'cache',
 		),
 
-		'custom'	 => 'phpbb_SN_umil_auto',
+		'custom'			 => 'phpbb_SN_umil_auto',
 	),
 
 	'0.6.2'		 => array(
@@ -774,7 +774,7 @@ $versions = array(
 			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab info')),
 		),
 	),
-	
+
 	'0.6.2.8'	 => array(
 		'custom' => 'phpbb_SN_umil_0_6_2_8',
 	),
@@ -791,12 +791,12 @@ $versions = array(
 		),
 	),
 
-		'0.6.2.13'	 => array(
-				'table_row_insert'	 => array(
-						array(SN_CONFIG_TABLE, array('config_name' => 'sn_im_smilies_not_allowed','config_value' => 'X')),
-				),
+	'0.6.2.13'	 => array(
+		'table_row_insert'	 => array(
+			array(SN_CONFIG_TABLE, array('config_name' => 'sn_im_smilies_not_allowed', 'config_value' => 'X')),
 		),
-		
+	),
+
 );
 
 if (!defined('DEBUG_EXTRA'))
@@ -943,7 +943,7 @@ function phpbb_SN_umil_0_6_2_6($action, $version)
 			}
 			$db->sql_return_on_error(false);
 		}
-		
+
 		$sql = "SELECT COUNT(*) FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE owner_id = 0";
 		$rs = $db->sql_query($sql);
 		if ($db->sql_affectedrows($rs))
@@ -960,7 +960,7 @@ function phpbb_SN_umil_0_6_2_6($action, $version)
 function phpbb_SN_umil_0_6_2_8($action, $version)
 {
 	global $db;
-	
+
 	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_show_new_friendships" WHERE config_name = "mp_show_new_friendships"');
 	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_num_last_topics" WHERE config_name = "mp_num_last_topics"');
 	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_display_welcome" WHERE config_name = "mp_display_welcome"');
@@ -972,11 +972,11 @@ function phpbb_SN_umil_0_6_2_8($action, $version)
 	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_num_last_posts" WHERE config_name = "mp_num_last_posts"');
 	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "ap_max_profile_value" WHERE config_name = "mp_max_profile_value"');
 	$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_name = "module_activitypage" WHERE config_name = "module_mainpage"');
-	
+
 	$db->sql_query('UPDATE ' . SN_ADDONS_PLACEHOLDER_TABLE . ' SET ph_script = "activitypage" WHERE ph_id = 1');
 	$db->sql_query('UPDATE ' . SN_ADDONS_PLACEHOLDER_TABLE . ' SET ph_script = "activitypage" WHERE ph_id = 2');
 	$db->sql_query('UPDATE ' . SN_ADDONS_PLACEHOLDER_TABLE . ' SET ph_script = "activitypage" WHERE ph_id = 3');
-	
+
 	$db->sql_query('UPDATE ' . MODULES_TABLE . ' SET module_langname = "ACP_SN_ACTIVITYPAGE_SETTINGS", module_mode = "module_activitypage" WHERE module_mode = "module_mainpage"');
 }
 
@@ -1026,12 +1026,12 @@ function sql_rename_table($new_name)
 			case 'mysql':
 			case 'mysql4':
 				$sql = "ALTER TABLE {$old_name} RENAME TO {$new_name}";
-			break;
+				break;
 
 			case 'mssql':
 			case 'mssqlnative':
 				$sql = "EXEC sp_rename '{$old_name}', '{$new_name}'";
-			break;
+				break;
 		}
 
 		$db->sql_query($sql);
