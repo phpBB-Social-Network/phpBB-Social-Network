@@ -130,10 +130,62 @@ class ucp_im
 				}
 				else
 				{
+					// Export history to .txt file
+					$export = (isset($_POST['export'])) ? true : false;
+
+					if ($export)
+					{
+						$sql = "SELECT uid_from, message, bbcode_uid, sent
+  										FROM " . SN_IM_TABLE . "
+    						        WHERE uid_from IN ({$user->data['user_id']}, {$u_id})
+                          AND uid_to IN ({$user->data['user_id']}, {$u_id})
+    						        ORDER BY sent ASC";
+						$rs = $db->sql_query($sql);
+						$output = '';
+
+						$previous_sender = 0;
+						while ($row = $db->sql_fetchrow($rs))
+						{
+							if ($previous_sender != $row['uid_from'])
+							{
+								$username = ($row['uid_from'] == $user->data['user_id']) ? $user->data['username'] : $history_username;
+								$time = $user->format_date($row['sent']);
+								strip_bbcode($row['message'], $row['bbcode_uid']);
+								$message = str_replace("<br />", "\n", $row['message']);
+
+								$line = $username . " » " . $time . "\n" . $message . "\n";
+							}
+							else
+							{
+								strip_bbcode($row['message'], $row['bbcode_uid']);
+								$message = str_replace("<br />", "\n", $row['message']);
+
+								$line = $message . "\n";
+							}
+
+							$output .= $line;
+
+							$previous_sender = $row['uid_from'];
+						}
+						$db->sql_freeresult($rs);
+
+						$output = pack('CCC', 239, 187, 191) . $output;
+						Header('Pragma: no-cache');
+						Header('Cache-control: no-cache');
+						Header('Expires: ' . gmdate("D, d m Y H:i:s") . ' GMT');
+						header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+
+						header('Content-Description: File Transfer');
+						header('Content-Type: text/txt; charset="UTF-8"');
+						header("Content-length: " . strlen($output));
+						header('Content-Disposition: attachment; filename="' . $history_username . '_im_history.txt"');
+
+						exit($output);
+					}
 
 					$error = array();
 
-					$pagination_url = append_sid($this->p_master->u_action, 'u=' . $u_id);
+					$pagination_url = append_sid($this->p_master->u_action, 'u=' . $u_id . '&amp;pg=yes');
 
 					$sql = "SELECT COUNT(*) AS count
                     FROM " . SN_IM_TABLE . "
@@ -142,8 +194,9 @@ class ucp_im
 					$rs = $db->sql_query($sql);
 					$history_total = $db->sql_fetchfield('count');
 
+					$pg = request_var('pg', '');
 					$limit = request_var('limit', 30);
-					$start = request_var('start', (int) floor($history_total/ $limit)*$limit);
+					$start = request_var('start', empty($pg)?(int) floor($history_total/ $limit)*$limit:0);
 					
 					$sql = "SELECT u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height,
 												 im.uid_from, im.message, im.bbcode_uid, im.bbcode_bitfield, im.sent
@@ -205,58 +258,6 @@ class ucp_im
 						'U_SN_IM_HISTORY'		 => append_sid($this->p_master->u_action),
 					));
 
-					// Export history to .txt file
-					$export = (isset($_POST['export'])) ? true : false;
-
-					if ($export)
-					{
-						$sql = "SELECT uid_from, message, bbcode_uid, sent
-  										FROM " . SN_IM_TABLE . "
-    						        WHERE uid_from IN ({$user->data['user_id']}, {$u_id})
-                          AND uid_to IN ({$user->data['user_id']}, {$u_id})
-    						        ORDER BY sent ASC";
-						$rs = $db->sql_query($sql);
-						$output = '';
-
-						$previous_sender = 0;
-						while ($row = $db->sql_fetchrow($rs))
-						{
-							if ($previous_sender != $row['uid_from'])
-							{
-								$username = ($row['uid_from'] == $user->data['user_id']) ? $user->data['username'] : $history_username;
-								$time = $user->format_date($row['sent']);
-								strip_bbcode($row['message'], $row['bbcode_uid']);
-								$message = str_replace("<br />", "\n", $row['message']);
-
-								$line = $username . " » " . $time . "\n" . $message . "\n";
-							}
-							else
-							{
-								strip_bbcode($row['message'], $row['bbcode_uid']);
-								$message = str_replace("<br />", "\n", $row['message']);
-
-								$line = $message . "\n";
-							}
-
-							$output .= $line;
-
-							$previous_sender = $row['uid_from'];
-						}
-						$db->sql_freeresult($rs);
-
-						$output = pack('CCC', 239, 187, 191) . $output;
-						Header('Pragma: no-cache');
-						Header('Cache-control: no-cache');
-						Header('Expires: ' . gmdate("D, d m Y H:i:s") . ' GMT');
-						header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
-						header('Content-Description: File Transfer');
-						header('Content-Type: text/txt; charset="UTF-8"');
-						header("Content-length: " . strlen($output));
-						header('Content-Disposition: attachment; filename="' . $history_username . '_im_history.txt"');
-
-						exit($output);
-					}
 				}
 
 				break;
