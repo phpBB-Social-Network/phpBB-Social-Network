@@ -5,7 +5,6 @@
 	
     {USER_AVATAR}
     <div class="clear"></div>
-
     <ul class="sn-menu">     
     	<!-- IF S_DISPLAY_SEARCH -->
 				<li><a href="{U_SEARCH_USER}"><span class="ui-icon sn-menu-icon ui-icon-search"></span>{L_SEARCH_USER_POSTS}</a></li>
@@ -108,8 +107,8 @@
 	    	<ul class="sn-up-menu">
 				<!-- IF U_CANCEL_REQUEST --><li><a href="{U_CANCEL_REQUEST}" title="{L_SN_CANCEL_REQUEST}" class="ui-state-default"><span class="ui-icon ui-icon-close"></span>{L_SN_CANCEL_REQUEST}</a></li><!-- ENDIF -->
 				<!-- IF U_ADD_FRIEND --><li><a href="{U_ADD_FRIEND}" title="{L_SN_UP_ADD_FRIEND}" class="ui-state-default"><span class="ui-icon ui-icon-plus"></span>{L_SN_UP_ADD_FRIEND}</a></li><!-- ENDIF -->
-				<!-- IF S_USER_LOGGED_IN and S_SN_UP_EMOTES_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST -->
 				<!-- IF U_PM --><li><a href="{U_PM}" title="{L_MESSAGE}" class="ui-state-default"><span class="ui-icon ui-icon-mail-open"></span>{L_MESSAGE}</a></li><!-- ENDIF -->
+				<!-- IF S_USER_LOGGED_IN and S_SN_UP_EMOTES_ENABLED and not U_ADD_FRIEND and not U_CANCEL_REQUEST -->
 				<li class="sn-up-emotes"><a href="#" class="ui-state-default"><span class="ui-icon ui-icon-tag"></span>{L_SN_UP_EMOTES}</a>
 					<!-- IF .sn_up_emote --><ul class="sn-up-emote sn-up-submenu">
 						<!-- BEGIN sn_up_emote -->

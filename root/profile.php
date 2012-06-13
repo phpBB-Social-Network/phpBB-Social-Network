@@ -30,7 +30,7 @@ if ((int) $user_id == 0)
 
 if (!$config['module_profile'])
 {
-	redirect(append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $user_id));
+	redirect(append_sid("{$phpbb_root_path}memberlist.{$phpEx}", 'mode=viewprofile&amp;u=' . $user_id));
 }
 
 // Can this user view profiles/memberlist?
@@ -157,26 +157,26 @@ $template->assign_vars(array(
 	'USERNAME_FULL'			 => $socialnet->get_username_string(1, 'full', $user_id, $member['username'], $member['user_colour']),
 	'USERNAME'				 => $socialnet->get_username_string(1, 'username', $user_id, $member['username'], $member['user_colour']),
 	'USER_AVATAR'			 => $socialnet->get_user_avatar_resized($member['user_avatar'], $member['user_avatar_type'], $member['user_avatar_width'], $member['user_avatar_height'], 150, false),
-	'U_EDIT_PROFILE'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_profile') : '',
-	'U_EDIT_FRIENDS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_approval_friends') : '',
-	'U_EDIT_RELATIONS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_profile_relations') : '',
-	'U_CREATE_FRIENDS_GROUP' => append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=socialnet&amp;mode=module_approval_ufg'),
+	'U_EDIT_PROFILE'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_profile') : '',
+	'U_EDIT_FRIENDS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_approval_friends') : '',
+	'U_EDIT_RELATIONS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_profile_relations') : '',
+	'U_CREATE_FRIENDS_GROUP' => append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_approval_ufg'),
 	'U_VIEW_PROFILE'		 => $socialnet->get_username_string(1, 'profile', $user_id, $member['username'], $member['user_colour']),
 	'S_ZEBRA'				 => ($user->data['user_id'] != $user_id && $user->data['is_registered'] && $zebra_enabled) ? true : false,
-	'U_ADD_FRIEND'			 => (!$friend && !$request && !$foe && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
-	'U_ADD_FOE'				 => (!$friend && !$request && !$foe && $foes_enabled) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra&amp;mode=foes&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
-	'U_REMOVE_FRIEND'		 => ($friend && !$request && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra&amp;remove=1&amp;usernames[]=' . $user_id . $redirect) : '',
-	'U_REMOVE_FOE'			 => ($foe && $foes_enabled) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=zebra&amp;remove=1&amp;mode=foes&amp;usernames[]=' . $user_id . $redirect) : '',
+	'U_ADD_FRIEND'			 => (!$friend && !$request && !$foe && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
+	'U_ADD_FOE'				 => (!$friend && !$request && !$foe && $foes_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;mode=foes&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
+	'U_REMOVE_FRIEND'		 => ($friend && !$request && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;remove=1&amp;usernames[]=' . $user_id . $redirect) : '',
+	'U_REMOVE_FOE'			 => ($foe && $foes_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;remove=1&amp;mode=foes&amp;usernames[]=' . $user_id . $redirect) : '',
 	'U_CANCEL_REQUEST'		 => ($request && !$friend && !$foe && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_approval_friends&amp;module=friends&amp;cancel=1&amp;cancel_request[]=' . $user_id . $redirect) : '',
-
-	'U_USER_ADMIN'			 => ($auth->acl_get('a_user')) ? append_sid("{$phpbb_root_path}adm/index.$phpEx", 'i=users&amp;mode=overview&amp;u=' . $user_id, true, $user->session_id) : '',
-	'U_USER_BAN'			 => ($auth->acl_get('m_ban') && $user_id != $user->data['user_id']) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=ban&amp;mode=user&amp;u=' . $user_id, true, $user->session_id) : '',
-	'U_MCP_QUEUE'			 => ($auth->acl_getf_global('m_approve')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue', true, $user->session_id) : '',
-	'U_SWITCH_PERMISSIONS'	 => ($auth->acl_get('a_switchperm') && $user->data['user_id'] != $user_id) ? append_sid("{$phpbb_root_path}ucp.$phpEx", "mode=switch_perm&amp;u={$user_id}&amp;hash=" . generate_link_hash('switchperm')) : '',
-	'U_PM'					 => ($config['allow_privmsg'] && $auth->acl_get('u_sendpm') && ($member['user_allow_pm'] || $auth->acl_gets('a_', 'm_') || $auth->acl_getf_global('m_'))) ? append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
+  'U_SEARCH_USER'		 => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.{$phpEx}", "author_id=$user_id&amp;sr=posts") : '',
+	'U_USER_ADMIN'			 => ($auth->acl_get('a_user')) ? append_sid("{$phpbb_root_path}adm/index.{$phpEx}", 'i=users&amp;mode=overview&amp;u=' . $user_id, true, $user->session_id) : '',
+	'U_USER_BAN'			 => ($auth->acl_get('m_ban') && $user_id != $user->data['user_id']) ? append_sid("{$phpbb_root_path}mcp.{$phpEx}", 'i=ban&amp;mode=user&amp;u=' . $user_id, true, $user->session_id) : '',
+	'U_MCP_QUEUE'			 => ($auth->acl_getf_global('m_approve')) ? append_sid("{$phpbb_root_path}mcp.{$phpEx}", 'i=queue', true, $user->session_id) : '',
+	'U_SWITCH_PERMISSIONS'	 => ($auth->acl_get('a_switchperm') && $user->data['user_id'] != $user_id) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", "mode=switch_perm&amp;u={$user_id}&amp;hash=" . generate_link_hash('switchperm')) : '',
+	'U_PM'					 => ($config['allow_privmsg'] && $auth->acl_get('u_sendpm') && ($member['user_allow_pm'] || $auth->acl_gets('a_', 'm_') || $auth->acl_getf_global('m_'))) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=pm&amp;mode=compose&amp;u=' . $user_id) : '',
 	'ONLINE_IMG'			 => (!$config['load_onlinetrack']) ? '' : (($online) ? 'online' : 'offline'),
 	'S_ONLINE'				 => ($config['load_onlinetrack'] && $online) ? true : false,
-	'U_USER_REPORT'			 => ($config['up_enable_report']) ? append_sid("{$phpbb_root_path}profile.$phpEx", 'action=report_user&amp;u=' . $user_id) : '',
+	'U_USER_REPORT'			 => ($config['up_enable_report']) ? append_sid("{$phpbb_root_path}profile.{$phpEx}", 'action=report_user&amp;u=' . $user_id) : '',
 	'TOTAL_FRIENDS'			 => $total_friends,
 ));
 
@@ -322,7 +322,7 @@ $template->assign_vars(array(
 	'U_UP_TAB_INFO'		 => append_sid("{$socialnet_root_path}profile.{$phpEx}", 'mode=info&amp;u=' . $user_id),
 	'U_UP_TAB_FRIENDS'	 => append_sid("{$socialnet_root_path}profile.{$phpEx}", 'mode=friends&amp;u=' . $user_id),
 	'U_UP_TAB_STATS'	 => append_sid("{$socialnet_root_path}profile.{$phpEx}", 'mode=stats&amp;u=' . $user_id),
-	'U_USER_REPORT'		 => ($config['up_enable_report']) ? append_sid("{$socialnet_root_path}profile.$phpEx", 'mode=report_user&amp;u=' . $user_id) : '',
+	'U_USER_REPORT'		 => ($config['up_enable_report']) ? append_sid("{$socialnet_root_path}profile.{$phpEx}", 'mode=report_user&amp;u=' . $user_id) : '',
 ));
 
 page_header(sprintf($user->lang['VIEWING_PROFILE'], $member['username']));
