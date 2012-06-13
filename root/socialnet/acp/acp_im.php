@@ -114,71 +114,68 @@ class acp_im extends socialnet
 
 	function main_smilies($id)
 	{
-		global $user, $db, $template, $config, $phpbb_root_path;
+		global $user, $db, $template, $config, $phpbb_root_path, $phpEx, $cache;
 
 		$user->add_lang('acp/posting');
 
-		$config_name = 'sn_im_smilies_not_allowed';
-		$sql = 'SELECT *
-					FROM ' . SMILIES_TABLE . '
+		$sql = 'SELECT ps.*, ss.smiley_allowed
+					FROM ' . SMILIES_TABLE . ' AS ps LEFT OUTER JOIN ' . SN_SMILIES_TABLE . ' AS ss ON ps.smiley_id = ss.smiley_id
 					ORDER BY smiley_order';
-		$result = $db->sql_query($sql, 3600);
+		$rs = $db->sql_query($sql);
 
-		$smilies = $smilies_ids = array();
-		while ($row = $db->sql_fetchrow($result))
+		$smilies = array();
+
+		while ($row = $db->sql_fetchrow($rs))
 		{
-			if (empty($smilies[$row['smiley_url']]))
-			{
-				$smilies[$row['smiley_url']] = $row;
-				$smilies_ids[] = $row['smiley_id'];
-			}
+			$smilies[$row['smiley_id']] = $row;
 		}
-		$db->sql_freeresult($result);
+
+		$db->sql_freeresult($rs);
 
 		$submit = (request_var('submit', '', true) == '') ? false : true;
 
 		if ($submit)
 		{
-			$allowed = request_var('sn_im_smiley', array(0 => 0));
+			// PURGE CACHED SMILIES
+			$cached = 'SELECT ps.*, ss.smiley_allowed
+					FROM ' . SMILIES_TABLE . ' AS ps, ' . SN_SMILIES_TABLE . ' AS ss
+					WHERE ps.smiley_id = ss.smiley_id AND ss.smiley_allowed = 1
+					ORDER BY smiley_order';
+			$cache->remove_file('sql_' . md5($cached) . '.' . $phpEx);
+			
+			// DELETE ALL RECORDS
+			$sql = "DELETE FROM " . SN_SMILIES_TABLE;
+			$db->sql_query($sql);
 
+			// INSERT ALL RECORDS
+			$smileys = request_var('sn_im_smiley', array(0 => 0));
 
-			$array_diff = array_diff($smilies_ids, $allowed);
-			array_unshift($array_diff, !empty($allowed) ? 'X' : 'Y');
-			$config[$config_name] = implode(',', $array_diff);
-			$sql = "UPDATE " . SN_CONFIG_TABLE . " SET config_value = '{$config[$config_name]}' WHERE config_name = '{$config_name}'";
-			$rs = $db->sql_query($sql);
-			if ($db->sql_affectedrows($rs) == 0)
+			if (!empty($smilies))
 			{
-				$sql = "INSERT INTO " . SN_CONFIG_TABLE . " (config_name,config_value) VALUES ('{$config_name}', '{$config[$config_name]}')";
-				$db->sql_return_on_error(true);
-				$db->sql_query($sql);
-				$db->sql_return_on_error(false);
+				foreach ($smilies as $idx => $row)
+				{
+					$smilies[$idx]['smiley_allowed'] = $allowed = in_array($row['smiley_id'], $smileys) ? 1 : 0;
+					$sql = "INSERT INTO " . SN_SMILIES_TABLE . " (smiley_id, smiley_allowed) VALUES ('{$row['smiley_id']}','{$allowed}')";
+					$db->sql_query($sql);
+				}
 			}
-		}
 
-		if (!isset($config[$config_name]) || empty($config[$config_name]))
-		{
-			$config[$config_name] = implode(',', array());
 		}
-
-		$smiley_allowed = explode(',', $config[$config_name]);
 
 		$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_root_path;
 
-		foreach ($smilies as $smiley_url => $row)
+		foreach ($smilies as $idx => $row)
 		{
-			$is_allowed = !in_array($row['smiley_id'], $smiley_allowed);
 			$template->assign_block_vars('sn_smiley', array(
-				'ID'			=> $row['smiley_id'],
-				'CODE'		=> $row['code'],
-				'IMAGE'		=> $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
-				'EMOTION'	=> $row['emotion'],
-				'WIDTH'		=> $row['smiley_width'],
-				'HEIGHT'	=> $row['smiley_height'],
-				'ALLOWED'	=> $is_allowed,
+				'ID'		 => $row['smiley_id'],
+				'CODE'		 => $row['code'],
+				'IMAGE'		 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
+				'EMOTION'	 => $row['emotion'],
+				'WIDTH'		 => $row['smiley_width'],
+				'HEIGHT'	 => $row['smiley_height'],
+				'ALLOWED'	 => $row['smiley_allowed'],
 			));
 		}
-		$db->sql_freeresult($result);
 
 	}
 }

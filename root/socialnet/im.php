@@ -120,14 +120,11 @@ if (!class_exists('socialnet_im'))
 
 			$closeKey = $this->_keyboardString($this->closeSequence);
 			$sendKey = $this->_keyboardString($this->sendSequence);
-			if (isset($config['sn_im_smilies_not_allowed']))
-			{
-				$exist_smiley = (strpos($config['sn_im_smilies_not_allowed'], 'X') !== false) ? true : false;
-			}
-			else
-			{
-				$exist_smiley = true;
-			}
+
+			$sql = "SELECT * FROM " . SN_SMILIES_TABLE . " WHERE smiley_allowed = 1";
+			$rs = $db->sql_query($sql);
+
+			$exist_smiley = $db->sql_affectedrows($rs);
 
 			$template_assign_vars = array_merge($template_assign_vars, array(
 				'SN_IM_ONLINE'				 => $user->data['user_im_online'] == 1 ? true : false,
@@ -976,8 +973,9 @@ if (!class_exists('socialnet_im'))
 		{
 			global $db, $phpbb_root_path, $config, $template, $user;
 
-			$sql = 'SELECT *
-					FROM ' . SMILIES_TABLE . '
+			$sql = 'SELECT ps.*, ss.smiley_allowed
+					FROM ' . SMILIES_TABLE . ' AS ps, ' . SN_SMILIES_TABLE . ' AS ss
+					WHERE ps.smiley_id = ss.smiley_id AND ss.smiley_allowed = 1
 					ORDER BY smiley_order';
 			$result = $db->sql_query($sql, 3600);
 
@@ -994,21 +992,17 @@ if (!class_exists('socialnet_im'))
 			if (sizeof($smilies))
 			{
 				$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_root_path;
-				$not_allowed = explode(',', $config['sn_im_smilies_not_allowed']);
 
 				foreach ($smilies as $row)
 				{
-					if (!in_array($row['smiley_id'], $not_allowed))
-					{
-						$template->assign_block_vars('im_smiley', array(
-							'SMILEY_CODE'	 => $row['code'],
-							'A_SMILEY_CODE'	 => addslashes($row['code']),
-							'SMILEY_IMG'	 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
-							'SMILEY_WIDTH'	 => $row['smiley_width'],
-							'SMILEY_HEIGHT'	 => $row['smiley_height'],
-							'SMILEY_DESC'	 => $row['emotion'],
-						));
-					}
+					$template->assign_block_vars('im_smiley', array(
+						'SMILEY_CODE'	 => $row['code'],
+						'A_SMILEY_CODE'	 => addslashes($row['code']),
+						'SMILEY_IMG'	 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
+						'SMILEY_WIDTH'	 => $row['smiley_width'],
+						'SMILEY_HEIGHT'	 => $row['smiley_height'],
+						'SMILEY_DESC'	 => $row['emotion'],
+					));
 				}
 			}
 

@@ -791,10 +791,17 @@ $versions = array(
 		),
 	),
 
-	'0.6.2.13'	 => array(
-		'table_row_insert'	 => array(
-			array(SN_CONFIG_TABLE, array('config_name' => 'sn_im_smilies_not_allowed', 'config_value' => 'X')),
+	'0.6.2.16'	 => array(
+		'table_add'	 => array(
+			array(SN_SMILIES_TABLE, array(
+				'COLUMNS'		 => array(
+					'smiley_id'		 => array('UINT:8', 0),
+					'smiley_allowed' => array('TINT:1', 0),
+				),
+				'PRIMARY_KEY'	 => array('smiley_id'),
+			)),
 		),
+		'custom'	 => 'phpbb_SN_umil_0_6_2_16',
 	),
 
 );
@@ -978,6 +985,33 @@ function phpbb_SN_umil_0_6_2_8($action, $version)
 	$db->sql_query('UPDATE ' . SN_ADDONS_PLACEHOLDER_TABLE . ' SET ph_script = "activitypage" WHERE ph_id = 3');
 
 	$db->sql_query('UPDATE ' . MODULES_TABLE . ' SET module_langname = "ACP_SN_ACTIVITYPAGE_SETTINGS", module_mode = "module_activitypage" WHERE module_mode = "module_mainpage"');
+}
+
+function phpbb_SN_umil_0_6_2_16($action, $version)
+{
+	global $db;
+
+	if ($action == 'install' || $action == 'update')
+	{
+		$sql = "SELECT smiley_id FROM " . SMILIES_TABLE;
+		$rs = $db->sql_query($sql);
+
+		$db->sql_return_on_error(true);
+		while ($row = $db->sql_fetchrow($rs))
+		{
+			$sql = "INSERT INTO " . SN_SMILIES_TABLE . " (smiley_id, smiley_allowed) VALUES ({$row['smiley_id']},1)";
+			$db->sql_query($sql);
+		}
+		$db->sql_return_on_error(false);
+		
+		$db->sql_freeresult($rs);
+
+		return 'Social Network::IM smilies default settings added';
+	}
+	else
+	{
+		return 'Social Network::IM smilies default settings untouched';
+	}
 }
 
 /**
