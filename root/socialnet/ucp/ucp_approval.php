@@ -137,7 +137,7 @@ class ucp_approval
 						{
 							$data['approvals'][] = $rowset[$i]['user_id'];
 							$data['approvalsName'][] = $rowset[$i]['username'];
-							$data['cancelName'][] =  $rowset[$i]['username'];
+							$data['cancelName'][] = $rowset[$i]['username'];
 						}
 
 					}
@@ -186,8 +186,8 @@ class ucp_approval
 						else
 						{
 							$data['approvals'] = array_diff($data['approvals'], $data['cancel_request']);
-							
-							foreach ($data['approvals'] as $idx =>$user_id)
+
+							foreach ($data['approvals'] as $idx => $user_id)
 							{
 								$sql_update = "DELETE FROM " . ZEBRA_TABLE . "
 																WHERE user_id = " . $user_id . "
@@ -195,7 +195,7 @@ class ucp_approval
 								$db->sql_query($sql_update);
 								$socialnet->purge_friends($user_id);
 								$ntf_text = 'SN_NTF_FRIENDSHIP_DENY';
-								$message[] = $user->lang[$l_mode . '_APPROVALS_DENY']  . " \"{$data['approvalsName'][$idx]}\"";
+								$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'] . " \"{$data['approvalsName'][$idx]}\"";
 								$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 							}
 							$error[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
@@ -466,15 +466,17 @@ class ucp_approval
 					$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id_ary, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 				}
 
-				// Do not send mail by adding foes
-				if ($mode != 'foes' && !empty($user_id_ary))
-				{
-			 		foreach ($user_id_ary as $idx => $user_id)
-					{
-						$this->send_pm($user_id);
-					}
-				}
-
+				/*
+				 // Do not send mail by adding foes
+				 if ($mode != 'foes' && !empty($user_id_ary))
+				 {
+				 foreach ($user_id_ary as $idx => $user_id)
+				 {
+				 $this->send_pm($user_id);
+				 }
+				 }
+				 */
+				
 				unset($user_id_ary);
 			}
 			else if (!sizeof($error))
@@ -482,47 +484,6 @@ class ucp_approval
 				$error[] = $user->lang['USER_NOT_FOUND_OR_INACTIVE'];
 			}
 		}
-	}
-
-	/**
-	 * Send PM
-	 */
-	function send_pm($send_to)
-	{
-		global $user, $config, $db, $phpbb_root_path, $phpEx;
-
-		$sql = "SELECT user_lang FROM " . USERS_TABLE . " WHERE user_id = $send_to" ;
-		$rs = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($rs);
-		$user_lang = $row['user_lang'] != '' ? $row['user_lang'] : $config['default_lang'];
-		$lang = array();
-
-		include("{$phpbb_root_path}language/{$user_lang}/ucp.{$phpEx}");
-		include("{$phpbb_root_path}language/{$user_lang}/mods/socialnet.{$phpEx}");
-
-		$send_from = $user->data['user_id'];
-		$my_subject = sprintf($lang['SN_FAS_REQUEST_ADDED'], $user->data['username']);
-		$message = sprintf($lang['SN_FAS_REQUEST_ADDED_MESSAGE'], $user->data['username'], $this->p_master->u_action, $lang['UCP_ZEBRA_FRIENDS']);
-
-		$poll = $uid = $bitfield = $options = '';
-		generate_text_for_storage($my_subject, $uid, $bitfield, $options, false, false, false);
-		generate_text_for_storage($message, $uid, $bitfield, $options, true, true, true);
-
-		$data = array(
-			'address_list'		 => array('u' => array($send_to => 'to')),
-			'from_user_id'		 => $send_from,
-			'from_username'		 => $config['sitename'],
-			'icon_id'			 => 0,
-			'from_user_ip'		 => $user->data['user_ip'],
-			'enable_bbcode'		 => true,
-			'enable_smilies'	 => true,
-			'enable_urls'		 => true,
-			'enable_sig'		 => true,
-			'message'			 => $message,
-			'bbcode_bitfield'	 => $bitfield,
-			'bbcode_uid'		 => $uid,
-		);
-		submit_pm('post', $my_subject, $data, false);
 	}
 
 	function ufg($id, $mode)

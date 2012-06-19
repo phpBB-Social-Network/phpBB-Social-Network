@@ -55,8 +55,8 @@ $lang = array_merge($lang, array(
 	'SN_US_SHARED_STATUS'					 => 'You have shared your status',
 	'SN_US_DELETE_STATUS'					 => 'Delete',
 	'SN_US_LOAD_MORE'						 => 'Older posts',
-	'SN_US_LOAD_MORE_COMMENT'				 => 'More comment',
-	'SN_US_LOAD_MORE_COMMENTS'				 => 'More comments',
+	'SN_US_LOAD_MORE_COMMENT'				 => 'more comment',
+	'SN_US_LOAD_MORE_COMMENTS'				 => 'more comments',
 	'SN_US_CONFIRM'							 => 'Confirm',
 	'SN_US_CLOSE'							 => 'Close',
 	'SN_US_CANCEL'							 => 'Cancel',
@@ -422,8 +422,6 @@ $lang = array_merge($lang, array(
 
 	'SN_USING_AVATARS_1_EXPLAIN'			 => 'Click on the users to select them, then confirm the operation',
 
-	'SN_FAS_REQUEST_ADDED'					 => '%1$s wants to be your friend',
-	'SN_FAS_REQUEST_ADDED_MESSAGE'			 => '%1$s sent you a friend request.<br />You can accept or deny this request here <a href="%2$s">%3$s</a>.',
 	'FRIENDS_APPROVALS_SUCCESS'				 => 'The friend has been added successfully',
 	'FRIENDS_APPROVALS_REQUEST_EXIST'		 => 'You have already sent the request to',
 	'FRIENDS_APPROVALS_DENY'				 => 'The friend request has been canceled successfully',
@@ -475,6 +473,29 @@ $lang = array_merge($lang, array(
 	'ADD_FRIEND_TO_GROUP'					 => 'Add friend to friends group',
 	'ERROR_GROUP_EMPTY_NAME'				 => 'Empty group name',
 	'ERROR_GROUP_ALREADY_EXISTS'			 => 'You have already created this group',
+));
+
+// NTF MESSAGE TITLES FOR PMs
+$lang = array_merge($lang, array(
+	'SN_NTF_FRIENDSHIP_REQUEST_PM_TITLE'		=> '%1$s sent you a friendship request',
+	'SN_NTF_FRIENDSHIP_CANCEL_PM_TITLE'			=> '%1$s canceled your friendship request',
+	'SN_NTF_FRIENDSHIP_DENY_PM_TITLE'				=> '%1$s denied your friendship request',
+	'SN_NTF_FRIENDSHIP_ACCEPT_PM_TITLE'			=> '%1$s accepted your friendship request',
+
+	'SN_NTF_STATUS_FRIEND_WALL_PM_TITLE'	 	=> '%1$s has left a message on your Profile page',
+	'SN_NTF_STATUS_USER_COMMENT_PM_TITLE'	 	=> '%1$s has commented on %2$s\'s status',
+	'SN_NTF_STATUS_AUTHOR_COMMENT_PM_TITLE'	=> '%1$s has commented on your status',
+
+	'SN_NTF_APPROVE_FAMILY_PM_TITLE'				=> '%1$s has added you as a %2$s',
+	'SN_NTF_APPROVE_RELATIONSHIP_PM_TITLE'	=> '%1$s has created a relationship with you',
+
+	'SN_NTF_EMOTE_PM_TITLE'					 				=> '%1$s has sent you an emote',
+
+	'SN_NTF_RELATIONSHIP_APPROVED_PM_TITLE'	=> '%1$s has confirmed relationship with you',
+	'SN_NTF_FAMILY_APPROVED_PM_TITLE'		 		=> '%1$s has confirmed family relation with you',
+
+	'SN_NTF_RELATIONSHIP_REFUSED_PM_TITLE'	=> '%1$s has refused relationship with you',
+	'SN_NTF_FAMILY_REFUSED_PM_TITLE'				=> '%1$s has refused family relation with you',
 ));
 
 // MCP

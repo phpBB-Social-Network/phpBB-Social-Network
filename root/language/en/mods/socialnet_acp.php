@@ -58,6 +58,9 @@ $lang = array_merge($lang, array(
 	'SN_MODULE_ACTIVITYPAGE'				 => 'Activity page',
 	'SN_MODULE_NOTIFY'						 => 'Notifications',
 	'SN_MODULE_PROFILE'						 => 'User profile',
+
+	'SN_MODULE_NOTIFY_DETAIL'				 => 'When this module is disabled, than all notifications are delivered using Private message',
+
 	'ACP_SN_IM_SETTINGS'					 => 'Instant messenger settings',
 	'ACP_SN_USERSTATUS_SETTINGS'			 => 'User status settings',
 	'ACP_SN_APPROVAL_SETTINGS'				 => 'Friends management system settings',
@@ -165,38 +168,9 @@ $lang = array_merge($lang, array(
 
 // ADDONS MANAGEMENT ACP
 $lang = array_merge($lang, array(
-	'ACP_SN_ADDONS_CONFIGURATION'			 => 'Addons Management',
-	'ACP_SN_ADDONS_CONFIGURATION_EXPLAIN'	 => 'You can manage external addons via this panel.',
-	'SN_ADDONS_NO_ADDONS'					 => 'You have not added any addon yet',
-	'SN_ADDONS_CREATE_ADDON'				 => 'Add a new addon',
-	'SN_ADDONS_CREATE_ADDON_EXPLAIN'		 => 'Perform these simple steps:<br />1. create a .php file and upload it to root/socialnet/addons/<br />2. create a .html file and upload it to root/styles/your_style/template/socialnet/addons/<br />3. choose the .php file and/or .html file, point them to the location and enable them',
-	'SN_ADDONS_EDIT_ADDON'					 => 'Edit addon',
-	'SN_ADDONS_ADDON_NAME'					 => 'Addon name',
-	'SN_ADDONS_ADDON_PHP'					 => 'Addon php file',
-	'SN_ADDONS_ADDON_PHP_EXPLAIN'			 => 'a .php file in root/socialnet/addons/',
-	'SN_ADDONS_ADDON_HTML'					 => 'Addon html file',
-	'SN_ADDONS_ADDON_HTML_EXPLAIN'			 => 'a .html file in root/styles/yourstyle/template/socialnet/addons/',
-	'SN_ADDONS_ADDON_LOCATION'				 => 'Location',
-	'SN_ADDONS_ADDON_LOCATION_EXPLAIN'		 => 'Select the location where the addon should to be loaded',
-	'SN_ADDONS_ADDON_ACTIVE'				 => 'Enable',
-	'SN_ADDONS_ADDON_ACTIVE_EXPLAIN'		 => 'You can enable/disable the addon here',
-	'SN_ADDONS_LOCATIONS_1'					 => 'User Profile -> Info',
-	'SN_ADDONS_LOCATIONS_2'					 => 'User Profile -> Statistics',
-	'SN_ADDONS_LOCATIONS_3'					 => 'Activity page -> Header',
-	'SN_ADDONS_LOCATIONS_4'					 => 'Activity page -> Left column',
-	'SN_ADDONS_LOCATIONS_5'					 => 'Activity page -> Right column',
-	'SN_ADDONS_LOCATIONS_6'					 => 'Activity page post',
-	'SN_ADDONS_DELETE_ADDON_CONFIRM'		 => 'Are you sure you want to delete this addon?',
-	'SN_ADDONS_ADDON_ADDED'					 => 'Addon has been added succesfully.',
-	'SN_ADDONS_ADDON_EDITED'				 => 'Addon has been edited succesfully.',
-	'SN_ADDONS_ADDON_ENABLED'				 => 'Addon has been enabled succesfully.',
-	'SN_ADDONS_ADDON_DISABLED'				 => 'Addon has been disabled succesfully.',
-	'SN_ADDONS_NO_FILE'						 => 'You must choose either a .php file or a .html file or both of them.',
-	'SN_ADDONS_NO_LOCATION'					 => 'Please specify the location for this addon.',
-));
-
-$lang = array_merge($lang, array(
 	'ACP_SN_ADDONS_HOOK_CONFIGURATION'			 => 'Addons Hook System Management',
+	'ACP_SN_ADDONS_HOOK_CONFIGURATION_EXPLAIN'	 => 'Addon Hooks allow you to add your own code to SN that runs when specific page is loaded inside the system.',
+
 	'SN_ADDONS_ADDONS_MANAGEMENT'				 => 'AddOns Management',
 	'SN_ADDONS_PLACEHOLDER_MANAGEMENT'			 => 'Placeholders Management',
 	'SN_ADDONS_EDITHOLDER'						 => 'Edit placeholder',
@@ -253,6 +227,7 @@ $lang = array_merge($lang, array(
 	'SN_FAS_FRIENDS_PER_PAGE_EXPLAIN'		 => 'How many friends per page will be displayed',
 	'SN_FMS_PURGE_ALL_FRIENDS_DELETED_USERS' => 'Purge all friends and friend groups deleted users',
 ));
+
 // ACTIVITYPAGE ACP
 $lang = array_merge($lang, array(
 	'AP_NUM_LAST_POSTS'								 => 'Limit last posts displaying',

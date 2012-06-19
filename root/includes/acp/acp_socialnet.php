@@ -35,7 +35,7 @@ class acp_socialnet extends AddOnsHookSystem
 
 		$this->tpl_name = 'acp_socialnet';
 		$this->page_title = 'ACP_CAT_SOCIALNET';
-		
+
 		// Default call function
 		$call_module = 'sett_main';
 		$block_match = $module_match = array();
@@ -78,7 +78,7 @@ class acp_socialnet extends AddOnsHookSystem
 		if ($this->acpPanel_title != '')
 		{
 			$template_assign_vars['L_TITLE'] = $this->acpPanel_title;
-			$this->page_title = $user->lang[$this->page_title] . ' &bull; ' . trim(preg_replace('/'.$user->lang['SETTINGS'].'/si' , '',$this->acpPanel_title));
+			$this->page_title = $user->lang[$this->page_title] . ' &bull; ' . trim(preg_replace('/' . $user->lang['SETTINGS'] . '/si', '', $this->acpPanel_title));
 		}
 		if ($this->acpPanel_explain != '')
 		{
@@ -263,10 +263,16 @@ class acp_socialnet extends AddOnsHookSystem
 		while ($row = $db->sql_fetchrow($rs))
 		{
 			$module_current[$row['config_name']] = $row['config_value'];
-			$module_lang = 'SN_' . strtoupper($row['config_name']) . '_NAME';
-			$module_lang = isset($user->lang[$module_lang]) ? $module_lang : 'SN_' . strtoupper($row['config_name']);
+			$CONFIG_NAME = strtoupper($row['config_name']);
+			$module_lang = 'SN_' . $CONFIG_NAME . '_NAME';
+			$module_lang = isset($user->lang[$module_lang]) ? $module_lang : 'SN_' . $CONFIG_NAME;
 			$modules[$row['config_name']] = array('lang' => $module_lang, 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true);
-			$user->lang[$module_lang . '_EXPLAIN'] = sprintf($user->lang['SN_MODULE_EXPLAIN'], isset($user->lang[$module_lang]) ? $user->lang[$module_lang] : $module_lang);
+			$module_lang_explain = sprintf($user->lang['SN_MODULE_EXPLAIN'], isset($user->lang[$module_lang]) ? $user->lang[$module_lang] : $module_lang);
+			if (isset($user->lang['SN_' . $CONFIG_NAME . '_DETAIL']))
+			{
+				$module_lang_explain .= '<br />' . $user->lang['SN_' . $CONFIG_NAME . '_DETAIL'];
+			}
+			$user->lang[$module_lang . '_EXPLAIN'] = $module_lang_explain;
 		}
 
 		$display_vars = array(
