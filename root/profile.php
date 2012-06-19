@@ -168,7 +168,7 @@ $template->assign_vars(array(
 	'U_REMOVE_FRIEND'		 => ($friend && !$request && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;remove=1&amp;usernames[]=' . $user_id . $redirect) : '',
 	'U_REMOVE_FOE'			 => ($foe && $foes_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;remove=1&amp;mode=foes&amp;usernames[]=' . $user_id . $redirect) : '',
 	'U_CANCEL_REQUEST'		 => ($request && !$friend && !$foe && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_approval_friends&amp;module=friends&amp;cancel=1&amp;cancel_request[]=' . $user_id . $redirect) : '',
-  'U_SEARCH_USER'		 => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.{$phpEx}", "author_id=$user_id&amp;sr=posts") : '',
+	'U_SEARCH_USER'			 => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.{$phpEx}",(($user_id === (int) $user->data['user_id']) ? 'search_id=egosearch' : "author_id=$user_id").'&amp;sr=posts') : '',
 	'U_USER_ADMIN'			 => ($auth->acl_get('a_user')) ? append_sid("{$phpbb_root_path}adm/index.{$phpEx}", 'i=users&amp;mode=overview&amp;u=' . $user_id, true, $user->session_id) : '',
 	'U_USER_BAN'			 => ($auth->acl_get('m_ban') && $user_id != $user->data['user_id']) ? append_sid("{$phpbb_root_path}mcp.{$phpEx}", 'i=ban&amp;mode=user&amp;u=' . $user_id, true, $user->session_id) : '',
 	'U_MCP_QUEUE'			 => ($auth->acl_getf_global('m_approve')) ? append_sid("{$phpbb_root_path}mcp.{$phpEx}", 'i=queue', true, $user->session_id) : '',
@@ -274,21 +274,21 @@ if ($member['user_type'] == USER_INACTIVE)
 
 	switch ($member['user_inactive_reason'])
 	{
-	case INACTIVE_REGISTER:
-		$inactive_reason = $user->lang['INACTIVE_REASON_REGISTER'];
-		break;
+		case INACTIVE_REGISTER:
+			$inactive_reason = $user->lang['INACTIVE_REASON_REGISTER'];
+			break;
 
-	case INACTIVE_PROFILE:
-		$inactive_reason = $user->lang['INACTIVE_REASON_PROFILE'];
-		break;
+		case INACTIVE_PROFILE:
+			$inactive_reason = $user->lang['INACTIVE_REASON_PROFILE'];
+			break;
 
-	case INACTIVE_MANUAL:
-		$inactive_reason = $user->lang['INACTIVE_REASON_MANUAL'];
-		break;
+		case INACTIVE_MANUAL:
+			$inactive_reason = $user->lang['INACTIVE_REASON_MANUAL'];
+			break;
 
-	case INACTIVE_REMIND:
-		$inactive_reason = $user->lang['INACTIVE_REASON_REMIND'];
-		break;
+		case INACTIVE_REMIND:
+			$inactive_reason = $user->lang['INACTIVE_REASON_REMIND'];
+			break;
 	}
 
 	$template->assign_vars(array(
