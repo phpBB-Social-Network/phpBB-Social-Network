@@ -742,7 +742,11 @@ div:not(.sn-page) .sn-userName a
 
 .ui-icon.sn-im-cbClose
 {
-	background-image:url({T_IMAGESET_PATH}/socialnet/button_close_im.png);
+	background-image:url({T_IMAGESET_PATH}/socialnet/button_close.png);
+	background-position:0 -30px;
+	height:15px;
+	margin:4px 0 0;
+	width:15px;
 }
 
 .sn-im-nav
