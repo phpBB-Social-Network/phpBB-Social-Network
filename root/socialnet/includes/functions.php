@@ -682,9 +682,9 @@ class snFunctions
 		$term = utf8_clean_string(request_var('term', '', true));
 
 		$sql = 'SELECT username
-		          FROM ' . USERS_TABLE . '
-		            WHERE user_type <> 2
-		              AND username_clean LIKE "%' . $term . '%"';
+				FROM ' . USERS_TABLE . '
+				WHERE user_type <> 2
+				AND username_clean LIKE "%' . $term . '%"';
 		$result = $db->sql_query($sql);
 		$return_arr = $row_array = array();
 
@@ -1099,7 +1099,7 @@ class snFunctions
 	 */
 	function friend_requests()
 	{
-		global $db, $template, $user, $phpbb_root_path, $phpEx;
+		global $db, $template, $user;
 
 		if (!$this->config['sn_block_friend_requests'])
 		{
@@ -1107,10 +1107,10 @@ class snFunctions
 		}
 
 		$sql = "SELECT u.user_id, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-							FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
-								WHERE z.approval = 1
-									AND z.zebra_id = {$user->data['user_id']}
-									AND z.user_id = u.user_id";
+				FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
+				WHERE z.approval = 1
+					AND z.zebra_id = {$user->data['user_id']}
+					AND z.user_id = u.user_id";
 		$limit_requests = 5;
 		$i_avatar_maxHeight = 36;
 
