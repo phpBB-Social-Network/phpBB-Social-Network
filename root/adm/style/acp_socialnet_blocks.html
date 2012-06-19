@@ -1,4 +1,9 @@
 <!-- INCLUDE overall_header.html -->
+<script type="text/javascript">
+// <![CDATA[
+document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" type="text/css" media="screen" '+'/>');
+//]]>
+</script>
 
 <!-- IF S_MOTIONPICTURE --><img src="{S_MOTIONPICTURE_IMG_URL}" style="float:right;" alt="{L_TITLE}" /><!-- ENDIF -->
 
@@ -11,23 +16,16 @@
   	<p>{ERROR_MSG}</p>
   </div>
 <!-- ENDIF -->
-<!--
-<form id="mode_select" method="post" action="{U_ACTION}">
-	<fieldset class="quick">
-		{L_SELECT_BLOCK}: <select name="block" onchange="if (this.options[this.selectedIndex].value != '') this.form.submit();"><!-- BEGIN block_tabs -->
-			<option value="{block_tabs.BLOCK}" <!-- IF block_tabs.S_SELECTED -->selected="selected"<!-- ENDIF -->>{block_tabs.TITLE}</option>
-			<!-- END block_tabs --></select> <input class="button2" type="submit" value="{L_GO}" />
-		{S_FORM_TOKEN}
-	</fieldset>
-</form>
--->
+
 <!-- IF .sn_tabs -->
-<ul id="sn_tabs">
+<div id="sn_tabs">
+<ul>
 	<!-- BEGIN sn_tabs -->
-	<li<!-- IF sn_tabs.SELECTED --> id="activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
+	<li<!-- IF sn_tabs.SELECTED --> id="sn_activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
 	<!-- END sn_tabs -->
 </ul>
-<div id="acp">
+</div>
+<div id="sn_acp">
 	<div class="panel">
 		<span class="corners-top"><span></span></span>
 			<div id="content" style="padding:10px;">
