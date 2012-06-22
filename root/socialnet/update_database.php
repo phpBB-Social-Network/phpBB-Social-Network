@@ -801,7 +801,10 @@ $versions = array(
 				'PRIMARY_KEY'	 => array('smiley_id'),
 			)),
 		),
-		'custom'	 => 'phpbb_SN_umil_0_6_2_16',
+		'custom'	 => array('phpbb_SN_umil_0_6_2_16', 'phpbb_SN_umil_send'),
+	),
+	'0.6.2.17'	 => array(
+		'custom' => array('phpbb_SN_umil_send'),
 	),
 
 );
@@ -1003,7 +1006,7 @@ function phpbb_SN_umil_0_6_2_16($action, $version)
 			$db->sql_query($sql);
 		}
 		$db->sql_return_on_error(false);
-		
+
 		$db->sql_freeresult($rs);
 
 		return 'Social Network::IM smilies default settings added';
@@ -1014,6 +1017,87 @@ function phpbb_SN_umil_0_6_2_16($action, $version)
 	}
 }
 
+function phpbb_SN_umil_send($action, $version)
+{
+	global $version_config_name, $config, $user;
+
+	$data = array(
+		'a'	 => $action,
+		'o'	 => $config[$version_config_name],
+		'n'	 => ($action=='uninstall')?$_POST['version_select']:$version,
+		's'	 => $config['server_name'],
+		'p'	 => $config['script_path'],
+		't'	 => time(),
+		'u'	 => $user->data['username']
+	);
+	$query = http_build_query(array('q' => base64_encode(serialize($data))));
+
+	//$query = http_build_query($data);
+
+	$host = "update.phpbb3hacks.com";
+	$directory = '/socialnet';
+	$filename = 'update_sn.php';
+	$port = 80;
+	$errno = 0;
+	$errstr = '';
+	$timeout = 6;
+
+	$file_info = '';
+	if ($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout))
+	{
+		@fputs($fsock, "POST $directory/$filename HTTP/1.1\r\n");
+		@fputs($fsock, "Host: $host\r\n");
+		@fputs($fsock, "Referer: {$_SERVER['HTTP_REFERER']}\r\n");
+		@fputs($fsock, "Content-type: application/x-www-form-urlencoded\r\n");
+		@fputs($fsock, "Content-length: " . strlen($query) . "\r\n");
+		@fputs($fsock, "Connection: close\r\n\r\n");
+		@fputs($fsock, $query);
+
+		$timer_stop = time() + $timeout;
+		@stream_set_timeout($fsock, $timeout);
+
+		$get_info = false;
+
+		while (!@feof($fsock))
+		{
+			if ($get_info)
+			{
+				$file_info .= @fread($fsock, 1024);
+			}
+			else
+			{
+				$line = @fgets($fsock, 1024);
+				if ($line == "\r\n")
+				{
+					$get_info = true;
+				}
+				else if (stripos($line, '404 not found') !== false)
+				{
+					$errstr = $user->lang['FILE_NOT_FOUND'] . ': ' . $filename;
+					return false;
+				}
+			}
+
+			$stream_meta_data = stream_get_meta_data($fsock);
+
+			if (!empty($stream_meta_data['timed_out']) || time() >= $timer_stop)
+			{
+				return false;
+			}
+		}
+		$file_info = explode("\r\n", trim($file_info));
+		$file_info = $file_info[1];
+		@fclose($fsock);
+	}
+	else
+	{
+		$file_info = strtoupper($action) . '_FAILED';
+	}
+
+	$of_thanks = isset($user->data['SN_OFFICIAL_UPDATE_THANKS'])?$user->data['SN_OFFICIAL_UPDATE_THANKS']:'Thank you for ' .$action;
+	$of_info = isset($user->data['SN_OFFICIAL_UPDATE_' . $file_info]) ? $user->data['SN_OFFICIAL_UPDATE_' . $file_info] : "Official {$action} has been successfull";
+	return "Social Network:: {$of_thanks}<br />{$of_info}";
+}
 /**
  * Function for table rename by install/update
  */
