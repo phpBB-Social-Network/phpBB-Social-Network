@@ -36,13 +36,14 @@
 			    var c_url = $('#sn-up-profileTabs li:first a').attr('href');
 			    if (par_URL.hash == 'socialnet_us' && par_URL.params.status_id != null) {
 				    $.sn.setCookie('sn_up_profileTab', 0);
-				    $('#sn-up-profileTabs li:first a').attr('href', $.sn.us.url +'?smode=status_one&status='+par_URL.params.status_id+'&wall='+par_URL.params.u);
+				    $('#sn-up-profileTabs li:first a').attr('href', $.sn.us.url + '?smode=status_one&status=' + par_URL.params.status_id + '&wall=' + par_URL.params.u);
 			    }
 			    $.sn.up.url = $.sn.up.url.replace(/&amp;/, '&');
 
 			    $('#sn-up-profileTabs').tabs({
 			        ajaxOptions : {
-				        cache : false,
+			            cache : false,
+			            async : false
 			        },
 			        cache : false,
 			        spinner : $.sn.up.spinner,
@@ -86,7 +87,7 @@
 
 			        }
 			    }).removeAttr('style');
-			    $('#sn-up-profileTabs li:first a').attr('href',c_url);
+			    $('#sn-up-profileTabs li:first a').attr('href', c_url);
 		    }
 
 		    if ($('.sn-up-reportUser a').size() > 0 && $('#sn-up-profileTabs').size() > 0) {
@@ -208,7 +209,11 @@
 				            u : $.sn.getAttr($this, 'u')
 				        },
 				        success : function(data) {
-					        snConfirmBox(data.cbTitle, data.cbText);
+					        snConfirmBox(data.cbTitle, data.cbText, function() {
+						        if ($('#sn-up-profileTabs').tabs('option', 'selected') == 0) {
+							        $('#sn-up-profileTabs').tabs('abort').tabs('load', 0);
+						        }
+					        });
 				        }
 				    });
 			    });
