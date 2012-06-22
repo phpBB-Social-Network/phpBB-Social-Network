@@ -146,10 +146,10 @@ class sn_core_notify
 		$lang_text = $data['text'];
 		$lang_subject = isset($lang[$lang_text . '_PM_TITLE']) ? $lang[$lang_text . '_PM_TITLE'] : "{ {$lang_text}_PM_TITLE }";
 		//$lang_message = isset($lang[$lang_text . '_MESSAGE']) ? $lang[$lang_text . '_MESSAGE'] : "{ {$lang_text}_MESSAGE }";
-		$lang_message = isset($lang[$lang_text]) ? $lang[$lang_text] : "{ {$lang_text} }";
-		$subject = sprintf($lang_subject, $user->data['username']);
 		//$message = sprintf($lang_message, $user->data['username'], $this->p_master->u_action, $lang['UCP_ZEBRA_FRIENDS']);
+		$lang_message = isset($lang[$lang_text]) ? $lang[$lang_text] : "{ {$lang_text} }";
 		unset($data['text']);
+		$subject = vsprintf($lang_subject, $data);
 		$message = vsprintf($lang_message, $data);
 
 		$poll = $uid = $bitfield = $options = '';
