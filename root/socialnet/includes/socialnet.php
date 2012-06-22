@@ -861,7 +861,7 @@ class socialnet extends snFunctions
 
 	function is_enabled($module_name)
 	{
-		return in_array($module_name, $this->modules_obj);
+		return $this->config['module_'.$module_name];
 	}
 
 	function trim_text_withsmilies($text, $uid, $max_length, $max_paragraphs = 0, $stops = array(' ', "\n"), $replacement = '…', $bitfield = '', $enable_bbcode = true)
