@@ -204,8 +204,8 @@ class acp_approval extends socialnet
 		include("{$phpbb_root_path}language/{$user_lang}/ucp.{$phpEx}");
 		include("{$phpbb_root_path}language/{$user_lang}/mods/socialnet.{$phpEx}");
 
-		$my_subject = sprintf($lang['SN_FAS_REQUEST_ADDED'], $username);
-		$message = sprintf($lang['SN_FAS_REQUEST_ADDED_MESSAGE'], $username, append_sid("./ucp.{$phpEx}?i=socialnet&amp;mode=module_approval_friends"), $lang['UCP_ZEBRA_FRIENDS']);
+		$my_subject = sprintf($lang['SN_NTF_FRIENDSHIP_REQUEST_PM_TITLE'], $username);
+		$message = sprintf($lang['SN_NTF_FRIENDSHIP_REQUEST'], $username, append_sid("./ucp.{$phpEx}?i=socialnet&amp;mode=module_approval_friends"));
 
 		$poll = $uid = $bitfield = $options = '';
 		generate_text_for_storage($my_subject, $uid, $bitfield, $options, false, false, false);
