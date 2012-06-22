@@ -59,7 +59,7 @@ $lang = array_merge($lang, array(
 	'SN_MODULE_NOTIFY'						 => 'Notifications',
 	'SN_MODULE_PROFILE'						 => 'User profile',
 
-	'SN_MODULE_NOTIFY_DETAIL'				 => 'When this module is disabled, than all notifications are delivered using Private message',
+	'SN_MODULE_NOTIFY_DETAIL'				 => 'If this module is disabled, then all notifications are delivered using Private messages',
 
 	'ACP_SN_IM_SETTINGS'					 => 'Instant messenger settings',
 	'ACP_SN_USERSTATUS_SETTINGS'			 => 'User status settings',
