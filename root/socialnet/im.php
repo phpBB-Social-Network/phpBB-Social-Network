@@ -756,8 +756,11 @@ if (!class_exists('socialnet_im'))
 
 			$bbuid = $bitfield = $flags = '';
 
+			$min_post_chars = $config['min_post_chars'];
+			$config['min_post_chars'] = 1;
 			generate_text_for_storage($message, $bbuid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
-
+			$config['min_post_chars'] = $min_post_chars;
+			
 			if (!is_array($uid))
 			{
 				$sql_arr = array(
