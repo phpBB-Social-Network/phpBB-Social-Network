@@ -1023,7 +1023,7 @@ function phpbb_SN_umil_send($action, $version)
 
 	$data = array(
 		'a'	 => $action,
-		'o'	 => $config[$version_config_name],
+		'o'	 => isset($config[$version_config_name])?$config[$version_config_name]:'0.0.0',
 		'n'	 => ($action=='uninstall')?$_POST['version_select']:$version,
 		's'	 => $config['server_name'],
 		'p'	 => $config['script_path'],
