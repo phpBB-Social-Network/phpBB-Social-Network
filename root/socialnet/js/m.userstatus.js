@@ -130,6 +130,9 @@
 
 			    if (status_text == '' || status_text == $.sn.us.watermark) {
 				    snConfirmBox($.sn.us.emptyStatus, $.sn.us.emptyStatus);
+				    $('.sn-us-share input[name=sn-us-wallButton]').hide();
+				    $('#sn-us-wallInput').val('');
+
 			    } else {
 				    var now = Math.floor(new Date().valueOf() / 1000);
 
@@ -163,6 +166,9 @@
 				                videoP : bVideo ? '' : $('.sn-us-fetchVideoProvider').html()
 				            }
 				        },
+				        error : function(data) {
+					        console.log('error');
+				        },
 				        success : function(data) {
 					        if (data == '') {
 						        snConfirmBox($.sn.us.emptyStatus, $.sn.us.emptyStatus);
@@ -179,6 +185,7 @@
 						        $.sn.comments.waterMark();
 						        $('.sn-us-statusBlock .sn-actions').removeAttr('style');
 					        }
+					        $('.sn-us-share input[name=sn-us-wallButton]').hide();
 					        $('#sn-us-wallInput').val('').height(22).watermark($.sn.us.watermark, {
 					            useNative : false,
 					            className : 'sn-us-watermark'
@@ -204,6 +211,11 @@
 		    $(".sn-us-inputComment").live('focusin', function() {
 			    $('.sn-us-buttonCommentOver:visible').hide();
 			    $(this).next('.sn-us-buttonCommentOver').show();
+		    }).live('focusout', function(){
+		    	var cmt = $(this).val();
+		    	if ( cmt == ''){
+		    		$('.sn-us-buttonCommentOver:visible').hide();
+		    	}
 		    }).next('.sn-us-buttonCommentOver').hide();
 
 		    // Post comment
@@ -217,6 +229,7 @@
 
 			    if (snUsCommentText == '' || snUsCommentText == $.sn.us.watermarkComment) {
 				    snConfirmBox($.sn.comments.empty, $.sn.comments.empty);
+				    $(element).parents('.sn-us-shareComment').find('.sn-us-inputComment').val('');
 			    } else {
 				    $.ajax({
 				        type : "POST",
@@ -479,7 +492,6 @@
 			    $(this).removeAttr('style');
 			    $(this).hide();
 		    });
-
 
 	    },
 
