@@ -105,6 +105,9 @@ if (!class_exists('socialnet_activitypage'))
 
 					$username = request_var('username', '', true);
 					$username_clean = utf8_clean_string($username);
+					
+					$db_username = $db->sql_escape($username);
+					$db_username_clean = $db->sql_escape($username_clean);
 
 					function sn_ap_cmp_username($expr)
 					{
@@ -116,18 +119,18 @@ if (!class_exists('socialnet_activitypage'))
 						return $db->sql_fetchfield('user_id');
 					}
 
-					$search_user_id = sn_ap_cmp_username("username = '{$username}'");
+					$search_user_id = sn_ap_cmp_username("username = '{$db_username}'");
 					if ($search_user_id == 0)
 					{
-						$search_user_id = sn_ap_cmp_username("username_clean = '{$username_clean}'");
+						$search_user_id = sn_ap_cmp_username("username_clean = '{$db_username_clean}'");
 					}
 					if ($search_user_id == 0)
 					{
-						$search_user_id = sn_ap_cmp_username("username_clean LIKE '{$username_clean}%'");
+						$search_user_id = sn_ap_cmp_username("username_clean LIKE '{$db_username_clean}%'");
 					}
 					if ($search_user_id == 0)
 					{
-						$search_user_id = sn_ap_cmp_username("username_clean LIKE '%{$username_clean}%'");
+						$search_user_id = sn_ap_cmp_username("username_clean LIKE '%{$db_username_clean}%'");
 					}
 
 					if ($search_user_id != 0)
