@@ -141,7 +141,6 @@ if (!class_exists('socialnet_userstatus'))
 		function load($mode = '')
 		{
 			global $user, $db, $template, $phpbb_root_path;
-
 			switch ($mode)
 			{
 				case 'status_share':
@@ -269,7 +268,7 @@ if (!class_exists('socialnet_userstatus'))
 						'body'	 => 'socialnet/userstatus_status.html',
 					));
 
-					$data = $this->_get_last_status($wall_id);
+					$data = $this->_get_last_status($wall_id, $row['status_id']);
 					$data['B_SN_US_CAN_COMMENT'] = true;
 					$data['DELETE_STATUS'] = true;
 					$template->assign_block_vars('us_status', $data);
@@ -297,7 +296,7 @@ if (!class_exists('socialnet_userstatus'))
 			$res = $db->sql_query($sql);
 			$userstatus = $db->sql_fetchrow($res);
 
-			if ($auth->acl_get('a_') || ($userstatus['poster_id'] == $user->data['user_id']) || ($userstatus['wall_id'] == $user->data['user_id']) )
+			if ($auth->acl_get('a_') || ($userstatus['poster_id'] == $user->data['user_id']) || ($userstatus['wall_id'] == $user->data['user_id']))
 			{
 				$sql = "DELETE FROM " . SN_STATUS_TABLE . "
 						WHERE status_id = " . $status_id;
@@ -435,19 +434,18 @@ if (!class_exists('socialnet_userstatus'))
 			if ($text_to_submit != '')
 			{
 				$now = time();
-				
+
 				$sql = "SELECT status_id
 						FROM " . SN_STATUS_TABLE . "
 						WHERE status_id = '{$status_id}'";
-				$rs = $db->sql_query( $sql);
-				if ( $db->sql_affectedrows($rs) == 0)
+				$rs = $db->sql_query($sql);
+				if ($db->sql_affectedrows($rs) == 0)
 				{
 					header('Content-type: text/html; charset=UTF-8');
-					die('Error: '. $user->lang['SN_STATUS_NOT_EXISTS']);
-						
+					die('Error: ' . $user->lang['SN_STATUS_NOT_EXISTS']);
+
 				}
-				
-				
+
 				$comment_id = $this->p_master->comments->add($this->commentModule, $status_id, $user->data['user_id'], $text_to_submit);
 				if ($comment_id == false)
 				{
@@ -716,16 +714,10 @@ if (!class_exists('socialnet_userstatus'))
 
 				if (isset($pageData['image']) && !empty($pageData['image']))
 				{
-					$size = getimagesize($pageData['image']);
-					if (is_array($size))
-					{
-						$image_height = ceil(130 / $size[0] * $size[1]);
-						$template_block_data['PAGE_IMAGE_HEIGHT'] = $image_height;
-					}
-
+					$image_height = ceil(130 / $pageData['imageW'] * $pageData['imageH']);
+					$template_block_data['PAGE_IMAGE_HEIGHT'] = $image_height;
 				}
 			}
-
 			$wall_id = $this->_wall_id();
 
 			$another_wall = (($status_row['poster_id'] != $status_row['wall_id'] && $this->script_name != 'profile') && ($this->script_name != 'userstatus')) ? true : false;
