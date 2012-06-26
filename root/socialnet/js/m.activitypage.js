@@ -69,6 +69,7 @@
 		    $("#sn-ap-searchUsersAutocomplete").autocomplete({
 		        source : $.sn.ap.urlUsersAutocomplete,
 		        minLength : 2,
+		        appendTo: '#sn-ap-searchAutocompleteContainer',
 		        delay : 300
 		    }).parents('form').submit(function() {
 			    if ($('#sn-ap-searchUsersAutocomplete').val() == '') { return false; }
