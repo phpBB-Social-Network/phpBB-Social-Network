@@ -63,87 +63,81 @@ if (!class_exists('socialnet_activitypage'))
 
 				switch ($mode)
 				{
-				case 'view_suggestions':
+					case 'view_suggestions':
 
-					$this->p_master->fms_users(array_merge(array(
-						'mode'				 => 'suggestionfull',
-						'mode_short'		 => 'suggestion',
-						'slider'			 => false,
-						'user_id'			 => $user->data['user_id'],
-						'limit'				 => 50,
-						'fmsf'				 => 0,
-						'avatar_size'		 => 50,
-						'add_friend_link'	 => true
-					), $this->p_master->fms_users_sqls('suggestion', $user->data['user_id'])));
+						$this->p_master->fms_users(array_merge(array(
+							'mode'				 => 'suggestionfull',
+							'mode_short'		 => 'suggestion',
+							'slider'			 => false,
+							'user_id'			 => $user->data['user_id'],
+							'limit'				 => 50,
+							'fmsf'				 => 0,
+							'avatar_size'		 => 50,
+							'add_friend_link'	 => true
+						), $this->p_master->fms_users_sqls('suggestion', $user->data['user_id'])));
 
-					break;
+						break;
 
-				case 'view_main':
+					case 'view_main':
 
-					$last_entry_time = request_var('lEntryTime', 0);
+						$last_entry_time = request_var('lEntryTime', 0);
 
-					//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
-					$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15);
-					foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
-					{
-						$template->assign_block_vars('ap_entries', $a_ap_entry);
-					}
+						//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
+						$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15);
+						foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
+						{
+							$template->assign_block_vars('ap_entries', $a_ap_entry);
+						}
 
-					$template_vars = array_merge($template_vars, array(
-						'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
-					));
+						$template_vars = array_merge($template_vars, array(
+							'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+						));
 
-					break;
+						break;
 
-				case 'users_autocomplete':
+					case 'search':
 
-					$socialnet->users_autocomplete();
+						$username = request_var('username', '', true);
+						$username_clean = utf8_clean_string($username);
 
-					break;
+						$db_username = $db->sql_escape($username);
+						$db_username_clean = $db->sql_escape($username_clean);
 
-				case 'search':
-
-					$username = request_var('username', '', true);
-					$username_clean = utf8_clean_string($username);
-					
-					$db_username = $db->sql_escape($username);
-					$db_username_clean = $db->sql_escape($username_clean);
-
-					function sn_ap_cmp_username($expr)
-					{
-						global $db;
-						$sql = "SELECT user_id, username_clean, username
+						function sn_ap_cmp_username($expr)
+						{
+							global $db;
+							$sql = "SELECT user_id, username_clean, username
 								FROM " . USERS_TABLE . "
 								WHERE {$expr} AND user_type <> 2";
-						$result = $db->sql_query($sql);
-						return $db->sql_fetchfield('user_id');
-					}
+							$result = $db->sql_query($sql);
+							return $db->sql_fetchfield('user_id');
+						}
 
-					$search_user_id = sn_ap_cmp_username("username = '{$db_username}'");
-					if ($search_user_id == 0)
-					{
-						$search_user_id = sn_ap_cmp_username("username_clean = '{$db_username_clean}'");
-					}
-					if ($search_user_id == 0)
-					{
-						$search_user_id = sn_ap_cmp_username("username_clean LIKE '{$db_username_clean}%'");
-					}
-					if ($search_user_id == 0)
-					{
-						$search_user_id = sn_ap_cmp_username("username_clean LIKE '%{$db_username_clean}%'");
-					}
+						$search_user_id = sn_ap_cmp_username("username = '{$db_username}'");
+						if ($search_user_id == 0)
+						{
+							$search_user_id = sn_ap_cmp_username("username_clean = '{$db_username_clean}'");
+						}
+						if ($search_user_id == 0)
+						{
+							$search_user_id = sn_ap_cmp_username("username_clean " . $db->sql_like_expression($db_username_clean . $db->any_char));
+						}
+						if ($search_user_id == 0)
+						{
+							$search_user_id = sn_ap_cmp_username("username_clean " . $db->sql_like_expression($db->any_char . $db_username_clean . $db->any_char));
+						}
 
-					if ($search_user_id != 0)
-					{
-						$redirect = append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $search_user_id);
-					}
-					else
-					{
-						$redirect = append_sid("{$phpbb_root_path}activitypage.{$phpEx}", "search={$username}");
-					}
-					redirect($redirect);
+						if ($search_user_id != 0)
+						{
+							$redirect = append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $search_user_id);
+						}
+						else
+						{
+							$redirect = append_sid("{$phpbb_root_path}activitypage.{$phpEx}", "search={$username}");
+						}
+						redirect($redirect);
 
-					break;
+						break;
 				}
 
 				$template_vars = array_merge($template_vars, array(
@@ -198,74 +192,79 @@ if (!class_exists('socialnet_activitypage'))
 
 			switch ($mode)
 			{
-			case 'onlineUsers':
+				case 'users_autocomplete':
 
-				$this->p_master->online_users(true);
+					$socialnet->users_autocomplete();
 
-				break;
+					break;
+				case 'onlineUsers':
 
-			case 'snApOlderEntries':
+					$this->p_master->online_users(true);
 
-				$last_entry_time = request_var('lEntryTime', 0);
+					break;
 
-				//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
-				$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15);
+				case 'snApOlderEntries':
 
-				foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
-				{
-					$template->assign_block_vars('ap_entries', $a_ap_entry);
-				}
+					$last_entry_time = request_var('lEntryTime', 0);
 
-				$return = array();
-				$return['more'] = $a_ap_entries['more'];
+					//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15);
+					$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15);
 
-				$template->assign_vars(array(
-					'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
-					'B_SN_AP_MORE_LOAD'		 => true,
-				));
+					foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
+					{
+						$template->assign_block_vars('ap_entries', $a_ap_entry);
+					}
 
-				$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
+					$return = array();
+					$return['more'] = $a_ap_entries['more'];
 
-				$return['content'] = $this->p_master->get_page();
+					$template->assign_vars(array(
+						'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+						'B_SN_AP_MORE_LOAD'		 => true,
+					));
 
-				header('Content-type: application/json');
-				header("Cache-Control: no-cache, must-revalidate");
-				header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-				die(json_encode($return));
+					$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
 
-				break;
+					$return['content'] = $this->p_master->get_page();
 
-			case 'snApNewestEntries':
+					header('Content-type: application/json');
+					header("Cache-Control: no-cache, must-revalidate");
+					header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+					die(json_encode($return));
 
-				$last_entry_time = request_var('lEntryTime', 0);
+					break;
 
-				//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15, false);
-				$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15, false);
+				case 'snApNewestEntries':
 
-				foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
-				{
-					$template->assign_block_vars('ap_entries', $a_ap_entry);
-				}
+					$last_entry_time = request_var('lEntryTime', 0);
 
-				$return = array();
-				$return['more'] = $a_ap_entries['more'];
+					//$a_ap_entries = $this->ap_load_entries($last_entry_time, 15, false);
+					$a_ap_entries = $this->p_master->entry->get($last_entry_time, 15, false);
 
-				$template->assign_vars(array(
-					'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
-					'B_SN_AP_MORE_LOAD'		 => true,
-					'B_SN_ONLY_ONE'			 => true
-				));
+					foreach ($a_ap_entries['entries'] as $idx => $a_ap_entry)
+					{
+						$template->assign_block_vars('ap_entries', $a_ap_entry);
+					}
 
-				$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
+					$return = array();
+					$return['more'] = $a_ap_entries['more'];
 
-				$return['content'] = $this->p_master->get_page();
+					$template->assign_vars(array(
+						'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+						'B_SN_AP_MORE_LOAD'		 => true,
+						'B_SN_ONLY_ONE'			 => true
+					));
 
-				header('Content-type: application/json');
-				header("Cache-Control: no-cache, must-revalidate");
-				header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-				die(json_encode($return));
+					$template->set_filenames(array('body' => 'socialnet/activitypage_body_entries.html'));
 
-				break;
+					$return['content'] = $this->p_master->get_page();
+
+					header('Content-type: application/json');
+					header("Cache-Control: no-cache, must-revalidate");
+					header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+					die(json_encode($return));
+
+					break;
 			}
 
 		}
