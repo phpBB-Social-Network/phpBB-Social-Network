@@ -89,9 +89,7 @@ $versions = array(
 					'config_value'	 => array('VCHAR', ''),
 					'is_dynamic'	 => array('BOOL', 0),
 				),
-
 				'PRIMARY_KEY'	 => array('config_name'),
-
 				'KEYS'			 => array(
 					'a'	 => array('INDEX', array('is_dynamic')),
 				),
@@ -188,11 +186,8 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_allow_sound', 'config_value' => '1')),
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_url_new_window', 'config_value' => '1')),
 			array(SN_CONFIG_TABLE, array('config_name' => 'fas_alert_friend_pm', 'config_value' => '0')),
-
 			array(SN_USERS_TABLE, array('user_id' => ANONYMOUS, 'user_status' => '', 'user_im_online' => 1, 'user_zebra_alert_friend' => 0, 'user_note' => '')),
-			// USER STATUS
 			array(SN_CONFIG_TABLE, array('config_name' => 'userstatus_comments_load_last', 'config_value' => '1', 'is_dynamic' => 0)),
-			// CONFIRM BOX
 			array(SN_CONFIG_TABLE, array('config_name' => 'sn_cb_enable', 'config_value' => '1', 'is_dynamic' => 0)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'sn_cb_resize', 'config_value' => '0', 'is_dynamic' => 0)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'sn_cb_draggable', 'config_value' => '0', 'is_dynamic' => 0)),
@@ -202,41 +197,31 @@ $versions = array(
 
 		'permission_add'	 => array(
 			array('a_sn_settings', true),
-			//	array( 'u_sn_im', true),
 			array('u_sn_userstatus', true),
 		),
 
 		'module_add'		 => array(
-			// TAB
 			array('acp', 0, 'ACP_CAT_SOCIALNET'),
-			// MAIN INTRO
 			array('acp', 'ACP_CAT_SOCIALNET', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'ACP_SN_MAIN',
 				'module_mode'		 => 'main',
 				'module_auth'		 => 'acl_a_sn_settings',
 			)),
-
-			// CATEGORY: SOCIALNET Settings
 			array('acp', 'ACP_CAT_SOCIALNET', 'ACP_SN_CONFIGURATION'),
-			// MODULE: SocialNet Global Settings
 			array('acp', 'ACP_SN_CONFIGURATION', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'ACP_SN_AVAILABLE_MODULES',
 				'module_mode'		 => 'sett_modules',
 				'module_auth'		 => 'acl_a_sn_settings'
 			)),
-
 			array('acp', 'ACP_SN_CONFIGURATION', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'ACP_SN_CONFIRMBOX_SETTINGS',
 				'module_mode'		 => 'sett_confirmBox',
 				'module_auth'		 => 'acl_a_sn_settings'
 			)),
-
-			// CATEGORY: MODULES Settings
 			array('acp', 'ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION'),
-			// MODULE: Core Modules
 			array('acp', 'ACP_SN_MODULES_CONFIGURATION', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'ACP_SN_IM_SETTINGS',
@@ -261,16 +246,13 @@ $versions = array(
 				'module_mode'		 => 'module_mainpage',
 				'module_auth'		 => 'acl_a_sn_settings'
 			)),
-
 			array('ucp', 0, 'UCP_SOCIALNET'),
-
 			array('ucp', 'UCP_SOCIALNET', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'UCP_ZEBRA_FRIENDS',
 				'module_mode'		 => 'module_approval_friends',
 				'module_auth'		 => ''
 			)),
-
 			array('ucp', 'UCP_SOCIALNET', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'UCP_SN_IM',
@@ -286,7 +268,6 @@ $versions = array(
 	),
 
 	'0.5.1'		 => array(
-
 		'table_column_add'	 => array(
 			array(SN_USERS_TABLE, 'user_im_sound', array('TINT:1', '1')),
 		),
@@ -386,7 +367,6 @@ $versions = array(
 	),
 
 	'0.6.1'		 => array(
-
 		'table_add'			 => array(
 			array(SN_REPORTS_TABLE, array(
 				'COLUMNS'		 => array(
@@ -471,7 +451,6 @@ $versions = array(
 					'b'	 => array('INDEX', array('fms_gid', 'user_id')),
 					'c'	 => array('INDEX', array('user_id')),
 				),
-
 			)),
 			array(SN_FMS_USERS_GROUP_TABLE, array(
 				'COLUMNS'		 => array(
@@ -615,13 +594,6 @@ $versions = array(
 			)),
 		),
 
-		'cache_purge'		 => array(
-			'imageset',
-			'template',
-			'theme',
-			'cache',
-		),
-
 		'custom'			 => 'phpbb_SN_umil_auto',
 	),
 
@@ -640,7 +612,6 @@ $versions = array(
 				'KEYS'			 => array(
 					'a'	 => array('UNIQUE', array('cmtmd_name')),
 				),
-
 			)),
 			array(SN_COMMENTS_TABLE, array(
 				'COLUMNS'		 => array(
@@ -652,7 +623,6 @@ $versions = array(
 					'cmt_text'			 => array('TEXT', ''),
 					'bbcode_bitfield'	 => array('VCHAR:255', ''),
 					'bbcode_uid'		 => array('VCHAR:8', ''),
-
 				),
 				'PRIMARY_KEY'	 => array('cmt_id', 'cmt_module', 'cmt_mid'),
 				'KEYS'			 => array(
@@ -662,7 +632,6 @@ $versions = array(
 					'd'	 => array('INDEX', array('cmt_module', 'cmt_mid', 'cmt_time')),
 					'e'	 => array('INDEX', array('cmt_module', 'cmt_mid', 'cmt_time', 'cmt_poster')),
 				),
-
 			)),
 			array(SN_EMOTES_TABLE, array(
 				'COLUMNS'		 => array(
@@ -678,7 +647,6 @@ $versions = array(
 					'b'	 => array('INDEX', array('emote_order')),
 				)
 			)),
-
 		),
 
 		'table_column_add'		 => array(
@@ -744,7 +712,6 @@ $versions = array(
 					'addon_name'		 => array('VCHAR:64', ''),
 					'addon_php'			 => array('VCHAR:32', ''),
 					'addon_function'	 => array('VCHAR:32', ''),
-					//'addon_html'	 => array('VCHAR:255', ''),
 					'addon_active'		 => array('USINT', 0),
 					'addon_order'		 => array('UINT:8', 0)
 				),
@@ -802,11 +769,14 @@ $versions = array(
 			)),
 		),
 		'custom'	 => array('phpbb_SN_umil_0_6_2_16', 'phpbb_SN_umil_send'),
+		
+		'cache_purge'		 => array(
+			'imageset',
+			'template',
+			'theme',
+			'cache',
+		),
 	),
-	'0.6.2.17'	 => array(
-		'custom' => array('phpbb_SN_umil_send'),
-	),
-
 );
 
 if (!defined('DEBUG_EXTRA'))
@@ -1094,9 +1064,7 @@ function phpbb_SN_umil_send($action, $version)
 		$file_info = strtoupper($action) . '_FAILED';
 	}
 
-	$of_thanks = isset($user->data['SN_OFFICIAL_UPDATE_THANKS'])?$user->data['SN_OFFICIAL_UPDATE_THANKS']:'Thank you for ' .$action;
-	$of_info = isset($user->data['SN_OFFICIAL_UPDATE_' . $file_info]) ? $user->data['SN_OFFICIAL_UPDATE_' . $file_info] : "Official {$action} has been successfull";
-	return "Social Network:: {$of_thanks}<br />{$of_info}";
+	return "Social Network: {$action} is completed";
 }
 /**
  * Function for table rename by install/update
