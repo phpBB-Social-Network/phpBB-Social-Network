@@ -647,20 +647,20 @@ class snFunctions
 		global $user;
 
 		$timeChars = 'aABgGhHisueIOPTZ';
-		
+
 		switch ($part)
 		{
 			case 'complete':
 				break;
 			case 'date':
-				$formatUser = trim(preg_replace('/['.$timeChars.']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/[' . $timeChars . ']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
 				}
 				break;
 			case 'time':
-				$formatUser = trim(preg_replace('/[^'.$timeChars.']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
+				$formatUser = trim(preg_replace('/[^' . $timeChars . ']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
 				if ($format == false || $formatUser != '')
 				{
 					$format = $formatUser;
@@ -674,8 +674,7 @@ class snFunctions
 	/**
 	 * Select users for autocomplete
 	 */
-	function users_autocomplete() // sn_core_users -> autocomplete
-
+	function users_autocomplete()
 	{
 		global $db;
 
@@ -683,8 +682,8 @@ class snFunctions
 
 		$sql = 'SELECT username
 				FROM ' . USERS_TABLE . '
-				WHERE user_type <> 2
-				AND username_clean LIKE "%' . $term . '%"';
+				WHERE user_type IN (' . USER_NORMAL . ', ' . USER_FOUNDER . ')
+				AND username_clean ' . $db->sql_like_expression($db->any_char . $term . $db->any_char);
 		$result = $db->sql_query($sql);
 		$return_arr = $row_array = array();
 
@@ -1833,21 +1832,21 @@ class snFunctions
 	function getCookie($name, $default)
 	{
 		global $config;
-/*
-		if ( sizeOf($this->cookies[]) == 0)
+		/*
+		 if ( sizeOf($this->cookies[]) == 0)
+		 {
+		 $cookieName = $config['cookie_name'] . '_sn_cookie';
+		 $cookie = request_var($cookieName, '', false, true);
+		 $cookie = str_replace('&quot;','"',$cookie);
+		 $cookie = preg_replace( '/("(\{)|(\})")/s' , '$2$3',$cookie);
+		 $this->cookies = json_decode($cookie);
+		 }
+		 return isset($this->cookies->$name)?$this->cookies->$name:$default;
+		 *
+		 */
+		if (!isset($this->cookie[$name]))
 		{
-			$cookieName = $config['cookie_name'] . '_sn_cookie';
-			$cookie = request_var($cookieName, '', false, true);
-			$cookie = str_replace('&quot;','"',$cookie);
-			$cookie = preg_replace( '/("(\{)|(\})")/s' , '$2$3',$cookie);
-			$this->cookies = json_decode($cookie);
-		}
-		return isset($this->cookies->$name)?$this->cookies->$name:$default;
-		*
-		*/
-		if( !isset($this->cookie[$name]))
-		{
-			$cookieName = $config['cookie_name'] .'_'. $name;
+			$cookieName = $config['cookie_name'] . '_' . $name;
 			$this->cookies[$name] = request_var($cookieName, $default, false, true);
 		}
 		return $this->cookies[$name];
