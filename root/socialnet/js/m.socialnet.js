@@ -171,9 +171,9 @@
 		    $(document).click(function(event) {
 			    $.sn._documentClick(event);
 		    });
-		    
+
 		    $('.sn-page-content').bind('DOMSubtreeModified', function() {
-			   $.sn._DOMSubtreeModified();
+			    $.sn._DOMSubtreeModified();
 		    });
 
 		    this.rtl = $('body').hasClass('rtl');
@@ -496,9 +496,9 @@
 	    },
 
 	    _DOMSubtreeModified : function() {
-		   // if (this._DOMinited) { return; }
+		    // if (this._DOMinited) { return; }
 		    this._DOMinited = true;
-
+		    this._textExpander();
 		    var self = this;
 		    $.each(self.enableModules, function(idx, value) {
 			    if (value !== false && $.sn[idx] !== undefined && $.sn[idx]._DOMChanged !== undefined) {
@@ -508,6 +508,23 @@
 		    $.sn._resize();
 		    this._DOMinited = false;
 
+	    },
+
+	    _textExpander : function() {
+		    if ($('.sn-expander-text:not([aria-expander="expander"])').size() != 0) {
+		    	$('.sn-expander-text:not([aria-expander="expander"])').attr('aria-expander', 'expander').expander({
+			        slicePoint : 500,
+			        widow : 2,
+			        preserveWords : false,
+			        expandText : $.sn.expanderTextMore,
+			        userCollapseText : $.sn.expanderTextLess,
+			        expandPrefix : '...',
+			        userCollapsePrefix : ' ',
+			        moreClass : 'sn-expander-more',
+			        lessClass : 'sn-expander-less',
+			        detailClass : 'sn-expander-details'
+			    });
+		    }
 	    },
 
 	    _debugInit : function() {

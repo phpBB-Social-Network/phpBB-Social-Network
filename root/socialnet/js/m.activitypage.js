@@ -56,6 +56,7 @@
 				        if (data.more === false) {
 					        $(o_more).remove();
 				        }
+				        $.sn._textExpander();
 			        }
 			    });
 		    });
@@ -68,7 +69,7 @@
 
 		    $("#sn-ap-searchUsersAutocomplete").autocomplete({
 		        source : $.sn.ap.urlUsersAutocomplete,
-		        minLength : 2,
+		        minLength : 3,
 		        appendTo: '#sn-ap-searchAutocompleteContainer',
 		        delay : 300
 		    }).parents('form').submit(function() {
@@ -79,7 +80,7 @@
 			    $.sn.ap.loadNews();
 			    return false;
 		    });
-
+		    $.sn._textExpander();
 		    /**
 			 * $(document).focusin(function() { $.sn.ap.loadNews(); });
 			 */

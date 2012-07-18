@@ -140,38 +140,29 @@ document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" 
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_ACTIVITYPAGE_HTACCESS -->
-  <form id="acp_socialnet_modules" method="post" action="{U_ACTION}">
-    <!-- IF not B_ACP_AP_IS_SET_AS_ACTIVITYPAGE -->
-      <fieldset>
-      	<legend>{L_ACP_SN_ACTIVITYPAGE_IS_MAIN}</legend>
-    			<strong>{L_ACP_SN_ACTIVITYPAGE_IS_MAIN_EXPLAIN}</strong><br /><br />
-    	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_OPEN_FIND}
-    	    <fieldset><code>DirectoryIndex</code></fieldset>
-    	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_AFTER_ADD}
-    	    <fieldset><code> activitypage.php</code></fieldset>
-    	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_SAVE}<br /><br />
-    	    <strong>{L_ACP_SN_ACTIVITYPAGE_IS_MAIN_NO_DIRECTORY_INDEX}</strong><br />
-    	    <fieldset><code>DirectoryIndex activitypage.php index.php index.html index.htm</code></fieldset>
-      </fieldset>
+	
+    <!-- IF B_ACP_AP_IS_SET_AS_ACTIVITYPAGE -->
+		{L_ACP_SN_ACTIVITYPAGE_IS_MAIN_EXPLAIN}<br /><br />
+	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_OPEN_FIND}
+	    <fieldset><code>DirectoryIndex</code></fieldset>
+	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_AFTER_ADD}
+	    <fieldset><code> activitypage.php</code></fieldset>
+	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_SAVE}<br /><br />
+	    <strong>{L_ACP_SN_ACTIVITYPAGE_IS_MAIN_NO_DIRECTORY_INDEX}</strong><br />
+	    <fieldset><code>DirectoryIndex activitypage.php index.php index.html index.htm</code></fieldset>
     <!-- ELSE -->
-      <fieldset>
-      	<legend>{L_ACP_SN_ACTIVITYPAGE_NOT_MAIN}</legend>
-    			<strong>{L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_EXPLAIN}</strong><br /><br />
-    	    {L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_OPEN_FIND}
-    	    <fieldset><code>activitypage.php</code></fieldset>
-    	    {L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_DELETE}
-      </fieldset>
+		{L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_EXPLAIN}<br /><br />
+	    {L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_OPEN_FIND}
+	    <fieldset><code>activitypage.php</code></fieldset>
+	    {L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_DELETE}
     <!-- ENDIF -->
-      <fieldset>
-      	<legend>{L_ACP_SN_ACTIVITYPAGE_WELCOME}</legend>
-    			<strong>{L_ACP_SN_ACTIVITYPAGE_WELCOME_EXPLAIN}</strong><br /><br />
-    	    {L_ACP_SN_ACTIVITYPAGE_WELCOME_INSTRUCTIONS}
-    	    <fieldset><code>'SN_AP_WELCOME_TITLE'</code></fieldset>
-    	    {L_ACP_SN_ACTIVITYPAGE_WELCOME_EDIT}
-      </fieldset>
-  </form>
 <!-- ENDIF -->
-
+<!-- IF ACP_SN_MANAGE eq 'welcome' -->
+		{L_ACP_SN_ACTIVITYPAGE_WELCOME_EXPLAIN}<br /><br />
+	    {L_ACP_SN_ACTIVITYPAGE_WELCOME_INSTRUCTIONS}
+	    <fieldset><code>'SN_AP_WELCOME_TITLE'</code></fieldset>
+	    {L_ACP_SN_ACTIVITYPAGE_WELCOME_EDIT}
+<!-- ENDIF -->
 <!-- IF B_ACP_SN_PROFILE -->
 	<!-- INCLUDE socialnet_userprofile.html -->	
 <!-- ENDIF -->

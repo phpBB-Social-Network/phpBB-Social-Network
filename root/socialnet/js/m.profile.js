@@ -57,7 +57,7 @@
 				        if ($.sn.getCookie('sn-up-profileTab') == 0) { return false; }
 			        },
 			        select : function(e, ui) {
-				        $(ui.panel).html($.sn.up.spinner);
+			        	$(ui.panel).html($.sn.up.spinner);
 			        },
 			        load : function(e, ui) {
 				        $('#sn-us-wallInput').trigger('focusin').trigger('focusout');
@@ -84,6 +84,7 @@
 				            className : 'sn-us-watermark'
 				        }).TextAreaExpander(22, 150).trigger('focusout');
 				        $.sn._resize();
+				        $.sn._textExpander();
 
 			        }
 			    }).removeAttr('style');
@@ -98,9 +99,12 @@
 					    return false;
 				    }
 				    $.sn.up.tabReportUser = $('#sn-up-profileTabs').tabs('length');
-				    $('#sn-up-profileTabs').tabs('add', '#sn-up-profileTabs-reportUser', $(this).html()).tabs('url', $.sn.up.tabReportUser, $(this).attr('href')).tabs('select', $.sn.up.tabReportUser);
+				    var tabTitle = $(this).text();
+				    $('#sn-up-profileTabs').tabs('add', '#sn-up-profileTabs-reportUser', tabTitle).tabs('url', $.sn.up.tabReportUser, $(this).attr('href')).tabs('select', $.sn.up.tabReportUser);
 				    var tabReportUser = $('#sn-up-profileTabs .ui-tabs-nav li a[href$=reportUser]');
-				    tabReportUser.prepend('<span class="ui-icon ui-icon-close sn-action-tabClose">Remove Tab</span>');
+				    tabReportUser.find('span').css({'float': $.sn.rtl?'right':'left'});
+				    tabReportUser.prepend('<span class="ui-icon ui-icon-alert">'+tabTitle+'</span>');
+				    tabReportUser.append('<span class="ui-icon ui-icon-secondary ui-icon-close sn-action-tabClose"></span>');
 				    $('#sn-up-profileTabs').tabs('select', $.sn.up.tabReportUser);
 				    tabReportUser.prev('.ui-icon.ui-icon-close').css('cursor', 'pointer').click(function() {
 					    $('#sn-up-reportUser input[name=cancel]').trigger('click');
@@ -238,7 +242,7 @@
 			        $subMenu.hide();
 			        if ($subMenu.size() == 0) { return; }
 
-			        $(this).children('a').prepend('<span class="ui-menu-icon ui-icon ui-icon-carat-1-s"></span>');
+			        $(this).children('a').css('padding-right','1.7em').append('<span class="ui-menu-icon ui-icon ui-icon-secondary ui-icon-carat-1-s" style=""></span>');
 
 			        $subMenu.addClass('ui-menu ui-widget ui-widget-content ui-menu-icons ui-corner-bottom ui-corner-' + ($.sn.rtl ? 'tr' : 'tl')).attr('role', 'menu');
 			        // $subMenu.addClass('ui-menu ui-widget ui-widget-content

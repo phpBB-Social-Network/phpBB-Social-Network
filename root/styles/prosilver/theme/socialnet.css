@@ -62,6 +62,10 @@
 	margin-top: 10px;
 }
 
+.sn-page-blockHeader ul.topiclist dt {
+	width: 100%;
+}
+
 .sn-page-blockHeader.forabg:first-child {
 	margin-top: 0;
 }
@@ -79,6 +83,14 @@
 	text-decoration: none;
 }
 
+.sn-page-text {
+	padding: 2px 0;
+}
+
+span..sn-page-text {
+	display: block;
+}
+
 .sn-shadow {
 	background-color: #ccc;
 	background-image: none;
@@ -90,6 +102,15 @@
 
 .sn-button-italic {
 	font-style: italic!important;
+}
+
+.sn-link-noDecoration {
+	text-decoration: none;
+}
+
+.sn-noStyle {
+	font-style: normal!important;
+	font-weight: normal!important;
 }
 
 div:not(.sn-page) .sn-userName a {
@@ -247,10 +268,6 @@ div:not(.sn-page) .sn-userName a {
 	z-index: 999;
 }
 
-.sn-menu .ui-menu.ui-widget-content .ui-menu-item a {
-	white-space: nowrap;
-}
-
 .sn-menu .sn-num-cube {
 	background: #dadada;
 	padding: 0 3px;
@@ -338,6 +355,10 @@ div:not(.sn-page) .sn-userName a {
 	border-left-style: solid;
 	border-left-width: 1px;
 	left: 20px;
+}
+
+.sn-im-chatBoxes .sn-im-button {
+	width: 140px;
 }
 
 .ltr .sn-im-chatBoxes .sn-im-group {
@@ -854,15 +875,7 @@ div:not(.sn-page) .sn-userName a {
 }
 
 .sn-im-textArea.sn-im-smilies-on .sn-im-message {
-	width: 233px;
-}
-
-.ltr .sn-im-textArea.sn-im-smilies-on .sn-im-message {
-	border-right: 1px solid #DDD;
-}
-
-.rtl .sn-im-textArea.sn-im-smilies-on .sn-im-message {
-	border-left: 1px solid #DDD;
+	width: 234px;
 }
 
 .ltr .sn-im-message {
@@ -1176,6 +1189,13 @@ a.ui-button {
 	margin: 0;
 }
 
+.sn-up-menu > .ui-menu-item > a .ui-menu-icon.ui-icon-secondary {
+	float: none;
+	left: auto;
+	position: absolute;
+	right: .2em;
+}
+
 .sn-up-menu > li > .ui-menu {
 	width: 200px;
 }
@@ -1199,6 +1219,14 @@ a.ui-button {
 	height: 15px;
 	position: absolute;
 	width: 15px;
+}
+
+.inputbox.sn-up-inputbox {
+	width: 15%;
+}
+
+.sn-up-selectbox {
+	width: 31%;
 }
 
 .sn-fms-friend {
@@ -1269,7 +1297,13 @@ a.ui-button {
 }
 
 .sn-fms-block.ui-accordion .grps.ui-accordion-content {
+	min-height: 100px;
 	padding: 4px;
+}
+
+.sn-fms-userBlockPaginationSlider {
+	margin-left: 10px;
+	width: 150px;
 }
 
 .sn-fms-unapproved {
@@ -1419,12 +1453,16 @@ a.ui-button {
 	margin-top: 10px;
 }
 
-.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-expander-more a,.ltr .sn-expander-less a,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.rtl .sn-ap-avatar {
+.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-expander-more a,.ltr .sn-expander-less a,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
 	float: right;
 }
 
-.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-expander-more a,.rtl .sn-expander-less a,.rtl .sn-im-group,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.ltr .sn-ap-avatar {
+.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-expander-more a,.rtl .sn-expander-less a,.rtl .sn-im-group,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.rtl .sn-fms-userBlockPaginationSlider,.ltr .sn-ap-avatar {
 	float: left;
+}
+
+.sn-ap-textNoWrap,.sn-menu .ui-menu.ui-widget-content .ui-menu-item a {
+	white-space: nowrap;
 }
 
 .sn-userName a,.snUsername,.sn-userName,.sn-us-statusBox .sn-us-postOnWall,.sn-us-page-Title {

@@ -1006,6 +1006,7 @@ class snFunctions
 				'USERNAME'			 => $this->get_username_string($this->config['ap_colour_username'], 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
 				'SN_AP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $this->format_date('date', $birth_time, '|j. n.|', false)),
 				'U_FRIEND_LINK'		 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u=" . $row['user_id']),
+				
 			));
 		}
 	}

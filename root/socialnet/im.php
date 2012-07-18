@@ -532,7 +532,7 @@ if (!class_exists('socialnet_im'))
 								FROM " . SN_IM_CHATBOXES_TABLE . "
 									WHERE uid_from = '{$user->data['user_id']}'
 										AND starttime >= '{$user->data['session_start']}'
-								ORDER BY starttime DESC";
+								ORDER BY starttime ASC";
 			$rs = $db->sql_query($sql);
 			$chatBoxRowSet = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);

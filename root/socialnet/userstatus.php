@@ -44,6 +44,7 @@ if (!class_exists('socialnet_userstatus'))
 		var $script_name = '';
 		var $on_header = array();
 		var $commentModule = 'userstatus';
+		var $pageVideoCounter = 0;
 
 		function socialnet_userstatus(&$p_master)
 		{
@@ -682,9 +683,10 @@ if (!class_exists('socialnet_userstatus'))
 
 				$pageData['video'] = html_entity_decode($pageData['video']);
 
-				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 style="width:150px;height:150px;"/>', $pageData['video']);
-				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 style="width:150px;height:150px;">', $pageData['video']);
-
+				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" style="width:150px;height:150px;"/>', $pageData['video']);
+				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" style="width:150px;height:150px;">', $pageData['video']);
+				$this->pageVideoCounter++;
+				
 				$pageData['title_title'] = str_replace('"', '', $pageData['title']);
 
 				if ($pageData['video'] == '')
@@ -698,7 +700,7 @@ if (!class_exists('socialnet_userstatus'))
 
 				if (isset($match[1]))
 				{
-					$pageData['video'] = '<object width="425" height="344" style="width:150px;height:150px;" type="application/x-shockwave-flash" data="' . $match[1] . '">
+					$pageData['video'] = '<object width="425" height="344" style="width:150px;height:150px;" type="application/x-shockwave-flash" id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"  data="' . $match[1] . '">
 										<param value="' . $match[1] . '" name="movie" />
 										<param value="transparent" name="wmode" />
 										<param value="true" name="allowFullScreen" />
