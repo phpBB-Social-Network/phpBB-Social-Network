@@ -1,33 +1,33 @@
 <!-- IF B_SN_BLOCK_MENU_ENABLED -->		
-	<ul class="sn-menu">
-		<li class="<!-- IF S_SN_AP_VIEW_MAIN or not S_USER_LOGGED_IN -->sn-menu-active<!-- ENDIF -->">
+	<ul class="sn-menu ui-menu-icons ui-menu ui-widget ui-widget-content">
+		<li class="<!-- IF S_SN_AP_VIEW_MAIN or not S_USER_LOGGED_IN -->sn-menu-active<!-- ENDIF --> ui-menu-item">
 			<a href="{U_SN_ACTIVITYPAGE}"><span class="sn-menu-icon ui-icon ui-icon-document-b"></span>{L_SN_AP_ACTIVITYPAGE}</a>
 		</li>
-		<li class="">
+		<li class="ui-menu-item">
 			<a href="{U_INDEX}"><span class="sn-menu-icon ui-icon ui-icon-home"></span>{L_SN_AP_BOARD}</a>
 		</li>
 		<!-- IF S_DISPLAY_PM -->
-		<li class="">
+		<li class="ui-menu-item">
 			<a href="{U_PRIVATEMSGS}"><span class="sn-menu-icon ui-icon ui-icon-mail-closed"></span><!-- IF S_USER_UNREAD_PRIVMSG neq 0 --><span class="sn-num-cube">{S_USER_UNREAD_PRIVMSG}</span><!-- ENDIF -->{L_SN_AP_PRIVATE_MESSAGE}</a>
 		</li>
     <!-- ENDIF -->
 		<!-- IF S_USER_LOGGED_IN -->
-		<li class="">
+		<li class="ui-menu-item">
 			<a href="{U_MANAGE_FRIEND}"><span class="sn-menu-icon ui-icon ui-icon-person"></span><!-- IF S_NUM_FRIEND_REQUESTS > 0 --><span class="sn-num-cube">{S_NUM_FRIEND_REQUESTS}</span><!-- ENDIF -->{L_SN_AP_MANAGE_FRIENDS}</a>
 		</li>
 		<!-- ENDIF -->
 		<!-- IF SN_MODULE_NOTIFY_ENABLED -->
-		<li class="<!-- IF S_SN_AP_NOTIFY -->sn-menu-active<!-- ENDIF -->">
+		<li class="<!-- IF S_SN_AP_NOTIFY -->sn-menu-active<!-- ENDIF --> ui-menu-item">
 			<a href="{U_VIEW_NOTIFY}"><span class="sn-menu-icon ui-icon ui-icon-note"></span><span class="sn-num-cube" id="sn-ntf-cube"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></span>{L_SN_AP_NOTIFY}</a>
 		</li>
 		<!-- ENDIF -->
 		<!-- IF S_DISPLAY_MEMBERLIST -->
-		<li class="">
+		<li class="ui-menu-item">
 			<a href="{U_MEMBERLIST}"><span class="sn-menu-icon ui-icon ui-icon-contact"></span>{L_SN_AP_VIEW_MEMBERLIST}</a>
 		</li>
     <!-- ENDIF -->
 		<!-- IF S_USER_LOGGED_IN -->
-		<li class="">
+		<li class="ui-menu-item">
 			<a href="{U_LOGIN_LOGOUT}&amp;redirect=./activitypage.php"><span class="sn-menu-icon ui-icon ui-icon-power"></span>{L_SN_AP_LOG_OUT}</a>
 		</li>
 		<!-- ENDIF -->

@@ -251,7 +251,7 @@ if (!class_exists('socialnet_userstatus'))
 
 				// Record about new status
 				$this->p_master->record_entry($wall_id, $row['status_id'], SN_TYPE_NEW_STATUS);
-
+				
 				if ($on_the_wall)
 				{
 					$link = "memberlist.{$phpEx}?mode=viewprofile&amp;u={$wall_id}&amp;status_id={$row['status_id']}#socialnet_us";

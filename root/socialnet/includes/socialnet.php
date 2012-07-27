@@ -189,6 +189,7 @@ class socialnet extends snFunctions
 			'COOKIE_SECURE'						 => $config['cookie_secure'],
 			'U_SN_ACTIVITYPAGE'					 => append_sid("{$phpbb_root_path}activitypage.$phpEx"),
 			'S_ON_' . strtoupper($this->script_name)									 => true,
+			'S_SN_SHOW_OUTDATED_BROWSER_INFO' => $config['sn_dialog_browseroutdated'],
 			'I_SN_BLOCK_ONLINE_USERS_CHECK_TIME' => $this->config['block_uo_check_every'] * 1000,
 			'B_AJAX_LOAD_ALLOW'					 => $config['board_disable'] == 0 ? 'true' : 'false',
 			'I_POST_MIN_CHARS'					 => $config['min_post_chars'],

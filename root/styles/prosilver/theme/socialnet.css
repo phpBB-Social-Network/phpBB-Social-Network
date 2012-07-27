@@ -313,9 +313,11 @@ div:not(.sn-page) .sn-userName a {
 
 .sn-inputComment {
 	border: 1px solid #bdc7d8;
-	line-height: 21px;
+	height: 18px;
+	line-height: 18px;
+	max-height: 72px;
 	outline: none;
-	padding: 1px 2px;
+	padding: 2px;
 	resize: none;
 	width: 99%;
 }
@@ -867,9 +869,11 @@ div:not(.sn-page) .sn-userName a {
 
 .sn-im-message {
 	border: none;
-	height: 22px;
+	height: 18px;
 	line-height: 18px;
+	max-height: 72px;
 	outline: none;
+	padding: 3px;
 	resize: none;
 	width: 258px;
 }
@@ -964,10 +968,11 @@ div:not(.sn-page) .sn-userName a {
 
 .sn-us-share textarea {
 	border: solid 1px #aeaeae;
-	height: 22px;
-	line-height: 21px;
+	height: 18px;
+	line-height: 18px;
+	max-height: 72px;
 	outline: none;
-	padding: 0 2px;
+	padding: 2px;
 	resize: none;
 	width: 99%;
 }
@@ -1014,6 +1019,13 @@ div:not(.sn-page) .sn-userName a {
 	display: none;
 	padding: 4px 0;
 	text-align: center;
+}
+
+.sn-us-fetchDesc {
+	height: 18px;
+	line-height: 18px;
+	max-height: 72px;
+	padding: 2px;
 }
 
 .sn-us-fetchPreview,.sn-us-thumbs {

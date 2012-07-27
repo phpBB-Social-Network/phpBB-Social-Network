@@ -22,7 +22,9 @@
 	    rtl : false,
 	    expanderTextMore : '[read more]',
 	    expanderTextLess : '[read less]',
-
+	    browserOutdatedTitle : 'Browser outdated',
+	    browserOutdated : 'Update your browser.\nBrowser is outdated.',
+	    showBrowserOutdated : false,
 	    cookies : {},
 	    cookie : {
 	        name : '',
@@ -144,9 +146,7 @@
 		        $(".sn-inputComment").watermark($.sn.comments.watermark, {
 		            useNative : false,
 		            className : 'sn-watermark'
-		        }).TextAreaExpander(min_h, 100).css({
-			        height : i_height
-		        });
+		        }).elastic();
 
 	        }
 
@@ -155,9 +155,19 @@
 	    // INITIALIZACE
 	    init : function(opts) {
 		    var self = this;
+
 		    this._settings(this, opts);
 		    if (this.strpos(this.cookie.name, '_', -1) != 0) {
 			    this.cookie.name += '_';
+		    }
+
+		    this.confirmBox.init();
+
+		    if (!this._minBrowser()) {
+			    $.each(self.enableModules, function(idx, val) {
+				    self.enableModules[idx] = false;
+			    })
+			    return false;
 		    }
 
 		    $.metadata.setType("class");
@@ -205,7 +215,6 @@
 		    $(document).oneTime(250, 'sn-page-height', function() {
 			    $.sn._resize()
 		    });
-		    this.confirmBox.init();
 		    this.comments.init();
 
 		    if (this._debug) this._debugInit();
@@ -512,7 +521,7 @@
 
 	    _textExpander : function() {
 		    if ($('.sn-expander-text:not([aria-expander="expander"])').size() != 0) {
-		    	$('.sn-expander-text:not([aria-expander="expander"])').attr('aria-expander', 'expander').expander({
+			    $('.sn-expander-text:not([aria-expander="expander"])').attr('aria-expander', 'expander').expander({
 			        slicePoint : 500,
 			        widow : 2,
 			        preserveWords : false,
@@ -525,6 +534,35 @@
 			        detailClass : 'sn-expander-details'
 			    });
 		    }
+	    },
+
+	    _minBrowser : function() {
+		    var minBrowsers = {
+		        msie : 8,
+		        opera : 6,
+		        webkit : 15,
+		        mozilla : 16
+		    };
+
+		    var browser = '';
+		    if ($.browser.msie) {
+			    browser = 'msie';
+		    } else if ($.browser.opera) {
+			    browser = 'opera';
+		    } else if ($.browser.mozilla) {
+			    browser = 'mozilla';
+		    } else if ($.browser.webkit || $.browser.safari) {
+			    browser = 'webkit';
+		    }
+		    if (minBrowsers[browser] >= $.browser.version) {
+			    if ($.sn.showBrowserOutdated && $.sn.getCookie('sn_showBrowserOutdated', 0) == 0){
+			    	$.sn.setCookie('sn_showBrowserOutdated', 1);
+			    	snConfirmBox($.sn.browserOutdatedTitle, $.sn.browserOutdated);
+			    	}
+			    return false;
+		    }
+
+		    return true;
 	    },
 
 	    _debugInit : function() {

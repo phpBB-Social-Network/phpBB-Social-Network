@@ -179,8 +179,9 @@ class acp_socialnet extends AddOnsHookSystem
 		$display_vars = array(
 			'title'	 => 'SETTINGS',
 			'vars'	 => array(
-				'legend1'			 => 'SETTINGS',
-				'sn_global_enable'	 => array('lang' => 'SN_GLOBAL_ENABLE', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+				'legend1'					 => 'SETTINGS',
+				'sn_global_enable'			 => array('lang' => 'SN_GLOBAL_ENABLE', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
+				'sn_dialog_browseroutdated'	 => array('lang' => 'SN_SHOW_BROWSER_OUTDATED', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
 			),
 		);
 

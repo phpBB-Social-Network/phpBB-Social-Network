@@ -62,6 +62,7 @@ $lang = array_merge($lang, array(
 	'SN_US_CANCEL'							 => 'Cancel',
 	'SN_US_SHARED_A'						 => 'shared a',
 	'SN_US_LINK'							 => 'link',
+	
 	//
 	// FETCH PAGE
 	//
@@ -529,8 +530,8 @@ $lang = array_merge($lang, array(
 	'SN_NTF_FRIENDSHIP_CANCEL'		 => '%1$s canceled your <a href="%2$s">friendship request</a>',
 
 	'SN_NTF_STATUS_AUTHOR_COMMENT'	 => '%1$s has commented on <a href="%2$s">your status</a>',
-	'SN_NTF_STATUS_USER_COMMENT'	 => '%1$s has commented on <a href="%3$s">%2$s\'s status</a>',
-	'SN_NTF_STATUS_FRIEND_WALL'		 => '%1$s has left a message on <a href="%2$s">your Profile page</a>',
+	'SN_NTF_STATUS_USER_COMMENT'		 => '%1$s has commented on <a href="%3$s">%2$s\'s status</a>',
+	'SN_NTF_STATUS_FRIEND_WALL'		 	=> '%1$s has left a message on <a href="%2$s">your Profile page</a>',
 
 	'SN_NTF_APPROVE_FAMILY'			 => '%1$s has added you as a %2$s. You can <a href="%3$s">approve this relationship here</a>',
 	'SN_NTF_APPROVE_RELATIONSHIP'	 => '%1$s has created a relationship with you. You can <a href="%2$s">approve this relationship here</a>',

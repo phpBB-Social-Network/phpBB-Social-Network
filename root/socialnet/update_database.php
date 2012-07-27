@@ -777,6 +777,13 @@ $versions = array(
 			'cache',
 		),
 	),
+		
+		'0.6.2.21'	 => array(
+				'table_row_insert'	 => array(
+						array(SN_CONFIG_TABLE, array('config_name' => 'sn_dialog_browseroutdated', 'config_value' => '0')),
+				),
+		),
+		
 );
 
 if (!defined('DEBUG_EXTRA'))

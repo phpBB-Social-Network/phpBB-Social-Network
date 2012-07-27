@@ -27,6 +27,8 @@ $lang = array_merge($lang, array(
 	'ACP_SN_CONTRIBUTE_EXPLAIN'				 => 'Do you like phpBB Social Network? The easiest way to help out is to make a donation, no matter how small. You can make a donation via PayPal or a Bank Transfer (<a href="http://phpbbsocialnetwork.com/support_us.php" style="font-weight: bold;">contact us</a> for transfer details).<br /><form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="margin: 15px 0;"><p><input type="hidden" name="cmd" value="_donations" /><input type="hidden" name="business" value="G4NHS46RS8HTC" /><input type="hidden" name="lc" value="CZ" /><input type="hidden" name="item_name" value="phpBB Social Network" /><input type="hidden" name="currency_code" value="EUR" /><input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted" /><input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" style="border: 0; width: 147px; height: 47px;background: none; cursor: pointer;" name="submit" alt="PayPal" /><img style="border: 0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" alt="" /></p></form>There are also other ways in which you can help us to develop phpBB Social Network <a href="http://phpbbsocialnetwork.com/support_us.php" style="font-weight: bold;">here</a>.',
 	'SN_GLOBAL_ENABLE'						 => 'Enable Social Network',
 	'SN_GLOBAL_ENABLE_EXPLAIN'				 => 'Enable or disable Social Network MOD',
+	'SN_SHOW_BROWSER_OUTDATED'				 => 'Show dialog for outdated browsers',
+	'SN_SHOW_BROWSER_OUTDATED_EXPLAIN'		 => 'when browser is outdated for SN. Dialog with the message will appear',
 	'ACP_SN_MAIN'							 => 'Main',
 	'ACP_SN_CONFIGURATION'					 => 'Social Network Configuration',
 	'ACP_SN_GLOBAL_SETTINGS'				 => 'Social Network Settings',

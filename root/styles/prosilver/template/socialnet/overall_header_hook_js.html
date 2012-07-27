@@ -1,10 +1,10 @@
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.metadata.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery_cookie.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.timers.js"></script>   
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.timers.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.hoverIntent.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.text-overflow.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.textarea-expander.js"></script>
+<!--script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.textarea-expander.js"></script-->
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.watermark.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.form.js"></script>
@@ -13,6 +13,8 @@
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.expander.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.editable.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.jgrowl_minimized.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.underscore-min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.elastic.source.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.socialnet.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.confirmbox.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.im.js"></script>
@@ -29,7 +31,10 @@ jQuery(document).ready(function($){
 		rtl: '{S_CONTENT_DIRECTION}' == 'rtl' ? true: false,
 	    expanderTextMore: '{L_SN_EXPANDER_READ_MORE}',
 	    expanderTextLess: '{L_SN_EXPANDER_READ_LESS}',
-		
+	    browserOutdatedTitle : '{L_BROWSER_OUTDATED_TITLE}',
+	    browserOutdated : '{L_BROWSER_OUTDATED}',
+	    showBrowserOutdated: '{S_SN_SHOW_OUTDATED_BROWSER_INFO}' == '1' ? true : false,
+
 		cookie : {
 			name : '{COOKIE_NAME}',
 			path : '{COOKIE_PATH}',
@@ -66,6 +71,17 @@ jQuery(document).ready(function($){
 	        at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
 	        }
 	});
+
+// ## ACTIVITY PAGE -=- START ##
+<!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
+	$.sn.ap.init({
+		url : '{SOCIALNET_ROOT_PATH}activitypage.php',
+		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
+		tikTakOnline : {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
+		urlUsersAutocomplete: '{U_USERS_AUTOCOMPLETE}'
+	});
+<!-- ENDIF -->
+// ## ACTIVITY PAGE -=- END ##
 
 // ## INSTANT MESSENGER -=- START ##
 <!-- IF SN_MODULE_IM_ENABLED -->
@@ -135,17 +151,6 @@ jQuery(document).ready(function($){
 	});
 <!-- ENDIF -->
 // ## USER STATUS -=- END ##
-
-// ## ACTIVITY PAGE -=- START ##
-<!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
-	$.sn.ap.init({
-		url : '{SOCIALNET_ROOT_PATH}activitypage.php',
-		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
-		tikTakOnline : {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
-		urlUsersAutocomplete: '{U_USERS_AUTOCOMPLETE}'
-	});
-<!-- ENDIF -->
-// ## ACTIVITY PAGE -=- END ##
 
 // ## PROFILE -=- START ##
 <!-- IF SN_MODULE_PROFILE_ENABLED -->
