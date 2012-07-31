@@ -61,6 +61,28 @@
 			        },
 			        load : function(e, ui) {
 				        $('#sn-us-wallInput').trigger('focusin').trigger('focusout');
+				        
+					    if (!$.sn.isOutdatedBrowser) {
+						    $('textarea.sn-us-mention').mentionsInput({
+						        templates : {
+						            wrapper : _.template('<div class="sn-us-mentions-input-box"></div>'),
+						            autocompleteList : _.template('<div class="sn-us-mentions-autocomplete-list"></div>'),
+						            mentionsOverlay : _.template('<div class="sn-us-mentions"><div></div></div>'),
+						        },
+						        onDataRequest : function(mode, query, callback) {
+							        $.getJSON($.sn.us.url, {
+							            smode : 'get_mention',
+							            uname : query
+							        }, function(data) {
+								        data = _.filter(data, function(item) {
+									        return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+								        });
+								        callback.call(this, data);
+							        });
+						        }
+						    });
+					    }
+				        
 				        $('.sn-up-editable').snEditable({
 				            datePicker : {
 				                dateFormat : $.sn.up.dateFormat,
@@ -76,13 +98,11 @@
 				        $('.sn-us-inputComment').watermark($.sn.us.watermark, {
 				            useNative : false,
 				            className : 'sn-us-watermark'
-				        }).TextAreaExpander(22, 100).css({
-					        height : '22px'
-				        });
+				        }).elastic();
 				        $("#sn-us-wallInput").watermark($.sn.us.watermark, {
 				            useNative : false,
 				            className : 'sn-us-watermark'
-				        }).TextAreaExpander(22, 150).trigger('focusout');
+				        }).elastic().trigger('focusout');
 				        $.sn._resize();
 				        $.sn._textExpander();
 

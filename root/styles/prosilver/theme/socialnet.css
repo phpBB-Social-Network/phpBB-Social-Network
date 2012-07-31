@@ -2,14 +2,6 @@
 	outline: none;
 }
 
-.section-activitypage #wrap {
-	min-width: 1070px;
-}
-
-.section-profile #wrap {
-	min-width: 800px;
-}
-
 .sn-page {
 	font-size: 11px;
 	margin-top: 8px;
@@ -49,12 +41,10 @@
 
 .ltr .sn-page-content-noRightBorder {
 	border-right: none;
-	padding-right: 0;
 }
 
 .rtl .sn-page-content-noRightBorder {
 	border-left: none;
-	padding-left: 0;
 }
 
 .sn-page-blockHeader {
@@ -794,11 +784,6 @@ div:not(.sn-page) .sn-userName a {
 	text-decoration: underline;
 }
 
-.sn-im-msg.sn-im-history.pagination {
-	margin: 0;
-	padding: 0;
-}
-
 .ltr .sn-im-msg.sn-im-history .sn-im-msgAvatar {
 	margin-left: -50px;
 }
@@ -952,18 +937,17 @@ div:not(.sn-page) .sn-userName a {
 
 .ltr .sn-ntf-unread {
 	border-left: 4px solid #BC2A4D;
-	padding-left: 0;
+	padding-left: 5px;
 }
 
 .rtl .sn-ntf-unread {
 	border-right: 4px solid #BC2A4D;
-	padding-right: 0;
+	padding-right: 5px;
 }
 
 .sn-us-profile,.sn-us-membShareStatus {
 	display: block;
 	margin: 0 auto 5px;
-	overflow: hidden;
 }
 
 .sn-us-share textarea {
@@ -974,7 +958,7 @@ div:not(.sn-page) .sn-userName a {
 	outline: none;
 	padding: 2px;
 	resize: none;
-	width: 99%;
+	width: 100%;
 }
 
 .sn-us-noStatus {
@@ -1065,6 +1049,125 @@ div:not(.sn-page) .sn-userName a {
 	opacity: 0.4;
 	position: relative;
 	width: 150px;
+}
+
+.sn-us-mentions-input-box {
+	background: #fff;
+	border: solid 1px #aeaeae;
+	padding: 2px;
+	position: relative;
+}
+
+.sn-us-mentions-input-box textarea {
+	background: transparent;
+	border: 0;
+	display: block;
+	outline: 0;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+	width: 100%;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions {
+	color: #fff;
+	line-height: 18px;
+	overflow: hidden;
+	position: absolute;
+	top: 1px;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+.ltr .sn-us-mentions-input-box .sn-us-mentions {
+	left: 1px;
+}
+
+.rtl .sn-us-mentions-input-box .sn-us-mentions {
+	right: 1px;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions > div {
+	color: #fff;
+	white-space: pre-wrap;
+	width: 100%;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions > div > strong {
+	font-weight: normal;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions > div > strong > span {
+	-moz-opacity: 0;
+	filter: alpha(opacity=0);
+	opacity: 0;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list {
+	-moz-border-radius: 5px;
+	-moz-box-shadow: 0 2px 5px rgba(0,0,0,0.148438);
+	-webkit-border-radius: 5px;
+	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.148438);
+	background: #fff;
+	border: solid 1px #aeaeae;
+	border-radius: 5px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.148438);
+	display: none;
+	left: 0;
+	margin-left: -1px;
+	margin-top: 0;
+	position: absolute;
+	right: 0;
+	width: 100%;
+	z-index: 10000;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li {
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+	cursor: pointer;
+	height: 26px;
+	line-height: 26px;
+	list-style: none;
+	margin: 0;
+	overflow: hidden;
+	padding: 0 7px;
+	white-space: nowrap;
+	width: auto;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li:last-child {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li > img,.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li > div.icon {
+	-moz-background-origin: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: left;
+	height: 16px;
+	margin-right: 5px;
+	margin-top: 5px;
+	width: 16px;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li em {
+	font-style: none;
+	font-weight: bold;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li:hover,.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li.active {
+	background-color: #f2f2f2;
+}
+
+.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list li b {
+	background: #ff9;
+	font-weight: normal;
 }
 
 .ltr .sn-us-page-Video,.ltr .sn-us-page-Image {
@@ -1446,6 +1549,10 @@ a.ui-button {
 	background-image: url("{T_IMAGESET_PATH}/socialnet/icon_up_send_emote.png");
 }
 
+.section-activitypage #wrap,.section-profile #wrap {
+	min-width: 720px;
+}
+
 .sn-hiddenDefault,.sn-action-blockHidden .sn-actions,.sn-im-noborderTop .sn-userName,.sn-im-noborderTop .sn-im-msgAvatar,.sn-fms-friend input[type=checkbox] {
 	display: none;
 	visibility: hidden;
@@ -1545,6 +1652,11 @@ a.ui-button {
 
 .rtl .sn-im-msg .sn-im-msgText-Arrow,.ltr #sn-ntf-notify {
 	padding-left: 3px;
+}
+
+.sn-im-msg.sn-im-history.pagination,.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list ul {
+	margin: 0;
+	padding: 0;
 }
 
 .sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-wallButton.ui-button,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider {

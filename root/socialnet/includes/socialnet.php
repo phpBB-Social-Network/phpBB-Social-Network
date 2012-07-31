@@ -189,7 +189,7 @@ class socialnet extends snFunctions
 			'COOKIE_SECURE'						 => $config['cookie_secure'],
 			'U_SN_ACTIVITYPAGE'					 => append_sid("{$phpbb_root_path}activitypage.$phpEx"),
 			'S_ON_' . strtoupper($this->script_name)									 => true,
-			'S_SN_SHOW_OUTDATED_BROWSER_INFO' => $config['sn_dialog_browseroutdated'],
+			'S_SN_SHOW_OUTDATED_BROWSER_INFO'	 => $config['sn_dialog_browseroutdated'],
 			'I_SN_BLOCK_ONLINE_USERS_CHECK_TIME' => $this->config['block_uo_check_every'] * 1000,
 			'B_AJAX_LOAD_ALLOW'					 => $config['board_disable'] == 0 ? 'true' : 'false',
 			'I_POST_MIN_CHARS'					 => $config['min_post_chars'],
@@ -526,6 +526,14 @@ class socialnet extends snFunctions
 			return '';
 		}
 
+		$avatar_img = $this->get_user_avatar_link($avatar, $avatar_type, $avatar_width, $avatar_height, $alt, $ignore_config);
+
+		return '<img src="' . (str_replace(' ', '%20', $avatar_img)) . '" width="' . $avatar_width . '" height="' . $avatar_height . '" alt="' . ((!empty($user->lang[$alt])) ? $user->lang[$alt] : $alt) . '" />';
+	}
+
+	function get_user_avatar_link($avatar, $avatar_type, $avatar_width, $avatar_height, $alt = 'USER_AVATAR', $ignore_config = false)
+	{
+		global $config, $phpbb_root_path, $phpEx;
 		$avatar_img = '';
 
 		switch ($avatar_type)
@@ -556,7 +564,7 @@ class socialnet extends snFunctions
 
 		$avatar_img .= $avatar;
 
-		return '<img src="' . (str_replace(' ', '%20', $avatar_img)) . '" width="' . $avatar_width . '" height="' . $avatar_height . '" alt="' . ((!empty($user->lang[$alt])) ? $user->lang[$alt] : $alt) . '" />';
+		return $avatar_img;
 	}
 
 	function get_friend($mode, $user_id, $cfg_module, $cache_friends = true)
@@ -862,7 +870,7 @@ class socialnet extends snFunctions
 
 	function is_enabled($module_name)
 	{
-		return $this->config['module_'.$module_name];
+		return $this->config['module_' . $module_name];
 	}
 
 	function trim_text_withsmilies($text, $uid, $max_length, $max_paragraphs = 0, $stops = array(' ', "\n"), $replacement = '…', $bitfield = '', $enable_bbcode = true)

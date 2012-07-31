@@ -1,7 +1,7 @@
 /**
  * 
  * @package phpBB Social Network
- * @version 0.6.3
+ * @version 0.7.0
  * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * 
@@ -22,9 +22,10 @@
 	    rtl : false,
 	    expanderTextMore : '[read more]',
 	    expanderTextLess : '[read less]',
-	    browserOutdatedTitle : 'Browser outdated',
-	    browserOutdated : 'Update your browser.\nBrowser is outdated.',
+	    browserOutdatedTitle : 'Your browser is outdated',
+	    browserOutdated : 'Some of the features will not work on this browser, because it is outdated.',
 	    showBrowserOutdated : false,
+	    isOutdatedBrowser: false,
 	    cookies : {},
 	    cookie : {
 	        name : '',
@@ -163,13 +164,9 @@
 
 		    this.confirmBox.init();
 
-		    if (!this._minBrowser()) {
-			    $.each(self.enableModules, function(idx, val) {
-				    self.enableModules[idx] = false;
-			    })
-			    return false;
-		    }
-
+		    this._minBrowser();
+//		    this.isOutdatedBrowser = true;
+		    
 		    $.metadata.setType("class");
 		    $(window).resize(function() {
 			    $.sn._resizeBlocks();
@@ -523,7 +520,7 @@
 		    if ($('.sn-expander-text:not([aria-expander="expander"])').size() != 0) {
 			    $('.sn-expander-text:not([aria-expander="expander"])').attr('aria-expander', 'expander').expander({
 			        slicePoint : 500,
-			        widow : 2,
+			        widow : 1,
 			        preserveWords : false,
 			        expandText : $.sn.expanderTextMore,
 			        userCollapseText : $.sn.expanderTextLess,
@@ -540,8 +537,8 @@
 		    var minBrowsers = {
 		        msie : 8,
 		        opera : 6,
-		        webkit : 15,
-		        mozilla : 16
+		        webkit : 12,
+		        mozilla : 6
 		    };
 
 		    var browser = '';
@@ -557,8 +554,9 @@
 		    if (minBrowsers[browser] >= $.browser.version) {
 			    if ($.sn.showBrowserOutdated && $.sn.getCookie('sn_showBrowserOutdated', 0) == 0){
 			    	$.sn.setCookie('sn_showBrowserOutdated', 1);
-			    	snConfirmBox($.sn.browserOutdatedTitle, $.sn.browserOutdated);
+			    	snConfirmBox($.sn.browserOutdatedTitle, $.sn.browserOutdated + '<br />' + $.browser.version);
 			    	}
+			    this.isOutdatedBrowser = true;
 			    return false;
 		    }
 

@@ -142,50 +142,22 @@ if (!class_exists('socialnet_userstatus'))
 		function load($mode = '')
 		{
 			global $user, $db, $template, $phpbb_root_path;
-			switch ($mode)
+
+			$param = false;
+			$call_mode = "_{$mode}";
+
+			if ($mode == '')
 			{
-				case 'status_share':
-					$this->_status_share();
-					break;
-
-				case 'status_share_wall':
-					$this->_status_share(true);
-					break;
-
-				case 'status_more':
-					$this->_status_more();
-					break;
-
-				case 'status_delete':
-					$this->_status_delete();
-					break;
-				case 'status_one':
-					$this->_status_one();
-					break;
-				case 'comment_share':
-					$this->_comment_share();
-					break;
-
-				case 'comment_delete':
-					$this->_comment_delete();
-					break;
-
-				case 'comment_more':
-					$this->_comment_more();
-					break;
-
-				case 'get_status':
-					$this->_get_status();
-					break;
-
-				case 'get_activity':
-					$this->_get_activity();
-					break;
-
-				case 'delete_activity':
-					$this->_delete_activity();
-					break;
+				return;
 			}
+			else if ($mode == 'status_share_wall')
+			{
+				$param = true;
+				$call_mode = "_status_share";
+			}
+
+			$this->$call_mode($param);
+
 		}
 
 		/**
@@ -203,6 +175,23 @@ if (!class_exists('socialnet_userstatus'))
 				$now = time();
 
 				$isPage = request_var('isPage', 0);
+				$mentions = request_var('mentions', '', true);
+				$mentions = html_entity_decode($mentions);
+				$mentions = json_decode($mentions);
+
+				if (!empty($mentions))
+				{
+					$board_url = generate_board_url();
+					$mentions_users = array();
+
+					foreach ($mentions as $idx => $mention)
+					{
+						$mentions_users[] = $mention->value;
+					}
+					$mentions_users = implode('|', $mentions_users);
+					// Transform MENTIONS.
+					$new_status = preg_replace('/@\[(' . $mentions_users . ')\]\(contact:([0-9]+)\)/si', '@[url=' . $board_url . '/memberlist.' . $phpEx . '?mode=viewprofile&amp;u=\2]\1[/url]', $new_status);
+				}
 
 				$uid = $bitfield = $flags = '';
 				$allow_bbcode = $this->p_master->allow_bbcode;
@@ -251,11 +240,27 @@ if (!class_exists('socialnet_userstatus'))
 
 				// Record about new status
 				$this->p_master->record_entry($wall_id, $row['status_id'], SN_TYPE_NEW_STATUS);
-				
+
+				$link = "memberlist.{$phpEx}?mode=viewprofile&amp;u={$wall_id}&amp;status_id={$row['status_id']}#socialnet_us";
+
+				if (!empty($mentions))
+				{
+					foreach ($mentions as $idx => $mention)
+					{
+						if ($mention->id != $user->data['user_id'])
+						{
+							// send NOTIFY to $mention->id from $user->data['user_id'] except $mention->id == $user->data['user_id']
+							$this->p_master->notify->add(SN_NTF_WALL, $mention->id, array(
+								'text'	 => 'SN_NTF_STATUS_FRIEND_MENTION',
+								'user'	 => $user->data['username'],
+								'link'	 => $link,
+							));
+
+						}
+					}
+				}
 				if ($on_the_wall)
 				{
-					$link = "memberlist.{$phpEx}?mode=viewprofile&amp;u={$wall_id}&amp;status_id={$row['status_id']}#socialnet_us";
-
 					if ($user->data['user_id'] != $wall_id)
 					{
 						$this->p_master->notify->add(SN_NTF_WALL, $wall_id, array(
@@ -686,7 +691,7 @@ if (!class_exists('socialnet_userstatus'))
 				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" style="width:150px;height:150px;"/>', $pageData['video']);
 				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" style="width:150px;height:150px;">', $pageData['video']);
 				$this->pageVideoCounter++;
-				
+
 				$pageData['title_title'] = str_replace('"', '', $pageData['title']);
 
 				if ($pageData['video'] == '')
@@ -786,6 +791,44 @@ if (!class_exists('socialnet_userstatus'))
 			}
 			return $member['user_id'];
 		}
+
+		function _get_mention()
+		{
+			global $db;
+
+			$uname = request_var('uname', '', true);
+			$uname_clean = utf8_clean_string($uname);
+
+			$like_uname = $db->sql_like_expression($db->any_char . $uname . $db->any_char);
+			$like_uname_clean = $db->sql_like_expression($db->any_char . $uname_clean . $db->any_char);
+
+			$sql = "SELECT u.user_id, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+					FROM " . USERS_TABLE . " AS u
+					WHERE ( u.username {$like_uname} OR u.username_clean {$like_uname} ) AND u.user_type <> 2
+					ORDER BY u.username";
+			$rs = $db->sql_query($sql);
+
+			$return = array();
+			while ($row = $db->sql_fetchrow($rs))
+			{
+				$avatar_img = $this->p_master->get_user_avatar_link($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']);
+				$avatar_img = snFunctions_absolutePathString($avatar_img);
+
+				$return[] = array(
+					'id'	 => $row['user_id'],
+					'name'	 => $row['username'],
+					'avatar' => $avatar_img,
+					'type'	 => 'contact'
+				);
+			}
+
+			header('Content-type: application/json');
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+			die(json_encode($return));
+
+		}
+
 	}
 }
 

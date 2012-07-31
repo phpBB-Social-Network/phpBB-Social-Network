@@ -546,6 +546,8 @@ $lang = array_merge($lang, array(
 
 	'SN_NTF_RELATIONSHIP_REFUSED'	 => '%1$s has refused <a href="%2$s">relationship</a> with you',
 	'SN_NTF_FAMILY_REFUSED'			 => '%1$s has refused <a href="%2$s">family relation</a> with you',
+		
+		'SN_NTF_STATUS_FRIEND_MENTION' => '%1$s has mentoined you on <a href="%2$s">this status</a>',
 ));
 
 // EMOTES

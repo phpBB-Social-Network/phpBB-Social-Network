@@ -31,9 +31,9 @@
 		    $("#sn-us-wallInput").watermark($.sn.us.watermark, {
 		        useNative : false,
 		        className : 'sn-us-watermark'
-		    }).elastic().live('focusin keyup input', function() {
+		    }).elastic().live('focusin keyup input cut paste', function() {
 			    var snUsShare = $(this).val();
-			    $(this).parent('.sn-us-share').children('input[name=sn-us-wallButton]').show();
+			    $(this).parents('.sn-us-share').children('input[name=sn-us-wallButton]').show();
 			    if ($.sn.isValidURL(snUsShare) == true) {
 				    $('input[name="sn-us-fetchButton"]').show();
 			    } else {
@@ -44,13 +44,13 @@
 			    var self = $(this);
 			    var snUsShare = self.val();
 			    if (snUsShare == '') {
-				    var snUsButton = self.parent('.sn-us-share').children('input[name=sn-us-wallButton]');
+				    var snUsButton = self.parents('.sn-us-share').children('input[name=sn-us-wallButton]');
 				    snUsButton.hide();
 				    $('input[name="sn-us-fetchButton"]').hide();
 				    $('input[name="sn-us-fetchClear"]').hide();
 			    }
 		    }).trigger('focusout');
-		    
+
 		    // Delete status
 		    $(".sn-us-deleteStatus").live('click', function() {
 			    var status_id = $.sn.getAttr($(this), 'sid');
@@ -143,6 +143,16 @@
 				    var bImage = $('#sn-us-noImg').is(':checked');
 				    var bVideo = $('#sn-us-noVideo').is(':checked');
 				    var $cImage = $('.sn-us-fetchImgs img:visible');
+
+				    var mentions_collection = {};
+				    if (!$.sn.isOutdatedBrowser) {
+					    $('textarea.sn-us-mention').mentionsInput('getMentions', function(data) {
+						    mentions_collection = JSON.stringify(data);
+					    }).mentionsInput('val', function(text) {
+						    status_text = text;
+					    });
+				    }
+
 				    $.ajax({
 				        type : "POST",
 				        url : $.sn.us.url,
@@ -150,6 +160,7 @@
 				        data : {
 				            smode : 'status_share_wall',
 				            status : status_text,
+				            mentions : mentions_collection,
 				            wall : wall_id,
 				            isPage : bPage,
 				            page : {
@@ -209,11 +220,11 @@
 		    $(".sn-us-inputComment").live('focusin', function() {
 			    $('.sn-us-buttonCommentOver:visible').hide();
 			    $(this).next('.sn-us-buttonCommentOver').show();
-		    }).live('focusout', function(){
-		    	var cmt = $(this).val();
-		    	if ( cmt == ''){
-		    		$('.sn-us-buttonCommentOver:visible').hide();
-		    	}
+		    }).live('focusout', function() {
+			    var cmt = $(this).val();
+			    if (cmt == '') {
+				    $('.sn-us-buttonCommentOver:visible').hide();
+			    }
 		    }).next('.sn-us-buttonCommentOver').hide();
 
 		    // Post comment
@@ -490,6 +501,27 @@
 			    $(this).removeAttr('style');
 			    $(this).hide();
 		    });
+
+		    if (!$.sn.isOutdatedBrowser) {
+			    $('textarea.sn-us-mention').mentionsInput({
+			        templates : {
+			            wrapper : _.template('<div class="sn-us-mentions-input-box"></div>'),
+			            autocompleteList : _.template('<div class="sn-us-mentions-autocomplete-list"></div>'),
+			            mentionsOverlay : _.template('<div class="sn-us-mentions"><div></div></div>'),
+			        },
+			        onDataRequest : function(mode, query, callback) {
+				        $.getJSON($.sn.us.url, {
+				            smode : 'get_mention',
+				            uname : query
+				        }, function(data) {
+					        data = _.filter(data, function(item) {
+						        return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+					        });
+					        callback.call(this, data);
+				        });
+			        }
+			    });
+		    }
 	    },
 
 	    changePicture : function(dir) {
