@@ -497,6 +497,8 @@ $lang = array_merge($lang, array(
 
 	'SN_NTF_RELATIONSHIP_REFUSED_PM_TITLE'	=> '%1$s has refused relationship with you',
 	'SN_NTF_FAMILY_REFUSED_PM_TITLE'				=> '%1$s has refused family relation with you',
+	
+	'SN_NTF_STATUS_FRIEND_MENTION_PM_TITLE' => '%1$s has mentioned you in his status',
 ));
 
 // MCP
@@ -547,7 +549,7 @@ $lang = array_merge($lang, array(
 	'SN_NTF_RELATIONSHIP_REFUSED'	 => '%1$s has refused <a href="%2$s">relationship</a> with you',
 	'SN_NTF_FAMILY_REFUSED'			 => '%1$s has refused <a href="%2$s">family relation</a> with you',
 		
-		'SN_NTF_STATUS_FRIEND_MENTION' => '%1$s has mentoined you on <a href="%2$s">this status</a>',
+	'SN_NTF_STATUS_FRIEND_MENTION' => '%1$s has mentioned you in <a href="%2$s">his status</a>',
 ));
 
 // EMOTES

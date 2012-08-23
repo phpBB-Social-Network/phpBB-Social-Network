@@ -76,7 +76,6 @@ class snFunctions
 	}
 
 	function onlineUsers($all_online = false) //sn_core_users
-
 	{
 		global $socialnet_root_path, $phpbb_root_path, $user;
 
@@ -100,7 +99,6 @@ class snFunctions
 	 * Select online users
 	 */
 	function onlineSelect($all_online = false) //sn_core_users
-
 	{
 		global $db, $user, $template, $phpbb_root_path;
 
@@ -189,7 +187,6 @@ class snFunctions
 	 * Queries the session table to get information about online users
 	 */
 	function obtain_users_online($time) //sn_core_users
-
 	{
 		global $db, $user;
 
@@ -239,7 +236,6 @@ class snFunctions
 	}
 
 	function online_users($json = false) // sn_core_users -> online
-
 	{
 		global $template, $user;
 
@@ -286,7 +282,6 @@ class snFunctions
 	}
 
 	function fms_users_sqls($mode, $user_id) //sn_core_users
-
 	{
 		global $db, $user, $cache;
 
@@ -445,7 +440,6 @@ class snFunctions
 	 *
 	 */
 	function fms_users($params = array()) // sn_core_users -> get_fms
-
 	{
 		global $db, $user, $template, $cache;
 
@@ -528,7 +522,6 @@ class snFunctions
 	}
 
 	function _fms_users_pagination($mode, $total, $start, $limit, $user_id, $tpl_name, $profile_link = true) // sn_core_users
-
 	{
 		global $user, $template;
 
@@ -599,7 +592,6 @@ class snFunctions
 	}
 
 	function _fms_users_fill($rowset, $user_id_field, $limit, $avatar_size, $add_friend_link, $tpl_name) //sn_core_users
-
 	{
 		global $db, $template, $phpbb_root_path, $phpEx, $config, $user;
 

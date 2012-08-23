@@ -123,9 +123,7 @@
 		    // Share status on Wall
 		    $('.sn-us-share input[name=sn-us-wallButton]').live('click', function() {
 			    var status_text = $("#sn-us-wallInput").val();
-
 			    status_text = status_text.replace(/^\s+|\s+$/g, '');
-
 			    if (status_text == '' || status_text == $.sn.us.watermark) {
 				    snConfirmBox($.sn.us.emptyStatus, $.sn.us.emptyStatus);
 				    $('.sn-us-share input[name=sn-us-wallButton]').hide();
@@ -175,9 +173,6 @@
 				                videoP : bVideo ? '' : $('.sn-us-fetchVideoProvider').html()
 				            }
 				        },
-				        error : function(data) {
-					        console.log('error');
-				        },
 				        success : function(data) {
 					        if (data == '') {
 						        snConfirmBox($.sn.us.emptyStatus, $.sn.us.emptyStatus);
@@ -194,11 +189,11 @@
 						        $.sn.comments.waterMark();
 						        $('.sn-us-statusBlock .sn-actions').removeAttr('style');
 					        }
-					        $('.sn-us-share input[name=sn-us-wallButton]').hide();
-					        $('#sn-us-wallInput').val('').height(22).watermark($.sn.us.watermark, {
+					        $('#sn-us-wallInput').val('').watermark($.sn.us.watermark, {
 					            useNative : false,
 					            className : 'sn-us-watermark'
-					        });
+					        }).trigger('cut');
+					        $('.sn-us-share .sn-us-wallButton').hide();
 				        }
 				    });
 			    }
@@ -261,7 +256,7 @@
 						        $parr.before(data);
 						        $parr.prev('.sn-us-commentBlock').slideDown();
 					        }
-					        $parr.find('.sn-us-inputComment').val('');
+					        $parr.find('.sn-us-inputComment').val('').trigger('cut');
 					        $.sn.comments.waterMark();
 				        }
 				    });
@@ -429,9 +424,9 @@
 				        $('input[name=sn-us-fetchButton]').hide();
 				        $('input[name=sn-us-fetchClear]').show();
 
-				        $('.sn-us-fetchDesc').css({
-					        width : $('.sn-us-fetchData').width() - $('.sn-us-fpreviews').width() - 2 * parseInt($('.sn-us-fpreviews').css('padding-right')) - 2 * parseInt($('.sn-us-fpreviews').css('padding-left'))
-				        }).trigger('paste');
+				        $.sn.us._resize();
+				        $('.sn-us-fetchDesc').trigger('paste');
+				        
 			        }
 			    });
 		    }).hide();
@@ -542,6 +537,9 @@
 			    left : (($(document).width() - $('#sn-us').width()) / 2) + 'px'
 		    });
 
+		    $('.sn-us-fetchDesc').css({
+		        width : $('.sn-us-fetchData').width() - $('.sn-us-fpreviews').width() - 2 * parseInt($('.sn-us-fpreviews').css('padding-right')) - 2 * parseInt($('.sn-us-fpreviews').css('padding-left'))
+	        });
 	    },
 
 	    // Close comment if clicked outside
