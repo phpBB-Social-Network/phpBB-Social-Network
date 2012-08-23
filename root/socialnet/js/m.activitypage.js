@@ -137,7 +137,7 @@
 				        $(".sn-us-inputComment").watermark($.sn.us.watermarkComment, {
 				            useNative : false,
 				            className : 'sn-us-watermark'
-				        }).TextAreaExpander(22, 100);
+				        }).elastic();
 				        if ($(o_next).parent('div').children('div:not([id^=sn-ap-entry])[id^=sn-us]').size() == 0) {
 					        $(o_next).parent('div').children('div[id^=sn-ap-entry]:hidden').fadeIn('slow').removeAttr('style');
 					        $(o_next).parent('div').children('div:not([id^=sn-ap-entry])[id^=sn-us]').fadeOut('fast').remove();

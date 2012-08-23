@@ -377,6 +377,11 @@ div:not(.sn-page) .sn-userName a {
 	line-height: 24px;
 }
 
+.sn-im-chatBoxes .sn-im-button .label {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .sn-im-button .sn-actions {
 	margin-top: 4px;
 }
@@ -389,11 +394,30 @@ div:not(.sn-page) .sn-userName a {
 	border-left-color: #bbb;
 	border-left-style: solid;
 	border-left-width: 1px;
+	padding-right: 5px;
+}
+
+.rtl .sn-im-button {
+	border-right-color: #bbb;
+	border-right-style: solid;
+	border-right-width: 1px;
+	padding-left: 5px;
+}
+
+.ltr .sn-im-chatBoxes .sn-im-button {
+	padding-left: 0;
+	padding-right: 15px;
+}
+
+.rtl .sn-im-chatBoxes .sn-im-button {
+	padding-left: 15px;
+	padding-right: 0;
 }
 
 .sn-im-status {
 	background: transparent none no-repeat 50% 50%;
 	line-height: 24px;
+	margin-top: 4px;
 	padding: 8px;
 }
 
@@ -410,11 +434,15 @@ div:not(.sn-page) .sn-userName a {
 }
 
 .sn-im-unRead {
+	-khtml-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 	background-color: red;
+	border-radius: 4px;
 	color: #fff;
 	display: block;
 	line-height: 10px;
-	padding: 2px;
+	padding: 2px 3px;
 	position: absolute;
 	top: -7px;
 	visibility: visible;
@@ -433,6 +461,16 @@ div:not(.sn-page) .sn-userName a {
 	left: 20px;
 }
 
+.sn-im-msgUnread .sn-im-title {
+	background-color: #BC2A4D;
+	background-image: none;
+}
+
+.sn-im-msgUnread .sn-im-button {
+	background-color: #ECD5D8;
+	background-image: none;
+}
+
 .sn-im-online.sn-im-button .label {
 	background: transparent none no-repeat 0 50%;
 	display: inline-block;
@@ -443,6 +481,8 @@ div:not(.sn-page) .sn-userName a {
 }
 
 .rtl .sn-im-online.sn-im-button .label {
+	background-position: 100% 50%;
+	float: right;
 	padding-right: 25px;
 }
 
@@ -454,6 +494,13 @@ div:not(.sn-page) .sn-userName a {
 	background: #eee;
 	height: 18px;
 	line-height: 18px;
+}
+
+.rtl .sn-im-online.sn-im-button .count {
+	float: right;
+	height: 24px;
+	line-height: 24px;
+	padding-right: 5px;
 }
 
 .sn-im-onlineList {
@@ -681,11 +728,9 @@ div:not(.sn-page) .sn-userName a {
 
 .sn-im-smilies {
 	background: #fff url("{T_IMAGESET_PATH}/socialnet/im_smiley.png") no-repeat 4px 50%;
-	bottom: 2px;
 	cursor: pointer;
-	height: 22px;
-	position: absolute;
-	right: 1px;
+	height: 24px;
+	position: relative;
 	width: 23px;
 }
 
@@ -830,24 +875,24 @@ div:not(.sn-page) .sn-userName a {
 
 .sn-im-msgTime {
 	background-color: #fff;
-	border-top: 1px solid #eee;
+	border-top: 1px solid #bbb;
 	color: #555;
 	display: none;
 	font-size: 9px;
 	line-height: 9px;
 	margin-top: -10px;
 	padding: 0 3px;
-	position: static;
+	position: relative;
 }
 
 .ltr .sn-im-msgTime {
-	border-left: 1px solid #eee;
+	border-left: 1px solid #bbb;
 	float: right;
 	right: 0;
 }
 
 .rtl .sn-im-msgTime {
-	border-right: 1px solid #eee;
+	border-right: 1px solid #bbb;
 	float: left;
 	left: 0;
 }
@@ -1003,6 +1048,10 @@ div:not(.sn-page) .sn-userName a {
 	display: none;
 	padding: 4px 0;
 	text-align: center;
+}
+
+.sn-us-fetchImgs {
+	height: 160px;
 }
 
 .sn-us-fetchDesc {
@@ -1550,7 +1599,7 @@ a.ui-button {
 }
 
 .section-activitypage #wrap,.section-profile #wrap {
-	min-width: 720px;
+	min-width: 740px;
 }
 
 .sn-hiddenDefault,.sn-action-blockHidden .sn-actions,.sn-im-noborderTop .sn-userName,.sn-im-noborderTop .sn-im-msgAvatar,.sn-fms-friend input[type=checkbox] {
@@ -1572,11 +1621,11 @@ a.ui-button {
 	margin-top: 10px;
 }
 
-.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-expander-more a,.ltr .sn-expander-less a,.ltr .sn-im-group,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
+.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-expander-more a,.ltr .sn-expander-less a,.ltr .sn-im-group,.rtl .sn-im-status,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-smilies,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
 	float: right;
 }
 
-.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-expander-more a,.rtl .sn-expander-less a,.rtl .sn-im-group,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.rtl .sn-fms-userBlockPaginationSlider,.ltr .sn-ap-avatar {
+.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-expander-more a,.rtl .sn-expander-less a,.rtl .sn-im-group,.ltr .sn-im-status,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-smilies,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.rtl .sn-fms-userBlockPaginationSlider,.ltr .sn-ap-avatar {
 	float: left;
 }
 
@@ -1628,7 +1677,7 @@ a.ui-button {
 	cursor: pointer;
 }
 
-.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-button {
+.ltr .sn-im-chatBoxes .sn-im-group .sn-im-button,.rtl .sn-im-chatBoxes .sn-im-group .sn-im-button {
 	border-right-color: #bbb;
 	border-right-style: solid;
 	border-right-width: 1px;

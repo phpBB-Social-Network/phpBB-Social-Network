@@ -140,10 +140,6 @@
 	        },
 
 	        waterMark : function() {
-		        var i_height = min_h = 21;
-		        if ($.browser.ie) {
-			        i_height = 23;
-		        }
 		        $(".sn-inputComment").watermark($.sn.comments.watermark, {
 		            useNative : false,
 		            className : 'sn-watermark'
@@ -303,6 +299,7 @@
 				    this.value += myValue;
 				    this.focus();
 			    }
+			    $(this).trigger('paste');
 		    });
 	    },
 	    serializeJSON : function(obj) {

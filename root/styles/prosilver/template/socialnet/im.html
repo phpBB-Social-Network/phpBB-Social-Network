@@ -29,10 +29,8 @@
 			<div class="sn-actions">
 				<div class="sn-im-close sn-action-close"></div>
 			</div>
-			<div class="label">
-			  <span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
-				{sn_im_chatbox.USERNAME_TO}
-			</div>
+			<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
+			<div class="label">{sn_im_chatbox.USERNAME_TO}</div>
 		</div>
 		<div id="sn-im-chatBoxBlock{sn_im_chatbox.USER_ID}" class="sn-im-block ui-corner-top<!-- IF sn_im_chatbox.S_OPEN --> sn-im-opeBlock<!-- ENDIF -->" style="<!-- IF not sn_im_chatbox.S_OPEN -->display: none<!-- ENDIF -->">
 			<div class="sn-im-title sn-im-buttons ui-corner-top">
@@ -70,10 +68,9 @@
 				<!-- END message -->
   <!-- IF not sn_im_chatbox.B_SN_IM_ONLY_MESSAGE -->
 			</div>
-			<div class="sn-im-textArea<!-- IF SN_IM_SMILIES_EXISTS --> sn-im-smilies-on<!-- ENDIF -->"><textarea name="msg" class="sn-im-message {uid:{sn_im_chatbox.USER_ID}}" title="{SN_IM_PRESS_TO_SEND}" cols="1" rows="1"></textarea>
-				<!-- IF SN_IM_SMILIES_EXISTS -->
-					<div class="sn-im-smilies"></div>
-				<!-- ENDIF -->
+			<div class="sn-im-textArea<!-- IF SN_IM_SMILIES_EXISTS --> sn-im-smilies-on<!-- ENDIF -->">
+				<!-- IF SN_IM_SMILIES_EXISTS --><div class="sn-im-smilies"></div><!-- ENDIF -->
+				<textarea name="msg" class="sn-im-message {uid:{sn_im_chatbox.USER_ID}}" title="{SN_IM_PRESS_TO_SEND}" cols="1" rows="1"></textarea>
 			</div>
 			
 			<!-- IF SN_IM_SMILIES_EXISTS -->

@@ -186,11 +186,11 @@ if (!class_exists('socialnet_userstatus'))
 
 					foreach ($mentions as $idx => $mention)
 					{
-						$mentions_users[] = $mention->value;
+						$mentions_users[] = preg_quote($mention->value);
 					}
 					$mentions_users = implode('|', $mentions_users);
 					// Transform MENTIONS.
-					$new_status = preg_replace('/@\[(' . $mentions_users . ')\]\(contact:([0-9]+)\)/si', '@[url=' . $board_url . '/memberlist.' . $phpEx . '?mode=viewprofile&amp;u=\2]\1[/url]', $new_status);
+					$new_status = preg_replace('/@\[(' . $mentions_users . ')\]\(contact:([0-9]+)\)/si', '[url=' . $board_url . '/memberlist.' . $phpEx . '?mode=viewprofile&amp;u=\2]\1[/url]', $new_status);
 				}
 
 				$uid = $bitfield = $flags = '';
@@ -794,17 +794,20 @@ if (!class_exists('socialnet_userstatus'))
 
 		function _get_mention()
 		{
-			global $db;
+			global $db, $user;
 
 			$uname = request_var('uname', '', true);
-			$uname_clean = utf8_clean_string($uname);
+			$uname_clean = strtolower(utf8_clean_string($uname));
+			$like_uname_clean = $db->sql_like_expression($uname_clean . $db->any_char);
 
-			$like_uname = $db->sql_like_expression($db->any_char . $uname . $db->any_char);
-			$like_uname_clean = $db->sql_like_expression($db->any_char . $uname_clean . $db->any_char);
+			$my_friends = $this->p_master->friends['user_id'];
+			$my_friends[] = $user->data['user_id'];
 
 			$sql = "SELECT u.user_id, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 					FROM " . USERS_TABLE . " AS u
-					WHERE ( u.username {$like_uname} OR u.username_clean {$like_uname} ) AND u.user_type <> 2
+					WHERE u.username_clean {$like_uname_clean}
+						AND u.user_type <> 2
+						AND " . $db->sql_in_set('u.user_id', $my_friends, false, true) . "
 					ORDER BY u.username";
 			$rs = $db->sql_query($sql);
 
@@ -821,12 +824,11 @@ if (!class_exists('socialnet_userstatus'))
 					'type'	 => 'contact'
 				);
 			}
-
+			
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($return));
-
 		}
 
 	}

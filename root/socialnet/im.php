@@ -676,6 +676,7 @@ if (!class_exists('socialnet_im'))
 								'ONLINE'	 => $usr['online'],
 							));
 							$users[$user_id]['in_group'] = true;
+							unset($users[$user_id]); // <== User is displayed only in first group
 							$in_group_added[$user_id] = 'in_group';
 							$in_group_count++;
 						}
