@@ -38,7 +38,7 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 		<installation>
 			<level>easy</level>
 			<time>300</time>
-			<target-version>3.0.10</target-version>
+			<target-version>3.0.11</target-version>
 		</installation>
 	</header>
 	<action-group>
