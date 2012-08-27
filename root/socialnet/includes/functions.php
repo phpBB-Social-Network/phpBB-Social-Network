@@ -2,7 +2,7 @@
 /**
  *
  * @package phpBB Social Network
- * @version 0.6.3
+ * @version 0.7.0
  * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
@@ -76,6 +76,7 @@ class snFunctions
 	}
 
 	function onlineUsers($all_online = false) //sn_core_users
+
 	{
 		global $socialnet_root_path, $phpbb_root_path, $user;
 
@@ -99,6 +100,7 @@ class snFunctions
 	 * Select online users
 	 */
 	function onlineSelect($all_online = false) //sn_core_users
+
 	{
 		global $db, $user, $template, $phpbb_root_path;
 
@@ -187,6 +189,7 @@ class snFunctions
 	 * Queries the session table to get information about online users
 	 */
 	function obtain_users_online($time) //sn_core_users
+
 	{
 		global $db, $user;
 
@@ -236,6 +239,7 @@ class snFunctions
 	}
 
 	function online_users($json = false) // sn_core_users -> online
+
 	{
 		global $template, $user;
 
@@ -282,6 +286,7 @@ class snFunctions
 	}
 
 	function fms_users_sqls($mode, $user_id) //sn_core_users
+
 	{
 		global $db, $user, $cache;
 
@@ -440,6 +445,7 @@ class snFunctions
 	 *
 	 */
 	function fms_users($params = array()) // sn_core_users -> get_fms
+
 	{
 		global $db, $user, $template, $cache;
 
@@ -522,6 +528,7 @@ class snFunctions
 	}
 
 	function _fms_users_pagination($mode, $total, $start, $limit, $user_id, $tpl_name, $profile_link = true) // sn_core_users
+
 	{
 		global $user, $template;
 
@@ -592,6 +599,7 @@ class snFunctions
 	}
 
 	function _fms_users_fill($rowset, $user_id_field, $limit, $avatar_size, $add_friend_link, $tpl_name) //sn_core_users
+
 	{
 		global $db, $template, $phpbb_root_path, $phpEx, $config, $user;
 
@@ -998,7 +1006,7 @@ class snFunctions
 				'USERNAME'			 => $this->get_username_string($this->config['ap_colour_username'], 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
 				'SN_AP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $this->format_date('date', $birth_time, '|j. n.|', false)),
 				'U_FRIEND_LINK'		 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u=" . $row['user_id']),
-				
+
 			));
 		}
 	}
@@ -1093,25 +1101,34 @@ class snFunctions
 	{
 		global $db, $template, $user;
 
+		$sql = "SELECT COUNT(u.user_id) AS num_req
+				FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
+				WHERE z.approval = 1
+					AND z.zebra_id = {$user->data['user_id']}
+					AND z.user_id = u.user_id";
+
+		$rs = $db->sql_query($sql);
+		$template->assign_var('S_NUM_FRIEND_REQUESTS', (string) $db->sql_fetchfield('num_req'));
+		$db->sql_freeresult($rs);
+
 		if (!$this->config['sn_block_friend_requests'])
 		{
 			return;
 		}
+
+		$limit_requests = 5;
+		$i_avatar_maxHeight = 36;
 
 		$sql = "SELECT u.user_id, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 				FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
 				WHERE z.approval = 1
 					AND z.zebra_id = {$user->data['user_id']}
 					AND z.user_id = u.user_id";
-		$limit_requests = 5;
-		$i_avatar_maxHeight = 36;
 
-		$rs = $db->sql_query($sql);
+		$rs = $db->sql_query_limit($sql, $limit_requests);
 
 		$rows = $db->sql_fetchrowset($rs);
 		$db->sql_freeresult($rs);
-
-		$template->assign_var('S_NUM_FRIEND_REQUESTS', (string) count($rows));
 
 		for ($i = 0; $i < $limit_requests && isset($rows[$i]); $i++)
 		{
@@ -1162,6 +1179,14 @@ class snFunctions
 										WHERE p.post_approved = 1
 											AND ' . $db->sql_in_set('p.forum_id', $a_f_read, false, true) . '
 										ORDER BY p.post_id DESC';
+
+		$last_posts = 'SELECT t.topic_id, t.topic_title, t.topic_last_post_id, t.topic_last_post_time, t.forum_id, f.forum_name
+										FROM ' . TOPICS_TABLE . ' t
+											LEFT JOIN ' . FORUMS_TABLE . ' f ON t.forum_id = f.forum_id
+											LEFT JOIN ' . POSTS_TABLE . ' p ON t.topic_last_post_id = p.post_id
+										WHERE p.post_approved = 1
+											AND ' . $db->sql_in_set('t.forum_id', $a_f_read, false, true) . '
+										ORDER BY t.topic_last_post_id DESC';
 		$last_posts_result = $db->sql_query_limit($last_posts, $this->config['ap_num_last_posts']);
 		$last_posts_rowset = $db->sql_fetchrowset($last_posts_result);
 		$db->sql_freeresult($last_posts_result);
@@ -1171,10 +1196,10 @@ class snFunctions
 			$last_posts_row = $last_posts_rowset[$i];
 			$template->assign_block_vars('last_posts', array(
 				'TOPIC_TITLE'		 => $last_posts_row['topic_title'],
-				'POST_LINK'			 => append_sid("{$phpbb_root_path}viewtopic.$phpEx", "t=" . $last_posts_row['topic_id'] . "&amp;p=" . $last_posts_row['post_id'] . "#p" . $last_posts_row['post_id']),
+				'POST_LINK'			 => append_sid("{$phpbb_root_path}viewtopic.{$phpEx}", "t=" . $last_posts_row['topic_id'] . "&amp;p=" . $last_posts_row['topic_last_post_id'] . "#p" . $last_posts_row['topic_last_post_id']),
 				'TOPIC_FORUM'		 => $last_posts_row['forum_name'],
-				'TOPIC_FORUM_LINK'	 => append_sid("{$phpbb_root_path}viewforum.$phpEx", "f=" . $last_posts_row['forum_id']),
-				'POST_TIME'			 => $this->time_ago($last_posts_row['post_time']),
+				'TOPIC_FORUM_LINK'	 => append_sid("{$phpbb_root_path}viewforum.{$phpEx}", "f=" . $last_posts_row['forum_id']),
+				'POST_TIME'			 => $this->time_ago($last_posts_row['topic_last_post_time']),
 			));
 		}
 	}

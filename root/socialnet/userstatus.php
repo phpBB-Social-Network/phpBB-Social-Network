@@ -157,7 +157,6 @@ if (!class_exists('socialnet_userstatus'))
 			}
 
 			$this->$call_mode($param);
-
 		}
 
 		/**
@@ -170,6 +169,7 @@ if (!class_exists('socialnet_userstatus'))
 			$new_status = (string) request_var('status', '', true);
 			$wall_id = (int) request_var('wall', 0);
 			$wall_id = $wall_id == 0 ? $user->data['user_id'] : $wall_id;
+			
 			if (trim($new_status) != '')
 			{
 				$now = time();
@@ -186,10 +186,10 @@ if (!class_exists('socialnet_userstatus'))
 
 					foreach ($mentions as $idx => $mention)
 					{
-						$mentions_users[] = preg_quote($mention->value);
+						$mentions_users[] = htmlentities($mention->value);
 					}
-					$mentions_users = implode('|', $mentions_users);
 					// Transform MENTIONS.
+					$mentions_users = implode('|', $mentions_users);
 					$new_status = preg_replace('/@\[(' . $mentions_users . ')\]\(contact:([0-9]+)\)/si', '[url=' . $board_url . '/memberlist.' . $phpEx . '?mode=viewprofile&amp;u=\2]\1[/url]', $new_status);
 				}
 
@@ -247,7 +247,7 @@ if (!class_exists('socialnet_userstatus'))
 				{
 					foreach ($mentions as $idx => $mention)
 					{
-						if ($mention->id != $user->data['user_id'])
+						if ($mention->id != $user->data['user_id'] && $mention->id != $wall_id)
 						{
 							// send NOTIFY to $mention->id from $user->data['user_id'] except $mention->id == $user->data['user_id']
 							$this->p_master->notify->add(SN_NTF_WALL, $mention->id, array(
@@ -255,10 +255,10 @@ if (!class_exists('socialnet_userstatus'))
 								'user'	 => $user->data['username'],
 								'link'	 => $link,
 							));
-
 						}
 					}
 				}
+				
 				if ($on_the_wall)
 				{
 					if ($user->data['user_id'] != $wall_id)
@@ -816,6 +816,7 @@ if (!class_exists('socialnet_userstatus'))
 			{
 				$avatar_img = $this->p_master->get_user_avatar_link($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']);
 				$avatar_img = snFunctions_absolutePathString($avatar_img);
+				$row['username'] = html_entity_decode($row['username']);
 
 				$return[] = array(
 					'id'	 => $row['user_id'],
