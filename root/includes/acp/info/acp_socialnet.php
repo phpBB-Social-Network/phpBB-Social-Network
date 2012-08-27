@@ -2,7 +2,7 @@
 /**
  *
  * @package phpBB Social Network
- * @version 0.6.3
+ * @version 0.7.0
  * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
@@ -12,10 +12,17 @@ class acp_socialnet_info
 {
 	function module()
 	{
+	  global $config;
+
+		if (!isset($config['version_socialNet']))
+		{
+			return array();
+		}
+		
 		return array(
 			'filename'	 => 'acp_socialnet',
 			'title'		 => 'ACP_CAT_SOCIALNET',
-			'version'	 => '0.6.1',
+			'version'	 => $config['version_socialNet'],
 			'modes'		 => array(
 				'main'				 => array('title' => 'ACP_SN_MAIN', 'auth' => '', 'cat' => array('ACP_CAT_SOCIALNET')),
 				'settings'			 => array('title' => 'ACP_SN_GLOBAL_SETTINGS', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),

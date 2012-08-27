@@ -2,7 +2,7 @@
 /**
  *
  * @package phpBB Social Network
- * @version 0.6.3
+ * @version 0.7.0
  * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
@@ -601,7 +601,7 @@ $versions = array(
 		'custom' => 'phpbb_SN_umil_auto',
 	),
 
-	'0.6.2.4'	 => array(
+	'0.7.0'		 => array(
 		'table_add'				 => array(
 			array(SN_COMMENTS_MODULES_TABLE, array(
 				'COLUMNS'		 => array(
@@ -647,6 +647,44 @@ $versions = array(
 					'b'	 => array('INDEX', array('emote_order')),
 				)
 			)),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array(
+				'COLUMNS'		 => array(
+					'ph_id'		 => array('UINT:8', null, 'auto_increment'),
+					'ph_script'	 => array('VCHAR:64', ''),
+					'ph_block'	 => array('VCHAR:16', ''),
+				),
+				'PRIMARY_KEY'	 => array('ph_id'),
+				'KEYS'			 => array(
+					'u'	 => array('UNIQUE', array('ph_script', 'ph_block')),
+					'a'	 => array('INDEX', array('ph_script')),
+					'b'	 => array('INDEX', array('ph_block')),
+				),
+			)),
+			array(SN_ADDONS_TABLE, array(
+				'COLUMNS'		 => array(
+					'addon_id'			 => array('UINT:8', NULL, 'auto_increment'),
+					'addon_placeholder'	 => array('UINT:8', 0),
+					'addon_name'		 => array('VCHAR:64', ''),
+					'addon_php'			 => array('VCHAR:32', ''),
+					'addon_function'	 => array('VCHAR:32', ''),
+					'addon_active'		 => array('USINT', 0),
+					'addon_order'		 => array('UINT:8', 0)
+				),
+				'PRIMARY_KEY'	 => array('addon_id'),
+				'KEYS'			 => array(
+					'u'	 => array('UNIQUE', array('addon_placeholder', 'addon_name', 'addon_php', 'addon_function')),
+					'a'	 => array('INDEX', array('addon_name', 'addon_php', 'addon_active')),
+					'b'	 => array('INDEX', array('addon_order')),
+				),
+			)),
+			array(SN_SMILIES_TABLE, array(
+				'COLUMNS'		 => array(
+					'smiley_id'		 => array('UINT:8', 0),
+					'smiley_allowed' => array('TINT:1', 0),
+				),
+				'PRIMARY_KEY'	 => array('smiley_id'),
+			)),
+
 		),
 
 		'table_column_add'		 => array(
@@ -681,50 +719,18 @@ $versions = array(
 			array(SN_EMOTES_TABLE, array('emote_name' => 'Beer', 'emote_image' => '', 'emote_order' => 10)),
 			array(SN_EMOTES_TABLE, array('emote_name' => 'Slap', 'emote_image' => '', 'emote_order' => 11)),
 			array(SN_EMOTES_TABLE, array('emote_name' => 'Boo', 'emote_image' => '', 'emote_order' => 12)),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'header')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'leftcolumn')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'rightcolumn')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab statistics')),
+			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab info')),
+			array(SN_CONFIG_TABLE, array('config_name' => 'sn_dialog_browseroutdated', 'config_value' => '0')),
 		),
-
-		'custom'				 => 'phpbb_SN_umil_0_6_2_4',
-	),
-
-	'0.6.2.6'	 => array(
-		'custom' => 'phpbb_SN_umil_0_6_2_6',
-	),
-
-	'0.6.2.7'	 => array(
-		'table_add'			 => array(
-			array(SN_ADDONS_PLACEHOLDER_TABLE, array(
-				'COLUMNS'		 => array(
-					'ph_id'		 => array('UINT:8', null, 'auto_increment'),
-					'ph_script'	 => array('VCHAR:64', ''),
-					'ph_block'	 => array('VCHAR:16', ''),
-				),
-				'PRIMARY_KEY'	 => array('ph_id'),
-				'KEYS'			 => array(
-					'u'	 => array('UNIQUE', array('ph_script', 'ph_block')),
-					'a'	 => array('INDEX', array('ph_script')),
-					'b'	 => array('INDEX', array('ph_block')),
-				),
-			)),
-			array(SN_ADDONS_TABLE, array(
-				'COLUMNS'		 => array(
-					'addon_id'			 => array('UINT:8', NULL, 'auto_increment'),
-					'addon_placeholder'	 => array('UINT:8', 0),
-					'addon_name'		 => array('VCHAR:64', ''),
-					'addon_php'			 => array('VCHAR:32', ''),
-					'addon_function'	 => array('VCHAR:32', ''),
-					'addon_active'		 => array('USINT', 0),
-					'addon_order'		 => array('UINT:8', 0)
-				),
-				'PRIMARY_KEY'	 => array('addon_id'),
-				'KEYS'			 => array(
-					'u'	 => array('UNIQUE', array('addon_placeholder', 'addon_name', 'addon_php', 'addon_function')),
-					'a'	 => array('INDEX', array('addon_name', 'addon_php', 'addon_active')),
-					'b'	 => array('INDEX', array('addon_order')),
-				),
-			)),
+		'table_row_remove'		 => array(
+			array(SN_CONFIG_TABLE, array('config_name' => 'up_alert_relation_pm')),
+			array(SN_CONFIG_TABLE, array('config_name' => 'fas_alert_friend_pm')),
 		),
-
-		'module_add'		 => array(
+		'module_add'			 => array(
 			array('acp', 'ACP_SN_CONFIGURATION', array(
 				'module_basename'	 => 'socialnet',
 				'module_langname'	 => 'ACP_SN_ADDONS_HOOK_CONFIGURATION',
@@ -733,57 +739,21 @@ $versions = array(
 			)),
 		),
 
-		'table_row_insert'	 => array(
-			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'header')),
-			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'leftcolumn')),
-			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'mainpage', 'ph_block' => 'rightcolumn')),
-			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab statistics')),
-			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab info')),
+		'custom'				 => array(
+			'phpbb_SN_umil_0_6_2_4',
+			'phpbb_SN_umil_0_6_2_6',
+			'phpbb_SN_umil_0_6_2_8',
+			'phpbb_SN_umil_0_6_2_16',
+			'phpbb_SN_umil_send'
 		),
-	),
-
-	'0.6.2.8'	 => array(
-		'custom' => 'phpbb_SN_umil_0_6_2_8',
-	),
-
-	'0.6.2.11'	 => array(
-		'table_row_remove'	 => array(
-			array(SN_CONFIG_TABLE, array('config_name' => 'up_alert_relation_pm')),
-		),
-	),
-
-	'0.6.2.12'	 => array(
-		'table_row_remove'	 => array(
-			array(SN_CONFIG_TABLE, array('config_name' => 'fas_alert_friend_pm')),
-		),
-	),
-
-	'0.6.2.16'	 => array(
-		'table_add'	 => array(
-			array(SN_SMILIES_TABLE, array(
-				'COLUMNS'		 => array(
-					'smiley_id'		 => array('UINT:8', 0),
-					'smiley_allowed' => array('TINT:1', 0),
-				),
-				'PRIMARY_KEY'	 => array('smiley_id'),
-			)),
-		),
-		'custom'	 => array('phpbb_SN_umil_0_6_2_16', 'phpbb_SN_umil_send'),
-		
-		'cache_purge'		 => array(
+		'cache_purge'			 => array(
 			'imageset',
 			'template',
 			'theme',
 			'cache',
 		),
 	),
-		
-		'0.6.2.21'	 => array(
-				'table_row_insert'	 => array(
-						array(SN_CONFIG_TABLE, array('config_name' => 'sn_dialog_browseroutdated', 'config_value' => '0')),
-				),
-		),
-		
+
 );
 
 if (!defined('DEBUG_EXTRA'))
@@ -810,7 +780,7 @@ function phpbb_SN_umil_auto($action, $version)
 	if ($action == 'uninstall')
 	{
 		// Run this when uninstalling
-		}
+	}
 	else if ($action == 'install')
 	{
 		// Run this when installing
@@ -1000,8 +970,8 @@ function phpbb_SN_umil_send($action, $version)
 
 	$data = array(
 		'a'	 => $action,
-		'o'	 => isset($config[$version_config_name])?$config[$version_config_name]:'0.0.0',
-		'n'	 => ($action=='uninstall')?$_POST['version_select']:$version,
+		'o'	 => isset($config[$version_config_name]) ? $config[$version_config_name] : '0.0.0',
+		'n'	 => ($action == 'uninstall') ? $_POST['version_select'] : $version,
 		's'	 => $config['server_name'],
 		'p'	 => $config['script_path'],
 		't'	 => time(),
