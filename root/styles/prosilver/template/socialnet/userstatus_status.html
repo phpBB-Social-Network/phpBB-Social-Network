@@ -50,7 +50,7 @@
 <!-- BEGIN userstatus_old -->
 		    <!-- IF us_status.SN_US_MORE_COMMENTS && B_LOAD_FIRST_USERSTATUS_COMMENTS -->
 		    <div class="sn-more">
-		      <a href="javascript:void(0);" class="sn-us-getMoreComments behind {user:'{SN_US_USER_ID}'}"><span class="sn-us-commentsCount">{us_status.SN_US_MORE_COMMENTS}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
+		      <a href="javascript:void(0);" class="sn-us-getMoreComments behind {user:'{SN_US_USER_ID}'}">{L_SN_US_VIEW} <span class="sn-us-commentsCount">{us_status.SN_US_MORE_COMMENTS}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
 		      <img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" width="16" height="11" class="sn-us-commentsLoader" style="display:none;"/>
 		    </div>
 		    <!-- ENDIF -->
@@ -74,7 +74,7 @@
 			<!-- IF not us_status.B_SN_US_NOT_ONLY_COMMENT -->
 			<!-- IF us_status.SN_US_MORE_COMMENTS && not B_LOAD_FIRST_USERSTATUS_COMMENTS -->
 			<div class="sn-more">
-				<a href="javascript:void(0);" class="sn-us-getMoreComments before {user:'{SN_US_USER_ID}'}"><span class="sn-us-commentsCount">{us_status.SN_US_MORE_COMMENTS}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
+				<a href="javascript:void(0);" class="sn-us-getMoreComments before {user:'{SN_US_USER_ID}'}">{L_SN_US_VIEW} <span class="sn-us-commentsCount">{us_status.SN_US_MORE_COMMENTS}</span> {L_SN_US_LOAD_MORE_COMMENTS}</a>
 				<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" width="16" height="11" class="sn-us-commentsLoader" style="display:none;"/>
 			</div>
 			<!-- ENDIF -->

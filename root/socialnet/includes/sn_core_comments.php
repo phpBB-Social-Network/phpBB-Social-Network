@@ -216,7 +216,7 @@ class sn_core_comments
 
 		$template->assign_vars(array(
 			'SN_COMMENTS_MORE'					 => $cmt_more,
-			'SN_US_LOAD_MORE_COMMENTS'			 => $cmt_more == 1 ? $user->lang['SN_US_LOAD_MORE_COMMENT'] : $user->lang['SN_US_LOAD_MORE_COMMENTS'],
+			'SN_US_LOAD_MORE_COMMENTS'			 => ($cmt_more == 1) ? $user->lang['SN_US_LOAD_MORE_COMMENT'] : $user->lang['SN_US_LOAD_MORE_COMMENTS'],
 			'B_LOAD_FIRST_USERSTATUS_COMMENTS'	 => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
 			'SN_COMMENT_MODULE'					 => $module,
 			'SN_CLASS_PREFIX'					 => $classPrefix,
