@@ -97,6 +97,7 @@ $lang = array_merge($lang, array(
 	'SN_AP_ONLINE_FRIENDS'					 => 'Friends online',
 	'SN_AP_NO_ONLINE_USER'					 => 'No users online',
 	'SN_AP_NO_DISCUSSION'					 => 'No recent discussions',
+	'SN_AP_NO_BIRTHDAY'					 	 => 'No one has birhtday',
 	'SN_AP_NO_ENTRY'						 => 'Nothing new here',
 	'SN_AP_LOAD_NEWS'						 => 'Load new',
 	'SN_AP_SEE_ALL'							 => 'View All',
