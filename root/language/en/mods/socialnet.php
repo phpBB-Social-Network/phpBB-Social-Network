@@ -404,6 +404,7 @@ $lang = array_merge($lang, array(
 
 	// Friends approval
 	'ADD_FRIEND'							 => 'Add new friend',
+	'ACCEPT_FRIEND'							 => 'Accept friend request',
 
 	'SN_APPROVAL_FRIENDS'					 => 'Approve friendship',
 	'SN_APPROVALS_FRIENDS_EXPLAIN'			 => 'Here you can approve users who have requested to be your friend.',
