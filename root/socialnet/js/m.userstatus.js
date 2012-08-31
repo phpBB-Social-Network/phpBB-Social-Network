@@ -480,19 +480,18 @@
 
 		    $('.sn-us-videoOverlay').live('click', function() {
 			    var obj = $(this).prev('div.sn-us-page-Video').children('object');
+			    var emb = $(obj).children('embed');
 			    $(this).parent('.sn-us-page-Preview').next('.clear').removeAttr('style').show();
 
 			    $(this).attr({
 			        height : $(obj).attr('height'),
 			        width : $(obj).attr('width')
 			    });
-			    $(this).parent('.sn-us-page-Video').appendTo('<div class="clear">aaa</div>');
-
+			    $(emb).css({
+			        height : $(obj).attr('height'),
+			        width : $(obj).attr('width')
+			    }).removeAttr('style');
 			    $(obj).removeAttr('style');
-			    /*
-				 * .children('embed').removeAttr('style').attr({ height :
-				 * $(obj).attr('height'), width : $(obj).attr('width') });
-				 */
 			    $(this).removeAttr('style');
 			    $(this).hide();
 		    });

@@ -688,8 +688,8 @@ if (!class_exists('socialnet_userstatus'))
 
 				$pageData['video'] = html_entity_decode($pageData['video']);
 
-				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" style="width:150px;height:150px;"/>', $pageData['video']);
-				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" style="width:150px;height:150px;">', $pageData['video']);
+				$pageData['video'] = preg_replace('/(<embed[^>]+)>/si', '\1 width="425" height="344" id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" style="width:150px;height:150px;"/>', $pageData['video']);
+				$pageData['video'] = preg_replace('/(<object[^>]+)>/si', '\1 width="425" height="344" id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" style="width:150px;height:150px;">', $pageData['video']);
 				$this->pageVideoCounter++;
 
 				$pageData['title_title'] = str_replace('"', '', $pageData['title']);
@@ -699,19 +699,6 @@ if (!class_exists('socialnet_userstatus'))
 					$parsed_url = array();
 					$parsed_url = parse_url($pageData['url']);
 					$pageData['server_url'] = $parsed_url['scheme'] . '://' . $parsed_url['host'];
-				}
-
-				preg_match('/<param name="movie" value="([^&]+)&amp;[^"]+"/si', $pageData['video'], $match);
-
-				if (isset($match[1]))
-				{
-					$pageData['video'] = '<object width="425" height="344" style="width:150px;height:150px;" type="application/x-shockwave-flash" id="sn-pageVideo-' . $this->pageVideoCounter . '" name="sn-pageVideo-' . $this->pageVideoCounter . '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"  data="' . $match[1] . '">
-										<param value="' . $match[1] . '" name="movie" />
-										<param value="transparent" name="wmode" />
-										<param value="true" name="allowFullScreen" />
-										<param value="always" name="allowScriptAccess" />
-										<param value="http://get.adobe.com/flashplayer/" name="pluginspage" />
-									</object>';
 				}
 
 				foreach ($pageData as $key => $value)
