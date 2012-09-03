@@ -95,10 +95,7 @@
 				            }
 				        });
 
-				        $('.sn-us-inputComment').watermark($.sn.us.watermark, {
-				            useNative : false,
-				            className : 'sn-us-watermark'
-				        }).elastic();
+				        $.sn.comments.waterMark();
 				        $("#sn-us-wallInput").watermark($.sn.us.watermark, {
 				            useNative : false,
 				            className : 'sn-us-watermark'
