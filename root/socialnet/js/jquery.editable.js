@@ -33,7 +33,9 @@
 		    },
 		    cssText : {
 		    	margin: '-2px 0 -6px -4px',
-		    	position: 'relative'
+		    	position: 'relative',
+		    	minHeight: '22px',
+		    	maxHeigt: '100px'
 		    },
 		    datePicker : {
 		        dateFormat : 'd. MM yy',
@@ -203,10 +205,10 @@
 					    if (_t_height < 100) {
 						    _t_height = 100;
 					    }
-					    _input = $('<textarea name="editable-' + idx + '" class="' + opts.inputClass + '"></textarea>').css(opts.cssText);
+					    _input = $('<textarea name="editable-' + idx + '" class="' + opts.inputClass + '" style="min-height:22px;max-height:100px"></textarea>').css(opts.cssText);
 					    _input.text(obj.edit);
-					    _input.TextAreaExpander(22, 100);
 					    th.html(_input);
+					    $('textarea[name="editable-'+idx+'"]').elastic(false);
 					    _position = 0;
 					    break;
 			    }
