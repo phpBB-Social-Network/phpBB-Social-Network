@@ -71,7 +71,10 @@
 		        source : $.sn.ap.urlUsersAutocomplete,
 		        minLength : 3,
 		        appendTo: '#sn-ap-searchAutocompleteContainer',
-		        delay : 300
+		        delay : 300,
+		        select: function(event,ui){
+		        	$(this).parents('form').submit();
+		        }
 		    }).parents('form').submit(function() {
 			    if ($('#sn-ap-searchUsersAutocomplete').val() == '') { return false; }
 		    });
