@@ -75,6 +75,10 @@ Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/
 				<action type="before-add"><![CDATA[<!-- INCLUDE socialnet/overall_header_hook_js.html -->]]></action>
 			</edit>
 			<edit>
+				<find><![CDATA[<![CDATA[<!-- IF SN_MODULE_IM_ENABLED --> im-page<!-- ENDIF -->]]></find>
+				<action type="before-add"><![CDATA[<!-- IF SN_MODULE_IM_ENABLED --> sn-im-page<!-- ENDIF -->]]></action>
+			</edit>
+			<edit>
 				<find><![CDATA[			  <!-- IF SN_MODULE_MAINPAGE_ENABLED --><li class="icon-mainpage"><a href="{U_SN_MAINPAGE}">{L_SN_MP_MAINPAGE}</a><span id="snNtfNotify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></find>
 				<action type="replace-with"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></action>
 			</edit>

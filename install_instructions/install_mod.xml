@@ -101,7 +101,7 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
 				<inline-edit>
 					<inline-find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}]]></inline-find>
-					<inline-action type="after-add"><![CDATA[<!-- IF SN_MODULE_IM_ENABLED --> im-page<!-- ENDIF -->]]></inline-action>
+					<inline-action type="after-add"><![CDATA[<!-- IF SN_MODULE_IM_ENABLED --> sn-im-page<!-- ENDIF -->]]></inline-action>
 				</inline-edit>
 			</edit>
 			<edit>
