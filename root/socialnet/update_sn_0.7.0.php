@@ -908,8 +908,10 @@ function phpbb_SN_umil_0_6_2_6($action, $version)
 			$return_status = '- There are friends to be included into groups. Use SQL manager to repair.';
 		}
 
+		$db->sql_return_on_error(true);
 		$db->sql_query('ALTER TABLE ' . SN_FMS_USERS_GROUP_TABLE . ' DROP PRIMARY KEY');
 		$db->sql_query('ALTER TABLE ' . SN_FMS_USERS_GROUP_TABLE . ' ADD PRIMARY KEY (fms_gid, user_id, owner_id)');
+		$db->Sql_return_on_error(false);
 	}
 	return 'Social Network::FMS Groups updated' . $return_status;
 }
