@@ -259,6 +259,7 @@ class ucp_approval
 
 					$cache->destroy('_snApFriendsToKnow' . $user->data['user_id']);
 
+					$socialnet->purge_friends();
 					meta_refresh(3, $data['redirect']);
 					trigger_error(implode('<br />', $message) . '<br /><br />' . sprintf($user->lang['RETURN_PAGE'], '<a href="' . $data['redirect'] . '">', '</a>'));
 				}

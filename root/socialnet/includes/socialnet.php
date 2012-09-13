@@ -211,7 +211,7 @@ class socialnet extends snFunctions
 		$cache_my_friends = $this->friendsCacheName . $user_id;
 		$friends = $cache->get($cache_my_friends);
 
-		if (!isset($friends) || empty($friends) || !isset($friends['user_id']) || empty($friends['user_id']) || in_array(ANONYMOUS, $friends['user_id']))
+		//if (!isset($friends) || empty($friends) || !isset($friends['user_id']) || empty($friends['user_id']) || in_array(ANONYMOUS, $friends['user_id'])) <== PROBLEM POKUD UZIVATEL NEMA PRITELE, PROC NEVIM
 		{
 			$sql = "SELECT u.user_id, u.username, su.sex
 				    		FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u, " . SN_USERS_TABLE . " AS su
@@ -239,7 +239,6 @@ class socialnet extends snFunctions
 				$friends['sex'][$friend['user_id']] = $friend['sex'];
 				$friends['friends'][$friend['user_id']] = $friend['username'];
 			}
-
 			// Cache 1 hour
 			$cache->put($cache_my_friends, $friends, 3600);
 		}
@@ -257,8 +256,8 @@ class socialnet extends snFunctions
 		global $user, $cache;
 
 		$user_id = ($user_id == 0) ? $user->data['user_id'] : $user_id;
-		$cache->purge($this->friendsCacheName . $user_id);
-		$cache->purge($this->friendsCacheNameMutual . $user_id);
+		$cache->destroy($this->friendsCacheName . $user_id);
+		$cache->destroy($this->friendsCacheNameMutual . $user_id);
 	}
 
 	function reload_friends($user_id = 0)
