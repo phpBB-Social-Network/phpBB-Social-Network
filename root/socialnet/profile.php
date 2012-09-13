@@ -641,233 +641,233 @@ if (!class_exists('socialnet_profile'))
 			{
 				switch ($mode)
 				{
-					case 'profile_info':
+				case 'profile_info':
 
-						if (!check_form_key('ucp_profile_info'))
+					if (!check_form_key('ucp_profile_info'))
+					{
+						return;
+					}
+
+					/**
+					 * /includes/ucp/ucp_profile.php LINE 271
+					 */
+					$data = array(
+						'user_icq'		 => request_var('icq', $user->data['user_icq']),
+						'user_aim'		 => request_var('aim', $user->data['user_aim']),
+						'user_msnm'		 => request_var('msn', $user->data['user_msnm']),
+						'user_yim'		 => request_var('yim', $user->data['user_yim']),
+						'user_jabber'	 => utf8_normalize_nfc(request_var('jabber', $user->data['user_jabber'], true)),
+						'user_website'	 => request_var('website', $user->data['user_website']),
+						'user_from'		 => utf8_normalize_nfc(request_var('location', $user->data['user_from'], true)),
+						'user_occ'		 => utf8_normalize_nfc(request_var('occupation', $user->data['user_occ'], true)),
+						'user_interests' => utf8_normalize_nfc(request_var('interests', $user->data['user_interests'], true)),
+					);
+
+					if ($this->p_master->config['allow_birthdays'])
+					{
+						$data['bday_day'] = $data['bday_month'] = $data['bday_year'] = 0;
+
+						if ($user->data['user_birthday'])
 						{
-							return;
+							list($data['bday_day'], $data['bday_month'], $data['bday_year']) = explode('-', $user->data['user_birthday']);
+							$user->data['bday_day'] = (int) $data['bday_day'];
+							$user->data['bday_month'] = (int) $data['bday_month'];
+							$user->data['bday_year'] = (int) $data['bday_year'];
 						}
 
-						/**
-						 * /includes/ucp/ucp_profile.php LINE 271
-						 */
-						$data = array(
-							'user_icq'		 => request_var('icq', $user->data['user_icq']),
-							'user_aim'		 => request_var('aim', $user->data['user_aim']),
-							'user_msnm'		 => request_var('msn', $user->data['user_msnm']),
-							'user_yim'		 => request_var('yim', $user->data['user_yim']),
-							'user_jabber'	 => utf8_normalize_nfc(request_var('jabber', $user->data['user_jabber'], true)),
-							'user_website'	 => request_var('website', $user->data['user_website']),
-							'user_from'		 => utf8_normalize_nfc(request_var('location', $user->data['user_from'], true)),
-							'user_occ'		 => utf8_normalize_nfc(request_var('occupation', $user->data['user_occ'], true)),
-							'user_interests' => utf8_normalize_nfc(request_var('interests', $user->data['user_interests'], true)),
-						);
+						$data['bday_day'] = request_var('bday_day', $data['bday_day']);
+						$data['bday_month'] = request_var('bday_month', $data['bday_month']);
+						$data['bday_year'] = request_var('bday_year', $data['bday_year']);
 
-						if ($this->p_master->config['allow_birthdays'])
-						{
-							$data['bday_day'] = $data['bday_month'] = $data['bday_year'] = 0;
+						$data['user_birthday'] = sprintf('%2d-%2d-%4d', $data['bday_day'], $data['bday_month'], $data['bday_year']);
+					}
 
-							if ($user->data['user_birthday'])
-							{
-								list($data['bday_day'], $data['bday_month'], $data['bday_year']) = explode('-', $user->data['user_birthday']);
-								$user->data['bday_day'] = (int) $data['bday_day'];
-								$user->data['bday_month'] = (int) $data['bday_month'];
-								$user->data['bday_year'] = (int) $data['bday_year'];
-							}
+					$validate_array = array(
+						'user_icq'		 => array(
+							array('string', true, 3, 15),
+							array('match', true, '#^[0-9]+$#i')
+						),
+						'user_aim'		 => array('string', true, 3, 255),
+						'user_msnm'		 => array('string', true, 5, 255),
+						'user_jabber'	 => array(
+							array('string', true, 5, 255),
+							array('jabber')
+						),
+						'user_yim'		 => array('string', true, 5, 255),
+						'user_website'	 => array(
+							array('string', true, 12, 255),
+							array('match', true, '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
+						'user_from'		 => array('string', true, 2, 100),
+						'user_occ'		 => array('string', true, 2, 500),
+						'user_interests' => array('string', true, 2, 500),
+					);
 
-							$data['bday_day'] = request_var('bday_day', $data['bday_day']);
-							$data['bday_month'] = request_var('bday_month', $data['bday_month']);
-							$data['bday_year'] = request_var('bday_year', $data['bday_year']);
-
-							$data['user_birthday'] = sprintf('%2d-%2d-%4d', $data['bday_day'], $data['bday_month'], $data['bday_year']);
-						}
-
-						$validate_array = array(
-							'user_icq'		 => array(
-								array('string', true, 3, 15),
-								array('match', true, '#^[0-9]+$#i')
-							),
-							'user_aim'		 => array('string', true, 3, 255),
-							'user_msnm'		 => array('string', true, 5, 255),
-							'user_jabber'	 => array(
-								array('string', true, 5, 255),
-								array('jabber')
-							),
-							'user_yim'		 => array('string', true, 5, 255),
-							'user_website'	 => array(
-								array('string', true, 12, 255),
-								array('match', true, '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
-							'user_from'		 => array('string', true, 2, 100),
-							'user_occ'		 => array('string', true, 2, 500),
-							'user_interests' => array('string', true, 2, 500),
-						);
-
-						if ($this->p_master->config['allow_birthdays'])
-						{
-							$validate_array = array_merge($validate_array, array(
-								'bday_day'	 => array('num', true, 1, 31),
-								'bday_month' => array('num', true, 1, 12),
-								'bday_year'	 => array('num', true, 1901, gmdate('Y', time()) + 50),
-							));
-						}
-
-						$error = validate_data($data, $validate_array);
-
-						if (sizeof($error))
-						{
-							return;
-						}
-
-						$changed = array_diff_assoc($data, $user->data);
-						if (!empty($changed['user_birthday']) && $data['bday_year'] != 0 && $data['bday_month'] != 0 && $data['bday_day'] != 0)
-						{
-							$changed['user_birthday'] = date('j. F Y', mktime(0, 0, 1, $data['bday_month'], $data['bday_day'], $data['bday_year']));
-							unset($changed['bday_year']);
-							unset($changed['bday_month']);
-							unset($changed['bday_day']);
-						}
-						else
-						{
-							unset($changed['user_birthday']);
-						}
-
-						if ($this->p_master->config['allow_birthdays'])
-						{
-							unset($user->data['bday_day']);
-							unset($user->data['bday_month']);
-							unset($user->data['bday_year']);
-						}
-
-						break;
-
-					case 'signature':
-
-						if (!check_form_key('ucp_sig'))
-						{
-							return;
-						}
-
-						$original['user_sig'] = preg_replace('/\[[^]]*\]/si', '', $user->data['user_sig']);
-						$data['user_sig'] = preg_replace('/\[[^]]*\]/si', '', utf8_normalize_nfc(request_var('signature', (string) $original['user_sig'], true)));
-
-						$changed = array_diff_assoc($data, $original);
-
-						break;
-
-					case 'avatar':
-
-						if (!check_form_key('ucp_avatar'))
-						{
-							return;
-						}
-
-						$data = array(
-							'uploadurl'	 => request_var('uploadurl', ''),
-							'remotelink' => request_var('remotelink', ''),
-							'width'		 => request_var('width', 0),
-							'height'	 => request_var('height', 0),
-							'delete'	 => request_var('delete', 0),
-						);
-
-						$error = validate_data($data, array(
-							'uploadurl'	 => array('string', true, 5, 255),
-							'remotelink' => array('string', true, 5, 255),
-							'width'		 => array('string', true, 1, 3),
-							'height'	 => array('string', true, 1, 3),
+					if ($this->p_master->config['allow_birthdays'])
+					{
+						$validate_array = array_merge($validate_array, array(
+							'bday_day'	 => array('num', true, 1, 31),
+							'bday_month' => array('num', true, 1, 12),
+							'bday_year'	 => array('num', true, 1901, gmdate('Y', time()) + 50),
 						));
+					}
 
-						if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] == 0)
-						{
-							$image = getimagesize($_FILES['uploadfile']['tmp_name']);
-							$aw = $image[0];
-							$ah = $image[1];
-						}
-						else if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] != 0 && $_FILES['uploadfile']['name'] != '')
+					$error = validate_data($data, $validate_array);
+
+					if (sizeof($error))
+					{
+						return;
+					}
+
+					$changed = array_diff_assoc($data, $user->data);
+					if (!empty($changed['user_birthday']) && $data['bday_year'] != 0 && $data['bday_month'] != 0 && $data['bday_day'] != 0)
+					{
+						$changed['user_birthday'] = date('j. F Y', mktime(0, 0, 1, $data['bday_month'], $data['bday_day'], $data['bday_year']));
+						unset($changed['bday_year']);
+						unset($changed['bday_month']);
+						unset($changed['bday_day']);
+					}
+					else
+					{
+						unset($changed['user_birthday']);
+					}
+
+					if ($this->p_master->config['allow_birthdays'])
+					{
+						unset($user->data['bday_day']);
+						unset($user->data['bday_month']);
+						unset($user->data['bday_year']);
+					}
+
+					break;
+
+				case 'signature':
+
+					if (!check_form_key('ucp_sig'))
+					{
+						return;
+					}
+
+					$original['user_sig'] = preg_replace('/\[[^]]*\]/si', '', $user->data['user_sig']);
+					$data['user_sig'] = preg_replace('/\[[^]]*\]/si', '', utf8_normalize_nfc(request_var('signature', (string) $original['user_sig'], true)));
+
+					$changed = array_diff_assoc($data, $original);
+
+					break;
+
+				case 'avatar':
+
+					if (!check_form_key('ucp_avatar'))
+					{
+						return;
+					}
+
+					$data = array(
+						'uploadurl'	 => request_var('uploadurl', ''),
+						'remotelink' => request_var('remotelink', ''),
+						'width'		 => request_var('width', 0),
+						'height'	 => request_var('height', 0),
+						'delete'	 => request_var('delete', 0),
+					);
+
+					$error = validate_data($data, array(
+						'uploadurl'	 => array('string', true, 5, 255),
+						'remotelink' => array('string', true, 5, 255),
+						'width'		 => array('string', true, 1, 3),
+						'height'	 => array('string', true, 1, 3),
+					));
+
+					if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] == 0)
+					{
+						$image = getimagesize($_FILES['uploadfile']['tmp_name']);
+						$aw = $image[0];
+						$ah = $image[1];
+					}
+					else if (isset($_FILES['uploadfile']) && $_FILES['uploadfile']['error'] != 0 && $_FILES['uploadfile']['name'] != '')
+					{
+						return;
+					}
+					else if (isset($data['uploadurl']) && !empty($data['uploadurl']))
+					{
+						$data['user_id'] = $user->data['user_id'];
+						avatar_upload($data, $error);
+						if (!empty($error))
 						{
 							return;
 						}
-						else if (isset($data['uploadurl']) && !empty($data['uploadurl']))
-						{
-							$data['user_id'] = $user->data['user_id'];
-							avatar_upload($data, $error);
-							if (!empty($error))
-							{
-								return;
-							}
-							$aw =& $data['width'];
-							$ah =& $data['height'];
-						}
-						else
-						{
-							$aw =& $data['width'];
-							$ah =& $data['height'];
-						}
+						$aw =& $data['width'];
+						$ah =& $data['height'];
+					}
+					else
+					{
+						$aw =& $data['width'];
+						$ah =& $data['height'];
+					}
 
-						$cfg =& $this->p_master->config;
-						$correct_size = ($cfg['avatar_min_width'] <= $aw && $aw <= $cfg['avatar_max_width']) && ($cfg['avatar_min_height'] <= $ah && $ah <= $cfg['avatar_max_height']);
-						// Just deleting or error or nothing submitted
-						if (sizeof($error) || !$correct_size || isset($_POST['delete']) || ($data['uploadurl'] == '' && $data['remotelink'] == ''))
-						{
-							return;
-						}
-						// Can we upload?
-						$change_avatar = $auth->acl_get('u_chgavatar');
-						$can_upload = ($this->p_master->config['allow_avatar_upload'] && file_exists($phpbb_root_path . $this->p_master->config['avatar_path']) && phpbb_is_writable($phpbb_root_path . $this->p_master->config['avatar_path']) && $change_avatar && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
-						if (!$can_upload)
-						{
-							return;
-						}
+					$cfg =& $this->p_master->config;
+					$correct_size = ($cfg['avatar_min_width'] <= $aw && $aw <= $cfg['avatar_max_width']) && ($cfg['avatar_min_height'] <= $ah && $ah <= $cfg['avatar_max_height']);
+					// Just deleting or error or nothing submitted
+					if (sizeof($error) || !$correct_size || isset($_POST['delete']) || ($data['uploadurl'] == '' && $data['remotelink'] == ''))
+					{
+						return;
+					}
+					// Can we upload?
+					$change_avatar = $auth->acl_get('u_chgavatar');
+					$can_upload = ($this->p_master->config['allow_avatar_upload'] && file_exists($phpbb_root_path . $this->p_master->config['avatar_path']) && phpbb_is_writable($phpbb_root_path . $this->p_master->config['avatar_path']) && $change_avatar && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
+					if (!$can_upload)
+					{
+						return;
+					}
 
-						$changed['user_avatar'] = 'user_avatar';
+					$changed['user_avatar'] = 'user_avatar';
 
-						break;
+					break;
 
-					case 'reg_details':
+				case 'reg_details':
 
-						// Try to manually determine the timezone and adjust the dst if the server date/time complies with the default setting +/- 1
+					// Try to manually determine the timezone and adjust the dst if the server date/time complies with the default setting +/- 1
 
-						$data = array(
-							'username'	 => utf8_normalize_nfc(request_var('username', $user->data['username'], true)),
-							'user_email' => strtolower(request_var('email', $user->data['user_email'])),
-						);
+					$data = array(
+						'username'	 => utf8_normalize_nfc(request_var('username', $user->data['username'], true)),
+						'user_email' => strtolower(request_var('email', $user->data['user_email'])),
+					);
 
-						$changed = array_diff_assoc($data, $user->data);
+					$changed = array_diff_assoc($data, $user->data);
 
-						break;
+					break;
 
-					case 'module_profile':
+				case 'module_profile':
 
-						$data = array(
-							'hometown'			 => utf8_normalize_nfc(request_var('hometown', $user->data['hometown'], true)),
-							'sex'				 => request_var('sex', $user->data['sex']),
-							'interested_in'		 => request_var('interested_in', $user->data['interested_in']),
-							'languages'			 => utf8_normalize_nfc(request_var('languages', $user->data['languages'], true)),
-							'about_me'			 => utf8_normalize_nfc(request_var('about_me', $user->data['about_me'], true)),
-							'employer'			 => utf8_normalize_nfc(request_var('employer', $user->data['employer'], true)),
-							'university'		 => utf8_normalize_nfc(request_var('university', $user->data['university'], true)),
-							'high_school'		 => utf8_normalize_nfc(request_var('high_school', $user->data['high_school'], true)),
-							'religion'			 => utf8_normalize_nfc(request_var('religion', $user->data['religion'], true)),
-							'political_views'	 => utf8_normalize_nfc(request_var('political_views', $user->data['political_views'], true)),
-							'quotations'		 => utf8_normalize_nfc(request_var('quotations', $user->data['quotations'], true)),
-							'music'				 => utf8_normalize_nfc(request_var('music', $user->data['music'], true)),
-							'books'				 => utf8_normalize_nfc(request_var('books', $user->data['books'], true)),
-							'movies'			 => utf8_normalize_nfc(request_var('movies', $user->data['movies'], true)),
-							'games'				 => utf8_normalize_nfc(request_var('games', $user->data['games'], true)),
-							'foods'				 => utf8_normalize_nfc(request_var('foods', $user->data['foods'], true)),
-							'sports'			 => utf8_normalize_nfc(request_var('sports', $user->data['sports'], true)),
-							'sport_teams'		 => utf8_normalize_nfc(request_var('sport_teams', $user->data['sport_teams'], true)),
-							'activities'		 => utf8_normalize_nfc(request_var('activities', $user->data['activities'], true)),
-							'skype'				 => utf8_normalize_nfc(request_var('skype', $user->data['skype'], true)),
-							'facebook'			 => request_var('facebook', $user->data['facebook']),
-							'twitter'			 => request_var('twitter', $user->data['twitter']),
-							'youtube'			 => request_var('youtube', $user->data['youtube']),
-						);
+					$data = array(
+						'hometown'			 => utf8_normalize_nfc(request_var('hometown', $user->data['hometown'], true)),
+						'sex'				 => request_var('sex', $user->data['sex']),
+						'interested_in'		 => request_var('interested_in', $user->data['interested_in']),
+						'languages'			 => utf8_normalize_nfc(request_var('languages', $user->data['languages'], true)),
+						'about_me'			 => utf8_normalize_nfc(request_var('about_me', $user->data['about_me'], true)),
+						'employer'			 => utf8_normalize_nfc(request_var('employer', $user->data['employer'], true)),
+						'university'		 => utf8_normalize_nfc(request_var('university', $user->data['university'], true)),
+						'high_school'		 => utf8_normalize_nfc(request_var('high_school', $user->data['high_school'], true)),
+						'religion'			 => utf8_normalize_nfc(request_var('religion', $user->data['religion'], true)),
+						'political_views'	 => utf8_normalize_nfc(request_var('political_views', $user->data['political_views'], true)),
+						'quotations'		 => utf8_normalize_nfc(request_var('quotations', $user->data['quotations'], true)),
+						'music'				 => utf8_normalize_nfc(request_var('music', $user->data['music'], true)),
+						'books'				 => utf8_normalize_nfc(request_var('books', $user->data['books'], true)),
+						'movies'			 => utf8_normalize_nfc(request_var('movies', $user->data['movies'], true)),
+						'games'				 => utf8_normalize_nfc(request_var('games', $user->data['games'], true)),
+						'foods'				 => utf8_normalize_nfc(request_var('foods', $user->data['foods'], true)),
+						'sports'			 => utf8_normalize_nfc(request_var('sports', $user->data['sports'], true)),
+						'sport_teams'		 => utf8_normalize_nfc(request_var('sport_teams', $user->data['sport_teams'], true)),
+						'activities'		 => utf8_normalize_nfc(request_var('activities', $user->data['activities'], true)),
+						'skype'				 => utf8_normalize_nfc(request_var('skype', $user->data['skype'], true)),
+						'facebook'			 => request_var('facebook', $user->data['facebook']),
+						'twitter'			 => request_var('twitter', $user->data['twitter']),
+						'youtube'			 => request_var('youtube', $user->data['youtube']),
+					);
 
-						$changed = array_diff_assoc($data, $user->data);
+					$changed = array_diff_assoc($data, $user->data);
 
-						$this->_prepare_for_entry($changed);
+					$this->_prepare_for_entry($changed);
 
-						break;
+					break;
 				}
 
 				$changed = array_filter($changed);
@@ -1009,6 +1009,7 @@ if (!class_exists('socialnet_profile'))
 					$bbcode->bbcode_second_pass($message_parser->message, $message_parser->bbcode_uid, $message_parser->bbcode_bitfield);
 					$value = bbcode_nl2br($message_parser->message);
 					$value = smiley_text($value);
+
 				}
 			}
 			else if ($b_date)
@@ -1052,6 +1053,14 @@ if (!class_exists('socialnet_profile'))
 
 			$sql = "UPDATE " . SN_USERS_TABLE . " SET profile_last_change = " . time() . " WHERE user_id = '{$user->data['user_id']}'";
 			$db->sql_query($sql);
+
+			if (isset($fieldset['user_sig']))
+			{
+				strip_bbcode($fieldset['user_sig'], $fieldset['user_sig_bbcode_uid']);
+				unset($fieldset['user_options']);
+				unset($fieldset['user_sig_bbcode_uid']);
+				unset($fieldset['user_sig_bbcode_bitfield']);
+			}
 
 			array_walk($fieldset, 'profile_change_cut_string');
 			$this->_prepare_for_entry($fieldset);
