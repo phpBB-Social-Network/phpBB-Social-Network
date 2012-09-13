@@ -60,6 +60,8 @@ $lang = array_merge($lang, array(
 	'SN_MODULE_ACTIVITYPAGE'				 => 'Activity page',
 	'SN_MODULE_NOTIFY'						 => 'Notifications',
 	'SN_MODULE_PROFILE'						 => 'User profile',
+	'SN_MODULE_INITIALIZING'       => 'Initializing, please wait ...<br /><br />',
+	'SN_MODULE_INITIALIZING_FMS'       => 'Initializing Friends Management system, please wait - ',
 
 	'SN_MODULE_NOTIFY_DETAIL'				 => 'If this module is disabled, then all notifications are delivered using Private messages',
 

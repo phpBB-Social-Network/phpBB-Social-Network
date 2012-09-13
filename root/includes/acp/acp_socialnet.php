@@ -25,6 +25,8 @@ class acp_socialnet extends AddOnsHookSystem
 	var $acpPanel_explain = '';
 	var $motivationPicture = '';
 	var $new_config = array();
+	var $initModuleCacheName = '_sn_module_';
+	var $initModuleMaxTime = 20;
 
 	function main($id, $mode)
 	{
@@ -249,12 +251,12 @@ class acp_socialnet extends AddOnsHookSystem
 	 */
 	function sett_modules($id)
 	{
-		global $config, $db, $user, $cache, $template, $socialnet_root_path, $phpEx;
+		global $config, $db, $user, $cache, $template, $socialnet_root_path, $phpEx, $starttime;
 
 		$sql = "SELECT *
-							FROM " . SN_CONFIG_TABLE . "
-								WHERE config_name LIKE 'module_%'
-							ORDER BY config_name";
+				FROM " . SN_CONFIG_TABLE . "
+				WHERE config_name LIKE 'module_%'
+				ORDER BY config_name";
 
 		$rs = $db->sql_query($sql);
 
@@ -282,38 +284,98 @@ class acp_socialnet extends AddOnsHookSystem
 		);
 
 		$cfg_array = request_var('config', array('' => ''), true);
+		$continue = request_var('continue', 0);
 
-		$cache->purge('modules_acp');
-		$cache->purge('modules_ucp');
-
-		foreach ($cfg_array as $module => $enabled)
+		$initializing_message = array();
+		if ($continue == 0)
 		{
-			$sql = "UPDATE " . MODULES_TABLE . "
-								SET module_display = '{$enabled}'
-									WHERE module_basename = 'socialnet'
-										AND module_mode LIKE '{$module}%'";
-			$db->sql_query($sql);
+			$cache->purge('modules_acp');
+			$cache->purge('modules_ucp');
 
-			if ($module_current[$module] != $enabled)
+			foreach ($cfg_array as $module => $enabled)
 			{
-				$acp_moduleclass = 'acp_' . preg_replace('/^module_/si', '', $module);
-				if (file_exists("{$socialnet_root_path}acp/{$acp_moduleclass}.{$phpEx}"))
+				$this->_set_config($module, $enabled);
+				$sql = "UPDATE " . MODULES_TABLE . "
+						SET module_display = '{$enabled}'
+						WHERE module_basename = 'socialnet'
+							AND module_mode LIKE '{$module}%'";
+				$db->sql_query($sql);
+
+				if ($module_current[$module] != $enabled)
 				{
-					include_once("{$socialnet_root_path}acp/{$acp_moduleclass}.{$phpEx}");
-					if (method_exists($acp_moduleclass, 'acp_sett_modules'))
+					$acp_moduleclass = 'acp_' . preg_replace('/^module_/si', '', $module);
+					if (file_exists("{$socialnet_root_path}acp/{$acp_moduleclass}.{$phpEx}"))
 					{
-						$module = new $acp_moduleclass($this);
-						$module->acp_sett_modules($enabled);
+						include_once("{$socialnet_root_path}acp/{$acp_moduleclass}.{$phpEx}");
+						if (method_exists($acp_moduleclass, 'acp_sett_modules'))
+						{
+							$module = new $acp_moduleclass($this);
+							$initializing_message[] = $module->acp_sett_modules($enabled);
+							if (method_exists($module, 'acp_initialize'))
+							{
+								$continue = 2;
+							}
+						}
 					}
 				}
 			}
 		}
 
-		// We go through the display_vars to make sure no one is trying to set variables he/she is not allowed to...
-		$this->_settings($id, 'sn_modules', $display_vars);
+		if ($continue == 1)
+		{
+			$cachedir = opendir($cache->cache_dir);
 
+			while ($file = readdir($cachedir))
+			{
+				if (!preg_match('/data' . $this->initModuleCacheName . '[^.]+\.' . $phpEx . '/', $file))
+				{
+					continue;
+				}
+
+				preg_match('/data' . $this->initModuleCacheName . '([^.]+)\.' . $phpEx . '/', $file, $acp_moduleclass);
+				$acp_moduleclass = $acp_moduleclass[1];
+
+				if (file_exists("{$socialnet_root_path}acp/{$acp_moduleclass}.{$phpEx}"))
+				{
+					include_once("{$socialnet_root_path}acp/{$acp_moduleclass}.{$phpEx}");
+					if (method_exists($acp_moduleclass, 'acp_initialize'))
+					{
+						$module = new $acp_moduleclass($this);
+						$initializing_message[] = $module->acp_initialize();
+					}
+
+					// CHECK If page is loaded more than $this->initModuleMaxTime = 20s
+					$endtime = explode(' ', microtime());
+					if ($endtime[1] + $endtime[0] - $this->initModuleMaxTime > $starttime)
+					{
+						$continue = 2;
+						break;
+					}
+				}
+			}
+
+			closedir($cachedir);
+
+			if ($continue == 1)
+			{
+				trigger_error($user->lang['CONFIG_UPDATED'] . str_replace('&amp;continue=1', '', adm_back_link($this->u_action)));
+			}
+		}
+
+		if ($continue == 2)
+		{
+			meta_refresh(1, $this->u_action . '&amp;continue=1');
+			trigger_error($user->lang['SN_MODULE_INITIALIZING'] . implode('<br />', array_filter($initializing_message, function ($val)
+			{
+				return $val != '';
+			}
+			)));
+		}
+
+		// We go through the display_vars to make sure no one is trying to set variables he/she is not allowed to...
 		$this->acpPanel_title = $user->lang['ACP_SN_AVAILABLE_MODULES'] . ' ' . $user->lang['SETTINGS'];
 		$this->acpPanel_explain = $user->lang['ACP_SN_AVAILABLE_MODULES_EXPLAIN'];
+		$this->_settings($id, 'sn_modules', $display_vars);
 	}
 
 	/**
@@ -626,7 +688,9 @@ class acp_socialnet extends AddOnsHookSystem
 				'config_name'	 => $config_name,
 				'config_value'	 => $config_value,
 				'is_dynamic'	 => ($is_dynamic) ? 1 : 0));
+			$db->sql_return_on_error(true);
 			$db->sql_query($sql);
+			$db->sql_return_on_error(false);
 		}
 
 		$config[$config_name] = $config_value;

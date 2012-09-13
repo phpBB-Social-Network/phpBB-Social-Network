@@ -87,8 +87,8 @@ class acp_approval extends socialnet
 					$sql = "DELETE FROM " . SN_FMS_GROUPS_TABLE . " WHERE " . $sql_delete_groups;
 					$db->sql_query($sql);
 				}
-				
-				add_log( 'admin', 'LOG_CONFIG_SN_FMS_BASICTOOLS_DELETED_USER');
+
+				add_log('admin', 'LOG_CONFIG_SN_FMS_BASICTOOLS_DELETED_USER');
 				trigger_error($user->lang[$user_tools[$action]]);
 			}
 		}
@@ -128,6 +128,7 @@ class acp_approval extends socialnet
 
 	/**
 	 * Dodatečné změny při povolení, či zakázání modulu
+	 * Příprava dat pro inicializaci modulu
 	 *
 	 * @access private
 	 * @param boolean $enabled Zda je modul povolen či nepovolen
@@ -135,7 +136,7 @@ class acp_approval extends socialnet
 	 */
 	function acp_sett_modules($enabled)
 	{
-		global $db, $phpbb_root_path, $phpEx;
+		global $db, $phpbb_root_path, $phpEx, $cache, $user;
 		$sql = "UPDATE " . MODULES_TABLE . "
 							SET module_display = " . ($enabled == 1 ? '0' : '1') . "
 								WHERE module_basename = 'zebra'
@@ -144,40 +145,78 @@ class acp_approval extends socialnet
 
 		if ($enabled)
 		{
-			include_once("{$phpbb_root_path}/includes/functions_privmsgs.{$phpEx}");
+
+			$sql = "SELECT z1.user_id , z1.zebra_id
+					FROM " . ZEBRA_TABLE . " AS z1, " . ZEBRA_TABLE . " AS z2
+					WHERE z1.friend = 1
+						AND z1.zebra_id = z2.user_id
+						AND z1.user_id = z2.zebra_id";
+			$rs = $db->sql_query($sql);
+			$zebra_2 = array();
+
+			$sql_where = array();
+			while ($row = $db->sql_fetchrow($rs))
+			{
+				$zebra_2[] = $row;
+				$sql_where[] = "( user_id = {$row['user_id']} AND zebra_id = {$row['zebra_id']} )";
+			}
+
+			$sql_where_str = '';
+			if (!empty($sql_where))
+			{
+				$sql_where_str = 'AND NOT ( ' . implode(' OR ', $sql_where) . ' )';
+			}
 
 			$sql = "SELECT user_id, zebra_id
-								FROM " . ZEBRA_TABLE . "
-									WHERE friend = 1";
+					FROM " . ZEBRA_TABLE . "
+					WHERE friend = 1 $sql_where_str";
+
 			$rs = $db->sql_query($sql);
 			$zebra_1 = $db->sql_fetchrowset($rs);
 
-			$sql = "SELECT z1.user_id , z1.zebra_id
-								FROM " . ZEBRA_TABLE . " AS z1, " . ZEBRA_TABLE . " AS z2
-									WHERE z1.friend = 1
-										AND z1.zebra_id = z2.user_id
-										AND z1.user_id = z2.zebra_id";
-			$rs = $db->sql_query($sql);
-			$zebra_2 = $db->sql_fetchrowset($rs);
-
-			if (!empty($zebra_1))
-			{
-				foreach ($zebra_1 as $idx => $zebra)
-				{
-					if (!in_array($zebra, $zebra_2))
-					{
-						$sql = "UPDATE " . ZEBRA_TABLE . " SET friend = 0, approval = 1 WHERE " . $db->sql_build_array('SELECT', $zebra);
-						$db->sql_query($sql);
-						$this->send_pm($zebra['user_id'], $zebra['zebra_id']);
-					}
-				}
-			}
+			$cache->put('_sn_module_' . get_class($this), array('count' => count($zebra_1), 'data' => $zebra_1));
+			return $user->lang['SN_MODULE_INITIALIZING_FMS'] . "0/" . count($zebra_1);
 		}
 		else
 		{
-			$sql = "UPDATE " . ZEBRA_TABLE . " SET friend =1, approval = 0 WHERE approval = 1";
+			$sql = "UPDATE " . ZEBRA_TABLE . " SET friend = 1, approval = 0 WHERE approval = 1";
 			$db->sql_query($sql);
+
+			return '';
 		}
+	}
+
+	/*
+	 * Inicializace modulu
+	 */
+	function acp_initialize()
+	{
+		global $cache, $db, $template, $starttime, $phpbb_root_path, $phpEx, $user;
+
+		$data = $cache->get($this->p_master->initModuleCacheName . get_class($this));
+		$cache->destroy($this->p_master->initModuleCacheName . get_class($this));
+
+		include_once("{$phpbb_root_path}/includes/functions_privmsgs.{$phpEx}");
+
+		if (!empty($data['data']))
+		{
+			foreach ($data['data'] as $idx => $zebra)
+			{
+				$sql = "UPDATE " . ZEBRA_TABLE . " SET friend = 0, approval = 1 WHERE " . $db->sql_build_array('SELECT', $zebra);
+				$db->sql_query($sql);
+				$this->send_pm($zebra['user_id'], $zebra['zebra_id']);
+				unset($data['data'][$idx]);
+
+				// CHECK If page is loaded more than 20s
+				$endtime = explode(' ', microtime());
+				if ($endtime[1] + $endtime[0] - $this->p_master->initModuleMaxTime > $starttime)
+				{
+					$cache->put($this->p_master->initModuleCacheName . get_class($this), $data);
+					return $user->lang['SN_MODULE_INITIALIZING_FMS'] . ($data['count']-count($data['data'])) . " / " . $data['count'];
+				}
+			}
+		}
+		return $user->lang['SN_MODULE_INITIALIZING_FMS'] . $data['count'] . " / " . $data['count'];
 	}
 
 	/**
@@ -227,6 +266,11 @@ class acp_approval extends socialnet
 		);
 		submit_pm('post', $my_subject, $data, false);
 	}
+}
+
+function fms_zebra($val1, $val2)
+{
+	return $val1 === $val2 ? 0 : 1;
 }
 
 ?>
