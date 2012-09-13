@@ -96,12 +96,17 @@
 
 			    var th = $(obj);
 			    var _value = $(input).val();
+			    var _value2 = _value;
 
 			    if (opts.eventDeactivate != false && opts.eventDeactivate != 'none') {
 				    th.off(opts.eventDeactivate);
 			    }
 
-			    if (_value != obj.edit) {
+			    if ( obj.editType == 'select'){
+			    	_value2 = obj.data[_value];
+			    }
+			    
+			    if (_value2 != obj.edit) {
 				    // store value
 				    var _response = {};
 				    $.ajax({
