@@ -83,7 +83,7 @@ Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/
 				<action type="replace-with"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></action>
 			</edit>
 		</open>
-		<php-installer><![CDATA[socialnet/update_database.php]]></php-installer>
+		<php-installer><![CDATA[socialnet/install_sn.php]]></php-installer>
 		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via update_database.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
 	</action-group>
 </mod>
