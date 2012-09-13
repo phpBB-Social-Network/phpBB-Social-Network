@@ -107,9 +107,8 @@
 
 						// Add an extra white space so new rows are added when you are at the end of a row.
 						$twin.html(textareaContent + '&nbsp;');
-
 						// Change textarea height if twin plus the height of one line differs more than 3 pixel from textarea height
-						if ( defaults.showNewLine && $textarea.is(':focus'))
+						if (  $textarea.attr('data-newline') == 'true' && $textarea.is(':focus'))
 							var goalheight = $twin.height()+lineHeight; // Additional line height for textarea
 						else
 							var goalheight = $twin.height(); // Do not add the additional line height to textarea
@@ -145,6 +144,7 @@
 				$textarea.live('resize', setTwinWidth);
 				$textarea.live('update', update);
 				$textarea.live('focusin', update);
+				$textarea.attr('data-newline', defaults.showNewLine);
 
 				// Compact textarea on blur
 				$textarea.bind('blur', function() {
