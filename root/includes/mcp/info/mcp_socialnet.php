@@ -8,33 +8,31 @@
  *
  */
 
-class mcp_socialnet_info
+if (isset($config['version_socialNet']))
 {
-	function module()
-	{
-		global $config;
 
-		if (!isset($config['version_socialNet']))
+	class mcp_socialnet_info
+	{
+		function module()
 		{
-			return array();
+			global $config;
+
+			return array(
+				'filename'	 => 'mcp_socialnet',
+				'title'		 => 'MCP_SOCIALNET',
+				'version'	 => $config['version_socialNet'],
+				'modes'		 => array(
+					'module_reportuser'	 => array('title' => 'MCP_SN_REPORTUSER', 'auth' => 'acl_m_sn_close_reports', 'cat' => array('MCP_SOCIALNET')),
+				),
+			);
 		}
 
-		return array(
-			'filename'	 => 'mcp_socialnet',
-			'title'		 => 'MCP_SOCIALNET',
-			'version'	 => $config['version_socialNet'],
-			'modes'		 => array(
-				'module_reportuser'					 => array('title' => 'MCP_SN_REPORTUSER', 'auth' => 'acl_m_sn_close_reports', 'cat' => array('MCP_SOCIALNET')),
-			),
-		);
+		function install()
+		{}
+
+		function uninstall()
+		{}
 	}
 
-	function install()
-	{
-	}
-
-	function uninstall()
-	{
-	}
 }
 ?>

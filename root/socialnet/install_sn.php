@@ -49,6 +49,8 @@ $version_config_name = 'version_socialNet';
  * 'UNINSTALL_' . $mod_name
  * 'UNINSTALL_' . $mod_name . '_CONFIRM'
  */
+
+$user->add_lang(array('ucp', 'mods/socialnet'));
 $language_file = 'mods/socialnet_acp';
 
 /**
@@ -88,7 +90,7 @@ $versions = array(
 				'PRIMARY_KEY'	 => array('config_name'),
 				'KEYS'			 => array(
 					'a'	 => array('INDEX', array('is_dynamic')),
-					'b'	 => array('INDEX', array('uid_to', 'recd')),
+					'b'	 => array('INDEX', array('config_name', 'config_value')),
 				),
 			)),
 
@@ -459,8 +461,6 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'up_enable_subscriptions', 'config_value' => 1)),
 			//array(SN_CONFIG_TABLE, array('config_name' => 'up_alert_relation_pm', 'config_value' => '0')),
 
-			array(SN_USERS_TABLE, array('user_id' => ANONYMOUS, 'user_status' => '', 'user_im_online' => 1, 'user_zebra_alert_friend' => 0, 'user_note' => '')),
-
 			array(SN_REPORTS_REASONS_TABLE, array('reason_text' => 'This person is annoying me')),
 			array(SN_REPORTS_REASONS_TABLE, array('reason_text' => 'This profile is pretending to be someone or is fake')),
 			array(SN_REPORTS_REASONS_TABLE, array('reason_text' => 'Inappropriate profile photo')),
@@ -486,6 +486,31 @@ $versions = array(
 			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'activitypage', 'ph_block' => 'rightcolumn')),
 			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab statistics')),
 			array(SN_ADDONS_PLACEHOLDER_TABLE, array('ph_script' => 'profile', 'ph_block' => 'tab info')),
+
+			array(SN_USERS_TABLE, array(
+				'user_id'					 => ANONYMOUS,
+				'user_status'				 => '',
+				'user_im_online'			 => 1,
+				'user_zebra_alert_friend'	 => 0,
+				'user_note'					 => '',
+				'languages'					 => '',
+				'about_me'					 => '',
+				'employer'					 => '',
+				'university'				 => '',
+				'high_school'				 => '',
+				'religion'					 => '',
+				'political_views'			 => '',
+				'quotations'				 => '',
+				'music'						 => '',
+				'books'						 => '',
+				'movies'					 => '',
+				'games'						 => '',
+				'foods'						 => '',
+				'sports'					 => '',
+				'sport_teams'				 => '',
+				'activities'				 => '',
+			)),
+
 		),
 
 		'permission_add'	 => array(
@@ -536,8 +561,8 @@ $versions = array(
 			)),
 			array('acp', 'ACP_SN_MODULES_CONFIGURATION', array(
 				'module_basename'	 => 'socialnet',
-				'module_langname'	 => 'ACP_SN_MAINPAGE_SETTINGS',
-				'module_mode'		 => 'module_mainpage',
+				'module_langname'	 => 'ACP_SN_ACTIVITYPAGE_SETTINGS',
+				'module_mode'		 => 'module_activitypage',
 				'module_auth'		 => 'acl_a_sn_settings'
 			)),
 			array('ucp', 0, 'UCP_SOCIALNET'),
@@ -656,16 +681,16 @@ $db->sql_freeresult($rs);
 /**
  * Check if DB update need to run previously DB update
  */
-$previous_versions = array( '0.7.0');
+$previous_versions = array('0.7.0');
 
-foreach( $previous_versions as $idx => $a_version)
+foreach ($previous_versions as $idx => $a_version)
 {
 	if ($c_version != '' && version_compare($c_version, $a_version, 'lt'))
 	{
 		include($phpbb_root_path . 'umil/umil_frontend.' . $phpEx);
 		$umil = new umil_frontend();
 		$stages = array('UPDATE');
-	
+
 		$umil->display_stages($stages);
 		$template->set_filenames(array('body' => 'message_body.html'));
 		$template->assign_vars(array(
