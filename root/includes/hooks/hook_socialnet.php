@@ -16,6 +16,11 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
+if ( defined('ADMIN_START'))
+{
+	$user->add_lang('mods/socialnet_acp');
+}
+
 if (!isset($config['version_socialNet']) || defined('UMIL_AUTO') || defined('IN_INSTALL'))
 {
 	return;
@@ -37,11 +42,6 @@ class hookSocialNet
 	static function start_socialNet()
 	{
 		global $db, $user, $socialnet, $config, $template, $phpbb_hook;
-
-		if (defined('ADMIN_START'))
-		{
-			$user->add_lang('mods/socialnet_acp');
-		}
 
 		$sql = "SELECT config_value FROM " . SN_CONFIG_TABLE . " WHERE config_name = 'sn_global_enable'";
 		$result = $db->sql_query($sql);
