@@ -122,6 +122,6 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 			</edit>
 		</open>
 		<php-installer><![CDATA[socialnet/install_sn.php]]></php-installer>
-		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via update_database.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
+		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via install_sn.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
 	</action-group>
 </mod>
