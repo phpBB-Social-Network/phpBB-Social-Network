@@ -6,6 +6,11 @@ In order to develop phpBB SN, you need working phpBB installation. However we ca
 #### Structure
 You will need to set up you local repo in this way:
 ```
+git-tools/
+   hooks/
+      install
+      post-merge
+      uninstall
 install_instructions/
 phpBB3/
    adm/
@@ -29,6 +34,9 @@ README.md
 rebuild_gitignore.php
 ```
 let me explain it...
+
+#### `git-tools/`
+contains git-related stuff. In hooks, you can find various hooks used by phpBB SN. For now, it only includes post-merge hook, to automatically update database to latest version. You can install all hooks simply by running `install` in your command line with path set to /git-tools/hooks/.
 
 #### `.gitignore`
 As per we want running and working phpBB installation with phpBB SN installed, and, in the same time, availability to push changes to repository, we need to cover all phpBB files in `.gitignore`. This would, hovewer, be loooooong job to write them all manually. So we created script to build it automatically...
