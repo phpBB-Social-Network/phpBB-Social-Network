@@ -273,6 +273,11 @@
 			if (obj.edit == undefined) {
 				obj.edit = this.origin;
 			}
+
+			if ( obj.editType == 'textarea'){
+				obj.edit = obj.edit.replace(/(<br>|<br \/>|<br\/>)/g, "\n");
+			}
+			
 			obj.convert = this.edit != obj.origin;
 			obj.canClose = false;
 			if (obj.data == undefined) {
