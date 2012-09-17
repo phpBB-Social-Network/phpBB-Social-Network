@@ -36,11 +36,11 @@ As per we want running and working phpBB installation with phpBB SN installed, a
 #### `rebuild_gitignore.php`
 I know, long and stupid filename :). Just do not stop using it just because of name ;). This script, even though it is called "rebuild", can also create `.gitignore` file. Just run it in your command line and your `.gitignore` file will be filled with all files found in... `phpBB3/` directory. Unexpected? Read next.
 
-#### `root/socialnet/update_database_dev.php`
-I know you have to say this is another nice, easy-to-remember and short filename. But do not care, you will get use to it ;). Or at least to point we will release git hooks that will cover running it. Until that, you are free to run it always you `pull` from `upstream` repository, becuse this script updates database to newest developer version.
-
 #### `phpBB3/`
 This directory contains only vanilla, not installed latest version of phpBB. Thanks to perfect installation process of phpBB (it does not create any new file), you do not need to do more. `rebuild_gitignore.php` script takes this directory as a source of phpBB files that will be listed in `.gitignore`. So do not forget that phpBB in `phpBB3/` directory must be of the same version as the one installed in `root/` directory.
+
+#### `root/socialnet/update_database_dev.php`
+I know you have to say this is another nice, easy-to-remember and short filename. But do not care, you will get use to it ;). Or at least to point we will release git hooks that will cover running it. Until that, you are free to run it always you `pull` from `upstream` repository, becuse this script updates database to newest developer version.
 
 ### Celebrate!
 Now you should fully understand basic developers filesystem of phpBB Social Network. You are free to post new pull request and enjoy watching your code being used by thousands of phpBB boards ;).
