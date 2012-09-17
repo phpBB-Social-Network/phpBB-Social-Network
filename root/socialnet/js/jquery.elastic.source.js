@@ -27,7 +27,8 @@
 			var defaults = {
 				showNewLine: true,
 				useEnter : true,
-				enterReplacement : '<br />'
+				enterReplacement : '<br />',
+				blur: true
 			}
 
 			defaults = $.extend(true, {}, defaults, opts);
@@ -145,9 +146,13 @@
 				$textarea.live('update', update);
 				$textarea.live('focusin', update);
 				$textarea.attr('data-newline', defaults.showNewLine);
+				$textarea.blur = defaults.blur;
 
 				// Compact textarea on blur
 				$textarea.bind('blur', function() {
+					
+					if ( !$textarea.blur) return;
+					
 					if ($twin.height() < maxheight) {
 						if ($twin.height() > minheight) {
 							$textarea.height($twin.height());
@@ -155,6 +160,7 @@
 							$textarea.height(minheight);
 						}
 					}
+					console.log('blur');
 				});
 
 				// And this line is to catch the browser paste event
