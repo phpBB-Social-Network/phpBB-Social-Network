@@ -40,6 +40,8 @@ if ( !in_array($action, array('install', 'update', 'uninstall')) )
 	show_usage();
 }
 
+file_put_contents('file.txt', 'aha');
+
 /**
  * @ignore
  */
