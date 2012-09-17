@@ -73,6 +73,7 @@
 		        appendTo: '#sn-ap-searchAutocompleteContainer',
 		        delay : 300,
 		        select: function(event,ui){
+		        	$(this).parents('form').find('#sn-ap-searchUsersAutocomplete').val(ui.item.value);
 		        	$(this).parents('form').submit();
 		        }
 		    }).parents('form').submit(function() {

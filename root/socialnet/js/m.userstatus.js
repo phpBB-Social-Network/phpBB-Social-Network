@@ -31,7 +31,7 @@
 		    $("#sn-us-wallInput").watermark($.sn.us.watermark, {
 		        useNative : false,
 		        className : 'sn-us-watermark'
-		    }).elastic().live('focusin keyup input cut paste', function() {
+		    }).live('focusin keyup input cut paste', function() {
 			    var snUsShare = $(this).val();
 			    $(this).parents('.sn-us-share').children('input[name=sn-us-wallButton]').show();
 			    if ($.sn.isValidURL(snUsShare) == true) {
@@ -49,7 +49,10 @@
 				    $('input[name="sn-us-fetchButton"]').hide();
 				    $('input[name="sn-us-fetchClear"]').hide();
 			    }
-		    }).trigger('focusout');
+		    }).live('blur', function(event){
+		    	console.log(this);
+		    	return false;
+		    }).elastic({blur:false}).trigger('focusout');
 
 		    // Delete status
 		    $(".sn-us-deleteStatus").live('click', function() {
@@ -547,7 +550,7 @@
 			    var c_obj = $.sn.getAttr($('.sn-us-buttonCommentOver:visible input[name=sn-us-buttonComment]'), 'sid');
 
 			    if (c_obj != '' && !$(event.currentTarget.activeElement).closest('.sn-us-inputComment[id$=' + c_obj + '],.sn-us-shareComment').size()) {
-				    $('.sn-us-buttonCommentOver:visible').hide();
+			    	$('.sn-us-buttonCommentOver:visible').hide();
 			    }
 		    }
 	    },

@@ -365,11 +365,7 @@ class acp_socialnet extends AddOnsHookSystem
 		if ($continue == 2)
 		{
 			meta_refresh(1, $this->u_action . '&amp;continue=1');
-			trigger_error($user->lang['SN_MODULE_INITIALIZING'] . implode('<br />', array_filter($initializing_message, function ($val)
-			{
-				return $val != '';
-			}
-			)));
+			trigger_error($user->lang['SN_MODULE_INITIALIZING'] . implode('<br />', array_filter($initializing_message, 'acp_filter_empty')));
 		}
 
 		// We go through the display_vars to make sure no one is trying to set variables he/she is not allowed to...
@@ -778,6 +774,11 @@ function acp_move_addon($addon_row, $action = 'move_up')
 	$db->sql_query($sql);
 
 	return $target['addon_name'];
+}
+
+function acp_filter_empty($val)
+{
+	return $val != '';
 }
 
 class AddOnsHookSystem

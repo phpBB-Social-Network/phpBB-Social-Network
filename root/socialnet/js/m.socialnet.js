@@ -143,7 +143,7 @@
 		        $(".sn-inputComment").watermark($.sn.comments.watermark, {
 		            useNative : false,
 		            className : 'sn-watermark'
-		        }).elastic();
+		        }).elastic({blur:false});
 
 	        }
 
