@@ -8,7 +8,7 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
-
+//test
 function show_usage()
 {
 	echo "Automatically runs phpBB SocialNetwork UMIL developer database update script.\n";
