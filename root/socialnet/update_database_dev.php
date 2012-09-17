@@ -769,7 +769,7 @@ if (!defined('DEBUG_EXTRA'))
 // install, update, do whatever! :)
 $umil->run_actions($action, $versions, $version_config_name);
 
-echo "Done!\n";
+echo "The database was updated successfully!\n";
 
 /**
  * Here is our custom function that will be called.
