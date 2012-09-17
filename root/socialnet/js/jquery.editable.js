@@ -133,8 +133,10 @@
 						    obj.origin = _response.origin;
 						    obj.edit = _response.edit;
 					    } else {
-						    obj.origin = obj.origin.replace(obj.edit, _response.origin).replace(obj.edit, _response.origin).replace(obj.edit, _response.origin);
+					    	obj.origin = _response.origin.replace(/\n/g, '<br />');
+						    //obj.origin = obj.origin.replace(obj.edit, _response.origin).replace(obj.edit, _response.origin).replace(obj.edit, _response.origin);
 						    obj.edit = _response.edit;
+
 					    }
 
 				    } else if (obj.editType == 'select') {
@@ -273,6 +275,11 @@
 			if (obj.edit == undefined) {
 				obj.edit = this.origin;
 			}
+
+			if ( obj.editType == 'textarea'){
+				obj.edit = obj.edit.replace(/(<br>|<br \/>|<br\/>)/g, "\n");
+			}
+			
 			obj.convert = this.edit != obj.origin;
 			obj.canClose = false;
 			if (obj.data == undefined) {
