@@ -143,7 +143,8 @@
 		        $(".sn-inputComment").watermark($.sn.comments.watermark, {
 		            useNative : false,
 		            className : 'sn-watermark'
-		        }).elastic({blur:false});
+		        }).elastic({showNewLine:true,blur:function(event){
+		        }});
 
 	        }
 
@@ -208,7 +209,7 @@
 		    $(document).oneTime(250, 'sn-page-height', function() {
 			    $.sn._resize()
 		    });
-		    this.comments.init();
+		   // this.comments.init();
 
 		    if (this._debug) this._debugInit();
 	    },
