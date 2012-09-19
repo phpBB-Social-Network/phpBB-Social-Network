@@ -436,7 +436,7 @@ $versions = array(
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_msg_purged_time', 'config_value' => '0')),
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_msg_purged_automatic_time', 'config_value' => '0')),
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_colour_username', 'config_value' => 0)),
-			array(SN_CONFIG_TABLE, array('config_name' => 'im_checkTime_min', 'config_value' => 1)),
+			array(SN_CONFIG_TABLE, array('config_name' => 'im_checkTime_min', 'config_value' => 2)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'im_checkTime_max', 'config_value' => 60)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'us_colour_username', 'config_value' => 0)),
 			array(SN_CONFIG_TABLE, array('config_name' => 'fas_friendlist_limit', 'config_value' => '20')),
