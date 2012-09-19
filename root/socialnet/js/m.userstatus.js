@@ -49,10 +49,9 @@
 				    $('input[name="sn-us-fetchButton"]').hide();
 				    $('input[name="sn-us-fetchClear"]').hide();
 			    }
-		    }).live('blur', function(event){
-		    	console.log(this);
-		    	return false;
-		    }).elastic({blur:false}).trigger('focusout');
+		    }).elastic({blur:function(event){
+		    	return ($('.sn-us-share input[name=sn-us-wallButton]:hidden').size() > 0);
+		    }}).trigger('focusout');
 
 		    // Delete status
 		    $(".sn-us-deleteStatus").live('click', function() {
@@ -130,7 +129,7 @@
 			    if (status_text == '' || status_text == $.sn.us.watermark) {
 				    snConfirmBox($.sn.us.emptyStatus, $.sn.us.emptyStatus);
 				    $('.sn-us-share input[name=sn-us-wallButton]').hide();
-				    $('#sn-us-wallInput').val('');
+				    $('#sn-us-wallInput').val('').trigger('cut');
 
 			    } else {
 				    var now = Math.floor(new Date().valueOf() / 1000);
@@ -195,7 +194,7 @@
 					        $('#sn-us-wallInput').val('').watermark($.sn.us.watermark, {
 					            useNative : false,
 					            className : 'sn-us-watermark'
-					        }).trigger('cut');
+					        }).trigger('paste');
 					        $('.sn-us-share .sn-us-wallButton').hide();
 				        }
 				    });
@@ -218,7 +217,7 @@
 		    $(".sn-us-inputComment").live('focusin', function() {
 			    $('.sn-us-buttonCommentOver:visible').hide();
 			    $(this).next('.sn-us-buttonCommentOver').show();
-		    }).live('focusout', function() {
+		    }).live('blur', function() {
 			    var cmt = $(this).val();
 			    if (cmt == '') {
 				    $('.sn-us-buttonCommentOver:visible').hide();
@@ -259,7 +258,7 @@
 						        $parr.before(data);
 						        $parr.prev('.sn-us-commentBlock').slideDown();
 					        }
-					        $parr.find('.sn-us-inputComment').val('').trigger('cut');
+					        $parr.find('.sn-us-inputComment').val('').trigger('paste');
 					        $.sn.comments.waterMark();
 				        }
 				    });
@@ -499,6 +498,7 @@
 			    $(this).hide();
 		    });
 
+		    $.sn.comments.init();
 		    if (!$.sn.isOutdatedBrowser) {
 			    $('textarea.sn-us-mention').mentionsInput({
 			        templates : {
