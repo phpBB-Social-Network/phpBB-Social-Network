@@ -566,4 +566,10 @@ $lang = array_merge($lang, array(
 	'SN_EXPANDER_READ_LESS'	 => 'Close',
 ));
 
+// OUTDATED BROWSER
+$lang = array_merge($lang, array(
+  'BROWSER_OUTDATED_TITLE'	 => 'Your browser is outdated',
+	'BROWSER_OUTDATED'	 => 'Some of the features will not work on your browser. We highly recommend you to update it.',
+));
+
 ?>
