@@ -684,10 +684,11 @@ if (!class_exists('socialnet_im'))
 				}
 
 				$in_group = array_diff_key($users, $in_group_added);
+				$array_first = array_shift(array_values($groups));
 				$template->assign_block_vars('sn_im_online_ufg', array(
 					'GID'	 => '0',
 					'NAME'	 => $user->lang['IM_GROUP_UNDECIDED'],
-					'HIDDEN' => $groups[0]['collapse'],
+					'HIDDEN' => $array_first['collapse'],
 					'COUNT'	 => count($in_group),
 					'GROUP'	 => true,
 				));
