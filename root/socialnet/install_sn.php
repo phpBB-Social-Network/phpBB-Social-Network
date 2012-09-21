@@ -90,7 +90,6 @@ $versions = array(
 				'PRIMARY_KEY'	 => array('config_name'),
 				'KEYS'			 => array(
 					'a'	 => array('INDEX', array('is_dynamic')),
-					'b'	 => array('INDEX', array('config_name', 'config_value')),
 				),
 			)),
 
