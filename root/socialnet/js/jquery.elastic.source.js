@@ -136,7 +136,9 @@
 				});
 
 				// Update textarea size on keyup, change, cut and paste
-				$textarea.bind('keyup change cut paste', function() {
+				$textarea.bind('keyup cut paste', function(event) {
+					if ( $.isFunction($textarea.eventBlur) && !$textarea.eventBlur(event)) return;
+					if ( !$.isFunction($textarea.eventBlur) && !$textarea.eventBlur) return;
 					update(true);
 				});
 
@@ -146,13 +148,12 @@
 				$textarea.live('update', update);
 				$textarea.live('focusin', update);
 				$textarea.attr('data-newline', defaults.showNewLine);
-				$textarea.blur = defaults.blur;
+				$textarea.eventBlur = defaults.blur;
 
 				// Compact textarea on blur
-				$textarea.bind('blur', function() {
-					
-					if ( !$textarea.blur) return;
-					
+				$textarea.bind('blur', function(event) {
+					if ( $.isFunction($textarea.eventBlur) && !$textarea.eventBlur(event)) return;
+					if ( !$.isFunction($textarea.eventBlur) && !$textarea.eventBlur) return;
 					if ($twin.height() < maxheight) {
 						if ($twin.height() > minheight) {
 							$textarea.height($twin.height());
@@ -160,7 +161,6 @@
 							$textarea.height(minheight);
 						}
 					}
-					console.log('blur');
 				});
 
 				// And this line is to catch the browser paste event

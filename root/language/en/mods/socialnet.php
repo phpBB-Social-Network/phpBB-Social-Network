@@ -100,7 +100,7 @@ $lang = array_merge($lang, array(
 	'SN_AP_NO_DISCUSSION'					 => 'No recent discussions',
 	'SN_AP_NO_BIRTHDAY'					 	 => 'No one has birhtday',
 	'SN_AP_NO_ENTRY'						 => 'Nothing new here',
-	'SN_AP_LOAD_NEWS'						 => 'Load new',
+	'SN_AP_LOAD_NEWS'						 => 'Refresh',
 	'SN_AP_SEE_ALL'							 => 'View All',
 	'SN_AP_NO_FRIENDS'						 => 'You have no friends',
 	'SN_AP_KEEP_LOGGEDIN'					 => 'Keep me logged in',
@@ -564,6 +564,12 @@ $lang = array_merge($lang, array(
 $lang = array_merge($lang, array(
 	'SN_EXPANDER_READ_MORE'	 => 'See More',
 	'SN_EXPANDER_READ_LESS'	 => 'Close',
+));
+
+// OUTDATED BROWSER
+$lang = array_merge($lang, array(
+  'BROWSER_OUTDATED_TITLE'	 => 'Your browser is outdated',
+	'BROWSER_OUTDATED'	 => 'Some of the features will not work on your browser. We highly recommend you to update it.',
 ));
 
 ?>

@@ -72,12 +72,6 @@ class sn_core_comments
 			return false;
 		}
 
-		$moduleName = $this->_moduleName($module);
-
-		if (!isset($this->modulesName[$moduleName]))
-		{
-			$this->_addModule($moduleName);
-		}
 		$cmt_module = $this->_moduleID($module);
 
 		$sql = "INSERT INTO " . SN_COMMENTS_TABLE . " (cmt_module, cmt_mid, cmt_time, cmt_poster, cmt_text, bbcode_bitfield, bbcode_uid)
@@ -289,6 +283,10 @@ class sn_core_comments
 	function _moduleID($module)
 	{
 		$moduleName = $this->_moduleName($module);
+		if ( !isset($this->modulesName[$moduleName]))
+		{
+			$this->_addModule($module);
+		}
 		return $this->modulesName[$moduleName];
 	}
 
