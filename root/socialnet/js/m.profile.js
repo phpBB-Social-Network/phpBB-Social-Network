@@ -21,6 +21,7 @@
 	    monthNamesShort : [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
 	    _inited : false,
 	    tabReportUser : -1,
+	    tabShowFullPage: 'false',
 	    menuPosition : {
 	        my : "right top",
 	        at : "right bottom"
@@ -40,10 +41,14 @@
 			    }
 			    $.sn.up.url = $.sn.up.url.replace(/&amp;/, '&');
 
-			    $('#sn-up-profileTabs').tabs({
+			    $('#sn-up-profileTabs').mousedown(function(event){
+			    	$.sn.up.tabShowFullPage = (event.which == 3)? 'true': 'false';
+			    	if ( event.which == 3) return false;
+			    }).tabs({
 			        ajaxOptions : {
 			            cache : false,
-			            async : false
+			            async : false,
+			            data : {fullPage: $.sn.up.tabShowFullPage}
 			        },
 			        cache : false,
 			        spinner : $.sn.up.spinner,
@@ -57,6 +62,7 @@
 				        if ($.sn.getCookie('sn-up-profileTab') == 0) { return false; }
 			        },
 			        select : function(e, ui) {
+			        	console.log(e);
 			        	$(ui.panel).html($.sn.up.spinner);
 			        },
 			        load : function(e, ui) {
@@ -105,6 +111,8 @@
 
 			        }
 			    }).removeAttr('style');
+			    
+			    console.log(par_URL);
 			    $('#sn-up-profileTabs li:first a').attr('href', c_url);
 		    }
 
