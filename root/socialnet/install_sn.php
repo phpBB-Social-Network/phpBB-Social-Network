@@ -30,7 +30,7 @@ if (!file_exists($phpbb_root_path . 'umil/umil_auto.' . $phpEx))
 }
 
 // The name of the mod to be displayed during installation.
-$mod_name = 'Social Network';
+$mod_name = 'phpBB Social Network';
 
 /**
  * The name of the config variable which will hold the currently installed version
@@ -51,7 +51,6 @@ $version_config_name = 'version_socialNet';
  */
 
 $user->add_lang(array('ucp', 'mods/socialnet'));
-$language_file = 'mods/socialnet_acp';
 
 /**
  * Load default constants for extend phpBB constants
@@ -692,14 +691,13 @@ foreach ($previous_versions as $idx => $a_version)
 
 		$umil->display_stages($stages);
 		$template->set_filenames(array('body' => 'message_body.html'));
+		
 		$template->assign_vars(array(
-			'S_USER_NOTICE'	 => false,
-			'MESSAGE_TITLE'	 => 'You may update to ' . $a_version,
-			'MESSAGE_TEXT'	 => '</p></div>You have previous version of <strong>phpBB Social Network</strong> installed.<br />
-			You may update to ' . $a_version . ' version first<br />
-			Read install instructions, where you can find the update database script<br />
-			Go to <a href="' . $phpbb_root_path . 'socialnet/update_sn_' . $a_version . '.' . $phpEx . '">update database script</a><div><p>'
+			'S_USER_NOTICE'	=> false,
+			'MESSAGE_TITLE'	=> 'phpBB Social Network has been already installed',
+			'MESSAGE_TEXT'	=> '</p></div>phpBB Social Network ' . $c_version . ' is already installed on this board.<br />We recommend you to update it to version ' . $a_version . '.<br />Please read update instructions, where you can find the <a href="' . $phpbb_root_path . 'socialnet/update_sn_' . $a_version . '.' . $phpEx . '">update database script</a>.<div><p>'
 		));
+		
 		$umil->done();
 	}
 }
