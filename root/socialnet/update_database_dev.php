@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  *
@@ -7,30 +8,58 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
+//test
+function show_usage()
+{
+	echo "Automatically runs phpBB SocialNetwork UMIL developer database update script.\n";
+	echo "\n";
 
-/**
- * @ignore
- */
-define('UMIL_AUTO', true);
+	echo "Usage: [php] update_database_dev.php [OPTIONS]\n";
+	echo "\n";
+
+	echo "Options:\n";
+	echo " -a action                      Action: install/update/uninstall\n";
+	echo " -h                             This help text\n";
+
+	exit(2);
+}
+
+// Handle arguments
+$opts = getopt('a:h');
+
+if (empty($opts) || isset($opts['h']))
+{
+	show_usage();
+}
+
+$action	= get_arg($opts, 'a', '');
+
+// action may be only install, update, or uninstall
+if ( !in_array($action, array('install', 'update', 'uninstall')) )
+{
+	show_usage();
+}
+
 /**
  * @ignore
  */
 define('IN_PHPBB', true);
-$phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './../';
+$phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : 'root/';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 include_once($phpbb_root_path . 'common.' . $phpEx);
 
-$user->session_begin();
-$auth->acl($user->data);
-$user->setup();
-
-if (!file_exists($phpbb_root_path . 'umil/umil_auto.' . $phpEx))
+if (!file_exists($phpbb_root_path . 'umil/umil.' . $phpEx))
 {
 	trigger_error('Please download the latest UMIL (Unified MOD Install Library) from: <a href="http://www.phpbb.com/mods/umil/">phpBB.com/mods/umil</a>', E_USER_ERROR);
 }
 
-// The name of the mod to be displayed during installation.
-$mod_name = 'Social Network';
+if (!class_exists('umil'))
+{
+	include($phpbb_root_path . 'umil/umil.' . $phpEx);
+}
+
+// If you want a completely stand alone version (able to use UMIL without messing with any of the language stuff) send true, otherwise send false
+$umil = new umil(true);
 
 /**
  * The name of the config variable which will hold the currently installed version
@@ -39,36 +68,9 @@ $mod_name = 'Social Network';
 $version_config_name = 'version_socialNet';
 
 /**
- * The language file which will be included when installing
- * Language entries that should exist in the language file for UMIL (replace $mod_name with the mod's name you set to $mod_name above)
- * $mod_name
- * 'INSTALL_' . $mod_name
- * 'INSTALL_' . $mod_name . '_CONFIRM'
- * 'UPDATE_' . $mod_name
- * 'UPDATE_' . $mod_name . '_CONFIRM'
- * 'UNINSTALL_' . $mod_name
- * 'UNINSTALL_' . $mod_name . '_CONFIRM'
- */
-
-$user->add_lang(array('ucp', 'mods/socialnet'));
-$language_file = 'mods/socialnet_acp';
-
-/**
  * Load default constants for extend phpBB constants
  */
 include_once($phpbb_root_path . 'socialnet/includes/constants.' . $phpEx);
-
-/*
- * Options to display to the user (this is purely optional, if you do not need the options you do not have to set up this variable at all)
- * Uses the acp_board style of outputting information, with some extras (such as the 'default' and 'select_user' options)
- */
-
-/*
- * Optionally we may specify our own logo image to show in the upper corner instead of the default logo.
- * $phpbb_root_path will get prepended to the path specified
- * Image height should be 50px to prevent cut-off or stretching.
- */
-//$logo_img = 'styles/prosilver/imageset/site_logo.gif';
 
 /*
  * The array of versions and actions within each.
@@ -667,109 +669,17 @@ $versions = array(
 	),
 );
 
-if (!defined('DEBUG_EXTRA'))
-{
-	define('DEBUG_EXTRA', true);
-}
 
-$sql = "SELECT * FROM " . CONFIG_TABLE . " WHERE config_name = '{$version_config_name}'";
-$rs = $db->sql_query($sql);
-$c_version = $db->sql_fetchfield('config_value');
-$db->sql_freeresult($rs);
+// install, update, do whatever! :)
+$umil->run_actions($action, $versions, $version_config_name);
 
-/**
- * Check if DB update need to run previously DB update
+exit( "The database was updated successfully!\n" ); // to display this message also after developer makes pull
+
+
+/*
+ * console-related functions
  */
-$previous_versions = array('0.7.0');
-
-foreach ($previous_versions as $idx => $a_version)
+function get_arg($array, $index, $default)
 {
-	if ($c_version != '' && version_compare($c_version, $a_version, 'lt'))
-	{
-		include($phpbb_root_path . 'umil/umil_frontend.' . $phpEx);
-		$umil = new umil_frontend();
-		$stages = array('UPDATE');
-
-		$umil->display_stages($stages);
-		$template->set_filenames(array('body' => 'message_body.html'));
-		$template->assign_vars(array(
-			'S_USER_NOTICE'	 => false,
-			'MESSAGE_TITLE'	 => 'You may update to ' . $a_version,
-			'MESSAGE_TEXT'	 => '</p></div>You have previous version of <strong>phpBB Social Network</strong> installed.<br />
-			You may update to ' . $a_version . ' version first<br />
-			Read install instructions, where you can find the update database script<br />
-			Go to <a href="' . $phpbb_root_path . 'socialnet/update_sn_' . $a_version . '.' . $phpEx . '">update database script</a><div><p>'
-		));
-		$umil->done();
-	}
+	return isset($array[$index]) ? $array[$index] : $default;
 }
-// Include the UMIF Auto file and everything else will be handled automatically.
-/**
- * @ignore
- */
-include($phpbb_root_path . 'umil/umil_auto.' . $phpEx);
-
-function phpbbSN_smilies_allow($action, $version)
-{
-	global $db;
-
-	if (($action == 'install' || $action == 'update') && $version == '0.7.0')
-	{
-		$sql = "SELECT smiley_id FROM " . SMILIES_TABLE;
-		$rs = $db->sql_query($sql);
-
-		$db->sql_return_on_error(true);
-		while ($row = $db->sql_fetchrow($rs))
-		{
-			$sql = "INSERT INTO " . SN_SMILIES_TABLE . " (smiley_id, smiley_allowed) VALUES ({$row['smiley_id']},1)";
-			$db->sql_query($sql);
-		}
-		$db->sql_return_on_error(false);
-
-		$db->sql_freeresult($rs);
-
-		return 'Social Network::IM smilies default settings added';
-	}
-	else
-	{
-		return 'Social Network::IM smilies default settings untouched';
-	}
-}
-
-function phpbbSN_create_fms_primarygroups($action, $version)
-{
-	global $db;
-
-	if (($action == 'install' || $action == 'update') && $version == '0.7.0')
-	{
-		$return_status = '';
-		$sql = "SELECT user_id FROM " . USERS_TABLE . " WHERE user_type <> 2";
-		$rs = $db->sql_query($sql);
-		$rowset = $db->sql_fetchrowset($rs);
-		if ($action == 'update')
-		{
-			$db->sql_return_on_error(true);
-			for ($i = 0; isset($rowset[$i]); $i++)
-			{
-				$sql = "INSERT INTO " . SN_FMS_GROUPS_TABLE . " (fms_gid,user_id,fms_name,fms_clean,fms_collapse) VALUES (0,{$rowset[$i]['user_id']}, '---','---',0)";
-				$db->sql_query($sql);
-			}
-			$db->sql_return_on_error(false);
-		}
-
-		$sql = "SELECT COUNT(*) FROM " . SN_FMS_USERS_GROUP_TABLE . " WHERE owner_id = 0";
-		$rs = $db->sql_query($sql);
-		if ($db->sql_affectedrows($rs))
-		{
-			$return_status = '- There are friends to be included into groups. Use SQL manager to repair.';
-		}
-
-		return 'Social Network::FMS IM primary groups added' . $return_status;
-	}
-	else
-	{
-		return 'Social Network::FMS IM primary groups untouched';
-	}
-}
-
-?>
