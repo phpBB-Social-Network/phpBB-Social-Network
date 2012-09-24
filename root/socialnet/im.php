@@ -41,10 +41,10 @@ if (!class_exists('socialnet_im'))
 		var $p_master = null;
 		var $config = array();
 		var $items = array(
-			'onlineUsers' => array(),
-			'groups' => array(),
-			'chatBoxes' => array(),
-			'message' => array(),
+			'onlineUsers'	 => array(),
+			'groups'		 => array(),
+			'chatBoxes'		 => array(),
+			'message'		 => array(),
 			'user_online'	 => 0,
 			'typing'		 => array(),
 			'onlineList'	 => '',
@@ -52,10 +52,10 @@ if (!class_exists('socialnet_im'))
 			'recd'			 => true,
 		);
 		var $closeSequence = array(
-			'alt'			 => false,
-			'ctrl'			 => false,
-			'shift'			 => false,
-			'key'			 => 27,
+			'alt'	 => false,
+			'ctrl'	 => false,
+			'shift'	 => false,
+			'key'	 => 27,
 		);
 		var $sendSequence = array(
 			'alt'	 => false,
@@ -69,7 +69,7 @@ if (!class_exists('socialnet_im'))
 		 */
 		function socialnet_im(&$p_master = null)
 		{
-			$this->p_master = & $p_master;
+			$this->p_master =& $p_master;
 		}
 
 		function init()
@@ -77,9 +77,9 @@ if (!class_exists('socialnet_im'))
 			global $template, $db, $config, $user, $phpbb_root_path, $phpEx;
 
 			$this->config = array(
-				'only_friends'					 => $config['im_only_friends'],
-				'allow_sound'					 => $config['im_allow_sound'],
-				'colour_username'				 => $config['im_colour_username'],
+				'only_friends'		 => $config['im_only_friends'],
+				'allow_sound'		 => $config['im_allow_sound'],
+				'colour_username'	 => $config['im_colour_username'],
 			);
 			$this->items['lastCheckTime'] = time();
 
@@ -174,70 +174,70 @@ if (!class_exists('socialnet_im'))
 
 			switch ($mode)
 			{
-				case 'startIM':
-					$this->_startIM();
+			case 'startIM':
+				$this->_startIM();
 
-				case 'snImLogin':
-				case 'sn-im-login':
-					$this->_snImLogout(1);
+			case 'snImLogin':
+			case 'sn-im-login':
+				$this->_snImLogout(1);
 
-				case 'onlineUsers':
-					//$this->items['onlineUsers'] = $this->p_master->onlineUsers();
-					break;
+			case 'onlineUsers':
+				//$this->items['onlineUsers'] = $this->p_master->onlineUsers();
+				break;
 
-				case 'onlineUsersCount':
-					//$this->_onlineUsersCount('startIM');
-					break;
+			case 'onlineUsersCount':
+				//$this->_onlineUsersCount('startIM');
+				break;
 
-				case 'openChatBox':
-					$this->openChatBox();
-					break;
+			case 'openChatBox':
+				$this->openChatBox();
+				break;
 
-				case 'closeChatBox':
-					$this->closeChatBox();
-					break;
+			case 'closeChatBox':
+				$this->closeChatBox();
+				break;
 
-				case 'sendMessage':
-					$this->sendMessage();
-					break;
+			case 'sendMessage':
+				$this->sendMessage();
+				break;
 
-				case 'coreIM':
-					$this->core();
-					break;
+			case 'coreIM':
+				$this->core();
+				break;
 
-				case 'msg_time':
-					$this->_msgTime();
-					break;
+			case 'msg_time':
+				$this->_msgTime();
+				break;
 
-				case 'snImLogout':
-				case 'sn-im-logout':
-					$this->_snImLogout(0);
-					break;
+			case 'snImLogout':
+			case 'sn-im-logout':
+				$this->_snImLogout(0);
+				break;
 
-				case 'snImSoundOff':
-					$this->_snImSound(0);
-					break;
+			case 'snImSoundOff':
+				$this->_snImSound(0);
+				break;
 
-				case 'snImSoundOn':
-					$this->_snImSound(1);
-					break;
+			case 'snImSoundOn':
+				$this->_snImSound(1);
+				break;
 
-				case 'snImUserGroupHide':
-					$this->_snImUserGroup(1);
-					break;
+			case 'snImUserGroupHide':
+				$this->_snImUserGroup(1);
+				break;
 
-				case 'snImUserGroupShow':
-					$this->_snImUserGroup(0);
-					break;
+			case 'snImUserGroupShow':
+				$this->_snImUserGroup(0);
+				break;
 
-				case 'snImTyping':
-					$this->_snImTyping();
-					return;
-					break;
+			case 'snImTyping':
+				$this->_snImTyping();
+				return;
+				break;
 
-				case 'snImDisplaySmilies':
-					$this->_displaySmilies();
-					break;
+			case 'snImDisplaySmilies':
+				$this->_displaySmilies();
+				break;
 			}
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate");
@@ -284,7 +284,7 @@ if (!class_exists('socialnet_im'))
 
 			// DATA DO SABLONY
 			$template->set_filenames(array(
-				'body' => 'socialnet/im.html'
+				'body'	 => 'socialnet/im.html'
 			));
 
 			if (isset($this->items['onlineUsers'][$userTo]['status']))
@@ -459,7 +459,7 @@ if (!class_exists('socialnet_im'))
 
 				$template->destroy();
 				$template->set_filenames(array(
-					'body' => 'socialnet/im.html',
+					'body'	 => 'socialnet/im.html',
 				));
 
 				$template->assign_block_vars('sn_im_chatbox', array(
@@ -667,12 +667,12 @@ if (!class_exists('socialnet_im'))
 						foreach ($in_group as $user_id => $usr)
 						{
 							$template->assign_block_vars('sn_im_online_ufg.user', array(
-								'USER_ID'					 => $user_id,
-								'AVATAR'					 => $usr['avatar'],
-								'STATUS'					 => $usr['status'],
-								'USERNAME'					 => $usr['userName'],
-								'USERCLEAN'					 => addslashes($usr['userClean']),
-								'ONLINE'					 => $usr['online'],
+								'USER_ID'	 => $user_id,
+								'AVATAR'	 => $usr['avatar'],
+								'STATUS'	 => $usr['status'],
+								'USERNAME'	 => $usr['userName'],
+								'USERCLEAN'	 => addslashes($usr['userClean']),
+								'ONLINE'	 => $usr['online'],
 							));
 							$users[$user_id]['in_group'] = true;
 							unset($users[$user_id]); // <== User is displayed only in first group
@@ -727,7 +727,7 @@ if (!class_exists('socialnet_im'))
 			}
 
 			$template->set_filenames(array(
-				'sn_im_online_list' => 'socialnet/im_onlinelist.html',
+				'sn_im_online_list'	 => 'socialnet/im_onlinelist.html',
 			));
 
 			$return = $this->p_master->get_page('sn_im_online_list', false);
@@ -797,7 +797,7 @@ if (!class_exists('socialnet_im'))
 			$template->destroy();
 
 			$template->set_filenames(array(
-				'body' => 'socialnet/im.html',
+				'body'	 => 'socialnet/im.html',
 			));
 
 			$template->assign_var('SN_IM_MODE', 'sendMessage');
@@ -1010,7 +1010,7 @@ if (!class_exists('socialnet_im'))
 			}
 
 			$template->set_filenames(array(
-				'body' => 'socialnet/im_smilies.html',
+				'body'	 => 'socialnet/im_smilies.html',
 			));
 
 			$return = array();
@@ -1031,11 +1031,11 @@ if (isset($socialnet) && defined('SN_IM'))
 		$ann_data = array(
 			'user_id'		 => 'ANONYMOUS',
 			'onlineUsers'	 => array(),
-			'chatBoxes' => array(),
-			'message' => array(),
+			'chatBoxes'		 => array(),
+			'message'		 => array(),
 			'user_online'	 => 0,
 			'message'		 => array(),
-			'onlineCount' => 0,
+			'onlineCount'	 => 0,
 		);
 
 		header('Content-type: application/json');
