@@ -1,10 +1,10 @@
 /**
- * 
+ *
  * @package phpBB Social Network
  * @version 0.7.0
  * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * 
+ *
  */
 (function($) {
 	$.sn.up = {
@@ -21,6 +21,7 @@
 	    monthNamesShort : [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
 	    _inited : false,
 	    tabReportUser : -1,
+	    tabShowFullPage: 'false',
 	    menuPosition : {
 	        my : "right top",
 	        at : "right bottom"
@@ -40,71 +41,79 @@
 			    }
 			    $.sn.up.url = $.sn.up.url.replace(/&amp;/, '&');
 
-			    $('#sn-up-profileTabs').tabs({
-			        ajaxOptions : {
-			            cache : false,
-			            async : false
-			        },
-			        cache : false,
-			        spinner : $.sn.up.spinner,
-			        cookie : {
-			            name : $.sn.cookie.name + 'sn_up_profileTab',
-			            path : $.sn.cookie.path,
-			            domain : $.sn.cookie.domain,
-			            secure : $.sn.cookie.secure
-			        },
-			        create : function(e, ui) {
-				        if ($.sn.getCookie('sn-up-profileTab') == 0) { return false; }
-			        },
-			        select : function(e, ui) {
-			        	$(ui.panel).html($.sn.up.spinner);
-			        },
-			        load : function(e, ui) {
-				        $('#sn-us-wallInput').trigger('focusin').trigger('focusout');
-				        
-					    if (!$.sn.isOutdatedBrowser) {
-						    $('textarea.sn-us-mention').mentionsInput({
-						        templates : {
-						            wrapper : _.template('<div class="sn-us-mentions-input-box"></div>'),
-						            autocompleteList : _.template('<div class="sn-us-mentions-autocomplete-list"></div>'),
-						            mentionsOverlay : _.template('<div class="sn-us-mentions"><div></div></div>'),
-						        },
-						        onDataRequest : function(mode, query, callback) {
-							        $.getJSON($.sn.us.url, {
-							            smode : 'get_mention',
-							            uname : query
-							        }, function(data) {
-								        data = _.filter(data, function(item) {
-									        return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+			    $('#sn-up-profileTabs')
+						.mousedown(function(event){
+							$.sn.up.tabShowFullPage = (event.which == 3) ? 'true': 'false';
+							if ( event.which == 3) return false;
+						})
+						.tabs({
+				        ajaxOptions : {
+				            cache : false,
+				            async : false,
+				            data : {fullPage: $.sn.up.tabShowFullPage}
+				        },
+				        cache : false,
+				        spinner : $.sn.up.spinner,
+				        cookie : {
+				            name : $.sn.cookie.name + 'sn_up_profileTab',
+				            path : $.sn.cookie.path,
+				            domain : $.sn.cookie.domain,
+				            secure : $.sn.cookie.secure
+				        },
+				        create : function(e, ui) {
+					        if ($.sn.getCookie('sn-up-profileTab') == 0) { return false; }
+				        },
+				        select : function(e, ui) {
+				        	$(ui.panel).html($.sn.up.spinner);
+				        },
+				        load : function(e, ui) {
+					        $('#sn-us-wallInput').trigger('focusin').trigger('focusout');
+
+						    if (!$.sn.isOutdatedBrowser) {
+							    $('textarea.sn-us-mention').mentionsInput({
+							        templates : {
+							            wrapper : _.template('<div class="sn-us-mentions-input-box"></div>'),
+							            autocompleteList : _.template('<div class="sn-us-mentions-autocomplete-list"></div>'),
+							            mentionsOverlay : _.template('<div class="sn-us-mentions"><div></div></div>'),
+							        },
+							        onDataRequest : function(mode, query, callback) {
+								        $.getJSON($.sn.us.url, {
+								            smode : 'get_mention',
+								            uname : query
+								        }, function(data) {
+									        data = _.filter(data, function(item) {
+										        return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+									        });
+									        callback.call(this, data);
 								        });
-								        callback.call(this, data);
-							        });
-						        }
-						    });
-					    }
-				        
-				        $('.sn-up-editable').snEditable({
-				            datePicker : {
-				                dateFormat : $.sn.up.dateFormat,
-				                monthNames : $.sn.up.monthNames,
-				                monthNamesShort : $.sn.up.monthNamesShort
-				            },
-				            ajaxOptions : {
-				                url : $.sn.up.urlAJAX,
-				                cache : false
-				            }
-				        });
+							        }
+							    });
+						    }
 
-				        $.sn.comments.waterMark();
-				        $("#sn-us-wallInput").watermark($.sn.us.watermark, {
-				            useNative : false,
-				            className : 'sn-us-watermark'
-				        }).elastic().trigger('focusout');
-				        $.sn._resize();
-				        $.sn._textExpander();
+					        $('.sn-up-editable').snEditable({
+					            datePicker : {
+					                dateFormat : $.sn.up.dateFormat,
+					                monthNames : $.sn.up.monthNames,
+					                monthNamesShort : $.sn.up.monthNamesShort
+					            },
+					            ajaxOptions : {
+					                url : $.sn.up.urlAJAX,
+					                cache : false
+					            }
+					        });
 
-			        }
-			    }).removeAttr('style');
+					        $.sn.comments.waterMark();
+					        $("#sn-us-wallInput").watermark($.sn.us.watermark, {
+					            useNative : false,
+					            className : 'sn-us-watermark'
+					        }).elastic().trigger('focusout');
+					        $.sn._resize();
+					        $.sn._textExpander();
+
+				        }
+				    })
+						.removeAttr('style');
+
 			    $('#sn-up-profileTabs li:first a').attr('href', c_url);
 		    }
 
