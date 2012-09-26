@@ -12,7 +12,7 @@ styles/
 		theme/
 			socialnet_css/
 ```
-Folder <pre>hooks</pre> contains PHP files that compile <code>socialnet.css</code> file from <code>styles/<style folder>/theme/socialnet_css/</code>
+Folder <pre>hooks</pre> contains PHP files that compile to <code>socialnet.css</code> file from <code>styles/prosilver/theme/socialnet_css/</code>
 
 ### How To Install
 Copy ./* to root folder of your installation of phpBB and purge hooks cache.
