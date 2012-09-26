@@ -102,7 +102,7 @@ if (!class_exists('socialnet_profile'))
 
 		function load($mode, $user_id)
 		{
-			global $socialnet_root_path, $phpEx, $socialnet, $template, $user, $auth;
+			global $socialnet_root_path, $phpbb_root_path, $phpEx, $socialnet, $template, $user, $auth;
 
 			if ($mode != 'upEdit' && $mode != 'emote')
 			{
@@ -113,7 +113,9 @@ if (!class_exists('socialnet_profile'))
 				$call_mode = $mode;
 			}
 
-			if (method_exists($this, $call_mode))
+			$fullpage = request_var('fullPage', '');
+
+			if ( method_exists($this, $call_mode) )
 			{
 				$user->add_lang('memberlist');
 				$this->$call_mode($user_id);
@@ -128,13 +130,35 @@ if (!class_exists('socialnet_profile'))
 					"sn_{$call_mode}" 	 => "socialnet/user_profile_{$call_mode}.html",
 				));
 
-				$content = $this->p_master->get_page("sn_{$call_mode}");
-				header('Content-type: text/html; charset=UTF-8');
-				die($content);
+				if ( $fullpage == 'false')
+				{
+					$content = $this->p_master->get_page("sn_{$call_mode}");
+					header('Content-type: text/html; charset=UTF-8');
+					die($content);
+				}
+				else
+				{
+					page_header();
+
+					meta_refresh(3,append_sid($phpbb_root_path . 'profile.' . $phpEx . '?u=' . $user_id));
+
+					// $p_url = parse_url($_SERVER['PHP_SELF']); - I do not know why you added this
+
+					$template->set_filenames(array(
+						'body'=>'message_body.html'
+					));
+
+					$template->assign_vars(array(
+						'MESSAGE_TITLE' => 'Oops',
+						'MESSAGE_TEXT' => 'Do not open tabs using right click'
+					));
+
+					page_footer();
+				}
 			}
 
 			header('Content-type: text/html; charset=UTF-8');
-			print '<h3>Profile</h3>' . $mode . '<br />';
+			print '<h3>Profile</h3>' . $mode . '<br />'; // btw - hardcoded language
 			die(__FILE__ . ' ' . __LINE__);
 		}
 
