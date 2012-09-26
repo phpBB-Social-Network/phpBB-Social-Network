@@ -253,7 +253,7 @@ if (!class_exists('socialnet_im'))
 		 */
 		function openChatBox()
 		{
-			global $db, $template, $user, $phpbb_root_path, $phpEx;
+			global $db, $template, $user, $phpbb_root_path, $phpEx, $starttime;
 
 			$this->items['html'] = '';
 
@@ -268,13 +268,13 @@ if (!class_exists('socialnet_im'))
 			$this->items['onlineUsers'] = $this->p_master->onlineUsers();
 			$usernameToSQL = $db->sql_escape($usernameTo);
 
-			$sql = "INSERT INTO " . SN_IM_CHATBOXES_TABLE . " (uid_from, uid_to, username_to, starttime) VALUES ( {$user->data['user_id']}, {$userTo}, '{$usernameToSQL}', " . $user->data['session_start'] . ")";
+			$sql = "INSERT INTO " . SN_IM_CHATBOXES_TABLE . " (uid_from, uid_to, username_to, starttime) VALUES ( {$user->data['user_id']}, {$userTo}, '{$usernameToSQL}', " . $starttime . ")";
 			$db->sql_return_on_error(true);
 			$return = $db->sql_query($sql);
 			if (!$return)
 			{
 				$sql = "UPDATE " . SN_IM_CHATBOXES_TABLE . "
-									SET starttime = '{$user->data['session_start']}'
+									SET starttime = '$starttime'
 										WHERE uid_from = '{$user->data['user_id']}'
 											AND uid_to = '{$userTo}'
 											AND username_to = '{$usernameToSQL}'";
@@ -762,7 +762,7 @@ if (!class_exists('socialnet_im'))
 			$config['min_post_chars'] = 1;
 			generate_text_for_storage($message, $bbuid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
 			$config['min_post_chars'] = $min_post_chars;
-			
+
 			if (!is_array($uid))
 			{
 				$sql_arr = array(
