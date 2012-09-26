@@ -1,4 +1,4 @@
 #!/usr/bin/php
 <?php
 
-exec('php root/socialnet/update_database_dev.php -a update');
+exec('php git-tools/update_database_dev.php -a update');
