@@ -7,7 +7,6 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
-
 if (!defined('SOCIALNET_INSTALLED'))
 {
 	/**
@@ -32,32 +31,32 @@ if (!defined('SOCIALNET_INSTALLED'))
 
 if (!class_exists('socialnet_im'))
 {
+
 	/**
 	 * class im
 	 */
 	class socialnet_im
 	{
+
 		var $p_master = null;
 		var $config = array();
 		var $items = array(
-			'onlineUsers'	 => array(),
-			'groups'		 => array(),
-			'chatBoxes'		 => array(),
-			'message'		 => array(),
+			'onlineUsers' => array(),
+			'groups' => array(),
+			'chatBoxes' => array(),
+			'message' => array(),
 			'user_online'	 => 0,
 			'typing'		 => array(),
 			'onlineList'	 => '',
 			'onlineCount'	 => 0,
 			'recd'			 => true,
 		);
-
 		var $closeSequence = array(
 			'alt'	 => false,
 			'ctrl'	 => false,
 			'shift'	 => false,
 			'key'	 => 27,
 		);
-
 		var $sendSequence = array(
 			'alt'	 => false,
 			'ctrl'	 => false,
@@ -70,7 +69,7 @@ if (!class_exists('socialnet_im'))
 		 */
 		function socialnet_im(&$p_master = null)
 		{
-			$this->p_master =& $p_master;
+			$this->p_master = & $p_master;
 		}
 
 		function init()
@@ -78,9 +77,9 @@ if (!class_exists('socialnet_im'))
 			global $template, $db, $config, $user, $phpbb_root_path, $phpEx;
 
 			$this->config = array(
-				'only_friends'		 => $config['im_only_friends'],
-				'allow_sound'		 => $config['im_allow_sound'],
-				'colour_username'	 => $config['im_colour_username'],
+				'only_friends'					 => $config['im_only_friends'],
+				'allow_sound'					 => $config['im_allow_sound'],
+				'colour_username'				 => $config['im_colour_username'],
 			);
 			$this->items['lastCheckTime'] = time();
 
@@ -253,7 +252,7 @@ if (!class_exists('socialnet_im'))
 		 */
 		function openChatBox()
 		{
-			global $db, $template, $user, $phpbb_root_path, $phpEx;
+			global $db, $template, $user, $phpbb_root_path, $phpEx, $starttime;
 
 			$this->items['html'] = '';
 
@@ -268,23 +267,24 @@ if (!class_exists('socialnet_im'))
 			$this->items['onlineUsers'] = $this->p_master->onlineUsers();
 			$usernameToSQL = $db->sql_escape($usernameTo);
 
-			$sql = "INSERT INTO " . SN_IM_CHATBOXES_TABLE . " (uid_from, uid_to, username_to, starttime) VALUES ( {$user->data['user_id']}, {$userTo}, '{$usernameToSQL}', " . $user->data['session_start'] . ")";
+			$sql = "INSERT INTO " . SN_IM_CHATBOXES_TABLE . " (uid_from, uid_to, username_to, starttime) VALUES ( {$user->data['user_id']}, {$userTo}, '{$usernameToSQL}', " . $starttime . ")";
 			$db->sql_return_on_error(true);
 			$return = $db->sql_query($sql);
+
 			if (!$return)
 			{
 				$sql = "UPDATE " . SN_IM_CHATBOXES_TABLE . "
-									SET starttime = '{$user->data['session_start']}'
-										WHERE uid_from = '{$user->data['user_id']}'
-											AND uid_to = '{$userTo}'
-											AND username_to = '{$usernameToSQL}'";
+						SET starttime = '{$starttime}'
+						WHERE uid_from = '{$user->data['user_id']}'
+						AND uid_to = '{$userTo}'
+						AND username_to = '{$usernameToSQL}'";
 				$db->sql_query($sql);
 			}
 			$db->sql_return_on_error(false);
 
 			// DATA DO SABLONY
 			$template->set_filenames(array(
-				'body'	 => 'socialnet/im.html'
+				'body' => 'socialnet/im.html'
 			));
 
 			if (isset($this->items['onlineUsers'][$userTo]['status']))
@@ -459,7 +459,7 @@ if (!class_exists('socialnet_im'))
 
 				$template->destroy();
 				$template->set_filenames(array(
-					'body'	 => 'socialnet/im.html',
+					'body' => 'socialnet/im.html',
 				));
 
 				$template->assign_block_vars('sn_im_chatbox', array(
@@ -503,7 +503,6 @@ if (!class_exists('socialnet_im'))
 					'chatBox'	 => $row['cb_from'] != '' && $row['cb_to'] != '',
 					'sameSender' => $same_sender,
 				);
-
 			}
 
 			$this->_markRecievedMessages();
@@ -520,8 +519,8 @@ if (!class_exists('socialnet_im'))
 
 			// Close chatboxed opened before logging in
 			$sql = "DELETE FROM " . SN_IM_CHATBOXES_TABLE . "
-								WHERE uid_from = '{$user->data['user_id']}'
-									AND starttime < '{$user->data['session_start']}'";
+					WHERE uid_from = '{$user->data['user_id']}'
+						AND starttime < '{$user->data['session_start']}'";
 			$db->sql_query($sql);
 
 			$this->items['onlineUsers'] = $this->p_master->onlineSelect();
@@ -529,10 +528,10 @@ if (!class_exists('socialnet_im'))
 
 			// Load opened chatboxes
 			$sql = "SELECT *
-								FROM " . SN_IM_CHATBOXES_TABLE . "
-									WHERE uid_from = '{$user->data['user_id']}'
-										AND starttime >= '{$user->data['session_start']}'
-								ORDER BY starttime ASC";
+					FROM " . SN_IM_CHATBOXES_TABLE . "
+					WHERE uid_from = '{$user->data['user_id']}'
+						AND starttime >= '{$user->data['session_start']}'
+					ORDER BY starttime ASC";
 			$rs = $db->sql_query($sql);
 			$chatBoxRowSet = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);
@@ -668,12 +667,12 @@ if (!class_exists('socialnet_im'))
 						foreach ($in_group as $user_id => $usr)
 						{
 							$template->assign_block_vars('sn_im_online_ufg.user', array(
-								'USER_ID'	 => $user_id,
-								'AVATAR'	 => $usr['avatar'],
-								'STATUS'	 => $usr['status'],
-								'USERNAME'	 => $usr['userName'],
-								'USERCLEAN'	 => addslashes($usr['userClean']),
-								'ONLINE'	 => $usr['online'],
+								'USER_ID'					 => $user_id,
+								'AVATAR'					 => $usr['avatar'],
+								'STATUS'					 => $usr['status'],
+								'USERNAME'					 => $usr['userName'],
+								'USERCLEAN'					 => addslashes($usr['userClean']),
+								'ONLINE'					 => $usr['online'],
 							));
 							$users[$user_id]['in_group'] = true;
 							unset($users[$user_id]); // <== User is displayed only in first group
@@ -684,11 +683,10 @@ if (!class_exists('socialnet_im'))
 				}
 
 				$in_group = array_diff_key($users, $in_group_added);
-				$array_first = array_shift(array_values($groups));
 				$template->assign_block_vars('sn_im_online_ufg', array(
 					'GID'	 => '0',
 					'NAME'	 => $user->lang['IM_GROUP_UNDECIDED'],
-					'HIDDEN' => $array_first['collapse'],
+					'HIDDEN' => $groups[0]['collapse'],
 					'COUNT'	 => count($in_group),
 					'GROUP'	 => true,
 				));
@@ -729,7 +727,7 @@ if (!class_exists('socialnet_im'))
 			}
 
 			$template->set_filenames(array(
-				'sn_im_online_list'	 => 'socialnet/im_onlinelist.html',
+				'sn_im_online_list' => 'socialnet/im_onlinelist.html',
 			));
 
 			$return = $this->p_master->get_page('sn_im_online_list', false);
@@ -762,7 +760,7 @@ if (!class_exists('socialnet_im'))
 			$config['min_post_chars'] = 1;
 			generate_text_for_storage($message, $bbuid, $bitfield, $flags, $this->p_master->allow_bbcode, $this->p_master->allow_urls, $this->p_master->allow_smilies);
 			$config['min_post_chars'] = $min_post_chars;
-			
+
 			if (!is_array($uid))
 			{
 				$sql_arr = array(
@@ -799,7 +797,7 @@ if (!class_exists('socialnet_im'))
 			$template->destroy();
 
 			$template->set_filenames(array(
-				'body'	 => 'socialnet/im.html',
+				'body' => 'socialnet/im.html',
 			));
 
 			$template->assign_var('SN_IM_MODE', 'sendMessage');
@@ -1012,7 +1010,7 @@ if (!class_exists('socialnet_im'))
 			}
 
 			$template->set_filenames(array(
-				'body'	 => 'socialnet/im_smilies.html',
+				'body' => 'socialnet/im_smilies.html',
 			));
 
 			$return = array();
@@ -1050,5 +1048,4 @@ if (isset($socialnet) && defined('SN_IM'))
 
 	$socialnet->modules_obj['im']->load($mode);
 }
-
 ?>
