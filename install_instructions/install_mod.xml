@@ -16,6 +16,7 @@ Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023
 phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370
 
 Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>
+		<author-notes lang="en"><![CDATA[Please note, that if you want to use "Fetch page" feature (while posting new status), you need to have CURL enabled, safe_mode off and open_basedir not set.]]></author-notes>
 		<author-group>
 			<author>
 				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>
