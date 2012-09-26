@@ -319,6 +319,16 @@ div:not(.sn-page) .sn-userName a {
 	padding-right: 40px;
 }
 
+.ltr .sn-expander-more a,.ltr .sn-expander-less a {
+	float: right;
+	margin-right: 5px;
+}
+
+.rtl .sn-expander-more a,.rtl .sn-expander-less a {
+	float: left;
+	margin-left: 5px;
+}
+
 .ui-dialog {
 	max-height: 80%;
 }
@@ -1620,11 +1630,11 @@ a.ui-button {
 	margin-top: 10px;
 }
 
-.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-expander-more a,.ltr .sn-expander-less a,.ltr .sn-im-group,.rtl .sn-im-status,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-smilies,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
+.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.rtl .sn-im-status,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-smilies,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
 	float: right;
 }
 
-.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-expander-more a,.rtl .sn-expander-less a,.rtl .sn-im-group,.ltr .sn-im-status,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-smilies,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.rtl .sn-fms-userBlockPaginationSlider,.ltr .sn-ap-avatar {
+.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-im-group,.ltr .sn-im-status,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-smilies,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.rtl .sn-fms-userBlockPaginationSlider,.ltr .sn-ap-avatar {
 	float: left;
 }
 
