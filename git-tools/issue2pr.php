@@ -110,5 +110,8 @@ function get_branch_name()
 {
 	$head = file_get_contents('../.git/HEAD');
 	$head = explode('/', $head);
-	return $head[2];
+
+	unset($head[0], $head[1]);
+
+	return implode('/', $head);
 }
