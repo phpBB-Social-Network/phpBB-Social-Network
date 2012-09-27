@@ -22,7 +22,7 @@ $lang = array_merge($lang, array(
 	/**
 	 * Edit these two lines write your own Welcome text for unregistered guests on Activity page.
 	 */
-	'SN_AP_WELCOME_TITLE'					 => 'Welcome to our web!',
+	'SN_AP_WELCOME_TITLE'					 => 'Welcome to our website!',
 	'SN_AP_WELCOME_TEXT'					 => 'Feel free to register and use all of the features of our website.<br /><br />Greetings,<br />the Administrator',
 
 	'SN_MODULE_IM_NAME'						 => 'Instant Messenger',
@@ -30,7 +30,7 @@ $lang = array_merge($lang, array(
 	'SN_MODULE_APPROVAL_NAME'				 => 'Friends management system',
 
 	'SN_IM_CHAT'							 => 'Chat',
-	'SN_IM_NO_ONLINE_USER'					 => 'No user online',
+	'SN_IM_NO_ONLINE_USER'					 => 'No user is online',
 	'SN_IM_YOU_ARE_OFFLINE'					 => 'You are offline',
 	'SN_IM_SOUND'							 => 'Sound',
 	'SN_IM_SELECT_NAME'						 => 'Choose a sound',
@@ -81,7 +81,7 @@ $lang = array_merge($lang, array(
 	'SN_AP_ACTIVITYPAGE'					 => 'Activity page',
 	'SN_AP_AND'								 => 'and',
 	'SN_AP_ARE_FRIENDS'						 => 'are now friends',
-	'SN_AP_ADD_AS_FRIEND'					 => 'Add as Friend',
+	'SN_AP_ADD_AS_FRIEND'					 => 'Add as a Friend',
 	'SN_AP_PRIVATE_MESSAGE'					 => 'Messages',
 	'SN_AP_MANAGE_PROFILE'					 => 'Edit My Profile',
 	'SN_AP_VIEW_FRIENDS'					 => 'View My Friends',
@@ -98,8 +98,7 @@ $lang = array_merge($lang, array(
 	'SN_AP_ONLINE_FRIENDS'					 => 'Friends online',
 	'SN_AP_NO_ONLINE_USER'					 => 'No users online',
 	'SN_AP_NO_DISCUSSION'					 => 'No recent discussions',
-	'SN_AP_NO_BIRTHDAY'					 	 => 'No one has birthday',
-	'SN_AP_NO_ENTRY'						 => 'Nothing new here',
+	'SN_AP_NO_BIRTHDAY'					 	 => 'There are no birthdays coming up',	'SN_AP_NO_ENTRY'						 => 'Nothing new here',
 	'SN_AP_LOAD_NEWS'						 => 'Refresh',
 	'SN_AP_SEE_ALL'							 => 'View All',
 	'SN_AP_NO_FRIENDS'						 => 'You have no friends',
@@ -117,7 +116,7 @@ $lang = array_merge($lang, array(
 	'SN_AP_BIRTHDAY_USERNAME'				 => '%1$s\'s',
 	'SN_AP_WELCOME'							 => 'Welcome',
 	'SN_AP_VIEWING_ACTIVITYPAGE'			 => 'Viewing Activity page',
-	'SN_AP_NO_SUGGESTIONS'					 => 'There are no friend suggestions for you',
+	'SN_AP_NO_SUGGESTIONS'					 => 'Currently, there are no friend suggestions for you',
 	'SN_AP_SEARCH'							 => 'Search…',
 	'SN_AP_CHANGED_PROFILE_HIS'				 => 'has updated his profile',
 	'SN_AP_CHANGED_PROFILE_HER'				 => 'has updated her profile',
@@ -495,11 +494,11 @@ $lang = array_merge($lang, array(
 
 	'SN_NTF_EMOTE_PM_TITLE'					 				=> '%1$s has sent you an emote',
 
-	'SN_NTF_RELATIONSHIP_APPROVED_PM_TITLE'	=> '%1$s has confirmed relationship with you',
-	'SN_NTF_FAMILY_APPROVED_PM_TITLE'		 		=> '%1$s has confirmed family relation with you',
+	'SN_NTF_RELATIONSHIP_APPROVED_PM_TITLE'	=> '%1$s has confirmed a relationship with you',
+	'SN_NTF_FAMILY_APPROVED_PM_TITLE'		 		=> '%1$s has confirmed a family relation with you',
 
-	'SN_NTF_RELATIONSHIP_REFUSED_PM_TITLE'	=> '%1$s has refused relationship with you',
-	'SN_NTF_FAMILY_REFUSED_PM_TITLE'				=> '%1$s has refused family relation with you',
+	'SN_NTF_RELATIONSHIP_REFUSED_PM_TITLE'	=> '%1$s has refused a relationship with you',
+	'SN_NTF_FAMILY_REFUSED_PM_TITLE'				=> '%1$s has refused a family relation with you',
 	
 	'SN_NTF_STATUS_FRIEND_MENTION_PM_TITLE' => '%1$s has mentioned you in his status',
 ));
