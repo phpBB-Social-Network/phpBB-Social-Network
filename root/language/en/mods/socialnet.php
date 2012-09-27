@@ -63,7 +63,7 @@ $lang = array_merge($lang, array(
 	'SN_US_CANCEL'							 => 'Cancel',
 	'SN_US_SHARED_A'						 => 'shared a',
 	'SN_US_LINK'							 => 'link',
-	
+
 	//
 	// FETCH PAGE
 	//
@@ -98,7 +98,8 @@ $lang = array_merge($lang, array(
 	'SN_AP_ONLINE_FRIENDS'					 => 'Friends online',
 	'SN_AP_NO_ONLINE_USER'					 => 'No users online',
 	'SN_AP_NO_DISCUSSION'					 => 'No recent discussions',
-	'SN_AP_NO_BIRTHDAY'					 	 => 'There are no birthdays coming up',	'SN_AP_NO_ENTRY'						 => 'Nothing new here',
+	'SN_AP_NO_BIRTHDAY'					 	 => 'There are no birthdays coming up',
+	'SN_AP_NO_ENTRY'						 => 'Nothing new here',
 	'SN_AP_LOAD_NEWS'						 => 'Refresh',
 	'SN_AP_SEE_ALL'							 => 'View All',
 	'SN_AP_NO_FRIENDS'						 => 'You have no friends',
@@ -499,7 +500,7 @@ $lang = array_merge($lang, array(
 
 	'SN_NTF_RELATIONSHIP_REFUSED_PM_TITLE'	=> '%1$s has refused a relationship with you',
 	'SN_NTF_FAMILY_REFUSED_PM_TITLE'				=> '%1$s has refused a family relation with you',
-	
+
 	'SN_NTF_STATUS_FRIEND_MENTION_PM_TITLE' => '%1$s has mentioned you in his status',
 ));
 
@@ -550,7 +551,7 @@ $lang = array_merge($lang, array(
 
 	'SN_NTF_RELATIONSHIP_REFUSED'	 => '%1$s has refused <a href="%2$s">relationship</a> with you',
 	'SN_NTF_FAMILY_REFUSED'			 => '%1$s has refused <a href="%2$s">family relation</a> with you',
-		
+
 	'SN_NTF_STATUS_FRIEND_MENTION' => '%1$s has mentioned you in <a href="%2$s">his status</a>',
 ));
 
