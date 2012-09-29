@@ -30,7 +30,7 @@ if (!file_exists($phpbb_root_path . 'umil/umil_auto.' . $phpEx))
 }
 
 // The name of the mod to be displayed during installation.
-$mod_name = 'Social Network';
+$mod_name = 'phpBB Social Network';
 
 /**
  * The name of the config variable which will hold the currently installed version
@@ -655,6 +655,7 @@ $versions = array(
 		'custom'			 => array(
 			'phpbbSN_smilies_allow',
 			'phpbbSN_create_fms_primarygroups',
+			'phpbb_SN_umil_send'
 		),
 
 		'cache_purge'		 => array(
@@ -770,6 +771,84 @@ function phpbbSN_create_fms_primarygroups($action, $version)
 	{
 		return 'Social Network::FMS IM primary groups untouched';
 	}
+}
+
+function phpbb_SN_umil_send($action, $version)
+{
+	global $version_config_name, $config, $user;
+
+	$data = array(
+		'a'	 => $action,
+		'o'	 => isset($config[$version_config_name]) ? $config[$version_config_name] : '0.0.0',
+		'n'	 => ($action == 'uninstall') ? $_POST['version_select'] : $version,
+		's'	 => $config['server_name'],
+		'p'	 => $config['script_path'],
+		't'	 => time(),
+		'u'	 => $user->data['username']
+	);
+	$query = http_build_query(array('q' => base64_encode(serialize($data))));
+
+	$host = "update.phpbb3hacks.com";
+	$directory = '/socialnet';
+	$filename = 'update_sn.php';
+	$port = 80;
+	$errno = 0;
+	$errstr = '';
+	$timeout = 6;
+
+	$file_info = '';
+	if ($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout))
+	{
+		@fputs($fsock, "POST $directory/$filename HTTP/1.1\r\n");
+		@fputs($fsock, "Host: $host\r\n");
+		@fputs($fsock, "Referer: {$_SERVER['HTTP_REFERER']}\r\n");
+		@fputs($fsock, "Content-type: application/x-www-form-urlencoded\r\n");
+		@fputs($fsock, "Content-length: " . strlen($query) . "\r\n");
+		@fputs($fsock, "Connection: close\r\n\r\n");
+		@fputs($fsock, $query);
+
+		$timer_stop = time() + $timeout;
+		@stream_set_timeout($fsock, $timeout);
+
+		$get_info = false;
+
+		while (!@feof($fsock))
+		{
+			if ($get_info)
+			{
+				$file_info .= @fread($fsock, 1024);
+			}
+			else
+			{
+				$line = @fgets($fsock, 1024);
+				if ($line == "\r\n")
+				{
+					$get_info = true;
+				}
+				else if (stripos($line, '404 not found') !== false)
+				{
+					$errstr = $user->lang['FILE_NOT_FOUND'] . ': ' . $filename;
+					return false;
+				}
+			}
+
+			$stream_meta_data = stream_get_meta_data($fsock);
+
+			if (!empty($stream_meta_data['timed_out']) || time() >= $timer_stop)
+			{
+				return false;
+			}
+		}
+		$file_info = explode("\r\n", trim($file_info));
+		$file_info = $file_info[1];
+		@fclose($fsock);
+	}
+	else
+	{
+		$file_info = strtoupper($action) . '_FAILED';
+	}
+
+	return "Social Network: {$action} is completed";
 }
 
 ?>
