@@ -58,7 +58,7 @@ jQuery(document).ready(function($){
 			us : '{SN_MODULE_USERSTATUS_ENABLED}' == '1',
 			ntf : '{SN_MODULE_NOTIFY_ENABLED}' == '1',
 			fms : '{SN_MODULE_APPROVAL_ENABLED}' == '1',
-			ap : '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == 1 && '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
+			ap : '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == 1,
 			up : '{SN_MODULE_PROFILE_ENABLED}' == '1'
 		},
 		comments : {
@@ -74,7 +74,7 @@ jQuery(document).ready(function($){
 	});
 
 // ## ACTIVITY PAGE -=- START ##
-<!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
+<!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE -->
 	$.sn.ap.init({
 		url : '{SOCIALNET_ROOT_PATH}activitypage.php',
 		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
