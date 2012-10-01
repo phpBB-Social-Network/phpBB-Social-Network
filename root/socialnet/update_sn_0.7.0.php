@@ -30,8 +30,7 @@ if (!file_exists($phpbb_root_path . 'umil/umil_auto.' . $phpEx))
 }
 
 // The name of the mod to be displayed during installation.
-$mod_name = 'phpBB Social Network update';
-
+$mod_name = 'phpBB Social Network - update';
 /**
  * The name of the config variable which will hold the currently installed version
  * You do not need to set this yourself, UMIL will handle setting and updating the version itself.
@@ -980,8 +979,6 @@ function phpbb_SN_umil_send($action, $version)
 		'u'	 => $user->data['username']
 	);
 	$query = http_build_query(array('q' => base64_encode(serialize($data))));
-
-	//$query = http_build_query($data);
 
 	$host = "update.phpbb3hacks.com";
 	$directory = '/socialnet';
