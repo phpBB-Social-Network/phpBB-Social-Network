@@ -1,0 +1,153 @@
+
+.sn-ap-avatar {
+	display: inline-block;
+	margin: 0 10px;
+
+	a:link, a:visited, a:hover, a:active {
+		display: inline-block;
+	}
+	
+	.ltr & {
+		float: left;
+	}
+	
+	.rtl & {
+		float: right;
+	}
+}
+
+
+.sn-ap-search {
+	border: 1px solid @sn-page-bordercolor-content;
+	margin: 8px 0 16px;
+	/*background-color: @sn-page-bordercolor-content;*/
+	
+	input, input:hover, input:focus {
+		border: none;
+		width: @sn-page-width-columnLeft - 30px;
+	}
+	
+	&:hover, &:focus, &.sn-inputbox-focus {
+		border-color: @sn-inputbox-focus;
+		/*background-color: @sn-inputbox-focus;*/
+		
+	}
+
+	input[type=text] {
+		height: 16px;
+	}
+	input[type=image] {
+		padding: 0;
+		width: 23px;
+		background-color: #fff;
+		height: 20px;
+		
+	}
+	
+	.ui-autocomplete {
+		max-height: 300px;
+		overflow: auto;
+	}
+
+
+}
+
+.sn-ap-searchInput, .sn-ap-searchImage {
+	.ltr .sn-ap-search &, .rtl .sn-ap-search & {
+	float: none;
+	}
+}
+
+.sn-ap-loadNewsOver {
+	margin-bottom: 4px;
+	
+	.ltr & {
+		text-align: right;
+	}
+
+	.rtl & {
+		text-align: left;
+	}
+}
+
+.sn-ap-loadNews {
+	background-image: url("{T_IMAGESET_PATH}/socialnet/button_arrow_down.png");
+	background-repeat: no-repeat;
+	
+	.ltr & {
+		background-position: 100% 60%;
+		padding-right: 12px;
+	}
+	
+	.rtl & {
+		background-position: 0% 60%;
+		padding-left: 12px;
+	}
+	
+}
+
+.sn-ap-textBlock {
+	border-top: 1px solid @sn-menu-bordercolor;
+	padding: 6px 4px;
+	
+	&:first-child {
+		border-top: none;
+	}
+	
+	&:last-child {
+		padding-bottom: 0;
+	}
+	
+	a.topictitle {
+		font-weight: bold;
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.sn-us-statusBlock {
+		border-top: none;
+		padding: 0;
+	}
+	
+	.ui-dialog & {
+		border-top: none;
+	}
+}
+
+.sn-ap-entryIcon {
+	background: transparent none no-repeat 55% 50%;
+	width: 54px;
+	display: inline-block;
+
+	.ltr & {
+		float: left;
+		margin-left: -60px;
+	}
+
+	.rtl & {
+		float: right;
+		margin-right: -60px;
+	}
+
+}
+
+.sn-ap-textBlock-addUser .sn-ap-entryIcon {
+	background-image: url("{T_IMAGESET_PATH}/socialnet/icon_fms_add_user.png");
+}
+
+.sn-ap-textBlock-newFamily .sn-ap-entryIcon {
+	background-image: url("{T_IMAGESET_PATH}/socialnet/icon_up_new_family.png");
+}
+
+.sn-ap-textBlock-profileChanged .sn-ap-entryIcon {
+	background-image: url("{T_IMAGESET_PATH}/socialnet/icon_up_changed.png");
+}
+
+.sn-ap-textBlock-newRelationship .sn-ap-entryIcon {
+	background-image: url("{T_IMAGESET_PATH}/socialnet/icon_up_new_relationship.png");
+}
+
+.sn-ap-textBlock-sendEmote .sn-ap-entryIcon {
+	background-image: url("{T_IMAGESET_PATH}/socialnet/icon_up_send_emote.png");
+}
