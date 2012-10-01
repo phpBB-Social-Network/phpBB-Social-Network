@@ -11,9 +11,7 @@ This is the Theme compiler for any style for phpBB Social Network
 #### How To Use 
 
 Folders like <code>prosilver</code> contains less files, that are compiled after you edit these files.
-
 Normaly use your favorite CSS editor to edit <code>*.less</code>.
-
 Than you load any page on SN site where is hook installed.
 
 #### Output file
