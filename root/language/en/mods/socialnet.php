@@ -389,6 +389,8 @@ $lang = array_merge($lang, array(
 	// Instant Messenger
 	'IM_ONLINE'								 => 'I am Online',
 	'IM_ONLINE_EXPLAIN'						 => 'If yes, friends will see you in the online list and they can chat with you.',
+	'IM_ALLOW_SOUND'						 => 'Play sound when receive messages',
+	'IM_ALLOW_SOUND_EXPLAIN'				 => 'This option enables/disables sound when receiving a new message',
 
 	'IM_HISTORY_PURGED_AT'					 => 'Instant Messenger history has been deleted by administrator on %1$s',
 	'IM_NO_HISTORY'							 => 'You have no instant messages',
