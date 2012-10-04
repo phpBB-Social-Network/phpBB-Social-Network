@@ -53,23 +53,23 @@ class snFunctions
 	/**
 	 * @var array $fms_users_default Default values for {@link snFunctions::fms_users}
 	 *
-	 * @property string		mode			- Mode of block. Default: 'friend'.
+	 * @property string 	mode			- Mode of block. Default: 'friend'.
 	 * @property integer	user_id			- User id. 0 is set to be actual logged used. Default: 0.
 	 * @property integer	fmsf			- Pagination start. Default 0.
 	 * @property integet	limit			- Limit per page. 0 is set to be actual $config['fas_friendlist_limit']. -1 set to be unlimited. Default: 0.
-	 * @property string		checkbox		- Name of the checkbox used in user list. '' is checkbox not used. Default: ''.
+	 * @property string 	checkbox		- Name of the checkbox used in user list. '' is checkbox not used. Default: ''.
 	 * @property boolean	ajax_load		- is loaded using AJAX. Default: false.
 	 * @property boolean	slider			- Instead standard phpBB pagination could be used jQuery UI slider. Default: true.
 	 * @property integer	avatar_size 	- Size of avatar. Default: 50.
 	 * @property boolean	add_friend_link	- Add add friend link to box if user is not my friend. Default: false.
 	 * @property integer	total			- Total count of users for block. Default: 0.
-	 * @property array		rowset			- Rowset of available users for block. Default: null.
-	 * @property string		sql_pagination	- Sql to select total count for pagination. If sets override param total. Default: ''.
-	 * @property string		sql_content		- Sql to select users for display. If sets override rowset. Default: ''.
-	 * @property string		user_id_field	- What is current ID of displayed users. Default: 'zebra_id'.
+	 * @property array  	rowset			- Rowset of available users for block. Default: null.
+	 * @property string 	sql_pagination	- Sql to select total count for pagination. If sets override param total. Default: ''.
+	 * @property string 	sql_content		- Sql to select users for display. If sets override rowset. Default: ''.
+	 * @property string 	user_id_field	- What is current ID of displayed users. Default: 'zebra_id'.
 	 * @property boolean	random			- Random list for select. Default: false.
-	 * @property string		tpl_name		- Specific template. Default: 'socialnet/block_fms_users'.
-	 * @property boolean		profile_link		- If true, creates links to profile. Default: true.
+	 * @property string 	tpl_name		- Specific template. Default: 'socialnet/block_fms_users'.
+	 * @property boolean	profile_link		- If true, creates links to profile. Default: true.
 	 */
 	var $fms_users_default = array(
 		'mode'				 => 'friend',
@@ -102,6 +102,7 @@ class snFunctions
 	/**
 	 * Constructor.
 	 *
+	 * @access public
 	 */
 	function snFunctions()
 	{
@@ -148,8 +149,11 @@ class snFunctions
 	 *
 	 * @todo Give more exact overall description and description for $all_online param for this function.
 	 *
-	 * @param bool $all_online
-	 * @return loads online users
+	 * @access public
+	 *
+	 * @param 	bool	$all_online
+	 *
+	 * @return	array	loads online users
 	 */
 	function onlineUsers($all_online = false) //sn_core_users
 
@@ -177,8 +181,11 @@ class snFunctions
 	 *
 	 * @todo Give more exact overall description and description for $all_online param for this function.
 	 *
-	 * @param bool $all_online
-	 * @return list of online users
+	 * @access public
+	 *
+	 * @param 	bool	$all_online
+	 *
+	 * @return	array	list of online users
 	 */
 	function onlineSelect($all_online = false) //sn_core_users
 
@@ -269,8 +276,11 @@ class snFunctions
 	/**
 	 * Queries the session table to get information about online users
 	 *
-	 * @param mixed $time
-	 * @return list of online users
+	 * @access public
+	 *
+	 * @param 	mixed	$time
+	 *
+	 * @return	array	list of online users
 	 */
 	function obtain_users_online($time) //sn_core_users
 
@@ -325,6 +335,8 @@ class snFunctions
 	/**
 	 * Assigns template variables for online users list or returns it in json format.
 	 *
+	 * @access public
+	 *
 	 * @param bool $json decides if result should be retuned in json format
 	 */
 	function online_users($json = false) // sn_core_users -> online
@@ -377,9 +389,12 @@ class snFunctions
 	/**
 	 * Creates SQL string/array to select friends or other users
 	 *
-	 * @param mixed $mode Friends Management System mode
-	 * @param mixed $user_id
-	 * @return array array of SQLs
+	 * @access public
+	 *
+	 * @param 	mixed	$mode Friends Management System mode
+	 * @param 	mixed	$user_id
+	 *
+	 * @return	array	array of SQLs
 	 */
 	function fms_users_sqls($mode, $user_id) //sn_core_users
 	{
@@ -485,11 +500,13 @@ class snFunctions
 	/**
 	 * This function generates pagination and block with users depending on parameters.
 	 *
+	 * @access public
+	 *
 	 * @param array $params Parameter array. For valid values look at {@link snFunctions::$fms_users_default snFunctions::$fms_users_default}
 	 *
-	 * @return array
-	 * @property string		pagination		- Current pagination string
-	 * @property string		content			- Current content of block
+	 * @return   array
+	 * @property string 	pagination		- Current pagination string
+	 * @property string 	content			- Current content of block
 	 * @property boolean	is_not_empty	- Is not empty current block
 	 *
 	 * Automatically are filled these template variables
@@ -586,13 +603,15 @@ class snFunctions
 	 *
 	 * @todo add comments to parameters, comment on return
 	 *
-	 * @param string $mode
-	 * @param int $total
-	 * @param int $start
-	 * @param int $limit
-	 * @param int $user_id
-	 * @param string $tpl_name
-	 * @param bool $profile_link
+	 * @access private
+	 *
+	 * @param 	string $mode
+	 * @param 	int    $total
+	 * @param 	int    $start
+	 * @param 	int    $limit
+	 * @param 	int    $user_id
+	 * @param 	string $tpl_name
+	 * @param 	bool   $profile_link
 	 *
 	 * @return
 	 */
@@ -671,14 +690,16 @@ class snFunctions
 	 *
 	 * @todo write full description, check for variable types in params, comment on return
 	 *
-	 * @param array $rowset
-	 * @param mixed $user_id_field
-	 * @param int $limit
-	 * @param mixed $avatar_size
-	 * @param bool $add_friend_link
-	 * @param string $tpl_name
+	 * @access private
 	 *
-	 * @return array
+	 * @param 	array  $rowset
+	 * @param 	mixed  $user_id_field
+	 * @param 	int    $limit
+	 * @param 	mixed  $avatar_size
+	 * @param 	bool   $add_friend_link
+	 * @param 	string $tpl_name
+	 *
+	 * @return	array
 	 */
 	function _fms_users_fill($rowset, $user_id_field, $limit, $avatar_size, $add_friend_link, $tpl_name) //sn_core_users
 	{
@@ -728,12 +749,14 @@ class snFunctions
 	 *
 	 * @todo comment on params
 	 *
-	 * @param string 	$part				defines what part of date should be returned (complete, date or time)
-	 * @param mixed 	$gmepoch 		UNIX timestamp
-	 * @param bool 		$format
-	 * @param bool 		$forcedate
+	 * @access public
 	 *
-	 * @return string formatted date
+	 * @param 	string 	$part   	defines what part of date should be returned (complete, date or time)
+	 * @param 	mixed 	$gmepoch	UNIX timestamp
+	 * @param 	bool 	$format
+	 * @param 	bool 	$forcedate
+	 *
+	 * @return 	string	formatted date
 	 */
 	function format_date($part, $gmepoch, $format = false, $forcedate = false)
 	{
@@ -774,6 +797,8 @@ class snFunctions
 	 * Select users for autocomplete
 	 *
 	 * No return, echoes json encoded list of users
+	 *
+	 * @access public
 	 */
 	function users_autocomplete()
 	{
@@ -804,11 +829,13 @@ class snFunctions
 	/**
 	 * Loads block using block function
 	 *
-	 * @param string $block_name 	Name of block that should be loaded
-	 *
 	 * @todo I think it should be trimmed, just like in {@link snFunctions::blocks blocks()}
 	 *
-	 * @return mixed 	result of called block method
+	 * @access public
+	 *
+	 * @param  	string	$block_name	Name of block that should be loaded
+	 *
+	 * @return 	mixed	result of called block method
 	 */
 	function block($block_name)
 	{
@@ -818,9 +845,11 @@ class snFunctions
 	/**
 	 * Loads blocks using block function
 	 *
-	 * @param array $blocks 	Name of blocks that should be loaded
+	 * @access public
 	 *
-	 * @return array 	results of called block method
+	 * @param 	array	$blocks	Name of blocks that should be loaded
+	 *
+	 * @return	array	results of called block method
 	 */
 	function blocks($blocks)
 	{
@@ -844,6 +873,8 @@ class snFunctions
 
 	/**
 	 * Loads login block if necessary
+	 *
+	 * @access public
 	 *
 	 * @return bool
 	 */
@@ -951,6 +982,8 @@ class snFunctions
 	/**
 	 * Loads "My profile" block
 	 *
+	 * @access public
+	 *
 	 * @return void|true
 	 */
 	function myprofile()
@@ -978,6 +1011,8 @@ class snFunctions
 	/**
 	 * Loads "Menu" block
 	 *
+	 * @access public
+	 *
 	 * @return void|true
 	 */
 	function menu()
@@ -1000,6 +1035,8 @@ class snFunctions
 
 	/**
 	 * Loads "Board Statistics" block
+	 *
+	 * @access public
 	 */
 	function statistics()
 	{
@@ -1053,6 +1090,8 @@ class snFunctions
 	 * Loads "Board statistics" block
 	 *
 	 * Thanks to {@link http://phpbbsocialnetwork.com/profile.php?u=117 silli} for this function
+	 *
+	 * @access public
 	 */
 	function birthday()
 	{
@@ -1130,6 +1169,8 @@ class snFunctions
 
 	/**
 	 * Loads "Search" block
+	 *
+	 * @access public
 	 */
 	function search()
 	{
@@ -1150,6 +1191,8 @@ class snFunctions
 
 	/**
 	 * Loads "Friends Suggestions" block
+	 *
+	 * @access public
 	 */
 	function friends_suggestions($limit = 4)
 	{
@@ -1213,6 +1256,8 @@ class snFunctions
 
 	/**
 	 * Loads "Friend Requests" block
+	 *
+	 * @access public
 	 */
 	function friend_requests()
 	{
@@ -1265,6 +1310,8 @@ class snFunctions
 
 	/**
 	 * Loads "Last Recent Discussions" block
+	 *
+	 * @access public
 	 */
 	function recent_discussions()
 	{
@@ -1324,8 +1371,10 @@ class snFunctions
 	/**
 	 * Posts new status from PHP code
 	 *
-	 * @param string $new_status status text
-	 * @param int $wall_id ID of user to whom wall status should be posted
+	 * @access public
+	 *
+	 * @param	string	$new_status status text
+	 * @param	int   	$wall_id ID of user to whom wall status should be posted
 	 */
 	function post_status($new_status, $wall_id = 0)
 	{
@@ -1355,7 +1404,9 @@ class snFunctions
 	 *
 	 * @todo comment on return
 	 *
-	 * @param integer $parent_id defines parent ID from which menu should be loaded
+	 * @access private
+	 *
+	 * @param 	integer	$parent_id	defines parent ID from which menu should be loaded
 	 *
 	 * @return
 	 */
@@ -1403,9 +1454,12 @@ class snFunctions
 	/**
 	 * Generates language string for relationship status
 	 *
-	 * @param string $status_id type of relationship (1 - single, 2 - relationship, 3 - engaged, 4 - married, 5 - it is complicated, 6 - open relationship, 7 - widowed, 8 - separated, 9 - divorced)
-	 * @param bool $approved defines if relationship is approved by second user
-	 * @return string language string for relationship status
+	 * @access public
+	 *
+	 * @param 	string	$status_id type of relationship (1 - single, 2 - relationship, 3 - engaged, 4 - married, 5 - it is complicated, 6 - open relationship, 7 - widowed, 8 - separated, 9 - divorced)
+	 * @param 	bool  	$approved defines if relationship is approved by second user
+	 *
+	 * @return	string	language string for relationship status
 	 */
 	function relationship_status($status_id, $approved = false)
 	{
@@ -1452,8 +1506,11 @@ class snFunctions
 	 *
 	 * @todo add comment to $status_id for specific input, just like in {@link snFunctions::relationship_status snFunctions::relationship_status}
 	 *
-	 * @param string $status_id type of family relationship
-	 * @return string language string for family status
+	 * @access public
+	 *
+	 * @param 	string	$status_id type of family relationship
+	 *
+	 * @return	string	language string for family status
 	 */
 	function family_status($status_id)
 	{
@@ -1537,10 +1594,12 @@ class snFunctions
 	/**
 	 * Generates select list for family relationships
 	 *
+	 * @access public
+	 *
 	 * @param 	mixed 	$status_id 	type of status
 	 * @param 	mixed 	$sex 				sex to generate accurate list
 	 *
-	 * @return 	string 	list of HTML <option>s
+	 * @return	string	list of HTML <option>s
 	 */
 	function return_family($status_id, $sex)
 	{
@@ -1615,6 +1674,8 @@ class snFunctions
 
 	/**
 	 * Generates BBCode flags for socialnet
+	 *
+	 * @access private
 	 */
 	function _calc_bbcodeFlags()
 	{
@@ -1630,10 +1691,12 @@ class snFunctions
 	/**
 	 * Checks if a permission (auth) setting exists
 	 *
-	 * @param 	string 	$auth_option 	The name of the permission (auth) option
-	 * @param 	boolean $global 			True for checking a global permission setting, False for a local permission setting
+	 * @access private
 	 *
-	 * @return 	boolean 							true if it exists, false if not
+	 * @param 	string 	$auth_option	The name of the permission (auth) option
+	 * @param 	boolean	$global     	True for checking a global permission setting, False for a local permission setting
+	 *
+	 * @return	boolean			true if it exists, false if not
 	 */
 	function _permission_exists($auth_option, $global = true)
 	{
@@ -1667,9 +1730,11 @@ class snFunctions
 	/**
 	 * Checks for new version. Assigns template variables.
 	 *
+	 * @access private
+	 *
 	 * @todo comment on $file param, add parameters to it
 	 *
-	 * @param array $file
+	 * @param	array	$file
 	 */
 	function _version_checker($file)
 	{
@@ -1752,11 +1817,13 @@ class snFunctions
 	 *
 	 * @todo comment on return
 	 *
-	 * @param string 	$xml XML data
-	 * @param boolean $get_attributes Vrátit atributy xml tagů
-	 * @param string 	$priority
+	 * @access private
 	 *
-	 * @return mixed
+	 * @param 	string 	$xml XML data
+	 * @param 	boolean	$get_attributes Vrátit atributy xml tagů
+	 * @param 	string 	$priority
+	 *
+	 * @return	mixed
 	 */
 	function _setup_array($xml, $get_attributes = 1, $priority = 'tag')
 	{
@@ -1908,6 +1975,9 @@ class snFunctions
 	 * $array['parent']['child'][1] = 'b';
 	 * ...And so on.
 	 * _____________________________________
+	 *
+	 * @access public
+	 *
 	 * @param simpleXMLElement $xml the XML to convert
 	 * @param boolean $flattenValues    Choose wether to flatten values
 	 *                                    or to set them under a particular index.
@@ -2013,8 +2083,11 @@ class snFunctions
 	 *
 	 * @todo check if $default parameter cannot have default value " "
 	 *
-	 * @param mixed $name			name of cookie
-	 * @param mixed $default	value that is returned if cookie with specified name does not exist
+	 * @access public
+	 *
+	 * @param 	mixed $name   	name of cookie
+	 * @param 	mixed $default	value that is returned if cookie with specified name does not exist
+	 *
 	 * @return
 	 */
 	function getCookie($name, $default)
@@ -2046,9 +2119,11 @@ class snFunctions
  *
  * @todo verify if description is correct, comment on $matches, comment on return
  *
- * @param mixed $matches
+ * @access public
  *
- * @return string
+ * @param 	mixed	$matches
+ *
+ * @return	string
  */
 function snFunctions_absolutePath($matches)
 {
@@ -2061,7 +2136,9 @@ function snFunctions_absolutePath($matches)
  *
  * @todo verify if description is correct, comment on $string, comment on return
  *
- * @param mixed $string
+ * @access public
+ *
+ * @param 	mixed	$string
  *
  * @return
  */
@@ -2094,6 +2171,8 @@ if (!function_exists('json_encode'))
 	 * PEAR/JSON: 46x
 	 *
 	 * NOTE: I assume the input will be valid UTF-8. I don't know what happens if your data contains illegal Unicode sequences. I tried to make the code fast and compact.
+	 *
+	 * @access public
 	 *
 	 * @author boukeversteegh
 	 */
@@ -2179,6 +2258,9 @@ if (!function_exists('json_decode'))
 {
 	/**
 	 * json_encode function for PHP lower than 5.2.0
+	 *
+	 * @access public
+	 *
 	 * @author walidator.info 2009
 	 */
 	function json_decode($json)
@@ -2213,7 +2295,11 @@ if (!function_exists('array_walk_recursive'))
 {
 	/**
 	 * array_walk_recursive for PHP lower than 5.0.0
+	 *
+	 * @access public
+	 *
 	 * @author omera13a
+	 *
 	 * @since 22.12.2005
 	 */
 	function array_walk_recursive(&$input, $funcname, $userdata = "")
@@ -2258,6 +2344,8 @@ if (!function_exists('array_walk_recursive'))
 
 /**
  * Backtrace generator for SN
+ *
+ * @access public
  */
 function sn_backtrace()
 {
