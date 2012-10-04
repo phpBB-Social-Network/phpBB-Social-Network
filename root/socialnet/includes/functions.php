@@ -1,10 +1,14 @@
 <?php
 /**
  *
- * @package phpBB Social Network
- * @version 0.7.0
- * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @author		@author Culprit <jankalach@gmail.com>
+ * @author		Kamahl <kamahl19@gmail.com>
+ *
+ * @package		phpBB Social Network
+ * @version		0.7.0
+ * @since		0.6.0
+ * @copyright	(c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license		http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
 
@@ -153,10 +157,13 @@ class snFunctions
 	 *
 	 * @param 	bool	$all_online
 	 *
-	 * @return	array	loads online users
+	 * @global	string	$socialnet_root_path	Socialnet root path string
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	object	$user			phpBB user object
+	 *
+	 * @return	array				loads online users
 	 */
 	function onlineUsers($all_online = false) //sn_core_users
-
 	{
 		global $socialnet_root_path, $phpbb_root_path, $user;
 
@@ -184,6 +191,11 @@ class snFunctions
 	 * @access public
 	 *
 	 * @param 	bool	$all_online
+	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$user			phpBB user object
+	 * @global	string	$phpbb_root_path	phpBB root path string
 	 *
 	 * @return	array	list of online users
 	 */
@@ -280,10 +292,12 @@ class snFunctions
 	 *
 	 * @param 	mixed	$time
 	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$user			phpBB user object
+	 *
 	 * @return	array	list of online users
 	 */
 	function obtain_users_online($time) //sn_core_users
-
 	{
 		global $db, $user;
 
@@ -337,10 +351,12 @@ class snFunctions
 	 *
 	 * @access public
 	 *
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$user			phpBB user object
+	 *
 	 * @param bool $json decides if result should be retuned in json format
 	 */
 	function online_users($json = false) // sn_core_users -> online
-
 	{
 		global $template, $user;
 
@@ -393,6 +409,11 @@ class snFunctions
 	 *
 	 * @param 	mixed	$mode Friends Management System mode
 	 * @param 	mixed	$user_id
+	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$user			phpBB user object
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	object	$cache			phpBB cache object
 	 *
 	 * @return	array	array of SQLs
 	 */
@@ -504,10 +525,15 @@ class snFunctions
 	 *
 	 * @param array $params Parameter array. For valid values look at {@link snFunctions::$fms_users_default snFunctions::$fms_users_default}
 	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$cache			phpBB cache object
+	 *
 	 * @return   array
 	 * @property string 	pagination		- Current pagination string
 	 * @property string 	content			- Current content of block
-	 * @property boolean	is_not_empty	- Is not empty current block
+	 * @property boolean	is_not_empty		- Is not empty current block
 	 *
 	 * Automatically are filled these template variables
 	 *	'SN_FMS_BLOCK_' . UPPER($mode) . '_PAGINATION_STRING'	- pagination string
@@ -613,6 +639,9 @@ class snFunctions
 	 * @param 	string $tpl_name
 	 * @param 	bool   $profile_link
 	 *
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$template		phpBB template object
+	 *
 	 * @return
 	 */
 	function _fms_users_pagination($mode, $total, $start, $limit, $user_id, $tpl_name, $profile_link = true) // sn_core_users
@@ -699,6 +728,13 @@ class snFunctions
 	 * @param 	bool   $add_friend_link
 	 * @param 	string $tpl_name
 	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$template		phpBB template object
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	string	$phpEx			php extension
+	 * @global	array	$config			phpBB config array
+	 * @global	object	$user			phpBB user object
+	 *
 	 * @return	array
 	 */
 	function _fms_users_fill($rowset, $user_id_field, $limit, $avatar_size, $add_friend_link, $tpl_name) //sn_core_users
@@ -756,6 +792,8 @@ class snFunctions
 	 * @param 	bool 	$format
 	 * @param 	bool 	$forcedate
 	 *
+	 * @global	object	$user		phpBB user object
+	 *
 	 * @return 	string	formatted date
 	 */
 	function format_date($part, $gmepoch, $format = false, $forcedate = false)
@@ -799,6 +837,8 @@ class snFunctions
 	 * No return, echoes json encoded list of users
 	 *
 	 * @access public
+	 *
+	 * @global	object	$db			phpBB database object
 	 */
 	function users_autocomplete()
 	{
@@ -876,12 +916,18 @@ class snFunctions
 	 *
 	 * @access public
 	 *
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	string	$phpEx			php extension
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$auth			phpBB auth object
+	 *
 	 * @return bool
 	 */
 	function login()
 	{
-		global $phpbb_root_path, $phpEx;
-		global $user, $template, $db, $auth;
+		global $phpbb_root_path, $phpEx, $user, $template, $db, $auth;
 
 		if ($user->data['user_type'] != USER_IGNORE)
 		{
@@ -984,12 +1030,16 @@ class snFunctions
 	 *
 	 * @access public
 	 *
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	string	$phpEx			php extension
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$template		phpBB template object
+	 *
 	 * @return void|true
 	 */
 	function myprofile()
 	{
-		global $phpbb_root_path, $phpEx;
-		global $user, $template;
+		global $phpbb_root_path, $phpEx, $user, $template;
 
 		if (!$this->config['sn_block_myprofile'])
 		{
@@ -1013,12 +1063,16 @@ class snFunctions
 	 *
 	 * @access public
 	 *
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	string	$phpEx			php extension
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$template		phpBB template object
+	 *
 	 * @return void|true
 	 */
 	function menu()
 	{
-		global $phpbb_root_path, $phpEx;
-		global $user, $template;
+		global $phpbb_root_path, $phpEx, $user, $template;
 
 		if (!$this->config['sn_block_menu'])
 		{
@@ -1037,6 +1091,9 @@ class snFunctions
 	 * Loads "Board Statistics" block
 	 *
 	 * @access public
+	 *
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$template		phpBB template object
 	 */
 	function statistics()
 	{
@@ -1092,6 +1149,13 @@ class snFunctions
 	 * Thanks to {@link http://phpbbsocialnetwork.com/profile.php?u=117 silli} for this function
 	 *
 	 * @access public
+	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$template		phpBB template object
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	string	$phpEx			php extension
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$cache			phpBB cache object
 	 */
 	function birthday()
 	{
@@ -1171,6 +1235,11 @@ class snFunctions
 	 * Loads "Search" block
 	 *
 	 * @access public
+	 *
+	 * @global	object	$template		phpBB template object
+	 * @global	string	$phpEx			php extension
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	object	$user			phpBB user object
 	 */
 	function search()
 	{
@@ -1193,6 +1262,16 @@ class snFunctions
 	 * Loads "Friends Suggestions" block
 	 *
 	 * @access public
+	 *
+	 * @param	int	$limit	display specified amount of suggestions
+	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$template		phpBB template object
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	string	$phpEx			php extension
+	 * @global	object	$user			phpBB user object
+	 * @global	object	$cache			phpBB cache object
+	 * @global	object	$socialnet		Socialne object
 	 */
 	function friends_suggestions($limit = 4)
 	{
@@ -1258,6 +1337,10 @@ class snFunctions
 	 * Loads "Friend Requests" block
 	 *
 	 * @access public
+	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$user			phpBB user object
 	 */
 	function friend_requests()
 	{
@@ -1312,11 +1395,17 @@ class snFunctions
 	 * Loads "Last Recent Discussions" block
 	 *
 	 * @access public
+	 *
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$auth			phpBB auth object
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$user			phpBB user object
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	string	$phpEx	php extension
 	 */
 	function recent_discussions()
 	{
-		global $db, $auth, $template, $user;
-		global $phpbb_root_path, $phpEx;
+		global $db, $auth, $template, $user, $phpbb_root_path, $phpEx;
 
 		if (!isset($this->config['ap_num_last_posts']) || $this->config['ap_num_last_posts'] == 0 || !$this->config['sn_block_recent_discussions'])
 		{
@@ -1375,6 +1464,8 @@ class snFunctions
 	 *
 	 * @param	string	$new_status status text
 	 * @param	int   	$wall_id ID of user to whom wall status should be posted
+	 *
+	 * @global	object	$socialnet		Socialnet object
 	 */
 	function post_status($new_status, $wall_id = 0)
 	{
@@ -1407,6 +1498,10 @@ class snFunctions
 	 * @access private
 	 *
 	 * @param 	integer	$parent_id	defines parent ID from which menu should be loaded
+	 *
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$db			phpBB database object
+	 * @global	object	$user			phpBB user object
 	 *
 	 * @return
 	 */
@@ -1459,6 +1554,8 @@ class snFunctions
 	 * @param 	string	$status_id type of relationship (1 - single, 2 - relationship, 3 - engaged, 4 - married, 5 - it is complicated, 6 - open relationship, 7 - widowed, 8 - separated, 9 - divorced)
 	 * @param 	bool  	$approved defines if relationship is approved by second user
 	 *
+	 * @global	object	$user			phpBB user object
+	 *
 	 * @return	string	language string for relationship status
 	 */
 	function relationship_status($status_id, $approved = false)
@@ -1509,6 +1606,8 @@ class snFunctions
 	 * @access public
 	 *
 	 * @param 	string	$status_id type of family relationship
+	 *
+	 * @global	object	$user			phpBB user object
 	 *
 	 * @return	string	language string for family status
 	 */
@@ -1597,7 +1696,10 @@ class snFunctions
 	 * @access public
 	 *
 	 * @param 	mixed 	$status_id 	type of status
-	 * @param 	mixed 	$sex 				sex to generate accurate list
+	 * @param 	mixed 	$sex 		sex to generate accurate list
+	 *
+	 * @global	object	$template	phpBB template object
+	 * @global	object	$socialnet	Socialnet object
 	 *
 	 * @return	string	list of HTML <option>s
 	 */
@@ -1676,6 +1778,8 @@ class snFunctions
 	 * Generates BBCode flags for socialnet
 	 *
 	 * @access private
+	 *
+	 * @global	array	$config		phpBB config array
 	 */
 	function _calc_bbcodeFlags()
 	{
@@ -1695,6 +1799,8 @@ class snFunctions
 	 *
 	 * @param 	string 	$auth_option	The name of the permission (auth) option
 	 * @param 	boolean	$global     	True for checking a global permission setting, False for a local permission setting
+	 *
+	 * @global	object	$db		phpBB database object
 	 *
 	 * @return	boolean			true if it exists, false if not
 	 */
@@ -1735,6 +1841,10 @@ class snFunctions
 	 * @todo comment on $file param, add parameters to it
 	 *
 	 * @param	array	$file
+	 *
+	 * @global	array	$config			phpBB config array
+	 * @global	object	$template		phpBB template object
+	 * @global	object	$user			phpBB user object
 	 */
 	function _version_checker($file)
 	{
@@ -2088,6 +2198,8 @@ class snFunctions
 	 * @param 	mixed $name   	name of cookie
 	 * @param 	mixed $default	value that is returned if cookie with specified name does not exist
 	 *
+	 * @global	array	$config			phpBB config array
+	 *
 	 * @return
 	 */
 	function getCookie($name, $default)
@@ -2139,6 +2251,10 @@ function snFunctions_absolutePath($matches)
  * @access public
  *
  * @param 	mixed	$string
+ *
+ * @global	string	$phpbb_root_path	phpBB root path
+ * @global	array	$config			phpBB config array
+ * @global	object	$user			phpBB user object
  *
  * @return
  */
