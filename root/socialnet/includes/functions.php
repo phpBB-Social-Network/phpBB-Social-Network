@@ -55,7 +55,11 @@ class snFunctions
 	var $charTranslation = array();
 
 	/**
-	 * @var array $fms_users_default Default values for {@link snFunctions::fms_users}
+	 * $fms_users_default
+	 *
+	 * Default values for {@link snFunctions::fms_users}
+	 *
+	 * @var array $fms_users_default
 	 *
 	 * @property string 	mode			- Mode of block. Default: 'friend'.
 	 * @property integer	user_id			- User id. 0 is set to be actual logged used. Default: 0.
@@ -96,9 +100,10 @@ class snFunctions
 	);
 
 	/**
+	 * cache for cookies
+	 *
 	 * @var array $cookies
 	 *
-	 * cache for cookies
 	 * @see snFunctions::getCookie
 	 */
 	var $cookies = array();
@@ -1921,6 +1926,7 @@ class snFunctions
 
 	/**
 	 * XML parser
+	 *
 	 * Parse xml into field
 	 * From {@link http://startrekguide.com/community/viewtopic.php?f=87&t=3584 [MODDB]MOD Version Check 1.0.2}
 	 * For PHP < 5.0.0
