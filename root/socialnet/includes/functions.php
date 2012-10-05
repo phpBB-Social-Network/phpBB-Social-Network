@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @author		@author Culprit <jankalach@gmail.com>
+ * @author		Culprit <jankalach@gmail.com>
  * @author		Kamahl <kamahl19@gmail.com>
  *
  * @package		phpBB Social Network
