@@ -64,13 +64,13 @@ class snFunctions
 	 * @property string 	checkbox		- Name of the checkbox used in user list. '' is checkbox not used. Default: ''.
 	 * @property boolean	ajax_load		- is loaded using AJAX. Default: false.
 	 * @property boolean	slider			- Instead standard phpBB pagination could be used jQuery UI slider. Default: true.
-	 * @property integer	avatar_size 	- Size of avatar. Default: 50.
-	 * @property boolean	add_friend_link	- Add add friend link to box if user is not my friend. Default: false.
+	 * @property integer	avatar_size 		- Size of avatar. Default: 50.
+	 * @property boolean	add_friend_link		- Add add friend link to box if user is not my friend. Default: false.
 	 * @property integer	total			- Total count of users for block. Default: 0.
 	 * @property array  	rowset			- Rowset of available users for block. Default: null.
-	 * @property string 	sql_pagination	- Sql to select total count for pagination. If sets override param total. Default: ''.
+	 * @property string 	sql_pagination		- Sql to select total count for pagination. If sets override param total. Default: ''.
 	 * @property string 	sql_content		- Sql to select users for display. If sets override rowset. Default: ''.
-	 * @property string 	user_id_field	- What is current ID of displayed users. Default: 'zebra_id'.
+	 * @property string 	user_id_field		- What is current ID of displayed users. Default: 'zebra_id'.
 	 * @property boolean	random			- Random list for select. Default: false.
 	 * @property string 	tpl_name		- Specific template. Default: 'socialnet/block_fms_users'.
 	 * @property boolean	profile_link		- If true, creates links to profile. Default: true.
