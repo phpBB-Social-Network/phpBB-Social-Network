@@ -7,7 +7,7 @@
  * @package		phpBB Social Network
  * @version		0.7.0
  * @since		0.6.0
- * @copyright	(c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @copyright		(c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license		http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
