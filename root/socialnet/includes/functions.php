@@ -1,5 +1,6 @@
 <?php
 /**
+ * SN Functions
  *
  * @author		Culprit <jankalach@gmail.com>
  * @author		Kamahl <kamahl19@gmail.com>
@@ -38,28 +39,45 @@ $snFunctions_avatars = array();
 class snFunctions
 {
 	/**
+	 * List of online users displayed in the IM module
+	 *
 	 * @var array $users_online
+	 *
+	 * @see snFunctions::onlineSelect()
 	 */
 	var $users_online = array();
 
 	/**
+	 * List of online users displayed in the IM module
+	 *
+	 * The difference between this var and {@link snFunctions::$users_online $users_online} is,
+	 * that this variable is filled only once, whereas {@link snFunctions::$users_online $users_online}
+	 * can be refilled repeatedly.
+	 *
 	 * @var array $onlineUsers
 	 */
 	var $onlineUsers = array();
 
 	/**
-	 * @var array $onlineUsersLoaded
+	 * Defines, is {@link snFunctions::$onlineUsers $onlineUsers} has been filled or not
+	 *
+	 * @var bool $onlineUsersLoaded
 	 */
 	var $onlineUsersLoaded = false;
 
+	/**
+	 * Contains list of chars and their replacements
+	 *
+	 * @var array $charTranslation
+	 */
 	var $charTranslation = array();
 
 	/**
-	 * $fms_users_default
-	 *
-	 * Default values for {@link snFunctions::fms_users}
+	 * Default values for FMS users
 	 *
 	 * @var array $fms_users_default
+	 *
+	 * @see snFunctions::fms_users()
 	 *
 	 * @property string 	mode			- Mode of block. Default: 'friend'.
 	 * @property integer	user_id			- User id. 0 is set to be actual logged used. Default: 0.
@@ -104,7 +122,7 @@ class snFunctions
 	 *
 	 * @var array $cookies
 	 *
-	 * @see snFunctions::getCookie
+	 * @see snFunctions::getCookie()
 	 */
 	var $cookies = array();
 
@@ -150,7 +168,6 @@ class snFunctions
 			chr(31) => 'US/unit separator',
 			chr(32) => 'Space'
 		);
-
 	}
 
 	/**
@@ -2297,6 +2314,8 @@ if (!function_exists('json_encode'))
 	 * @access public
 	 *
 	 * @author boukeversteegh
+	 *
+	 * @param mixed $data input data to be encoded
 	 */
 	function json_encode($data)
 	{
@@ -2384,6 +2403,8 @@ if (!function_exists('json_decode'))
 	 * @access public
 	 *
 	 * @author walidator.info 2009
+	 *
+	 * @param string $json input string to be decoded
 	 */
 	function json_decode($json)
 	{
@@ -2423,8 +2444,12 @@ if (!function_exists('array_walk_recursive'))
 	 * @author omera13a
 	 *
 	 * @since 22.12.2005
+	 *
+	 * @param array 	$input   	array to be walked in
+	 * @param string	$funcname	name of function to be called on every key of the array $input
+	 * @param mixed 	$userdata	any data to be passed to $function
 	 */
-	function array_walk_recursive(&$input, $funcname, $userdata = "")
+	function array_walk_recursive(&$input, $funcname, $userdata = '')
 	{
 		if (!is_callable($funcname))
 		{
