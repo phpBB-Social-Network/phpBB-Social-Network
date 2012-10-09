@@ -81,7 +81,6 @@
 								top: ui.position.top,
 								left: ui.position.left
 							});
-							console.log(ui);
 						},
 						resizeStop: function(){
 							$.sn.confirmBox.dropShadow($('.ui-dialog'),$.sn.confirmBox.shadowBox);
@@ -207,8 +206,8 @@
 					className : 'sn-watermark'
 				}).elastic({
 					showNewLine:true,
-					blur:function(event){
-					}
+					parentElement: '.sn-shareComment',
+					submitElement: 'input[name="sn-us-buttonComment"]'
 				});
 
 			}
@@ -478,9 +477,6 @@
 					$.sn[idx]._scroll();
 				}
 			});
-
-			$.sn.confirmBox.center();
-
 		},
 
 		_resize : function() {
@@ -491,8 +487,6 @@
 					minHeight : Math.max($('.sn-page-columnLeft').height(), $('.sn-page-columnRight').height())
 				});
 			}
-
-			$.sn.confirmBox.center();
 			this._DOMinited = false;
 		},
 

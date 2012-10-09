@@ -49,9 +49,10 @@
 				    $('input[name="sn-us-fetchButton"]').hide();
 				    $('input[name="sn-us-fetchClear"]').hide();
 			    }
-		    }).elastic({blur:function(event){
-		    	return ($('.sn-us-share input[name=sn-us-wallButton]:hidden').size() > 0);
-		    }}).trigger('focusout');
+		    }).elastic({
+				parentElement: '.sn-us-share',
+				submitElement: '.sn-us-wallButton'
+			}).trigger('blur');
 
 		    // Delete status
 		    $(".sn-us-deleteStatus").live('click', function() {
