@@ -105,7 +105,7 @@ function sn_theme_compiler()
 		$compile = $lessc->parse();
 		unset($lessc);
 		
-                // Set the CSSTidy to be CSS optimized such as phpBB
+		// Set the CSSTidy to be CSS optimized such as phpBB
 		$css = new csstidy();
 
 		$css->set_cfg('remove_last_;', FALSE);
@@ -116,11 +116,11 @@ function sn_theme_compiler()
 		$css->set_cfg('sort_selectors', false);
 		$css->set_cfg('compress_font-weight', false);
 
-                // Optimize the Cascade Style Sheet
-                $css->parse($compile);
-                // Take the plain CSS not the HTML output
+		// Optimize the Cascade Style Sheet
+		$css->parse($compile);
+		// Take the plain CSS not the HTML output
 		$_out = $css->print->plain();
-                // Because in some way is removed " from URLs with preg_replace I get the " back
+		// Because in some way is removed " from URLs with preg_replace I get the " back
 		$_out = preg_replace('/url\(([^)]+)\)/si', 'url("\1")', $_out);
 		$_out = preg_replace("/:([^;\n]+);/si", ': \1;', $_out);
 		$_out = preg_replace("/\n{\n/si", " {\n", $_out);
