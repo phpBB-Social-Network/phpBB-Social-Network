@@ -81,7 +81,6 @@
 								top: ui.position.top,
 								left: ui.position.left
 							});
-							console.log(ui);
 						},
 						resizeStop: function(){
 							$.sn.confirmBox.dropShadow($('.ui-dialog'),$.sn.confirmBox.shadowBox);
