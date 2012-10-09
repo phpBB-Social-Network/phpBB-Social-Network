@@ -545,6 +545,7 @@ if (!class_exists('socialnet_profile'))
 				'POSTS'				 => ($member['user_posts']) ? $member['user_posts'] : 0,
 				'WARNINGS'			 => isset($member['user_warnings']) ? $member['user_warnings'] : 0,
 				'S_WARNINGS'		 => ($auth->acl_getf_global('m_') || $auth->acl_get('m_warn')) ? true : false,
+				'U_SEARCH_USER'		 => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.$phpEx", "author_id=$user_id&amp;sr=posts") : '',
 				'U_NOTES'			 => ($user_notes_enabled && $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $user_id, true, $user->session_id) : '',
 				'U_WARN'			 => ($warn_user_enabled && $auth->acl_get('m_warn')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_user&amp;u=' . $user_id, true, $user->session_id) : '',
 				'S_USER_NOTES'		 => ($user_notes_enabled) ? true : false,
