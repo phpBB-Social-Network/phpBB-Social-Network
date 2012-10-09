@@ -2,13 +2,12 @@
 /**
  * SN Core Addons
  *
- * @todo add "since", verify authors
- *
  * @author		Culprit <jankalach@gmail.com>
  * @author		Kamahl <kamahl19@gmail.com>
  *
  * @package		phpBB Social Network
  * @version		0.7.0
+ * @since		0.6.2
  * @copyright		(c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license		http://opensource.org/licenses/gpl-license.php GNU Public License
  *
