@@ -478,9 +478,6 @@
 					$.sn[idx]._scroll();
 				}
 			});
-
-			$.sn.confirmBox.center();
-
 		},
 
 		_resize : function() {
@@ -491,8 +488,6 @@
 					minHeight : Math.max($('.sn-page-columnLeft').height(), $('.sn-page-columnRight').height())
 				});
 			}
-
-			$.sn.confirmBox.center();
 			this._DOMinited = false;
 		},
 
