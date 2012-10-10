@@ -150,7 +150,7 @@ $total_friends = $db->sql_fetchfield('num_friends');
 $db->sql_freeresult($result);
 
 // Template variables for Left column
-$redirect = '&amp;redirect=' . base64_encode(append_sid($_SERVER['PHP_SELF'], 'u=' . $user_id));
+$redirect = '&amp;redirect=' . base64_encode(append_sid("{$phpbb_root_path}profile.$phpEx", 'u=' . $user_id));
 $template->assign_vars(array(
 	'USER_ID'				 => $user_id,
 	'S_OWN_PROFILE'			 => ($user_id === (int) $user->data['user_id']) ? true : false,
