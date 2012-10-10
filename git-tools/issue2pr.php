@@ -59,7 +59,7 @@ if ( isset($_GET['username'], $_GET['password'], $_GET['issue_id'], $_GET['branc
 		<form action="" method="GET">
 			Github username: <input type="text" name="username" placeholder="Github username" value="<?php echo `git config user.name`; ?>" /><br />
 			Github password: <input type="password" name="password" placeholder="Github password" /><br />
-			Issue ID: <input type="text" name="issue_id" placeholder="Issue ID" /><br />
+			Issue ID: <input type="text" name="issue_id" placeholder="Issue ID" value="<?php echo get_issue_id(); ?>" /><br />
 			Branch: <input type="text" name="branch" placeholder="Branch" value="<?php echo get_branch_name(); ?>" /><br />
 			<input type="submit" />
 		</form>
@@ -114,4 +114,21 @@ function get_branch_name()
 	unset($head[0], $head[1]);
 
 	return implode('/', $head);
+}
+
+/**
+ * Gets issue ID according to branch name.
+ *
+ * If branch name is in form of "i/[0-9]+", this function will return that number.
+ *
+ * @return string		possible github issue ID
+ */
+function get_issue_id()
+{
+	if ( preg_match('~i/([0-9]+)~', get_branch_name(), $issue_id) )
+	{
+		return $issue_id[1];
+	}
+
+	return '';
 }
