@@ -60,7 +60,7 @@ class acp_socialnet_block_menu
 					$sql = 'DELETE FROM ' . SN_MENU_TABLE . '
 					 				  WHERE button_id = ' . $button_id;
 					$db->sql_query($sql);
-					
+
 					add_log('admin', 'LOG_CONFIG_SN_BLOCK_MENU_' . strtoupper($action), 'aaa' . $button_name);
 					redirect($this->p_master->u_action . '&amp;block=block_menu&amp;parent_id=' . $parent_id);
 				}
@@ -220,7 +220,7 @@ class acp_socialnet_block_menu
 				$row = $db->sql_fetchrow($result);
 
 				$button_moved_by = acp_move_button($row, $action);
-				
+
 				add_log('admin', 'LOG_CONFIG_SN_BLOCK_MENU_' . strtoupper($action), $row['button_name'], $button_moved_by);
 				redirect($this->p_master->u_action . '&amp;block=block_menu&amp;parent_id=' . $parent_id);
 
@@ -254,14 +254,14 @@ class acp_socialnet_block_menu
 				if ($submit)
 				{
 					$button_name = request_var('button_name', '', true);
-					redirect($this->p_master->u_action . '&amp;block=block_menu&amp;action=add_button&amp;parent_id=' . $parent_id . '&amp;button_name=' . $button_name);
+					redirect($this->p_master->u_action . '&amp;block=block_menu&amp;action=add_button&amp;parent_id=' . $parent_id . '&amp;button_name=' . urlencode($button_name));
 				}
 
 				$button_nav = $user->lang['BLOCK_MENU_NAV'];
 
 				if ($parent_id)
 				{
-					
+
 					$sql = 'SELECT button_name
                   FROM ' . SN_MENU_TABLE . '
                     WHERE button_id = ' . $parent_id;
@@ -347,7 +347,7 @@ function acp_move_button($button_row, $action = 'move_up')
 							left_id BETWEEN {$left_id} AND {$right_id}
 							AND right_id BETWEEN {$left_id} AND {$right_id}";
 	$db->sql_query($sql);
-	
+
 	return $target['button_name'];
 }
 
