@@ -206,8 +206,8 @@
 					className : 'sn-watermark'
 				}).elastic({
 					showNewLine:true,
-					blur:function(event){
-					}
+					parentElement: '.sn-shareComment',
+					submitElement: 'input[name="sn-us-buttonComment"]'
 				});
 
 			}

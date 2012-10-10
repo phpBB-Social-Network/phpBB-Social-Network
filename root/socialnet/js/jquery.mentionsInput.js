@@ -92,9 +92,11 @@
       elmInputBox.bind('blur', onInputBoxBlur);
 
       // Elastic textareas, internal setting for the Dispora guys
+	  /**
+	   * We create elastic by own internal mechanism
       if( settings.elastic ) {
         elmInputBox.elastic();
-      }
+      }*/
 
     }
 
