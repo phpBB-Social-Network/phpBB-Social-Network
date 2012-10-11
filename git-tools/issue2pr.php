@@ -19,28 +19,31 @@
  *    - pull request will be created always against "develop" branch.
  */
 
-$username = $_GET['username'];
-$password = $_GET['password'];
-$issue_id = $_GET['issue_id'];
-$branch = $_GET['branch'];
+$username = @$_GET['username'];
+$password = @$_GET['password'];
+$issue_id = @$_GET['issue_id'];
+$branch = @$_GET['branch'];
+
+$result = false;
 
 if ( isset($_GET['username'], $_GET['password'], $_GET['issue_id'], $_GET['branch']) && $_GET['username'] != '' && $_GET['password'] != '' && $_GET['issue_id'] != '' && $_GET['branch'] != '' )
 {
-	$result = false;
 
 	$result = do_post_request(
-		"https://$username:$password@api.github.com/repos/phpBB-Social-Network/phpBB-Social-Network/pulls",
+		"https://api.github.com/repos/phpBB-Social-Network/phpBB-Social-Network/pulls",
 		'{
 				"issue": "' . $issue_id . '",
 				"head": "' . $username . ':' . $branch . '",
 				"base": "develop"
-		}'
+		}',
+		$username, $password
 	);
 
-	if ($result != false)
-	{
-		$done_msg = 'Issue <a href="https://github.com/phpBB-Social-Network/phpBB-Social-Network/issues/' . $issue_id . '">#' . $issue_id . '</a> has been converted to pull request successfully!';
-	}
+}
+$is_error = false;
+if ( $result != false)
+{
+	$is_error = $result->code > 300;
 }
 
 ?>
@@ -50,20 +53,74 @@ if ( isset($_GET['username'], $_GET['password'], $_GET['issue_id'], $_GET['branc
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 		<title>Issue to pull request converter</title>
+		<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+		<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+		
+		<link href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<script>
+			jQuery(document).ready(function($){
+				
+				$('#show-create').click(function(){
+					$('#postdialog').dialog({width:444,height:185,resizable:false});
+				}).trigger('click');
+				
+				$('.toolbar').buttonset();
+	
+			});
+		</script>
+		<style>
+			html, body {
+				font-size: 0.85em;
+				background-color: #ececec;
+			}
+			.toolbar {
+				position:absolute;
+				bottom:0;
+				line-height: 20px;
+				padding: 4px 8px;
+				left: 0;
+				right: 0;
+				background-color: #dcdcfc;
+				border-top: 1px solid #1f1f1f;
+			}
+		</style>
 	</head>
 
 	<body>
-
-		<?php if ($done_msg) echo '<p class="success">' . $done_msg . '</p>'; ?>
-
-		<form action="" method="GET">
-			Github username: <input type="text" name="username" placeholder="Github username" value="<?php echo `git config user.name`; ?>" /><br />
-			Github password: <input type="password" name="password" placeholder="Github password" /><br />
-			Issue ID: <input type="text" name="issue_id" placeholder="Issue ID" value="<?php echo get_issue_id(); ?>" /><br />
-			Branch: <input type="text" name="branch" placeholder="Branch" value="<?php echo get_branch_name(); ?>" /><br />
-			<input type="submit" />
-		</form>
-
+<? if ( $result ){ ?>
+<div id="result" title="GitHub API Result" class="ui-widget"><div class="ui-state-highlight <? if( $is_error) ?>ui-state-error<? ; ?> ui-corner-all" style="padding: 0 .7em"><p><span class="ui-icon ui-icon-info <? if( $is_error) ?>ui-icon-alert<? ; ?>" style="float: left"></span><?
+		print "<strong>" .(( $is_error)? "Alert": "Success") . ":</strong><br />";
+		print $result->message; 
+		?></p></div></div><? }; ?>
+		<div id="postdialog" title="Pull request for Issue">
+			<form action="#" method="get">
+				<table style="width:100%">
+					<tr>
+						<th style="width:35%;text-align:right">Github username:</th>
+						<td><input type="text" name="username" placeholder="Github username" value="<?php echo `git config user.name`; ?>" style="width:100%" /></td>
+					</tr>
+					<tr>
+						<th style="width:35%;text-align:right">Github password:</th>
+						<td><input type="password" name="password" placeholder="Github password" style="width:100%" /></td>
+					</tr>
+					<tr>
+						<th style="width:35%;text-align:right">Issue ID:</th>
+						<td><input type="text" name="issue_id" placeholder="Issue ID" style="width:100%" /></td>
+					</tr>
+					<tr>
+						<th style="width:35%;text-align:right">Branch:</th>
+						<td><input type="text" name="branch" placeholder="Branch" value="<?php echo @get_branch_name(); ?>" style="width:100%" /></td>
+					</tr>
+					
+				</table>
+				<input type="submit" style="float:right"/>
+			</form>
+		</div>
+		
+		<div class="toolbar">
+			<button id="show-create">Create PR</button>
+			<button id="reload" onclick="window.location='./issue2pr.php';">Reload</button>
+		</div>
 	</body>
 </html>
 <?php
@@ -76,29 +133,25 @@ if ( isset($_GET['username'], $_GET['password'], $_GET['issue_id'], $_GET['branc
  *
  * @return mixed					response from remote url
  */
-function do_post_request($url, $data)
+function do_post_request($url, $data, $username, $password)
 {
-	$params = array('http' => array(
-		'method' => 'POST',
-		'content' => $data
-	));
 
-	$ctx = stream_context_create($params);
-	$fp = @fopen($url, 'rb', false, $ctx);
+	$ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); 
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);  
 
-	if (!$fp)
-	{
-		throw new Exception("Problem with $url, $php_errormsg");
-	}
-
-	$response = @stream_get_contents($fp);
-
-	if ($response === false)
-	{
-		throw new Exception("Problem reading data from $url, $php_errormsg");
-	}
-
-	return $response;
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,1);
+    curl_setopt($ch, CURLOPT_USERPWD, $username.":".$password);
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);   
+    $content = curl_exec($ch);
+	$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+	
+	$return = json_decode($content);
+	$return->code = $http_code;
+	return $return;
 }
 
 /**
@@ -108,27 +161,7 @@ function do_post_request($url, $data)
  */
 function get_branch_name()
 {
-	$head = file_get_contents('../.git/HEAD');
+	$head = @file_get_contents('../.git/HEAD');
 	$head = explode('/', $head);
-
-	unset($head[0], $head[1]);
-
-	return implode('/', $head);
-}
-
-/**
- * Gets issue ID according to branch name.
- *
- * If branch name is in form of "i/[0-9]+", this function will return that number.
- *
- * @return string		possible github issue ID
- */
-function get_issue_id()
-{
-	if ( preg_match('~i/([0-9]+)~', get_branch_name(), $issue_id) )
-	{
-		return $issue_id[1];
-	}
-
-	return '';
+	return $head[2];
 }
