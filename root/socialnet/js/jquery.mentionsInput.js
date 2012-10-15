@@ -72,7 +72,7 @@
 
     settings = $.extend(true, {}, defaultSettings, settings );
 
-    function initTextarea() {
+	function initTextarea() {
       elmInputBox = $(domInput);
 
       if (elmInputBox.attr('data-mentions-input') == 'true') {

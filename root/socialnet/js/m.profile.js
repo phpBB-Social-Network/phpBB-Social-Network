@@ -33,6 +33,7 @@
 			if ($.sn.enableModules.up == undefined || !$.sn.enableModules.up) {
 				return false;
 			}
+			
 			$.sn._settings(this, opts);
 
 			if ($('#sn-up-profileTabs').size() > 0) {
@@ -78,7 +79,7 @@
 								templates: {
 									wrapper: _.template('<div class="sn-us-mentions-input-box"></div>'),
 									autocompleteList: _.template('<div class="sn-us-mentions-autocomplete-list"></div>'),
-									mentionsOverlay: _.template('<div class="sn-us-mentions"><div></div></div>'),
+									mentionsOverlay: _.template('<div class="sn-us-mentions"><div></div></div>')
 								},
 								onDataRequest: function(mode, query, callback) {
 									$.getJSON($.sn.us.url, {
