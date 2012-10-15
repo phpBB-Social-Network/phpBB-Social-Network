@@ -2,18 +2,22 @@
 	margin-bottom: @sn-im-button-height;
 }
 
+.sn-im-chatGroup {
+	height: 14px;
+}
+
 .sn-im-dockWrapper {
 	position: fixed;
 	bottom: 0;
 	height: @sn-im-button-height;
-	
+
 	z-index: 999;
-	
+
 	.ltr & {
 		@sn-im-border-right;
 		right: @sn-im-bar-from-right;
 	}
-	
+
 	.rtl & {
 		@sn-im-border-left;
 		left: @sn-im-bar-from-right;
@@ -22,7 +26,7 @@
 
 .sn-im-group {
 	position: relative;
-	
+
 	.ltr & {
 		float: right;
 	}
@@ -32,28 +36,28 @@
 }
 
 .sn-im-chatBoxes {
-	
+
 	.sn-im-button {
 	width: @sn-im-button-width - 2 * @sn-im-button-padding - 40px;
 		}
-	
+
 	.sn-im-group {
-		
+
 		.ltr & {
 			margin-right: 4px;
-			
+
 			.sn-im-button {
 				@sn-im-border-right;
 			}
 		}
-		
+
 		.rtl & {
 			margin-left: 4px;
-		
+
 			.sn-im-button {
 				@sn-im-border-right;
 			}
-		}		
+		}
 	}
 }
 
@@ -67,7 +71,7 @@
 	cursor: pointer;
 	display: block;
 	min-height: @sn-im-button-height;
-	
+
 	.label, &.sn-im-nav {
 		line-height: @sn-im-button-height;
 		display: block;
@@ -81,11 +85,11 @@
 	.sn-actions {
 		margin-top: 4px;
 	}
-	
+
 	&.sn-im-opener:not(.sn-im-online) {
 		background: @sn-im-online-bg;
 	}
-	
+
 	.ltr & {
 		@sn-im-border-left;
 		padding-right: @sn-im-button-padding;
@@ -94,7 +98,7 @@
 	.rtl & {
 		@sn-im-border-right;
 		padding-left:  @sn-im-button-padding;
-		
+
 	}
 
 	.ltr .sn-im-chatBoxes & {
@@ -105,7 +109,7 @@
 		padding-left: @sn-action-button-width;
 		padding-right: 0;
 	}
-	
+
 }
 
 .sn-im-status {
@@ -113,19 +117,19 @@
 	padding: 8px;
 	margin-top: 4px;
 	line-height: @sn-im-button-height;
-	
+
 	&.sn-im-online {
 		background-image: url("{T_IMAGESET_PATH}/socialnet/im_user_online.png");
 	}
-	
+
 	&.sn-im-away {
 		background-image: url("{T_IMAGESET_PATH}/socialnet/im_user_away.png");
 	}
-	
+
 	&.sn-im-offline {
 		background-image: url("{T_IMAGESET_PATH}/socialnet/im_user_offline.png");
 	}
-	
+
 	.ltr & {
 		float: left;
 	}
@@ -149,12 +153,12 @@
 		-moz-border-radius: 4px;
 		-webkit-border-radius: 4px;
 		-khtml-border-radius: 4px;
-		
-		
+
+
 		&.sn-hiddenDefault {
 			visibility: visible;
 		}
-		
+
 		.ltr & {
 			right: 20px;
 		}
@@ -172,15 +176,15 @@
 		background-color: #ECD5D8;
 		background-image: none;
 	}
-	
-	
+
+
 }
 
 .sn-im-online {
 	&.sn-im-button .label {
 		background: transparent none no-repeat 0 50%;
 		display: inline-block;
-		
+
 		.ltr & {
 			padding-left: 5 * @sn-im-button-padding;
 		}
@@ -190,17 +194,17 @@
 			float: right;
 		}
 	}
-	
+
 	&.sn-im-block {
 		width: @sn-im-button-width;
 	}
-	
+
 	.sn-im-buttons {
 		background: @sn-im-bgcolor-button;
 		line-height: @sn-im-buttons-height;
 		height: @sn-im-buttons-height;
 	}
-	
+
 	&.sn-im-button .count {
 		.rtl & {
 			float: right;
@@ -233,12 +237,12 @@
 	width: @sn-im-block-width;
 	background: @sn-im-online-bg;
 	z-index: 990;
-	
+
 	&.ui-corner-top {
 		-moz-border-radius-topleft: @sn-im-block-cornerRadius;
 		-webkit-border-top-left-radius: @sn-im-block-cornerRadius;
 		-khtml-border-top-left-radius: @sn-im-block-cornerRadius;
-		border-top-left-radius: @sn-im-block-cornerRadius; 
+		border-top-left-radius: @sn-im-block-cornerRadius;
 		-moz-border-radius-topright: @sn-im-block-cornerRadius;
 		-webkit-border-top-right-radius: @sn-im-block-cornerRadius;
 		-khtml-border-top-right-radius: @sn-im-block-cornerRadius;
@@ -253,19 +257,19 @@
 	font-weight: bold;
 	padding: 0;
 	cursor: pointer;
-	
+
 	&.sn-im-buttons .sn-userName {
 		line-height: @sn-im-button-height;
 		width: @sn-im-block-width -  3 * @sn-im-buttons-width - 6px - 2 * @sn-im-button-padding;
 		/*padding: 0 @sn-im-button-padding - 3px;*/
 		padding: 0 @sn-im-button-padding - 3px 0 0;
 		display: inline-block; /* IE 9 */
-		
+
 		a {
 			color: #fff;
   	}
 	}
-	
+
 	.sn-im-online & {
 		padding: 0 @sn-im-button-padding;
 	}
@@ -276,14 +280,14 @@
 	line-height: @sn-im-button-height;
 	padding: 0 3px;
 	padding-bottom: 1px;
-	
+
 	.ui-icon {
 		height: @sn-im-buttons-height;
 		width: @sn-im-buttons-weight;
 		cursor: pointer;
 		background-position: 50% 50%;
 		margin: ((@sn-im-button-height - @sn-im-buttons-height)/2) 1px;
-		
+
 		.ltr & {
 			float: right;
 		}
@@ -298,7 +302,7 @@
 	height: @sn-im-buttons-height;
 	display: inline-block;
 	margin: 0 3px;
-	
+
 	.ltr & {
 		float: left;
 	}
@@ -312,15 +316,15 @@
 	width: 16px;
 	height: 11px;
 	margin: 3px;
-	
+
 	&.ui-icon-volume-off {
 		background-position: 0 100%;
 	}
-	
+
 	.ltr & {
 		float: left;
 	}
-	
+
 	.rtl & {
 		float: right;
 	}
@@ -330,18 +334,18 @@
 .sn-im-loginlogout {
 	width: auto;
 	margin: 2px 0 0;
-	
+
 	.ltr & {
 		float: right;
-		
+
 		label, span {
 			float: left;
 		}
 	}
-	
+
 	.rtl & {
 		float: left;
-		
+
 		label, span {
 			float: right;
 		}
@@ -382,23 +386,23 @@
 	font-size: 8px;
 	font-weight: bold;
 	text-indent: 2px;
-} 	
+}
 
 .sn-im-loginlogout .sn-im-selected span {
 	color: @sn-im-color-title;
 }
 
 .sn-im-loginlogout {
-	
+
 	.sn-im-login {
 		background-position: 0 -30px;
 		span {
 			background-position: 0 0px;
 			margin: 0 0 0 4px;
 			padding: 0 6px 0 0;
-		} 
+		}
 	}
-	
+
 	.sn-im-logout {
 		background-position: 100% -60px;
 		span {
@@ -432,10 +436,10 @@
 	&.sn-im-canchat:hover {
 		background-color: @sn-im-bgcolor-onlineHover;
 	}
-	
+
 	.ltr & {
 		clear: left;
-		
+
 		.sn-user-avatar {
 			float: left;
 			margin: 1px 4px 1px 0;
@@ -443,7 +447,7 @@
 	}
 	.rtl * {
 		clear: right;
-		
+
 		.sn-user-avatar {
 			float: right;
 			margin: 1px 0 1px 4px;
@@ -474,7 +478,7 @@
 .sn-im-nav {
 	width: auto;
 	font-weight: bold;
-	
+
 	.ltr & {
 		@sn-im-border-right;
 		margin-right: 4px;
@@ -494,7 +498,7 @@
 		border-right: 1px solid #ccc;
 		float: left;
 	}
-	
+
 	.rtl & {
 		border-left: 1px solid #ccc;
 		float: right;
@@ -512,7 +516,7 @@
 	.ltr & {
 		float: right;
 	}
-	
+
 	.rtl & {
 		float: left;
 	}
@@ -552,18 +556,18 @@
 	&:first-child {
 		border-top: none;
 	}
-	
+
 	&:last-child {
 		padding-bottom: 0;
 	}
-	
+
 	&:not(.sn-im-noborderTop){
 		clear: both;
 	}
-	
+
 	.sn-im-msgText {
 		word-wrap: break-word;
-		
+
 		.ltr & {
 			padding-left: 5px;
 		}
@@ -571,7 +575,7 @@
 			padding-right: 5px;
 		}
 	}
-	
+
 	.sn-im-msgText-Arrow {
 		.ltr & {
 			padding-right: 3px;
@@ -580,7 +584,7 @@
 			padding-left: 3px;
 		}
 	}
-	
+
 	.sn-userName {
 		.ltr & {
 			float: left;
@@ -591,20 +595,20 @@
 			padding-left: 4px;
 		}
 	}
-	
+
 	.ltr & {
 		padding-left: @sn-im-msgAvatar-width;
 	}
 	.rtl & {
 		padding-right: @sn-im-msgAvatar-width;
 	}
-	
+
 	&.sn-im-history {
 		.sn-userName {
   		font-size: 1.2em;
   		font-weight: bold;
  			float: none;
-  		
+
   		.ltr & {
     			padding-left: 5px;
 	    		padding-right: 0;
@@ -613,17 +617,17 @@
     			padding-right: 5px;
 	    		padding-left: 0;
   		}
-		} 
-		
+		}
+
 		.sn-im-msgText {
 			font-size: 1.1em;
 			word-wrap: break-word;
 		}
-		
+
 		.sn-im-history-time {
     	font-size: 0.9em;
     	color: @sn-im-color-footer;
-    	
+
     	.ltr & {
     		float: right;
     	}
@@ -631,33 +635,33 @@
     		float: left;
     	}
     }
-		
+
 		&.sn-im-history-conversation {
 			cursor: pointer;
 			min-height: 50px;
 		}
-		
+
 		&.sn-im-history-conversation:hover {
 			.sn-userName {
 				text-decoration: underline;
 			}
 		}
-		
+
 		&.pagination {
 			margin: 0;
 			padding: 0;
 		}
-		
+
 		.sn-im-msgAvatar {
 			.ltr & {
 				margin-left: -1 * @sn-im-history-msgAvatar-width;
 			}
-			
+
 			.rtl & {
 				margin-right: -1 * @sn-im-history-msgAvatar-width;
 			}
 		}
-		
+
 		.ltr & {
 			padding-left: @sn-im-history-msgAvatar-width;
 		}
@@ -665,16 +669,16 @@
 			padding-right: @sn-im-history-msgAvatar-width;
 		}
 	}
-	
+
 }
 
 .sn-im-msgAvatar {
 	position: relative;
-	
+
 	& > img {
 		position: absolute;
 		bottom: 5px;
-		
+
 		.ltr & {
 			right: 0;
 		}
@@ -682,7 +686,7 @@
 			left: 0;
 		}
 	}
-	
+
 	.ltr & {
 		float: left;
 		margin-left: -1 * @sn-im-msgAvatar-width;
@@ -696,8 +700,8 @@
 .sn-im-noborderTop {
 	border-top: none;
 
-	padding-top: 0; 
-	
+	padding-top: 0;
+
 	.sn-userName, .sn-im-msgAvatar {
     display: none;
     visibility: hidden;
@@ -714,7 +718,7 @@
 	display: none;
 	background-color: @sn-im-online-bg;
 	border-top: 1px solid @sn-im-bordercolor-message - #333;
-	
+
 	.ltr & {
 		float: right;
 		right: 0;
@@ -725,7 +729,7 @@
 		left: 0;
 		border-right: 1px solid @sn-im-bordercolor-message - #333;
 	}
-}        
+}
 
 .sn-im-message {
 	height: @sn-im-button-height - 6px;
@@ -736,32 +740,32 @@
 	border: none;
 	resize: none;
 	outline: none;
-	
+
 	.sn-im-textArea.sn-im-smilies-on & {
 		width: @sn-im-block-width - @sn-im-smiley-width - 1px;
 	}
-	
+
 	.ltr & {
 		padding-right: 0;
 	}
-	
+
 	.rtl & {
 		padding-left: 0;
 	}
-	
+
 }
 
 .sn-im-cbAvatar {
 	width: 40px;
 	height: 40px;
 	margin-top: 1px;
-	
+
 	.ltr & {
 		float: left;
 		margin-left: -5px;
 		margin-right: 5px;
 	}
-	
+
 	.rtl & {
 		float: right;
 		margin-left: 5px;
@@ -773,20 +777,20 @@
 	.sn-im-chatBox:not(&) .sn-im-title .sn-im-status {
 		display: none;
 	}
-	
+
 	&.sn-im-chatBox .sn-im-title .sn-im-status {
 		display: inline;
 	}
-	
+
 	.sn-im-button.sn-im-opener {
 		visibility: hidden;
 		width: @sn-im-block-width - 2 * @sn-im-button-padding;
 	}
-	
+
 	.sn-im-block {
 		bottom: 0px;
 		border-bottom: none ;
-		
+
 		.sn-im-textArea {
 			min-height: @sn-im-button-height;
 		}
@@ -794,12 +798,12 @@
 
 	.sn-im-msgs {
 		height: @sn-im-msgs-height + ( @sn-im-button-height - 3px );
-	}	
+	}
 }
 
 .sn-im-history-export {
     margin-top: 0.5em;
-    
+
     .ltr & {
     	float: right;
     }

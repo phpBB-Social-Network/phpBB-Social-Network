@@ -337,6 +337,10 @@ div:not(.sn-page) .sn-userName a {
 	margin-bottom: 24px;
 }
 
+.sn-im-chatGroup {
+	height: 14px;
+}
+
 .sn-im-dockWrapper {
 	bottom: 0;
 	height: 24px;
