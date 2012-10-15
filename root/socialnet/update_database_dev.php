@@ -658,14 +658,20 @@ $versions = array(
 			'phpbbSN_smilies_allow',
 			'phpbbSN_create_fms_primarygroups',
 		),
+	),
+	
+	'0.7.1-dev1'	 => array(
 
-		'cache_purge'		 => array(
+		'permission_remove'	 => array(
+			array('u_sn_userstatus', true),
+		),
+
+  	'cache_purge'		 => array(
 			'imageset',
 			'template',
 			'theme',
 			'cache',
 		),
-
 	),
 );
 
