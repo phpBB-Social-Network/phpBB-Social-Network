@@ -72,7 +72,7 @@
 
     settings = $.extend(true, {}, defaultSettings, settings );
 
-    function initTextarea() {
+	function initTextarea() {
       elmInputBox = $(domInput);
 
       if (elmInputBox.attr('data-mentions-input') == 'true') {
@@ -92,9 +92,11 @@
       elmInputBox.bind('blur', onInputBoxBlur);
 
       // Elastic textareas, internal setting for the Dispora guys
+	  /**
+	   * We create elastic by own internal mechanism
       if( settings.elastic ) {
         elmInputBox.elastic();
-      }
+      }*/
 
     }
 
