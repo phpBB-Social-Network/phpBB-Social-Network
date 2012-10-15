@@ -28,7 +28,8 @@
 				showNewLine: true,
 				useEnter : true,
 				enterReplacement : '<br />',
-				blur: true
+				parentElement: null,
+				submitElement: null
 			}
 
 			defaults = $.extend(true, {}, defaults, opts);
@@ -60,6 +61,17 @@
 				if (maxheight < 0) {
 					maxheight = Number.MAX_VALUE;
 				}
+
+				$textarea.canBlur = true;
+				
+				$textarea.parentElement = defaults.parentElement;
+				$textarea.submitElement = defaults.submitElement;
+
+				$textarea.parents($textarea.parentElement).find($textarea.submitElement).bind('mouseover',function(){
+					$textarea.canBlur = false;
+				}).bind('mouseout', function(){
+					$textarea.canBlur=true;
+				});
 
 				// Append the twin to the DOM
 				// We are going to meassure the height of this, not the textarea.
@@ -136,10 +148,10 @@
 				});
 
 				// Update textarea size on keyup, change, cut and paste
-				$textarea.bind('keyup cut paste', function(event) {
-					if ( $.isFunction($textarea.eventBlur) && !$textarea.eventBlur(event)) return;
-					if ( !$.isFunction($textarea.eventBlur) && !$textarea.eventBlur) return;
-					update(true);
+				$textarea.bind('keyup blur cut paste', function(event) {
+					if ( $textarea.canBlur) {
+						update(true);
+					}
 				});
 
 				// Update width of twin if browser or textarea is resized (solution for textareas with widths in percent)
@@ -148,13 +160,10 @@
 				$textarea.live('update', update);
 				$textarea.live('focusin', update);
 				$textarea.attr('data-newline', defaults.showNewLine);
-				$textarea.eventBlur = defaults.blur;
 
 				// Compact textarea on blur
 				$textarea.bind('blur', function(event) {
-					if ( $.isFunction($textarea.eventBlur) && !$textarea.eventBlur(event)) return;
-					if ( !$.isFunction($textarea.eventBlur) && !$textarea.eventBlur) return;
-					if ($twin.height() < maxheight) {
+					if ($twin.height() < maxheight && $textarea.canBlur) {
 						if ($twin.height() > minheight) {
 							$textarea.height($twin.height());
 						} else {
