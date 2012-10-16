@@ -20,8 +20,6 @@ $phpbb_hook->register(array('template', 'display'), 'sn_theme_compiler');
  */
 function is_modified($file_path)
 {
-	global $template, $phpbb_root_path, $phpEx;
-
 	$check_file = $file_path . '.file_check';
 
 	if (!file_exists($check_file))
@@ -87,7 +85,7 @@ function sn_theme_compiler()
 	{
 		error_reporting(E_ALL & ~E_STRICT);
 	}
-	
+
 	$compiler_path = $phpbb_root_path . '../sn-theme/';
 
 	$file_path = $compiler_path . $user->theme['theme_path'] . '/';
@@ -161,8 +159,7 @@ function sn_theme_compiler()
 	}
 
 	$s_message = file_get_contents($compiler_path . 'error_body.html');
-	$s_message = str_replace(array('{MESSAGE}', '{CLASS}'), array($message,$class), $s_message);
+	$s_message = str_replace(array('{MESSAGE}', '{CLASS}'), array($message, $class), $s_message);
 
 	$template->_tpldata['.'][0]['TRANSLATION_INFO'] .= $s_message;
-
 }
