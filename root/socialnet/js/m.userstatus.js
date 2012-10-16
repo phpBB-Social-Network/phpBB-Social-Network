@@ -1,10 +1,10 @@
 /**
- * 
+ *
  * @package phpBB Social Network
- * @version 0.7.0
+ * @version 0.7.1
  * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * 
+ *
  */
 (function($) {
 	$.sn.us = {
@@ -20,6 +20,7 @@
 	    url : './socialnet/userstatus.php',
 	    urlFetch : './socialnet/fetch.php',
 	    _inited : false,
+		_isScrollingToLoadMore: false,
 
 	    init : function(opts) {
 		    if (!$.sn._inited) { return false; }
@@ -315,7 +316,9 @@
 		    // Nacteni dalsich statusu
 		    $('.sn-us-getMore').live('click', function() {
 			    if ($('.ui-dialog').is(':visible')) { return; }
+			    if ( $.sn.us._isScrollingToLoadMore == true){return;}
 			    var t_obj = $(this);
+			    $.sn.us._isScrollingToLoadMore = true;
 			    var o_prev = t_obj.parents('.sn-more');
 			    var i_obj = $(o_prev).prev('div[id^=sn-ap-entry]');
 			    var i_lEntry = $.sn.getAttr($(i_obj), 't');
@@ -335,6 +338,7 @@
 			        },
 			        error : function() {
 				        $('.sn-us-statusLoader').hide();
+				        $.sn.us._isScrollingToLoadMore = false;
 			        },
 			        success : function(data) {
 				        $('.sn-us-statusLoader').hide();
@@ -345,6 +349,7 @@
 					        $('.sn-more .sn-us-getMore').remove();
 				        }
 				        $.sn.comments.waterMark();
+				        $.sn.us._isScrollingToLoadMore = false;
 			        }
 			    });
 			    return false;
@@ -429,7 +434,7 @@
 
 				        $.sn.us._resize();
 				        $('.sn-us-fetchDesc').trigger('paste');
-				        
+
 			        }
 			    });
 		    }).hide();
@@ -556,18 +561,21 @@
 		    }
 	    },
 
-	    _scroll : function() {
-		    if ($('.sn-more').size() > 0 && $('.sn-us-getMore').size() > 0) {
-			    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+		_scroll : function() {
+			if ($('.sn-more').size() > 0 && $('.sn-us-getMore').size() > 0 && $.sn.ap._isScrollingToLoadMore == false) {
 
-				    $(document).oneTime($.sn.us.loadMoreTime, 'sn-us-checkScrollDown', function() {
-					    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-						    $('.sn-us-getMore').trigger('click');
-					    }
-				    });
-			    }
-		    }
-	    },
+				if ($(window).scrollTop() >= $('.sn-us-getMore').offset().top - $(window).height() + $('.sn-us-getMore').parent().height()) {
+
+					$(document).oneTime($.sn.us.loadMoreTime, 'sn-us-checkScrollDown', function() {
+						if ($('.sn-ap-getMore').size() == 0 || $.sn.ap._isScrollingToLoadMore == true){return;}
+
+						if ($(window).scrollTop() >= $('.sn-us-getMore').offset().top - $(window).height() + $('.sn-us-getMore').parent().height()) {
+							$('.sn-us-getMore').trigger('click');
+						}
+					});
+				}
+			}
+		},
 
 	    _DOMChanged : function() {
 	    }
