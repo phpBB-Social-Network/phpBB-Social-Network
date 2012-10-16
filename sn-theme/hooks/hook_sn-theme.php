@@ -10,12 +10,13 @@
 $phpbb_hook->register(array('template', 'display'), 'sn_theme_compiler');
 
 /**
+ * is_modified
+ * 
+ * Function control is some of less file was modified
  * @version 1.1.0
  * @author Culprit
- * @global type $template
- * @global type $phpbb_root_path
- * @global type $phpEx
- * @param type $theme_path
+ * @param string $file_path Path to less files that whould be compiled
+ * @return boolean Return true if files modified else false
  */
 function is_modified($file_path)
 {
@@ -25,12 +26,12 @@ function is_modified($file_path)
 
 	if (!file_exists($check_file))
 	{
-		$mfiles = array();
-		$mtime = 0;
+		$mFiles = array();
+		$mTime = 0;
 	}
 	else
 	{
-		$mfiles = unserialize(file_get_contents($check_file));
+		$mFiles = unserialize(file_get_contents($check_file));
 		$mTime = max($mFiles, 0);
 	}
 	$files = glob($file_path . '*.less');
@@ -51,30 +52,47 @@ function is_modified($file_path)
 			$compile = true;
 		}
 
-		$mfiles[$filename] = $ftime;
+		$mFiles[$filename] = $ftime;
 	}
 
-	file_put_contents($check_file, serialize($mfiles));
+	file_put_contents($check_file, serialize($mFiles));
 
 	return $compile;
 }
 
+/**
+ * sn_theme_compiler
+ * 
+ * Compile LESS files into one CSS file
+ * Requires: {@link http://leafo.net/lessphp/ lessPHP}, {@link http://csstidy.sourceforge.net/usage.php CSSTidy}
+ * Settings for lessPHP is indent
+ * @global object $user phpBB user object
+ * @global object $template phpBB template object
+ * @global string $phpbb_root_path phpBB root path string
+ * @global string $phpEx php extension
+ * @return void
+ */
 function sn_theme_compiler()
 {
 	global $user, $template, $phpbb_root_path, $phpEx;
 
-	/**
-	 * Exit the compiler when is not whole page loaded
-	 */
+
+	// Exit the compiler when is not whole page loaded
 	if (defined('SN_LOADER'))
 	{
 		return;
 	}
 
+	if (defined('DEBUG') || defined('DEBUG_EXTRA'))
+	{
+		error_reporting(E_ALL & ~E_STRICT);
+	}
+	
 	$compiler_path = $phpbb_root_path . '../sn-theme/';
 
 	$file_path = $compiler_path . $user->theme['theme_path'] . '/';
 
+	// Exist when LESS files are not modified
 	if (!is_modified($file_path))
 	{
 		return;
@@ -82,6 +100,7 @@ function sn_theme_compiler()
 
 	$less_path = $compiler_path . 'lessphp/';
 
+	// Exit when less & csstidy is not present
 	if (!file_exists($less_path . 'lessc.inc.' . $phpEx) || !file_exists($less_path . 'class.csstidy.' . $phpEx))
 	{
 		return;
@@ -90,21 +109,28 @@ function sn_theme_compiler()
 	$less_input_file = $file_path . 'socialnet.less';
 	$less_output_file = $phpbb_root_path . 'styles/' . $user->theme['theme_path'] . '/theme/socialnet.css';
 
+	// Delete output file if exist
 	if (file_exists($less_output_file))
 	{
 		unlink($less_output_file);
 	}
 
+	/**
+	 * @ignore Include lessPHP file
+	 */
 	include_once($less_path . 'lessc.inc.' . $phpEx);
+	/**
+	 * @ignore Include CSSTidy file
+	 */
 	include_once($less_path . 'class.csstidy.' . $phpEx);
 
 	try
 	{
 		$lessc = new lessc($less_input_file);
-		$lessc->setFormatter('indent');
+		$lessc->setFormatter('classic');
 		$compile = $lessc->parse();
 		unset($lessc);
-		
+
 		// Set the CSSTidy to be CSS optimized such as phpBB
 		$css = new csstidy();
 
@@ -125,12 +151,18 @@ function sn_theme_compiler()
 		$_out = preg_replace("/:([^;\n]+);/si", ': \1;', $_out);
 		$_out = preg_replace("/\n{\n/si", " {\n", $_out);
 		file_put_contents($less_output_file, $_out);
+		$message = 'CSS file compiled succesfully ';
+		$class = 'info';
 	}
 	catch (exception $ex)
 	{
-		$message = file_get_contents($compiler_path . 'error_body.html');
-		$message = str_replace('{ERROR_MESSAGE}', $ex->getMessage(), $message);
-
-		$template->_tpldata['.'][0]['TRANSLATION_INFO'] .= $message;
+		$message = $ex->getMessage();
+		$class = 'alert';
 	}
+
+	$s_message = file_get_contents($compiler_path . 'error_body.html');
+	$s_message = str_replace(array('{MESSAGE}', '{CLASS}'), array($message,$class), $s_message);
+
+	$template->_tpldata['.'][0]['TRANSLATION_INFO'] .= $s_message;
+
 }
