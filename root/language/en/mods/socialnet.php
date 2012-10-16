@@ -202,7 +202,7 @@ $lang = array_merge($lang, array(
 	'SN_UP_WITH'							 => 'with',
 	'SN_UP_ANNIVERSARY'						 => 'Anniversary',
 	'SN_UP_ANNIVERSARY_ON'					 => 'Anniversary on',
-	'SN_UP_BIRTHDAY'						 => 'Birthday',
+	'SN_UP_BIRTHDAY'						 => 'Date of birth',
 	'SN_UP_SUNDAY'							 => 'Sunday',
 	'SN_UP_MONDAY'							 => 'Monday',
 	'SN_UP_TUESDAY'							 => 'Tuesday',
@@ -336,6 +336,15 @@ $lang = array_merge($lang, array(
 	'FOES'									 => 'Foes',
 	'MUTUAL'								 => 'Mutual friends',
 	'SUGGESTIONS'							 => 'Suggestions',
+
+	// This patterns are used for Date of Birth label in profile.
+	// Each language should have convention how to display dates of birth,
+	// this is where you specify it for each user browsing profile in
+	// this language.
+	'SN_DAY_MONTH_YEAR_PATTERN'				 => 'j F Y',
+	'SN_DAY_MONTH_PATTERN'						 => 'j F',
+	'SN_MONTH_YEAR_PATTERN'					 => 'F Y',
+	'SN_YEAR_PATTERN'							 => 'Y',
 
 	/**
 	 * CONFIRM BOXES
