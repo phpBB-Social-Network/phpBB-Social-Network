@@ -637,7 +637,7 @@ if (!class_exists('socialnet_im'))
 				$this->_markRecievedMessages();
 			}
 			
-			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load?'true':'false');
+			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load ? 'true' : 'false');
 		}
 
 		function onlineList()
