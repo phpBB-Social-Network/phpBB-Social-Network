@@ -1,10 +1,10 @@
 /**
- * 
+ *
  * @package phpBB Social Network
- * @version 0.6.3
+ * @version 0.7.1
  * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * 
+ *
  */
 (function($) {
 	$.sn.ap = {
@@ -15,6 +15,7 @@
 	    tikTakName : 'sn-ap-onlineTicker',
 	    loadingNews : false,
 	    loadMoreTime : 4000,
+		_isScrollingToLoadMore: false,
 
 	    init : function(opts) {
 		    if (!$.sn._inited) { return false; }
@@ -32,7 +33,9 @@
 
 		    $('.sn-ap-getMore').click(function() {
 		    	if ($('.ui-dialog').is(':visible')){ return;}
-			    var o_more = $(this)
+				if ( $.sn.ap._isScrollingToLoadMore == true){return;}
+			    var o_more = $(this);
+				$.sn.ap._isScrollingToLoadMore = true;
 			    var o_loader = o_more.next('.sn-ap-statusLoader');
 			    $(o_loader).show();
 			    var o_prev = o_more.parents('.sn-more');
@@ -47,6 +50,7 @@
 			        },
 			        error : function() {
 				        $(o_loader).hide();
+				        $.sn.ap._isScrollingToLoadMore = false;
 			        },
 			        success : function(data) {
 				        $(o_prev).before(data.content);
@@ -57,6 +61,7 @@
 					        $(o_more).remove();
 				        }
 				        $.sn._textExpander();
+				        $.sn.ap._isScrollingToLoadMore = false;
 			        }
 			    });
 		    });
@@ -161,11 +166,14 @@
 	    },
 
 	    _scroll : function() {
-		    if ($('.sn-more').size() > 0 && $('.sn-ap-getMore').size() > 0) {
-			    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-				    $(document).oneTime($.sn.ap.loadMoreTime, 'sn-ap-checkScrollDown', function() {
-					    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-						    //$('.sn-ap-statusLoader').show();
+		    if ($('.sn-more').size() > 0 && $('.sn-ap-getMore').size() > 0 && $.sn.ap._isScrollingToLoadMore == false) {
+
+			    if ($(window).scrollTop() >= $('.sn-ap-getMore').offset().top - $(window).height() + $('.sn-ap-getMore').parent().height()) {
+
+					$(document).oneTime($.sn.ap.loadMoreTime, 'sn-ap-checkScrollDown', function() {
+						if ($('.sn-ap-getMore').size() == 0 || $.sn.ap._isScrollingToLoadMore == true){return;}
+
+					    if ($(window).scrollTop() >= $('.sn-ap-getMore').offset().top - $(window).height() + $('.sn-ap-getMore').parent().height() ) {
 						    $('.sn-ap-getMore').trigger('click');
 					    }
 				    });
