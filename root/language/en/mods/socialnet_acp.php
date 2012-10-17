@@ -201,7 +201,10 @@ $lang = array_merge($lang, array(
 	'SN_ADDONS_EDITADDON'						 => 'Edit Add-on',
 
 	'SN_ADDONS_TEMPLATE'						 => 'Add-on template',
+	'SN_ADDONS_ADDON_ADDED'						 => 'Add-on has been added successfully.',
 	'SN_ADDONS_ADDON_ADDED_ERROR'				 => 'This add-on is already added for this placeholder',
+	'SN_ADDONS_ADDON_EDITED'					 => 'Add-on has been edited successfully.'
+	'SN_ADDONS_ADDON_EDITED_ERROR'				 => 'Add-on could not be edited in the add-ons manager. Please try it again.',
 	'SN_ADDONS_ADDON_DELETE_CONFIRM'			 => 'Are you sure you want to remove add-on <strong>%1$s</strong> from placeholder <strong>%2$s::%3$s</strong>?',
 	'SN_ADDONS_ADDON_DELETED'					 => 'Add-on <strong>%1$s</strong> from placeholder <strong>%2$s::%3$s</strong> has been successfully removed.',
 	'SN_ADDON_NO_ADDON_IN_PLACEHOLDER'			 => 'No Add-on assigned to this placeholder',
