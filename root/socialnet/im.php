@@ -539,6 +539,8 @@ if (!class_exists('socialnet_im'))
 
 			$b_no_avatar_me = stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false;
 
+			$play_sound_on_load = false;
+			
 			for ($i = 0; isset($chatBoxRowSet[$i]); $i++)
 			{
 				$row = $chatBoxRowSet[$i];
@@ -616,6 +618,10 @@ if (!class_exists('socialnet_im'))
 						$b_no_avatar = $b_no_avatar_sender;
 					}
 
+					if ( $msg['recd'] == 0)
+					{
+						$play_sound_on_load = true;
+					}
 					$template->assign_block_vars('sn_im_chatbox.message', array(
 						'S_ME'			 => $user->data['user_id'] == $msg['uid_from'],
 						'UID_FROM'		 => $msg['uid_from'],
@@ -630,6 +636,8 @@ if (!class_exists('socialnet_im'))
 
 				$this->_markRecievedMessages();
 			}
+			
+			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load ? 'true' : 'false');
 		}
 
 		function onlineList()
