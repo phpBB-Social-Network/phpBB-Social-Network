@@ -43,6 +43,8 @@ class hookSocialNet
 	{
 		global $db, $user, $socialnet, $config, $template, $phpbb_hook;
 
+		$phpbb_hook->remove_hook('phpbb_user_session_handler', array('hookSocialNet', 'start_socialNet'));
+		
 		$sql = "SELECT config_value FROM " . SN_CONFIG_TABLE . " WHERE config_name = 'sn_global_enable'";
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
@@ -109,13 +111,15 @@ class hookSocialNet
 				$socialnet->start_modules();
 			}
 		}
-		$phpbb_hook->remove_hook('phpbb_user_session_handler', array('hookSocialNet', 'start_socialNet'));
+		
 	}
 
 	static function template_display($phpbb_hook, $handle, $include_once = true)
 	{
 		global $socialnet;
 
+		$phpbb_hook->remove_hook(array('template', 'display'), array('hookSocialNet', 'template_display'));
+		
 		$return = $phpbb_hook->previous_hook_result(array('template', 'display'));
 		if (method_exists($socialnet, 'hook_template'))
 		{
