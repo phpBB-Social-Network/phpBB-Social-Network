@@ -2,9 +2,13 @@
 
 ### About
 [phpBB Social Network](http://phpbbsocialnetwork.com) is a modification for [phpBB3](http://phpbb.com), which turns your bulletin board to full valued social network website.
+
 You can read [detailed description of phpBB Social Network](http://phpbbsocialnetwork.com/viewtopic.php?t=32) and its features here.
+
 Feel free to ask for a support or request more features on [official phpBB Social Network website](http://phpbbsocialnetwork.com/index.php).
+
 You can view [Changelog here](http://phpbbsocialnetwork.com/viewtopic.php?t=1023).
+
 phpBB Social Network [Facebook page](http://www.facebook.com/pages/phpBB-Social-Network/180271885389370).
 
 ### How to develop effectivelly
