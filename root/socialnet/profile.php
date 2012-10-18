@@ -93,6 +93,7 @@ if (!class_exists('socialnet_profile'))
 				'S_OWN_PROFILE'				 => $user->data['user_id'] == $user_id,
 				'SN_UP_MONTH_NAMES'			 => $monthNames,
 				'SN_UP_MONTH_NAMES_SHORT'	 => $monthNamesShort,
+				'SN_DATE_FORMAT'			 => $this->_parse_dateFormat_to_js($user->lang['SN_DAY_MONTH_YEAR_PATTERN']),
 				'S_SN_UP_EMOTES_ENABLED'	 => isset($this->p_master->config['up_emotes']) ? $this->p_master->config['up_emotes'] : 0,
 				'SN_UP_EMOTE_FOLDER'		 => $phpbb_root_path . SN_UP_EMOTE_FOLDER,
 			);
@@ -225,19 +226,19 @@ if (!class_exists('socialnet_profile'))
 				$birthday_arr = array_map('intval', explode('-', $member['user_birthday']));
 				if ($birthday_arr[0] && $birthday_arr[1] && $birthday_arr[2])
 				{
-					$birthday = $user->format_date(gmmktime(0, 0, -$user->timezone, (int) $birthday_arr[1], (int) $birthday_arr[0], (int) $birthday_arr[2]), '|j. F Y|');
+					$birthday = $this->p_master->format_date('complete', gmmktime(0, 0, -$user->timezone, (int) $birthday_arr[1], (int) $birthday_arr[0], (int) $birthday_arr[2]), $user->lang['SN_DAY_MONTH_YEAR_PATTERN']);
 				}
 				elseif ($birthday_arr[0] && $birthday_arr[1])
 				{
-					$birthday = $user->format_date(gmmktime(0, 0, -$user->timezone, (int) $birthday_arr[1], (int) $birthday_arr[0], 2000), '|j. F|');
+					$birthday = $this->p_master->format_date('complete', gmmktime(0, 0, -$user->timezone, (int) $birthday_arr[1], (int) $birthday_arr[0], 2000), $user->lang['SN_DAY_MONTH_PATTERN']);
 				}
 				elseif ($birthday_arr[1] && $birthday_arr[2])
 				{
-					$birthday = $user->format_date(gmmktime(0, 0, -$user->timezone, (int) $birthday_arr[1], (int) $birthday_arr[0], (int) $birthday_arr[2]), '|F Y|');
+					$birthday = $this->p_master->format_date('complete', gmmktime(0, 0, -$user->timezone, (int) $birthday_arr[1], (int) $birthday_arr[0], (int) $birthday_arr[2]), $user->lang['SN_MONTH_YEAR_PATTERN']);
 				}
 				elseif ($birthday_arr[2])
 				{
-					$birthday = $user->format_date(gmmktime(0, 0, -$user->timezone, 1, 1, (int) $birthday_arr[2]), '|Y|');
+					$birthday = $this->p_master->format_date('complete', gmmktime(0, 0, -$user->timezone, 1, 1, (int) $birthday_arr[2]), $user->lang['SN_YEAR_PATTERN']);
 				}
 				else
 				{
@@ -1145,6 +1146,25 @@ if (!class_exists('socialnet_profile'))
 				}
 			}
 
+		}
+
+		function _parse_dateFormat_to_js($format)
+		{
+			$replace = array(
+				'd'	=> 'dd', // day of month (two digit)
+				'z'	=> 'o', // day of year (no leading zeros)
+				'l'	=> 'DD', // day name long
+				'm'	=> 'mm', // month of year (two digit)
+				'F'	=> 'MM', // month name long
+				'Y'	=> 'yy', // year (four digit)
+				'U'	=> '@', // Unix timestamp (ms since 01/01/1970)
+				'n'	=> 'm', // month of year (no leading zero)
+				'j'	=> 'd', // day of month (no leading zero)
+							// last 2 must be at the end of the array, because if not, it would be
+							// replaced by the first key "d" and "m"
+			);
+
+			return str_replace( array_keys($replace), $replace, $format );
 		}
 	}
 }
