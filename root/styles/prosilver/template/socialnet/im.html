@@ -36,6 +36,7 @@
 			<div class="sn-im-title sn-im-buttons ui-corner-top">
 				<span class="ui-icon sn-im-cbClose sn-tooltip" title="{SN_IM_PRESS_TO_CLOSE}"></span>
 				<a href="{sn_im_chatbox.U_UCP_IM_HISTORY}" class="sn-tooltip" title="{L_UCP_SN_IM_HISTORY}"><span class="ui-icon sn-im-cbHistory"></span></a>
+				<span class="ui-icon sn-im-cbClear sn-tooltip" title="{L_SN_IM_PRESS_TO_CLEAR_WINDOW}"></span>
 				<span class="sn-im-cbAvatar sn-hiddenDefault">{sn_im_chatbox.AVATAR}</span>
 				<div class="sn-userName">
 					<span class="sn-im-status sn-im-<!-- IF sn_im_chatbox.STATUS eq 2 -->online<!-- ELSEIF sn_im_chatbox.STATUS eq 1 -->away<!-- ELSE -->offline<!-- ENDIF -->"></span>
@@ -45,6 +46,7 @@
 			<div class="sn-im-buttons sn-hiddenDefault">
 				<a href="javascript:void(0);"><span class="ui-icon sn-im-cbClose"></span></a>
 				<a href="{sn_im_chatbox.U_UCP_IM_HISTORY}"><span class="ui-icon sn-im-cbHistory"></span></a>
+				<a href="javascript:void(0);"><span class="ui-icon sn-im-cbClear"></span></a>
 				<div class="clear"></div>
 			</div>
 			<div class="sn-im-msgs">
@@ -53,7 +55,7 @@
 				<!-- BEGIN message -->
 				  <div class="sn-im-msg<!-- IF sn_im_chatbox.message.S_UID_SAME --> sn-im-noborderTop<!-- ENDIF --> {time:{sn_im_chatbox.message.TIME},from:{sn_im_chatbox.message.UID_FROM}}">
 				    <span class="sn-im-msgTime">{sn_im_chatbox.message.TIME_STRING}</span>
-				    <!-- IF $USE_AVATAR eq 0 --> 
+						<!-- IF $USE_AVATAR eq 0 -->
 						  <!-- IF not sn_im_chatbox.message.S_UID_SAME --><span class="sn-userName"><!-- IF sn_im_chatbox.message.S_ME --><a href="{U_SN_MY_PROFILE}" title="{L_SN_MYPROFILE}">{SN_IM_USERNAME}</a><!-- ELSE --><a href="{sn_im_chatbox.USERNAME_TO_PROFILE}" title="{L_SN_PROFILE}">{sn_im_chatbox.U_PROFILE_USER}</a><!-- ENDIF -->:</span><!-- ENDIF -->
 						<!-- ELSE -->
 						  <!-- IF not sn_im_chatbox.message.S_UID_SAME -->
@@ -72,7 +74,7 @@
 				<!-- IF SN_IM_SMILIES_EXISTS --><div class="sn-im-smilies"></div><!-- ENDIF -->
 				<textarea name="msg" class="sn-im-message {uid:{sn_im_chatbox.USER_ID}}" title="{SN_IM_PRESS_TO_SEND}" cols="1" rows="1"></textarea>
 			</div>
-			
+
 			<!-- IF SN_IM_SMILIES_EXISTS -->
 			<div class="sn-im-smiliesBox">
 				<!--div class="ui-widget-overlay ui-widget-shadow ui-corner-all" style="height:102px;width:156px;margin:0;padding: 4px;"></div-->

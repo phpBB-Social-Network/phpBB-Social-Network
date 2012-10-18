@@ -1,10 +1,10 @@
 /**
- * 
+ *
  * @package phpBB Social Network
  * @version 0.7.0
  * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * 
+ *
  */
 
 (function($) {
@@ -18,6 +18,7 @@
 	$.sn = {
 		mobileBrowser : $.browser.mobile,
 		_debug : false,
+		user_id: 1,
 		allow_load : true,
 		rtl : false,
 		expanderTextMore : '[read more]',
@@ -51,7 +52,7 @@
 			postMinChar : 10,
 			init : function() {
 				if ($.sn.confirmBox.enable) {
-					
+
 					var $dialogHTML = $('<div class="ui-body-dialog"/>');
 					$dialogHTML.attr('id', 'dialog').css('display', 'none');
 					$dialogHTML.attr('title', 'Title Confirm Box');
@@ -85,12 +86,12 @@
 						resizeStop: function(){
 							$.sn.confirmBox.dropShadow($('.ui-dialog'),$.sn.confirmBox.shadowBox);
 						}
-						
+
 					});
 				}
 
 			},
-			
+
 			dropShadow : function(elem, attribs) {
 				return $(elem).each(function() {
 					var self = $(this);
@@ -144,7 +145,7 @@
 					}).attr('aria-shadow', 'true');
 
 				});
-				
+
 			}
 		},
 
@@ -227,7 +228,7 @@
 
 			this._minBrowser();
 			//		    this.isOutdatedBrowser = true;
-		    
+
 			$.metadata.setType("class");
 			$(window).resize(function() {
 				$.sn._resizeBlocks();

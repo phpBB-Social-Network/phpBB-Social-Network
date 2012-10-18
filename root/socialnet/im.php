@@ -540,7 +540,7 @@ if (!class_exists('socialnet_im'))
 			$b_no_avatar_me = stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false;
 
 			$play_sound_on_load = false;
-			
+
 			for ($i = 0; isset($chatBoxRowSet[$i]); $i++)
 			{
 				$row = $chatBoxRowSet[$i];
@@ -636,7 +636,7 @@ if (!class_exists('socialnet_im'))
 
 				$this->_markRecievedMessages();
 			}
-			
+
 			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load ? 'true' : 'false');
 		}
 

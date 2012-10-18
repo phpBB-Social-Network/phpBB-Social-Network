@@ -177,6 +177,7 @@ class socialnet extends snFunctions
 		$socialnet_web_path = ((defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? $board_url : $phpbb_root_path) . 'socialnet/';
 
 		$template->assign_vars(array_merge(array(
+			'S_SN_CURRENT_USER_ID'				 => $user->data['user_id'],
 			'B_SOCIALNET_ENABLED'				 => true,
 			'SOCIALNET_ROOT_PATH'				 => $socialnet_root_path,
 			'SOCIALNET_JS_PATH'					 => $socialnet_web_path . 'js/',

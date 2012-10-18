@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 	'SN_IM_LOGIN'							 => 'Online',
 	'SN_IM_LOGOUT'							 => 'Offline',
 	'SN_IM_PRESS_TO_CLOSE'					 => 'Press %1$s to close chat box',
+	'SN_IM_PRESS_TO_CLEAR_WINDOW'			 => 'Press this to clear the window of the chat box',
 	'SN_IM_PRESS_TO_SEND'					 => 'Press %1$s to send message',
 
 	'SN_US_SHARE_STATUS'					 => 'Share',
