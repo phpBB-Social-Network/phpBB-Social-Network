@@ -1,7 +1,7 @@
 /**
  * 
  * @package phpBB Social Network
- * @version 0.7.0
+ * @version 0.7.1
  * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * 
@@ -127,15 +127,6 @@
 			$('.sn-im-chatBox').bind('click', function() {
 				$.sn.im._unReadToggle(this);
 			});
-
-			/*******************************************************************
-			 * *.TextAreaExpander($.sn.im.opts._aExpMin,
-			 * $.sn.im.opts._aExpMax).bind('DOMSubtreeModified',function(){ if (
-			 * $.sn.im.opts._imMsgsh != null){
-			 * $(this).parents('.sn-im-textArea').prev('.sn-im-msgs').height($.sn.im.opts._imMsgsh +
-			 * $.sn.im.opts._imMsgss -
-			 * $(this).parents('.sn-im-textArea').height()); } });
-			 ******************************************************************/
 
 			/** LINK IN NEW WINDOW */
 			if (opts.linkNewWindow) {
@@ -343,14 +334,9 @@
 			});
 
 			// Play sound
-			if ($.sn.im.opts.sound && $.sn.im.playSoundOnPageLoad) {
-				if ($.browser.msie) {
-					$('#sn-im-msgArrived').html('<object height="1" width="1" type="application/x-shockwave-flash" data="' + $.sn.im.opts.soundFile + '"><param name="movie" value="' + $.sn.im.opts.soundFile + '"><param name="FlashVars" value="' + $.sn.im.opts.soundFlashVars + '"></object>');
-				} else {
-					$('#sn-im-msgArrived').html('<embed src="' + $.sn.im.opts.soundFile + '" width="0" height="0" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" FlashVars="' + $.sn.im.opts.soundFlashVars + '"></embed>');
-				}
+			if ($.sn.im.playSoundOnPageLoad) {
+				$.sn.im._playSound();
 			}
-
 
 			if ($('.sn-im-block .sn-im-msgs:visible').is(':visible')) {
 				var $block = $('.sn-im-block .sn-im-msgs:visible').parents('.sn-im-block');
@@ -423,13 +409,7 @@
 						// MSG is unread
 						if (data.recd == false) {
 							// Play sound
-							if ($.sn.im.opts.sound) {
-								if ($.browser.msie) {
-									$('#sn-im-msgArrived').html('<object height="1" width="1" type="application/x-shockwave-flash" data="' + $.sn.im.opts.soundFile + '"><param name="movie" value="' + $.sn.im.opts.soundFile + '"><param name="FlashVars" value="' + $.sn.im.opts.soundFlashVars + '"></object>');
-								} else {
-									$('#sn-im-msgArrived').html('<embed src="' + $.sn.im.opts.soundFile + '" width="0" height="0" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" FlashVars="' + $.sn.im.opts.soundFlashVars + '"></embed>');
-								}
-							}
+							$.sn.im._playSound();
 							// Title Alert
 							$.titleAlert($.sn.im.opts.newMessage, {
 								requireBlur : true,
@@ -706,13 +686,25 @@
 			}
 
 		},
+				
+		_playSound: function(){
+			if ($.sn.im.opts.sound) {
+				if ($.browser.msie) {
+					$('#sn-im-msgArrived').html('<object height="1" width="1" type="application/x-shockwave-flash" data="' + $.sn.im.opts.soundFile + '"><param name="movie" value="' + $.sn.im.opts.soundFile + '"><param name="FlashVars" value="' + $.sn.im.opts.soundFlashVars + '"></object>');
+				} else {
+					$('#sn-im-msgArrived').html('<embed src="' + $.sn.im.opts.soundFile + '" width="0" height="0" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" FlashVars="' + $.sn.im.opts.soundFlashVars + '"></embed>');
+				}
+			}
+		},
 		/**
-		 * Posouvani chat boxiku
+		 * Moving opened chatboxes
 		 * 
 		 * @param {Integer}
-		 *            m operace pro scroll 10 - zavreni chat boxiku 20 -
-		 *            vytvoreni chat boxiku 1 - posun vpravo 2 - posun vlevo 0 -
-		 *            zaciname
+		 *	0	- start
+		 *	1	- move right
+		 *	2	- move left
+		 *	10	- close/destroy chatbox
+		 *	20	- create chatbox
 		 */
 		_scrollable : function(m) {
 			if ($('.sn-im-dockWrapper').is('[style]')) {
@@ -753,9 +745,6 @@
 					case 2:
 						this.opts.curPosit++;
 						break;
-				/*
-					 * case 0: default: break;
-					 */
 				}
 				$.sn.setCookie('sn_im_curPosit', this.opts.curPosit);
 
@@ -793,16 +782,6 @@
 				});
 				$nav.width(totalWidth);
 
-			/*
-				 * for (i = 0; i < this.opts.maxChatBoxes; i++) {
-				 * $nav.children(this.opts.curPosit + i).show(); }
-				 * 
-				 * 
-				 * $nav.children(':lt(' + this.opts.curPosit +
-				 * '):visible').hide(); $nav.children(':gt(' +
-				 * (this.opts.curPosit + this.opts.maxChatBoxes - 1) +
-				 * '):visible').hide();
-				 */
 			} else {
 				$nav.removeAttr('style').children('.sn-im-chatBox').show();
 
@@ -825,7 +804,7 @@
 		},
 
 		/**
-		 * Resize bloku, ktere si to zadazi pri zmene okna
+		 * Resize block by window resize
 		 */
 		_resize : function() {
 			$('#sn-im #sn-im-onlineList').css('max-height', ($(window).height() - 100 > 50 ? $(window).height() - 100 : 50) + 'px');
@@ -833,7 +812,7 @@
 		},
 
 		_documentClick : function(event) {
-			/** ZAVRIT ONLINE LIST PRI KLIKNUTI MIMO */
+			/** Close online list by click outside */
 			if ($('#sn-im-onlineCount').hasClass('sn-im-opener')) {
 				var s_obj = 'sn-im';
 				if (!$(event.target).closest('#' + s_obj).size()) {
