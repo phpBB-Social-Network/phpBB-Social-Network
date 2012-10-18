@@ -52,7 +52,7 @@
 			    }
 		    }).elastic({
 				parentElement: '.sn-us-share',
-				submitElement: '.sn-us-wallButton'
+				submitElement: '.sn-us-wallButton, .sn-us-fetchButton'
 			}).trigger('blur');
 
 		    // Delete status
