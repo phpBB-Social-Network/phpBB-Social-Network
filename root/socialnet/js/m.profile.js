@@ -114,7 +114,7 @@
 								className : 'sn-us-watermark'
 						}).elastic({
 							parentElement: '.sn-us-share',
-							submitElement: '.sn-us-wallButton'
+							submitElement: '.sn-us-wallButton, .sn-us-fetchButton'
 						}).trigger('blur');
 								$.sn._resize();
 								$.sn._textExpander();
