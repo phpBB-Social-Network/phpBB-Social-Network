@@ -10,7 +10,7 @@ class closureCompiler
 {
 
 	var $cache = array ();
-	var $cacheFile = './cache/cache.php';
+	var $cacheFile = 'cache/cache.php';
 	var $closureURL = 'http://closure-compiler.appspot.com/compile';
 	var $filename = '';
 	var $script = '';
@@ -32,9 +32,15 @@ class closureCompiler
 	 */
 	public function closureCompiler()
 	{
+		$this->setCacheRoot();
 		$this->loadCache();
+
 	}
 
+	private function setCacheRoot()
+	{
+		$this->cacheFile = __DIR__ . '/' . $this->cacheFile;
+	}
 	/**
 	 * Load cached files
 	 * @access private
