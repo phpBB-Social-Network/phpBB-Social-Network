@@ -1,0 +1,3 @@
+<?php
+
+// Now is empty
