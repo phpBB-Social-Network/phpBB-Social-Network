@@ -16,7 +16,7 @@ Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023
 phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370
 
 Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>
-		<author-notes lang="en"><![CDATA[Please note, that if you want to use "Fetch page" feature (while posting new status), you need to have CURL enabled, safe_mode off and open_basedir not set.]]></author-notes>
+		<author-notes lang="en"><![CDATA[Please note, that if you want to use "Fetch page" feature to fetch remote pages (while posting new status), you need to have CURL enabled, safe_mode off and open_basedir not set.]]></author-notes>
 		<author-group>
 			<author>
 				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>
@@ -34,8 +34,16 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 					<contributions status="current" from="2010-06-01" position="Developer"/>
 				</contributions-group>
 			</author>
+			<author>
+				<realname><![CDATA[Jakub Senko]]></realname>
+				<username phpbbcom="no"><![CDATA[Senky]]></username>
+				<homepage><![CDATA[http://senky.me/]]></homepage>
+				<contributions-group>
+					<contributions status="current" from="2012-10-03" position="Developer"/>
+				</contributions-group>
+			</author>
 		</author-group>
-		<mod-version>0.7.0</mod-version>
+		<mod-version>0.7.1</mod-version>
 		<installation>
 			<level>easy</level>
 			<time>300</time>
@@ -70,12 +78,12 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 <div class="panel bg1">
 	<div class="inner"><span class="corners-top"><span></span></span>
 		<h3>{L_SN_FAS_FRIEND_LIST}</h3>
-    {SN_FMS_BLOCK_FRIEND_CONTENT}<div class="clear"></div>			
+    {SN_FMS_BLOCK_FRIEND_CONTENT}<div class="clear"></div>
     {SN_FMS_BLOCK_FRIEND_PAGINATION_STRING}<div class="clear"></div>
 	<span class="corners-bottom"><span></span></span></div>
 </div>
 <!-- ENDIF -->
-<!-- IF SN_MODULE_USERSTATUS_ENABLED && SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE -->      
+<!-- IF SN_MODULE_USERSTATUS_ENABLED && SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE -->
   <!-- INCLUDE socialnet/userstatus_memberlist.html -->
 <!-- ENDIF -->]]></action>
 			</edit>
@@ -123,6 +131,6 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 			</edit>
 		</open>
 		<php-installer><![CDATA[socialnet/install_sn.php]]></php-installer>
-		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via install_sn.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
+		<diy-instructions lang="en"><![CDATA[Please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
 	</action-group>
 </mod>
