@@ -1,10 +1,10 @@
 <!-- BEGIN sn_user_menu -->
 	<li id="menu_id_{sn_user_menu.ID}" class="ui-menu-item">
-		<a href="{sn_user_menu.URL}"<!-- IF sn_user_menu.EXTERNAL --> onclick="window.open(this.href,'_blank');return false;"<!-- ENDIF -->>
+		<a href="<!-- IF sn_user_menu.URL neq '' -->{sn_user_menu.URL}<!-- ELSE -->#<!-- ENDIF -->"<!-- IF sn_user_menu.EXTERNAL --> onclick="window.open(this.href,'_blank');return false;"<!-- ENDIF -->>
 			<!-- IF sn_user_menu.ICON --><span class="sn-menu-icon ui-icon ui-icon-{sn_user_menu.ICON}"></span><!-- ENDIF -->
 		{sn_user_menu.NAME}</a>
 		<!-- IF sn_user_menu.SUBMENU neq '' -->
-		<ul id="submenu_id_{sn_user_menu.ID}" class="ui-menu ui-widget ui-widget-content" style="display:none">{sn_user_menu.SUBMENU}</ul>
+		<ul id="submenu_id_{sn_user_menu.ID}" style="display:none">{sn_user_menu.SUBMENU}</ul>
 		<!-- ENDIF -->
 	</li>
 <!-- END sn_user_menu --> 
