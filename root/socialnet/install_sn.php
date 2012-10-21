@@ -665,8 +665,14 @@ $versions = array(
 		),
 
 	),
-	
+
 	'0.7.1'	 => array(
+	),
+
+	'0.7.2'	=> array(
+		'custom'			 => array(
+			'phpbbSN_sanatize_im_checkTime_min',
+		),
 	),
 );
 
@@ -712,6 +718,33 @@ foreach ($previous_versions as $idx => $a_version)
  * @ignore
  */
 include($phpbb_root_path . 'umil/umil_auto.' . $phpEx);
+
+function phpbbSN_sanatize_im_checkTime_min($action, $version)
+{
+	if ($action == 'update')
+	{
+		$sql = 'SELECT config_value
+				FROM ' . SN_CONFIG_TABLE . '
+				WHERE config_name = "im_checkTime_min"';
+		$result = $db->sql_query($sql);
+		$im_checkTime_min = $db->sql_fetchfield('config_value');
+
+		if ($im_checkTime_min == 1)
+		{
+			$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_value = "2" WHERE config_name = "im_checkTime_min"');
+
+			return 'Social Network::IM check time minimum was set to 2';
+		}
+		else
+		{
+			return 'Social Network::IM check time minimum untouched';
+		}
+	}
+	else
+	{
+		return 'Social Network::IM check time minimum untouched';
+	}
+}
 
 function phpbbSN_smilies_allow($action, $version)
 {
