@@ -50,8 +50,6 @@ class sn_core_addons
 	 */
 	public function sn_core_addons(&$p_master)
 	{
-		global $cache, $template, $phpbb_root_path, $user, $config;
-
 		$this->p_master = $p_master;
 	}
 
@@ -71,7 +69,7 @@ class sn_core_addons
 	 */
 	public function get($script = null, $block = null)
 	{
-		global $template, $user, $db, $phpbb_root_path, $phpEx;
+		global $template, $db, $phpbb_root_path, $phpEx;
 
 		$sql_add = '';
 
