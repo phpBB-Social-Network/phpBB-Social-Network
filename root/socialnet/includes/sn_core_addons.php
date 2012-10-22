@@ -50,8 +50,6 @@ class sn_core_addons
 	 */
 	public function sn_core_addons(&$p_master)
 	{
-		global $cache, $template, $phpbb_root_path, $user, $config;
-
 		$this->p_master = $p_master;
 	}
 
@@ -71,7 +69,7 @@ class sn_core_addons
 	 */
 	public function get($script = null, $block = null)
 	{
-		global $template, $user, $db, $phpbb_root_path, $phpEx;
+		global $template, $db, $phpbb_root_path, $phpEx;
 
 		$sql_add = '';
 
@@ -116,11 +114,6 @@ class sn_core_addons
 				}
 			}
 			$addonTemplate = $this->get_template_name($addon['addon_php'], $addon['addon_function'], $addon['ph_script'], $addon['ph_block']);
-
-			if (!file_exists("{$phpbb_root_path}styles/{$user->theme['template_path']}/template/socialnet/addons/{$addonTemplate}"))
-			{
-				continue;
-			}
 
 			include_once("{$phpbb_root_path}socialnet/addons/{$addon['addon_php']}.{$phpEx}");
 
