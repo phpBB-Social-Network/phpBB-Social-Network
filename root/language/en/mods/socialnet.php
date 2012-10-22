@@ -287,9 +287,9 @@ $lang = array_merge($lang, array(
 	'SN_UP_RELATION_REFUSED'				 => 'refused',
 	'SN_UP_RELATION_REQUESTS'				 => 'Requests',
 	'SN_UP_APPROVE_REQUESTS'				 => 'Approve relationship',
-	'WRONG_DATA_FACEBOOK'					 => 'The Facebook address has to be a valid URL, including the protocol. For example http://www.facebook.com/<nickname>/',
-	'WRONG_DATA_TWITTER'					 => 'The Twitter address has to be a valid URL, including the protocol. For example http://twitter.com/<nickname>/',
-	'WRONG_DATA_YOUTUBE'					 => 'The Youtube address has to be a valid URL, including the protocol. For example http://www.youtube.com/user/<nickname>/',
+	'WRONG_DATA_FACEBOOK'					 => 'The Facebook address has to be a valid URL, including the http protocol. For example http://www.facebook.com/<nickname>/',
+	'WRONG_DATA_TWITTER'					 => 'The Twitter address has to be a valid URL, including the http protocol. For example http://twitter.com/<nickname>/',
+	'WRONG_DATA_YOUTUBE'					 => 'The Youtube address has to be a valid URL, including the http protocol. For example http://www.youtube.com/user/<nickname>/',
 	'WRONG_DATA_FAMILY_USER'				 => 'One of family usernames you entered doesn\'t exist',
 	'WRONG_DATA_RELATION_USER'				 => 'The relationship username you entered doesn\'t exist',
 	'WRONG_DATA_ANNIVERSARY'				 => 'The anniversary has to be a valid date in the form dd-mm-yyyy. For example 01-12-2011',
@@ -398,7 +398,7 @@ $lang = array_merge($lang, array(
 	// Instant Messenger
 	'IM_ONLINE'								 => 'I am Online',
 	'IM_ONLINE_EXPLAIN'						 => 'If yes, friends will see you in the online list and they can chat with you.',
-	'IM_ALLOW_SOUND'						 => 'Play sound when receive messages',
+	'IM_ALLOW_SOUND'						 => 'Play a sound when message is received',
 	'IM_ALLOW_SOUND_EXPLAIN'				 => 'This option enables/disables sound when receiving a new message',
 
 	'IM_HISTORY_PURGED_AT'					 => 'Instant Messenger history has been deleted by administrator on %1$s',
