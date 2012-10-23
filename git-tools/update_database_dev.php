@@ -669,6 +669,35 @@ $versions = array(
 	),
 	
 	'0.7.1'	 => array(
+		'permission_add' => array(
+			array('u_sn_notify', true),
+			array('u_sn_im', true),
+		),
+		'permission_set' => array(
+			// USER GROUP permissions
+			array('REGISTERED', 'u_sn_userstatus', 'group', true),
+			array('REGISTERED', 'u_sn_notify', 'group', true),
+			array('REGISTERED', 'u_sn_im', 'group', true),
+			array('NEWLY_REGISTERED', 'u_sn_userstatus', 'group', true),
+			array('NEWLY_REGISTERED', 'u_sn_notify', 'group', true),
+			array('NEWLY_REGISTERED', 'u_sn_im', 'group', true),
+			// USER ROLE permissions
+			array('ROLE_USER_STANDARD', 'u_sn_userstatus', 'role', true),
+			array('ROLE_USER_STANDARD', 'u_sn_notify', 'role', true),
+			array('ROLE_USER_STANDARD', 'u_sn_im', 'role', true),
+			array('ROLE_USER_FULL', 'u_sn_userstatus', 'role', true),
+			array('ROLE_USER_FULL', 'u_sn_notify', 'role', true),
+			array('ROLE_USER_FULL', 'u_sn_im', 'role', true),
+			array('ROLE_USER_NEW_MEMBER', 'u_sn_userstatus', 'role', true),
+			array('ROLE_USER_NEW_MEMBER', 'u_sn_notify', 'role', true),
+			array('ROLE_USER_NEW_MEMBER', 'u_sn_im', 'role', true),
+			// MODERATOR ROLE permissions
+			array('ROLE_MOD_FULL', 'm_sn_close_reports', 'role', true),
+			array('ROLE_MOD_STANDARD', 'm_sn_close_reports', 'role', true),
+			// ADMINISTRATOR ROLE permissions
+			array('ROLE_ADMIN_STANDARD', 'a_sn_settings', 'role', true),
+			array('ROLE_ADMIN_FULL', 'a_sn_settings', 'role', true),
+		)
 	),
 );
 
