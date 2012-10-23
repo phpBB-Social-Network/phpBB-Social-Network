@@ -374,6 +374,7 @@ root/includes/diff/diff.php
 root/includes/diff/engine.php
 root/includes/diff/renderer.php
 root/includes/hooks/index.php
+/root/includes/hooks/hook_sn-theme.php
 root/includes/mcp/mcp_ban.php
 root/includes/mcp/mcp_forum.php
 root/includes/mcp/mcp_front.php

@@ -88,6 +88,10 @@ if (!class_exists('socialnet_profile'))
 					'EMOTE_IMAGE'	 => $row_emotes[$i]['emote_image'],
 				));
 			}
+			
+			$sql = "SELECT * FROM " . SN_SMILIES_TABLE . " WHERE smiley_allowed = 1";
+			$rs = $db->sql_query($sql);
+			$exist_smiley = $db->sql_affectedrows($rs);
 
 			$template_assign_vars = array(
 				'S_OWN_PROFILE'				 => $user->data['user_id'] == $user_id,
@@ -96,6 +100,7 @@ if (!class_exists('socialnet_profile'))
 				'SN_DATE_FORMAT'			 => $this->_parse_dateFormat_to_js($user->lang['SN_DAY_MONTH_YEAR_PATTERN']),
 				'S_SN_UP_EMOTES_ENABLED'	 => isset($this->p_master->config['up_emotes']) ? $this->p_master->config['up_emotes'] : 0,
 				'SN_UP_EMOTE_FOLDER'		 => $phpbb_root_path . SN_UP_EMOTE_FOLDER,
+				'SN_US_SMILIES_EXISTS'	=> $exist_smiley,
 			);
 
 			$template->assign_vars($template_assign_vars);

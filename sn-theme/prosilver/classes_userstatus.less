@@ -158,6 +158,37 @@
 	display: none;
 }
 
+.sn-us-smilies {
+  background: #fff url("{T_IMAGESET_PATH}/socialnet/sn_smiley.png") no-repeat 4px 50%;
+	width: 25px;
+	height: 24px;
+	cursor: pointer;
+	display: none;
+	position: relative;
+	margin: 3px 3px 0 0;
+
+	.ltr & {
+		float: right;
+	}
+
+	.rtl & {
+		float: left;
+	}
+}
+
+.sn-us-smiliesBox {
+	width: @sn-us-smileyBox-width;
+	display: none;
+	position: absolute;
+	z-index: 999;
+	background: #fff;
+}
+
+.sn-us-smiliesContent {
+	padding:4px;
+	background-color:#fff;
+}
+
 .sn-us-mentions-input-box {
   position: relative;
   background: #fff;

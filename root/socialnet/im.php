@@ -123,7 +123,6 @@ if (!class_exists('socialnet_im'))
 
 			$sql = "SELECT * FROM " . SN_SMILIES_TABLE . " WHERE smiley_allowed = 1";
 			$rs = $db->sql_query($sql);
-
 			$exist_smiley = $db->sql_affectedrows($rs);
 
 			$template_assign_vars = array_merge($template_assign_vars, array(
@@ -132,7 +131,7 @@ if (!class_exists('socialnet_im'))
 				'S_SN_IM_ONLINE'			 => $user->data['user_im_online'] == 1 ? 'online' : 'offline',
 				'SN_IM_USERNAME'			 => $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
 				'SN_IM_USER_AVATAR'			 => $this->config['my_avatar'],
-				'SN_IM_SMILIES_EXISTS'		 => $exist_smiley, // LOAD using parameters
+				'SN_IM_SMILIES_EXISTS'		 => $exist_smiley,
 				'S_SN_IM_USER_SOUND'		 => $user->data['user_im_sound'],
 				'S_SN_IM_USER_SOUNDNAME'	 => $user->data['user_im_soundname'],
 				'S_SN_IM_LINK_NEW_WINDOW'	 => isset($config['im_url_new_window']) && $config['im_url_new_window'],
@@ -237,7 +236,7 @@ if (!class_exists('socialnet_im'))
 					break;
 
 				case 'snImDisplaySmilies':
-					$this->_displaySmilies();
+					$this->p_master->displaySmilies('im');
 					break;
 			}
 			header('Content-type: application/json');
@@ -980,56 +979,6 @@ if (!class_exists('socialnet_im'))
 			$closeKey .= (!empty($closeKey) ? '+' : '') . strtoupper($closeCode[0]);
 
 			return $closeKey;
-		}
-
-		function _displaySmilies()
-		{
-			global $db, $phpbb_root_path, $config, $template, $user;
-
-			$sql = 'SELECT ps.*, ss.smiley_allowed
-					FROM ' . SMILIES_TABLE . ' AS ps, ' . SN_SMILIES_TABLE . ' AS ss
-					WHERE ps.smiley_id = ss.smiley_id AND ss.smiley_allowed = 1
-					ORDER BY smiley_order';
-			$result = $db->sql_query($sql, 3600);
-
-			$smilies = array();
-			while ($row = $db->sql_fetchrow($result))
-			{
-				if (empty($smilies[$row['smiley_url']]))
-				{
-					$smilies[$row['smiley_url']] = $row;
-				}
-			}
-			$db->sql_freeresult($result);
-
-			if (sizeof($smilies))
-			{
-				$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_root_path;
-
-				foreach ($smilies as $row)
-				{
-					$template->assign_block_vars('im_smiley', array(
-						'SMILEY_CODE'	 => $row['code'],
-						'A_SMILEY_CODE'	 => addslashes($row['code']),
-						'SMILEY_IMG'	 => $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
-						'SMILEY_WIDTH'	 => $row['smiley_width'],
-						'SMILEY_HEIGHT'	 => $row['smiley_height'],
-						'SMILEY_DESC'	 => $row['emotion'],
-					));
-				}
-			}
-
-			$template->set_filenames(array(
-				'body'	 => 'socialnet/im_smilies.html',
-			));
-
-			$return = array();
-			$return['content'] = $this->p_master->get_page();
-
-			header('Content-type: application/json');
-			header("Cache-Control: no-cache, must-revalidate");
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-			die(json_encode($return));
 		}
 	}
 }

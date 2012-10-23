@@ -158,7 +158,7 @@ if (!class_exists('socialnet_userstatus'))
 
 			$this->$call_mode($param);
 		}
-
+		
 		/**
 		 * Insert staus to DB
 		 */
@@ -546,6 +546,11 @@ if (!class_exists('socialnet_userstatus'))
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 			die(json_encode($return));
+		}
+		
+		function _displaySmilies()
+		{
+		  return $this->p_master->displaySmilies('us');
 		}
 
 		function _get_status()
