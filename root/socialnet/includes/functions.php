@@ -832,7 +832,7 @@ class snFunctions
 			case 'date':
 
 				$formatUser = trim(preg_replace('/[' . $timeChars . ']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
-				if ($format == false || $formatUser != '')
+				if ($format == false && $formatUser != '')
 				{
 					$format = $formatUser;
 				}
@@ -842,7 +842,7 @@ class snFunctions
 			case 'time':
 
 				$formatUser = trim(preg_replace('/[^' . $timeChars . ']([ ,.:-\\\|]|$)/s', '', $user->data['user_dateformat']));
-				if ($format == false || $formatUser != '')
+				if ($format == false && $formatUser != '')
 				{
 					$format = $formatUser;
 				}
