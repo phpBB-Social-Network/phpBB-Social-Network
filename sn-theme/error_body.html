@@ -1,7 +1,10 @@
-<div id="lesscFatal" class="ui-state-error" style="display:none;font-size: 1.2em;" title="Compilation error CSS :: LESSC">{ERROR_MESSAGE}</div>
+<div id="d-lessc" style="display:none;font-size: 1.2em;" title="Compilation {ICON} CSS :: LESSC">
+	<span class="ui-icon ui-icon-{ICON}" style="float:left;margin-right:10px;"></span>
+	{MESSAGE}
+</div>
 <script type="text/javascript">
 		jQuery(document).ready(function($){
-			$('#lesscFatal').dialog({
+			$('#d-lessc').dialog({
 				modal: true,
 				width: '60%',
 				buttons: {
@@ -11,9 +14,9 @@
 				}
 			});
 			
-			$('#ui-dialog-title-lesscFatal').css({fontSize:'1.4em'});
-			$('[aria-labelledby=ui-dialog-title-lesscFatal]').addClass('ui-state-error');
-			$('.ui-widget-overlay').css({background:'#660000 none no-repeat 0 0'});
+			$('#d-lessc').parents('.ui-dialog').addClass('ui-state-{CLASS}').children('div.ui-dialog-titlebar').addClass('ui-state-{CLASS}');
+			
+			$('.ui-widget-overlay').css({background:'#{BKG_COLOR} none no-repeat 0 0'});
 			
 		});
 </script>
