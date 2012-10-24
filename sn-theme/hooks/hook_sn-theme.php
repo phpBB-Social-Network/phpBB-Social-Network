@@ -7,8 +7,6 @@
  * Compile theme for SN from LESS files
  */
 
-$phpbb_hook->register(array('template', 'display'), 'sn_theme_compiler');
-
 /**
  * is_modified
  * 
@@ -18,20 +16,20 @@ $phpbb_hook->register(array('template', 'display'), 'sn_theme_compiler');
  * @param string $file_path Path to less files that whould be compiled
  * @return boolean Return true if files modified else false
  */
-function is_modified($file_path)
+function is_modified($file_path, $check_file)
 {
-	$check_file = $file_path . '.file_check';
-
+	print $check_file . ' ' . ( file_exists($check_file) ? 'existuje' : 'neexistuje') . '<hr />';
 	if (!file_exists($check_file))
 	{
 		$mFiles = array();
-		$mTime = 0;
 	}
 	else
 	{
 		$mFiles = unserialize(file_get_contents($check_file));
-		$mTime = max($mFiles, 0);
 	}
+
+	print_r($mFiles);
+
 	$files = glob($file_path . '*.less');
 
 	if (empty($files))
@@ -39,19 +37,24 @@ function is_modified($file_path)
 		return false;
 	}
 
-	$compile = false;
-
 	foreach ($files as $filename)
 	{
+		print $filename . ' ==' . (isset($mFiles[$filename]) ? 'EXISTUJE' : 'NEEXISTUJE');
 		$ftime = filemtime($filename);
-
-		if ($ftime > $mTime)
+		if (isset($mFiles[$filename]))
 		{
+			print 'New file: ' . $filename . '<br />';
 			$compile = true;
+			$mFiles[$filename] = $ftime;
 		}
-
-		$mFiles[$filename] = $ftime;
+		else if ($ftime > $mFiles[$filename])
+		{
+			print $filename . ' -> ' . $ftime . '<br />';
+			$compile = true;
+			$mFiles[$filename] = $ftime;
+		}
 	}
+	print $compile ? 'ano' : 'me';
 
 	file_put_contents($check_file, serialize($mFiles));
 
@@ -72,11 +75,11 @@ function is_modified($file_path)
  */
 function sn_theme_compiler()
 {
-	global $user, $template, $phpbb_root_path, $phpEx;
+	global $user, $template, $phpbb_root_path, $phpEx, $socialnet;
 
 
 	// Exit the compiler when is not whole page loaded
-	if (defined('SN_LOADER'))
+	if (defined('SN_LOADER') || !isset($socialnet) || !$socialnet->useTemplateHook)
 	{
 		return;
 	}
@@ -90,8 +93,9 @@ function sn_theme_compiler()
 
 	$file_path = $compiler_path . $user->theme['theme_path'] . '/';
 
+	$check_file = $file_path . '.file_check';
 	// Exist when LESS files are not modified
-	if (!is_modified($file_path))
+	if (!is_modified($file_path, $check_file))
 	{
 		return;
 	}
@@ -122,6 +126,7 @@ function sn_theme_compiler()
 	 */
 	include_once($less_path . 'class.csstidy.' . $phpEx);
 
+	error_reporting(E_ALL & ~E_STRICT);
 	try
 	{
 		$lessc = new lessc($less_input_file);
@@ -156,10 +161,18 @@ function sn_theme_compiler()
 	{
 		$message = $ex->getMessage();
 		$class = 'alert';
+		unlink($check_file);
 	}
 
 	$s_message = file_get_contents($compiler_path . 'error_body.html');
-	$s_message = str_replace(array('{MESSAGE}', '{CLASS}'), array($message, $class), $s_message);
+	$s_message = str_replace(array('{MESSAGE}', '{CLASS}', '{BKG_COLOR}'), array($message, $class, $class == 'info' ? '000' : '600'), $s_message);
 
+	if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
+	{
+		$template->assign_var('TRANSLATION_INFO', 'INFO');
+	}
 	$template->_tpldata['.'][0]['TRANSLATION_INFO'] .= $s_message;
 }
+
+// Register hook
+$phpbb_hook->register('exit_handler', 'sn_theme_compiler');
