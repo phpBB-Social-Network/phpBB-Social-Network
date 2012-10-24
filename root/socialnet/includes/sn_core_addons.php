@@ -117,11 +117,6 @@ class sn_core_addons
 			}
 			$addonTemplate = $this->get_template_name($addon['addon_php'], $addon['addon_function'], $addon['ph_script'], $addon['ph_block']);
 
-			if (!file_exists("{$phpbb_root_path}styles/{$user->theme['template_path']}/template/socialnet/addons/{$addonTemplate}"))
-			{
-				continue;
-			}
-
 			include_once("{$phpbb_root_path}socialnet/addons/{$addon['addon_php']}.{$phpEx}");
 
 			$addonClass = new $addon['addon_php']($this->p_master);
