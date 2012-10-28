@@ -60,6 +60,7 @@ class socialnet extends snFunctions
 		"10",
 	);
 
+	var $useTemplateHook = true;
 	var $config = array();
 	var $socialnet_root_path = '';
 	var $modules = array();
@@ -695,7 +696,10 @@ class socialnet extends snFunctions
 	function page_footer($block = 'body', $print = false)
 	{
 		global $template;
+		
+		$this->useTemplateHook = false;
 		$content = $template->assign_display($block, '', true, false);
+		$this->useTemplateHook = true;
 		if (!$print)
 		{
 			return $this->absolutePath(trim($content));
@@ -1118,6 +1122,11 @@ class socialnet extends snFunctions
 	{
 		global $template, $user, $config, $phpbb_root_path, $phpEx;
 
+		if ( !$this->useTemplateHook)
+		{
+			return;
+		}
+		
 		$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> ' . $config['version_socialNet'] . ' Kamahl &amp; Culprit &copy; 2010-2012';
 		if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
 		{
