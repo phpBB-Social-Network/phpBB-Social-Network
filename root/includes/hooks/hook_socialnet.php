@@ -43,8 +43,6 @@ class hookSocialNet
 	{
 		global $db, $user, $socialnet, $config, $template, $phpbb_hook;
 
-		$phpbb_hook->remove_hook('phpbb_user_session_handler', array('hookSocialNet', 'start_socialNet'));
-		
 		$sql = "SELECT config_value FROM " . SN_CONFIG_TABLE . " WHERE config_name = 'sn_global_enable'";
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
