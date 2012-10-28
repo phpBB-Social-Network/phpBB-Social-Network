@@ -667,8 +667,8 @@ $versions = array(
 		),
 
 	),
-	
-	'0.7.1'	 => array(
+
+	'0.7.1.dev2'	 => array(
 		'permission_add' => array(
 			array('u_sn_notify', true),
 			array('u_sn_im', true),
