@@ -699,6 +699,12 @@ $versions = array(
 			array('ROLE_ADMIN_FULL', 'a_sn_settings', 'role', true),
 		)
 	),
+
+	'0.7.2-dev1'	=> array(
+		'custom'			 => array(
+			'phpbbSN_sanatize_im_checkTime_min',
+		),
+	),
 );
 
 
@@ -707,6 +713,37 @@ $umil->run_actions($action, $versions, $version_config_name);
 
 exit( "The database was updated successfully!\n" ); // to display this message also after developer makes pull
 
+/*
+ * custom functions
+ */
+function phpbbSN_sanatize_im_checkTime_min($action, $version)
+{
+	global $db;
+
+	if ($action == 'update')
+	{
+		$sql = 'SELECT config_value
+				FROM ' . SN_CONFIG_TABLE . '
+				WHERE config_name = "im_checkTime_min"';
+		$result = $db->sql_query($sql);
+		$im_checkTime_min = $db->sql_fetchfield('config_value');
+
+		if ($im_checkTime_min == 1)
+		{
+			$db->sql_query('UPDATE ' . SN_CONFIG_TABLE . ' SET config_value = "2" WHERE config_name = "im_checkTime_min"');
+
+			return 'Social Network::IM check time minimum was set to 2';
+		}
+		else
+		{
+			return 'Social Network::IM check time minimum untouched';
+		}
+	}
+	else
+	{
+		return 'Social Network::IM check time minimum untouched';
+	}
+}
 
 /*
  * console-related functions
