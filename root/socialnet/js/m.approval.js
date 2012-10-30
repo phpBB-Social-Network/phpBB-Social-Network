@@ -1,14 +1,21 @@
 /**
  * 
  * @package phpBB Social Network
- * @version 0.6.3
+ * @version 0.7.2
  * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * 
  */
-(function($) {
 
-	$.sn.fms = {
+/**
+ * 
+ * @param {object} $ jQuery
+ * @param {object} $sn socialNetwork
+ * @returns {void}
+ */
+(function($, $sn) {
+
+	$sn.fms = {
 	    url : '',
 	    urlFMS : '',
 	    noFriends : '{ FAS FRIENDGROUP NO TOTAL }',
@@ -36,8 +43,9 @@
 	    },
 
 	    usersLoad : function(m, s, l, u, c, r, p) {
-		    var data = $.ajax({
-		        url : $.sn.fms.urlFMS,
+			var self = this;
+		    $.ajax({
+		        url : self.urlFMS,
 		        data : {
 		            mode : m,
 		            fmsf : s,
@@ -54,14 +62,14 @@
 				        $('#sn-fms-usersBlockPagination-' + m).html(data.pagination);
 			        }
 			        $('#sn-fms-usersBlockContent-' + m).html(data.content);
-			        $.sn.fms.callbackInit(m);
+			        self.callbackInit(m);
 		        }
 		    });
 	    },
 
 	    callbackInit : function(mode) {
-		    if ($.sn.fms._inits[mode]) {
-			    return $.sn.fms._inits[mode].apply(this, Array.prototype.slice.call(arguments, 1));
+		    if (this._inits[mode]) {
+			    return this._inits[mode].apply(this, Array.prototype.slice.call(arguments, 1));
 		    } else if (typeof mode === 'object' || !mode) {
 			    return mode.init.apply(this, arguments);
 		    } else {
@@ -72,14 +80,14 @@
 
 	    _inits : {
 	        friend : function() {
-		        $.sn.fms._inits._simple('friend');
-		        $.sn.fms._inits.group();
+		        $sn.fms._inits._simple('friend');
+		        $sn.fms._inits.group();
 	        },
 	        approve : function() {
-		        $.sn.fms._inits._simple('approve');
+		        $sn.fms._inits._simple('approve');
 	        },
 	        cancel : function() {
-		        $.sn.fms._inits._simple('cancel');
+		        $sn.fms._inits._simple('cancel');
 	        },
 	        group : function() {
 		        $('.sn-fms-friendsBlock.ufg .sn-fms-users > div').draggable({
@@ -98,7 +106,7 @@
 	    _groupChange : function(s_sub, i_gid, i_uid, s_gid) {
 		    var dt = $.ajax({
 		        type : 'POST',
-		        url : $.sn.fms.url,
+		        url : $sn.fms.url,
 		        async: false,
 		        cache : false,
 		        dataType : 'json',
@@ -116,22 +124,21 @@
 	    },
 
 	    _loadFriends : function(toobj) {
-		    if (toobj.html() != '') { return false }
+		    if (toobj.html() != '') { return false; }
 
 		    $.ajax({
 		        type : 'POST',
-		        url : $.sn.fms.urlFMS,
+		        url : $sn.fms.urlFMS,
 		        dataType : 'json',
 		        async : false,
 		        data : {
 		            mode : 'friendgroup',
-		            gid : $.sn.getAttr(toobj, 'gid')
+		            gid : $sn.getAttr(toobj, 'gid')
 		        },
 		        success : function(data) {
 			        toobj.append(data.content);
 		        }
-		    })
-
+		    });
 	    },
 
 	    _changeButtons : function(obj, chCls) {
@@ -145,18 +152,18 @@
 	    },
 
 	    init : function(opts) {
-		    if (!$.sn._inited) { return false; }
-		    if ($.sn.enableModules.fms == undefined || !$.sn.enableModules.fms) { return false; }
-		    $.sn._settings(this, opts);
+		    if (!$sn._inited) { return false; }
+		    if ($sn.enableModules.fms == undefined || !$sn.enableModules.fms) { return false; }
+		    $sn._settings(this, opts);
 
-		    $.sn.fms._initUcpFormAdd();
+		    this._initUcpFormAdd();
 
-		    $.sn.fms._initUcpForms();
-		    $.sn.fms._initUcpHistory();
+		    this._initUcpForms();
+		    this._initUcpHistory();
 
-		    $.sn.fms._initUpGroupMenu();
+		    this._initUpGroupMenu();
 		    // GROUPS ACCORDION
-		    $.sn.fms._initGroupAccordion();
+		    this._initGroupAccordion();
 
 	    },
 
@@ -186,14 +193,15 @@
 	    },
 
 	    _initUcpForms : function() {
+			var self = this;
 		    if ($('form[id=ucp_friend]').size() == 0 && $('form[id=ucp_approve]').size() == 0 && $('form[id=ucp_cancel]').size() == 0) { return; }
-		    $.sn.fms.callbackInit('friend');
+		    this.callbackInit('friend');
 		    $('.sn-fms-friend').live('click', function() {
 			    var chCls = 'checked';
 			    $(this).toggleClass(chCls);
 			    $(this).children('input[type=checkbox]').attr('checked', $(this).hasClass(chCls));
 
-			    $.sn.fms._changeButtons(this, chCls);
+			    self._changeButtons(this, chCls);
 
 		    });
 		    $('.sn-fms-friend span').textOverflow('..');
@@ -208,7 +216,7 @@
 			    $s_block = $s_block.replace('mark ', '');
 			    $('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend').addClass('checked');
 			    $('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend input[type=checkbox]').attr('checked', 'checked');
-			    $.sn.fms._changeButtons($('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend'), 'checked');
+			    self._changeButtons($('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend'), 'checked');
 			    return false;
 		    });
 		    $('[id^=ucp_] a.unmark').click(function() {
@@ -217,7 +225,7 @@
 
 			    $('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend').removeClass('checked');
 			    $('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend input[type=checkbox]').removeAttr('checked');
-			    $.sn.fms._changeButtons($('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend'), 'checked');
+			    self._changeButtons($('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend'), 'checked');
 			    return false;
 		    });
 		    $('input[type=reset]').live('click', function() {
@@ -229,11 +237,12 @@
 
 	    _initUcpHistory : function() {
 		    $('.sn-im-history-conversation').click(function() {
-			    window.location = $.sn.getAttr($(this), 'u');
-		    })
+			    window.location = $sn.getAttr($(this), 'u');
+		    });
 	    },
 
 	    _initGroupAccordion : function() {
+			var self = this;
 		    // Group Accordion with droppable
 		    if ($('#sn-fms-groupAccordion').size() == 0) { return; }
 
@@ -242,10 +251,10 @@
 		        clearStyle : true,
 		        event : "click",
 		        changestart : function(e, ui) {
-			        $.sn.fms._loadFriends(ui.newContent);
+			        self._loadFriends(ui.newContent);
 		        }
 		    });
-		    $.sn.fms._loadFriends($('#sn-fms-groupAccordion').children('div').first());
+		    self._loadFriends($('#sn-fms-groupAccordion').children('div').first());
 
 		    $('#sn-fms-groupAccordion > div').droppable({
 		        drop : function(event, ui) {
@@ -266,7 +275,7 @@
 			            opacity : 1
 			        }));
 			        o_cnt.html(i_cnt + 1);
-			        $.sn.fms._groupChange('add', i_gid, i_uid);
+			        self._groupChange('add', i_gid, i_uid);
 		        },
 		        activate : function(event, ui) {
 			        ui.draggable.css({
@@ -299,8 +308,8 @@
 		        beforeStop : function(e, ui) {
 			        if (sortableIn == 0) {
 
-				        var i_gid = $.sn.getAttr($(this), 'gid');
-				        var i_uid = $.sn.getAttr(ui.item, 'uid');
+				        var i_gid = $sn.getAttr($(this), 'gid');
+				        var i_uid = $sn.getAttr(ui.item, 'uid');
 				        var d_item = ui.item.clone();
 				        $('body').append(d_item.css({
 				            position : 'absolute',
@@ -312,27 +321,27 @@
 				        $('body > .sn-fms-friend').addClass('red').effect('explode', {}, 1000).remove();
 				        var o_cnt = $('h3[id=sn-fms-grp' + i_gid + '-header] span.counter');
 				        o_cnt.html(parseInt(o_cnt.html()) - 1);
-				        $.sn.fms._groupChange('remove', i_gid, i_uid);
+				        self._groupChange('remove', i_gid, i_uid);
 			        }
 		        },
 		        stop : function(e, ui) {
-			        var i_gid = $.sn.getAttr($(this), 'gid');
+			        var i_gid = $sn.getAttr($(this), 'gid');
 			        var o_cnt = parseInt($('h3[id=sn-fms-grp' + i_gid + '-header] span.counter').text());
 			        if (o_cnt == 0) {
-				        $(this).html($.sn.fms.noFriends);
+				        $(this).html(self.noFriends);
 			        }
 
 		        }
 		    });
 
-		    $.sn.fms.callbackInit('group');
+		    self.callbackInit('group');
 
 		    $('#sn-fms-groupAccordion .sn-fms-groupDelete').click(function() {
-			    var i_gid = $.sn.getAttr($(this), 'gid');
+			    var i_gid = $sn.getAttr($(this), 'gid');
 			    var $grp = $('#sn-fms-groupAccordion > [id^="sn-fms-grp' + i_gid + '"]');
-			    snConfirmBox($.sn.fms.deleteUserGroup, $.sn.fms.deleteUserGroupText + '<br /><strong>' + $('#sn-fms-groupAccordion > .ui-accordion-header[id^="sn-fms-grp' + i_gid + '"] a').html().replace(/\([^\(]+\)$/i,'')+'</strong>', function() {
+			    snConfirmBox(self.deleteUserGroup, self.deleteUserGroupText + '<br /><strong>' + $('#sn-fms-groupAccordion > .ui-accordion-header[id^="sn-fms-grp' + i_gid + '"] a').html().replace(/\([^\(]+\)$/i,'')+'</strong>', function() {
 				    $grp.remove();
-				    $.sn.fms._groupChange('delete', i_gid, -1);
+				    self._groupChange('delete', i_gid, -1);
 			    });
 			    return false;
 		    });
@@ -340,14 +349,15 @@
 	    },
 
 	    _initUpGroupMenu : function() {
+			var self = this;
 		    if ($('.sn-up-menu li').size() == 0) { return; }
 
 		    $('.sn-fms-groups a:not( #sn-fms-grpCreate )').live('click', function() {
-			    var gid = $.sn.getAttr($(this), 'gid');
-			    var uid = $.sn.getAttr($(this), 'uid');
+			    var gid = $sn.getAttr($(this), 'gid');
+			    var uid = $sn.getAttr($(this), 'uid');
 			    var $chld = $(this).children('.ui-icon');
 			    var sub = $chld.hasClass('ui-icon-check') ? 'remove' : 'add';
-			    $.sn.fms._groupChange(sub, gid, uid);
+			    self._groupChange(sub, gid, uid);
 			    $chld.toggleClass('ui-icon-check ui-icon-no');
 			    return false;
 		    });
@@ -358,7 +368,7 @@
 			    var gid = $.sn.getAttr($text, 'gid');
 			    var uid = $.sn.getAttr($text, 'uid');
 			    var g_t = $text.val();
-			    data = $.sn.fms._groupChange('create', gid, uid, g_t);
+			    data = self._groupChange('create', gid, uid, g_t);
 			    //data = {gid:24,uid:56};
 			    
 			    if( $('a[class*="gid:'+data.gid+'"]').size() > 0){
@@ -370,7 +380,7 @@
 			    var ll = $('<li></li>').attr('role','menu-item').addClass('ui-menu-item');
 			    $('li.sn-fms-grpCreate').before(ll);
 			    var la = $('<a href="#" class="{gid:'+data.gid+',uid:'+data.uid+'} ui-corner-all"><span class="ui-icon ui-icon-check"></span>' + g_t+ '</a>').hover(function() {
-			        $(this).toggleClass('ui-state-focus')
+			        $(this).toggleClass('ui-state-focus');
 		        });
 			    $(ll).append(la);
 			    $text.val('');
@@ -383,15 +393,12 @@
 		    }).bind('keypress', function(e) {
 			    var code = (e.keyCode ? e.keyCode : e.which);
 
-			    if (!$.sn.isKey(e, $.sn.im.opts.sendSequence)) { return; }
+			    if (!$sn.isKey(e, $sn.im.opts.sendSequence)) { return; }
 			    $('.sn-fms-grpCreate .ui-icon').trigger('click');
 
 		    }).bind('focusin focusout', function() {
 			    $(this).parents('a#sn-fms-grpCreate').toggleClass('ui-state-active');
 		    });
-
 	    }
-
-	}
-
-}(jQuery));
+	};
+}(jQuery, socialNetwork));
