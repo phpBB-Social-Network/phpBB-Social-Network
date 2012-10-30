@@ -108,6 +108,7 @@ class sn_core_entry extends sn_core_entry_gets
 		$entry_arr['ID'] = $entry_row['entry_id'];
 		$entry_arr['TYPE'] = $entry_row['entry_type'];
 		$entry_arr['TIME'] = $entry_row['entry_time'];
+		$entry_arr['TIME_AGO'] = $this->p_master->time_ago($entry_row['entry_time']);
 		$entry_arr['TARGET'] = $entry_row['entry_target'];
 		$entry_arr['DELETE_ENTRY'] = ($this->_can_delete($entry_row['entry_type'], $entry_row['user_id'], $entry_row['entry_target'])) ? true : false;
 
@@ -198,6 +199,7 @@ class sn_core_entry extends sn_core_entry_gets
 			$entries[$i]['ID'] = $entries_row['entry_id'];
 			$entries[$i]['TYPE'] = $entries_row['entry_type'];
 			$entries[$i]['TIME'] = $entries_row['entry_time'];
+			$entries[$i]['TIME_AGO'] = $this->p_master->time_ago($entries_row['entry_time']);
 			$entries[$i]['TARGET'] = $entries_row['entry_target'];
 			$entries[$i]['DELETE_ENTRY'] = $this->_can_delete($entries_row['entry_type'], $entries_row['user_id'], $entries_row['entry_target']);
 		}
