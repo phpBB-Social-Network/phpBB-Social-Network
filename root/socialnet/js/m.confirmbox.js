@@ -1,52 +1,50 @@
 /**
 *
 * @package phpBB Social Network
-* @version 0.7.0
+* @version 0.7.2
 * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
 function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
-	jQuery(function($){
-		if ($.sn.confirmBox.enable) {
+	(function($, snCB){
+		if (snCB.enable) {
 
-			//console.log( $.sn.confirmBox);
-			
 			$('#ui-dialog-title-dialog').html(cbTitle);
-			$('#dialog').html(cbText);
+			$(snCB.dialogID).html(cbText);
 			// $('#dialog').children('div').remove();
 			// $('#dialog').children('span').remove();
 
 			if (callbackConfirm == null || !$.isFunction(callbackConfirm)) {
-				$('#dialog').dialog('option', {
+				$(snCB.dialogID).dialog('option', {
 					open : function(){
-						$.sn.confirmBox.dropShadow($('#dialog').parent('.ui-dialog'),$.sn.confirmBox.shadowBox);							
+						snCB.dropShadow($(snCB.dialogID).parent('.ui-dialog'),snCB.shadowBox);							
 						if (callbackLoad != null && $.isFunction(callbackLoad)) {
 							callbackLoad.apply();
 						}
 					},
 					buttons : [ {
-						text : $.sn.confirmBox.button_close,
+						text : snCB.button_close,
 						click : function(){
 							$(this).dialog('close');
 						}
 					} ],
 					close: function(){
-						$('#dialog').parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
+						$(snCB.dialogID).parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
 					}
 					
 				}).dialog('open');
 
 			} else {
-				$('#dialog').dialog('option', {
+				$(snCB.dialogID).dialog('option', {
 					open : function(){
-						$.sn.confirmBox.dropShadow($('#dialog').parent('.ui-dialog'),$.sn.confirmBox.shadowBox);							
+						snCB.dropShadow($(snCB.dialogID).parent('.ui-dialog'),snCB.shadowBox);							
 						if (callbackLoad != null && $.isFunction(callbackLoad)) {
 							callbackLoad.apply();
 						}
 					},
 					buttons : [ {
-						text : $.sn.confirmBox.button_confirm,
+						text : snCB.button_confirm,
 						click : function(){
 							if ($.isFunction(callbackConfirm)) {
 								callbackConfirm.apply();
@@ -55,13 +53,13 @@ function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
 						},
 						'class': 'sn-button-bold'
 					}, {
-						text : $.sn.confirmBox.button_cancel,
+						text : snCB.button_cancel,
 						click : function(){
 							$(this).dialog('close');
 						}
 					} ],
 					close: function(){
-						$('#dialog').parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
+						$(snCB.dialogID).parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
 					}
 				    
 				}).dialog('open');
@@ -73,5 +71,5 @@ function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
 		}
 		
 		
-	});
+	}(jQuery, socialNetwork.confirmBox));
 }
