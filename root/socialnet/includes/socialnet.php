@@ -28,7 +28,7 @@ include_once($socialnet_root_path . 'includes/constants.' . $phpEx);
 $dir = opendir("{$socialnet_root_path}includes/");
 while ($file = readdir($dir))
 {
-	if (preg_match("/^sn_core_.*\.{$phpEx}$/i", $file, $match))
+	if (preg_match("/^sn_core_.*\.{$phpEx}$/i", $file))
 	{
 		include("{$socialnet_root_path}includes/$file");
 	}
@@ -377,6 +377,11 @@ class socialnet extends snFunctions
 				}
 			}
 
+		}
+
+		if (class_exists('sn_core_addons') && isset($this->addons) && method_exists($this->addons, 'get'))
+		{
+			$this->addons->get();
 		}
 	}
 
@@ -1122,23 +1127,6 @@ class socialnet extends snFunctions
 	{
 		global $template, $user, $config, $phpbb_root_path, $phpEx;
 
-		if ( !$this->useTemplateHook)
-		{
-			return;
-		}
-		
-		$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> ' . $config['version_socialNet'] . ' Kamahl &amp; Culprit &copy; 2010-2012';
-		if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
-		{
-			$template->_tpldata['.'][0]['TRANSLATION_INFO'] = '';
-		}
-
-		if (isset($template->_tpldata['.'][0]['TRANSLATION_INFO']) && strpos($template->_tpldata['.'][0]['TRANSLATION_INFO'], $copy_string) === false)
-		{
-			$translation_info =& $template->_tpldata['.'][0]['TRANSLATION_INFO'];
-			$translation_info = $copy_string . ((!empty($translation_info)) ? '<br />' . $translation_info : '');
-		}
-
 		if (defined('IN_ADMIN'))
 		{
 			global $module;
@@ -1152,6 +1140,26 @@ class socialnet extends snFunctions
 			return;
 		}
 
+		if ( $this->useTemplateHook)
+		{
+			$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> ' . $config['version_socialNet'] . ' Kamahl &amp; Culprit &copy; 2010-2012';
+			if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
+			{
+				$template->_tpldata['.'][0]['TRANSLATION_INFO'] = '';
+			}
+
+			if (isset($template->_tpldata['.'][0]['TRANSLATION_INFO']) && strpos($template->_tpldata['.'][0]['TRANSLATION_INFO'], $copy_string) === false)
+			{
+				$translation_info =& $template->_tpldata['.'][0]['TRANSLATION_INFO'];
+				$translation_info = $copy_string . ((!empty($translation_info)) ? '<br />' . $translation_info : '');
+			}
+		}
+		
+		if (sizeOf($this->modules) == 0)
+		{
+			return;
+		}
+		
 		foreach ($this->existing as $idx => $module)
 		{
 			$s = "socialnet_{$module}";
@@ -1166,15 +1174,6 @@ class socialnet extends snFunctions
 			}
 		}
 
-		if (class_exists('sn_core_addons') && isset($this->addons) && method_exists($this->addons, 'get'))
-		{
-			$this->addons->get();
-		}
-
-		if (sizeOf($this->modules) == 0)
-		{
-			return;
-		}
 
 		foreach ($this->modules as $idx => $module)
 		{
