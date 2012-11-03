@@ -1142,7 +1142,7 @@ class socialnet extends snFunctions
 
 		if ( $this->useTemplateHook)
 		{
-			$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> ' . $config['version_socialNet'] . ' Kamahl &amp; Culprit &copy; 2010-2012';
+			$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> &copy; phpBB SN Group';
 			if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
 			{
 				$template->_tpldata['.'][0]['TRANSLATION_INFO'] = '';
