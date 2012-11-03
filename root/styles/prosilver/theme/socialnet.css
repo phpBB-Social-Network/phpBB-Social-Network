@@ -1133,10 +1133,11 @@ div:not(.sn-page) .sn-userName a {
 
 .sn-us-mentions-input-box .sn-us-mentions {
 	color: #fff;
+	left: -999px;
 	line-height: 18px;
 	overflow: hidden;
 	position: absolute;
-	top: 1px;
+	top: -999px;
 	white-space: pre-wrap;
 	word-wrap: break-word;
 }
