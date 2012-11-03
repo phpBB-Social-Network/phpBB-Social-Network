@@ -269,30 +269,6 @@ if (!class_exists('socialnet_activitypage'))
 
 		}
 
-		function hook_template_every_()
-		{
-			global $template, $phpEx, $user, $module, $config;
-
-			// Replace register form
-			if ($config['ap_replace_register'] == 1)
-			{
-				$script_name = str_replace('.' . $phpEx, '', $user->page['page_name']);
-				if ($script_name == 'ucp')
-				{
-					if ($module->p_name == 'register' && $template->filename['body'] != 'ucp_agreement.html')
-					{
-						foreach ($template->files as $handle => $filename)
-						{
-							$template->files[$handle] = preg_replace('/' . $module->module->tpl_name . '\.html/si', 'socialnet/\0', $filename);
-						}
-						foreach ($template->filename as $handle => $file)
-						{
-							$template->filename[$handle] = 'socialnet/' . $file;
-						}
-					}
-				}
-			}
-		}
 	}
 }
 
