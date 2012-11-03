@@ -7,7 +7,6 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
- 
 /**
  * @ignore
  */
@@ -16,7 +15,7 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
-if ( defined('ADMIN_START'))
+if (defined('ADMIN_START'))
 {
 	$user->add_lang('mods/socialnet_acp');
 }
@@ -34,14 +33,20 @@ define('SOCIALNET_INSTALLED', true);
 /**
  * @ignore
  */
-
 include_once($phpbb_root_path . 'socialnet/includes/socialnet.' . $phpEx);
 
 class hookSocialNet
 {
+
 	static function start_socialNet()
 	{
 		global $db, $user, $socialnet, $config, $template, $phpbb_hook;
+
+		if (defined('SOCIALNET_STARTED'))
+		{
+			return;
+		}
+		define('SOCIALNET_STARTED', true);
 
 		$sql = "SELECT config_value FROM " . SN_CONFIG_TABLE . " WHERE config_name = 'sn_global_enable'";
 		$result = $db->sql_query($sql);
@@ -53,37 +58,37 @@ class hookSocialNet
 			$user->add_lang(array('posting', 'mods/socialnet'));
 
 			$sql_user_extend = "SELECT *
-														FROM " . SN_USERS_TABLE . "
-															WHERE user_id = '{$user->data['user_id']}'";
+								FROM " . SN_USERS_TABLE . "
+								WHERE user_id = '{$user->data['user_id']}'";
 			$result = $db->sql_query($sql_user_extend);
 
 			if (!$db->sql_affectedrows($result))
 			{
 				$sql_arr = array(
-					'user_id'					 				=> $user->data['user_id'],
-					'user_status'				 			=> '',
-					'user_im_sound'				 		=> 1,
-					'user_im_soundname'			 	=> 'IM_New-message-1.mp3',
-					'user_im_online'			 		=> 1,
-					'user_zebra_alert_friend'	=> 1,
-					'user_note'					 			=> '',
-					'languages'					 			=> '',
-					'about_me'					 			=> '',
-					'employer'					 			=> '',
-					'university'				 			=> '',
-					'high_school'				 			=> '',
-					'religion'					 			=> '',
-					'political_views'			 		=> '',
-					'quotations'				 			=> '',
-					'music'						 				=> '',
-					'books'						 				=> '',
-					'movies'					 				=> '',
-					'games'						 				=> '',
-					'foods'						 				=> '',
-					'sports'					 				=> '',
-					'sport_teams'				 			=> '',
-					'activities'				 			=> '',
-					'profile_last_change'		 	=> 0,
+					'user_id'					 => $user->data['user_id'],
+					'user_status'				 => '',
+					'user_im_sound'				 => 1,
+					'user_im_soundname'			 => 'IM_New-message-1.mp3',
+					'user_im_online'			 => 1,
+					'user_zebra_alert_friend'	 => 1,
+					'user_note'					 => '',
+					'languages'					 => '',
+					'about_me'					 => '',
+					'employer'					 => '',
+					'university'				 => '',
+					'high_school'				 => '',
+					'religion'					 => '',
+					'political_views'			 => '',
+					'quotations'				 => '',
+					'music'						 => '',
+					'books'						 => '',
+					'movies'					 => '',
+					'games'						 => '',
+					'foods'						 => '',
+					'sports'					 => '',
+					'sport_teams'				 => '',
+					'activities'				 => '',
+					'profile_last_change'		 => 0,
 				);
 
 				$sql_insert = "INSERT INTO " . SN_USERS_TABLE . $db->sql_build_array('INSERT', $sql_arr);
@@ -109,15 +114,12 @@ class hookSocialNet
 				$socialnet->start_modules();
 			}
 		}
-		
 	}
 
 	static function template_display($phpbb_hook, $handle, $include_once = true)
 	{
 		global $socialnet;
 
-		$phpbb_hook->remove_hook(array('template', 'display'), array('hookSocialNet', 'template_display'));
-		
 		$return = $phpbb_hook->previous_hook_result(array('template', 'display'));
 		if (method_exists($socialnet, 'hook_template'))
 		{
@@ -125,11 +127,9 @@ class hookSocialNet
 		}
 	}
 }
-
 /**
  * Register all necessary hooks
  */
 $phpbb_hook->register('phpbb_user_session_handler', array('hookSocialNet', 'start_socialNet'));
 $phpbb_hook->register(array('template', 'display'), array('hookSocialNet', 'template_display'));
 
-?>
