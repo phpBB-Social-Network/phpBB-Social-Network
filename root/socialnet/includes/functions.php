@@ -1332,7 +1332,10 @@ class snFunctions
 
 			$sql = "SELECT DISTINCT u.user_id, u.username, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 					FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
-					WHERE " . $db->sql_in_set('z.user_id', $ap_my_friends_ary, false, true) . " AND " . $db->sql_in_set('z.zebra_id', $ap_my_friends_me_ary, true, true) . " AND z.friend = 1 AND z.zebra_id = u.user_id";
+					WHERE " . $db->sql_in_set('z.user_id', $ap_my_friends_ary, false, true) . "
+						AND " . $db->sql_in_set('z.zebra_id', $ap_my_friends_me_ary, true, true) . "
+						AND z.friend = 1 AND z.zebra_id = u.user_id
+						AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")";
 			$rs = $db->sql_query($sql);
 
 			$people_to_know = $db->sql_fetchrowset($rs);
