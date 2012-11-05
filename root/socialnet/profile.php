@@ -125,6 +125,7 @@ if (!class_exists('socialnet_profile'))
 					'USER_ID'			 => $user_id,
 					'FMS_LIMIT'			 => $this->p_master->config['fas_friendlist_limit'],
 					'S_DISPLAY_SEARCH'	 => (!$this->p_master->config['load_search']) ? 0 : (isset($auth) ? ($auth->acl_get('u_search') && $auth->acl_getf_global('f_search')) : 1),
+					'U_SEARCH_USER'		 => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.{$phpEx}",(($user_id === (int) $user->data['user_id']) ? 'search_id=egosearch' : "author_id=$user_id").'&amp;sr=posts') : '',
 				));
 
 				$template->set_filenames(array(
