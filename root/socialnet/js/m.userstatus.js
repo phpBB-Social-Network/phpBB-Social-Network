@@ -567,7 +567,7 @@
 				if ($(window).scrollTop() >= $('.sn-us-getMore').offset().top - $(window).height() + $('.sn-us-getMore').parent().height()) {
 
 					$(document).oneTime($.sn.us.loadMoreTime, 'sn-us-checkScrollDown', function() {
-						if ($('.sn-ap-getMore').size() == 0 || $.sn.ap._isScrollingToLoadMore == true){return;}
+						if ($('.sn-us-getMore').size() == 0 || $.sn.ap._isScrollingToLoadMore == true){return;}
 
 						if ($(window).scrollTop() >= $('.sn-us-getMore').offset().top - $(window).height() + $('.sn-us-getMore').parent().height()) {
 							$('.sn-us-getMore').trigger('click');
