@@ -1,77 +1,79 @@
 /**
-*
-* @package phpBB Social Network
-* @version 0.7.0
-* @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
-function snConfirmBox(cbTitle,cbText,callbackConfirm,callbackLoad){
-	jQuery(function($){
-		if ($.sn.confirmBox.enable) {
+ * @preserve phpBB Social Network 0.7.2 - confirmBox
+ * (c) 2010-2012 Kamahl & Culprit & Senky http://phpbbsocialnetwork.com
+ * http://opensource.org/licenses/gpl-license.php GNU Public License
+ */
 
-			//console.log( $.sn.confirmBox);
-			
-			$('#ui-dialog-title-dialog').html(cbTitle);
-			$('#dialog').html(cbText);
-			// $('#dialog').children('div').remove();
-			// $('#dialog').children('span').remove();
+/**
+ * confirmBox function
+ * @param {string} cbTitle title
+ * @param {string} cbText text
+ * @param {function} callbackConfirm callback function for confirm
+ * @param {function} callbackLoad callback function for load confirmBox
+ * @returns {void}
+ */
+function snConfirmBox(cbTitle, cbText, callbackConfirm, callbackLoad) {
+	/**
+	 * @param {object} $ jQuery
+	 * @param {object} $sn socialNetwork
+	 * @returns {void}
+	 */
+	(function($, snCB) {
+		if (snCB.enable) {
+
+			$(snCB.dialogID).html(cbText).prev('.ui-dialog-titlebar').find('.ui-dialog-title').html(cbTitle);
 
 			if (callbackConfirm == null || !$.isFunction(callbackConfirm)) {
-				$('#dialog').dialog('option', {
-					open : function(){
-						$.sn.confirmBox.dropShadow($('#dialog').parent('.ui-dialog'),$.sn.confirmBox.shadowBox);							
+				$(snCB.dialogID).dialog('option', {
+					open: function() {
+						snCB.dropShadow($(snCB.dialogID).parent('.ui-dialog'), snCB.shadowBox);
 						if (callbackLoad != null && $.isFunction(callbackLoad)) {
 							callbackLoad.apply();
 						}
 					},
-					buttons : [ {
-						text : $.sn.confirmBox.button_close,
-						click : function(){
-							$(this).dialog('close');
-						}
-					} ],
-					close: function(){
-						$('#dialog').parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
+					buttons: [{
+							text: snCB.button_close,
+							click: function() {
+								$(this).dialog('close');
+							}
+						}],
+					close: function() {
+						$(snCB.dialogID).parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
 					}
-					
+
 				}).dialog('open');
 
 			} else {
-				$('#dialog').dialog('option', {
-					open : function(){
-						$.sn.confirmBox.dropShadow($('#dialog').parent('.ui-dialog'),$.sn.confirmBox.shadowBox);							
+				$(snCB.dialogID).dialog('option', {
+					open: function() {
+						snCB.dropShadow($(snCB.dialogID).parent('.ui-dialog'), snCB.shadowBox);
 						if (callbackLoad != null && $.isFunction(callbackLoad)) {
 							callbackLoad.apply();
 						}
 					},
-					buttons : [ {
-						text : $.sn.confirmBox.button_confirm,
-						click : function(){
-							if ($.isFunction(callbackConfirm)) {
-								callbackConfirm.apply();
+					buttons: [{
+							text: snCB.button_confirm,
+							click: function() {
+								if ($.isFunction(callbackConfirm)) {
+									callbackConfirm.apply();
+								}
+								$(this).dialog('close');
+							},
+							'class': 'sn-button-bold'
+						}, {
+							text: snCB.button_cancel,
+							click: function() {
+								$(this).dialog('close');
 							}
-							$(this).dialog('close');
-						},
-						'class': 'sn-button-bold'
-					}, {
-						text : $.sn.confirmBox.button_cancel,
-						click : function(){
-							$(this).dialog('close');
-						}
-					} ],
-					close: function(){
-						$('#dialog').parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
+						}],
+					close: function() {
+						$(snCB.dialogID).parent('.ui-dialog').removeAttr('aria-shadow').prev('.ui-overlay').remove();
 					}
-				    
+
 				}).dialog('open');
 			}
-			
-			
 		} else if (callbackConfirm != null && $.isFunction(callbackConfirm)) {
 			callbackConfirm.apply();
 		}
-		
-		
-	});
+	}(jQuery, socialNetwork.confirmBox));
 }

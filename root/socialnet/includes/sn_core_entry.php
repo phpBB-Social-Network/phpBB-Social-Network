@@ -338,7 +338,7 @@ class sn_core_entry_gets
 
 		$template->destroy_block_vars('us_status');
 
-		$comments = $this->p_master->comments->get($sn_userstatus->commentModule, 'sn-us', $entry_target, 0, 2);
+		$comments = $this->p_master->comments->get($sn_userstatus->commentModule, 'us', $entry_target, 0, 2);
 		$data['COMMENTS'] = $comments['comments'];
 
 		$template->assign_block_vars('us_status', $data);

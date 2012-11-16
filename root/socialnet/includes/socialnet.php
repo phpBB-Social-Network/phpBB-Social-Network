@@ -178,6 +178,7 @@ class socialnet extends snFunctions
 
 		$template->assign_vars(array_merge(array(
 			'B_SOCIALNET_ENABLED'				 => true,
+			'S_SN_CURRENT_USER_ID'				 => $user->data['user_id'],
 			'SOCIALNET_ROOT_PATH'				 => $socialnet_root_path,
 			'SOCIALNET_JS_PATH'					 => $socialnet_web_path . 'js/',
 			'T_SOCIALNET_JS_PATH'				 => $socialnet_web_path . 'js',

@@ -5,7 +5,7 @@
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.hoverIntent.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.text-overflow.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.watermark.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui-1.9.1.custom.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui-1.9.0.custom.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.elastic.source.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.events.input.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.form.js"></script>
@@ -27,7 +27,7 @@
 <script type="text/javascript">
 // <![CDATA[
 jQuery(document).ready(function($){
-	$.sn.init({
+	socialNetwork.init({
 		allow_load: {B_AJAX_LOAD_ALLOW},
 		rtl: '{S_CONTENT_DIRECTION}' == 'rtl' ? true: false,
 	    expanderTextMore: '{L_SN_EXPANDER_READ_MORE}',
@@ -35,7 +35,7 @@ jQuery(document).ready(function($){
 	    browserOutdatedTitle : '{L_BROWSER_OUTDATED_TITLE}',
 	    browserOutdated : '{L_BROWSER_OUTDATED}',
 	    showBrowserOutdated: '{S_SN_SHOW_OUTDATED_BROWSER_INFO}' == '1' ? true : false,
-
+		user_id: {S_SN_CURRENT_USER_ID},
 		cookie : {
 			name : '{COOKIE_NAME}',
 			path : '{COOKIE_PATH}',
@@ -75,7 +75,7 @@ jQuery(document).ready(function($){
 
 // ## ACTIVITY PAGE -=- START ##
 <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE -->
-	$.sn.ap.init({
+	socialNetwork.ap.init({
 		url : '{SOCIALNET_ROOT_PATH}activitypage.php',
 		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
 		tikTakOnline : {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
@@ -86,7 +86,7 @@ jQuery(document).ready(function($){
 
 // ## INSTANT MESSENGER -=- START ##
 <!-- IF SN_MODULE_IM_ENABLED -->
-	$.sn.im.init({
+	socialNetwork.im.init({
 		url: '{SOCIALNET_ROOT_PATH}im.php',
 		rootPath: '{SOCIALNET_ROOT_PATH}',
 		newMessage: '{L_SN_IM_NEW_MESSAGE}',
@@ -118,7 +118,7 @@ jQuery(document).ready(function($){
 
 // ## NOTIFICATIONS -=- START ##
 <!-- IF SN_MODULE_NOTIFY_ENABLED -->
-	$.sn.ntf.init({
+	socialNetwork.ntf.init({
 		url:'{SOCIALNET_ROOT_PATH}notify.php',
 		theme: '{S_SN_NTF_THEME}',
 		life: {SN_NTF_LIFE},
@@ -129,7 +129,7 @@ jQuery(document).ready(function($){
 
 // ## FRIEND MANAGEMENT SYSTEM -=- START ##
 <!-- IF SN_MODULE_APPROVAL_ENABLED -->
-	$.sn.fms.init({
+	socialNetwork.fms.init({
 		url: '{SOCIALNET_ROOT_PATH}approval.php',
 		urlFMS: '{SOCIALNET_ROOT_PATH}fms_users.php',
 		noFriends: '{L_FAS_FRIENDGROUP_NO_TOTAL}',
@@ -141,7 +141,7 @@ jQuery(document).ready(function($){
 
 // ## USER STATUS -=- START ##
 <!-- IF SN_MODULE_USERSTATUS_ENABLED -->
-	$.sn.us.init({
+	socialNetwork.us.init({
 		watermark : '{L_SN_US_WHATS_ON_YOUR_MIND}',
 		emptyStatus : '{L_SN_US_EMPTY_STATUS}',
 		url : '{SOCIALNET_ROOT_PATH}userstatus.php',
@@ -156,7 +156,7 @@ jQuery(document).ready(function($){
 
 // ## PROFILE -=- START ##
 <!-- IF SN_MODULE_PROFILE_ENABLED -->
-	$.sn.up.init({
+	socialNetwork.up.init({
 		url : '{U_UP_TAB_WALL}',
 		urlAJAX : '{U_UP_AJAXURL}',
 		urlSelectFriends: '{U_SELECT_FRIENDS}',
