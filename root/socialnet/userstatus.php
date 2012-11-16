@@ -458,7 +458,7 @@ if (!class_exists('socialnet_userstatus'))
 					header('Content-type: text/html; charset=UTF-8');
 					die('');
 				}
-				$comment = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_id, $comment_id);
+				$comment = $this->p_master->comments->get($this->commentModule, 'us', $status_id, $comment_id);
 
 				// Notify
 				$sql = "SELECT sn.poster_id, u.username, sn.wall_id
@@ -535,7 +535,7 @@ if (!class_exists('socialnet_userstatus'))
 			$status_id = request_var('s_id', 0);
 			$last_comment_id = request_var('lCommentID', 0);
 
-			$comments = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_id, $last_comment_id, 10, true);
+			$comments = $this->p_master->comments->get($this->commentModule, 'us', $status_id, $last_comment_id, 10, true);
 
 			$return = array(
 				'moreComments'	 => $comments['more'],
@@ -733,7 +733,7 @@ if (!class_exists('socialnet_userstatus'))
 
 			$st_time = $this->p_master->time_ago($status_row['status_time']);
 
-			$comments = $this->p_master->comments->get($this->commentModule, 'sn-us', $status_row['status_id'], 0, $comment_limit);
+			$comments = $this->p_master->comments->get($this->commentModule, 'us', $status_row['status_id'], 0, $comment_limit);
 			return array_merge(array(
 				'SN_US_STATUS'			 => $status_row['status_text'],
 				'SN_US_STATUS_POSTED'	 => $st_time,

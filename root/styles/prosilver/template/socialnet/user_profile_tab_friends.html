@@ -31,7 +31,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		if($('#sn-up-friendsButtons').size() > 0) {
-			
+			$sn = socialNetwork;
 			
 			$('#sn-up-friendsButtons').buttonset();
 			$('#sn-up-friendsButtons label').css({
@@ -39,17 +39,17 @@
 			});
 
 			$('#sn-up-friendsButtons input[type=radio]').click(function() {
-				$.cookie($.sn.cookie.name + 'sn-up-friendsTab', $(this).attr('id'), $.sn.cookie);
+				$.cookie($sn.cookie.name + 'sn-up-friendsTab', $(this).attr('id'), $sn.cookie);
 				var m = $(this).attr('mode');
 				var par = $(this).parent('#sn-up-friendsButtons');
 
-				$.sn.fms.usersLoad(m, 0, par.attr('limit'), par.attr('user'), false, false);
+				$sn.fms.usersLoad(m, 0, par.attr('limit'), par.attr('user'), false, false);
 
 				$('.sn-up-friendsContent_friends').children('div[id^="sn-fms-usersBlock"]').hide();
 				$('.sn-up-friendsContent_friends').children('div[id^="sn-fms-usersBlock"][id$=' + m + ']').show();
 
 			});
-			var snUpFriendsButtons_start = $.cookie($.sn.cookie.name + 'sn-up-friendsTab');
+			var snUpFriendsButtons_start = $.cookie($sn.cookie.name + 'sn-up-friendsTab');
 			if(snUpFriendsButtons_start == null || $('#' + snUpFriendsButtons_start).size() == 0) {
 				snUpFriendsButtons_start = $('#sn-up-friendsButtons input[type=radio]:first-child').attr('id');
 			}
@@ -60,5 +60,5 @@
 			}
 		}
 
-	})
+	});
 </script>
