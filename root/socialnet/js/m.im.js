@@ -1,69 +1,76 @@
 /**
- * 
- * @package phpBB Social Network
- * @version 0.7.1
- * @copyright (c) 2010-2012 Kamahl & Culprit http://phpbbsocialnetwork.com
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * 
+ * @preserve phpBB Social Network 0.7.2 - Instant Messenger module
+ * (c) 2010-2012 Kamahl & Culprit & Senky http://phpbbsocialnetwork.com
+ * http://opensource.org/licenses/gpl-license.php GNU Public License
  */
-(function($) {
-	$.sn.im = {
-		opts : {
-			_imCounter : 0,
-			_namesChat : 'sn-im-chatTimer',
-			_inCore : false,
-			_aExpMin : 24,
-			_aExpMax : 64,
-			_imMsgsh : null,
-			_imMsgss : null,
 
-			lastCheckTime : 0,
-			timersMin : 1,
-			timersMax : 60,
-			curPosit : 0,
-			sound : false,
-			linkNewWindow : false,
-			sendSequence : {
-				alt : false,
-				ctrl : false,
-				shift : false,
-				key : 13
+/**
+ * Declaration for phpBB Social Network Instant Messenger module
+ * @param {object} $ jQuery
+ * @param {object} $sn socialNetwork
+ * @returns {void}
+ */
+(function($, $sn) {
+	$sn.im = {
+		opts: {
+			_imCounter: 0,
+			_namesChat: 'sn-im-chatTimer',
+			_inCore: false,
+			_aExpMin: 24,
+			_aExpMax: 64,
+			_imMsgsh: null,
+			_imMsgss: null,
+			lastCheckTime: 0,
+			timersMin: 1,
+			timersMax: 60,
+			curPosit: 0,
+			sound: false,
+			linkNewWindow: false,
+			sendSequence: {
+				alt: false,
+				ctrl: false,
+				shift: false,
+				key: 13
 			},
-			closeSequence : {
-				alt : false,
-				ctrl : false,
-				shift : false,
-				key : 27
+			closeSequence: {
+				alt: false,
+				ctrl: false,
+				shift: false,
+				key: 27
 			},
-			url : './socialnet/im.php',
-			rootPath : './socialnet/',
-			isOnline : false,
-			namesMe : 'My username',
-			newMessage : 'New message',
-			youAreOffline : 'You are offline',
-			pageTitle : 'page title',
-			hideButton : false,
+			url: './socialnet/im.php',
+			rootPath: './socialnet/',
+			isOnline: false,
+			namesMe: 'My username',
+			newMessage: 'New message',
+			youAreOffline: 'You are offline',
+			pageTitle: 'page title',
+			hideButton: false,
 			playSoundOnPageLoad: false
 		},
+		/**
+		 * Initialize for Instant Messenger
+		 * @param {object} options Options
+		 * @returns {void}
+		 */
+		init: function(options) {
+			if (!$sn._inited) {
+				return false;
+			}
 
-		init : function(options) {
-			if (!$.sn._inited) {
+			if ($sn.mobileBrowser && Math.min($(window).height(), $(window).width()) < 700 || $(window).width() < 650) {
+				$sn.enableModules.im = false;
+			}
+
+			if ($sn.enableModules.im == undefined || !$sn.enableModules.im) {
 				return false;
 			}
-			
-			if ( $.browser.mobile && Math.min($(window).height(),$(window).width()) < 700 || $(window).width() < 650) {
-					$.sn.enableModules.im = false;
-			}
-			
-			if ($.sn.enableModules.im == undefined || !$.sn.enableModules.im) {
-				return false;
-			}
-			
+
 			var opts = this.opts;
-			$.sn._settings(opts, options);
+			$sn._settings(opts, options);
 
-			opts._imCounter = $.sn.getCookie('sn-im-curCheckTime', 1);
-			opts.curPosit = $.sn.getCookie('sn_im_curPosit', 0);
+			opts._imCounter = $sn.getCookie('sn-im-curCheckTime', 1);
+			opts.curPosit = $sn.getCookie('sn_im_curPosit', 0);
 			opts.pageTitle = $(document).attr('title');
 			opts.soundFile = $('#sn-im-msgArrived a').attr('href');
 			opts.soundFlashVars = $('#sn-im-msgArrived a').attr('title');
@@ -76,7 +83,7 @@
 				var cBlock = $(this).next('.sn-im-block');
 				var id = $(cBlock).attr('id');
 
-				$.sn.im._cwToggle($(this).parents('.sn-im-chatBox'));
+				$sn.im._cwToggle($(this).parents('.sn-im-chatBox'));
 
 				$(cBlock).find('.sn-im-message').focus();
 
@@ -84,8 +91,8 @@
 
 			/** Bottom Button Click - ONLINE LIST */
 			$('.sn-im-online.sn-im-button').live('click', function() {
-				$.sn.im._onlineListLoad();
-				$.sn.im._cwToggle($(this).parents('#sn-im-online'));
+				$sn.im._onlineListLoad();
+				$sn.im._cwToggle($(this).parents('#sn-im-online'));
 			});
 
 			/** Title Click on UserName -> go to Profile * */
@@ -95,37 +102,40 @@
 			});
 			/** Title Click - CLOSE */
 			$('.sn-im-block .sn-im-title .sn-userName').live('click', function() {
-				$.sn.im._cwClose($(this).parents('.sn-im-chatBox'));
+				$sn.im._cwClose($(this).parents('.sn-im-chatBox'));
 			});
 			$('.sn-im-online .sn-im-title').live('click', function() {
-				$.sn.im._cwClose($(this).parents('#sn-im-online'));
+				$sn.im._cwClose($(this).parents('#sn-im-online'));
 			});
 
-			eval('var messages = ' + $.sn.getCookie('sn-im-textmessage', '{}') + ';');
+			eval('var messages = ' + $sn.getCookie('sn-im-textmessage', '{}') + ';');
 			if (!$.isEmptyObject(messages)) {
 				$.each(messages, function(idx, msg) {
 					$('#sn-im-chatBoxBlock' + idx).find('.sn-im-message').val(msg).trigger('focus');
 				});
 			}
 
-			eval('var _unRM = ' + $.sn.getCookie('sn-im-unreadblink', '{}') + ';');
+			eval('var _unRM = ' + $sn.getCookie('sn-im-unreadblink', '{}') + ';');
 			if (!$.isEmptyObject(_unRM)) {
 				$.each(_unRM, function(idx, blink) {
 					if (blink == true) {
-						$.sn.im._unReadToggle($('#sn-im-chatBox' + idx), 'loop');
+						$sn.im._unReadToggle($('#sn-im-chatBox' + idx), 'loop');
 					}
 				});
 			}
-			/** TEXTAREA EXPANDER */
+			/**
+			 * Expand textarea
+			 * @param {object} e Key object
+			 */
 			$('.sn-im-message').live('keyup', function(e) {
-				$.sn.im._messageKey(this, e);
+				$sn.im._messageKey(this, e);
 			}).elastic({
 				showNewLine: false,
-				useEnter : false
+				useEnter: false
 			});
 
 			$('.sn-im-chatBox').bind('click', function() {
-				$.sn.im._unReadToggle(this);
+				$sn.im._unReadToggle(this);
 			});
 
 			/** LINK IN NEW WINDOW */
@@ -145,24 +155,24 @@
 
 			/** OPEN CHAT BOX */
 			$('.sn-im-canchat').live('click', function() {
-				var uid = $.sn.getAttr($(this), 'user');
+				var uid = $sn.getAttr($(this), 'user');
 
 				/*
 				 * $('.sn-im-chatBox').each(function() {
-				 * $.sn.im._cwClose($(this)); });
+				 * $sn.im._cwClose($(this)); });
 				 */
 
 				if ($('#sn-im-chatBox' + uid).size() > 0) {
-					$.sn.im._cwOpen($('#sn-im-chatBox' + uid));
+					$sn.im._cwOpen($('#sn-im-chatBox' + uid));
 				} else {
-					$.sn.im._cwCreate(uid, $.sn.getAttr($(this), 'username'), true);
+					$sn.im._cwCreate(uid, $sn.getAttr($(this), 'username'), true);
 				}
 			});
 
 			/** DESTROY CHAT BOX */
 			$('.sn-im-close').live('click', function() {
 				var cb = $(this).parents('.sn-im-chatBox');
-				$.sn.im._cwDestroy(cb);
+				$sn.im._cwDestroy(cb);
 				return false;
 			});
 			$('.sn-im-cbClose').live('click', function() {
@@ -172,38 +182,40 @@
 
 			/** IM LOGIN/LOGOUT */
 			$('.sn-im-loginlogout label').on('click', function() {
-				if ($(this).hasClass('sn-im-selected')) return;
+				if ($(this).hasClass('sn-im-selected')) {
+					return;
+				}
 
 				var lMode = $.trim($(this).attr('class'));
 				var parent = $(this).parents('.sn-im-loginlogout');
 				parent.find('label').toggleClass('sn-im-selected');
 
 				$.ajax({
-					type : 'post',
-					cache : false,
-					async : true,
-					url : $.sn.im.opts.url,
-					data : {
-						mode : lMode
+					type: 'post',
+					cache: false,
+					async: true,
+					url: $sn.im.opts.url,
+					data: {
+						mode: lMode
 					},
-					success : function(data) {
-						$.sn.im.opts.isOnline = (data.login != undefined && data.login == true);
+					success: function(data) {
+						$sn.im.opts.isOnline = (data.login != undefined && data.login == true);
 						var bgItem = $('#sn-im-onlineCount .label');
 						var bg = bgItem.css('background-image');
-						if ($.sn.im.opts.isOnline) {
+						if ($sn.im.opts.isOnline) {
 							bg = bg.replace(/offline\.png/i, 'online.png');
-							$.sn.im._startTimers();
+							$sn.im._startTimers();
 						} else {
 							bg = bg.replace(/online\.png/i, 'offline.png');
 							$('.sn-im-close').each(function() {
-								$.sn.im._cwDestroy($(this).parents('.sn-im-chatBox'));
+								$sn.im._cwDestroy($(this).parents('.sn-im-chatBox'));
 								return false;
 							});
-							$('#sn-im').stopTime($.sn.im.opts._namesChat);
+							$('#sn-im').stopTime($sn.im.opts._namesChat);
 
 						}
 						bgItem.css('background-image', bg);
-						$.sn.im._onlineListLoad();
+						$sn.im._onlineListLoad();
 					}
 				});
 			});
@@ -212,15 +224,17 @@
 			$('.sn-im-sound').on('click', function() {
 				var sA = $(this).hasClass('ui-icon-volume-on');
 				$.ajax({
-					type : 'post',
-					cache : false,
-					async : true,
-					url : $.sn.im.opts.url,
-					data : {
-						mode : 'snImSound' + (sA ? 'Off' : 'On')
+					type: 'post',
+					cache: false,
+					async: true,
+					url: $sn.im.opts.url,
+					data: {
+						mode: 'snImSound' + (sA ? 'Off' : 'On')
 					},
-					success : function(data) {
-						if (data == null) return;
+					success: function(data) {
+						if (data == null) {
+							return;
+						}
 						var $sound = $('.sn-im-sound.ui-icon');
 						$sound.toggleClass('ui-icon-volume-on ui-icon-volume-off');
 
@@ -234,7 +248,7 @@
 							$sound.attr('title', $sound.attr('title').replace('ON', 'OFF'));
 							$soundT.html($soundT.html().replace('ON', 'OFF'));
 						}
-						$.sn.im.opts.sound = data.sound;
+						$sn.im.opts.sound = data.sound;
 					}
 				});
 
@@ -242,19 +256,19 @@
 
 			/** HIDE/SHOW FRIENDS GROUP */
 			$('.sn-im-hideGroup').live('click', function() {
-				var gid = $.sn.getAttr($(this), 'gid');
+				var gid = $sn.getAttr($(this), 'gid');
 				var hidden = $(this).hasClass('ui-icon-arrowstop-1-n');
 
 				$.ajax({
-					type : 'post',
-					cache : false,
-					async : true,
-					url : $.sn.im.opts.url,
-					data : {
-						mode : 'snImUserGroup' + (hidden ? 'Show' : 'Hide'),
-						gid : gid
+					type: 'post',
+					cache: false,
+					async: true,
+					url: $sn.im.opts.url,
+					data: {
+						mode: 'snImUserGroup' + (hidden ? 'Show' : 'Hide'),
+						gid: gid
 					},
-					success : function(data) {
+					success: function(data) {
 						$('#sub_gid' + gid).toggle();
 						$('#gid_' + gid + ' .sn-im-hideGroup').toggleClass('ui-icon-arrowstop-1-n ui-icon-arrowstop-1-s');
 					}
@@ -268,25 +282,25 @@
 
 				if (!$smilieBox.is('[aria-loaded="true"]')) {
 					$.ajax({
-						type : 'post',
-						cache : false,
-						async : true,
-						url : $.sn.im.opts.url,
-						data : {
-							mode : 'snImDisplaySmilies'
+						type: 'post',
+						cache: false,
+						async: true,
+						url: $sn.im.opts.url,
+						data: {
+							mode: 'snImDisplaySmilies'
 						},
-						success : function(data) {
+						success: function(data) {
 							var position = $.extend({}, {
-								of : self,
-								at : 'center top',
-								my : 'center bottom',
-								offset : '0 -5'
+								of: self,
+								at: 'center top',
+								my: 'center bottom',
+								offset: '0 -5'
 							});
 							$smilieBox.find('.sn-im-smiliesContent').html(data.content);
 							$smilieBox.show().attr('aria-loaded', 'true').position(position);
-							$.sn.dropShadow($smilieBox.find('.sn-im-smiliesContent'), {
-								opacity : 0.7,
-								size : 4
+							$sn.dropShadow($smilieBox.find('.sn-im-smiliesContent'), {
+								opacity: 0.7,
+								size: 4
 							});
 
 						}
@@ -300,7 +314,7 @@
 			/** INSERT SMILEY TO MESSAGE * */
 			$('.sn-im-smiley').live('click', function() {
 				var $oMsg = $(this).parents('.sn-im-block').find(".sn-im-message");
-				$.sn.insertAtCaret($oMsg, ' ' + $.sn.getAttr($(this), 'code') + ' ');
+				$sn.insertAtCaret($oMsg, ' ' + $sn.getAttr($(this), 'code') + ' ');
 				$oMsg.trigger('paste');
 				$(this).parents('.sn-im-smiliesBox').hide();
 
@@ -327,15 +341,15 @@
 			$('#sn-im').removeAttr('style');
 			this._scrollable();
 			$('.sn-im-nav.sn-im-prev').live('click', function() {
-				$.sn.im._scrollable(1);
+				$sn.im._scrollable(1);
 			});
 			$('.sn-im-nav.sn-im-next').live('click', function() {
-				$.sn.im._scrollable(2);
+				$sn.im._scrollable(2);
 			});
 
 			// Play sound
-			if ($.sn.im.playSoundOnPageLoad) {
-				$.sn.im._playSound();
+			if ($sn.im.playSoundOnPageLoad) {
+				$sn.im._playSound();
 			}
 
 			if ($('.sn-im-block .sn-im-msgs:visible').is(':visible')) {
@@ -347,40 +361,47 @@
 		},
 		/** INIT END */
 
-		/** MESSAGE AREA - KEY UP */
-		_messageKey : function(obj, e) {
+		/**
+		 * Message typing control
+		 * @param {object} obj textarea object
+		 * @param {object} e Key object
+		 * @returns {void}
+		 */
+		_messageKey: function(obj, e) {
 			var code = (e.keyCode ? e.keyCode : e.which);
 
-			if ($.sn.isKey(e, $.sn.im.opts.closeSequence)) {
-				$.sn.im._cwDestroy($(obj).parents('.sn-im-chatBox'));
+			if ($sn.isKey(e, $sn.im.opts.closeSequence)) {
+				$sn.im._cwDestroy($(obj).parents('.sn-im-chatBox'));
 				return false;
 			}
-			if ($.sn.isKey(e, $.sn.im.opts.sendSequence)) {
+			if ($sn.isKey(e, $sn.im.opts.sendSequence)) {
 				var msg = $(obj).val();
-				var getC = $.sn.getCaret(obj) + ($.browser.msie && $.browser.version < 9 ? 1 : 0);
+				var getC = $sn.getCaret(obj) + ($.browser.msie && $.browser.version < 9 ? 1 : 0);
 				if (getC != msg.length) {
 					msg = msg.substring(0, getC - 1) + msg.substring(getC);
 				}
 				msg = msg.replace(/\s*/i, '');
-				if (msg == '') return;
+				if (msg == '') {
+					return;
+				}
 
 				var msgs = $(obj).parents('.sn-im-block').find('.sn-im-msgs');
 				$.ajax({
-					type : 'post',
-					cache : false,
-					async : true,
-					url : $.sn.im.opts.url,
-					data : {
-						mode : 'sendMessage',
-						uid : $.sn.getAttr($(obj), 'uid'),
-						pp : $.sn.getAttr($(msgs).find('.sn-im-msg:last'), 'from'),
-						message : msg
+					type: 'post',
+					cache: false,
+					async: true,
+					url: $sn.im.opts.url,
+					data: {
+						mode: 'sendMessage',
+						uid: $sn.getAttr($(obj), 'uid'),
+						pp: $sn.getAttr($(msgs).find('.sn-im-msg:last'), 'from'),
+						message: msg
 					},
-					success : function(data) {
+					success: function(data) {
 						msgs.append(data.message);
 						msgs.scrollTop(99999);
-						$.sn.im._onlineUsersCB(data.onlineUsers);
-						$.sn.im._startTimers(true);
+						$sn.im._onlineUsersCB(data.onlineUsers);
+						$sn.im._startTimers(true);
 					}
 				});
 				$(obj).val('').parents('.sn-im-block').find('.sn-im-smiliesBox').hide();
@@ -388,51 +409,55 @@
 			}
 
 		},
-
-		/** CHECK - NEW MESSAGES */
-		_core : function() {
-			if ($.sn.im.opts._inCore) return;
-			$.sn.im.opts._inCore = true;
+		/**
+		 * Check for new messages
+		 * @returns {void}
+		 */
+		_core: function() {
+			if ($sn.im.opts._inCore) {
+				return;
+			}
+			$sn.im.opts._inCore = true;
 
 			$.ajax({
-				type : 'post',
-				cache : false,
-				async : true,
-				url : $.sn.im.opts.url,
-				data : {
-					mode : 'coreIM',
-					lastCheckTime : $.sn.im.opts.lastCheckTime
+				type: 'post',
+				cache: false,
+				async: true,
+				url: $sn.im.opts.url,
+				data: {
+					mode: 'coreIM',
+					lastCheckTime: $sn.im.opts.lastCheckTime
 				},
-				success : function(data) {
+				success: function(data) {
 
 					if (data.message != undefined && data.message != null && data.message.length != 0) {
 						// MSG is unread
 						if (data.recd == false) {
 							// Play sound
-							$.sn.im._playSound();
+							$sn.im._playSound();
 							// Title Alert
-							$.titleAlert($.sn.im.opts.newMessage, {
-								requireBlur : true,
-								stopOnFocus : true,
-								duration : 0,
-								interval : 1500
+							$.titleAlert($sn.im.opts.newMessage, {
+								requireBlur: true,
+								stopOnFocus: true,
+								duration: 0,
+								interval: 1500
 							});
 						}
 						$.each(data.message, function(i, message) {
 							var chatBox = '#sn-im-chatBox' + message.uid;
 							if (message.chatBox == false) {
-								$.sn.im._cwCreate(message.uid, message.userName, false);
+								$sn.im._cwCreate(message.uid, message.userName, false);
 								if ($('#sn-im-chatBoxes .sn-im-chatBox').length > 1) {
-									$.sn.im._cwClose($(chatBox));
+									$sn.im._cwClose($(chatBox));
 								}
 								$('#sn-im-chatBoxBlock' + message.uid).bind('click', function() {
-									$.sn.im._unReadToggle(chatBox);
+									$sn.im._unReadToggle(chatBox);
 								});
 
 							} else {
 								var $msgs = $(chatBox).find('.sn-im-msgs');
 								var $lmsg = $msgs.find('.sn-im-msg:last');
-								var from = $.sn.getAttr($lmsg, 'from');
+								var from = $sn.getAttr($lmsg, 'from');
 								if ($msgs.find('.sn-im-msg[class*="' + message.time + '"]').size() == 0) {
 									$msgs.append(message.message);
 									$msgs.scrollTop(99999);
@@ -442,87 +467,95 @@
 								}
 							}
 							if ($(chatBox + ' .sn-im-block').is(':hidden')) {
-								$.sn.im._unRead($(chatBox), 1);
+								$sn.im._unRead($(chatBox), 1);
 							} else {
-								$.sn.im._unReadToggle(chatBox, true);
+								$sn.im._unReadToggle(chatBox, true);
 							}
 						});
-						$.sn.im._startTimers(true);
+						$sn.im._startTimers(true);
 					}
-					$.sn.im.opts.lastCheckTime = data.lastCheckTime;
+					$sn.im.opts.lastCheckTime = data.lastCheckTime;
 
-					$.sn.im._onlineList(data);
-					$.sn.im._onlineUsersCB(data.onlineUsers);
-					$.sn.im.opts._inCore = false;
+					$sn.im._onlineList(data);
+					$sn.im._onlineUsersCB(data.onlineUsers);
+					$sn.im.opts._inCore = false;
 				}
 			});
 
 		},
-
-		/** CASOVAC PRO CORE */
-		_startTimers : function(sh) {
+		/** 
+		 * Timers for Instant Messenger core
+		 * @param {boolean} sh true to minimize IM checktime
+		 * @returns {void}
+		 */
+		_startTimers: function(sh) {
 			var tHandler = $('#sn-im');
-			if (!$.sn.allow_load) {
-				tHandler.stopTime($.sn.im.opts._namesChat);
+			if (!$sn.allow_load) {
+				tHandler.stopTime($sn.im.opts._namesChat);
 				return;
 			}
 			if (typeof (sh) != 'undefined' && sh) {
-				$.sn.im.opts._imCounter = $.sn.im.opts.timersMin;
-				tHandler.stopTime($.sn.im.opts._namesChat);
+				$sn.im.opts._imCounter = $sn.im.opts.timersMin;
+				tHandler.stopTime($sn.im.opts._namesChat);
 			} else {
-				$.sn.im.opts._imCounter++;
+				$sn.im.opts._imCounter++;
 			}
 
-			if ($.sn.im.opts._imCounter >= $.sn.im.opts.timersMax) {
-				$.sn.im.opts._imCounter = $.sn.im.opts.timersMax;
+			if ($sn.im.opts._imCounter >= $sn.im.opts.timersMax) {
+				$sn.im.opts._imCounter = $sn.im.opts.timersMax;
 			}
-			$.sn.setCookie('sn-im-curCheckTime', $.sn.im.opts._imCounter);
+			$sn.setCookie('sn-im-curCheckTime', $sn.im.opts._imCounter);
 
-			tHandler.oneTime($.sn.im.opts._imCounter * 1000, $.sn.im.opts._namesChat, function(i) {
-				$.sn.im._core();
-				$.sn.im._startTimers();
+			tHandler.oneTime($sn.im.opts._imCounter * 1000, $sn.im.opts._namesChat, function(i) {
+				$sn.im._core();
+				$sn.im._startTimers();
 			});
 		},
-
 		/**
-		 * Nacteni online listu
-		 * 
-		 * @param {Integer}
-		 *            i Pocet volani procedury, generovano z pluginu timers
+		 * Load online list
+		 * @param {integer} i Number of calls of procedure, generated in timers plugin
+		 * @returns {void}
 		 */
-		_onlineListLoad : function(i) {
-			if ($.sn.im.opts.isOnline == true) {
+		_onlineListLoad: function(i) {
+			if ($sn.im.opts.isOnline == true) {
 				$.ajax({
-					type : 'post',
-					cache : false,
-					async : true,
-					url : $.sn.im.opts.url,
-					data : {
-						mode : 'onlineUsers'
+					type: 'post',
+					cache: false,
+					async: true,
+					url: $sn.im.opts.url,
+					data: {
+						mode: 'onlineUsers'
 					},
-					success : function(data) {
-						$.sn.im._onlineList(data);
-						$.sn.im._onlineUsersCB(data.onlineUsers);
+					success: function(data) {
+						$sn.im._onlineList(data);
+						$sn.im._onlineUsersCB(data.onlineUsers);
 					}
 				});
 			} else {
-				$('#sn-im-onlineList').html('<div class="sn-im-userLine">' + $.sn.im.opts.youAreOffline + '</div>');
+				$('#sn-im-onlineList').html('<div class="sn-im-userLine">' + $sn.im.opts.youAreOffline + '</div>');
 			}
 		},
-
-		_onlineList : function(data) {
+		/**
+		 * Fill user count and user list
+		 * @param {object} data Online users 
+		 * @returns {void}
+		 */
+		_onlineList: function(data) {
 			$('#sn-im-onlineCount span.count').html('(' + data.onlineCount + ')');
 			$('#sn-im-onlineList').html(data.onlineList);
 			$('.sn-im-userLine').textOverflow('...', false);
 		},
-
 		/**
-		 * ONLINE check for chatbox
+		 * Set correct online user status for checkboxes
+		 * @param {object} users object with users
+		 * @returns {void}
 		 */
-		_onlineUsersCB : function(users) {
-			if (users == undefined) return;
+		_onlineUsersCB: function(users) {
+			if (users == undefined) {
+				return;
+			}
 			$.each($('#sn-im-chatBoxes').children('.sn-im-chatBox'), function(idx, o) {
-				var st = users[$.sn.getAttr($(o), 'uid')];
+				var st = users[$sn.getAttr($(o), 'uid')];
 				if (st !== undefined) {
 					if (st.status == 0) {
 						$(o).find('.sn-im-status').removeClass('sn-im-away sn-im-online').addClass('sn-im-offline');
@@ -537,8 +570,7 @@
 				}
 			});
 		},
-
-		_cwOpen : function(obj, focus) {
+		_cwOpen: function(obj, focus) {
 			if (typeof focus == 'undefined') {
 				focus = true;
 			}
@@ -546,92 +578,96 @@
 			var im_button = obj.find('.sn-im-button');
 			im_button.addClass('sn-im-opener');
 			obj.find('.sn-im-block').show();
-			if ($.sn.im.opts._imMsgsh == null) {
-				$.sn.im.opts._imMsgsh = obj.find('.sn-im-msgs').height();
-				$.sn.im.opts._imMsgss = obj.find('.sn-im-textArea').height();
+			if ($sn.im.opts._imMsgsh == null) {
+				$sn.im.opts._imMsgsh = obj.find('.sn-im-msgs').height();
+				$sn.im.opts._imMsgss = obj.find('.sn-im-textArea').height();
 			}
 			if (focus) {
 				obj.find('.sn-im-message').focus();
 			}
 			obj.find('.sn-im-msgs').scrollTop(99999);
 
-			$.sn.setCookie(id, true);
+			$sn.setCookie(id, true);
 
-			$.sn.im._unRead(obj, 0);
-			$.sn.im._scrollable(obj);
+			$sn.im._unRead(obj, 0);
+			$sn.im._scrollable(obj);
 		},
-
-		_cwClose : function(obj) {
+		_cwClose: function(obj) {
 			var id = obj.attr('id');
 			var im_button = obj.find('.sn-im-button');
 			im_button.removeClass('sn-im-opener');
 			obj.find('.sn-im-block').hide();
 
-			$.sn.setCookie(id, false);
-			$.sn.im._unRead(obj, 0);
-			$.sn.im._scrollable();
+			$sn.setCookie(id, false);
+			$sn.im._unRead(obj, 0);
+			$sn.im._scrollable();
 		},
-
-		_cwToggle : function(obj) {
-			if (obj.find('.sn-im-button').hasClass('sn-im-opener')) $.sn.im._cwClose(obj);
-			else $.sn.im._cwOpen(obj);
+		_cwToggle: function(obj) {
+			if (obj.find('.sn-im-button').hasClass('sn-im-opener')) {
+				$sn.im._cwClose(obj);
+			} else {
+				$sn.im._cwOpen(obj);
+			}
 		},
-
-		_cwDestroy : function(obj) {
+		_cwDestroy: function(obj) {
 			var id = obj.attr('id');
-			var uidTo = $.sn.getAttr(obj, 'uid');
+			var uidTo = $sn.getAttr(obj, 'uid');
 			$.ajax({
-				type : 'post',
-				cache : false,
-				async : true,
-				url : $.sn.im.opts.url,
-				data : {
-					mode : 'closeChatBox',
-					uid : uidTo
+				type: 'post',
+				cache: false,
+				async: true,
+				url: $sn.im.opts.url,
+				data: {
+					mode: 'closeChatBox',
+					uid: uidTo
 				}
 			});
 			obj.remove();
-			$.sn.setCookie(id, null);
-			$.sn.setCookie(id + 'Unread', null);
-			$.sn.im._scrollable(10);
+			$sn.setCookie(id, null);
+			$sn.setCookie(id + 'Unread', null);
+			$sn.im._scrollable(10);
 		},
+		_cwCreate: function(uid, userName, bAsync) {
+			if ($sn.im.opts.isOnline == 0 || $('#sn-im-chatBox' + uid).size() != 0) {
+				return;
+			}
 
-		_cwCreate : function(uid, userName, bAsync) {
-			if ($.sn.im.opts.isOnline == 0 || $('#sn-im-chatBox' + uid).size() != 0) return;
-
-			if (bAsync == undefined) bAsync = false;
+			if (bAsync == undefined) {
+				bAsync = false;
+			}
 
 			$.ajax({
-				type : 'post',
-				cache : false,
-				url : $.sn.im.opts.url,
-				async : bAsync,
-				data : {
-					mode : 'openChatBox',
-					userTo : uid,
-					usernameTo : userName
+				type: 'post',
+				cache: false,
+				url: $sn.im.opts.url,
+				async: bAsync,
+				data: {
+					mode: 'openChatBox',
+					userTo: uid,
+					usernameTo: userName
 				},
-				success : function(data) {
-					if ($('#sn-im-chatBox' + uid).size() != 0) return;
+				success: function(data) {
+					if ($('#sn-im-chatBox' + uid).size() != 0) {
+						return;
+					}
 					$('#sn-im-chatBoxes').append(data.html);
 					var cb = $('#sn-im-chatBox' + uid);
 					cb.find('.sn-im-message').elastic({
 						showNewLine: false,
-						useEnter : false
+						useEnter: false
 					});
 					$('#sn-im-chatBox' + uid).bind('click', function() {
-						$.sn.im._unReadToggle(this);
+						$sn.im._unReadToggle(this);
 					});
 					// cb.find('.sn-im-button .label').textOverflow('...',
 					// false);
-					$.sn.im._cwOpen(cb);
-					$.sn.im._scrollable(20);
+					$sn.im._cwOpen(cb);
+					$sn.im._scrollable(20);
 				}
 			});
 		},
-
-		_unRead : function(chatBox, c) {
-			if ($.sn.getAttr($(chatBox), 'uid') == false) {
+		_unRead: function(chatBox, c) {
+			if ($sn.getAttr($(chatBox), 'uid') == false) {
 				return;
 			}
 
@@ -640,20 +676,19 @@
 			if (c == 0) {
 				endValue = 0;
 				$snImUnread.hide();
-				$.sn.im._unReadToggle(chatBox);
+				$sn.im._unReadToggle(chatBox);
 			} else {
 				endValue += c;
 				$snImUnread.show();
-				$.sn.im._unReadToggle(chatBox, true);
+				$sn.im._unReadToggle(chatBox, true);
 			}
 			$snImUnread.html(endValue);
-			$.sn.setCookie('sn-im-chatBox' + $.sn.getAttr($(chatBox), 'uid') + 'Unread', endValue);
+			$sn.setCookie('sn-im-chatBox' + $sn.getAttr($(chatBox), 'uid') + 'Unread', endValue);
 
 		},
-
-		_unReadToken : [],
-		_unReadToggle : function(chatBox, status) {
-			var uid = $.sn.getAttr($(chatBox), 'uid');
+		_unReadToken: [],
+		_unReadToggle: function(chatBox, status) {
+			var uid = $sn.getAttr($(chatBox), 'uid');
 
 			switch (status) {
 				case 0:
@@ -661,52 +696,50 @@
 				case undefined:
 				case null:
 					$(chatBox).removeClass('sn-im-msgUnread');
-					clearTimeout($.sn.im._unReadToken[uid]);
-					$.sn.im._unReadToken[uid] = null;
-					eval('var _unRM = '+$.sn.getCookie('sn-im-unreadblink', '{}')+';');
+					clearTimeout($sn.im._unReadToken[uid]);
+					$sn.im._unReadToken[uid] = null;
+					eval('var _unRM = ' + $sn.getCookie('sn-im-unreadblink', '{}') + ';');
 					_unRM[uid] = undefined;
-					$.sn.setCookie('sn-im-unreadblink', $.sn.serializeJSON(_unRM));
+					$sn.setCookie('sn-im-unreadblink', $sn.serializeJSON(_unRM));
 					break;
 				case 1:
 				case true:
-					if ($.sn.im._unReadToken[uid] == null || $.sn.im._unReadToken[uid] == undefined) {
+					if ($sn.im._unReadToken[uid] == null || $sn.im._unReadToken[uid] == undefined) {
 						$(chatBox).toggleClass('sn-im-msgUnread');
-						$.sn.im._unReadToken[uid] = setTimeout('$.sn.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
-						eval('var _unRM = '+$.sn.getCookie('sn-im-unreadblink', '{}')+';');
+						$sn.im._unReadToken[uid] = setTimeout('$sn.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
+						eval('var _unRM = ' + $sn.getCookie('sn-im-unreadblink', '{}') + ';');
 						_unRM[uid] = true;
 
-						$.sn.setCookie('sn-im-unreadblink', $.sn.serializeJSON(_unRM));
+						$sn.setCookie('sn-im-unreadblink', $sn.serializeJSON(_unRM));
 					}
 					break;
 				case 2:
 				case 'loop':
 					$(chatBox).toggleClass('sn-im-msgUnread');
-					$.sn.im._unReadToken[uid] = setTimeout('$.sn.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
+					$sn.im._unReadToken[uid] = setTimeout('$sn.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
 					break;
 			}
 
 		},
-				
-		_playSound: function(){
-			if ($.sn.im.opts.sound) {
+		_playSound: function() {
+			if ($sn.im.opts.sound) {
 				if ($.browser.msie) {
-					$('#sn-im-msgArrived').html('<object height="1" width="1" type="application/x-shockwave-flash" data="' + $.sn.im.opts.soundFile + '"><param name="movie" value="' + $.sn.im.opts.soundFile + '"><param name="FlashVars" value="' + $.sn.im.opts.soundFlashVars + '"></object>');
+					$('#sn-im-msgArrived').html('<object height="1" width="1" type="application/x-shockwave-flash" data="' + $sn.im.opts.soundFile + '"><param name="movie" value="' + $sn.im.opts.soundFile + '"><param name="FlashVars" value="' + $sn.im.opts.soundFlashVars + '"></object>');
 				} else {
-					$('#sn-im-msgArrived').html('<embed src="' + $.sn.im.opts.soundFile + '" width="0" height="0" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" FlashVars="' + $.sn.im.opts.soundFlashVars + '"></embed>');
+					$('#sn-im-msgArrived').html('<embed src="' + $sn.im.opts.soundFile + '" width="0" height="0" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" FlashVars="' + $sn.im.opts.soundFlashVars + '"></embed>');
 				}
 			}
 		},
 		/**
 		 * Moving opened chatboxes
-		 * 
-		 * @param {Integer}
-		 *	0	- start
-		 *	1	- move right
-		 *	2	- move left
-		 *	10	- close/destroy chatbox
-		 *	20	- create chatbox
+		 * @param {Integer} m 
+		 * @property  0 Start
+		 * @property  1 Move right
+		 * @property  2 Move left
+		 * @property 10 Close/destroy chatbox
+		 * @property 20 Create chatbox
 		 */
-		_scrollable : function(m) {
+		_scrollable: function(m) {
 			if ($('.sn-im-dockWrapper').is('[style]')) {
 				return;
 			}
@@ -716,11 +749,11 @@
 			var dWoffset = $('.sn-im-dockWrapper').offset();
 			var dWright = $('body').width() - dWoffset.left - $('.sn-im-dockWrapper').outerWidth();
 
-			totalWidth = $('body').width() - ($.sn.rtl ? dWoffset.left : dWright) - parseInt($('#sn-im-online').outerWidth(true)) - parseInt($('.sn-im-nav.sn-im-prev').outerWidth(true));
+			totalWidth = $('body').width() - ($sn.rtl ? dWoffset.left : dWright) - parseInt($('#sn-im-online').outerWidth(true)) - parseInt($('.sn-im-nav.sn-im-prev').outerWidth(true));
 			// parseInt($('.sn-im-nav.sn-im-next').outerWidth(true));
 
 			$nav.css({
-				'width' : totalWidth + 'px'
+				'width': totalWidth + 'px'
 			});
 			totalWidth = 0;
 			$nav.children('.sn-im-chatBox').each(function() {
@@ -746,7 +779,7 @@
 						this.opts.curPosit++;
 						break;
 				}
-				$.sn.setCookie('sn_im_curPosit', this.opts.curPosit);
+				$sn.setCookie('sn_im_curPosit', this.opts.curPosit);
 
 				$nav.children('.sn-im-chatBox:lt(' + this.opts.curPosit + ')').hide();
 
@@ -765,14 +798,14 @@
 							$nav.children('.sn-im-chatBox:eq(' + i + ')').show();
 							totalWidth += bw;
 							this.opts.curPosit--;
-							$.sn.setCookie('sn_im_curPosit', this.opts.curPosit);
+							$sn.setCookie('sn_im_curPosit', this.opts.curPosit);
 						}
 					}
 				}
 
 				if (typeof m == 'object') {
 					if ($(m).is(':hidden')) {
-						$.sn.im._scrollable(2);
+						$sn.im._scrollable(2);
 					}
 				}
 
@@ -802,16 +835,14 @@
 				$('.sn-im-nav').hide();
 			}
 		},
-
 		/**
 		 * Resize block by window resize
 		 */
-		_resize : function() {
+		_resize: function() {
 			$('#sn-im #sn-im-onlineList').css('max-height', ($(window).height() - 100 > 50 ? $(window).height() - 100 : 50) + 'px');
-			$.sn.im._scrollable();
+			$sn.im._scrollable();
 		},
-
-		_documentClick : function(event) {
+		_documentClick: function(event) {
 			/** Close online list by click outside */
 			if ($('#sn-im-onlineCount').hasClass('sn-im-opener')) {
 				var s_obj = 'sn-im';
@@ -826,20 +857,19 @@
 			}
 
 		},
-
-		_unload : function() {
+		_unload: function() {
 			if ($('.sn-im-message').size() == 0) {
 				return;
 			}
 			var messages = {};
 
 			$('.sn-im-message').each(function(idx, t) {
-				messages[$.sn.getAttr($(this), 'uid')] = $(this).val();
+				messages[$sn.getAttr($(this), 'uid')] = $(this).val();
 			});
-			$.sn.setCookie('sn-im-textmessage', $.sn.serializeJSON(messages));
+			$sn.setCookie('sn-im-textmessage', $sn.serializeJSON(messages));
 
 		}
 
-	}
+	};
 
-})(jQuery);
+})(jQuery, socialNetwork);
