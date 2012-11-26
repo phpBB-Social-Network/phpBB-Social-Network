@@ -212,7 +212,7 @@ jQuery(document).ready(function($) {
 							_t_height = 100;
 						}
 						_input = $('<textarea name="editable-' + idx + '" class="' + opts.inputClass + '" style="min-height:22px;max-height:100px"></textarea>').css(opts.cssText);
-						_input.text(obj.edit);
+						_input.html(obj.edit);
 						th.html(_input);
 						$('textarea[name="editable-' + idx + '"]').elastic(false);
 						_position = 0;
