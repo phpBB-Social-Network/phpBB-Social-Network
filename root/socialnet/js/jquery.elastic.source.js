@@ -46,7 +46,7 @@
 				}
 
 				// Elastic only works on non initialized objects
-				if (jQuery(this).attr('data-elastic') === 'elastic') {
+				if (this.dataElastic === 'elastic') {
 					return false;
 				}
 
@@ -160,6 +160,7 @@
 				$textarea.live('update', update);
 				$textarea.live('focusin', update);
 				$textarea.attr('data-newline', defaults.showNewLine);
+				$textarea.dataElastic = 'elastic';
 
 				// Compact textarea on blur
 				$textarea.bind('blur', function(event) {
@@ -177,7 +178,6 @@
 					setTimeout(update, 250);
 				});
 
-				$textarea.attr('data-elastic', 'elastic');
 				// Run update once when elastic is initialized
 				update(true);
 
