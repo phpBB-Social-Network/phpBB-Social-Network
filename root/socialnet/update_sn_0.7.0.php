@@ -1101,4 +1101,26 @@ function sql_rename_table($new_name)
 	}
 }
 
+if ( !function_exists('http_build_query'))
+{
+	function http_build_query($data)
+	{
+		$ret = array();
+
+		foreach ( $data as $k => $v)
+		{
+			if ( is_array($v) || is_object($v))
+			{
+        array_push($ret, http_build_query($v));
+			}
+			else
+			{
+        array_push($ret, $k.'='.urlencode($v));
+			}
+		}
+
+		return implode(ini_get('arg_separator.output'), $ret);
+	}
+}
+
 ?>
