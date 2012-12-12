@@ -1,13 +1,13 @@
 <!-- INCLUDE ucp_header.html -->
-                                                                                                                           
+
 <h2>{L_TITLE}</h2>
 
 <form id="ucp" method="post" action="{U_ACTION}">
 
   <div class="panel">
   	<div class="inner"><span class="corners-top"><span></span></span>
-    	<fieldset class="sn-up-ucpProfile">  
-        <!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->       
+		<fieldset class="sn-up-ucpProfile">
+		<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
       	<dl>
       		<dt><label for="hometown">{L_SN_UP_HOMETOWN}:</label></dt>
       		<dd><input type="text" name="hometown" id="hometown" value="{HOMETOWN}" maxlength="255" class="inputbox" /></dd>
@@ -75,51 +75,51 @@
       	</dl>
       	<dl>
       		<dt><label for="about_me">{L_SN_UP_ABOUT_ME}:</label></dt>
-      		<dd><textarea name="about_me" id="about_me" class="inputbox" rows="2" maxlength="1024">{ABOUT_ME}</textarea></dd>
+			<dd><textarea name="about_me" id="about_me" class="inputbox" rows="2" cols="" maxlength="1024">{ABOUT_ME}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="quotations">{L_SN_UP_QUOTATIONS}:</label></dt>
-      		<dd><textarea name="quotations" id="quotations" class="inputbox" rows="2" maxlength="1024">{QUOTATIONS}</textarea></dd>
+			<dd><textarea name="quotations" id="quotations" class="inputbox" rows="2" cols="" maxlength="1024">{QUOTATIONS}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="music">{L_SN_UP_MUSIC}:</label></dt>
-      		<dd><textarea name="music" id="music" class="inputbox" rows="2" maxlength="1024">{MUSIC}</textarea></dd>
+			<dd><textarea name="music" id="music" class="inputbox" rows="2" cols="" maxlength="1024">{MUSIC}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="books">{L_SN_UP_BOOKS}:</label></dt>
-      		<dd><textarea name="books" id="books" class="inputbox" rows="2" maxlength="1024">{BOOKS}</textarea></dd>
+			<dd><textarea name="books" id="books" class="inputbox" rows="2" cols="" maxlength="1024">{BOOKS}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="movies">{L_SN_UP_MOVIES}:</label></dt>
-      		<dd><textarea name="movies" id="movies" class="inputbox" rows="2" maxlength="1024">{MOVIES}</textarea></dd>
+			<dd><textarea name="movies" id="movies" class="inputbox" rows="2" cols="" maxlength="1024">{MOVIES}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="games">{L_SN_UP_GAMES}:</label></dt>
-      		<dd><textarea name="games" id="games" class="inputbox" rows="2" maxlength="1024">{GAMES}</textarea></dd>
+			<dd><textarea name="games" id="games" class="inputbox" rows="2" cols="" maxlength="1024">{GAMES}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="foods">{L_SN_UP_FOODS}:</label></dt>
-      		<dd><textarea name="foods" id="foods" class="inputbox" rows="2" maxlength="1024">{FOODS}</textarea></dd>
+			<dd><textarea name="foods" id="foods" class="inputbox" rows="2" cols="" maxlength="1024">{FOODS}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="sports">{L_SN_UP_SPORTS}:</label></dt>
-      		<dd><textarea name="sports" id="sports" class="inputbox" rows="2" maxlength="1024">{SPORTS}</textarea></dd>
+			<dd><textarea name="sports" id="sports" class="inputbox" rows="2" cols="" maxlength="1024">{SPORTS}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="sport_teams">{L_SN_UP_SPORT_TEAMS}:</label></dt>
-      		<dd><textarea name="sport_teams" id="sport_teams" class="inputbox" rows="2" maxlength="1024">{SPORT_TEAMS}</textarea></dd>
+			<dd><textarea name="sport_teams" id="sport_teams" class="inputbox" rows="2" cols="" maxlength="1024">{SPORT_TEAMS}</textarea></dd>
       	</dl>
       	<dl>
       		<dt><label for="activities">{L_SN_UP_ACTIVITIES}:</label></dt>
-      		<dd><textarea name="activities" id="activities" class="inputbox" rows="2" maxlength="1024">{ACTIVITIES}</textarea></dd>
+			<dd><textarea name="activities" id="activities" class="inputbox" rows="2" cols="" maxlength="1024">{ACTIVITIES}</textarea></dd>
       	</dl>
     	</fieldset>
-  
+
   	<span class="corners-bottom"><span></span></span></div>
-  </div>                    
+  </div>
 
   <fieldset class="submit-buttons">
-    <input type="reset" value="{L_RESET}" name="reset" class="button2" />&nbsp; 
+	<input type="reset" value="{L_RESET}" name="reset" class="button2" />&nbsp;
   	<input type="submit" name="submit" value="{L_SUBMIT}" class="button1" />
   	{S_FORM_TOKEN}
   </fieldset>
