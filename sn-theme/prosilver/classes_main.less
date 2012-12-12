@@ -30,22 +30,22 @@
 
 .sn-page-columnLeft {
 	width: @sn-page-width-columnLeft;
-	
+
 	.ltr & {
 		float: left;
 		padding-right: @sn-page-padding-column;
 	}
-	
+
 	.rtl & {
 		float: right;
 		padding-left: @sn-page-padding-column;
 	}
-	
+
 }
 
 .sn-page-columnRight {
 	width: @sn-page-width-columRight;
-	
+
 	.ltr & {
 		float: right;
 		padding-left: @sn-page-padding-column;
@@ -76,7 +76,7 @@
 		background-position: 5% 6px;
 		padding-left: 64px;
 	}
-	
+
 	.rtl & {
 		background-position: 95% 6px;
 		padding-right: 64px;
@@ -88,42 +88,42 @@
 		border-right: none;
 	/*	padding-right: 0;*/
 	}
-	
+
 	.rtl & {
 		border-left: none;
 	/*	padding-left: 0;*/
 	}
-	
+
 }
 
 @sn-page-blockHeader-margin-top: 10px;
 .sn-page-blockHeader {
 	clear: both;
 	margin-top: @sn-page-blockHeader-margin-top;
-	
+
 	ul.topiclist dt {
 		width: 100%;
 	}
-	
+
 	&.forabg {
 		margin-top: @sn-page-blockHeader-margin-top;
-		
+
 		&:first-child {
 			margin-top: 0;
 		}
-		
+
 		.ui-button {
 			padding:0 3px;
 			margin-top:-3px;
 			margin-right:5px;
 			text-transform:none;
-			
+
 			& a {
 				color: #222;
 				text-decoration: none;
 				font-size: 0.8em;
 			}
-			
+
 			.ltr & {
 				float: right;
 			}
@@ -131,14 +131,14 @@
 				float: left;
 			}
 		}
-		
+
 	}
-	
+
 }
 
 .sn-page-text {
 	 padding: 2px 0;
-	 
+
 	 span.&{
 	 	display:block;
 	 }
@@ -178,7 +178,7 @@ div:not(.sn-page) .sn-userName a{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	
+
 	a {
 		font-weight: bold;
 		/*text-decoration: none; */
@@ -187,6 +187,10 @@ div:not(.sn-page) .sn-userName a{
 
 .sn-user-avatar {
 	display: inline-block;
+
+	img {
+		word-wrap: break-word;
+	}
 }
 
 .sn-more {
@@ -204,7 +208,7 @@ div:not(.sn-page) .sn-userName a{
 	  text-decoration: none;
 	  background: transparent url("{T_IMAGESET_PATH}/socialnet/button_arrow_down.png") no-repeat 100% 60%;
 	  color: @sn-more-color;
-	  
+
 	  .ltr & {
 			padding-right: 12px;
 			background-position: 100% 60%;
@@ -214,14 +218,14 @@ div:not(.sn-page) .sn-userName a{
 			background-position: 0 60%;
 	  }
 	}
-	
+
 	&.sn-back-top {
  		background-image: url("{T_IMAGESET_PATH}/socialnet/button_arrow_top.png");
- 		
+
  		.ltr & {
  			float: right;
  		}
- 		
+
  		.rtl & {
  			float: left;
  		}
@@ -231,17 +235,17 @@ div:not(.sn-page) .sn-userName a{
 .icon-activitypage, .icon-profile {
 	background-repeat: no-repeat;
 	padding: 1px 0 0;
-	
+
 	.ltr & {
 		padding-left: 17px;
 		background-position: 0 50%;
 	}
-	
+
 	.rtl & {
 		padding-right: 17px;
 		background-position: 100% 50%;
 	}
-	
+
 }
 
 .icon-profile {
@@ -267,7 +271,7 @@ div:not(.sn-page) .sn-userName a{
 	.sn-actions {
 		position: absolute;
 		top: 1px;
-		
+
 		a, div, span {
 			background: transparent none no-repeat 0 0;
 			height: @sn-action-button-height;
@@ -280,29 +284,29 @@ div:not(.sn-page) .sn-userName a{
 		.sn-action-close, .sn-action-delete {
 			background-image: url("{T_IMAGESET_PATH}/socialnet/button_close.png");
 		}
-		
+
 		.sn-action-delete-red {
 			background-image: url("{T_IMAGESET_PATH}/socialnet/button_close_red.png");
 		}
-		
+
 		.sn-action-ok {
 			background-image: url("{T_IMAGESET_PATH}/socialnet/button_ok.png");
 		}
-		
+
 		.sn-action-ok-green {
 			background-image: url("{T_IMAGESET_PATH}/socialnet/button_ok_green.png");
 		}
-		
+
 		.sn-action-check {
 			background-image: url("{T_IMAGESET_PATH}/socialnet/button_ok_green.png");
-			
+
 		}
-		
+
 	}
 
 	& .ui-accordion-header .sn-actions {
 		top: 3px;
-		
+
 		div,span{
 			background-position: 0 ( -1 * @sn-action-button-height);
 		}
@@ -311,7 +315,7 @@ div:not(.sn-page) .sn-userName a{
 	&:hover .sn-actions {
 		div, span {
 		background-position: 0 ( -2 * @sn-action-button-height);
-		
+
 		&:hover {
 			background-position: 0 100%;
 			}
@@ -325,7 +329,7 @@ div:not(.sn-page) .sn-userName a{
 	.sn-actions {
 		display: none;
 		visibility: hidden;
-		
+
 	}
 
 	&:hover .sn-actions {
@@ -333,7 +337,7 @@ div:not(.sn-page) .sn-userName a{
 			background-position: 0 ( -1 * @sn-action-button-height);
 		}
 
-		
+
 		& {
 			display: block;
 			visibility: visible;
@@ -346,7 +350,7 @@ div:not(.sn-page) .sn-userName a{
 		/*float: right;*/
 		right: 3px;
 	}
-	
+
 	.rtl & {
 		float: left;
 		left: 3px;
@@ -362,20 +366,20 @@ div:not(.sn-page) .sn-userName a{
 	display: block;
 	border: none;
 	margin: 5px 0;
-	
+
 	.ui-icon.sn-menu-icon {
 		background-image: url("{T_THEME_PATH}/images/ui-icons_phpBB_256x240.png");
 	}
-	
+
 	.ui-menu-item {
 		border-bottom: 1px solid @sn-menu-bordercolor;
-		
+
 		&:first-child {
 			border-top: 1px solid @sn-menu-bordercolor;
 		}
-		
+
 	}
-	
+
 	.ui-menu-item a {
 		padding: 3px 18px;
 		border: none !important;
@@ -386,11 +390,11 @@ div:not(.sn-page) .sn-userName a{
 		&:hover {
 			color: @sn-menu-item-color - #222;
 		}
-		
+
 		.ltr & {
 			padding-right: 6px;
 		}
-		
+
 		.rtl & {
 			padding-left: 6px;
 		}
@@ -402,23 +406,23 @@ div:not(.sn-page) .sn-userName a{
 		z-index : 999;
 		opacity: 1;
 		margin: 0 -10px;
-		
+
 		.ui-menu-item a {
 			white-space: nowrap;
 		}
 	}
-	
+
 	@sn-num-cube-hover {
 		background: @sn-menu-item-bgcolor-active + #222;
 	}
 	.sn-num-cube {
 		background: @sn-menu-item-bgcolor-active;
 		padding: 0 3px;
-		
+
 		.ltr & {
 			float: right;
 		}
-		
+
 		.rtl & {
 			float: left;
 		}
@@ -429,14 +433,14 @@ div:not(.sn-page) .sn-userName a{
 			@sn-num-cube-hover;
 		}
 	}
-	
+
 	a.ui-state-active {
 		background-color: @sn-menu-item-bgcolor-active - #222;
 		color: @sn-menu-item-color - #222;
 
 
 	}
-	
+
 	.ui-menu-item.sn-menu-active a, .ui-menu-item.sn-menu-active a.ui-state-focus {
 		background-color: @sn-menu-bgcolor-active;
 		color: #fff;
@@ -444,20 +448,20 @@ div:not(.sn-page) .sn-userName a{
 		.ui-icon {
 			background-image: url("{T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png");
 		}
-		
+
 		&:hover {
 			background-color: @sn-menu-bgcolor-active - #222;
 		}
-		
+
 		.sn-num-cube {
 			color: @sn-menu-item-color;
 		}
 	}
-	
+
 	.ui-menu-item .ui-icon {
 		margin: 0 -2px;
 	}
-	
+
 }
 
 
@@ -466,17 +470,17 @@ div:not(.sn-page) .sn-userName a{
  */
 .sn-posterAvatar {
 	display: inline-block;
-	
+
 	a:link, a:visited, a:hover, a:active {
 		display: inline-block;
-		
+
 	}
 
 	.ltr & {
 		float: left;
 		padding-right: 10px;
 	}
-	
+
 	.rtl & {
 		float: right;
 		padding-left: 10px;
@@ -495,7 +499,7 @@ div:not(.sn-page) .sn-userName a{
 	padding: 5px;
 	/*font-size: 11px;*/
 	border-width: 1px 0;
-	border-style: solid; 
+	border-style: solid;
 	border-top-color: @sn-us-bordercolor-comment-top;
 	border-bottom-color: @sn-us-bordercolor-comment-bottom;
 }
@@ -535,11 +539,11 @@ div:not(.sn-page) .sn-userName a{
 }
 
 .sn-expander-text {
-	
+
 }
 
 .sn-expander-more, .sn-expander-less {
-	
+
 	a {
 		.ltr & {
 			float: right;
