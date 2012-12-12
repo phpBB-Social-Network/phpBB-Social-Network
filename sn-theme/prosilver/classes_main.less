@@ -265,8 +265,6 @@ div:not(.sn-page) .sn-userName a{
 	position: relative;
 
 	.sn-actions {
-		position: absolute;
-		top: 1px;
 		
 		a, div, span {
 			background: transparent none no-repeat 0 0;
@@ -295,7 +293,6 @@ div:not(.sn-page) .sn-userName a{
 		
 		.sn-action-check {
 			background-image: url("{T_IMAGESET_PATH}/socialnet/button_ok_green.png");
-			
 		}
 		
 	}
@@ -343,13 +340,12 @@ div:not(.sn-page) .sn-userName a{
 
 .sn-actions {
 	.ltr & {
-		/*float: right;*/
-		right: 3px;
+		float: right;
+		margin-right: -15px;
 	}
-	
+
 	.rtl & {
 		float: left;
-		left: 3px;
 	}
 }
 
@@ -498,6 +494,13 @@ div:not(.sn-page) .sn-userName a{
 	border-style: solid; 
 	border-top-color: @sn-us-bordercolor-comment-top;
 	border-bottom-color: @sn-us-bordercolor-comment-bottom;
+
+	.ltr & {
+		padding-right: 15px;
+	}
+	.rtl & {
+		padding-left: 15px;
+	}
 }
 
 .sn-shareComment .ui-button {

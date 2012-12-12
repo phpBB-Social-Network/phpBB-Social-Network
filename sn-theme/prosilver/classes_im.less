@@ -38,8 +38,8 @@
 .sn-im-chatBoxes {
 
 	.sn-im-button {
-	width: @sn-im-button-width - 2 * @sn-im-button-padding - 40px;
-		}
+		width: @sn-im-button-width - 2 * @sn-im-button-padding - 40px;
+	}
 
 	.sn-im-group {
 
@@ -140,31 +140,31 @@
 
 
 .sn-im-unRead {
-		position: absolute;
+	position: absolute;
+	visibility: visible;
+	top: -7px;
+	padding: 2px 3px;
+	background-color: #ff0000;
+	color: #fff;
+	display: block;
+	line-height: 10px;
+	z-index:290;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+
+
+	&.sn-hiddenDefault {
 		visibility: visible;
-		top: -7px;
-		padding: 2px 3px;
-		background-color: #ff0000;
-		color: #fff;
-		display: block;
-		line-height: 10px;
-		z-index:290;
-		border-radius: 4px;
-		-moz-border-radius: 4px;
-		-webkit-border-radius: 4px;
-		-khtml-border-radius: 4px;
+	}
 
-
-		&.sn-hiddenDefault {
-			visibility: visible;
-		}
-
-		.ltr & {
-			right: 20px;
-		}
-		.rtl & {
-			left: 20px;
-		}
+	.ltr & {
+		right: 20px;
+	}
+	.rtl & {
+		left: 20px;
+	}
 }
 
 .sn-im-msgUnread {
@@ -267,7 +267,7 @@
 
 		a {
 			color: #fff;
-  	}
+		}
 	}
 
 	.sn-im-online & {
@@ -396,6 +396,7 @@
 
 	.sn-im-login {
 		background-position: 0 -30px;
+
 		span {
 			background-position: 0 0px;
 			margin: 0 0 0 4px;
@@ -405,6 +406,7 @@
 
 	.sn-im-logout {
 		background-position: 100% -60px;
+
 		span {
 			background-position: 100% 0px;
 			margin: 0 4px 0 0;
@@ -415,12 +417,14 @@
 	.sn-im-selected {
 		&.sn-im-login {
 			background-position: 0 -45px;
+
 			span {
 				background-position: 0 -15px;
 			}
 		}
 		&.sn-im-logout {
 			background-position: 100% -75px;
+
 			span {
 				background-position: 100% -15px;
 			}
@@ -525,6 +529,7 @@
 .sn-im-smiliesBox {
 	width: @sn-im-smileyBox-width;
 	/*border: 4px solid #ccc;*/
+	visibility: hidden;
 	display: none;
 	position: absolute;
 	/*bottom: 30px;*/
@@ -610,12 +615,12 @@
  			float: none;
 
   		.ltr & {
-    			padding-left: 5px;
-	    		padding-right: 0;
+			padding-left: 5px;
+			padding-right: 0;
   		}
   		.rtl & {
-    			padding-right: 5px;
-	    		padding-left: 0;
+			padding-right: 5px;
+			padding-left: 0;
   		}
 		}
 
@@ -775,6 +780,7 @@
 
 .sn-im-noChatBar {
 	.sn-im-chatBox:not(&) .sn-im-title .sn-im-status {
+		visibility: hidden;
 		display: none;
 	}
 
