@@ -313,7 +313,7 @@ class ucp_approval
 	 */
 	function _friends_foes_add($id, $mode, &$data, &$error)
 	{
-		global $db, $user, $template, $auth, $socialnet, $phpEx;
+		global $db, $user, $template, $auth, $socialnet, $phpEx, $phpbb_root_path;
 
 		$data['add'] = array_map('trim', array_map('utf8_clean_string', explode("\n", $data['add'])));
 		$l_mode = strtoupper($mode);
@@ -460,6 +460,12 @@ class ucp_approval
 
 				$db->sql_multi_insert(ZEBRA_TABLE, $sql_ary);
 
+				// purge friend suggestions cache
+				foreach ( glob($phpbb_root_path . 'cache/*' . $socialnet->friendsCacheNameMutual . '*') as $file )
+				{
+					unlink($file);
+				}
+
 				if ($sql_mode == 'approval')
 				{
 					$link = "ucp.{$phpEx}?i=socialnet&amp;mode=module_approval_friends";
@@ -477,7 +483,7 @@ class ucp_approval
 				 }
 				 }
 				 */
-				
+
 				unset($user_id_ary);
 			}
 			else if (!sizeof($error))
