@@ -1655,6 +1655,10 @@ a.ui-button {
 	display: inline-block;
 }
 
+.sn-user-avatar img,.sn-commentText,.ui-body-dialog,.sn-im-msg .sn-im-msgText {
+	word-wrap: break-word;
+}
+
 .sn-action-block,.sn-action-blockHidden,.sn-im-group,.sn-im-msgAvatar,.sn-up-menu > li {
 	position: relative;
 }
@@ -1677,10 +1681,6 @@ a.ui-button {
 
 .sn-menu .ui-menu-item.sn-menu-active a .ui-icon,.sn-menu .ui-menu-item.sn-menu-active a.ui-state-focus .ui-icon,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active .ui-accordion-header-icon {
 	background-image: url("{T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png");
-}
-
-.sn-commentText,.ui-body-dialog,.sn-im-msg .sn-im-msgText {
-	word-wrap: break-word;
 }
 
 .sn-watermark,.sn-us-watermark {
