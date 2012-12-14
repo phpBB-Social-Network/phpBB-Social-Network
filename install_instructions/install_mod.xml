@@ -16,7 +16,10 @@ Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023
 phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370
 
 Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>
-		<author-notes lang="en"><![CDATA[Please note, that if you want to use "Fetch page" feature to fetch remote pages (while posting new status), you need to have CURL enabled, safe_mode off and open_basedir not set.]]></author-notes>
+		<author-notes lang="en"><![CDATA[IMPORTANT!
+After installation, go to ACP -> Social Network and activate Friends Management System according to instructions.
+
+Please note, that if you want to use "Fetch page" feature to fetch remote pages (while posting new status), you need to have CURL enabled, safe_mode off and open_basedir not set.]]></author-notes>
 		<author-group>
 			<author>
 				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>
@@ -131,6 +134,9 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 			</edit>
 		</open>
 		<php-installer><![CDATA[socialnet/install_sn.php]]></php-installer>
-		<diy-instructions lang="en"><![CDATA[Please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
+		<diy-instructions lang="en"><![CDATA[IMPORTANT!!!
+After installation, go to ACP -> Social Network and activate Friends Management System according to instructions.
+
+Then, do not forget to clear the cache and refresh your template. You can set up user permissions afterwards.]]></diy-instructions>
 	</action-group>
 </mod>
