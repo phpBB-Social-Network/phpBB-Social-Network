@@ -56,7 +56,7 @@ if (!class_exists('socialnet_notify'))
 		{
 			$this->p_master =& $p_master;
 		}
-		
+
 		function init()
 		{
 			global $user, $db, $phpbb_root_path, $phpEx, $template, $config;
@@ -126,7 +126,7 @@ if (!class_exists('socialnet_notify'))
 			{
 				$this->ntf_markID(SN_NTF_STATUS_READ, SN_NTF_STATUS_READ, $ntf_id);
 			}
-			
+
 			if ($ntf_type == 'check')
 			{
 				/**
@@ -249,6 +249,20 @@ if (!class_exists('socialnet_notify'))
 				$mode = request_var('mode', '');
 				if ($mode == 'notify')
 				{
+					// delete notifications from deleted users
+					$users_ids = array();
+
+					$sql = 'SELECT user_id
+							FROM ' . USERS_TABLE;
+					$result = $db->sql_query($sql);
+					while ( $row = $db->sql_fetchrow($result) )
+					{
+						$users_ids[] = $row['user_id'];
+					}
+					$sql = 'DELETE FROM ' . SN_NOTIFY_TABLE . ' WHERE ntf_poster NOT IN (' . implode(',', $users_ids) . ')';
+					$db->sql_query($sql);
+
+					// select notifications
 					$sql = "SELECT ntf.*, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, u.user_colour
 										FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
 											WHERE ntf_user = {$user->data['user_id']}
@@ -374,7 +388,7 @@ if (!class_exists('socialnet_notify'))
 			{
 				$sql_where = "ntf_id = {$ntf_id}";
 			}
-			
+
 			$db->sql_query("DELETE FROM " . SN_NOTIFY_TABLE . " WHERE " . $sql_where);
 		}
 
