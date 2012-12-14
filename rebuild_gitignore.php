@@ -25,6 +25,11 @@ $data = "*~
 ######################
 phpBB3/
 
+# sn-theme #
+######################
+root/includes/hooks/hook_sn-theme.php
+sn-theme/*/.file_check
+
 # OS generated files #
 ######################
 .DS_Store
