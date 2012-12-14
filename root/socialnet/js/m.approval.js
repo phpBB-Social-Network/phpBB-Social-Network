@@ -262,7 +262,7 @@
 
 			$('#sn-fms-groupAccordion > div').droppable({
 				drop: function(event, ui) {
-					var $drag = $(this).children('div[title="' + ui.draggable.attr('title').replace(/([ #;&,.+*~\':"!^$[\]()=><|\/@])/g, '\\\\$1') + '"]');
+					var $drag = $(this).children('div[title="' + ui.draggable.attr('title') + '"]');
 					if ($drag.size() > 0) {
 						return;
 					}

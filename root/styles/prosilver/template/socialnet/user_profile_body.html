@@ -2,10 +2,10 @@
 <div id="sn-up" class="sn-page">
 
 	<div id="sn-page-column-left" class="sn-page-columnLeft">
-	
+
     {USER_AVATAR}
     <div class="clear"></div>
-    <ul class="sn-menu ui-menu ui-widget ui-widget-content ui-menu-icons">     
+	<ul class="sn-menu ui-menu ui-widget ui-widget-content ui-menu-icons">
     	<!-- IF S_DISPLAY_SEARCH -->
 				<li class="ui-menu-item"><a href="{U_SEARCH_USER}"><span class="ui-icon sn-menu-icon ui-icon-search"></span>{L_SEARCH_USER_POSTS}</a></li>
 			<!-- ENDIF -->
@@ -34,7 +34,7 @@
   	</ul>
 
 	<!-- DEFINE $BLOCK_HEADER_TYPE = 'forabg' -->
-	
+
 	  <!-- IF S_USER_INACTIVE -->
 	  	<!-- DEFINE $BLOCK_HEADER = '{L_USER_IS_INACTIVE}' -->
   		<!-- INCLUDE socialnet/block_page_header.html -->
@@ -43,7 +43,7 @@
       </div>
       <div class="clear" style="margin-bottom: 10px;"></div>
 		<!-- ENDIF -->
-	
+
   	<!-- IF .relationship -->
   		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_RELATIONSHIP}' -->
   		<!-- INCLUDE socialnet/block_page_header.html -->
@@ -52,19 +52,19 @@
       	<div class="sn-fms-friend sn-fms-user-friend ui-widget-content ui-corner-all">
           <!-- IF relationship.U_RELATIVE and relationship.APPROVED -->
             <span class="user_avatar ui-widget ui- widget-header ui- corner-all">
-            	<a href="{relationship.U_PROFILE_LINK}"<!-- IF relationship.U_PROFILE_LINK == 'javascript:return false;' --> style="cursor:default;"<!-- ENDIF -->>{relationship.AVATAR}</a>
+				<a href="{relationship.U_PROFILE_LINK}"<!-- IF relationship.U_PROFILE_LINK == 'javascript:return false;' --> class="sn-cursor-default"<!-- ENDIF -->>{relationship.AVATAR}</a>
             </span>
           <!-- ENDIF -->
           <span class="sn-fms-username">
           	{relationship.STATUS}<!-- IF relationship.U_RELATIVE and relationship.APPROVED --> <span class="sn-fms-username">{relationship.U_RELATIVE}</span><!-- ENDIF -->
 					</span>
           <!-- IF relationship.ANNIVERSARY --><div style="margin-top: 4px;">{L_SN_UP_ANNIVERSARY}: {relationship.ANNIVERSARY}</div><!-- ENDIF -->
-        </div>   
+		</div>
       <!-- END relationship -->
       </div>
       <div class="clear" style="margin-bottom: 10px;"></div>
-  	<!-- ENDIF -->	
-  	
+	<!-- ENDIF -->
+
   	<!-- IF .family -->
   		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_FAMILY}' -->
   		<!-- INCLUDE socialnet/block_page_header.html -->
@@ -79,9 +79,9 @@
 					</div>
 				<!-- END family -->
 			</div>
-      <div class="clear" style="margin-bottom: 10px;"></div>
-  	<!-- ENDIF -->                                
-  	
+		<div class="clear" style="margin-bottom: 10px;"></div>
+	<!-- ENDIF -->
+
   	<!-- IF SN_FMS_BLOCK_FRIEND_IS_NOT_EMPTY -->
   		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_FRIENDS}' -->
   		<!-- DEFINE $BLOCK_HEADER_ADDITIONAL = '{TOTAL_FRIENDS}' -->
@@ -95,11 +95,11 @@
 	    </div>
   	  <div class="clear"></div>
   	<!-- ENDIF -->
-  	
+
 	</div>
-	
-	<div id="sn-page-content" class="sn-page-content sn-page-content-noRightBorder"> 
-	
+
+	<div id="sn-page-content" class="sn-page-content sn-page-content-noRightBorder">
+
 		<h2 class="sn-up-userName">{USERNAME}<!-- IF S_ONLINE -->&nbsp;<img src="{T_IMAGESET_PATH}/socialnet/im_user_{ONLINE_IMG}.png" alt="" /><!-- ENDIF --></h2>
 
 		<div class="sn-up-buttons">
@@ -147,7 +147,7 @@
 		<!-- ENDIF -->
 		</div>
     <div class="clear"></div>
-    
+
 		<div id="sn-up-profileTabs" class="sn-up-profileTabs ui-tabs ui-widget ui-widget-content ui-corner-all">
 			<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 				<li class="ui-state-default ui-corner-top"><a href="{U_UP_TAB_WALL}#sn-up-profileTabs-wall" class="ui-tabs-anchor"><span>{L_SN_UP_WALL}</span></a></li>

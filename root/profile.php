@@ -141,10 +141,12 @@ if ($config['load_onlinetrack'])
 }
 
 // Load number of friends
-$sql = 'SELECT COUNT(zebra_id) AS num_friends
-    				  FROM ' . ZEBRA_TABLE . '
-    				    WHERE user_id = ' . $user_id . '
-                  AND friend = 1';
+$sql = 'SELECT COUNT(z.zebra_id) AS num_friends
+		FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
+		WHERE z.user_id = ' . $user_id . '
+			AND z.friend = 1
+			AND u.user_id = z.zebra_id
+			AND u.user_type NOT IN (' . USER_INACTIVE . ',' . USER_IGNORE . ')';
 $result = $db->sql_query($sql);
 $total_friends = $db->sql_fetchfield('num_friends');
 $db->sql_freeresult($result);

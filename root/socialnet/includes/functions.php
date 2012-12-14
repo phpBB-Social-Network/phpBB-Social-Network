@@ -453,14 +453,17 @@ class snFunctions
 
 				$fms_user_sqls = array_merge($fms_user_sqls, array(
 					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
-											FROM ' . ZEBRA_TABLE . ' z
+											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 											WHERE z.user_id = ' . $user_id . "
-											AND z.friend = 1",
+												AND z.friend = 1
+												AND u.user_id = z.zebra_id
+												AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")",
 					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 											WHERE z.user_id = ' . $user_id . "
 												AND z.friend = 1
 												AND u.user_id = z.zebra_id
+												AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")
 											ORDER BY u.username_clean ASC",
 				));
 
@@ -471,14 +474,17 @@ class snFunctions
 				$fms_user_sqls = array_merge($fms_user_sqls, array(
 					'user_id_field'	 => 'user_id',
 					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
-											FROM ' . ZEBRA_TABLE . ' z
+											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 											WHERE z.zebra_id = ' . $user_id . "
-												AND z.approval = 1",
+												AND z.approval = 1
+												AND u.user_id = z.zebra_id
+												AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")",
 					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 											WHERE z.zebra_id = ' . $user_id . "
 												AND z.approval = 1
 												AND u.user_id = z.user_id
+												AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")
 											ORDER BY u.username_clean ASC",
 				));
 
@@ -488,14 +494,17 @@ class snFunctions
 
 				$fms_user_sqls = array_merge($fms_user_sqls, array(
 					'sql_pagination' => 'SELECT COUNT(z.user_id) AS total
-											FROM ' . ZEBRA_TABLE . ' z
+											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 											WHERE z.user_id = ' . $user_id . "
-												AND z.approval = 1",
+												AND z.approval = 1
+												AND u.user_id = z.zebra_id
+												AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")",
 					'sql_content'	 => 'SELECT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 											FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
 											WHERE z.user_id = ' . $user_id . "
 												AND z.approval = 1
 												AND u.user_id = z.zebra_id
+												AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")
 											ORDER BY u.username_clean ASC",
 				));
 
@@ -514,11 +523,14 @@ class snFunctions
 
 				$fms_user_sqls = array_merge($fms_user_sqls, array(
 					'sql_pagination' => "SELECT COUNT(z.zebra_id) AS total
-												FROM " . ZEBRA_TABLE . " AS z
-												WHERE z.user_id = {$user_id} AND z.friend = 1 {$sql_in_set}",
+												FROM " . ZEBRA_TABLE . " AS z, ' . USERS_TABLE . ' u
+												WHERE z.user_id = {$user_id} AND z.friend = 1 {$sql_in_set}
+													AND u.user_id = z.zebra_id
+													AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")",
 					'sql_content'	 => "SELECT DISTINCT z.*, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 												FROM " . ZEBRA_TABLE . " z, " . USERS_TABLE . " u
 												WHERE z.user_id = {$user_id} AND u.user_id = z.zebra_id AND z.friend = 1 {$sql_in_set}
+													AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")
 												ORDER BY u.username_clean ASC",
 				));
 				break;
