@@ -5,7 +5,7 @@
  */
 
 /**
- * 
+ *
  * @param {object} $ jQuery
  * @param {object} $sn socialNetwork
  * @returns {void}

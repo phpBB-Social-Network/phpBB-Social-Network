@@ -48,15 +48,6 @@
 					$('input[name="sn-us-fetchButton"]').hide();
 					$('input[name="sn-us-fetchClear"]').trigger('click');
 				}
-			}).live('focusout', function() {
-				var self = $(this);
-				var snUsShare = self.val();
-				if (snUsShare == '') {
-					var snUsButton = self.parents('.sn-us-share').children('input[name=sn-us-wallButton]');
-					snUsButton.hide();
-					$('input[name="sn-us-fetchButton"]').hide();
-					$('input[name="sn-us-fetchClear"]').hide();
-				}
 			}).elastic({
 				parentElement: '.sn-us-share',
 				submitElement: '.sn-us-wallButton, .sn-us-fetchButton'
@@ -220,12 +211,7 @@
 			$(".sn-us-inputComment").live('focusin', function() {
 				$('.sn-us-buttonCommentOver:visible').hide();
 				$(this).next('.sn-us-buttonCommentOver').show();
-			}).live('blur', function() {
-				var cmt = $(this).val();
-				if (cmt == '') {
-					$('.sn-us-buttonCommentOver:visible').hide();
-				}
-			}).next('.sn-us-buttonCommentOver').hide();
+			});
 
 			// Post comment
 			$(".sn-us-shareComment input[name=sn-us-buttonComment]").live('click', function() {
@@ -260,12 +246,12 @@
 								$parr.before(data);
 								$parr.prev('.sn-us-commentBlock').slideDown();
 							}
+							$('.sn-us-buttonCommentOver:visible').hide();
 							$parr.find('.sn-us-inputComment').val('').trigger('paste');
 							$sn.comments.waterMark();
 						}
 					});
 				}
-				$('.sn-us-buttonCommentOver:visible').hide();
 			});
 
 			// Load more comments
@@ -549,16 +535,6 @@
 			$('.sn-us-fetchDesc').css({
 				width: $('.sn-us-fetchData').width() - $('.sn-us-fpreviews').width() - 2 * parseInt($('.sn-us-fpreviews').css('padding-right')) - 2 * parseInt($('.sn-us-fpreviews').css('padding-left'))
 			});
-		},
-		// Close comment if clicked outside
-		_documentClick: function(event) {
-			if ($('.sn-us-buttonCommentOver:visible input[name=sn-us-buttonComment]').size() > 0) {
-				var c_obj = $sn.getAttr($('.sn-us-buttonCommentOver:visible input[name=sn-us-buttonComment]'), 'sid');
-
-				if (c_obj != '' && !$(event.currentTarget.activeElement).closest('.sn-us-inputComment[id$=' + c_obj + '],.sn-us-shareComment').size()) {
-					$('.sn-us-buttonCommentOver:visible').hide();
-				}
-			}
 		},
 		_scroll: function() {
 			if ($('.sn-more').size() > 0 && $('.sn-us-getMore').size() > 0 && $sn.ap._isScrollingToLoadMore == false) {
