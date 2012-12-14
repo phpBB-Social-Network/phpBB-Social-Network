@@ -287,7 +287,7 @@ $versions = array(
 					'fms_clean'		 => array('VCHAR:255', ''),
 					'fms_collapse'	 => array('BOOL', 0),
 				),
-				'PRIMARY_KEY'	 => array('user_id', 'fms_clean'),
+				'UNIQUE_KEY'	 => array('user_id', 'fms_clean'),
 				'KEYS'			 => array(
 					'a'	 => array('UNIQUE', array('user_id', 'fms_name')),
 					'b'	 => array('INDEX', array('fms_gid', 'user_id')),
@@ -665,7 +665,7 @@ $versions = array(
 		),
 
 	),
-	
+
 	'0.7.1'	 => array(
 		'permission_add' => array(
 			array('u_sn_notify', true),
