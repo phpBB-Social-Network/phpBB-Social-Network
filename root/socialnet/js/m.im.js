@@ -483,7 +483,7 @@
 			});
 
 		},
-		/** 
+		/**
 		 * Timers for Instant Messenger core
 		 * @param {boolean} sh true to minimize IM checktime
 		 * @returns {void}
@@ -537,7 +537,7 @@
 		},
 		/**
 		 * Fill user count and user list
-		 * @param {object} data Online users 
+		 * @param {object} data Online users
 		 * @returns {void}
 		 */
 		_onlineList: function(data) {
@@ -706,7 +706,7 @@
 				case true:
 					if ($sn.im._unReadToken[uid] == null || $sn.im._unReadToken[uid] == undefined) {
 						$(chatBox).toggleClass('sn-im-msgUnread');
-						$sn.im._unReadToken[uid] = setTimeout('$sn.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
+						$sn.im._unReadToken[uid] = setTimeout('socialNetwork.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
 						eval('var _unRM = ' + $sn.getCookie('sn-im-unreadblink', '{}') + ';');
 						_unRM[uid] = true;
 
@@ -716,7 +716,7 @@
 				case 2:
 				case 'loop':
 					$(chatBox).toggleClass('sn-im-msgUnread');
-					$sn.im._unReadToken[uid] = setTimeout('$sn.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
+					$sn.im._unReadToken[uid] = setTimeout('socialNetwork.im._unReadToggle($("#sn-im-chatBox' + uid + '"),"loop")', 1000);
 					break;
 			}
 
@@ -732,7 +732,7 @@
 		},
 		/**
 		 * Moving opened chatboxes
-		 * @param {Integer} m 
+		 * @param {Integer} m
 		 * @property  0 Start
 		 * @property  1 Move right
 		 * @property  2 Move left
