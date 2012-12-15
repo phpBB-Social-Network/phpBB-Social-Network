@@ -22,12 +22,12 @@ if %continue% neq y (
 :: checkout to develop
 echo.
 echo git checkout develop
-git checkout develop
+call git checkout develop
 
 :: pull from upstream
 echo.
 echo git pull https://github.com/phpBB-Social-Network/phpBB-Social-Network.git develop
-git pull https://github.com/phpBB-Social-Network/phpBB-Social-Network.git develop
+call git pull https://github.com/phpBB-Social-Network/phpBB-Social-Network.git develop
 
 ::
 :: We just want to copy develop to master and (re)move some files.
@@ -38,12 +38,12 @@ git pull https://github.com/phpBB-Social-Network/phpBB-Social-Network.git develo
 :: delete master
 echo.
 echo git branch -D master
-git branch -D master
+call git branch -D master
 
 :: create new master (clones develop)
 echo.
 echo git checkout -b master
-git checkout -b master
+call git checkout -b master
 
 
 ::
