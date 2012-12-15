@@ -699,6 +699,16 @@ $versions = array(
 			array('ROLE_ADMIN_FULL', 'a_sn_settings', 'role', true),
 		)
 	),
+
+	'0.7.2.dev1'	 => array(
+		'custom'			 => array(
+			'phpbbSN_replace_primary_by_unique',
+		),
+
+		'cache_purge'		 => array(
+			'cache',
+		),
+	),
 );
 
 
@@ -707,6 +717,51 @@ $umil->run_actions($action, $versions, $version_config_name);
 
 exit( "The database was updated successfully!\n" ); // to display this message also after developer makes pull
 
+/*
+ * update-related functions
+ */
+function phpbbSN_replace_primary_by_unique($action, $version)
+{
+	global $db, $umil;
+
+	if ($action == 'update')
+	{
+		switch ($db->sql_layer)
+		{
+			case 'firebird':
+			case 'postgres':
+			case 'oracle':
+			case 'mssql':
+			case 'mssqlnative':
+
+				$db->sql_query('ALTER TABLE ' . SN_FMS_GROUPS_TABLE . ' DROP CONSTRAINT PRIMARY');
+
+			break;
+
+			case 'mysql_40':
+			case 'mysql_41':
+			case 'mysqli':
+			case 'mysql':
+			case 'mysql4':
+
+				$db->sql_query('ALTER TABLE ' . SN_FMS_GROUPS_TABLE . ' DROP PRIMARY KEY');
+
+			break;
+
+			case 'sqlite':
+
+				// do nothing, because no installation succeeded before this patch,
+				// see https://github.com/phpBB-Social-Network/phpBB-Social-Network/pull/144
+
+			break;
+		}
+
+		$db->sql_query('ALTER TABLE ' . SN_FMS_GROUPS_TABLE . ' ADD PRIMARY KEY (fms_gid)');
+		$db->sql_query('ALTER TABLE ' . SN_FMS_GROUPS_TABLE . ' ADD CONSTRAINT f UNIQUE (user_id, fms_clean)');
+	}
+
+	return 'Updating of keys in SN_FMS_GROUPS_TABLE was successfully completed.';
+}
 
 /*
  * console-related functions
