@@ -140,7 +140,7 @@
 
 			/** LINK IN NEW WINDOW */
 			if (opts.linkNewWindow) {
-				$('.sn-im-msgs .sn-im-msgText a').live('click', function() {
+				$('.sn-im-msgs .sn-im-msgText a:not(.postlink-local)').live('click', function() {
 					if ($(this).attr('onclick') != undefined) {
 						var expl = $(this).attr('onclick').replace('return false;', '').replace(/(^\s+|\s+$)/i, '').split(';');
 						for (i = 0; i < expl.length; i++) {
