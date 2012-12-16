@@ -16,13 +16,7 @@ Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023
 phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370
 
 Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>
-		<author-notes lang="en"><![CDATA[Updating from 0.6.1 to 0.6.2 has just 4 simple steps:
-1) copy all files from the root/ file to your FTP root path and rewrite old files
-2) follow edit instructions below
-3) run socialnet/update_sn_0.7.0.php in your browser
-4) purge the cache and refresh template and skin via ACP
-
-Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/]]></author-notes>
+		<author-notes lang="en"><![CDATA[Feel free to ask for support or new features here http://phpbbsocialnetwork.com/]]></author-notes>
 		<author-group>
 			<author>
 				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>
@@ -40,19 +34,32 @@ Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/
 					<contributions status="current" from="2010-06-01" position="Developer"/>
 				</contributions-group>
 			</author>
+			<author>
+				<realname><![CDATA[Jakub Senko]]></realname>
+				<username phpbbcom="no"><![CDATA[Senky]]></username>
+				<homepage><![CDATA[http://senky.me/]]></homepage>
+				<contributions-group>
+					<contributions status="current" from="2012-10-03" position="Developer"/>
+				</contributions-group>
+			</author>
 		</author-group>
-		<mod-version>0.6.2</mod-version>
+		<mod-version>0.7.2</mod-version>
 		<installation>
 			<level>easy</level>
 			<time>300</time>
-			<target-version>3.0.9</target-version>
+			<target-version>3.0.11</target-version>
 		</installation>
 	</header>
 	<action-group>
 		<copy>
 			<file from="root/*.*" to="*.*"/>
 		</copy>
-		<php-installer><![CDATA[socialnet/update_sn_0.7.0.php]]></php-installer>
-		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via update_sn_0.7.0.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
+		<open src="styles/prosilver/template/overall_header.html">
+			<edit>
+				<find><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span></li><!-- ENDIF -->]]></find>
+				<action type="replace-with"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify">(<a href="{U_VIEW_NOTIFY}">{S_SN_USER_UNREAD_NOTIFY}</a>)</span></li><!-- ENDIF -->]]></action>
+			</edit>
+		</open>
+		<php-installer><![CDATA[socialnet/install_sn.php]]></php-installer>
 	</action-group>
 </mod>

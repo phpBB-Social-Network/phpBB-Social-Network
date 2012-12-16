@@ -108,7 +108,7 @@
 						self._sn_ntf_cubes('#sn-ntf-cube', '#sn-ntf-cube', data.cnt);
 					}
 					if ($('#sn-ntf-notify') != null) {
-						self._sn_ntf_cubes('#sn-ntf-notify', '#sn-ntf-notify a', data.cnt);
+						$('#sn-ntf-notify a').html(data.cnt + '');
 					}
 
 					$.each(data.message, function(i, ntf) {

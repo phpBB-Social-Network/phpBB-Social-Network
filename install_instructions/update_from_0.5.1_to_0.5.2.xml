@@ -1,1 +1,75 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?><?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?><!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/--><mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">	<header>		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>  	<title lang="en"><![CDATA[phpBB Social Network]]></title>		<description lang="en"><![CDATA[You can read about phpBB Social Network here: http://phpbbsocialnetwork.com/Detailed description of phpBB Social Network and its features: http://phpbbsocialnetwork.com/viewtopic.php?t=32Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>		<author-notes lang="en"><![CDATA[Update from 0.5.1 to 0.5.2 has just 4 simple steps:1) copy all files from the root/ file to your FTP root path and rewrite old files2) follow edit instructions below3) run socialnet/update_sn_0.7.0.php in your browser4) purge the cache and refresh template and skin via ACPFeel free to ask for support or more modules here http://phpbbsocialnetwork.com/]]></author-notes>		<author-group>			<author>				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>				<homepage><![CDATA[http://phpbb3hacks.com/]]></homepage>				<email><![CDATA[kamahl19@gmail.com]]></email>				<contributions-group>					<contributions status="current" from="2010-02-01" position="Developer"/>				</contributions-group>			</author>			<author>				<realname><![CDATA[Jan Kalach]]></realname>				<username phpbbcom="no"><![CDATA[Culprit]]></username>				<homepage><![CDATA[http://phpbbsocialnetwork.com]]></homepage>				<contributions-group>					<contributions status="current" from="2010-06-01" position="Developer"/>				</contributions-group>			</author>		</author-group>		<mod-version>0.5.2</mod-version>		<installation>			<level>easy</level>			<time>400</time>			<target-version>3.0.8</target-version>		</installation>	</header>	<action-group>		<copy>			<file from="root/*.*" to="*.*"/>		</copy>		<delete>			<file name="socialnet/js/jquery-1.4.4.min.js" />			<file name="socialnet/styles/images/ui-bg_flat_0_aaaaaa_40x100.png" />			<file name="socialnet/styles/images/ui-bg_flat_75_ffffff_40x100.png" />			<file name="socialnet/styles/images/ui-bg_glass_55_fbf9ee_1x400.png" />			<file name="socialnet/styles/images/ui-bg_glass_65_ffffff_1x400.png" />			<file name="socialnet/styles/images/ui-bg_glass_75_dadada_1x400.png" />			<file name="socialnet/styles/images/ui-bg_highlight-hard_75_e6e6e6_1x100.png" />			<file name="socialnet/styles/images/ui-bg_highlight-soft_75_0179b5_1x100.png" />			<file name="socialnet/styles/images/ui-bg_inset-soft_95_ecd5d8_1x100.png" />			<file name="socialnet/styles/images/ui-icons_2e83ff_256x240.png" />			<file name="socialnet/styles/images/ui-icons_222222_256x240.png" />			<file name="socialnet/styles/images/ui-icons_454545_256x240.png" />			<file name="socialnet/styles/images/ui-icons_888888_256x240.png" />			<file name="socialnet/styles/images/ui-icons_bc2a4d_256x240.png" />		</delete>		<open src="styles/prosilver/template/overall_footer.html">			<edit>				<find><![CDATA[</body>]]></find>				<action type="before-add"><![CDATA[<!-- IF SN_MODULE_IM_ENABLED -->    <!-- INCLUDE socialnet/im.html --><!-- ENDIF -->]]></action>			</edit>		</open> 				<open src="styles/prosilver/template/overall_header.html">			<edit>				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>				<action type="replace-with"><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}<!-- IF SN_MODULE_IM_ENABLED --> im-page<!-- ENDIF -->">]]></action>			</edit>			<edit>				<remove><![CDATA[<!-- IF SN_MODULE_IM_ENABLED -->	<!-- INCLUDE socialnet/im.html --><!-- ENDIF -->]]></remove>			</edit>		</open>     		<php-installer><![CDATA[socialnet/update_sn_0.7.0.php]]></php-installer>		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via update_sn_0.7.0.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>	</action-group></mod>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
+	<header>
+		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		<title lang="en"><![CDATA[phpBB Social Network]]></title>
+		<description lang="en"><![CDATA[You can read about phpBB Social Network here: http://phpbbsocialnetwork.com/Detailed description of phpBB Social Network and its features: http://phpbbsocialnetwork.com/viewtopic.php?t=32Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>
+		<author-notes lang="en"><![CDATA[Update from 0.5.1 to 0.5.2 has just 4 simple steps:1) copy all files from the root/ file to your FTP root path and rewrite old files2) follow edit instructions below3) run socialnet/update_sn_0.7.0.php in your browser4) purge the cache and refresh template and skin via ACPFeel free to ask for support or more modules here http://phpbbsocialnetwork.com/]]></author-notes>
+		<author-group>
+			<author>
+				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>
+				<homepage><![CDATA[http://phpbb3hacks.com/]]></homepage>
+				<email><![CDATA[kamahl19@gmail.com]]></email>
+				<contributions-group>
+					<contributions status="current" from="2010-02-01" position="Developer"/>
+				</contributions-group>
+			</author>
+			<author>
+				<realname><![CDATA[Jan Kalach]]></realname>
+				<username phpbbcom="no"><![CDATA[Culprit]]></username>
+				<homepage><![CDATA[http://phpbbsocialnetwork.com]]></homepage>
+				<contributions-group>
+					<contributions status="current" from="2010-06-01" position="Developer"/>
+				</contributions-group>
+			</author>
+		</author-group>
+		<mod-version>0.5.2</mod-version>
+		<installation>
+			<level>easy</level>
+			<time>360</time>
+			<target-version>3.0.8</target-version>
+		</installation>
+	</header>
+	<action-group>
+		<copy>
+			<file from="root/*.*" to="*.*"/>
+		</copy>
+		<delete>
+			<file name="socialnet/js/jquery-1.4.4.min.js"/>
+			<file name="socialnet/styles/images/ui-bg_flat_0_aaaaaa_40x100.png"/>
+			<file name="socialnet/styles/images/ui-bg_flat_75_ffffff_40x100.png"/>
+			<file name="socialnet/styles/images/ui-bg_glass_55_fbf9ee_1x400.png"/>
+			<file name="socialnet/styles/images/ui-bg_glass_65_ffffff_1x400.png"/>
+			<file name="socialnet/styles/images/ui-bg_glass_75_dadada_1x400.png"/>
+			<file name="socialnet/styles/images/ui-bg_highlight-hard_75_e6e6e6_1x100.png"/>
+			<file name="socialnet/styles/images/ui-bg_highlight-soft_75_0179b5_1x100.png"/>
+			<file name="socialnet/styles/images/ui-bg_inset-soft_95_ecd5d8_1x100.png"/>
+			<file name="socialnet/styles/images/ui-icons_2e83ff_256x240.png"/>
+			<file name="socialnet/styles/images/ui-icons_222222_256x240.png"/>
+			<file name="socialnet/styles/images/ui-icons_454545_256x240.png"/>
+			<file name="socialnet/styles/images/ui-icons_888888_256x240.png"/>
+			<file name="socialnet/styles/images/ui-icons_bc2a4d_256x240.png"/>
+		</delete>
+		<open src="styles/prosilver/template/overall_footer.html">
+			<edit>
+				<find><![CDATA[</body>]]></find>
+				<action type="before-add"><![CDATA[<!-- IF SN_MODULE_IM_ENABLED -->    <!-- INCLUDE socialnet/im.html --><!-- ENDIF -->]]></action>
+			</edit>
+		</open>
+		<open src="styles/prosilver/template/overall_header.html">
+			<edit>
+				<find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
+				<action type="replace-with"><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}<!-- IF SN_MODULE_IM_ENABLED --> im-page<!-- ENDIF -->">]]></action>
+			</edit>
+			<edit>
+				<remove><![CDATA[<!-- IF SN_MODULE_IM_ENABLED -->	<!-- INCLUDE socialnet/im.html --><!-- ENDIF -->]]></remove>
+			</edit>
+		</open>
+		<php-installer><![CDATA[socialnet/update_sn_0.7.0.php]]></php-installer>
+		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via update_sn_0.7.0.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
+	</action-group>
+</mod>
