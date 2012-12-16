@@ -1,13 +1,21 @@
 <!-- IF S_USER_LOGGED_IN and B_SN_BLOCK_ONLINE_USERS_ENABLED -->
 	<!-- IF B_SN_WHOLE_BLOCK_USERS -->
 		<!-- DEFINE $BLOCK_HEADER = '{L_SN_AP_ONLINE_FRIENDS}' -->
+
 		<!-- INCLUDE socialnet/block_page_header.html -->
-	
+
 		<div class="sn-ap-onlineUsers">
 	<!-- ENDIF -->
-<!-- BEGIN block_online_user --><div class="sn-im-canchat sn-im-userLine {user:{block_online_user.USER_ID},username:'{block_online_user.USERNAME_CLEAN}'}" style="background-image: url('{block_online_user.ONLINE}');">{block_online_user.AVATAR}{block_online_user.USERNAME}</div><!-- END block_online_user -->
-		<!-- IF not .block_online_user -->
+
+	<!-- BEGIN block_online_user -->
+		<div class="sn-im-canchat sn-im-userLine {user:{block_online_user.USER_ID},username:'{block_online_user.USERNAME_CLEAN}'}" style="background-image: url('{block_online_user.ONLINE}');">{block_online_user.AVATAR}{block_online_user.USERNAME}</div>
+	<!-- END block_online_user -->
+
+	<!-- IF not .block_online_user -->
 		<div class="sn-im-userLine">{L_SN_IM_NO_ONLINE_USER}</div>
-		<!-- ENDIF -->
-	<!-- IF B_SN_WHOLE_BLOCK_USERS --></div><!-- ENDIF -->
+	<!-- ENDIF -->
+
+	<!-- IF B_SN_WHOLE_BLOCK_USERS -->
+		</div>
+	<!-- ENDIF -->
 <!-- ENDIF -->

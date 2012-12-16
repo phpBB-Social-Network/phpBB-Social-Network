@@ -1,16 +1,20 @@
 <!-- IF B_SN_BLOCK_BIRTHDAY_ENABLED -->
 	<!-- DEFINE $BLOCK_HEADER = '{L_SN_AP_BIRTHDAY}' -->
+
 	<!-- INCLUDE socialnet/block_page_header.html -->
+
 	<div class="sn-page-blockText">
 		<!-- IF .friends_birthday -->
 			<!-- BEGIN friends_birthday -->
-			<div class="sn-page-text">
-		      <span style="font-weight: bold;">{friends_birthday.USERNAME}</span> {friends_birthday.SN_AP_BIRTHDAY_ON}
-			</div>
-			<!-- END friends_birthday -->     	
+				<div class="sn-page-text">
+					<span style="font-weight: bold;">{friends_birthday.USERNAME}</span>
+					{friends_birthday.SN_AP_BIRTHDAY_ON}
+				</div>
+			<!-- END friends_birthday -->
 		<!-- ELSE -->
 			{L_SN_AP_NO_BIRTHDAY}
 		<!-- ENDIF -->
+
 		<div class="clear"></div>
-	</div>		
+	</div>
 <!-- ENDIF -->

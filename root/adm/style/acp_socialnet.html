@@ -1,219 +1,280 @@
 <!-- INCLUDE overall_header.html -->
+
 <script type="text/javascript">
 // <![CDATA[
-document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" type="text/css" media="screen" '+'/>');
+	document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" type="text/css" media="screen" '+'/>');
 //]]>
 </script>
-<!-- IF S_MOTIONPICTURE --><img src="{S_MOTIONPICTURE_IMG_URL}" style="float:right" alt="{L_TITLE}" /><!-- ENDIF -->
+
+<!-- IF S_MOTIONPICTURE -->
+	<img src="{S_MOTIONPICTURE_IMG_URL}" style="float:right" alt="{L_TITLE}" />
+<!-- ENDIF -->
+
 <h1>{L_TITLE}</h1>
+
 <p>{L_TITLE_EXPLAIN}</p>
+
 <div style="clear:both;line-height:1px;height:1px;"></div>
+
 <!-- IF S_ERROR -->
-  <div class="errorbox">
-  	<h3>{L_WARNING}</h3>
-  	<p>{ERROR_MSG}</p>
-  </div>
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
 <!-- ENDIF -->
 
 <!-- IF .sn_tabs -->
-<div id="sn_tabs">
-	<ul>
-		<!-- BEGIN sn_tabs -->
-		<li<!-- IF sn_tabs.SELECTED --> id="sn_activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
-		<!-- END sn_tabs -->
-	</ul>
-</div>
-<div id="sn_acp">
-	<div class="panel">
-		<span class="corners-top"><span></span></span>
+	<div id="sn_tabs">
+		<ul>
+			<!-- BEGIN sn_tabs -->
+				<li<!-- IF sn_tabs.SELECTED --> id="sn_activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
+			<!-- END sn_tabs -->
+		</ul>
+	</div>
+
+	<div id="sn_acp">
+		<div class="panel"><span class="corners-top"><span></span></span>
+
 			<div id="sn_content" style="padding:10px;">
 <!-- ENDIF -->
 
 <!-- IF .options -->
-  <form id="acp_socialnet" method="post" action="{U_ACTION}">
-  	<!-- BEGIN options -->
-    	<!-- IF options.S_LEGEND -->
-      	<!-- IF not options.S_FIRST_ROW -->
-          </fieldset>
-      	<!-- ENDIF -->
-          <fieldset>
-            <legend>{options.LEGEND}</legend>
-    	<!-- ELSE -->
-        		<dl>
-        			<dt>
-        				<label for="{options.KEY}">{options.TITLE} :</label>
-        				<!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF -->
-        			</dt>
-        			<dd>{options.CONTENT}</dd>
-        		</dl>
-    	<!-- ENDIF -->
-    <!-- END options -->
-    <!-- IF S_AUTH -->
-  		<!-- BEGIN auth_tpl -->
-  		  {auth_tpl.TPL}
-  		<!-- END auth_tpl -->
-  	<!-- ENDIF -->
-  	</fieldset>
-  	<p class="submit-buttons">
-  		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-  		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
-	  	{S_FORM_TOKEN}
-  	</p>
-  </form>
+	<form id="acp_socialnet" method="post" action="{U_ACTION}">
+		<!-- BEGIN options -->
+			<!-- IF options.S_LEGEND -->
+				<!-- IF not options.S_FIRST_ROW -->
+					</fieldset>
+				<!-- ENDIF -->
+
+				<fieldset>
+
+				<legend>{options.LEGEND}</legend>
+			<!-- ELSE -->
+				<dl>
+					<dt>
+						<label for="{options.KEY}">{options.TITLE} :</label>
+						<!-- IF options.S_EXPLAIN -->
+							<br /><span>{options.TITLE_EXPLAIN}</span>
+						<!-- ENDIF -->
+					</dt>
+					<dd>{options.CONTENT}</dd>
+				</dl>
+			<!-- ENDIF -->
+		<!-- END options -->
+
+		<!-- IF S_AUTH -->
+			<!-- BEGIN auth_tpl -->
+				{auth_tpl.TPL}
+			<!-- END auth_tpl -->
+		<!-- ENDIF -->
+
+				</fieldset>
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			{S_FORM_TOKEN}
+		</p>
+	</form>
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_IM && S_ACP_SN_IM_TAB eq 'settings' -->
-  <form id="acp_socialnet_purge" method="post" action="{U_ACTION}">
-  	<fieldset>
-  		<legend>{L_PURGE}</legend>
-  		<dl<!-- IF SN_IM_AUTO_PURGE --> style="display:none"<!-- ENDIF -->>
-  			<dt<!-- IF SN_IM_AUTO_PURGE --> class="disabled"<!-- ENDIF -->><label for="snImPurgeMSGs">{L_IM_PURGE_ALL_MSG}:</label><br />{L_IM_PURGE_ALL_MSG_EXPLAIN}</dt>
-  			<dd>
-  				<input type="text" name="sn_im_purge_days" value="{SN_IM_PURGE_DAYS}" class="<!-- IF not SN_IM_AUTO_PURGE -->inputbox<!-- ELSE -->disabled<!-- ENDIF -->" size="5"<!-- IF SN_IM_AUTO_PURGE --> disabled="disabled"<!-- ENDIF --> /> {L_DAYS}
-  				<input type="submit" name="sn_im_purge_all_msg" id="snImPurgeMSGs" value="{L_RUN}" class="button2<!-- IF SN_IM_AUTO_PURGE --> disabled<!-- ENDIF -->"<!-- IF SN_IM_AUTO_PURGE --> disabled="disabled"<!-- ENDIF --> />
-  			</dd>
-  		</dl>
-  		<dl>
-  			<dt><label for="snImCloseAllBOX">{L_IM_PURGE_ALL_CHATBOX}:</label><br />{L_IM_PURGE_ALL_CHATBOX_EXPLAIN}</dt>
-  			<dd>
-  				<input type="text" name="sn_im_close_days" value="{SN_IM_CLOSE_DAYS}" class="inputbox" size="5" /> {L_DAYS}
-  				<input type="submit" name="sn_im_close_all_chatbox" id="snImCloseAllBOX" value="{L_RUN}" class="button2" />
-  			</dd>
-  		</dl>
-  	</fieldset>
-  </form>
-<!-- ENDIF -->
-<!-- IF B_ACP_SN_IM && S_ACP_SN_IM_TAB eq 'smiley' -->
-<form id="acp_socialnet_im_smilies" method="post" action="{U_ACTION}&amp;manage=smiley">
-<table cellspacing="1">
-	<thead>
-		<tr>
-			<th>{L_DISPLAY}</th>
-			<th>{L_CODE}</th>
-			<th>{L_EMOTION}</th>
-			<th>{L_IMAGE}</th>
-		</tr>
-	</thead>
-	<tbody>
-	<!-- BEGIN sn_smiley -->
-		<tr>
-			<td><input class="radio" type="checkbox" name="sn_im_smiley[]"<!-- IF sn_smiley.ALLOWED --> checked="checked"<!-- ENDIF --> value="{sn_smiley.ID}" /></td>
-			<td>{sn_smiley.CODE}</td>
-			<td>{sn_smiley.EMOTION}</td>
-			<td><img src="{sn_smiley.IMAGE}" width="{sn_smiley.WIDTH}" height="{sn_smiley.HEIGHT}" alt="{sn_smiley.EMOTION}" /></td>
-		</tr>
-	<!-- END sn_smiley -->
-	</tbody>
-</table>
-<p class="small"><a onclick="marklist('acp_socialnet_im_smilies','sn_im_smiley',true);return false;" href="#">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('acp_socialnet_im_smilies','sn_im_smiley',false);return false;">{L_UNMARK_ALL}</a></p>
-<p class="submit-buttons">
-	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-	<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
-  	{S_FORM_TOKEN}
-</p>
-</form>
+	<form id="acp_socialnet_purge" method="post" action="{U_ACTION}">
+
+		<fieldset>
+			<legend>{L_PURGE}</legend>
+			<dl<!-- IF SN_IM_AUTO_PURGE --> style="display:none"<!-- ENDIF -->>
+				<dt<!-- IF SN_IM_AUTO_PURGE --> class="disabled"<!-- ENDIF -->>
+					<label for="snImPurgeMSGs">{L_IM_PURGE_ALL_MSG}:</label><br />
+					{L_IM_PURGE_ALL_MSG_EXPLAIN}
+				</dt>
+				<dd>
+					<input type="text" name="sn_im_purge_days" value="{SN_IM_PURGE_DAYS}" class="<!-- IF not SN_IM_AUTO_PURGE -->inputbox<!-- ELSE -->disabled<!-- ENDIF -->" size="5"<!-- IF SN_IM_AUTO_PURGE --> disabled="disabled"<!-- ENDIF --> /> {L_DAYS}
+					<input type="submit" name="sn_im_purge_all_msg" id="snImPurgeMSGs" value="{L_RUN}" class="button2<!-- IF SN_IM_AUTO_PURGE --> disabled<!-- ENDIF -->"<!-- IF SN_IM_AUTO_PURGE --> disabled="disabled"<!-- ENDIF --> />
+				</dd>
+			</dl>
+
+			<dl>
+				<dt>
+					<label for="snImCloseAllBOX">{L_IM_PURGE_ALL_CHATBOX}:</label><br />
+					{L_IM_PURGE_ALL_CHATBOX_EXPLAIN}
+				</dt>
+				<dd>
+					<input type="text" name="sn_im_close_days" value="{SN_IM_CLOSE_DAYS}" class="inputbox" size="5" /> {L_DAYS}
+					<input type="submit" name="sn_im_close_all_chatbox" id="snImCloseAllBOX" value="{L_RUN}" class="button2" />
+				</dd>
+			</dl>
+		</fieldset>
+
+	</form>
 <!-- ENDIF -->
 
+<!-- IF B_ACP_SN_IM && S_ACP_SN_IM_TAB eq 'smiley' -->
+	<form id="acp_socialnet_im_smilies" method="post" action="{U_ACTION}&amp;manage=smiley">
+		<table cellspacing="1">
+			<thead>
+				<tr>
+					<th>{L_DISPLAY}</th>
+					<th>{L_CODE}</th>
+					<th>{L_EMOTION}</th>
+					<th>{L_IMAGE}</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!-- BEGIN sn_smiley -->
+				<tr>
+					<td><input class="radio" type="checkbox" name="sn_im_smiley[]"<!-- IF sn_smiley.ALLOWED --> checked="checked"<!-- ENDIF --> value="{sn_smiley.ID}" /></td>
+					<td>{sn_smiley.CODE}</td>
+					<td>{sn_smiley.EMOTION}</td>
+					<td><img src="{sn_smiley.IMAGE}" width="{sn_smiley.WIDTH}" height="{sn_smiley.HEIGHT}" alt="{sn_smiley.EMOTION}" /></td>
+				</tr>
+			<!-- END sn_smiley -->
+			</tbody>
+		</table>
+
+		<p class="small">
+			<a onclick="marklist('acp_socialnet_im_smilies','sn_im_smiley',true);return false;" href="#">{L_MARK_ALL}</a>
+			&bull;
+			<a href="#" onclick="marklist('acp_socialnet_im_smilies','sn_im_smiley',false);return false;">{L_UNMARK_ALL}</a>
+		</p>
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			{S_FORM_TOKEN}
+		</p>
+	</form>
+<!-- ENDIF -->
 
 <!-- IF .sn_basictools -->
-  <form id="acp_socialnet_sn_basictools" method="post" action="{U_ACTION}">
-  	<fieldset>
-  		<legend>{L_USER_TOOLS}</legend>
-  		<!-- IF SN_BASICTOOLS_NEED_USERNAME -->
-  		<dl>
-  			<dt><label for="username">{L_FIND_USERNAME}:</label></dt>
-  			<dd><input class="text medium" type="text" id="username" name="username" /></dd>
-  			<dd>[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]
-  				<!--label><input type="checkbox" class="radio" id="anonymous" name="u" value="{ANONYMOUS_USER_ID}" /> {L_SELECT_ANONYMOUS}</label--></dd>
-  		</dl>
-  		<!-- ENDIF -->
-  		<dl>
-  			<dt><label for="quicktools">{L_QUICK_TOOLS}:</label></dt>
-  			<dd><select id="quicktools" name="action"><option value="">{L_SELECT_OPTION}</option><!-- BEGIN sn_basictools --><option value="{sn_basictools.MODE}"<!-- IF sn_basictools.SELECTED -->selected="selected"<!-- ENDIF -->>{sn_basictools.NAME}</option><!-- END sn_basictools --></select></dd>
-  		</dl>
-  		<p class="quick">
-  			<input class="button1" type="submit" name="sn_basictools_submit" value="{L_SUBMIT}" />
-  			{S_FORM_TOKEN}
-  		</p>
-  	</fieldset>
-  </form>
+	<form id="acp_socialnet_sn_basictools" method="post" action="{U_ACTION}">
+
+		<fieldset>
+			<legend>{L_USER_TOOLS}</legend>
+			<!-- IF SN_BASICTOOLS_NEED_USERNAME -->
+				<dl>
+					<dt><label for="username">{L_FIND_USERNAME}:</label></dt>
+					<dd><input class="text medium" type="text" id="username" name="username" /></dd>
+					<dd>[ <a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;">{L_FIND_USERNAME}</a> ]</dd>
+				</dl>
+			<!-- ENDIF -->
+
+			<dl>
+				<dt><label for="quicktools">{L_QUICK_TOOLS}:</label></dt>
+				<dd>
+					<select id="quicktools" name="action">
+						<option value="">{L_SELECT_OPTION}</option>
+						<!-- BEGIN sn_basictools -->
+							<option value="{sn_basictools.MODE}"<!-- IF sn_basictools.SELECTED -->selected="selected"<!-- ENDIF -->>{sn_basictools.NAME}</option>
+						<!-- END sn_basictools -->
+					</select>
+				</dd>
+			</dl>
+
+			<p class="quick">
+				<input class="button1" type="submit" name="sn_basictools_submit" value="{L_SUBMIT}" />
+				{S_FORM_TOKEN}
+			</p>
+		</fieldset>
+
+	</form>
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_ACTIVITYPAGE_HTACCESS -->
-	
+
     <!-- IF B_ACP_AP_IS_SET_AS_ACTIVITYPAGE -->
 		{L_ACP_SN_ACTIVITYPAGE_IS_MAIN_EXPLAIN}<br /><br />
+
 	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_OPEN_FIND}
+
 	    <fieldset><code>DirectoryIndex</code></fieldset>
+
 	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_AFTER_ADD}
+
 	    <fieldset><code> activitypage.php</code></fieldset>
+
 	    {L_ACP_SN_ACTIVITYPAGE_IS_MAIN_SAVE}<br /><br />
+
 	    <strong>{L_ACP_SN_ACTIVITYPAGE_IS_MAIN_NO_DIRECTORY_INDEX}</strong><br />
+
 	    <fieldset><code>DirectoryIndex activitypage.php index.php index.html index.htm</code></fieldset>
     <!-- ELSE -->
 		{L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_EXPLAIN}<br /><br />
+
 	    {L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_OPEN_FIND}
+
 	    <fieldset><code>activitypage.php</code></fieldset>
+
 	    {L_ACP_SN_ACTIVITYPAGE_NOT_MAIN_DELETE}
     <!-- ENDIF -->
 <!-- ENDIF -->
+
 <!-- IF ACP_SN_MANAGE eq 'welcome' -->
-		{L_ACP_SN_ACTIVITYPAGE_WELCOME_EXPLAIN}<br /><br />
-	    {L_ACP_SN_ACTIVITYPAGE_WELCOME_INSTRUCTIONS}
-	    <fieldset><code>'SN_AP_WELCOME_TITLE'</code></fieldset>
-	    {L_ACP_SN_ACTIVITYPAGE_WELCOME_EDIT}
+	{L_ACP_SN_ACTIVITYPAGE_WELCOME_EXPLAIN}<br /><br />
+
+	{L_ACP_SN_ACTIVITYPAGE_WELCOME_INSTRUCTIONS}
+
+	<fieldset><code>'SN_AP_WELCOME_TITLE'</code></fieldset>
+
+	{L_ACP_SN_ACTIVITYPAGE_WELCOME_EDIT}
 <!-- ENDIF -->
+
 <!-- IF B_ACP_SN_PROFILE -->
-	<!-- INCLUDE socialnet_userprofile.html -->	
+	<!-- INCLUDE socialnet_userprofile.html -->
 <!-- ENDIF -->
 
 <!-- IF SN_VERSION_AVAILABLE -->
-  <h2>{L_VERSION_CHECK}</h2>
-  <!-- INCLUDE socialnet_update.html -->
-  <!-- IF .avail_module -->
-    <fieldset>
-      <legend>{L_SN_AVAILABLE_MODULES}</legend>
-      <!-- BEGIN avail_module -->
-        <dl style="background: transparent url('http://socialnetwork.phpbb3hacks.com/socialnet/styles/images/{avail_module.CODE_NAME}.png') no-repeat 0 0;padding-left: 50px;">
-          <dt class="module" style="background: transparent url('http://socialnetwork.phpbb3hacks.com/socialnet/styles/images/module_update{avail_module.STATUS}.png') no-repeat 100% 0;min-height:50px">
-            <label>{avail_module.NAME}</label>
-            <!-- IF avail_module.MSG --><p>{avail_module.MSG}</p><!-- ENDIF -->
-          </dt>
-          <dd class="version">{L_VERSION_AVAILABLE}: <strong>{avail_module.VERSION}</strong></dd>
-          <dd class="version">{L_VERSION_INSTALLED}: <strong><!-- IF avail_module.INSTALLED_VERSION neq '' -->{avail_module.INSTALLED_VERSION}<!-- ELSE -->{L_NOT_INSTALLED}<!-- ENDIF --></strong></dd>
-          <!-- IF avail_module.STATUS neq '1' -->
-      			<dd class="download">
-      				<!-- IF avail_module.INSTALLED_VERSION eq '' -->
-        				<!-- IF avail_module.B_PAY -->
-        				  {L_BUY_HERE}:
-        				<!-- ELSE -->
-        				  {L_DOWNLOAD}:
-        				<!-- ENDIF -->
-      				  <a href="{avail_module.BUY}" target="_blank"><strong>{avail_module.DOWNLOAD}</strong></a>
-      				<!-- ELSE -->
-      				  {L_UPDATE_TO_LATEST}: <a href="{avail_module.DOWNLOAD}" target="_blank"><strong>{avail_module.DOWNLOAD}</strong></a>
-      				<!-- ENDIF -->
-      			</dd>
-          <!-- ENDIF -->
-    		</dl>
-  		<!-- END avail_module -->
-    </fieldset>
-  <!-- ENDIF -->
+	<h2>{L_VERSION_CHECK}</h2>
+
+	<!-- INCLUDE socialnet_update.html -->
+
+	<!-- IF .avail_module -->
+		<fieldset>
+			<legend>{L_SN_AVAILABLE_MODULES}</legend>
+
+			<!-- BEGIN avail_module -->
+				<dl style="background: transparent url('http://socialnetwork.phpbb3hacks.com/socialnet/styles/images/{avail_module.CODE_NAME}.png') no-repeat 0 0;padding-left: 50px;">
+					<dt class="module" style="background: transparent url('http://socialnetwork.phpbb3hacks.com/socialnet/styles/images/module_update{avail_module.STATUS}.png') no-repeat 100% 0;min-height:50px">
+						<label>{avail_module.NAME}</label>
+						<!-- IF avail_module.MSG -->
+							<p>{avail_module.MSG}</p>
+						<!-- ENDIF -->
+					</dt>
+					<dd class="version">{L_VERSION_AVAILABLE}: <strong>{avail_module.VERSION}</strong></dd>
+					<dd class="version">{L_VERSION_INSTALLED}: <strong><!-- IF avail_module.INSTALLED_VERSION neq '' -->{avail_module.INSTALLED_VERSION}<!-- ELSE -->{L_NOT_INSTALLED}<!-- ENDIF --></strong></dd>
+					<!-- IF avail_module.STATUS neq '1' -->
+						<dd class="download">
+							<!-- IF avail_module.INSTALLED_VERSION eq '' -->
+								<!-- IF avail_module.B_PAY -->
+								  {L_BUY_HERE}:
+								<!-- ELSE -->
+								  {L_DOWNLOAD}:
+								<!-- ENDIF -->
+								<a href="{avail_module.BUY}" target="_blank"><strong>{avail_module.DOWNLOAD}</strong></a>
+							<!-- ELSE -->
+								{L_UPDATE_TO_LATEST}: <a href="{avail_module.DOWNLOAD}" target="_blank"><strong>{avail_module.DOWNLOAD}</strong></a>
+							<!-- ENDIF -->
+						</dd>
+					<!-- ENDIF -->
+				</dl>
+			<!-- END avail_module -->
+		</fieldset>
+	<!-- ENDIF -->
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_MAIN -->
-  <fieldset>
-    <legend>{L_ACP_SN_LIKE_US_FB}</legend>
-    {L_ACP_SN_LIKE_US_FB_EXPLAIN}
-    <object type="text/html" data="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FphpBB-Social-Network%2F180271885389370&amp;send=false&amp;layout=standard&amp;width=650&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=25&amp;appId=217550038308424" width="100%" height="25" style="margin-top:15px;">
-    	<param name="src" value="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FphpBB-Social-Network%2F180271885389370&amp;send=false&amp;layout=standard&amp;width=650&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=25&amp;appId=217550038308424" />
-    </object>
-  </fieldset>
-  
-  <fieldset>
-    <legend>{L_ACP_SN_CONTRIBUTE}</legend>
-    {L_ACP_SN_CONTRIBUTE_EXPLAIN}
-  </fieldset>
+	<fieldset>
+		<legend>{L_ACP_SN_LIKE_US_FB}</legend>
+		{L_ACP_SN_LIKE_US_FB_EXPLAIN}
+		<object type="text/html" data="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FphpBB-Social-Network%2F180271885389370&amp;send=false&amp;layout=standard&amp;width=650&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=25&amp;appId=217550038308424" width="100%" height="25" style="margin-top:15px;">
+			<param name="src" value="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FphpBB-Social-Network%2F180271885389370&amp;send=false&amp;layout=standard&amp;width=650&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=25&amp;appId=217550038308424" />
+		</object>
+	</fieldset>
+
+	<fieldset>
+		<legend>{L_ACP_SN_CONTRIBUTE}</legend>
+		{L_ACP_SN_CONTRIBUTE_EXPLAIN}
+	</fieldset>
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_ADDONHOOK -->
@@ -226,10 +287,10 @@ document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" 
 <!-- ENDIF -->
 
 <!-- IF .sn_tabs -->
-			</div>
-		<span class="corners-bottom"><span></span></span>
+				</div>
+
+		<span class="corners-bottom"><span></span></span></div>
 	</div>
-</div>
 <!-- ENDIF -->
 
 <!-- INCLUDE overall_footer.html -->
