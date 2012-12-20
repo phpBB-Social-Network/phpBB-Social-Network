@@ -494,27 +494,28 @@ var socialNetwork = (function($) {
 		},
 		overlay: null,
 		postMinChar: 10,
+		_buttonsHeight: null,
+		_titleHeight: null,
+		_paddingHeight: null,
 		init: function() {
 			var self = this;
 			if (this.enable) {
 
-				$('<div class="ui-body-dialog"/>')
-				.attr('id', this.dialogID.replace('#', '')).css({
-					display: 'none',
-					maxHeight: 260
+				$('<div class="ui-body-dialog"/>').attr('id', this.dialogID.replace('#', '')).css({
+					display: 'none'
 				})
 				.attr('title', 'Title Confirm Box')
 				.html('Content Confirm Box')
 				.appendTo('body');
 
-				$(self.dialogID).dialog({
+				$(this.dialogID).dialog({
 					width: this.width,
 					resizable: this.resizable,
 					draggable: this.draggable,
 					modal: this.modal,
 					show: this.show,
 					hide: this.show,
-					autoOpen: false,
+					autoOpen: true,
 					dialogClass: 'sn-confirmBox',
 					drag: function(event, ui) {
 						self.overlay.children('div.ui-widget-shadow').css({
@@ -524,19 +525,36 @@ var socialNetwork = (function($) {
 					},
 					resize: function(event, ui) {
 						self.overlay.children('div.ui-widget-shadow').css({
-							height: ui.size.height,
-							width: ui.size.width,
 							top: ui.position.top,
 							left: ui.position.left
 						});
+						self.correctSize();
 					},
 					resizeStop: function() {
 						self.dropShadow($('.ui-dialog'), self.shadowBox);
-					}
-
+						self.correctSize();
+					},
+					buttons: [{
+							text: self.button_close,
+							click: function() {
+							}
+						}]
+				});
+				var $dialog = $(this.dialogID).parent('.ui-dialog');
+				this._buttonsHeight = $dialog.find('.ui-dialog-buttonpane').outerHeight();
+				this._titleHeight = $dialog.find('.ui-dialog-titlebar').outerHeight();
+				this._paddingHeight = parseInt($dialog.css('padding-top')) + parseInt($dialog.css('padding-bottom')) + parseInt($(this.dialogID).css('padding-top')) + parseInt($(this.dialogID).css('padding-bottom'));
+				$(self.dialogID).dialog('close');
+			}
+		},
+		correctSize: function() {
+			$(this.dialogID).height($(this.dialogID).parent('.ui-dialog').height() - this._titleHeight - this._buttonsHeight - this._paddingHeight);
+			if (this.overlay != null) {
+				this.overlay.children('div.ui-widget-shadow').css({
+					height: $(this.dialogID).parent('.ui-dialog').outerHeight(),
+					width: $(this.dialogID).parent('.ui-dialog').outerWidth()
 				});
 			}
-
 		},
 		dropShadow: function(elem, attribs) {
 			var snCB = this;
@@ -614,7 +632,7 @@ var socialNetwork = (function($) {
 			$(".sn-deleteComment").live('click', function() {
 				var comment_id = $sn.getAttr($(this), "cid");
 				var mUrl = $sn.getAttr($(this), 'url');
-				var comment = $('#sn-comment' + comment_id).find('.sn-commentText').html();
+				var comment = $('#sn-comment' + comment_id).html();
 				snConfirmBox(self.deleteTitle, self.deleteText + '<hr />' + comment, function() {
 					$.ajax({
 						type: "POST",
