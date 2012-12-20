@@ -1,1 +1,84 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?><!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.--><!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/--><mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">		<header>  <meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>		<title lang="en"><![CDATA[phpBB Social Network]]></title>		<description lang="en"><![CDATA[You can read about phpBB Social Network here: http://phpbbsocialnetwork.com/Detailed description of phpBB Social Network and its features: http://phpbbsocialnetwork.com/viewtopic.php?t=32Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>		<author-notes lang="en"><![CDATA[Updating from 0.5.2 to 0.6.0 has just 4 simple steps: 1) copy all files from the root/ file to your FTP root path and rewrite old files2) follow edit instructions below3) run socialnet/update_sn_0.7.0.php in your browser4) purge the cache and refresh template and skin via ACP        Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/]]></author-notes>		<author-group>   <author>				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>				<homepage><![CDATA[http://phpbb3hacks.com/]]></homepage>				<email><![CDATA[kamahl19@gmail.com]]></email>				<contributions-group>					<contributions status="current" from="2010-02-01" position="Developer"/>				</contributions-group>			</author>			<author>				<realname><![CDATA[Jan Kalach]]></realname>				<username phpbbcom="no"><![CDATA[Culprit]]></username>				<homepage><![CDATA[http://phpbbsocialnetwork.com]]></homepage>				<contributions-group>					<contributions status="current" from="2010-06-01" position="Developer"/>				</contributions-group>			</author>		</author-group>		<mod-version>0.6.0</mod-version>		<installation>			<level>easy</level>			<time>300</time>			<target-version>3.0.8</target-version>		</installation>	</header>	<action-group>		<copy>			<file from="root/*.*" to="*.*"/>		</copy>		<open src="search.php">			<edit>				<find><![CDATA[$zebra[($row['friend']) ? 'friend' : 'foe'][] = $row['zebra_id'];]]></find>     				<action type="replace-with"><![CDATA[$zebra[($row['foe']) ? 'foe' : 'friend'][] = $row['zebra_id'];]]></action>			</edit>		</open>		<open src="viewonline.php">			<edit>				<find><![CDATA[			$location = $user->lang['VIEWING_MCP'];			$location_url = append_sid("{$phpbb_root_path}index.$phpEx");		break;]]></find>				<action type="after-add"><![CDATA[		case 'mainpage':			$location = isset($user->lang['SN_MP_VIEWING_MAINPAGE']) ? $user->lang['SN_MP_VIEWING_MAINPAGE'] : 'Viewing Mainpage';			$location_url = append_sid("{$phpbb_root_path}mainpage.$phpEx");			break;]]></action>			</edit>		</open>		<open src="styles/prosilver/template/memberlist_view.html">		  <edit>				<remove><![CDATA[<!-- IF SN_MODULE_APPROVAL_ENABLED -->  <!-- INCLUDE socialnet/memberlist_viewprofile_friendlist.html --><!-- ENDIF --><!-- IF SN_MODULE_USERSTATUS_ENABLED && SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE -->  <!-- INCLUDE socialnet/userstatus_memberlist.html --><!-- ENDIF -->]]></remove>			</edit>			<edit>				<find><![CDATA[</form>]]></find>				<action type="after-add"><![CDATA[<!-- IF SN_MODULE_APPROVAL_ENABLED -->  <!-- INCLUDE socialnet/memberlist_viewprofile_friendlist.html --><!-- ENDIF --><!-- IF SN_MODULE_USERSTATUS_ENABLED && SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE -->  <!-- INCLUDE socialnet/userstatus_memberlist.html --><!-- ENDIF -->]]></action>			</edit>		</open>		<open src="styles/prosilver/template/overall_header.html">			<edit>				<find><![CDATA[		<div class="navbar">]]></find>				<inline-edit>					<inline-find><![CDATA[		<div class="navbar]]></inline-find>					<inline-action type="after-add"><![CDATA[<!-- IF S_ON_MAINPAGE --> hide<!-- ENDIF -->]]></inline-action>				</inline-edit>			</edit>			<edit>				<find><![CDATA[<!-- IF SN_MODULE_MAINPAGE_ENABLED --><li class="icon-home"><a href="{U_SN_MAINPAGE}">{L_SN_MP_MAINPAGE}</a></li><!-- ENDIF -->]]></find>				<action type="replace-with"><![CDATA[			  <!-- IF B_SN_BOARD_MP_ENABLED --><li class="icon-home"><a href="{U_SN_MAINPAGE}">{L_SN_MP_MAINPAGE}</a>			  	<span id="snNtfNotify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span>			  </li><!-- ENDIF -->]]></action>			</edit>		</open>		<open src="styles/prosilver/theme/stylesheet.css">			<edit>				<find><![CDATA[@import url("jquery-ui.custom.css");]]></find>				<action type="replace-with"><![CDATA[@import url("jquery.jgrowl.css");]]></action>			</edit>		</open>  <php-installer><![CDATA[socialnet/update_sn_0.7.0.php]]></php-installer>   <diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via update_sn_0.7.0.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions></action-group></mod>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
+	<header>
+		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		<title lang="en"><![CDATA[phpBB Social Network]]></title>
+		<description lang="en"><![CDATA[You can read about phpBB Social Network here: http://phpbbsocialnetwork.com/Detailed description of phpBB Social Network and its features: http://phpbbsocialnetwork.com/viewtopic.php?t=32Changelog: http://phpbbsocialnetwork.com/viewtopic.php?t=1023phpBB Social Network Facebook page: http://www.facebook.com/pages/phpBB-Social-Network/180271885389370Feel free to ask for support or request more features here http://phpbbsocialnetwork.com/]]></description>
+		<author-notes lang="en"><![CDATA[Updating from 0.5.2 to 0.6.0 has just 4 simple steps: 1) copy all files from the root/ file to your FTP root path and rewrite old files2) follow edit instructions below3) run socialnet/update_sn_0.7.0.php in your browser4) purge the cache and refresh template and skin via ACP        Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/]]></author-notes>
+		<author-group>
+			<author>
+				<username phpbbcom="no"><![CDATA[Kamahl19]]></username>
+				<homepage><![CDATA[http://phpbb3hacks.com/]]></homepage>
+				<email><![CDATA[kamahl19@gmail.com]]></email>
+				<contributions-group>
+					<contributions status="current" from="2010-02-01" position="Developer"/>
+				</contributions-group>
+			</author>
+			<author>
+				<realname><![CDATA[Jan Kalach]]></realname>
+				<username phpbbcom="no"><![CDATA[Culprit]]></username>
+				<homepage><![CDATA[http://phpbbsocialnetwork.com]]></homepage>
+				<contributions-group>
+					<contributions status="current" from="2010-06-01" position="Developer"/>
+				</contributions-group>
+			</author>
+		</author-group>
+		<mod-version>0.6.0</mod-version>
+		<installation>
+			<level>easy</level>
+			<time>300</time>
+			<target-version>3.0.8</target-version>
+		</installation>
+	</header>
+	<action-group>
+		<copy>
+			<file from="root/*.*" to="*.*"/>
+		</copy>
+		<open src="search.php">
+			<edit>
+				<find><![CDATA[$zebra[($row['friend']) ? 'friend' : 'foe'][] = $row['zebra_id'];]]></find>
+				<action type="replace-with"><![CDATA[$zebra[($row['foe']) ? 'foe' : 'friend'][] = $row['zebra_id'];]]></action>
+			</edit>
+		</open>
+		<open src="viewonline.php">
+			<edit>
+				<find><![CDATA[			$location = $user->lang['VIEWING_MCP'];			$location_url = append_sid("{$phpbb_root_path}index.$phpEx");		break;]]></find>
+				<action type="after-add"><![CDATA[		case 'mainpage':			$location = isset($user->lang['SN_MP_VIEWING_MAINPAGE']) ? $user->lang['SN_MP_VIEWING_MAINPAGE'] : 'Viewing Mainpage';			$location_url = append_sid("{$phpbb_root_path}mainpage.$phpEx");			break;]]></action>
+			</edit>
+		</open>
+		<open src="styles/prosilver/template/memberlist_view.html">
+			<edit>
+				<remove><![CDATA[<!-- IF SN_MODULE_APPROVAL_ENABLED -->  <!-- INCLUDE socialnet/memberlist_viewprofile_friendlist.html --><!-- ENDIF --><!-- IF SN_MODULE_USERSTATUS_ENABLED && SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE -->  <!-- INCLUDE socialnet/userstatus_memberlist.html --><!-- ENDIF -->]]></remove>
+			</edit>
+			<edit>
+				<find><![CDATA[</form>]]></find>
+				<action type="after-add"><![CDATA[<!-- IF SN_MODULE_APPROVAL_ENABLED -->  <!-- INCLUDE socialnet/memberlist_viewprofile_friendlist.html --><!-- ENDIF --><!-- IF SN_MODULE_USERSTATUS_ENABLED && SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE -->  <!-- INCLUDE socialnet/userstatus_memberlist.html --><!-- ENDIF -->]]></action>
+			</edit>
+		</open>
+		<open src="styles/prosilver/template/overall_header.html">
+			<edit>
+				<find><![CDATA[		<div class="navbar">]]></find>
+				<inline-edit>
+					<inline-find><![CDATA[		<div class="navbar]]></inline-find>
+					<inline-action type="after-add"><![CDATA[<!-- IF S_ON_MAINPAGE --> hide<!-- ENDIF -->]]></inline-action>
+				</inline-edit>
+			</edit>
+			<edit>
+				<find><![CDATA[<!-- IF SN_MODULE_MAINPAGE_ENABLED --><li class="icon-home"><a href="{U_SN_MAINPAGE}">{L_SN_MP_MAINPAGE}</a></li><!-- ENDIF -->]]></find>
+				<action type="replace-with"><![CDATA[			  <!-- IF B_SN_BOARD_MP_ENABLED --><li class="icon-home"><a href="{U_SN_MAINPAGE}">{L_SN_MP_MAINPAGE}</a>			  	<span id="snNtfNotify"<!-- IF S_SN_USER_UNREAD_NOTIFY eq 0 --> style="display:none"<!-- ENDIF -->>(<a href="{U_VIEW_NOTIFY}"><!-- IF S_SN_USER_UNREAD_NOTIFY neq 0 -->{S_SN_USER_UNREAD_NOTIFY}<!-- ENDIF --></a>)</span>			  </li><!-- ENDIF -->]]></action>
+			</edit>
+		</open>
+		<open src="styles/prosilver/theme/stylesheet.css">
+			<edit>
+				<find><![CDATA[@import url("jquery-ui.custom.css");]]></find>
+				<action type="replace-with"><![CDATA[@import url("jquery.jgrowl.css");]]></action>
+			</edit>
+		</open>
+		<php-installer><![CDATA[socialnet/update_sn_0.7.0.php]]></php-installer>
+		<diy-instructions lang="en"><![CDATA[After copying all new files to your board, doing all edits above and running installation script via update_sn_0.7.0.php, please do not forget to clear the cache and refresh your template via ACP. Then you can set up user permissions.]]></diy-instructions>
+	</action-group>
+</mod>
