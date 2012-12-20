@@ -57,36 +57,27 @@
 			$(".sn-us-deleteStatus").live('click', function() {
 				var status_id = $sn.getAttr($(this), 'sid');
 				var wallid = $sn.getAttr($(this), 'wid');
-				$.ajax({
-					type: 'POST',
-					url: $sn.us.url,
-					dataType: 'json',
-					data: {
-						smode: 'get_status',
-						status: status_id,
-						wall: wallid
-					},
-					success: function(data) {
-						snConfirmBox($sn.us.deleteStatusTitle, $sn.us.deleteStatusText + '<hr />' + data.content, function() {
-							$.ajax({
-								type: "POST",
-								url: $sn.us.url,
-								cache: false,
-								data: {
-									smode: 'status_delete',
-									s_id: status_id
-								},
-								success: function(data) {
-									$('#sn-us-status' + status_id).parents('.sn-ap-textBlock').fadeOut('slow').remove();
-									if ($('#sn-us-status' + status_id).size() != 0) {
-										$('#sn-us-status' + status_id).remove();
-									}
-								}
-							});
-						});
-						$('#dialog').find('.sn-action-delete').remove();
-					}
+				var status = $('#sn-us-status' + status_id).clone();
+				status.find('div.sn-commentsBlock, a.sn-us-commentStatus, span.sn-expander-more, span.sn-expander-less').remove();
+
+				snConfirmBox($sn.us.deleteStatusTitle, $sn.us.deleteStatusText + '<hr />' + status.html(), function() {
+					$.ajax({
+						type: "POST",
+						url: $sn.us.url,
+						cache: false,
+						data: {
+							smode: 'status_delete',
+							s_id: status_id
+						},
+						success: function(data) {
+							$('#sn-us-status' + status_id).parents('.sn-ap-textBlock').fadeOut('slow').remove();
+							if ($('#sn-us-status' + status_id).size() != 0) {
+								$('#sn-us-status' + status_id).remove();
+							}
+						}
+					});
 				});
+				$($sn.confirmBox.dialogID).find('.sn-action-delete').remove();
 			});
 
 			// Delete entry

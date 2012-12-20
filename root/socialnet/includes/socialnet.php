@@ -25,15 +25,10 @@ include_once($socialnet_root_path . 'includes/constants.' . $phpEx);
 /**
  * @ignore
  */
-$dir = opendir("{$socialnet_root_path}includes/");
-while ($file = readdir($dir))
+foreach ( glob($socialnet_root_path . 'includes/sn_core_*' . $phpEx) as $file )
 {
-	if (preg_match("/^sn_core_.*\.{$phpEx}$/i", $file))
-	{
-		include("{$socialnet_root_path}includes/$file");
-	}
+	include($file);
 }
-closedir($dir);
 
 include_once($socialnet_root_path . 'includes/functions.' . $phpEx);
 
@@ -702,7 +697,7 @@ class socialnet extends snFunctions
 	function page_footer($block = 'body', $print = false)
 	{
 		global $template;
-		
+
 		$this->useTemplateHook = false;
 		$content = $template->assign_display($block, '', true, false);
 		$this->useTemplateHook = true;
@@ -1155,12 +1150,12 @@ class socialnet extends snFunctions
 				$translation_info = $copy_string . ((!empty($translation_info)) ? '<br />' . $translation_info : '');
 			}
 		}
-		
+
 		if (sizeOf($this->modules) == 0)
 		{
 			return;
 		}
-		
+
 		foreach ($this->existing as $idx => $module)
 		{
 			$s = "socialnet_{$module}";

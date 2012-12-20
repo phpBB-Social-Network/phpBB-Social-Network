@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
 <!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.-->
 <!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
-<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
 	<header>
 		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>
 		<meta name="generator" content="MODX file generated with PP MODX Creator 1.0.1 by tumba25 (offline version)"/>
@@ -66,7 +66,7 @@ Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/
 			</edit>
 		</open>
 		<open src="styles/prosilver/template/overall_header.html">
-		    <edit>
+			<edit>
 				<find><![CDATA[<!-- INCLUDE socialnet/overall_header_hook.html -->]]></find>
 				<action type="replace-with"><![CDATA[<!-- INCLUDE socialnet/overall_header_hook_css.html -->]]></action>
 			</edit>
@@ -75,7 +75,7 @@ Feel free to ask for support or more modules here http://phpbbsocialnetwork.com/
 				<action type="before-add"><![CDATA[<!-- INCLUDE socialnet/overall_header_hook_js.html -->]]></action>
 			</edit>
 			<edit>
-				<find><![CDATA[<![CDATA[<!-- IF SN_MODULE_IM_ENABLED --> im-page<!-- ENDIF -->]]></find>
+				<find><![CDATA[]]>&lt;![CDATA[<![CDATA[<!-- IF SN_MODULE_IM_ENABLED --> im-page<!-- ENDIF -->]]></find>
 				<action type="replace-with"><![CDATA[<!-- IF SN_MODULE_IM_ENABLED --> sn-im-page<!-- ENDIF -->]]></action>
 			</edit>
 			<edit>
