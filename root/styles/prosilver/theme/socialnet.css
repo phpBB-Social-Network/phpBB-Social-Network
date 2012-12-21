@@ -196,11 +196,6 @@ div:not(.sn-page) .sn-userName a {
 	visibility: visible;
 }
 
-.ltr .sn-actions {
-	float: right;
-	margin-right: -15px;
-}
-
 .sn-menu {
 	border: none;
 	display: block;
@@ -947,11 +942,6 @@ div:not(.sn-page) .sn-userName a {
 	margin-right: -5px;
 }
 
-.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status {
-	display: none;
-	visibility: hidden;
-}
-
 .sn-im-noChatBar.sn-im-chatBox .sn-im-title .sn-im-status {
 	display: inline;
 }
@@ -1628,7 +1618,7 @@ a.ui-button {
 	margin-top: 10px;
 }
 
-.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.rtl .sn-im-status,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-smilies,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
+.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-actions,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.rtl .sn-im-status,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-smilies,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
 	float: right;
 }
 
@@ -1721,6 +1711,11 @@ a.ui-button {
 .sn-im-msg.sn-im-history.pagination,.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list ul {
 	margin: 0;
 	padding: 0;
+}
+
+.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-wallButton.ui-button,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider {
+	display: none;
+	visibility: hidden;
 }
 
 .ltr .jGrowl .jGrowl-notification .jGrowl-message span,.rtl .sn-up-editableButton {
