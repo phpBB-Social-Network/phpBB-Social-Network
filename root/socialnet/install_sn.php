@@ -936,4 +936,40 @@ function phpbbSN_replace_primary_by_unique($action, $version)
 	return 'Updating of keys in SN_FMS_GROUPS_TABLE was successfully completed.';
 }
 
+if ( !function_exists('http_build_query'))
+{
+	function http_build_query($data, $prefix = '', $separator = arg_separator.output, $enc_type = PHP_QUERY_RFC1738)
+	{
+	    $queryString = '';
+
+	    if (is_array($data))
+	    {
+	        foreach ($data as $key => $value)
+	        {
+	            $correctKey = $prefix;
+
+	            if ('' === $prefix)
+	            {
+	                $correctKey .= $key;
+	            }
+	            else
+	            {
+	                $correctKey .= "[" . $key . "]";
+	            }
+
+	            if (!is_array($value))
+	            {
+	                $queryString .= urlencode($correctKey) . "=" . urlencode($value) . $separator;
+	            }
+	            else
+	            {
+	                $queryString .= http_build_query($value, $correctKey, $separator, $enc_type);
+	            }
+	        }
+	    }
+
+		return substr($queryString, 0, strlen($queryString) - 1);
+	}
+}
+
 ?>
