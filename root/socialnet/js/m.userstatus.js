@@ -255,9 +255,8 @@
 				if (!$smilieBox.is('[aria-loaded="true"]')) {
 					$.ajax({
 						type : 'post',
-						cache : false,
 						async : true,
-						url : $.sn.us.url,
+						url : $sn.us.url,
 						data : {
 							smode : 'displaySmilies'
 						},
@@ -281,7 +280,7 @@
 			/** INSERT SMILEY TO STATUS * */
 			$('.sn-us-smiley').live('click', function() {
 				var $wallInput = $('#sn-us-wallInput');
-				$.sn.insertAtCaret($wallInput, ' ' + $.sn.getAttr($(this), 'code') + ' ');
+				$sn.insertAtCaret($wallInput, ' ' + $sn.getAttr($(this), 'code') + ' ');
 				$wallInput.trigger('paste');
 				$('.sn-us-smiliesBox').hide();
 

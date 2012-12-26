@@ -92,6 +92,7 @@ if (!class_exists('socialnet_activitypage'))
 						$sql = "SELECT * FROM " . SN_SMILIES_TABLE . " WHERE smiley_allowed = 1";
 						$rs = $db->sql_query($sql);
 						$exist_smiley = $db->sql_affectedrows($rs);
+						$db->sql_freeresult($rs);
 							
 						$template_vars = array_merge($template_vars, array(
 							'B_SN_AP_MORE_ENTRIES'	=> $a_ap_entries['more'],

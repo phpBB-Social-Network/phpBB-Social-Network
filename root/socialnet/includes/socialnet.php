@@ -822,10 +822,11 @@ class socialnet extends snFunctions
 
 		$return = array();
 		$return['content'] = $this->get_page();
-
+		
 		header('Content-type: application/json');
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		header("Pragma: public");
+		header("Cache-Control: maxage=".60*60*24);
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+60*60*24) . ' GMT');
 		die(json_encode($return));
 	}
 

@@ -92,6 +92,7 @@ if (!class_exists('socialnet_profile'))
 			$sql = "SELECT * FROM " . SN_SMILIES_TABLE . " WHERE smiley_allowed = 1";
 			$rs = $db->sql_query($sql);
 			$exist_smiley = $db->sql_affectedrows($rs);
+			$db->sql_freeresult($rs);
 
 			$template_assign_vars = array(
 				'S_OWN_PROFILE'				 => $user->data['user_id'] == $user_id,
