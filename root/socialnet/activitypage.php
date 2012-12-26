@@ -88,11 +88,16 @@ if (!class_exists('socialnet_activitypage'))
 						{
 							$template->assign_block_vars('ap_entries', $a_ap_entry);
 						}
-
+						
+						$sql = "SELECT * FROM " . SN_SMILIES_TABLE . " WHERE smiley_allowed = 1";
+						$rs = $db->sql_query($sql);
+						$exist_smiley = $db->sql_affectedrows($rs);
+							
 						$template_vars = array_merge($template_vars, array(
-							'B_SN_AP_MORE_ENTRIES'	 => $a_ap_entries['more'],
+							'B_SN_AP_MORE_ENTRIES'	=> $a_ap_entries['more'],
+							'SN_US_SMILIES_EXISTS'	=> $exist_smiley,
 						));
-
+						
 						break;
 
 					case 'search':

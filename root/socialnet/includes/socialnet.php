@@ -777,6 +777,57 @@ class socialnet extends snFunctions
 
 		return sprintf($user->lang[$tense], $difference, $user->lang['SN_TIME_PERIODS'][$period]);
 	}
+	
+	function displaySmilies($module)
+	{
+		global $db, $phpbb_root_path, $config, $template, $user;
+
+		$sql = 'SELECT ps.*, ss.smiley_allowed
+			FROM ' . SMILIES_TABLE . ' AS ps, ' . SN_SMILIES_TABLE . ' AS ss
+				WHERE ps.smiley_id = ss.smiley_id AND ss.smiley_allowed = 1
+					ORDER BY smiley_order';
+		$result = $db->sql_query($sql, 3600);
+
+		$smilies = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			if (empty($smilies[$row['smiley_url']]))
+			{
+				$smilies[$row['smiley_url']] = $row;
+			}
+		}
+		$db->sql_freeresult($result);
+
+		if (sizeof($smilies))
+		{
+			$root_path = (defined('PHPBB_USE_BOARD_URL_PATH') && PHPBB_USE_BOARD_URL_PATH) ? generate_board_url() . '/' : $phpbb_root_path;
+
+			foreach ($smilies as $row)
+			{
+				$template->assign_block_vars('sn_smiley', array(
+					'SMILEY_CODE'	=> $row['code'],
+					'A_SMILEY_CODE'	=> addslashes($row['code']),
+					'SMILEY_IMG'	=> $root_path . $config['smilies_path'] . '/' . $row['smiley_url'],
+					'SMILEY_WIDTH'	=> $row['smiley_width'],
+					'SMILEY_HEIGHT'	=> $row['smiley_height'],
+					'SMILEY_DESC'	=> $row['emotion'],
+					'SMILEY_MODULE'	=> $module,
+				));
+			}
+		}
+
+		$template->set_filenames(array(
+			'body'	=> 'socialnet/smilies_box.html',
+		));
+
+		$return = array();
+		$return['content'] = $this->get_page();
+
+		header('Content-type: application/json');
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		die(json_encode($return));
+	}
 
 	function gender_lang($lang, $user_id)
 	{
