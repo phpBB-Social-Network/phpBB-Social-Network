@@ -7,9 +7,15 @@
 				<textarea id="sn-us-wallInput" class="sn-us-mention" rows="" cols=""></textarea>
 				<!-- INCLUDE socialnet/userstatus_fetch.html -->
 				<input type="button" name="sn-us-wallButton" class="sn-us-wallButton ui-button ui-widget ui-state-default ui-corner-all {wall:{SN_US_USER_ID}}" value="{L_SN_US_SHARE_STATUS}" />
-			</div>   
+				<!-- IF SN_US_SMILIES_EXISTS -->
+					<div class="sn-us-smilies"></div>
+					<div class="sn-us-smiliesBox">
+						<div class="sn-us-smiliesContent ui-widget ui-widget-content"></div>
+					</div>
+				<!-- ENDIF -->
+			</div>
 			<div class="clear"></div>
-		</div>      
+		</div>
 	<!-- ENDIF -->
 
 	<div id="sn-us-profile" class="sn-us-profile">

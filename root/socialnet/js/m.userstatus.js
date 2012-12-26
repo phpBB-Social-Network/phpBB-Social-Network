@@ -41,7 +41,7 @@
 				className: 'sn-us-watermark'
 			}).live('focusin keyup input cut paste', function() {
 				var snUsShare = $(this).val();
-				$(this).parents('.sn-us-share').children('input[name=sn-us-wallButton]').show();
+				$(this).parents('.sn-us-share').children('input[name=sn-us-wallButton], .sn-us-smilies').show();
 				if ($sn.isValidURL(snUsShare) == true) {
 					$('input[name="sn-us-fetchButton"]').show();
 				} else {
@@ -120,6 +120,7 @@
 				if (status_text == '' || status_text == $sn.us.watermark) {
 					snConfirmBox($sn.us.emptyStatus, $sn.us.emptyStatus);
 					$('.sn-us-share input[name=sn-us-wallButton]').hide();
+					$('.sn-us-share .sn-us-smilies, .sn-us-share .sn-us-smiliesBox').hide();
 					$('#sn-us-wallInput').val('').trigger('cut');
 
 				} else {
@@ -187,6 +188,7 @@
 								className: 'sn-us-watermark'
 							}).trigger('paste');
 							$('.sn-us-share .sn-us-wallButton').hide();
+							$('.sn-us-share .sn-us-smilies, .sn-us-share .sn-us-smiliesBox').hide();
 						}
 					});
 				}
@@ -243,6 +245,46 @@
 						}
 					});
 				}
+			});
+			
+			/** SHOW SMILIES * */
+			$('.sn-us-smilies').live('click', function() {
+				var $smilieBox = $('.sn-us-smiliesBox');
+				var self = this;
+
+				if (!$smilieBox.is('[aria-loaded="true"]')) {
+					$.ajax({
+						type : 'post',
+						async : true,
+						url : $sn.us.url,
+						data : {
+							smode : 'displaySmilies'
+						},
+						success : function(data) {
+							var position = $.extend({}, {
+								of : self,
+								at : 'center bottom',
+								my : 'center top',
+								offset : '0 5'
+							});
+							$('.sn-us-smiliesContent').html(data.content);
+							$smilieBox.show().attr('aria-loaded', 'true').position(position);
+						}
+					});
+				} else {
+					$($smilieBox).toggle();
+					return false;
+				}
+			});
+
+			/** INSERT SMILEY TO STATUS * */
+			$('.sn-us-smiley').live('click', function() {
+				var $wallInput = $('#sn-us-wallInput');
+				$sn.insertAtCaret($wallInput, ' ' + $sn.getAttr($(this), 'code') + ' ');
+				$wallInput.trigger('paste');
+				$('.sn-us-smiliesBox').hide();
+
+				return false;
 			});
 
 			// Load more comments
