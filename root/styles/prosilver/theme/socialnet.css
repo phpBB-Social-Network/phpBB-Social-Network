@@ -942,6 +942,11 @@ div:not(.sn-page) .sn-userName a {
 	margin-right: -5px;
 }
 
+.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status {
+	display: none;
+	visibility: hidden;
+}
+
 .sn-im-noChatBar.sn-im-chatBox .sn-im-title .sn-im-status {
 	display: inline;
 }
@@ -1711,11 +1716,6 @@ a.ui-button {
 .sn-im-msg.sn-im-history.pagination,.sn-us-mentions-input-box .sn-us-mentions-autocomplete-list ul {
 	margin: 0;
 	padding: 0;
-}
-
-.sn-im-chatBox:not(.sn-im-noChatBar) .sn-im-title .sn-im-status,.sn-us-buttonCommentOver,.sn-us-fetchButton,.sn-us-wallButton,.sn-us-wallButton.ui-button,.sn-us-fetchVideoInfo,.sn-us-fetchVideoProvider {
-	display: none;
-	visibility: hidden;
 }
 
 .ltr .jGrowl .jGrowl-notification .jGrowl-message span,.rtl .sn-up-editableButton {
