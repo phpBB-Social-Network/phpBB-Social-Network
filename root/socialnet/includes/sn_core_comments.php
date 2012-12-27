@@ -29,9 +29,7 @@ if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 class sn_core_comments
 {
 	/**
-	 * $p_master
-	 *
-	 * @todo add proper description
+	 * Master object
 	 *
 	 * @var object $p_master
 	 */
