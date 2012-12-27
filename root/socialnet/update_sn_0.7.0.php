@@ -1101,4 +1101,49 @@ function sql_rename_table($new_name)
 	}
 }
 
+if ( !function_exists('http_build_query'))
+{
+  /**
+   * Generate URL-encoded query string for php4
+	 * @see http://php.net/manual/en/function.http-build-query.php
+	 * @param array It may be a simple one-dimensional structure, or an array of arrays
+	 * @param string If numeric indices are used in the base array and this parameter is provided, it will be prepended to the numeric index for elements in the base array only
+	 * @param string Used to separate arguments
+	 * @param int Not used in function, just because of compatibility with php5 function
+	 * @return string Returns a URL-encoded string
+	 */
+	function http_build_query($data, $prefix = '', $separator = arg_separator.output, $enc_type = 0)
+	{
+		$queryString = '';
+
+		if (is_array($data))
+		{
+			foreach ($data as $key => $value)
+			{
+				$correctKey = $prefix;
+
+				if ('' === $prefix)
+				{
+					$correctKey .= $key;
+				}
+				else
+				{
+					$correctKey .= "[" . $key . "]";
+				}
+
+				if (!is_array($value))
+				{
+					$queryString .= urlencode($correctKey) . "=" . urlencode($value) . $separator;
+				}
+				else
+				{
+					$queryString .= http_build_query($value, $correctKey, $separator, $enc_type);
+				}
+			}
+		}
+
+		return substr($queryString, 0, strlen($queryString) - strlen($separator));
+	}
+}
+
 ?>
