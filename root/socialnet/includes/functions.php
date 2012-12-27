@@ -6,7 +6,7 @@
  * @author		Kamahl <kamahl19@gmail.com>
  *
  * @package		phpBB Social Network
- * @version		0.7.0
+ * @version		0.7.2
  * @since		0.6.0
  * @copyright		(c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license		http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -1258,7 +1258,7 @@ class snFunctions
 			$row['username'] = sprintf($user->lang['SN_AP_BIRTHDAY_USERNAME'], $row['username']);
 			$template->assign_block_vars('friends_birthday', array(
 				'USERNAME'			 => $this->get_username_string($this->config['ap_colour_username'], 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
-				'SN_AP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $this->format_date('date', $birth_time, '|j. n.|', false)),
+				'SN_AP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $this->format_date('complete', $birth_time, $user->lang['SN_DAY_MONTH_PATTERN'])),
 				'U_FRIEND_LINK'		 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u=" . $row['user_id']),
 
 			));
