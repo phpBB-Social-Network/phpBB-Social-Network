@@ -337,9 +337,9 @@ $lang = array_merge($lang, array(
 	'MUTUAL'								 => 'Mutual friends',
 	'SUGGESTIONS'							 => 'Suggestions',
 
-	// This patterns are used for Date of Birth label in profile.
-	// Each language should have convention how to display dates of birth,
-	// this is where you specify it for each user browsing profile in
+	// This patterns are used for various date labels.
+	// Each language should have convention how to display dates,
+	// this is where you specify it for each user browsing the labels in
 	// this language.
 	'SN_DAY_MONTH_YEAR_PATTERN'				 => 'j F Y',
 	'SN_DAY_MONTH_PATTERN'						 => 'j F',
