@@ -94,14 +94,13 @@ class sn_hook {
 		{
 			$return = (array) call_user_func_array($function, $variables);
 
-			// return modified variables only if they fully correspond to sent ones
+			// accept modified variables only if they fully correspond to sent ones
 			if ( !array_diff_key($variables, $return) && !array_diff_key($return, $variables) )
 			{
-				return $return;
+				$variables = $return;
 			}
 		}
 
-		// extract() does not accept null, so we need to make sure this function always returns array
-		return array();
+		return $variables;
 	}
 }
