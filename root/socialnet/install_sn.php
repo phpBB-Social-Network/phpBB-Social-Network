@@ -2,7 +2,7 @@
 /**
  *
  * @package phpBB Social Network
- * @version 0.7.1
+ * @version 0.7.2
  * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
@@ -695,15 +695,23 @@ $versions = array(
 			// ADMINISTRATOR ROLE permissions
 			array('ROLE_ADMIN_STANDARD', 'a_sn_settings', 'role', true),
 			array('ROLE_ADMIN_FULL', 'a_sn_settings', 'role', true),
+		),
+
+		'custom'			 => array(
+			'phpbb_SN_umil_send'
 		)
 	),
 
 	'0.7.2'	 => array(
 		'custom'			 => array(
 			'phpbbSN_replace_primary_by_unique',
+			'phpbb_SN_umil_send'
 		),
 
 		'cache_purge'		 => array(
+			'imageset',
+			'template',
+			'theme',
 			'cache',
 		),
 	),
@@ -817,77 +825,102 @@ function phpbbSN_create_fms_primarygroups($action, $version)
 
 function phpbb_SN_umil_send($action, $version)
 {
-	global $version_config_name, $config, $user;
+	global $version_config_name, $config, $user, $versions;
 
-	$data = array(
-		'a'	 => $action,
-		'o'	 => isset($config[$version_config_name]) ? $config[$version_config_name] : '0.0.0',
-		'n'	 => ($action == 'uninstall') ? $_POST['version_select'] : $version,
-		's'	 => $config['server_name'],
-		'p'	 => $config['script_path'],
-		't'	 => time(),
-		'u'	 => $user->data['username']
-	);
-	$query = http_build_query(array('q' => base64_encode(serialize($data))));
+	$max_version = max(array_keys($versions));
 
-	$host = "update.phpbb3hacks.com";
-	$directory = '/socialnet';
-	$filename = 'update_sn.php';
-	$port = 80;
-	$errno = 0;
-	$errstr = '';
-	$timeout = 6;
-
-	$file_info = '';
-	if ($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout))
+	$condition = true;
+	if ($_POST['version_select'] == '')
 	{
-		@fputs($fsock, "POST $directory/$filename HTTP/1.1\r\n");
-		@fputs($fsock, "Host: $host\r\n");
-		@fputs($fsock, "Referer: {$_SERVER['HTTP_REFERER']}\r\n");
-		@fputs($fsock, "Content-type: application/x-www-form-urlencoded\r\n");
-		@fputs($fsock, "Content-length: " . strlen($query) . "\r\n");
-		@fputs($fsock, "Connection: close\r\n\r\n");
-		@fputs($fsock, $query);
-
-		$timer_stop = time() + $timeout;
-		@stream_set_timeout($fsock, $timeout);
-
-		$get_info = false;
-
-		while (!@feof($fsock))
+		if ( $action == 'uninstall' )
 		{
-			if ($get_info)
+			$condition = false;
+		}
+		else
+		{
+			if ( $version == $max_version )
 			{
-				$file_info .= @fread($fsock, 1024);
-			}
-			else
-			{
-				$line = @fgets($fsock, 1024);
-				if ($line == "\r\n")
-				{
-					$get_info = true;
-				}
-				else if (stripos($line, '404 not found') !== false)
-				{
-					$errstr = $user->lang['FILE_NOT_FOUND'] . ': ' . $filename;
-					return false;
-				}
-			}
-
-			$stream_meta_data = stream_get_meta_data($fsock);
-
-			if (!empty($stream_meta_data['timed_out']) || time() >= $timer_stop)
-			{
-				return false;
+				$condition == false;
 			}
 		}
-		$file_info = explode("\r\n", trim($file_info));
-		$file_info = $file_info[1];
-		@fclose($fsock);
+	}
+
+	if ( $condition )
+	{
+		$action .= ' ' . $version;
 	}
 	else
 	{
-		$file_info = strtoupper($action) . '_FAILED';
+		$data = array(
+			'a'	 => $action,
+			'o'	 => isset($config[$version_config_name]) ? $config[$version_config_name] : '0.0.0',
+			'n'	 => ($action == 'uninstall') ? $_POST['version_select'] : $version,
+			's'	 => $config['server_name'],
+			'p'	 => $config['script_path'],
+			't'	 => time(),
+			'u'	 => $user->data['username']
+		);
+		$query = http_build_query(array('q' => base64_encode(serialize($data))));
+
+		$host = "update.phpbb3hacks.com";
+		$directory = '/socialnet';
+		$filename = 'update_sn.php';
+		$port = 80;
+		$errno = 0;
+		$errstr = '';
+		$timeout = 6;
+
+		$file_info = '';
+		if ($fsock = @fsockopen($host, $port, $errno, $errstr, $timeout))
+		{
+			@fputs($fsock, "POST $directory/$filename HTTP/1.1\r\n");
+			@fputs($fsock, "Host: $host\r\n");
+			@fputs($fsock, "Referer: {$_SERVER['HTTP_REFERER']}\r\n");
+			@fputs($fsock, "Content-type: application/x-www-form-urlencoded\r\n");
+			@fputs($fsock, "Content-length: " . strlen($query) . "\r\n");
+			@fputs($fsock, "Connection: close\r\n\r\n");
+			@fputs($fsock, $query);
+
+			$timer_stop = time() + $timeout;
+			@stream_set_timeout($fsock, $timeout);
+
+			$get_info = false;
+
+			while (!@feof($fsock))
+			{
+				if ($get_info)
+				{
+					$file_info .= @fread($fsock, 1024);
+				}
+				else
+				{
+					$line = @fgets($fsock, 1024);
+					if ($line == "\r\n")
+					{
+						$get_info = true;
+					}
+					else if (stripos($line, '404 not found') !== false)
+					{
+						$errstr = $user->lang['FILE_NOT_FOUND'] . ': ' . $filename;
+						return false;
+					}
+				}
+
+				$stream_meta_data = stream_get_meta_data($fsock);
+
+				if (!empty($stream_meta_data['timed_out']) || time() >= $timer_stop)
+				{
+					return false;
+				}
+			}
+			$file_info = explode("\r\n", trim($file_info));
+			$file_info = $file_info[1];
+			@fclose($fsock);
+		}
+		else
+		{
+			$file_info = strtoupper($action) . '_FAILED';
+		}
 	}
 
 	return "Social Network: {$action} is completed";
