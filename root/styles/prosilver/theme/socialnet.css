@@ -738,13 +738,10 @@ div:not(.sn-page) .sn-userName a {
 }
 
 .sn-im-smiliesBox {
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 	background: #fff;
 	border-radius: 4px;
 	display: none;
 	position: absolute;
-	visibility: hidden;
 	width: 150px;
 	z-index: 999;
 }
