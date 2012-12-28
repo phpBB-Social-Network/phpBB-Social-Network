@@ -1180,7 +1180,7 @@ class socialnet extends snFunctions
 		{
 			$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> &copy; phpBB SN Group';
 
-			// allow modules/addons to add additional coyright
+			// allow modules/addons to add additional copyright
 			$additional_copy = '';
 
 			/**
