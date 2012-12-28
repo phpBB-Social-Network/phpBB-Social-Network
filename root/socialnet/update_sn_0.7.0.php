@@ -1112,7 +1112,7 @@ if ( !function_exists('http_build_query'))
 	 * @param int Not used in function, just because of compatibility with php5 function
 	 * @return string Returns a URL-encoded string
 	 */
-	function http_build_query($data, $prefix = '', $separator = arg_separator.output, $enc_type = 0)
+	function http_build_query($data, $prefix = '', $separator = '&', $enc_type = 0)
 	{
 		$queryString = '';
 
