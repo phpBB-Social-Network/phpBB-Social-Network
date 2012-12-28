@@ -1,15 +1,22 @@
 <div id="sn-us" class="sn-us-memberlistViewProfile">
-<!-- IF SCRIPT_NAME == 'memberlist' --><h3>{L_SN_US_USER_STATUS_WALL}</h3><!-- ENDIF -->
+	<!-- IF SCRIPT_NAME == 'memberlist' -->
+		<h3>{L_SN_US_USER_STATUS_WALL}</h3>
+	<!-- ENDIF -->
+
 	<a name="sn-us" id="top2"></a>
-	<!-- IF SN_MODULE_USERSTATUS_CAN_POST_STATUS -->       
+
+	<!-- IF SN_MODULE_USERSTATUS_CAN_POST_STATUS -->
 		<div class="sn-us-membShareStatus">
 			<div class="sn-us-share">
 				<textarea id="sn-us-wallInput" class="sn-us-mention" rows="" cols=""></textarea>
+
 				<!-- INCLUDE socialnet/userstatus_fetch.html -->
+
 				<input type="button" name="sn-us-wallButton" class="sn-us-wallButton ui-button ui-widget ui-state-default ui-corner-all {wall:{SN_US_USER_ID}}" value="{L_SN_US_SHARE_STATUS}" />
-			</div>   
+			</div>
+
 			<div class="clear"></div>
-		</div>      
+		</div>
 	<!-- ENDIF -->
 
 	<div id="sn-us-profile" class="sn-us-profile">
@@ -17,21 +24,25 @@
 			<!-- INCLUDE socialnet/userstatus_status.html -->
 		<!-- ELSE -->
 			<!-- INCLUDE socialnet/activitypage_body_entries.html -->
-		<!-- ENDIF --> 
-		<!-- IF not .us_status and B_SN_ONLY_ONE -->
-		<div class="sn-us-noStatus">
-			{L_SN_US_HAS_DELETED_STATUS}
-		</div>
 		<!-- ENDIF -->
-		<!-- IF not SN_US_DISPLAY_GOTO_TOP and SN_US_DISPLAY_LOAD_MORE_STATUS --> 
-		<div class="sn-more">
-			<a href="#top" class="sn-back-top">{L_BACK_TO_TOP}</a>
-			<!-- IF SN_US_DISPLAY_LOAD_MORE_STATUS -->
-			<a href="javascript:void(0);" class="sn-us-getMore {user:{SN_US_USER_ID}}">{L_SN_US_LOAD_MORE}</a>
-			<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" width="16" height="11" class="sn-us-statusLoader" style="display:none" />
-			<!-- ENDIF -->
-			<div class="clear"></div>
-		</div>
+
+		<!-- IF not .us_status and B_SN_ONLY_ONE -->
+			<div class="sn-us-noStatus">
+				{L_SN_US_HAS_DELETED_STATUS}
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF not SN_US_DISPLAY_GOTO_TOP and SN_US_DISPLAY_LOAD_MORE_STATUS -->
+			<div class="sn-more">
+				<a href="#top" class="sn-back-top">{L_BACK_TO_TOP}</a>
+
+				<!-- IF SN_US_DISPLAY_LOAD_MORE_STATUS -->
+					<a href="javascript:void(0);" class="sn-us-getMore {user:{SN_US_USER_ID}}">{L_SN_US_LOAD_MORE}</a>
+					<img src="{T_IMAGESET_PATH}/socialnet/sn_loader_small.gif" alt="" width="16" height="11" class="sn-us-statusLoader" style="display:none" />
+				<!-- ENDIF -->
+
+				<div class="clear"></div>
+			</div>
 		<!-- ENDIF -->
 	</div>
 </div>

@@ -1,62 +1,71 @@
 <!-- INCLUDE overall_header.html -->
+
 <script type="text/javascript">
 // <![CDATA[
-document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" type="text/css" media="screen" '+'/>');
+	document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" type="text/css" media="screen" '+'/>');
 //]]>
 </script>
 
-<!-- IF S_MOTIONPICTURE --><img src="{S_MOTIONPICTURE_IMG_URL}" style="float:right;" alt="{L_TITLE}" /><!-- ENDIF -->
+<!-- IF S_MOTIONPICTURE -->
+	<img src="{S_MOTIONPICTURE_IMG_URL}" style="float:right;" alt="{L_TITLE}" />
+<!-- ENDIF -->
 
 <h1>{L_TITLE}</h1>
+
 <p>{L_TITLE_EXPLAIN}</p>
 
 <!-- IF S_ERROR -->
-  <div class="errorbox">
-  	<h3>{L_WARNING}</h3>
-  	<p>{ERROR_MSG}</p>
-  </div>
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
 <!-- ENDIF -->
 
 <!-- IF .sn_tabs -->
-<div id="sn_tabs">
-<ul>
-	<!-- BEGIN sn_tabs -->
-	<li<!-- IF sn_tabs.SELECTED --> id="sn_activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
-	<!-- END sn_tabs -->
-</ul>
-</div>
-<div id="sn_acp">
-	<div class="panel">
-		<span class="corners-top"><span></span></span>
+	<div id="sn_tabs">
+		<ul>
+			<!-- BEGIN sn_tabs -->
+				<li<!-- IF sn_tabs.SELECTED --> id="sn_activetab"<!-- ENDIF -->><a href="{sn_tabs.HREF}"><span>{sn_tabs.NAME}</span></a></li>
+			<!-- END sn_tabs -->
+		</ul>
+	</div>
+
+	<div id="sn_acp">
+		<div class="panel"><span class="corners-top"><span></span></span>
+
 			<div id="content" style="padding:10px;">
 <!-- ENDIF -->
 
-
 <!-- IF .options -->
 	<form id="acp_socialnet" method="post" action="{U_ACTION}&amp;block={SN_CURRENT_BLOCK}">
-    <!-- BEGIN options -->
-      <!-- IF options.S_LEGEND -->
-        <!-- IF not options.S_FIRST_ROW -->
-          </fieldset>
-        <!-- ENDIF -->
-          <fieldset>
-            <legend>{options.LEGEND}</legend>
-      <!-- ELSE -->
-        <dl>
-          <dt>
-            <label for="{options.KEY}">{options.TITLE}:</label>
-            <!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF -->
-          </dt>
-          <dd>{options.CONTENT}</dd>
-        </dl>
-      <!-- ENDIF -->
-    <!-- END options -->
-    <!-- IF S_AUTH -->
-      <!-- BEGIN auth_tpl -->
-        {auth_tpl.TPL}
-      <!-- END auth_tpl -->
-    <!-- ENDIF -->
-    </fieldset>
+		<!-- BEGIN options -->
+			<!-- IF options.S_LEGEND -->
+				<!-- IF not options.S_FIRST_ROW -->
+					</fieldset>
+				<!-- ENDIF -->
+
+				<fieldset>
+
+				<legend>{options.LEGEND}</legend>
+			<!-- ELSE -->
+				<dl>
+					<dt>
+						<label for="{options.KEY}">{options.TITLE}:</label>
+						<!-- IF options.S_EXPLAIN --><br /><span>{options.TITLE_EXPLAIN}</span><!-- ENDIF -->
+					</dt>
+					<dd>{options.CONTENT}</dd>
+				</dl>
+			<!-- ENDIF -->
+		<!-- END options -->
+
+		<!-- IF S_AUTH -->
+			<!-- BEGIN auth_tpl -->
+				{auth_tpl.TPL}
+			<!-- END auth_tpl -->
+		<!-- ENDIF -->
+
+		</fieldset>
+
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
 			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
@@ -71,9 +80,9 @@ document.write('<link href="../socialnet/styles/adm_style.css" rel="stylesheet" 
 
 <!-- IF .sn_tabs -->
 			</div>
-		<span class="corners-bottom"><span></span></span>
+
+		<span class="corners-bottom"><span></span></span></div>
 	</div>
-</div>
 <!-- ENDIF -->
 
 <!-- INCLUDE overall_footer.html -->
