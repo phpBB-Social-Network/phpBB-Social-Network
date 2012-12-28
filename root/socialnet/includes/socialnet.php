@@ -82,7 +82,7 @@ class socialnet extends snFunctions
 
 	var $memory_usage = array();
 
-	var $sn_hooks = null;
+	var $sn_hook = null;
 
 	/**
 	 * Construction function
@@ -216,6 +216,18 @@ class socialnet extends snFunctions
 		), $loaded_modules, $enabled_modules, $confirmBox_settings, $block_settings));
 
 		$this->_calc_bbcodeFlags();
+
+		/**
+		 * Hook $socialnet::socialnet() after
+		 *
+		 * This is specially helpful if addons/modules want to initialise
+		 * new classes attached to $socialnet as parent.
+		 *
+		 * @hook sn.socialnet_socialnet_after
+		 * @since 1.0.0
+		 */
+		$vars = array();
+		extract($this->sn_hook->do_action('sn.socialnet_socialnet_after', compact($vars)));
 	}
 
 	/**
@@ -1167,6 +1179,21 @@ class socialnet extends snFunctions
 		if ( $this->useTemplateHook)
 		{
 			$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> &copy; phpBB SN Group';
+
+			// allow modules/addons to add additional coyright
+			$additional_copy = '';
+
+			/**
+			 * Add custom string right after copyright of SN
+			 *
+			 * @hook sn.socialnet_socialnet_after
+			 * @since 1.0.0
+			 */
+			$vars = array('additional_copy');
+			extract($this->sn_hook->do_action('sn.copyright_append', compact($vars)));
+
+			$copy_string .= $additional_copy;
+
 			if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
 			{
 				$template->_tpldata['.'][0]['TRANSLATION_INFO'] = '';
