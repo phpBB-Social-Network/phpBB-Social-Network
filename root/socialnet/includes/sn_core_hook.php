@@ -68,6 +68,11 @@ class sn_hook {
 	 */
 	function add_action($tag, $function)
 	{
+		if ( !isset($this->actions[$tag]) )
+		{
+			$this->actions[$tag] = array();
+		}
+
 		$this->actions[$tag][] = $function;
 	}
 
@@ -80,6 +85,11 @@ class sn_hook {
 	 */
 	function do_action($tag, $variables)
 	{
+		if ( !isset($this->actions[$tag]) ) // tag does not exist
+		{
+			return array();
+		}
+
 		foreach ( $this->actions[$tag] as $function )
 		{
 			$return = (array) call_user_func_array($function, $variables);
