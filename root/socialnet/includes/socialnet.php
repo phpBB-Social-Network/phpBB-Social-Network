@@ -585,9 +585,9 @@ class socialnet extends snFunctions
 	/**
 	 * Get non-freinds data, no cache
 	 */
-	function get_friend_data($part, $user_id)
+	function get_user_data($part, $user_id)
 	{
-		global $user, $db;
+		global $db;
 
 		$sql = "SELECT u.user_id, u.username, su.sex
 		FROM " . USERS_TABLE . " AS u, " . SN_USERS_TABLE . " AS su
@@ -597,18 +597,13 @@ class socialnet extends snFunctions
 		$friend = $db->sql_fetchrow($rs);
 		$db->sql_freeresult($rs);
 
-		$this->friends['user_id'][] = $friend['user_id'];
-		$this->friends['usernames'][] = $friend['username'];
-		$this->friends['sex'][$user_id] = $friend['sex'];
-		$this->friends['friends'][$user_id] = $friend['username'];
-
 		if ($part == '')
 		{
 			return $friend;
 		}
 		else
 		{
-			return $this->friends[$part][$user_id];
+			return $friend[$part];
 		}
 
 	}
@@ -792,7 +787,7 @@ class socialnet extends snFunctions
 		}
 		else
 		{
-			$gender = $this->get_friend_data('sex', $user_id);
+			$gender = $this->get_user_data('sex', $user_id);
 		}
 
 		if ($gender == 1)
