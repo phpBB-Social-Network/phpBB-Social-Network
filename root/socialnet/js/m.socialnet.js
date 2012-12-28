@@ -661,7 +661,7 @@ var socialNetwork = (function($) {
 				useNative: false,
 				className: 'sn-watermark'
 			}).elastic({
-				showNewLine: true,
+				showNewLine: false,
 				parentElement: '.sn-shareComment',
 				submitElement: 'input[name="sn-us-buttonComment"]'
 			});
