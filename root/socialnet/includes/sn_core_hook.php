@@ -1,6 +1,6 @@
 <?php
 /**
- * Hooks class
+ * Hook class
  *
  * Hooks in phpBB Social Network are small pieces of code that allow addons
  * to modify some variables on certain places (usually functions or methods
@@ -12,7 +12,7 @@
  * exactly the same array, as it delivered to custom function.
  * Addon can register to specified hook using this simple line of code:
  *
- * $sn_hook->add_action('sn.<tag>', 'custom_function_name');
+ * $socialnet->sn_hook->add_action('sn.<tag>', 'custom_function_name');
  *
  * From now, as script reaches specified tag, it will trigger your
  * "custom_function_name()" function with first parameter full of data you
@@ -28,7 +28,7 @@
  * to your addon code:
  *
  * $vars = array('name', 'email');
- * extract($sn_hook->do_action('<addon-identifier>.<tag>', compact($vars)));
+ * extract($socialnet->sn_hook->do_action('<addon-identifier>.<tag>', compact($vars)));
  *
  * We urge you to use standardisied documentation for all your hooks:
  *
@@ -43,7 +43,7 @@
  *
  * From now, anyone can access and register to your hook using classic method:
  *
- * $sn_hook->add_action('<addon-identifier>.<tag>', 'custom_function_name');
+ * $socialnet->sn_hook->add_action('<addon-identifier>.<tag>', 'custom_function_name');
  *
  *
  * @package	phpBB-Social-Network
@@ -51,7 +51,7 @@
  * @version	0.7.2
  * @access 	public
  */
-class sn_hooks {
+class sn_hook {
 
 	/**
 	 * Holds names of all custom functions sorted according to tag
