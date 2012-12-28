@@ -1,241 +1,289 @@
 <!-- IF SN_ADDONS_HOOK_SUBMODE eq 'placeholder' -->
-<table cellspacing="1">
-	<thead>
-		<tr>
-			<th>{L_SN_ADDONS_PLACEHOLDER}</th>
-			<th>{L_SN_ADDONS_PLACEHOLDER_STRING}</th>
-			<th style="text-align: center;">{L_ACTIONS}</th>
-		</tr>
-	</thead>
-	<tbody>
-	<!-- BEGIN placeholder -->
-		<tr class="row{placeholder.ROW}">
-			<td>{placeholder.SCRIPT}::{placeholder.BLOCK}</td>
-			<td style="font-family:Courier;font-size:1.1em">{{placeholder.PLACEHOLDER}}</td>
-			<td style="text-align: center;">
-				<a href="{placeholder.U_EDIT}">{ICON_EDIT}</a>
-				<a href="{placeholder.U_DELETE}">{ICON_DELETE}</a>  
-			</td>
-		</tr>
-	<!-- END placeholder -->
-	</tbody>
-</table>
-<!-- DEFINE $SN_CAN_CREATE_PLACEHOLDER = 1 -->
+	<table cellspacing="1">
+		<thead>
+			<tr>
+				<th>{L_SN_ADDONS_PLACEHOLDER}</th>
+				<th>{L_SN_ADDONS_PLACEHOLDER_STRING}</th>
+				<th style="text-align: center;">{L_ACTIONS}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- BEGIN placeholder -->
+				<tr class="row{placeholder.ROW}">
+					<td>{placeholder.SCRIPT}::{placeholder.BLOCK}</td>
+					<td style="font-family:Courier;font-size:1.1em">{{placeholder.PLACEHOLDER}}</td>
+					<td style="text-align: center;">
+						<a href="{placeholder.U_EDIT}">{ICON_EDIT}</a>
+						<a href="{placeholder.U_DELETE}">{ICON_DELETE}</a>
+					</td>
+				</tr>
+			<!-- END placeholder -->
+		</tbody>
+	</table>
+
+	<!-- DEFINE $SN_CAN_CREATE_PLACEHOLDER = 1 -->
 <!-- ENDIF -->
 
 <!-- IF SN_ADDONS_HOOK_SUBMODE eq 'editplaceholder' -->
-<form action="{U_ACTION_ADDONS_HOOK}" method="post">
-	<fieldset>
-		<dl>
-			<dt><label for="sn-addon-scriptname">{L_SN_ADDONS_PLACEHOLDER_SCRIPT_NAME}:</label><br />{L_SN_ADDONS_PLACEHOLDER_SCRIPT_NAME_EXPLAIN}
-			</dt>
-			<dd><input type="text" id="sn-addon-scriptname" class="" name="script_name" value="{PLACEHOLDER_SCRIPT_NAME}" maxlength="64" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="sn-addon-block">{L_SN_ADDONS_PLACEHOLDER_BLOCK}:</label><br />{L_SN_ADDONS_PLACEHOLDER_BLOCK_EXPLAIN}
-			</dt>
-			<dd><input type="text" id="sn-addon-block" class="" name="block" value="{PLACEHOLDER_BLOCK}" maxlength="16" minlength="3" /></dd>
-		</dl>
-		<p class="submit-buttons">
-			<input type="hidden" name="ph_id" value="{PLACEHOLDER_ID}" />
-			<input type="submit" name="submit" value="{L_SAVE}" class="button1" />
-			<input type="reset" name="reset" value="{L_RESET}" class="button2" />
-			{S_FORM_TOKEN}
-		</p>
-	</fieldset>
-	
-</form>
+	<form action="{U_ACTION_ADDONS_HOOK}" method="post">
+
+		<fieldset>
+			<dl>
+				<dt>
+					<label for="sn-addon-scriptname">{L_SN_ADDONS_PLACEHOLDER_SCRIPT_NAME}:</label><br />
+					{L_SN_ADDONS_PLACEHOLDER_SCRIPT_NAME_EXPLAIN}
+				</dt>
+				<dd><input type="text" id="sn-addon-scriptname" class="" name="script_name" value="{PLACEHOLDER_SCRIPT_NAME}" maxlength="64" /></dd>
+			</dl>
+
+			<dl>
+				<dt>
+					<label for="sn-addon-block">{L_SN_ADDONS_PLACEHOLDER_BLOCK}:</label><br />
+					{L_SN_ADDONS_PLACEHOLDER_BLOCK_EXPLAIN}
+				</dt>
+				<dd><input type="text" id="sn-addon-block" class="" name="block" value="{PLACEHOLDER_BLOCK}" maxlength="16" minlength="3" /></dd>
+			</dl>
+
+			<p class="submit-buttons">
+				<input type="hidden" name="ph_id" value="{PLACEHOLDER_ID}" />
+				<input type="submit" name="submit" value="{L_SAVE}" class="button1" />
+				<input type="reset" name="reset" value="{L_RESET}" class="button2" />
+				{S_FORM_TOKEN}
+			</p>
+		</fieldset>
+
+	</form>
 <!-- ENDIF -->
 
 <!-- IF SN_ADDONS_HOOK_SUBMODE eq 'addon' -->
-<!-- IF .ph_script -->
-	<div id="sn_menu">
-		<ul>
-		<!-- BEGIN ph_script -->
-			<li class="header">{ph_script.SCRIPT}</li>
-			<!-- BEGIN ph_block -->
-			<li<!-- IF ph_script.ph_block.SELECTED --> id="sn_activemenu"<!-- ENDIF -->><a href="{ph_script.ph_block.U_LINK}"><span>&raquo; {ph_script.ph_block.BLOCK}</span></a></li>
-			<!-- END ph_block -->
-		<!-- END ph_script -->
-		</ul>
+	<!-- IF .ph_script -->
+		<div id="sn_menu">
+			<ul>
+				<!-- BEGIN ph_script -->
+					<li class="header">{ph_script.SCRIPT}</li>
+					<!-- BEGIN ph_block -->
+						<li<!-- IF ph_script.ph_block.SELECTED --> id="sn_activemenu"<!-- ENDIF -->><a href="{ph_script.ph_block.U_LINK}"><span>&raquo; {ph_script.ph_block.BLOCK}</span></a></li>
+					<!-- END ph_block -->
+				<!-- END ph_script -->
+			</ul>
 
-	</div>
-	<div id="sn_main">
-		<table cellspacing="1">
-			<thead>
-				<tr>
-					<th>{L_SN_ADDONS_ADDON}</th>
-					<th style="text-align:center;width:10%" colspan="2">{L_ACP_TEMPLATES}</th>
-					<th style="text-align:center;width:10%" colspan="2">{L_ENABLED}</th>
-					<th style="text-align:center;width:15%">{L_ACTIONS}</th>
-				</tr>
-			</thead>
-			<tbody>
-			<!-- BEGIN addon -->
-				<tr class="row{addon.ROW}">
-					<td><strong>{addon.NAME}</strong></td>
-					<td style="text-align:center"><!-- IF addon.B_TEMPLATE -->{L_SN_ADDONS_ADDON_TEMPLATE_EXIST}<!-- ELSE -->{L_SN_ADDONS_ADDON_TEMPLATE_NOT_EXIST}<!-- ENDIF --></td>
-					<td class="<!-- IF addon.B_TEMPLATE -->success<!-- ELSE -->error<!-- ENDIF -->box" style="width:9px;text-align:center;padding:0;margin:0">&nbsp;</td>
-					<td style="text-align:center;">[<!-- IF addon.B_ACTIVE --><a href="{addon.U_DISABLE}" title="{L_DISABLE}">{L_DISABLE}</a><!-- ELSE --><a href="{addon.U_ENABLE}" title="{L_ENABLE}">{L_ENABLE}</a><!-- ENDIF -->]</td>
-					<td class="<!-- IF addon.B_ACTIVE -->success<!-- ELSE -->error<!-- ENDIF -->box" style="width:10px;text-align:center;padding:0;margin:0">&nbsp;</td>
-					<td style="text-align:center;">
-					<!-- IF addon.S_FIRST_ROW && not addon.S_LAST_ROW -->
-						{ICON_MOVE_UP_DISABLED}
-						<a href="{addon.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-					<!-- ELSEIF not addon.S_FIRST_ROW && not addon.S_LAST_ROW -->
-						<a href="{addon.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-						<a href="{addon.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-					<!-- ELSEIF addon.S_LAST_ROW && not addon.S_FIRST_ROW -->
-						<a href="{addon.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-						{ICON_MOVE_DOWN_DISABLED}
-					<!-- ELSE -->
-						{ICON_MOVE_UP_DISABLED}
-						{ICON_MOVE_DOWN_DISABLED}
+		</div>
+
+		<div id="sn_main">
+			<table cellspacing="1">
+				<thead>
+					<tr>
+						<th>{L_SN_ADDONS_ADDON}</th>
+						<th style="text-align:center;width:10%" colspan="2">{L_ACP_TEMPLATES}</th>
+						<th style="text-align:center;width:10%" colspan="2">{L_ENABLED}</th>
+						<th style="text-align:center;width:15%">{L_ACTIONS}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- BEGIN addon -->
+						<tr class="row{addon.ROW}">
+							<td><strong>{addon.NAME}</strong></td>
+							<td style="text-align:center">
+								<!-- IF addon.B_TEMPLATE -->
+									{L_SN_ADDONS_ADDON_TEMPLATE_EXIST}
+								<!-- ELSE -->
+									{L_SN_ADDONS_ADDON_TEMPLATE_NOT_EXIST}
+								<!-- ENDIF -->
+							</td>
+
+							<td class="<!-- IF addon.B_TEMPLATE -->success<!-- ELSE -->error<!-- ENDIF -->box" style="width:9px;text-align:center;padding:0;margin:0">&nbsp;</td>
+
+							<td style="text-align:center;">
+								[
+									<!-- IF addon.B_ACTIVE -->
+										<a href="{addon.U_DISABLE}" title="{L_DISABLE}">{L_DISABLE}</a>
+									<!-- ELSE -->
+										<a href="{addon.U_ENABLE}" title="{L_ENABLE}">{L_ENABLE}</a>
+									<!-- ENDIF -->
+								]
+							</td>
+
+							<td class="<!-- IF addon.B_ACTIVE -->success<!-- ELSE -->error<!-- ENDIF -->box" style="width:10px;text-align:center;padding:0;margin:0">&nbsp;</td>
+
+							<td style="text-align:center;">
+								<!-- IF addon.S_FIRST_ROW && not addon.S_LAST_ROW -->
+									{ICON_MOVE_UP_DISABLED}
+									<a href="{addon.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+								<!-- ELSEIF not addon.S_FIRST_ROW && not addon.S_LAST_ROW -->
+									<a href="{addon.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+									<a href="{addon.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
+								<!-- ELSEIF addon.S_LAST_ROW && not addon.S_FIRST_ROW -->
+									<a href="{addon.U_MOVE_UP}">{ICON_MOVE_UP}</a>
+									{ICON_MOVE_DOWN_DISABLED}
+								<!-- ELSE -->
+									{ICON_MOVE_UP_DISABLED}
+									{ICON_MOVE_DOWN_DISABLED}
+								<!-- ENDIF -->
+
+								<a href="{addon.U_EDIT}">{ICON_EDIT}</a>
+								<a href="{addon.U_DELETE}">{ICON_DELETE}</a>
+							</td>
+						</tr>
+					<!-- END addon -->
+
+					<!-- IF not .addon -->
+						<tr><td colspan="4">{L_SN_ADDON_NO_ADDON_IN_PLACEHOLDER}</td></tr>
 					<!-- ENDIF -->
-						<a href="{addon.U_EDIT}">{ICON_EDIT}</a>
-						<a href="{addon.U_DELETE}">{ICON_DELETE}</a>
-					</td>
-				</tr>
-			<!-- END addon -->
-			<!-- IF not .addon -->
-				<tr><td colspan="4">{L_SN_ADDON_NO_ADDON_IN_PLACEHOLDER}</td></tr>
-			<!-- ENDIF --> 
-			</tbody>
-		</table>
-		<form action="{U_ACTION}&amp;sub=editaddon" method="post">
-			<fieldset class="quick">
-				{L_SN_ADDONS_ADDON}:
-				<select name="addon_name">
-					<!-- BEGIN av_file -->
-					<optgroup label="{av_file.NAME} [{av_file.FILE}]">
-						<!-- BEGIN av_fnc -->
-						<option value="{av_file.av_fnc.NAME}::{av_file.FILE}::{av_file.av_fnc.FUNCTION}">&nbsp;{av_file.av_fnc.NAME}</option>
-						<!-- END av_fnc -->
-					</optgroup>
-					<!-- END av_file -->
-				</select>
-				<input type="hidden" name="ph_id" value="{SN_ADDON_CURRENT_PLACEHOLDER}" />
-				<input type="hidden" class="post" name="ad_id" value="0" />
-				<input type="submit" class="button2" name="add" value="{L_SN_ADDONS_ADDADDON}" />
-				{S_TOKEN_FORM}
-			</fieldset>
-		</form>
-	</div>
-<!-- ELSE -->
-	{L_SN_ADDONS_NO_PLACEHOLDER_TO_ADD_ADDON}<br />
-	<!-- DEFINE $SN_CAN_CREATE_PLACEHOLDER = 1 -->
-<!-- ENDIF -->
-<!-- IF B_SN_ADDON_TEPLATE_FOLDER_NOT_EXIST -->
-<p class="errorbox" style="clear:both;">{L_SN_ADDON_TEMPLATE_FOLDER_NOT_EXIST}</p>
-<!-- ENDIF -->
+				</tbody>
+			</table>
 
-<!-- ENDIF -->
+			<form action="{U_ACTION}&amp;sub=editaddon" method="post">
 
+				<fieldset class="quick">
+					{L_SN_ADDONS_ADDON}:
+					<select name="addon_name">
+						<!-- BEGIN av_file -->
+							<optgroup label="{av_file.NAME} [{av_file.FILE}]">
+								<!-- BEGIN av_fnc -->
+									<option value="{av_file.av_fnc.NAME}::{av_file.FILE}::{av_file.av_fnc.FUNCTION}">&nbsp;{av_file.av_fnc.NAME}</option>
+								<!-- END av_fnc -->
+							</optgroup>
+						<!-- END av_file -->
+					</select>
+
+					<input type="hidden" name="ph_id" value="{SN_ADDON_CURRENT_PLACEHOLDER}" />
+					<input type="hidden" class="post" name="ad_id" value="0" />
+					<input type="submit" class="button2" name="add" value="{L_SN_ADDONS_ADDADDON}" />
+					{S_TOKEN_FORM}
+				</fieldset>
+
+			</form>
+		</div>
+	<!-- ELSE -->
+		{L_SN_ADDONS_NO_PLACEHOLDER_TO_ADD_ADDON}<br />
+
+		<!-- DEFINE $SN_CAN_CREATE_PLACEHOLDER = 1 -->
+	<!-- ENDIF -->
+
+	<!-- IF B_SN_ADDON_TEPLATE_FOLDER_NOT_EXIST -->
+		<p class="errorbox" style="clear:both;">{L_SN_ADDON_TEMPLATE_FOLDER_NOT_EXIST}</p>
+	<!-- ENDIF -->
+<!-- ENDIF -->
 
 <!-- IF SN_ADDONS_HOOK_SUBMODE eq 'editaddon' -->
-<form action="{U_ACTION_ADDONS_HOOK}" method="post">
-	<fieldset>
-		<dl>
-			<dt><label for="sn_addon">{L_SN_ADDONS_ADDON}:</label></dt>
-			<dd>
-				<select name="addon_name" id="sn_addon" onchange="ctrl_tpl();">
-					<!-- BEGIN av_file -->
-					<optgroup label="{av_file.NAME} [{av_file.FILE}]">
-						<!-- BEGIN av_fnc -->
-						<option value="{av_file.av_fnc.NAME}::{av_file.FILE}::{av_file.av_fnc.FUNCTION}"<!-- IF av_file.av_fnc.SELECTED --> selected="selected"<!-- ENDIF -->>&nbsp;{av_file.av_fnc.NAME}</option>
-						<!-- END av_fnc -->
-					</optgroup>
-					<!-- END av_file -->
-				</select>
-			</dd>
-		</dl>
-		<dl>
-			<dt><label for="sn_placeholder">{L_SN_ADDONS_PLACEHOLDER}:</label></dt>
-			<dd>
-				<select name="ph_id" id="sn_placeholder" onchange="ctrl_tpl();">
-					<!-- BEGIN ph_script -->
-					<optgroup label="{ph_script.SCRIPT}">
-						<!-- BEGIN ph_block -->
-						<option value="{ph_script.ph_block.ID}"<!-- IF ph_script.ph_block.SELECTED --> selected="selected"<!-- ENDIF -->>&nbsp;{ph_script.SCRIPT}::{ph_script.ph_block.BLOCK}</option>
-						<!-- END ph_block -->
-					</optgroup>
-					<!-- END ph_script -->
-				</select>
-			</dd>
-		</dl>
-		<dl>
-			<dt><label for="sn_addon_enable">{L_ENABLED}:</label></dt>
-			<dd><label><input type="radio" id="sn_addon_enable" name="addon_enable" value="1"<!-- IF SN_ADDON_ENABLED --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label>
-				<label><input type="radio" name="addon_enable" value="0"<!-- IF not SN_ADDON_ENABLED --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label>
-			</dd>
-		</dl>
-		<dl>
-			<dt><label>{L_SN_ADDONS_TEMPLATE}</label>:</dt>
-			<dd id="sn_addon_tpl_exists">
-				<span id="sn_addon_icon_no"><img src="./images/icon_delete.gif" alt="not exist" /></span>				
-				<span id="sn_addon_icon_yes"><img src="../socialnet/styles/accept.png" alt="exist" /></span>
-				<span id="sn_addon_tpl"></span>.html
-			</dd>
-		</dl>
-		<p class="submit-buttons">
-			<input type="hidden" name="ad_id" value="{SN_ADDON_ID}" />
-			<input type="submit" name="submit" value="{L_SAVE}" class="button1" />
-			<input type="reset" name="reset" value="{L_RESET}" class="button2" />
-			{S_FORM_TOKEN}
-		</p>
-	</fieldset>
-	<script type="text/javascript">
-	// <![CDATA[
-	var sn_addon_templates = [<!-- BEGIN template -->
-	"{template.FILE}"<!-- IF not template.S_LAST_ROW -->, <!-- ENDIF -->
-	<!-- END template -->
-	];
-	
-	var places = {	<!-- BEGIN ph_script --><!-- BEGIN ph_block -->
-				{ph_script.ph_block.ID}:"{ph_script.SCRIPT}_{ph_script.ph_block.BLOCK}"<!-- IF ( not ph_script.S_LAST_ROW ) or ( not ph_script.ph_block.S_LAST_ROW ) -->,<!-- ENDIF -->
-				<!-- END ph_block --><!-- END ph_script -->
-	};
-	var i,tpl_exist,tpl_icon_no, tpl_icon_yes;
-	
-	function ctrl_tpl(){
-		addon = document.getElementById('sn_addon').value;
-		place = document.getElementById('sn_placeholder').value;
-		tpl = addon.replace(/^.+::addon_/gi,'').replace(/::/gi,'_');
-		document.getElementById('sn_addon_tpl').innerHTML = tpl;
-		
-		tpl_exist = '#660000';
-		tpl_icon_no = 'inline';
-		tpl_icon_yes = 'none';
-		
-		for(i=0;i<sn_addon_templates.length;i++){
-			if( sn_addon_templates[i]==tpl+'.html'){
-				tpl_exist = '#006600';
-				tpl_icon_no = 'none';
-				tpl_icon_yes = 'inline';
-				
+	<form action="{U_ACTION_ADDONS_HOOK}" method="post">
+
+		<fieldset>
+			<dl>
+				<dt><label for="sn_addon">{L_SN_ADDONS_ADDON}:</label></dt>
+				<dd>
+					<select name="addon_name" id="sn_addon" onchange="ctrl_tpl();">
+						<!-- BEGIN av_file -->
+							<optgroup label="{av_file.NAME} [{av_file.FILE}]">
+								<!-- BEGIN av_fnc -->
+									<option value="{av_file.av_fnc.NAME}::{av_file.FILE}::{av_file.av_fnc.FUNCTION}"<!-- IF av_file.av_fnc.SELECTED --> selected="selected"<!-- ENDIF -->>&nbsp;{av_file.av_fnc.NAME}</option>
+								<!-- END av_fnc -->
+							</optgroup>
+						<!-- END av_file -->
+					</select>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="sn_placeholder">{L_SN_ADDONS_PLACEHOLDER}:</label></dt>
+				<dd>
+					<select name="ph_id" id="sn_placeholder" onchange="ctrl_tpl();">
+						<!-- BEGIN ph_script -->
+							<optgroup label="{ph_script.SCRIPT}">
+								<!-- BEGIN ph_block -->
+									<option value="{ph_script.ph_block.ID}"<!-- IF ph_script.ph_block.SELECTED --> selected="selected"<!-- ENDIF -->>&nbsp;{ph_script.SCRIPT}::{ph_script.ph_block.BLOCK}</option>
+								<!-- END ph_block -->
+							</optgroup>
+						<!-- END ph_script -->
+					</select>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="sn_addon_enable">{L_ENABLED}:</label></dt>
+				<dd>
+					<label><input type="radio" id="sn_addon_enable" name="addon_enable" value="1"<!-- IF SN_ADDON_ENABLED --> checked="checked"<!-- ENDIF --> class="radio" /> {L_YES}</label>
+					<label><input type="radio" name="addon_enable" value="0"<!-- IF not SN_ADDON_ENABLED --> checked="checked"<!-- ENDIF --> class="radio" /> {L_NO}</label>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label>{L_SN_ADDONS_TEMPLATE}</label>:</dt>
+				<dd id="sn_addon_tpl_exists">
+					<span id="sn_addon_icon_no"><img src="./images/icon_delete.gif" alt="not exist" /></span>
+					<span id="sn_addon_icon_yes"><img src="../socialnet/styles/accept.png" alt="exist" /></span>
+					<span id="sn_addon_tpl"></span>.html
+				</dd>
+			</dl>
+
+			<p class="submit-buttons">
+				<input type="hidden" name="ad_id" value="{SN_ADDON_ID}" />
+				<input type="submit" name="submit" value="{L_SAVE}" class="button1" />
+				<input type="reset" name="reset" value="{L_RESET}" class="button2" />
+				{S_FORM_TOKEN}
+			</p>
+		</fieldset>
+
+		<script type="text/javascript">
+		// <![CDATA[
+			var sn_addon_templates = [
+				<!-- BEGIN template -->
+					"{template.FILE}"<!-- IF not template.S_LAST_ROW -->, <!-- ENDIF -->
+				<!-- END template -->
+			];
+
+			var places = {
+				<!-- BEGIN ph_script -->
+					<!-- BEGIN ph_block -->
+						{ph_script.ph_block.ID}:"{ph_script.SCRIPT}_{ph_script.ph_block.BLOCK}"<!-- IF ( not ph_script.S_LAST_ROW ) or ( not ph_script.ph_block.S_LAST_ROW ) -->,<!-- ENDIF -->
+					<!-- END ph_block -->
+				<!-- END ph_script -->
+			};
+
+			var i,tpl_exist,tpl_icon_no, tpl_icon_yes;
+
+			function ctrl_tpl() {
+				addon = document.getElementById('sn_addon').value;
+				place = document.getElementById('sn_placeholder').value;
+				tpl = addon.replace(/^.+::addon_/gi,'').replace(/::/gi,'_');
+				document.getElementById('sn_addon_tpl').innerHTML = tpl;
+
+				tpl_exist = '#660000';
+				tpl_icon_no = 'inline';
+				tpl_icon_yes = 'none';
+
+				for(i=0; i<sn_addon_templates.length; i++) {
+					if(sn_addon_templates[i] == tpl+'.html') {
+						tpl_exist = '#006600';
+						tpl_icon_no = 'none';
+						tpl_icon_yes = 'inline';
+					}
+				}
+
+				document.getElementById('sn_addon_tpl_exists').style.color=tpl_exist;
+				document.getElementById('sn_addon_icon_no').style.display=tpl_icon_no;
+				document.getElementById('sn_addon_icon_yes').style.display=tpl_icon_yes;
 			}
-		}
-		
-		document.getElementById('sn_addon_tpl_exists').style.color=tpl_exist;
-		document.getElementById('sn_addon_icon_no').style.display=tpl_icon_no;
-		document.getElementById('sn_addon_icon_yes').style.display=tpl_icon_yes;
-		
-	}
-	
-	ctrl_tpl();
-	// ]]>
-	</script>
-</form>
+
+			ctrl_tpl();
+		// ]]>
+		</script>
+	</form>
 <!-- ENDIF -->
 
 <!-- IF $SN_CAN_CREATE_PLACEHOLDER -->
-<br />
-<form action="{U_ACTION}&amp;sub=editplaceholder" method="post">
-	<fieldset class="quick">
-		<input type="hidden" name="ph_id" value="0" />
-		{L_SN_ADDONS_PLACEHOLDER}: <input type="text" class="post" name="script_name" value="" />::<input type="text" class="post" name="block" value="" />
-		<input type="submit" class="button2" name="add" value="{L_SN_ADDONS_ADDHOLDER}" />
-	</fieldset>
-</form>
+	<br />
+	<form action="{U_ACTION}&amp;sub=editplaceholder" method="post">
+
+		<fieldset class="quick">
+			<input type="hidden" name="ph_id" value="0" />
+			{L_SN_ADDONS_PLACEHOLDER}:
+			<input type="text" class="post" name="script_name" value="" />::<input type="text" class="post" name="block" value="" />
+			<input type="submit" class="button2" name="add" value="{L_SN_ADDONS_ADDHOLDER}" />
+		</fieldset>
+
+	</form>
+
 <!-- UNDEFINE $SN_CAN_CREATE_PLACEHOLDER -->
+
 <!-- ENDIF -->

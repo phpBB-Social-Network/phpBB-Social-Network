@@ -1,26 +1,49 @@
-<!-- IF not SN_FMS_BLOCK_USER_AJAX_LOAD --><div id="sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}" class="pagination"><!-- ENDIF -->
+<!-- IF not SN_FMS_BLOCK_USER_AJAX_LOAD -->
+	<div id="sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}" class="pagination">
+<!-- ENDIF -->
+
 {SN_FMS_BLOCK_USER_PAGINATION_TOTAL}<!-- IF SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES -->,
 {SN_FMS_BLOCK_USER_PAGINATION_CURRENT_PAGE}<!-- ENDIF --><!-- IF .sn_fms_block_user_pagination -->,
 <!-- IF not SN_FMS_BLOCK_USER_USE_SLIDER -->
-<span>
-<!-- BEGIN sn_fms_block_user_pagination -->
-<!-- IF not sn_fms_block_user_pagination.S_FIRST_ROW --><span class="page-sep">{L_COMMA_SEPARATOR} </span><!-- ENDIF -->
-<!-- IF sn_fms_block_user_pagination.S_LAST_ROW and SN_FMS_BLOCK_USER_PAGINATION_END_CNT < SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES_1 -->...<!-- ENDIF -->
-<!-- IF sn_fms_block_user_pagination.PAGE_ACTIVE--><strong>{sn_fms_block_user_pagination.PAGE_NUMBER}</strong><!-- ELSE --><a href="javascript:socialNetwork.fms.usersLoad('{SN_FMS_BLOCK_USER_PAGINATION_MODE}',{sn_fms_block_user_pagination.PAGE_START},{SN_FMS_BLOCK_USER_PAGINATION_LIMIT},{SN_FMS_BLOCK_USER_PAGINATION_USER_ID},'{SN_FMS_BLOCK_USER_CHECKBOX_NAME}','{SN_FMS_BLOCK_USER_USE_SLIDER}'=='1', '{SN_FMS_BLOCK_PROFILE_LINK}'=='1');">{sn_fms_block_user_pagination.PAGE_NUMBER}</a><!-- ENDIF --><!-- IF sn_fms_block_user_pagination.S_FIRST_ROW and SN_FMS_BLOCK_USER_PAGINATION_START_CNT > 2 -->...<!-- ENDIF -->
-<!-- END sn_fms_block_user_pagination --></span><!-- ELSE -->
-<div id="sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}-slider sn-fms-userBlockPaginationSlider"></div>
-<script type="text/javascript">
-	jQuery(document).ready(function($){
-		$('#sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}-slider').slider({
-			range: 'min',
-			min: 1,
-			max: {SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES},
-			value: {SN_FMS_BLOCK_USER_PAGINATION_ON_PAGE},
-			slide: function(e,ui){
-				$('#sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}').children('strong').first().html(ui.value);
-				socialNetwork.fms.usersLoad('{SN_FMS_BLOCK_USER_PAGINATION_MODE}',(ui.value-1)*{SN_FMS_BLOCK_USER_PAGINATION_LIMIT},{SN_FMS_BLOCK_USER_PAGINATION_LIMIT},{SN_FMS_BLOCK_USER_PAGINATION_USER_ID},'{SN_FMS_BLOCK_USER_CHECKBOX_NAME}','{SN_FMS_BLOCK_USER_USE_SLIDER}'=='1');
-			}
+	<span>
+		<!-- BEGIN sn_fms_block_user_pagination -->
+			<!-- IF not sn_fms_block_user_pagination.S_FIRST_ROW -->
+				<span class="page-sep">{L_COMMA_SEPARATOR} </span>
+			<!-- ENDIF -->
+
+			<!-- IF sn_fms_block_user_pagination.S_LAST_ROW and SN_FMS_BLOCK_USER_PAGINATION_END_CNT < SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES_1 -->
+				...
+			<!-- ENDIF -->
+
+			<!-- IF sn_fms_block_user_pagination.PAGE_ACTIVE-->
+				<strong>{sn_fms_block_user_pagination.PAGE_NUMBER}</strong>
+			<!-- ELSE -->
+				<a href="javascript:socialNetwork.fms.usersLoad('{SN_FMS_BLOCK_USER_PAGINATION_MODE}',{sn_fms_block_user_pagination.PAGE_START},{SN_FMS_BLOCK_USER_PAGINATION_LIMIT},{SN_FMS_BLOCK_USER_PAGINATION_USER_ID},'{SN_FMS_BLOCK_USER_CHECKBOX_NAME}','{SN_FMS_BLOCK_USER_USE_SLIDER}'=='1', '{SN_FMS_BLOCK_PROFILE_LINK}'=='1');">{sn_fms_block_user_pagination.PAGE_NUMBER}</a>
+			<!-- ENDIF -->
+
+			<!-- IF sn_fms_block_user_pagination.S_FIRST_ROW and SN_FMS_BLOCK_USER_PAGINATION_START_CNT > 2 -->
+				...
+			<!-- ENDIF -->
+		<!-- END sn_fms_block_user_pagination -->
+	</span>
+<!-- ELSE -->
+	<div id="sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}-slider sn-fms-userBlockPaginationSlider"></div>
+	<script type="text/javascript">
+		jQuery(document).ready(function($){
+			$('#sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}-slider').slider({
+				range: 'min',
+				min: 1,
+				max: {SN_FMS_BLOCK_USER_PAGINATION_TOTAL_PAGES},
+				value: {SN_FMS_BLOCK_USER_PAGINATION_ON_PAGE},
+				slide: function(e,ui){
+					$('#sn-fms-usersBlockPagination-{SN_FMS_BLOCK_USER_PAGINATION_MODE}').children('strong').first().html(ui.value);
+					socialNetwork.fms.usersLoad('{SN_FMS_BLOCK_USER_PAGINATION_MODE}',(ui.value-1)*{SN_FMS_BLOCK_USER_PAGINATION_LIMIT},{SN_FMS_BLOCK_USER_PAGINATION_LIMIT},{SN_FMS_BLOCK_USER_PAGINATION_USER_ID},'{SN_FMS_BLOCK_USER_CHECKBOX_NAME}','{SN_FMS_BLOCK_USER_USE_SLIDER}'=='1');
+				}
+			});
 		});
-	});
-</script><!-- ENDIF --><!-- ENDIF -->
-<!-- IF not SN_FMS_BLOCK_USER_AJAX_LOAD --></div><!-- ENDIF -->
+	</script>
+<!-- ENDIF --><!-- ENDIF -->
+
+<!-- IF not SN_FMS_BLOCK_USER_AJAX_LOAD -->
+	</div>
+<!-- ENDIF -->

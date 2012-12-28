@@ -1,38 +1,44 @@
 <form>
 	<div id="sn-up-friendsButtons" user="{USER_ID}" limit="{FMS_LIMIT}">
 		<input type="radio" id="sn-up-friendsRadio1" name="sn-up-friendsRadio" mode="friendprofiletab" />
+
 		<label for="sn-up-friendsRadio1">{L_SN_UP_FRIENDS}</label>
+
 		<!-- IF not S_OWN_PROFILE -->
-		<input type="radio" id="sn-up-friendsRadio2" name="sn-up-friendsRadio" mode="mutual" />
-		<label for="sn-up-friendsRadio2">{L_MUTUAL}</label>
-    <!-- ENDIF -->
-		<!--input type="radio" id="sn-up-friendsRadio3" name="sn-up-friendsRadio" mode="suggestion" />
-		<label for="sn-up-friendsRadio3">{L_SUGGESTIONS}</label-->
+			<input type="radio" id="sn-up-friendsRadio2" name="sn-up-friendsRadio" mode="mutual" />
+			<label for="sn-up-friendsRadio2">{L_MUTUAL}</label>
+		<!-- ENDIF -->
+
 		<!-- IF S_OWN_PROFILE and S_NOT_USED -->
-		<input type="radio" id="sn-up-friendsRadio4" name="sn-up-friendsRadio" mode="foes" />
-		<label for="sn-up-friendsRadio4">{L_FOES}</label><!-- ENDIF -->
+			<input type="radio" id="sn-up-friendsRadio4" name="sn-up-friendsRadio" mode="foes" />
+			<label for="sn-up-friendsRadio4">{L_FOES}</label>
+		<!-- ENDIF -->
 	</div>
 </form>
+
 <div class="clear"></div>
+
 <div class="sn-up-friendsContent_friends">
 	<div id="sn-fms-usersBlockPagination-friendprofiletab" class="pagination"></div>
 	<div id="sn-fms-usersBlockPagination-mutual" class="pagination"></div>
 	<div id="sn-fms-usersBlockPagination-suggestion" class="pagination"></div>
 	<div id="sn-fms-usersBlockPagination-foes" class="pagination"></div>
+
 	<div class="clear"></div>
+
 	<div id="sn-fms-usersBlockContent-friendprofiletab" class="sn-fms-users sn-fms-users-friendprofiletab"></div>
 	<div id="sn-fms-usersBlockContent-mutual" class="sn-fms-users sn-fms-users-mutual"></div>
 	<div id="sn-fms-usersBlockContent-suggestion" class="sn-fms-users sn-fms-users-suggestion"></div>
 	<div id="sn-fms-usersBlockContent-foes" class="sn-fms-users sn-fms-users-foes"></div>
-	<!--	{SN_FMS_BLOCK_FRIENDPROFILE_CONTENT}<div class="clear"></div>
-	{SN_FMS_BLOCK_FRIENDPROFILE_PAGINATION_STRING}<div class="clear"></div> -->
 </div>
+
 <div class="clear"></div>
+
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
 		if($('#sn-up-friendsButtons').size() > 0) {
 			$sn = socialNetwork;
-			
+
 			$('#sn-up-friendsButtons').buttonset();
 			$('#sn-up-friendsButtons label').css({
 				width : Math.max(Math.floor(99 / $('#sn-up-friendsButtons label').size(), 16)) + '%'
@@ -49,7 +55,9 @@
 				$('.sn-up-friendsContent_friends').children('div[id^="sn-fms-usersBlock"][id$=' + m + ']').show();
 
 			});
+
 			var snUpFriendsButtons_start = $.cookie($sn.cookie.name + 'sn-up-friendsTab');
+
 			if(snUpFriendsButtons_start == null || $('#' + snUpFriendsButtons_start).size() == 0) {
 				snUpFriendsButtons_start = $('#sn-up-friendsButtons input[type=radio]:first-child').attr('id');
 			}
@@ -59,6 +67,5 @@
 				$('#sn-up-friendsButtons').hide();
 			}
 		}
-
 	});
 </script>

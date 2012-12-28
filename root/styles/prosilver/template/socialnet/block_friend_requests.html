@@ -1,18 +1,23 @@
 <!-- IF B_SN_BLOCK_FRIEND_REQUESTS_ENABLED and .friend_requests -->
 	<!-- DEFINE $BLOCK_HEADER = '{L_SN_AP_REQUESTS_LIST}' -->
 	<!-- DEFINE $BLOCK_HEADER_LINK = '{U_MANAGE_FRIEND}' -->
+
 	<!-- INCLUDE socialnet/block_page_header.html -->
+
 	<div class="sn-page-blocktext sn-fms-users sn-fms-users-fullWidth sn-fms-users-friendRequests">
 		<!-- BEGIN friend_requests -->
-	    <span class="sn-fms-friend sn-fms-user-friendRequest ui-widget-content ui-corner-all {uid:{friend_requests.USER_ID}}">
-	  		<a href="{friend_requests.USERNAME_PROFILE}">
-	        	<span class="sn-user-avatar ui-widget ui- widget-header">{friend_requests.AVATAR}</span>
-	      	</a>
-	  		<span class="sn-userName">{friend_requests.USERNAME}</span>
-	  		<br />
-			<span><a href="{U_ADD_FRIEND}&amp;add={friend_requests.USERNAME_CLEAN}">{L_ACCEPT_FRIEND}</a></span>
-	    </span>
+			<span class="sn-fms-friend sn-fms-user-friendRequest ui-widget-content ui-corner-all {uid:{friend_requests.USER_ID}}">
+				<a href="{friend_requests.USERNAME_PROFILE}">
+					<span class="sn-user-avatar ui-widget ui- widget-header">{friend_requests.AVATAR}</span>
+				</a>
+
+				<span class="sn-userName">{friend_requests.USERNAME}</span>
+				<br />
+
+				<span><a href="{U_ADD_FRIEND}&amp;add={friend_requests.USERNAME_CLEAN}">{L_ACCEPT_FRIEND}</a></span>
+			</span>
 		<!-- END friend_requests -->
+
 		<div class="clear"></div>
 	</div>
 <!-- ENDIF -->
