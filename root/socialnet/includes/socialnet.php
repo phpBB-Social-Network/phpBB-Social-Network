@@ -1186,6 +1186,13 @@ class socialnet extends snFunctions
 			/**
 			 * Add custom string right after copyright of SN
 			 *
+			 * Do not forget to add "<br />" at the beginning of the string,
+			 * otherwise you string will be appended to the SN copyright,
+			 * right after it, without new line.
+			 * Also, please, do not replace provided content with your,
+			 * just append your copyright to the provided string and return
+			 * it back - respect copyrights of other addons.
+			 *
 			 * @hook sn.socialnet_socialnet_after
 			 * @since 1.0.0
 			 */
