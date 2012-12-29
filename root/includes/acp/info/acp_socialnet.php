@@ -28,7 +28,6 @@ if (isset($config['version_socialNet']))
 					'sett_confirmBox'		 => array('title' => 'ACP_SN_CONFIRMBOX_SETTINGS', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),
 					'blocks_enable'			 => array('title' => 'ACP_SN_BLOCKS_ENABLE', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),
 					'blocks_config'			 => array('title' => 'ACP_SN_BLOCKS_CONFIGURATION', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),
-					'addons_config'			 => array('title' => 'ACP_SN_ADDONS_CONFIGURATION', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),
 					'addons'				 => array('title' => 'ACP_SN_ADDONS_CONFIGURATION', 'auth' => '', 'cat' => array('ACP_SN_SETTINGS')),
 
 					'module_im'				 => array('title' => 'ACP_SN_IM_SETTINGS', 'auth' => 'acl_a_sn_settings', 'cat' => array('ACP_CAT_SOCIALNET', 'ACP_SN_MODULES_CONFIGURATION')),

@@ -236,10 +236,7 @@ class socialnet extends snFunctions
 		$this->_calc_bbcodeFlags();
 
 		// load addons and modules before we start doing something serious
-		if (!defined('ADMIN_START'))
-		{
-			$this->start_modules();
-		}
+		$this->start_modules();
 
 		/**
 		 * Hook $socialnet::socialnet() after
@@ -1264,5 +1261,12 @@ class socialnet extends snFunctions
 				$this->modules_obj[$module]->hook_template();
 			}
 		}
+	}
+
+	function get_addon_directory($addon_filename)
+	{
+		global $socialnet_root_path;
+
+		return $socialnet_root_path . 'addons/' . $addon_filename . '/';
 	}
 }
