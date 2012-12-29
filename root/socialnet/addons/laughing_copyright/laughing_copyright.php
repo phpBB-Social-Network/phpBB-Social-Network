@@ -37,6 +37,7 @@ class laughing_copyright
 	 */
 	function direct_access()
 	{
+		die('Never enought of smile? :)');
 	}
 
 	/**
