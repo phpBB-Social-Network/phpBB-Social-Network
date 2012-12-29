@@ -86,8 +86,18 @@ class socialnet extends snFunctions
 
 	var $memory_usage = array();
 
+	/**
+	 * Holds hook instance
+	 *
+	 * @var	object	$hook
+	 */
 	var $hook = null;
 
+	/**
+	 * Holds instances of addons
+	 *
+	 * @var	object	$addon
+	 */
 	var $addon = null;
 
 	/**
