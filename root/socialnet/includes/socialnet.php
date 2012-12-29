@@ -88,6 +88,8 @@ class socialnet extends snFunctions
 
 	var $hook = null;
 
+	var $addon = null;
+
 	/**
 	 * Construction function
 	 * Prepare active modules
@@ -227,10 +229,6 @@ class socialnet extends snFunctions
 		if (!defined('ADMIN_START'))
 		{
 			$this->start_modules();
-
-			include($socialnet_root_path . 'addons/myeee.php');
-
-			$this->addon->myeee = new myeee($this);
 		}
 
 		/**
