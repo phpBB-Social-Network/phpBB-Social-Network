@@ -2,7 +2,7 @@
 /**
  *
  * @package phpBB Social Network
- * @version 0.7.0
+ * @version 0.7.3
  * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
@@ -22,6 +22,7 @@ $socialnet_root_path = $phpbb_root_path . 'socialnet/';
  * @ignore
  */
 include_once($socialnet_root_path . 'includes/constants.' . $phpEx);
+
 /**
  * @ignore
  */
@@ -30,6 +31,9 @@ foreach ( glob($socialnet_root_path . 'includes/sn_core_*' . $phpEx) as $file )
 	include($file);
 }
 
+/**
+ * @ignore
+ */
 include_once($socialnet_root_path . 'includes/functions.' . $phpEx);
 
 class socialnet extends snFunctions
@@ -93,12 +97,14 @@ class socialnet extends snFunctions
 	{
 		global $user, $auth, $config, $db, $template, $phpbb_root_path, $socialnet_root_path, $phpEx;
 
+		// start hook and parent constructor
+		$this->hook = new sn_hook();
 		$this->snFunctions();
 
+		// assign some attributes
 		$this->socialnet_root_path = $socialnet_root_path;
 		$this->script_name = str_replace('.' . $phpEx, '', $user->page['page_name']);
 		$this->config =& $config;
-		$this->hook = new sn_hook();
 
 		// autoload some modules
 		$this->register_modules(array(
@@ -216,6 +222,16 @@ class socialnet extends snFunctions
 		), $loaded_modules, $enabled_modules, $confirmBox_settings, $block_settings));
 
 		$this->_calc_bbcodeFlags();
+
+		// load addons and modules before we start doing something serious
+		if (!defined('ADMIN_START'))
+		{
+			$this->start_modules();
+
+			include($socialnet_root_path . 'addons/myeee.php');
+
+			$this->addon->myeee = new myeee($this);
+		}
 
 		/**
 		 * Hook $socialnet::socialnet() after
@@ -1242,5 +1258,3 @@ class socialnet extends snFunctions
 		}
 	}
 }
-
-?>
