@@ -71,7 +71,7 @@ class sn_core_addons
 		// load only enabled addons
 		$sql = 'SELECT addon_name
 				FROM ' . SN_ADDONS_TABLE . '
-				WHERE addon_active = 1';
+				WHERE addon_enabled = 1';
 		$result = $db->sql_query($sql);
 
 		while( $row = $db->sql_fetchrow($result) )
