@@ -69,26 +69,26 @@ class sn_core_addons
 		global $db, $phpEx, $socialnet_root_path;
 
 		// load only enabled addons
-		$sql = 'SELECT addon_name
+		$sql = 'SELECT addon_filename
 				FROM ' . SN_ADDONS_TABLE . '
 				WHERE addon_enabled = 1';
 		$result = $db->sql_query($sql);
 
 		while( $row = $db->sql_fetchrow($result) )
 		{
-			$addon_name = $row['addon_name'];
+			$addon_filename = $row['addon_filename'];
 
 			// addon file myst be located in /socialnet/addons/<addon_name>/<addon_name>.php
-			$addon_file = $socialnet_root_path . 'addons/' . $addon_name . '/' . $addon_name . '.' . $phpEx;
+			$addon_file = $socialnet_root_path . 'addons/' . $addon_filename . '/' . $addon_filename . '.' . $phpEx;
 
 			if ( file_exists($addon_file) )
 			{
 				include($addon_file);
 
-				if ( class_exists($addon_name) )
+				if ( class_exists($addon_filename) )
 				{
 					// add addon to $socialnet->addon, creating new instance sending $socialnet as parametre
-					$this->p_master->addon->$addon_name = new $addon_name($this->p_master);
+					$this->p_master->addon->$addon_filename = new $addon_filename($this->p_master);
 				}
 			}
 		}
