@@ -523,7 +523,7 @@ class snFunctions
 
 				$fms_user_sqls = array_merge($fms_user_sqls, array(
 					'sql_pagination' => "SELECT COUNT(z.zebra_id) AS total
-												FROM " . ZEBRA_TABLE . " AS z, ' . USERS_TABLE . ' u
+												FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " u
 												WHERE z.user_id = {$user_id} AND z.friend = 1 {$sql_in_set}
 													AND u.user_id = z.zebra_id
 													AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")",
