@@ -118,9 +118,17 @@
 				var status_text = $("#sn-us-wallInput").val();
 				status_text = status_text.replace(/^\s+|\s+$/g, '');
 				if (status_text == '' || status_text == $sn.us.watermark) {
-					snConfirmBox($sn.us.emptyStatus, $sn.us.emptyStatus);
-					$('.sn-us-share input[name=sn-us-wallButton]').hide();
-					$('#sn-us-wallInput').val('').trigger('cut');
+					// Uses small hack - .elastic does not collapse status textarea imediately,
+					// because send button is children of the textarea's parent. Confirmbox
+					// isn't. So  when user closes confirm box, status texarea will for sure
+					// be focused out.
+					snConfirmBox(
+						$sn.us.emptyStatus,
+						$sn.us.emptyStatus,
+						null,
+						function(){
+							$('#sn-us-wallInput').focus();
+						});
 
 				} else {
 					var now = Math.floor(new Date().valueOf() / 1000);
