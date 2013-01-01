@@ -169,7 +169,7 @@ if (!class_exists('socialnet_userstatus'))
 			$new_status = (string) request_var('status', '', true);
 			$wall_id = (int) request_var('wall', 0);
 			$wall_id = $wall_id == 0 ? $user->data['user_id'] : $wall_id;
-			
+
 			if (trim($new_status) != '')
 			{
 				$now = time();
@@ -258,7 +258,7 @@ if (!class_exists('socialnet_userstatus'))
 						}
 					}
 				}
-				
+
 				if ($on_the_wall)
 				{
 					if ($user->data['user_id'] != $wall_id)
@@ -763,20 +763,25 @@ if (!class_exists('socialnet_userstatus'))
 			global $db, $user;
 
 			$user_id = (int) request_var('u', $user->data['user_id']);
-			$username = request_var('un', '');
+			$username = utf8_normalize_nfc(request_var('un', '', true));
+
+			if (empty($username))
+			{
+				return $user_id;
+			}
 
 			$sql = 'SELECT user_id
-								FROM ' . USERS_TABLE . '
-									WHERE ' . (($username) ? 'username_clean = "' . $db->sql_escape(utf8_clean_string($username)) . '"' : 'user_id = ' . $user_id);
+					FROM ' . USERS_TABLE . '
+					WHERE username_clean = "' . $db->sql_escape(utf8_clean_string($username)) . '"';
 			$result = $db->sql_query($sql, 600);
-			$member = $db->sql_fetchrow($result);
+			$user_id = (int) $db->sql_fetchfield('user_id');
 			$db->sql_freeresult($result);
 
-			if (!$member)
+			if (!$user_id)
 			{
 				return $user->data['user_id'];
 			}
-			return $member['user_id'];
+			return $user_id;
 		}
 
 		function _get_mention()
@@ -812,7 +817,7 @@ if (!class_exists('socialnet_userstatus'))
 					'type'	 => 'contact'
 				);
 			}
-			
+
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");

@@ -1830,47 +1830,6 @@ class snFunctions
 	}
 
 	/**
-	 * Checks if a permission (auth) setting exists
-	 *
-	 * @access private
-	 *
-	 * @param 	string 	$auth_option	The name of the permission (auth) option
-	 * @param 	boolean	$global     	True for checking a global permission setting, False for a local permission setting
-	 *
-	 * @global	object	$db		phpBB database object
-	 *
-	 * @return	boolean			true if it exists, false if not
-	 */
-	function _permission_exists($auth_option, $global = true)
-	{
-		global $db;
-
-		if ($global)
-		{
-			$type_sql = ' AND is_global = 1';
-		}
-		else
-		{
-			$type_sql = ' AND is_local = 1';
-		}
-
-		$sql = 'SELECT auth_option_id
-  					FROM ' . ACL_OPTIONS_TABLE . "
-  					WHERE auth_option = '" . $db->sql_escape($auth_option) . "'" . $type_sql;
-		$result = $db->sql_query($sql);
-
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
-
-		if ($row)
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Checks for new version. Assigns template variables.
 	 *
 	 * @access private

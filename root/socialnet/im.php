@@ -518,11 +518,7 @@ if (!class_exists('socialnet_im'))
 		{
 			global $template, $user, $db, $config, $phpbb_root_path, $phpEx;
 
-			// Close chatboxed opened before logging in
-			$sql = "DELETE FROM " . SN_IM_CHATBOXES_TABLE . "
-								WHERE uid_from = '{$user->data['user_id']}'
-									AND starttime < '{$user->data['session_start']}'";
-			$db->sql_query($sql);
+			$old_chatbox = false;
 
 			$this->items['onlineUsers'] = $this->p_master->onlineSelect();
 			$this->items['onlineCount'] = count($this->items['onlineUsers']);
@@ -540,104 +536,121 @@ if (!class_exists('socialnet_im'))
 			$b_no_avatar_me = stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false;
 
 			$play_sound_on_load = false;
-			
+
 			for ($i = 0; isset($chatBoxRowSet[$i]); $i++)
 			{
 				$row = $chatBoxRowSet[$i];
-				$status = isset($this->items['onlineUsers'][$row['uid_to']]['status']) ? $this->items['onlineUsers'][$row['uid_to']]['status'] : 0;
-				$userto_avatar = $this->_open_chatbox_avatar($row['uid_to']);
 
-				// OLD COOKIE SYSTEM
-				//$c_onlinelistName = $config['cookie_name'] . '_sn_im_chatBox' . ($row['uid_to']);
-				//$s_open = request_var($c_onlinelistName, 'false', false, true);
-				$s_open = $this->p_master->getCookie('sn_im_chatBox' . $row['uid_to'], 'false');
-
-				if (!isset($this->p_master->friends['friends'][$row['uid_to']]) || !isset($this->p_master->friends['colourNames'][$row['uid_to']]['full']))
+				if ($row['starttime'] >= $user->data['session_start'])
 				{
-					$this->p_master->get_friend('full', $row['uid_to'], $this->p_master->config['im_colour_username'], false);
-				}
+					$status = isset($this->items['onlineUsers'][$row['uid_to']]['status']) ? $this->items['onlineUsers'][$row['uid_to']]['status'] : 0;
+					$userto_avatar = $this->_open_chatbox_avatar($row['uid_to']);
 
-				// OLD COOKIE SYSTEM
-				//$unread = (string) request_var("{$config['cookie_name']}_sn_im_chatBox{$row['uid_to']}Unread", 0, false, true);
-				$unread = (string) $this->p_master->getCookie("sn_im_chatBox{$row['uid_to']}Unread", 0);
+					// OLD COOKIE SYSTEM
+					//$c_onlinelistName = $config['cookie_name'] . '_sn_im_chatBox' . ($row['uid_to']);
+					//$s_open = request_var($c_onlinelistName, 'false', false, true);
+					$s_open = $this->p_master->getCookie('sn_im_chatBox' . $row['uid_to'], 'false');
 
-				$template->assign_block_vars('sn_im_chatbox', array(
-					'USER_ID'				 => $row['uid_to'],
-					'U_PROFILE_USER'		 => $this->p_master->friends['colourNames'][$row['uid_to']]['full'],
-					'USERNAME_TO'			 => $this->p_master->friends['friends'][$row['uid_to']],
-					'USERNAME_TO_NO_COLOR'	 => html_entity_decode($row['username_to']),
-					'USERNAME_TO_PROFILE'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $row['uid_to']),
-					'U_UCP_IM_HISTORY'		 => append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $row['uid_to']),
-					'S_OPEN'				 => $s_open == 'true',
-					'USER_AVATAR'			 => '',
-					'STATUS'				 => $status,
-					'AVATAR'				 => $userto_avatar,
-					'UNREAD'				 => $unread,
-				));
-
-				$sql_from = $db->sql_in_set('uid_from', array(
-					$user->data['user_id'],
-					$row['uid_to']
-				));
-				$sql_to = $db->sql_in_set('uid_to', array(
-					$user->data['user_id'],
-					$row['uid_to']
-				));
-				$sql = "SELECT *
-									FROM " . SN_IM_TABLE . "
-										WHERE {$sql_from} AND {$sql_to}
-											AND sent > {$user->data['session_last_visit']}
-									ORDER BY sent";
-				$result = $db->sql_query($sql);
-				$msgBoxRowSet = $db->sql_fetchrowset($result);
-				$db->sql_freeresult($result);
-				$previous_sender = 0;
-
-				$b_no_avatar_sender = stripos($userto_avatar, 'socialnet/no_avatar') !== false ? true : false;
-
-				for ($j = 0; isset($msgBoxRowSet[$j]); $j++)
-				{
-					$msg = $msgBoxRowSet[$j];
-
-					if ($msg['message'] != '0')
+					if (!isset($this->p_master->friends['friends'][$row['uid_to']]) || !isset($this->p_master->friends['colourNames'][$row['uid_to']]['full']))
 					{
-						$message = generate_text_for_display($msg['message'], $msg['bbcode_uid'], $msg['bbcode_bitfield'], $this->p_master->bbCodeFlags);
-					}
-					else
-					{
-						$message = $msg['message'];
+						$this->p_master->get_friend('full', $row['uid_to'], $this->p_master->config['im_colour_username'], false);
 					}
 
-					$b_no_avatar = false;
-					if ($user->data['user_id'] == $msg['uid_from'])
-					{
-						$b_no_avatar = $b_no_avatar_me;
-					}
-					else
-					{
-						$b_no_avatar = $b_no_avatar_sender;
-					}
+					// OLD COOKIE SYSTEM
+					//$unread = (string) request_var("{$config['cookie_name']}_sn_im_chatBox{$row['uid_to']}Unread", 0, false, true);
+					$unread = (string) $this->p_master->getCookie("sn_im_chatBox{$row['uid_to']}Unread", 0);
 
-					if ( $msg['recd'] == 0)
-					{
-						$play_sound_on_load = true;
-					}
-					$template->assign_block_vars('sn_im_chatbox.message', array(
-						'S_ME'			 => $user->data['user_id'] == $msg['uid_from'],
-						'UID_FROM'		 => $msg['uid_from'],
-						'S_UID_SAME'	 => $previous_sender == $msg['uid_from'],
-						'MESSAGE'		 => $message,
-						'B_NO_AVATAR'	 => $b_no_avatar,
-						'TIME'			 => $msg['sent'],
-						'TIME_STRING'	 => $this->p_master->format_date('time', $msg['sent'], 'H:i'),
+					$template->assign_block_vars('sn_im_chatbox', array(
+						'USER_ID'				 => $row['uid_to'],
+						'U_PROFILE_USER'		 => $this->p_master->friends['colourNames'][$row['uid_to']]['full'],
+						'USERNAME_TO'			 => $this->p_master->friends['friends'][$row['uid_to']],
+						'USERNAME_TO_NO_COLOR'	 => html_entity_decode($row['username_to']),
+						'USERNAME_TO_PROFILE'	 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $row['uid_to']),
+						'U_UCP_IM_HISTORY'		 => append_sid("{$phpbb_root_path}ucp.{$phpEx}", "i=socialnet&amp;mode=module_im_history&amp;u=" . $row['uid_to']),
+						'S_OPEN'				 => $s_open == 'true',
+						'USER_AVATAR'			 => '',
+						'STATUS'				 => $status,
+						'AVATAR'				 => $userto_avatar,
+						'UNREAD'				 => $unread,
 					));
-					$previous_sender = $msg['uid_from'];
-				}
 
-				$this->_markRecievedMessages();
+					$sql_from = $db->sql_in_set('uid_from', array(
+						$user->data['user_id'],
+						$row['uid_to']
+					));
+					$sql_to = $db->sql_in_set('uid_to', array(
+						$user->data['user_id'],
+						$row['uid_to']
+					));
+					$sql = "SELECT *
+										FROM " . SN_IM_TABLE . "
+											WHERE {$sql_from} AND {$sql_to}
+												AND sent > {$user->data['session_last_visit']}
+										ORDER BY sent";
+					$result = $db->sql_query($sql);
+					$msgBoxRowSet = $db->sql_fetchrowset($result);
+					$db->sql_freeresult($result);
+					$previous_sender = 0;
+
+					$b_no_avatar_sender = stripos($userto_avatar, 'socialnet/no_avatar') !== false ? true : false;
+
+					for ($j = 0; isset($msgBoxRowSet[$j]); $j++)
+					{
+						$msg = $msgBoxRowSet[$j];
+
+						if ($msg['message'] != '0')
+						{
+							$message = generate_text_for_display($msg['message'], $msg['bbcode_uid'], $msg['bbcode_bitfield'], $this->p_master->bbCodeFlags);
+						}
+						else
+						{
+							$message = $msg['message'];
+						}
+
+						$b_no_avatar = false;
+						if ($user->data['user_id'] == $msg['uid_from'])
+						{
+							$b_no_avatar = $b_no_avatar_me;
+						}
+						else
+						{
+							$b_no_avatar = $b_no_avatar_sender;
+						}
+
+						if ( $msg['recd'] == 0)
+						{
+							$play_sound_on_load = true;
+						}
+						$template->assign_block_vars('sn_im_chatbox.message', array(
+							'S_ME'			 => $user->data['user_id'] == $msg['uid_from'],
+							'UID_FROM'		 => $msg['uid_from'],
+							'S_UID_SAME'	 => $previous_sender == $msg['uid_from'],
+							'MESSAGE'		 => $message,
+							'B_NO_AVATAR'	 => $b_no_avatar,
+							'TIME'			 => $msg['sent'],
+							'TIME_STRING'	 => $this->p_master->format_date('time', $msg['sent'], 'H:i'),
+						));
+						$previous_sender = $msg['uid_from'];
+					}
+
+					$this->_markRecievedMessages();
+				}
+				else
+				{
+					$old_chatbox = true;
+				}
 			}
-			
-			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load ? 'true' : 'false');
+
+			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load);
+
+			// Close chatboxed opened before logging in
+			if ($old_chatbox)
+			{
+				$sql = 'DELETE FROM ' . SN_IM_CHATBOXES_TABLE . "
+						WHERE uid_from = {$user->data['user_id']}
+							AND starttime < {$user->data['session_start']}";
+				$db->sql_query($sql);
+			}
 		}
 
 		function onlineList()
