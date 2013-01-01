@@ -516,7 +516,7 @@ class ucp_approval
 				$data[$var] = request_var($var, $default, true);
 			}
 
-			if (!empty($data['add']))
+			if ($data['add'] !== '')
 			{
 				// CREATE GROUP
 				$sql = "SELECT MAX(fms_gid) AS max_id FROM " . SN_FMS_GROUPS_TABLE . " WHERE user_id = {$user->data['user_id']}";
