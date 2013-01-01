@@ -92,9 +92,20 @@ class socialnet extends snFunctions
 		global $user, $auth, $config, $db, $template, $phpbb_root_path, $socialnet_root_path, $phpEx;
 
 		$this->snFunctions();
+
 		$this->socialnet_root_path = $socialnet_root_path;
 		$this->script_name = str_replace('.' . $phpEx, '', $user->page['page_name']);
 		$this->config =& $config;
+
+		// autoload some modules
+		$this->register_modules(array(
+			'im',		// because it should be displayed on every page
+			'notify',	// header
+			'profile',	// memberlist.php?mode=viewprofile -> profile.php
+		));
+
+		// register additional modules
+		$this->register_page_modules($this->script_name);
 
 		// Extend Config data;
 		$sql = "SELECT config_name, config_value FROM " . SN_CONFIG_TABLE . " WHERE config_name <> 'sn_global_enable'";
@@ -102,7 +113,10 @@ class socialnet extends snFunctions
 		$result = $db->sql_query($sql);
 		$rowset = $db->sql_fetchrowset($result);
 		$db->sql_freeresult($result);
-		$block_settings = $enable_modules = $confirmBox_settings = array();
+		$block_settings = $enabled_modules = $confirmBox_settings = $loaded_modules = array();
+
+		// get list of modules we need for current page
+		$modules_needed = $this->get_needed_modules();
 
 		$sn_u_permissions = unserialize(SN_U_PERMISSIONS);
 
@@ -111,8 +125,10 @@ class socialnet extends snFunctions
 			$config[$row['config_name']] = $row['config_value'];
 			if (preg_match('/^module_(.+)$/si', $row['config_name'], $module_match))
 			{
-				$moduleName = 'SN_' . strtoupper($row['config_name']) . '_ENABLED';
-				$enable_modules[$moduleName] = ($row['config_value'] == 1 ? true : false) && ($config['sn_global_enable'] == 1);
+				$moduleName = 'SN_' . strtoupper($row['config_name']) . '_LOADED';
+				$moduleNameEnabled = 'SN_' . strtoupper($row['config_name']) . '_ENABLED';
+				$loaded_modules[$moduleName] = ($row['config_value'] == 1 ? true : false) && ($config['sn_global_enable'] == 1);
+				$enabled_modules[$moduleNameEnabled] = ($row['config_value'] == 1 ? true : false) && ($config['sn_global_enable'] == 1);
 
 				/* DOCASNE ODEBRANO - OPRAVNENI POUZIT MODUL */
 				$permission_allow = ($user->data['is_registered'] == 1 || $row['config_name'] == 'module_activitypage') ? true : false;
@@ -124,7 +140,7 @@ class socialnet extends snFunctions
 
 				$this->existing[] = $module_match[1];
 
-				if (!defined('ADMIN_START') && $enable_modules[$moduleName] == 1 && $permission_allow == 1)
+				if (!defined('ADMIN_START') && $loaded_modules[$moduleName] == 1 && $permission_allow == 1 && in_array($module_match[1], $modules_needed))
 				{
 					$module_filename = $socialnet_root_path . $module_match[1] . '.' . $phpEx;
 					if (file_exists($module_filename))
@@ -133,23 +149,24 @@ class socialnet extends snFunctions
 						{
 							include($module_filename);
 						}
+
 						if (class_exists('socialnet_' . $module_match[1]))
 						{
 							$this->modules[] = $module_match[1];
 						}
 						else
 						{
-							$enable_modules[$moduleName] = false;
+							$loaded_modules[$moduleName] = false;
 						}
 					}
 					else
 					{
-						$enable_modules[$moduleName] = false;
+						$loaded_modules[$moduleName] = false;
 					}
 				}
 				else
 				{
-					$enable_modules[$moduleName] = false;
+					$loaded_modules[$moduleName] = false;
 				}
 
 			}
@@ -193,7 +210,7 @@ class socialnet extends snFunctions
 			'B_AJAX_LOAD_ALLOW'					 => $config['board_disable'] == 0 ? 'true' : 'false',
 			'I_POST_MIN_CHARS'					 => $config['min_post_chars'],
 			'U_SN_MY_PROFILE'					 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u={$user->data['user_id']}"),
-		), $enable_modules, $confirmBox_settings, $block_settings));
+		), $loaded_modules, $enabled_modules, $confirmBox_settings, $block_settings));
 
 		$this->_calc_bbcodeFlags();
 	}
@@ -351,7 +368,7 @@ class socialnet extends snFunctions
 			}
 		}
 
-		if (sizeOf($this->modules) != 0)
+		if ( sizeof($this->modules) )
 		{
 			if (in_array('activitypage', $this->modules))
 			{
@@ -365,10 +382,7 @@ class socialnet extends snFunctions
 			{
 				$module_class = 'socialnet_' . $module;
 				$this->modules_obj[$module] = new $module_class($this);
-			}
 
-			foreach ($this->modules as $idx => $module)
-			{
 				if (method_exists($this->modules_obj[$module], 'init'))
 				{
 					$this->modules_obj[$module]->init();
