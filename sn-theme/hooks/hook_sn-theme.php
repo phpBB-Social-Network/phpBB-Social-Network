@@ -2,14 +2,14 @@
 /*
  * @version 1.1.0
  * @author Culprit
- * 
+ *
  * SN theme compiler
  * Compile theme for SN from LESS files
  */
 
 /**
  * is_modified
- * 
+ *
  * Function control is some of less file was modified
  * @version 1.1.0
  * @author Culprit
@@ -18,7 +18,6 @@
  */
 function is_modified($file_path, $check_file)
 {
-	print $check_file . ' ' . ( file_exists($check_file) ? 'existuje' : 'neexistuje') . '<hr />';
 	if (!file_exists($check_file))
 	{
 		$mFiles = array();
@@ -28,8 +27,6 @@ function is_modified($file_path, $check_file)
 		$mFiles = unserialize(file_get_contents($check_file));
 	}
 
-	print_r($mFiles);
-
 	$files = glob($file_path . '*.less');
 
 	if (empty($files))
@@ -37,33 +34,35 @@ function is_modified($file_path, $check_file)
 		return false;
 	}
 
+	$compile = false;
+
 	foreach ($files as $filename)
 	{
-		print $filename . ' ==' . (isset($mFiles[$filename]) ? 'EXISTUJE' : 'NEEXISTUJE');
 		$ftime = filemtime($filename);
-		if (isset($mFiles[$filename]))
+
+		if (!isset($mFiles[$filename]))
 		{
-			print 'New file: ' . $filename . '<br />';
 			$compile = true;
 			$mFiles[$filename] = $ftime;
 		}
 		else if ($ftime > $mFiles[$filename])
 		{
-			print $filename . ' -> ' . $ftime . '<br />';
 			$compile = true;
 			$mFiles[$filename] = $ftime;
 		}
 	}
-	print $compile ? 'ano' : 'me';
 
-	file_put_contents($check_file, serialize($mFiles));
+	if ( $compile )
+	{
+		file_put_contents($check_file, serialize($mFiles));
+	}
 
 	return $compile;
 }
 
 /**
  * sn_theme_compiler
- * 
+ *
  * Compile LESS files into one CSS file
  * Requires: {@link http://leafo.net/lessphp/ lessPHP}, {@link http://csstidy.sourceforge.net/usage.php CSSTidy}
  * Settings for lessPHP is indent
@@ -75,19 +74,7 @@ function is_modified($file_path, $check_file)
  */
 function sn_theme_compiler()
 {
-	global $user, $template, $phpbb_root_path, $phpEx, $socialnet;
-
-
-	// Exit the compiler when is not whole page loaded
-	if (defined('SN_LOADER') || !isset($socialnet) || !$socialnet->useTemplateHook)
-	{
-		return;
-	}
-
-	if (defined('DEBUG') || defined('DEBUG_EXTRA'))
-	{
-		error_reporting(E_ALL & ~E_STRICT);
-	}
+	global $user, $template, $phpbb_root_path, $phpEx;
 
 	$compiler_path = $phpbb_root_path . '../sn-theme/';
 
@@ -175,4 +162,4 @@ function sn_theme_compiler()
 }
 
 // Register hook
-$phpbb_hook->register('exit_handler', 'sn_theme_compiler');
+$phpbb_hook->register('phpbb_user_session_handler', 'sn_theme_compiler');
