@@ -83,7 +83,7 @@ class sn_core_addons
 
 			if ( file_exists($addon_file) )
 			{
-				include($addon_file);
+				include_once($addon_file);
 
 				if ( class_exists($addon_filename) )
 				{
