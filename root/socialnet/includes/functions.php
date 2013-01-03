@@ -298,8 +298,8 @@ class snFunctions
 
 					$online_users[$user_id] = array(
 						'user_id'		 => $user_id,
-						'userName'		 => $this->get_username_string($this->config['im_colour_username'], 'no_profile', $user_id, $row['username'], $row['user_colour']),
-						'userProfile'	 => $this->get_username_string($this->config['im_colour_username'], 'full', $user_id, $row['username'], $row['user_colour']),
+						'userName'		 => $this->get_username_string('im', 'no_profile', $user_id, $row['username'], $row['user_colour']),
+						'userProfile'	 => $this->get_username_string('im', 'full', $user_id, $row['username'], $row['user_colour']),
 						'userClean'		 => $row['username'],
 						'avatar'		 => $img_avatar,
 						'online'		 => $row['user_img_online'],
@@ -807,8 +807,8 @@ class snFunctions
 				$is_not_empty = true;
 				$template->assign_block_vars('sn_fms_block_user', array(
 					'USER_ID'			 => $row[$user_id_field],
-					'USERNAME'			 => $this->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USER_PROFILE'		 => $this->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USERNAME'			 => $this->get_username_string('approval', 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USER_PROFILE'		 => $this->get_username_string('approval', 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
 					'USERNAME_NO_COLOR'	 => $row['username'],
 					'U_PROFILE'			 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
 					'U_ADD_FRIEND'		 => $u_add_friend,
@@ -1091,7 +1091,7 @@ class snFunctions
 		}
 
 		$template_vars = array(
-			'S_MY_USERNAME'		 => $this->get_username_string($this->config['ap_colour_username'], 'full', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
+			'S_MY_USERNAME'		 => $this->get_username_string('activitypage', 'full', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
 			'S_MY_USER_AVATAR'	 => $this->get_user_avatar_resized($user->data['user_avatar'], $user->data['user_avatar_type'], $user->data['user_avatar_width'], $user->data['user_avatar_height'], 50),
 			'U_EDIT_MY_PROFILE'	 => append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=profile'),
 			'USER_ID'			 => $user->data['user_id'],
@@ -1267,7 +1267,7 @@ class snFunctions
 
 			$row['username'] = sprintf($user->lang['SN_AP_BIRTHDAY_USERNAME'], $row['username']);
 			$template->assign_block_vars('friends_birthday', array(
-				'USERNAME'			 => $this->get_username_string($this->config['ap_colour_username'], 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME'			 => $this->get_username_string('activitypage', 'full_add', $row['user_id'], $row['username'], $row['user_colour']),
 				'SN_AP_BIRTHDAY_ON'	 => sprintf($user->lang['SN_AP_BIRTHDAY_' . ($diff_days < 2 ? '1' : '2')], $this->format_date('complete', $birth_time, $user->lang['SN_DAY_MONTH_PATTERN'])),
 				'U_FRIEND_LINK'		 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}", "mode=viewprofile&amp;u=" . $row['user_id']),
 
@@ -1430,8 +1430,8 @@ class snFunctions
 
 			$template->assign_block_vars('friend_requests', array(
 				'AVATAR'			 => $img_avatar,
-				'USERNAME'			 => $this->get_username_string($this->config['ap_colour_username'], 'full', $row['user_id'], $row['username'], $row['user_colour']),
-				'USERNAME_PROFILE'	 => $this->get_username_string($this->config['ap_colour_username'], 'profile', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME'			 => $this->get_username_string('activitypage', 'full', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME_PROFILE'	 => $this->get_username_string('activitypage', 'profile', $row['user_id'], $row['username'], $row['user_colour']),
 				'USERNAME_CLEAN'	 => $row['username'],
 				'USER_ID'			 => $row['user_id'],
 			));

@@ -205,6 +205,9 @@ class socialnet extends snFunctions
 			}
 		}
 
+		// load addons and modules before we start doing something serious
+		$this->start_modules();
+
 		$this->load_friends();
 		$this->load_groups();
 
@@ -235,11 +238,8 @@ class socialnet extends snFunctions
 
 		$this->_calc_bbcodeFlags();
 
-		// load addons and modules before we start doing something serious
-		$this->start_modules();
-
 		/**
-		 * Hook $socialnet::socialnet() after
+		 * Hooks $socialnet::socialnet() after
 		 *
 		 * This is specially helpful if addons/modules want to initialise
 		 * new classes attached to $socialnet as parent.
@@ -403,7 +403,18 @@ class socialnet extends snFunctions
 	{
 		function cls_filter_core($var)
 		{
+			if ($var == 'sn_core_addons')
+			{
+				return false;
+			}
 			return preg_match('/^sn_core_/si', $var);
+		}
+
+		// load addons as first
+		$this->addons = new sn_core_addons($this);
+		if (class_exists('sn_core_addons') && isset($this->addons) && method_exists($this->addons, 'get'))
+		{
+			$this->addons->get();
 		}
 
 		$classes = get_declared_classes();
@@ -438,12 +449,6 @@ class socialnet extends snFunctions
 					$this->modules_obj[$module]->init();
 				}
 			}
-
-		}
-
-		if (class_exists('sn_core_addons') && isset($this->addons) && method_exists($this->addons, 'get'))
-		{
-			$this->addons->get();
 		}
 	}
 
@@ -681,15 +686,18 @@ class socialnet extends snFunctions
 	function get_username_string($cfg_module, $mode, $user_id, $username, $username_colour = '', $guest_username = false, $custom_profile_url = false, $cache_friends = true)
 	{
 		global $cache, $user, $phpbb_root_path;
+		/**
+		 * Hooks $socialnet::get_username_string() before
+		 *
+		 * @hook sn.get_username_string_before
+		 * @since 1.0.0
+		 */
+		$vars = array('cfg_module', 'mode', 'user_id', 'username', 'username_colour', 'guest_username', 'custom_profile_url', 'cache_friends');
+		extract($this->hook->do_action('sn.get_username_string_before', compact($vars)));
 
 		if (isset($this->friends['colourNames'][$user_id][$mode]) && $username != $user->lang['GUEST'] && strpos($this->friends['colourNames'][$user_id][$mode], $user->lang['GUEST']) === false)
 		{
 			return $this->friends['colourNames'][$user_id][$mode];
-		}
-
-		if (!$cfg_module)
-		{
-			$username_colour = '';
 		}
 
 		$modeFull = $mode;

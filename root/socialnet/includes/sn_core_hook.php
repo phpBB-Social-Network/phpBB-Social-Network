@@ -90,17 +90,16 @@ class sn_hook {
 			return array();
 		}
 
+		$original_variables = $variables;
+
 		foreach ( $this->actions[$tag] as $function )
 		{
 			$return = (array) call_user_func_array($function, $variables);
 
-			// accept modified variables only if they fully correspond to sent ones
-			if ( !array_diff_key($variables, $return) && !array_diff_key($return, $variables) )
-			{
-				$variables = $return;
-			}
+			// allow hooks to return also incomplete data - readd them using old $variables
+			$variables = array_merge($variables, $return);
 		}
 
-		return $variables;
+		return array_intersect_key($variables, $original_variables);
 	}
 }

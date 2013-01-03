@@ -110,7 +110,7 @@ class ucp_im
 						$trim_message = $socialnet->trim_text_withsmilies($row['message'], $row['bbcode_uid'], 300, 0, array(' ', "\n"), '...', $row['bbcode_bitfield']);
 
 						$template->assign_block_vars('users', array(
-							'U_USERNAME' => $socialnet->get_username_string($config['im_colour_username'], 'no_profile', $row['user_id'], $row['username'], $row['user_colour']),
+							'U_USERNAME' => $socialnet->get_username_string('im', 'no_profile', $row['user_id'], $row['username'], $row['user_colour']),
 							'AVATAR'	 => $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
 							'TIME'		 => $socialnet->time_ago($row['sent']),
 							'MSSG'		 => generate_text_for_display($trim_message, $row['bbcode_uid'], $row['bbcode_bitfield'], $socialnet->bbCodeFlags),
@@ -197,7 +197,7 @@ class ucp_im
 					$pg = request_var('pg', '');
 					$limit = request_var('limit', 30);
 					$start = request_var('start', empty($pg)?(int) floor($history_total/ $limit)*$limit:0);
-					
+
 					$sql = "SELECT u.username, u.user_colour, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height,
 												 im.uid_from, im.message, im.bbcode_uid, im.bbcode_bitfield, im.sent
 										FROM " . SN_IM_TABLE . " AS im,
@@ -219,8 +219,8 @@ class ucp_im
 						$b_no_avatar = stripos($avatar, 'socialnet/no_avatar') !== false ? true : false;
 
 						$template->assign_block_vars('history', array(
-							'U_PROFILE'		 => $socialnet->get_username_string($config['im_colour_username'], 'profile', $row['uid_from'], $row['username'], $row['user_colour']),
-							'U_USERNAME'	 => $socialnet->get_username_string($config['im_colour_username'], 'full', $row['uid_from'], $row['username'], $row['user_colour']),
+							'U_PROFILE'		 => $socialnet->get_username_string('im', 'profile', $row['uid_from'], $row['username'], $row['user_colour']),
+							'U_USERNAME'	 => $socialnet->get_username_string('im', 'full', $row['uid_from'], $row['username'], $row['user_colour']),
 							'AVATAR'		 => $avatar,
 							'B_NO_AVATAR'	 => $b_no_avatar,
 							'TIME'			 => $socialnet->time_ago($row['sent']),

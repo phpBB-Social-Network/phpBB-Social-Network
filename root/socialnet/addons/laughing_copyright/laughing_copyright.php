@@ -53,18 +53,6 @@ class laughing_copyright
 	}
 
 	/**
-	 * ACP options
-	 *
-	 * @access public
-	 *
-	 */
-	function acp_options($acp_socialnet, $id, $mode)
-	{
-		// small hack - in this case, directory is set to adm/style, so we need to go one level up
-		$acp_socialnet->tpl_name = '../' . $this->addon_directory . 'style/template/acp_options';
-	}
-
-	/**
 	 * Installs addon
 	 *
 	 * @access public

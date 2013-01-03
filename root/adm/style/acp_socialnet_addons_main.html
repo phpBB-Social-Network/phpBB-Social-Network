@@ -22,10 +22,12 @@
 
 		<!-- BEGIN enabled_addons -->
 			<tr>
-				<td><strong>{enabled_addons.ADDON_NAME}</strong></td>
-				<td style="text-align: center;">
-					<a href="{enabled_addons.U_ADDON_OPTIONS}">{L_ACP_SOCIALNET_ADDON_OPTIONS}</a>
-				</td>
+				<td<!-- IF not enabled_addons.U_ADDON_OPTIONS --> colspan="2"<!-- ENDIF -->><strong>{enabled_addons.ADDON_NAME}</strong></td>
+				<!-- IF enabled_addons.U_ADDON_OPTIONS -->
+					<td style="text-align: center;">
+						<a href="{enabled_addons.U_ADDON_OPTIONS}">{L_ACP_SOCIALNET_ADDON_OPTIONS}</a>
+					</td>
+				<!-- ENDIF -->
 				<td style="text-align: center;">
 					<a href="">{L_ACP_SOCIALNET_ADDON_DISABLE}</a>
 					<a href="">{L_ACP_SOCIALNET_ADDON_UNINSTALL}</a>

@@ -208,9 +208,9 @@ class sn_core_comments
 
 			$template->assign_block_vars('comment', array(
 				'COMMENT_ID'				 => $row['cmt_id'],
-				'POSTER_USERNAME'			 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'no_profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
+				'POSTER_USERNAME'			 => $this->p_master->get_username_string('userstatus', 'no_profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
 				'POSTER_USERNAME_NO_COLOR'	 => $row['username'],
-				'U_POSTER_PROFILE'			 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
+				'U_POSTER_PROFILE'			 => $this->p_master->get_username_string('userstatus', 'profile', $row['cmt_poster'], $row['username'], $row['user_colour']),
 				'POSTER_AVATAR'				 => $avatar_img,
 				'TIME'						 => $this->p_master->time_ago($row['cmt_time']),
 				'TEXT'						 => $comment_text_format,

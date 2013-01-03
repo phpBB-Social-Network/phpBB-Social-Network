@@ -583,6 +583,7 @@ class acp_socialnet
 					'addon_filename'	=> $row['addon_filename'],
 					'addon_name'	=> $row['addon_name'],
 					'addon_status'	=> ( $row['addon_enabled'] ) ? 'enabled' : 'disabled',
+					'addon_acp_options'	=> method_exists($row['addon_filename'], 'acp_options'),
 				);
 
 				// remove addon from $filesystem_addons - addons that remain in this array will be
@@ -610,7 +611,7 @@ class acp_socialnet
 				'ADDON_ID'	=> ( $addon_installed ) ? $addon['addon_id'] : false,
 				'ADDON_FILENAME'	=> $addon['addon_filename'],
 				'ADDON_NAME'	=> $addon['addon_name'],
-				'U_ADDON_OPTIONS'	=> ( $addon['addon_status'] == 'enabled' ) ? append_sid($phpbb_admin_path . 'index.' . $phpEx, "i={$id}&amp;mode={$mode}&amp;action=addon_options&amp;addon_id={$addon['addon_id']}") : false,
+				'U_ADDON_OPTIONS'	=> ( $addon['addon_status'] == 'enabled' && $addon['addon_acp_options'] ) ? append_sid($phpbb_admin_path . 'index.' . $phpEx, "i={$id}&amp;mode={$mode}&amp;action=addon_options&amp;addon_id={$addon['addon_id']}") : false,
 			));
 		}
 

@@ -80,7 +80,6 @@ if (!class_exists('socialnet_im'))
 			$this->config = array(
 				'only_friends'		 => $config['im_only_friends'],
 				'allow_sound'		 => $config['im_allow_sound'],
-				'colour_username'	 => $config['im_colour_username'],
 			);
 			$this->items['lastCheckTime'] = time();
 
@@ -131,7 +130,7 @@ if (!class_exists('socialnet_im'))
 				'SN_IM_ONLINE'				 => $user->data['user_im_online'] == 1 ? true : false,
 				'S_SN_USERNAME'				 => addslashes($user->data['username']),
 				'S_SN_IM_ONLINE'			 => $user->data['user_im_online'] == 1 ? 'online' : 'offline',
-				'SN_IM_USERNAME'			 => $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
+				'SN_IM_USERNAME'			 => $this->p_master->get_username_string('im', 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']),
 				'SN_IM_USER_AVATAR'			 => $this->config['my_avatar'],
 				'SN_IM_SMILIES_EXISTS'		 => $exist_smiley, // LOAD using parameters
 				'S_SN_IM_USER_SOUND'		 => $user->data['user_im_sound'],
@@ -301,7 +300,7 @@ if (!class_exists('socialnet_im'))
 
 			if (!isset($this->p_master->friends['friends'][$userTo]) || !isset($this->p_master->friends['colourNames'][$userTo]['full']))
 			{
-				$this->p_master->get_friend('full', $userTo, $this->p_master->config['im_colour_username'], false);
+				$this->p_master->get_friend('full', $userTo, 'im', false);
 			}
 
 			$b_no_avatar_me = stripos($this->config['my_avatar'], 'socialnet/no_avatar') !== false ? true : false;
@@ -466,7 +465,7 @@ if (!class_exists('socialnet_im'))
 				$template->assign_block_vars('sn_im_chatbox', array(
 					'USER_ID'				 => $row['uid_from'],
 					'AVATAR'				 => $userto_avatar,
-					'U_PROFILE_USER'		 => $this->p_master->get_username_string($this->config['colour_username'], 'full', $row['uid_from'], $row['username'], $row['user_colour']),
+					'U_PROFILE_USER'		 => $this->p_master->get_username_string('im', 'full', $row['uid_from'], $row['username'], $row['user_colour']),
 					'B_SN_IM_ONLY_MESSAGE'	 => true,
 					'UNREAD'				 => 0,
 				));
@@ -544,8 +543,8 @@ if (!class_exists('socialnet_im'))
 
 				if ($row['starttime'] >= $user->data['session_start'])
 				{
-					$status = isset($this->items['onlineUsers'][$row['uid_to']]['status']) ? $this->items['onlineUsers'][$row['uid_to']]['status'] : 0;
-					$userto_avatar = $this->_open_chatbox_avatar($row['uid_to']);
+					$this->p_master->get_friend('full', $row['uid_to'], 'im', false);
+				}
 
 					// OLD COOKIE SYSTEM
 					//$c_onlinelistName = $config['cookie_name'] . '_sn_im_chatBox' . ($row['uid_to']);
@@ -652,6 +651,8 @@ if (!class_exists('socialnet_im'))
 							AND starttime < {$user->data['session_start']}";
 				$db->sql_query($sql);
 			}
+
+			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load ? 'true' : 'false');
 		}
 
 		function onlineList()
@@ -825,7 +826,7 @@ if (!class_exists('socialnet_im'))
 			));
 
 			$template->assign_var('SN_IM_MODE', 'sendMessage');
-			$template->assign_var('SN_IM_USERNAME', $this->p_master->get_username_string($this->config['colour_username'], 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']));
+			$template->assign_var('SN_IM_USERNAME', $this->p_master->get_username_string('im', 'no_profile', $user->data['user_id'], $user->data['username'], $user->data['user_colour']));
 			$template->assign_var('SN_IM_USER_AVATAR', $this->config['my_avatar']);
 			$template->assign_var('T_IMAGESET_PATH', $this->t_imaset_path);
 

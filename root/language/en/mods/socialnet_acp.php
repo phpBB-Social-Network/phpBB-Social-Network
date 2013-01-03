@@ -213,6 +213,8 @@ $lang = array_merge($lang, array(
 	'SN_ADDON_TEMPLATE_FOLDER_NOT_EXIST'		 => 'Add-on Template folder for style <strong>%1$s</strong> does not exists. Used <strong>prosilver</strong> template folder instead.',
 	'SN_ADDONS_ADDON_TEMPLATE_EXIST'			 => 'Exist',
 	'SN_ADDONS_ADDON_TEMPLATE_NOT_EXIST'		 => 'Not exist',
+
+	'SN_ADDONS_BACKLINK'						 => '&laquo; Back to addons'
 ));
 
 // USER STATUS ACP
