@@ -342,7 +342,7 @@ $lang = array_merge($lang, array(
 	// this is where you specify it for each user browsing the labels in
 	// this language.
 	'SN_DAY_MONTH_YEAR_PATTERN'				 => 'j F Y',
-	'SN_DAY_MONTH_PATTERN'						 => 'j F',
+	'SN_DAY_MONTH_PATTERN'						 => '|j F|',
 	'SN_MONTH_YEAR_PATTERN'					 => 'F Y',
 	'SN_YEAR_PATTERN'							 => 'Y',
 
