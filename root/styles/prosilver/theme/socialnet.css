@@ -191,9 +191,8 @@ div:not(.sn-page) .sn-userName a {
 	top: 3px;
 }
 
-.sn-action-blockHidden:hover .sn-actions {
-	display: block;
-	visibility: visible;
+.sn-action-blockHidden .sn-actions {
+	visibility: hidden;
 }
 
 .sn-menu {
@@ -450,10 +449,6 @@ div:not(.sn-page) .sn-userName a {
 	top: -7px;
 	visibility: visible;
 	z-index: 290;
-}
-
-.sn-im-unRead.sn-hiddenDefault {
-	visibility: visible;
 }
 
 .ltr .sn-im-unRead {
@@ -1604,7 +1599,7 @@ a.ui-button {
 	min-width: 740px;
 }
 
-.sn-hiddenDefault,.sn-action-blockHidden .sn-actions,.sn-im-noborderTop .sn-userName,.sn-im-noborderTop .sn-im-msgAvatar,.sn-fms-friend input[type=checkbox] {
+.sn-hiddenDefault,.sn-im-noborderTop .sn-userName,.sn-im-noborderTop .sn-im-msgAvatar,.sn-fms-friend input[type=checkbox] {
 	display: none;
 	visibility: hidden;
 }
@@ -1665,6 +1660,10 @@ a.ui-button {
 
 .sn-action-block:hover .sn-actions div:hover,.sn-action-block:hover .sn-actions span:hover,.sn-action-blockHidden:hover .sn-actions div:hover,.sn-action-blockHidden:hover .sn-actions span:hover,.sn-im-sound.ui-icon.ui-icon-volume-off,.ui-icon-volume-off,.sn-up-editableButton:hover {
 	background-position: 0 100%;
+}
+
+.sn-action-blockHidden:hover .sn-actions,.sn-im-unRead.sn-hiddenDefault {
+	visibility: visible;
 }
 
 .sn-menu .ui-menu-item.sn-menu-active a .ui-icon,.sn-menu .ui-menu-item.sn-menu-active a.ui-state-focus .ui-icon,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active .ui-accordion-header-icon {
