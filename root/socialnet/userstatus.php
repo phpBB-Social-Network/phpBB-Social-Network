@@ -77,7 +77,6 @@ if (!class_exists('socialnet_userstatus'))
 			switch ($this->script_name)
 			{
 				case 'memberlist':
-				case 'profile':
 
 					$user_id = $this->_wall_id();
 
@@ -169,7 +168,7 @@ if (!class_exists('socialnet_userstatus'))
 			$new_status = (string) request_var('status', '', true);
 			$wall_id = (int) request_var('wall', 0);
 			$wall_id = $wall_id == 0 ? $user->data['user_id'] : $wall_id;
-			
+
 			if (trim($new_status) != '')
 			{
 				$now = time();
@@ -258,7 +257,7 @@ if (!class_exists('socialnet_userstatus'))
 						}
 					}
 				}
-				
+
 				if ($on_the_wall)
 				{
 					if ($user->data['user_id'] != $wall_id)
@@ -812,7 +811,7 @@ if (!class_exists('socialnet_userstatus'))
 					'type'	 => 'contact'
 				);
 			}
-			
+
 			header('Content-type: application/json');
 			header("Cache-Control: no-cache, must-revalidate");
 			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
