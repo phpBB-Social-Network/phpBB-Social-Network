@@ -92,14 +92,10 @@ class ucp_approval
 				{
 					// Add users to approvals
 					$message = array();
-					if ($data['add'])
+					if ($data['add'] != '')
 					{
 						$this->_friends_foes_add($id, $mode, $data, $error);
 						$message = $error;
-						if ($data['add'])
-						{
-							$message[] = $user->lang[$l_mode . '_APPROVALS_ADDED'];
-						}
 
 						if (empty($data['add_approval']))
 						{
@@ -153,32 +149,39 @@ class ucp_approval
 
 							foreach ($data['approvals'] as $idx => $user_id)
 							{
-								$sql = "SELECT * FROM " . ZEBRA_TABLE . " WHERE user_id = {$user->data['user_id']} AND zebra_id = {$user_id}";
+								$sql = 'SELECT *
+										FROM ' . ZEBRA_TABLE . '
+										WHERE user_id = ' . $user->data['user_id'] . '
+											AND zebra_id = ' . (int) $user_id;
 								$rs = $db->sql_query($sql);
 								if ($db->sql_affectedrows($rs) == 0)
 								{
-									$sql_update = "UPDATE " . ZEBRA_TABLE . "
-                                  SET friend = 1, approval = 0
-                                    WHERE user_id = " . $user_id . "
-                                      AND zebra_id = " . $user->data['user_id'];
+									$sql_update = 'UPDATE ' . ZEBRA_TABLE . '
+													SET friend = 1, approval = 0
+													WHERE user_id = ' . (int) $user_id . '
+														AND zebra_id = ' . $user->data['user_id'];
 									$db->sql_query($sql_update);
 
-									$sql_insert = "INSERT INTO " . ZEBRA_TABLE . " (user_id, zebra_id, friend, foe, approval)
-													         VALUES ( {$user->data['user_id']}, {$user_id}, 1, 0, 0)";
+									$sql_insert = 'INSERT INTO ' . ZEBRA_TABLE . ' (user_id, zebra_id, friend, foe, approval)
+													VALUES ( ' . $user->data['user_id'] . ', ' . (int) $user_id . ', 1, 0, 0)';
 									$db->sql_query($sql_insert);
 
 									$socialnet->purge_friends($user_id);
+
 									$socialnet->record_entry($user->data['user_id'], $user_id, SN_TYPE_NEW_FRIENDSHIP);
-									$error[] = $user->lang[$l_mode . '_APPROVALS_SUCCESS'] . " ({$data['approvalsName'][$idx]})";
-									$message[] = $user->lang[$l_mode . '_APPROVALS_SUCCESS'] . " ({$data['approvalsName'][$idx]})";
+
+									$error[] = sprintf($user->lang[$l_mode . '_APPROVALS_SUCCESS'], $data['approvalsName'][$idx]);
+									$message[] = sprintf($user->lang[$l_mode . '_APPROVALS_SUCCESS'], $data['approvalsName'][$idx]);
+
 									$ntf_text = 'SN_NTF_FRIENDSHIP_ACCEPT';
+
 									$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 
 								}
 								else
 								{
-									$error[] = $user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'] . " \"{$data['add_approval'][$idx]}\"";
-									$message[] = $user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'] . " \"{$data['add_approval'][$idx]}\"";
+									$error[] = sprintf($user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'], $data['approvalsName'][$idx]);
+									$message[] = sprintf($user->lang[$l_mode . '_APPROVALS_REQUEST_EXIST'], $data['approvalsName'][$idx]);
 								}
 							}
 
@@ -189,16 +192,21 @@ class ucp_approval
 
 							foreach ($data['approvals'] as $idx => $user_id)
 							{
-								$sql_update = "DELETE FROM " . ZEBRA_TABLE . "
-																WHERE user_id = " . $user_id . "
-                                  AND zebra_id = " . $user->data['user_id'];
+								$sql_update = 'DELETE FROM ' . ZEBRA_TABLE . '
+												WHERE user_id = ' . (int) $user_id . '
+												AND zebra_id = ' . $user->data['user_id'];
 								$db->sql_query($sql_update);
+
 								$socialnet->purge_friends($user_id);
+
 								$ntf_text = 'SN_NTF_FRIENDSHIP_DENY';
-								$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'] . " \"{$data['approvalsName'][$idx]}\"";
+
+								$message[] = sprintf($user->lang[$l_mode . '_APPROVALS_DENY'], $data['approvalsName'][$idx]);
+
 								$this->p_notify->add(SN_NTF_FRIENDSHIP, $user_id, array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
 							}
-							$error[] = $user->lang[$l_mode . '_APPROVALS_DENY'];
+
+							$error[] = $user->lang[$l_mode . '_APPROVALS_DENY_ERROR'];
 						}
 					}
 
@@ -249,12 +257,14 @@ class ucp_approval
                                         AND zebra_id = {$user_id}
                                         AND approval = 1";
 							$db->sql_query($sql_cancel_request);
+
 							$socialnet->purge_friends($user_id);
-							$message[] = $user->lang[$l_mode . '_APPROVALS_DENY'] . " \"{$data['cancelName'][$idx]}\"";
+
+							$message[] = sprintf($user->lang[$l_mode . '_APPROVALS_DENY'], $data['cancelName'][$idx]);
 						}
+
 						$ntf_text = 'SN_NTF_FRIENDSHIP_CANCEL';
 						$this->p_notify->add(SN_NTF_FRIENDSHIP, $data['cancel_request'], array('text' => $ntf_text, 'user' => $user->data['username'], 'link' => $link));
-						;
 					}
 
 					$cache->destroy('_snApFriendsToKnow' . $user->data['user_id']);
@@ -325,29 +335,6 @@ class ucp_approval
 		$result = $db->sql_query($sql);
 
 		$approvals = $friends = $foes = array();
-		while ($row = $db->sql_fetchrow($result))
-		{
-			if ($row['approval'])
-			{
-				$approvals[] = utf8_clean_string($row['username']);
-			}
-			else if ($row['friend'])
-			{
-				$friends[] = utf8_clean_string($row['username']);
-			}
-			else
-			{
-				$foes[] = utf8_clean_string($row['username']);
-			}
-		}
-		$db->sql_freeresult($result);
-
-		$sql = 'SELECT z.*, u.username, u.username_clean
-						  FROM ' . ZEBRA_TABLE . ' z, ' . USERS_TABLE . ' u
-						    WHERE z.zebra_id = ' . $user->data['user_id'] . '
-							    AND u.user_id = z.user_id';
-		$result = $db->sql_query($sql);
-
 		while ($row = $db->sql_fetchrow($result))
 		{
 			if ($row['approval'])
@@ -459,6 +446,8 @@ class ucp_approval
 				}
 
 				$db->sql_multi_insert(ZEBRA_TABLE, $sql_ary);
+
+				$error[] = $user->lang[$l_mode . '_APPROVALS_ADDED'];
 
 				// purge friend suggestions cache
 				foreach ( glob($phpbb_root_path . 'cache/*' . $socialnet->friendsCacheNameMutual . '*') as $file )
