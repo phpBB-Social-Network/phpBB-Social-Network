@@ -19,12 +19,6 @@ if (!isset($lang))
 }
 
 $lang = array_merge($lang, array(
-	/**
-	 * Edit these two lines write your own Welcome text for unregistered guests on Activity page.
-	 */
-	'SN_AP_WELCOME_TITLE'					 => 'Welcome to our website!',
-	'SN_AP_WELCOME_TEXT'					 => 'Feel free to register and use all of the features of our website.<br /><br />Greetings,<br />the Administrator',
-
 	'SN_MODULE_IM_NAME'						 => 'Instant Messenger',
 	'SN_MODULE_USERSTATUS_NAME'				 => 'User Status',
 	'SN_MODULE_APPROVAL_NAME'				 => 'Friends management system',
@@ -79,6 +73,7 @@ $lang = array_merge($lang, array(
 	'SN_CB_FETCH_ERROR'						 => 'An error was encountered when fetching the web page',
 
 	'SN_AP_ACTIVITYPAGE'					 => 'Activity page',
+	'SN_AP_CREATE_ACCOUNT'					=> 'Create Account',
 	'SN_AP_AND'								 => 'and',
 	'SN_AP_ARE_FRIENDS'						 => 'are now friends',
 	'SN_AP_ADD_AS_FRIEND'					 => 'Add as a Friend',

@@ -210,13 +210,35 @@
 <!-- ENDIF -->
 
 <!-- IF ACP_SN_MANAGE eq 'welcome' -->
-	{L_ACP_SN_ACTIVITYPAGE_WELCOME_EXPLAIN}<br /><br />
-
-	{L_ACP_SN_ACTIVITYPAGE_WELCOME_INSTRUCTIONS}
-
-	<fieldset><code>'SN_AP_WELCOME_TITLE'</code></fieldset>
-
-	{L_ACP_SN_ACTIVITYPAGE_WELCOME_EDIT}
+	<form id="postform" name="postform" method="post" action="{U_ACTION}&amp;manage=welcome">
+		<fieldset>
+		  <legend>{L_ACP_SN_WELCOME_TEXT}</legend>
+		  <dl>
+				<dt><label for="welcome_text_title">{L_ACP_SN_WELCOME_TEXT_TITLE}:</label></dt>
+				<dd><input type="text" id="welcome_text_title" name="welcome_text_title" size="40" value="{WELCOME_TEXT_TITLE}"/></dd>
+			</dl>
+			<dl>
+				<!-- INCLUDE ./acp_socialnet_activitypage_bbcode.html -->
+				<textarea name="welcome_text" id="welcome_text" rows="15" cols="70" style="width:95%;font-size: 11px;margin-top: 5px;">{WELCOME_TEXT}</textarea>
+			</dl>
+			<!-- IF WELCOME_TEXT_PREVIEW -->
+				<table cellspacing="1">
+					<thead>
+						<tr><th colspan="2">{L_PREVIEW}</th></tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{WELCOME_TEXT_PREVIEW}</td>
+						</tr>
+					</tbody>
+				</table>
+			<!-- ENDIF -->
+			<p class="submit-buttons" style="font-size: 12px;">
+				<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+				<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			</p>
+		</fieldset>
+	</form>
 <!-- ENDIF -->
 
 <!-- IF B_ACP_SN_PROFILE -->

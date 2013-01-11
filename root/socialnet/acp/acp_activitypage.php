@@ -24,7 +24,7 @@ class acp_activitypage extends socialnet
 
 	function main($id)
 	{
-		global $user, $phpbb_root_path, $template, $phpEx;
+		global $user, $phpbb_root_path, $template, $phpEx, $db;
 
 		$manage = request_var('manage', '');
 		$template->assign_var('ACP_SN_MANAGE', $manage);
@@ -48,19 +48,18 @@ class acp_activitypage extends socialnet
 			'SELECTED'	 => empty($manage) ? true : false,
 			'NAME'		 => $user->lang['SETTINGS']
 		));
+		
+		$template->assign_block_vars('sn_tabs', array(
+			'HREF'		 => $this->p_master->u_action . '&amp;manage=welcome',
+			'SELECTED'	 => $manage == 'welcome' ? true : false,
+			'NAME'		 => $user->lang['ACP_SN_ACTIVITYPAGE_WELCOME']
+		));
 
 		$template->assign_block_vars('sn_tabs', array(
 			'HREF'		 => $this->p_master->u_action . '&amp;manage=htaccess',
 			'SELECTED'	 => $manage == 'htaccess' ? true : false,
 			'NAME'		 => $sn_is_mainpage ? $user->lang['ACP_SN_ACTIVITYPAGE_IS_MAIN'] : $user->lang['ACP_SN_ACTIVITYPAGE_NOT_MAIN']
 		));
-
-		$template->assign_block_vars('sn_tabs', array(
-			'HREF'		 => $this->p_master->u_action . '&amp;manage=welcome',
-			'SELECTED'	 => $manage == 'welcome' ? true : false,
-			'NAME'		 => $user->lang['ACP_SN_ACTIVITYPAGE_WELCOME']
-		));
-		
 
 		if ($manage == '')
 		{
@@ -79,6 +78,60 @@ class acp_activitypage extends socialnet
 				)
 			);
 			$this->p_master->_settings($id, 'sn_ap', $display_vars);
+		}
+		else if ($manage == 'welcome')
+		{
+      $user->add_lang('posting');
+
+			include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
+  		include($phpbb_root_path . 'includes/message_parser.' . $phpEx);
+
+			$submit	= (isset($_POST['submit'])) ? true : false;
+
+      if ($submit)
+			{
+			  $welcome_text_title = request_var('welcome_text_title', '');
+        $welcome_text = utf8_normalize_nfc(request_var('welcome_text', '', true));
+        $uid = $bitfield = $options = '';
+
+        generate_text_for_storage($welcome_text, $uid, $bitfield, $options, true, true, false);
+
+        $sql_ary = (array(
+          'welcome_text_title'		=> $welcome_text_title,
+					'welcome_text'					=> $welcome_text,
+					'bbcode_uid'      			=> $uid,
+	    		'bbcode_bitfield' 			=> $bitfield,
+				));
+
+      	$sql = 'UPDATE ' . SN_WELCOME_TEXT_TABLE . '
+									SET ' . $db->sql_build_array('UPDATE', $sql_ary);
+				$db->sql_query($sql);
+
+      	trigger_error($user->lang['CONFIG_UPDATED'] . adm_back_link($this->p_master->u_action . '&amp;manage=welcome'));
+			}
+
+			display_custom_bbcodes();
+
+			$sql = 'SELECT welcome_text_title, welcome_text, bbcode_uid, bbcode_bitfield
+                FROM ' . SN_WELCOME_TEXT_TABLE;
+			$result	 = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
+
+			$welcome_text_preview = generate_text_for_display($row['welcome_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], OPTION_FLAG_BBCODE + OPTION_FLAG_LINKS);
+
+			decode_message($row['welcome_text'], $row['bbcode_uid']);
+
+  		$template->assign_vars(array(
+  		  'WELCOME_TEXT_TITLE'		=> $row['welcome_text_title'],
+				'WELCOME_TEXT'					=> $row['welcome_text'],
+				'WELCOME_TEXT_PREVIEW'	=> ($welcome_text_preview) ? $welcome_text_preview  : '',
+				'S_BBCODE_ALLOWED'			=> true,
+				'S_BBCODE_QUOTE'				=> true,
+				'S_BBCODE_IMG'					=> true,
+				'S_LINKS_ALLOWED'				=> true,
+				'S_BBCODE_FLASH'				=> false,
+			));
+			$db->sql_freeresult($result);
 		}
 	}
 }

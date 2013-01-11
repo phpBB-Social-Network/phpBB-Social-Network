@@ -1,58 +1,43 @@
-<!-- IF S_DISPLAY_WELCOME -->
-
-	<!-- DEFINE $BLOCK_HEADER = '{L_SN_AP_WELCOME_TITLE}' -->
-
-	<!-- INCLUDE socialnet/block_page_header.html -->
-
-	<div class="sn-page-blocktext">{L_SN_AP_WELCOME_TEXT}</div>
+<!-- IF S_DISPLAY_WELCOME and (SN_AP_WELCOME_TEXT_TITLE or SN_AP_WELCOME_TEXT) -->
+	<div class="sn-page-blocktext sn-page-welcometext">
+		<!-- IF SN_AP_WELCOME_TEXT_TITLE --><h2>{SN_AP_WELCOME_TEXT_TITLE}</h2><!-- ENDIF -->
+		<!-- IF SN_AP_WELCOME_TEXT -->{SN_AP_WELCOME_TEXT}<!-- ENDIF -->
+	</div>
 <!-- ENDIF -->
 
-<form action="{U_SN_ACTIVITYPAGE}" method="post">
-	<!-- DEFINE $BLOCK_HEADER = '{L_LOGIN}' -->
-	<!-- DEFINE $BLOCK_HEADER_ADDITIONAL = '{L_REGISTER}' -->
-	<!-- DEFINE $BLOCK_HEADER_ADDITIONAL_LINK = '{U_REGISTER}' -->
-
-	<!-- INCLUDE socialnet/block_page_header.html -->
-
-	<div class="sn-page-blocktext sn-ap-login">
+<div class="sn-page-blocktext sn-ap-login">
+	<form action="{U_SN_ACTIVITYPAGE}" method="post">
+	  <h2>{L_LOGIN}</h2>
 		<fieldset>
-			<dl class="sn-ap-loginHeader">
-				<dt><label for="username">{L_USERNAME}</label></dt>
-				<dd><label for="password">{L_PASSWORD}</label></dd>
-			</dl>
-			<dl>
-				<dt>
-					<input type="text" name="username" id="username" size="25" title="{L_USERNAME}" class="inputbox" />
-				</dt>
-				<dd>
-					<input type="password" name="password" id="password" size="25" title="{L_PASSWORD}" class="inputbox" />
-				</dd>
-				<dd class="sn-ap-loginButton">
-					<input type="submit" class="button1" name="login" value="{L_LOGIN}" />
-				</dd>
-			</dl>
-			<dl>
-				<dt>
-					<input type="checkbox" name="autologin" id="autologin" />
-					<label for="autologin" class="sn-noStyle">{L_SN_AP_KEEP_LOGGEDIN}</label>
-				</dt>
-				<dd class="sn-ap-loginRegister">
-					<a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a> | <a href="{U_REGISTER}">{L_REGISTER}</a>
-				</dd>
-			</dl>
+			<div>
+				<label for="username">{L_USERNAME}</label>
+				<input type="text" tabindex="1" name="username" id="username" size="25" value="{USERNAME}" class="inputbox" />
+			</div>
+			<div>
+				<label for="password">{L_PASSWORD}</label>
+				<input type="password" tabindex="2" id="password" size="25" name="password" class="inputbox" />
+			</div>
+			<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+				<!-- DEFINE $CAPTCHA_TAB_INDEX = 3 -->
+				<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+			<!-- ENDIF -->
+			<!-- IF S_AUTOLOGIN_ENABLED -->
+				<div>
+					<input type="checkbox" name="autologin" id="autologin" tabindex="3" /> {L_SN_AP_KEEP_LOGGEDIN}
+				</div>
+			<!-- ENDIF -->
+			<!-- IF LOGIN_ERROR --><div class="error">{LOGIN_ERROR}</div><!-- ENDIF -->
+			<div>
+				{S_HIDDEN_FIELDS}
+				<input type="submit" name="login" tabindex="4" value="{L_LOGIN}" class="button1" />
+			</div>
+			<!-- IF S_REGISTER_ENABLED or U_SEND_PASSWORD -->
+				<div>
+					<!-- IF S_REGISTER_ENABLED --><a href="{U_REGISTER}"><strong>{L_REGISTER}</strong></a><!-- ENDIF -->
+					<!-- IF S_REGISTER_ENABLED and U_SEND_PASSWORD -->&nbsp; &bull; &nbsp;<!-- ENDIF -->
+					<!-- IF U_SEND_PASSWORD --><a href="{U_SEND_PASSWORD}">{L_FORGOT_PASS}</a><!-- ENDIF -->
+				</div>
+			<!-- ENDIF -->
 		</fieldset>
-		{S_HIDDEN_FIELDS}
-
-		<!-- IF LOGIN_ERROR -->
-			<div class="error">{LOGIN_ERROR}</div>
-		<!-- ENDIF -->
-	</div>
-
-	<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
-
-		<!-- DEFINE $CAPTCHA_TAB_INDEX = 3 -->
-
-		<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
-
-	<!-- ENDIF -->
-</form>
+	</form>
+</div>

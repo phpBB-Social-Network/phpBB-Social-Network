@@ -30,21 +30,25 @@ else
 {
 	$sn_activitypagee =& $socialnet->modules_obj['activitypage'];
 }
+
 /**
  * Load blocks for activitypage
  */
-$socialnet->blocks(array(
-	'myprofile',
-	'menu',
-	'search',
-	'recent_discussions',
-	'friends_suggestions',
-	'birthday',
-	'statistics',
-	'friend_requests',
-));
-
-$socialnet->online_users();
+ if ($user->data['user_id'] != ANONYMOUS)
+ {
+	$socialnet->blocks(array(
+		'myprofile',
+		'menu',
+		'search',
+		'recent_discussions',
+		'friends_suggestions',
+		'birthday',
+		'statistics',
+		'friend_requests',
+	));
+	
+	$socialnet->online_users();
+}
 
 $template->assign_vars(array(
 	'U_BOARD'			 					=> append_sid("{$phpbb_root_path}index.$phpEx"),

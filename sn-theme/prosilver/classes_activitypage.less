@@ -1,4 +1,3 @@
-
 .sn-ap-avatar {
 	display: inline-block;
 	margin: 0 10px;
@@ -16,11 +15,69 @@
 	}
 }
 
+.sn-page-welcometext {
+	h2 {
+    margin: 0.2em 0 0.4em 0;
+	}
+
+	.ltr & {
+		float: left;
+	}
+
+	.rtl & {
+		float: right;
+	}
+}
+
+.sn-ap-login {
+  h2 {
+    margin: 0.2em 0 0.4em 0;
+	}
+	
+	div {
+		margin-bottom: 10px;
+		font-size: 11px;
+	}
+	
+	label {
+		display: block;
+		margin-bottom: 2px;
+		padding: 0;
+		font-weight: bold;
+	}
+	
+	.inputbox {
+		padding: 3px 2px;
+		font-size: 11px;
+		width: 190px;
+	}
+	
+	#autologin {
+		vertical-align: bottom;
+	}
+	
+	.button1 {
+		padding: 3px 7px;
+	}
+	
+	.error {
+		width: 190px;
+	}
+
+	.ltr & {
+  	float: right;
+		padding-right: 5px;
+	}
+
+	.rtl & {
+	  float: left;
+		padding-left: 5px;
+	}
+}
 
 .sn-ap-search {
 	border: 1px solid @sn-page-bordercolor-content;
 	margin: 8px 0 16px;
-	/*background-color: @sn-page-bordercolor-content;*/
 	
 	input, input:hover, input:focus {
 		border: none;
@@ -29,32 +86,28 @@
 	
 	&:hover, &:focus, &.sn-inputbox-focus {
 		border-color: @sn-inputbox-focus;
-		/*background-color: @sn-inputbox-focus;*/
-		
 	}
 
 	input[type=text] {
 		height: 16px;
 	}
+	
 	input[type=image] {
 		padding: 0;
 		width: 23px;
 		background-color: #fff;
 		height: 20px;
-		
 	}
 	
 	.ui-autocomplete {
 		max-height: 300px;
 		overflow: auto;
 	}
-
-
 }
 
 .sn-ap-searchInput, .sn-ap-searchImage {
 	.ltr .sn-ap-search &, .rtl .sn-ap-search & {
-	float: none;
+		float: none;
 	}
 }
 
@@ -83,7 +136,6 @@
 		background-position: 0% 60%;
 		padding-left: 12px;
 	}
-	
 }
 
 .sn-ap-textBlock {

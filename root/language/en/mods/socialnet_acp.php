@@ -259,10 +259,9 @@ $lang = array_merge($lang, array(
 	'ACP_SN_ACTIVITYPAGE_NOT_MAIN_EXPLAIN'			 => 'If you don\'t want to have the Activity page as the first page of your web instead of index.php page, please follow these instructions.',
 	'ACP_SN_ACTIVITYPAGE_NOT_MAIN_OPEN_FIND'		 => 'Open file .htaccess (located in the root of your web) and find:',
 	'ACP_SN_ACTIVITYPAGE_NOT_MAIN_DELETE'			 => 'Delete it, save the file and upload to your web.',
-	'ACP_SN_ACTIVITYPAGE_WELCOME'					 => 'Edit Welcome text on Activity page',
-	'ACP_SN_ACTIVITYPAGE_WELCOME_EXPLAIN'			 => 'If you want to display the Welcome text for guests on Activity page, you can follow these instructions.',
-	'ACP_SN_ACTIVITYPAGE_WELCOME_INSTRUCTIONS'		 => 'Open file language/en/mods/socialnet.php using a <a href="http://www.pspad.com/">text editor</a> and find:',
-	'ACP_SN_ACTIVITYPAGE_WELCOME_EDIT'				 => 'There you can see two lines containing the title and the text of Welcome block. Feel free to edit them and also style them using <a href="http://www.w3.org/wiki/HTML">HTML</a> and CSS.',
+  'ACP_SN_ACTIVITYPAGE_WELCOME'					 => 'Manage Welcome text on Activity page',
+	'ACP_SN_WELCOME_TEXT_TITLE'             => 'Welcome text title',
+	'ACP_SN_WELCOME_TEXT'              			=> 'Welcome text',
 ));
 
 // USER PROFILE ACP

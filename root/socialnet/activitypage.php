@@ -152,13 +152,29 @@ if (!class_exists('socialnet_activitypage'))
 					'USER_ID'			 => $user->data['user_id'],
 				));
 			}
+			else if ($this->p_master->script_name == 'activitypage' && $on_login)
+			{
+	      $sql = 'SELECT welcome_text_title, welcome_text, bbcode_uid, bbcode_bitfield
+	                FROM ' . SN_WELCOME_TEXT_TABLE;
+				$result	 = $db->sql_query($sql);
+				$row = $db->sql_fetchrow($result);
+
+				$welcome_text = generate_text_for_display($row['welcome_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], OPTION_FLAG_BBCODE + OPTION_FLAG_LINKS);
+
+	  		$template->assign_vars(array(
+	  		  'SN_AP_WELCOME_TEXT_TITLE'	=> $row['welcome_text_title'],
+					'SN_AP_WELCOME_TEXT'	=>	$welcome_text
+				));
+				$db->sql_freeresult($result);
+			}
 
 			$ap_enabled = true;
-			// Generate Activity page Comments counts.
+
 			if ($user->data['is_registered'])
 			{
 				$my_friends = $this->p_master->friends['user_id'];
 
+        // Generate Activity page Comments counts.
 				if ($my_friends)
 				{
 					$sql = 'SELECT COUNT(entry_id) as count
