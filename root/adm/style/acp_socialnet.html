@@ -210,7 +210,7 @@
 <!-- ENDIF -->
 
 <!-- IF ACP_SN_MANAGE eq 'welcome' -->
-	<form id="postform" name="postform" method="post" action="{U_ACTION}&amp;manage=welcome">
+	<form id="postform" name="postform" method="post" action="{U_ACTION_WELCOME}">
 		<fieldset>
 		  <legend>{L_ACP_SN_WELCOME_TEXT}</legend>
 		  <dl>
@@ -219,7 +219,7 @@
 			</dl>
 			<dl>
 				<!-- INCLUDE ./acp_socialnet_activitypage_bbcode.html -->
-				<textarea name="welcome_text" id="welcome_text" rows="15" cols="70" style="width:95%;font-size: 11px;margin-top: 5px;">{WELCOME_TEXT}</textarea>
+				<textarea name="message" id="message" rows="15" cols="70" style="width:95%;font-size: 11px;margin-top: 5px;">{WELCOME_TEXT}</textarea>
 			</dl>
 			<!-- IF WELCOME_TEXT_PREVIEW -->
 				<table cellspacing="1">

@@ -90,8 +90,8 @@ class acp_activitypage extends socialnet
 
       if ($submit)
 			{
-			  $welcome_text_title = request_var('welcome_text_title', '');
-        $welcome_text = utf8_normalize_nfc(request_var('welcome_text', '', true));
+			  $welcome_text_title = utf8_normalize_nfc(request_var('welcome_text_title', ''));
+        $welcome_text = utf8_normalize_nfc(request_var('message', '', true));
         $uid = $bitfield = $options = '';
 
         generate_text_for_storage($welcome_text, $uid, $bitfield, $options, true, true, false);
@@ -125,6 +125,7 @@ class acp_activitypage extends socialnet
   		  'WELCOME_TEXT_TITLE'		=> $row['welcome_text_title'],
 				'WELCOME_TEXT'					=> $row['welcome_text'],
 				'WELCOME_TEXT_PREVIEW'	=> ($welcome_text_preview) ? $welcome_text_preview  : '',
+				'U_ACTION_WELCOME'      => $this->p_master->u_action . '&amp;manage=welcome',
 				'S_BBCODE_ALLOWED'			=> true,
 				'S_BBCODE_QUOTE'				=> true,
 				'S_BBCODE_IMG'					=> true,
