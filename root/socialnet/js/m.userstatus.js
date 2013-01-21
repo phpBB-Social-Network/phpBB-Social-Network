@@ -59,6 +59,7 @@
 				var wallid = $sn.getAttr($(this), 'wid');
 				var status = $('#sn-us-status' + status_id).clone();
 				status.find('div.sn-commentsBlock, a.sn-us-commentStatus, span.sn-expander-more, span.sn-expander-less').remove();
+				status.html( status.html().replace('•', '').replace('&bull;', '') );
 
 				snConfirmBox($sn.us.deleteStatusTitle, $sn.us.deleteStatusText + '<hr />' + status.html(), function() {
 					$.ajax({
