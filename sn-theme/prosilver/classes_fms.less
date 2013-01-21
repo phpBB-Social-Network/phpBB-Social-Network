@@ -7,54 +7,52 @@
 	text-overflow: ellipsis;
 	margin: 2px;
 	border-color: @sn-page-bordercolor-content + #111;
-	
-	
+
+
 	&.checked {
 		background: @sn-fms-friend-bgcolor-checked;
 	}
-	
+
 	input[type="checkbox"] {
 		display: none;
 		visibility: hidden;
 	}
-	
+
 	.sn-user-avatar {
 		display: block;
 		text-align: center;
-	
+
 		.ltr & {
 			float: left;
 			margin-right: 5px;
 		}
-		
+
 		.rtl & {
 			float: right;
 			margin-left: 5px;
 		}
 	}
-	
+
 	.sn-userName {
 		font-size: 1.1em;
 		font-weight: bold;
 		line-height: 1.1em;
 	}
-	
+
 	.sn-fms-groupManage & {
     cursor: move;
   }
-	
+
 	&.sn-fms-user-suggestion {
-		float: none;
-		
 		a:link, a:visited, a:hover, a:active {
 			display: inline-block;
 		}
 	}
-	
+
 	.ltr & {
 		float: left;
 	}
-	
+
 	.rtl & {
 		float: right;
 	}
@@ -64,7 +62,7 @@
 	width: auto;
 	display: block;
 	margin-bottom: 4px;
-	
+
 	.ltr &, .rtl & {
 		float: none;
 	}
@@ -87,21 +85,21 @@
 	h3.ui-accordion-header {
 		margin-top: 5px;
 		margin-bottom: 0;
-		
+
 		&.ui-state-active {
 			background: #0a8fd1 url("{T_THEME_PATH}/images/ui-bg_glass_65_0a8fd1_1x400.png") repeat-x 50% 50%;
-			
+
 			a {
-				color: #fff;	
+				color: #fff;
 			}
-			
+
 			.ui-accordion-header-icon {
 				background-image: url("{T_THEME_PATH}/images/ui-icons_f0f0f0_256x240.png");
 			}
-			
+
 		}
 	}
-	
+
 	.grps.ui-accordion-content {
 		padding: 4px;
 		min-height:100px;
@@ -111,7 +109,7 @@
 .sn-fms-userBlockPaginationSlider {
 	margin-left:10px;
 	width:150px;
-	
+
 	.ltr & {
 		float:right;
 	}
@@ -124,14 +122,14 @@
 	/* TEXT*/
 	font-size: 0.9em;
 	font-style: italic;
-	
+
 	/* STYLE */
 	/*background: #F6F4D0;*/
 }
 
 .sn-fms-groups .ui-state-active {
 	background-image: url("{T_THEME_PATH}/images/ui-bg_glass_75_dadada_1x400.png");
-	
+
 	.ui-icon {
 		background-image: url("{T_THEME_PATH}/images/ui-icons_454545_256x240.png");
 	}
