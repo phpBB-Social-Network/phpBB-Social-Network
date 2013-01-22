@@ -707,6 +707,24 @@ $versions = array(
 			'phpbbSN_replace_primary_by_unique',
 			'phpbb_SN_umil_send'
 		),
+	),
+	
+	'1.0.0'	 => array(
+		'table_add' => array(
+			array(SN_WELCOME_TEXT_TABLE, array(
+				'COLUMNS'	=> array(
+				  'welcome_text_title'	=> array('VCHAR', ''),
+					'welcome_text'				=> array('TEXT', ''),
+					'bbcode_uid'					=> array('STEXT_UNI', ''),
+					'bbcode_bitfield'			=> array('VCHAR', '0'),
+				),
+			)),
+		),
+
+		'custom'			 => array(
+		  'phpbbSN_welcome_text',
+			'phpbb_SN_umil_send'
+		),
 
 		'cache_purge'		 => array(
 			'imageset',
@@ -759,6 +777,37 @@ foreach ($previous_versions as $idx => $a_version)
  * @ignore
  */
 include($phpbb_root_path . 'umil/umil_auto.' . $phpEx);
+
+// In case we want to use bbcodes in the future
+function phpbbSN_welcome_text($action, $version)
+{
+	global $db;
+
+	if ($action == 'install' || $action == 'update')
+	{
+	  $welcome_text_title = 'Welcome to our website';
+	  $welcome_text = 'Feel free to register and use all of the features of our website.
+
+Greetings,
+the Administrator';
+	  $welcome_text = utf8_normalize_nfc($welcome_text);
+    $uid = $bitfield = $options = '';
+
+    generate_text_for_storage($welcome_text, $uid, $bitfield, $options, true, true, false);
+
+    $sql_ary = (array(
+      'welcome_text_title'    => $welcome_text_title,
+			'welcome_text'					=> $welcome_text,
+			'bbcode_uid'      			=> $uid,
+  		'bbcode_bitfield' 			=> $bitfield,
+		));
+
+  	$sql = 'INSERT INTO ' . SN_WELCOME_TEXT_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary);
+		$db->sql_query($sql);
+
+		return 'Welcome text added';
+	}
+}
 
 function phpbbSN_smilies_allow($action, $version)
 {

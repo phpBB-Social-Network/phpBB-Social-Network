@@ -98,11 +98,6 @@ span..sn-page-text {
 	text-decoration: none;
 }
 
-.sn-noStyle {
-	font-style: normal!important;
-	font-weight: normal!important;
-}
-
 div:not(.sn-page) .sn-userName a {
 	font-size: 11px;
 }
@@ -487,10 +482,6 @@ div:not(.sn-page) .sn-userName a {
 	background-position: 100% 50%;
 	float: right;
 	padding-right: 25px;
-}
-
-.sn-im-online.sn-im-block {
-	width: 190px;
 }
 
 .sn-im-online .sn-im-buttons {
@@ -1487,6 +1478,42 @@ a.ui-button {
 	margin: 0 10px;
 }
 
+.sn-ap-login div {
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+
+.sn-ap-login label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 2px;
+	padding: 0;
+}
+
+.sn-ap-login .inputbox {
+	font-size: 11px;
+	padding: 3px 2px;
+	width: 190px;
+}
+
+.sn-ap-login #autologin {
+	vertical-align: bottom;
+}
+
+.sn-ap-login .button1 {
+	padding: 3px 7px;
+}
+
+.ltr .sn-ap-login {
+	float: right;
+	padding-right: 5px;
+}
+
+.rtl .sn-ap-login {
+	float: left;
+	padding-left: 5px;
+}
+
 .sn-ap-search {
 	border: 1px solid #ccc;
 	margin: 8px 0 16px;
@@ -1620,11 +1647,11 @@ a.ui-button {
 	margin-top: 10px;
 }
 
-.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-actions,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.rtl .sn-im-status,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-smilies,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar {
+.ltr .sn-page-blockHeader.forabg .ui-button,.ltr .sn-more a.sn-back-top,.ltr .sn-actions,.ltr .sn-menu .sn-num-cube,.ltr .sn-shareComment .ui-button,.ltr .sn-im-group,.rtl .sn-im-status,.ltr .sn-im-buttons .ui-icon,.rtl .sn-button,.rtl .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout,.rtl .sn-im-loginlogout label,.rtl .sn-im-loginlogout span,.ltr .sn-im-smilies,.ltr .sn-im-msg.sn-im-history .sn-im-history-time,.ltr .sn-im-history-export,.rtl .jGrowl-message .sn-user-avatar,.ltr .sn-us-share .ui-button,.ltr .sn-us-shareComment .ui-button,.rtl .sn-us-share .ui-button.sn-us-fetchButton,.rtl .sn-us-fetchImages,.rtl .sn-us-page-Preview,.ltr .sn-up-buttons,.rtl .sn-up-menu > li,.rtl .sn-fms-friend,.ltr .sn-fms-userBlockPaginationSlider,.rtl .sn-ap-avatar,.rtl .sn-page-welcometext {
 	float: right;
 }
 
-.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-actions,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-im-group,.ltr .sn-im-status,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-smilies,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.rtl .sn-fms-userBlockPaginationSlider,.ltr .sn-ap-avatar {
+.rtl .sn-page-blockHeader.forabg .ui-button,.rtl .sn-more a.sn-back-top,.rtl .sn-actions,.rtl .sn-menu .sn-num-cube,.rtl .sn-shareComment .ui-button,.rtl .sn-im-group,.ltr .sn-im-status,.rtl .sn-im-buttons .ui-icon,.ltr .sn-button,.ltr .sn-im-sound.ui-icon,.ltr .sn-im-loginlogout label,.ltr .sn-im-loginlogout span,.rtl .sn-im-loginlogout,.rtl .sn-im-smilies,.rtl .sn-im-msg.sn-im-history .sn-im-history-time,.rtl .sn-im-history-export,.ltr .jGrowl-message .sn-user-avatar,.rtl .sn-us-share .ui-button,.rtl .sn-us-shareComment .ui-button,.ltr .sn-us-share .ui-button.sn-us-fetchButton,.ltr .sn-us-fetchImages,.ltr .sn-us-page-Preview,.rtl .sn-up-buttons,.ltr .sn-up-menu > li,.ltr .sn-fms-friend,.rtl .sn-fms-userBlockPaginationSlider,.ltr .sn-ap-avatar,.ltr .sn-page-welcometext {
 	float: left;
 }
 
@@ -1690,6 +1717,10 @@ a.ui-button {
 	border-right-width: 1px;
 }
 
+.sn-im-online.sn-im-block,.sn-ap-login .error {
+	width: 190px;
+}
+
 .sn-im-title.sn-im-buttons .sn-userName a,.sn-im-loginlogout .sn-im-selected span,.jGrowl .jGrowl-notification,.jGrowl .jGrowl-closer,.sn-fms-block.ui-accordion h3.ui-accordion-header.ui-state-active a {
 	color: #fff;
 }
@@ -1733,4 +1764,8 @@ a.ui-button {
 
 .ltr .sn-fms-users-fullWidth .sn-fms-friend,.rtl .sn-fms-users-fullWidth .sn-fms-friend,.ltr .sn-ap-search .sn-ap-searchInput,.rtl .sn-ap-search .sn-ap-searchInput,.ltr .sn-ap-search .sn-ap-searchImage,.rtl .sn-ap-search .sn-ap-searchImage {
 	float: none;
+}
+
+.sn-page-welcometext h2,.sn-ap-login h2 {
+	margin: .2em 0 .4em;
 }
