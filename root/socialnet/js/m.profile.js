@@ -155,7 +155,7 @@
 				});
 			}
 
-			$('#sn-up-profileTabs .ui-tabs-nav li a[href$=reportUser] .sn-action-tabClose').live('click', function() {
+			$(document).on('click', '#sn-up-profileTabs .ui-tabs-nav li a[href$=reportUser] .sn-action-tabClose', function() {
 				$('#sn-up-profileTabs').tabs('select', self.tabCurrent).tabs('remove', self.tabReportUser);
 				self.tabReportUser = -1;
 				return false;

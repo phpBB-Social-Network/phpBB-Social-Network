@@ -198,7 +198,7 @@
 				return;
 			}
 			this.callbackInit('friend');
-			$('.sn-fms-friend').live('click', function() {
+			$(document).on('click', '.sn-fms-friend', function() {
 				var chCls = 'checked';
 				$(this).toggleClass(chCls);
 				$(this).children('input[type=checkbox]').attr('checked', $(this).hasClass(chCls));
@@ -208,7 +208,7 @@
 			});
 			$('.sn-fms-friend span').textOverflow('..');
 
-			$('.sn-fms-friend a').live('click', function() {
+			$(document).on('click', '.sn-fms-friend a', function() {
 				window.location = $(this).attr('href');
 				return false;
 			});
@@ -230,7 +230,7 @@
 				self._changeButtons($('#sn-fms-usersBlockContent-' + $s_block + ' .sn-fms-friend'), 'checked');
 				return false;
 			});
-			$('input[type=reset]').live('click', function() {
+			$(document).on('click', 'input[type=reset]', function() {
 				$('.sn-fms-friend').removeClass('checked');
 				$('.sn-fms-friend input[type=checkbox]').removeAttr('checked');
 			});
@@ -356,7 +356,7 @@
 				return;
 			}
 
-			$('.sn-fms-groups a:not( #sn-fms-grpCreate )').live('click', function() {
+			$(document).on('click', '.sn-fms-groups a:not( #sn-fms-grpCreate )', function() {
 				var gid = $sn.getAttr($(this), 'gid');
 				var uid = $sn.getAttr($(this), 'uid');
 				var $chld = $(this).children('.ui-icon');
