@@ -53,30 +53,17 @@
 					self.tabShowFullPage = (event.which == 3) ? 'true' : 'false';
 					if (event.which == 3)
 						return false;
-				}).tabs({
-					ajaxOptions: {
-						cache: false,
-						async: false,
-						data: {
-							fullPage: self.tabShowFullPage
-						}
+				}).removeAttr('style').tabs({
+					beforeLoad: function(e, ui) {
+						ui.ajaxSettings.cache = false;
+						ui.ajaxSettings.async = false;
+						ui.ajaxSettings.url += '&fullPage=' + self.tabShowFullPage;
 					},
-					cache: false,
-					spinner: self.spinner,
-					cookie: {
-						name: $sn.cookie.name + 'sn_up_profileTab',
-						path: $sn.cookie.path,
-						domain: $sn.cookie.domain,
-						secure: $sn.cookie.secure
+					beforeActivate: function(e, ui) {
+						ui.newPanel.html(self.spinner);
+						$sn.setCookie('sn-up-profileTab',ui.newTab.index());
 					},
-					create: function(e, ui) {
-						if ($sn.getCookie('sn-up-profileTab') == 0) {
-							return false;
-						}
-					},
-					select: function(e, ui) {
-						$(ui.panel).html(self.spinner);
-					},
+					active: $sn.getCookie('sn-up-profileTab'),
 					load: function(e, ui) {
 						if (!$sn.isOutdatedBrowser) {
 							$('textarea.sn-us-mention').mentionsInput({
@@ -126,7 +113,7 @@
 
 					}
 				})
-				.removeAttr('style');
+
 
 				$('#sn-up-profileTabs li:first a').attr('href', c_url);
 			}

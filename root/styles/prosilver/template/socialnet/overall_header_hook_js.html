@@ -1,19 +1,19 @@
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui-1.10.0.custom.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.detectmobilebrowser.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.metadata.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery_cookie.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.cookie.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.timers.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.hoverIntent.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.text-overflow.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.watermark.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.elastic.source.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.events.input.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.form.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.titlealert.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.detectmobilebrowser.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.expander.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.editable.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.jgrowl_minimized.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.jgrowl.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/underscore-min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.mentionsInput.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.socialnet.js"></script>
@@ -26,50 +26,51 @@
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.profile.js"></script>
 <script type="text/javascript">
 // <![CDATA[
+
 jQuery(document).ready(function($){
 	socialNetwork.init({
-		allow_load: {B_AJAX_LOAD_ALLOW},
+		allow_load: '{B_AJAX_LOAD_ALLOW}' == 'true' ? true : false,
 		rtl: '{S_CONTENT_DIRECTION}' == 'rtl' ? true: false,
 	    expanderTextMore: '{L_SN_EXPANDER_READ_MORE}',
 	    expanderTextLess: '{L_SN_EXPANDER_READ_LESS}',
-	    browserOutdatedTitle : '{L_BROWSER_OUTDATED_TITLE}',
-	    browserOutdated : '{L_BROWSER_OUTDATED}',
+		browserOutdated: '{L_BROWSER_OUTDATED}',
+	    browserOutdatedTitle: '{L_BROWSER_OUTDATED_TITLE}',
 	    showBrowserOutdated: '{S_SN_SHOW_OUTDATED_BROWSER_INFO}' == '1' ? true : false,
-		user_id: {S_SN_CURRENT_USER_ID},
-		cookie : {
-			name : '{COOKIE_NAME}',
-			path : '{COOKIE_PATH}',
-			domain : '{COOKIE_DOMAIN}',
-			secure : '{COOKIE_SECURE}'=='1'
+		user_id: '{S_SN_CURRENT_USER_ID}',
+		cookie: {
+			name: '{COOKIE_NAME}',
+			path: '{COOKIE_PATH}',
+			domain: '{COOKIE_DOMAIN}',
+			secure: '{COOKIE_SECURE}'=='1'
 		},
 		confirmBox: {
 		    enable: '{S_SN_CB_ENABLE}' == '1' ? true : false,
-		    resizable : '{S_SN_CB_RESIZABLE}' == '1' ? true : false,
-		    draggable : '{S_SN_CB_DRAGGABLE}' == '1' ? true : false,
-		    modal : '{S_SN_CB_MODAL}' == '1' ? true : false,
-		    width : '{S_SN_CB_WIDTH}',
-		    button_confirm : '{L_SN_US_CONFIRM}',
-		    button_cancel : '{L_SN_US_CANCEL}',
-		    button_close : '{L_SN_US_CLOSE}',
-		    postMinChar : {I_POST_MIN_CHARS}
+		    resizable: '{S_SN_CB_RESIZABLE}' == '1' ? true : false,
+		    draggable: '{S_SN_CB_DRAGGABLE}' == '1' ? true : false,
+		    modal: '{S_SN_CB_MODAL}' == '1' ? true : false,
+		    width: '{S_SN_CB_WIDTH}',
+		    button_confirm: '{L_SN_US_CONFIRM}',
+		    button_cancel: '{L_SN_US_CANCEL}',
+		    button_close: '{L_SN_US_CLOSE}',
+		    postMinChar: '{I_POST_MIN_CHARS}'
 		},
-		enableModules : {
-			im : '{SN_MODULE_IM_ENABLED}' == '1',
-			us : '{SN_MODULE_USERSTATUS_ENABLED}' == '1',
-			ntf : '{SN_MODULE_NOTIFY_ENABLED}' == '1',
-			fms : '{SN_MODULE_APPROVAL_ENABLED}' == '1',
-			ap : '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == 1,
-			up : '{SN_MODULE_PROFILE_ENABLED}' == '1'
+		enableModules: {
+			im: '{SN_MODULE_IM_ENABLED}' == '1',
+			us: '{SN_MODULE_USERSTATUS_ENABLED}' == '1',
+			ntf: '{SN_MODULE_NOTIFY_ENABLED}' == '1',
+			fms: '{SN_MODULE_APPROVAL_ENABLED}' == '1',
+			ap: '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == 1,
+			up: '{SN_MODULE_PROFILE_ENABLED}' == '1'
 		},
 		comments : {
-			watermark : '{L_SN_US_WRITE_COMMENT}',
-			empty : '{L_SN_US_EMPTY_COMMENT}',
-			deleteTitle : '{L_SN_CB_DELETE_COMMENT_TITLE}',
-			deleteText : '{L_SN_CB_DELETE_COMMENT_TEXT}'
+			watermark: '{L_SN_US_WRITE_COMMENT}',
+			empty: '{L_SN_US_EMPTY_COMMENT}',
+			deleteTitle: '{L_SN_CB_DELETE_COMMENT_TITLE}',
+			deleteText: '{L_SN_CB_DELETE_COMMENT_TEXT}'
 		},
 		menuPosition:{
-			my : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
-	        at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
+			my: "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
+	        at: "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
 	        }
 	});
 
