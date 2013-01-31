@@ -116,7 +116,7 @@ class sn_core_comments
 	 */
 	public function get($module, $classPrefix, $module_id, $cmt_id = 0, $limit = false, $only_comments = false)
 	{
-		global $db, $config, $user, $template, $auth;
+		global $db, $config, $user, $template, $auth, $sn_comment_cache;
 
 		$cmt_module = $this->_moduleID($module);
 
@@ -151,9 +151,19 @@ class sn_core_comments
 				FROM " . SN_COMMENTS_TABLE . " AS cmt LEFT OUTER JOIN " . USERS_TABLE . " AS u ON cmt.cmt_poster = u.user_id
 				WHERE cmt_module = '{$cmt_module}' AND cmt_mid = '{$module_id}' {$sql_where}
 				ORDER BY cmt.cmt_time " . ($order ? 'ASC' : 'DESC');
-		$rs = $db->sql_query($sql, $limit + 1);
-		$rowset = $db->sql_fetchrowset($rs);
-		$db->sql_freeresult($rs);
+		$sn_comment_md5 = md5($sql);
+
+		if (isset($sn_comment_cache[$sn_comment_md5]))
+		{
+			$rowset = $sn_comment_cache[$sn_comment_md5];
+		}
+		else
+		{
+			$rs = $db->sql_query($sql, $limit + 1);
+			$rowset = $db->sql_fetchrowset($rs);
+			$sn_comment_cache[$sn_comment_md5] = $rowset;
+			$db->sql_freeresult($rs);
+		}
 
 		$cmt_count = count($rowset);
 
