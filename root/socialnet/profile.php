@@ -561,7 +561,78 @@ if (!class_exists('socialnet_profile'))
 
 		function tab_wall($user_id)
 		{
-			return '';
+			global $phpbb_root_path, $user, $config, $template, $db, $auth;
+
+			$template_assign_vars = array(
+				'B_LOAD_FIRST_USERSTATUS_COMMENTS'	 => isset($config['userstatus_comments_load_last']) ? $config['userstatus_comments_load_last'] : 1,
+			);
+
+			if (!isset($template->_tpldata['.'][0]['T_IMAGESET_PATH']))
+			{
+				$t_imaset_path = "{$phpbb_root_path}styles/" . $user->theme['imageset_path'] . '/imageset';
+				$_phpbb_root_path = str_replace('\\', '/', $phpbb_root_path);
+				$_script_path = str_replace('//', '/', str_replace('\\', '/', $config['script_path']) . '/');
+				$t_imaset_path = preg_replace('#^' . preg_quote($_phpbb_root_path) . '#si', $_script_path, $t_imaset_path);
+
+				$template_assign_vars = array_merge($template_assign_vars, array(
+					'T_IMAGESET_PATH'	 => $t_imaset_path,
+				));
+			}
+
+			if ($user_id != ANONYMOUS)
+			{
+				$status_id = request_var('status_id', 0);
+
+				$my_friends = $this->p_master->friends['user_id'];
+				$my_friends[] = $user->data['user_id'];
+
+				if ($status_id == 0)
+				{
+					$entries = $this->p_master->entry->get(0, 15, true, $user_id);
+					$more_statuses = $entries['more'];
+					//$more_statuses = $this->_get_statuses($user_id);
+
+					foreach ($entries['entries'] as $idx => $entry)
+					{
+						$template->assign_block_vars('ap_entries', $entry);
+					}
+
+					$template_assign_vars = array_merge($template_assign_vars, array(
+						'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+						'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => ($auth->acl_get('u_sn_userstatus') && in_array($user_id, $my_friends)) ? '1' : '0',
+						'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => $more_statuses,
+						'SN_US_USER_ID'								 => $user_id,
+					));
+
+					if (!isset($template->_tpldata['.'][0]['USERNAME']))
+					{
+						$sql = 'SELECT username
+										FROM ' . USERS_TABLE . '
+											WHERE user_id = ' . $user_id;
+						$rs = $db->sql_query($sql);
+						$username = $db->sql_fetchfield('username');
+						$db->sql_freeresult($rs);
+						$template->assign_var('USERNAME', $username);
+					}
+				}
+				else
+				{
+					$this->_get_statuses($user_id, $status_id, 1, 15, true);
+					$more_statuses = false;
+
+					$template_assign_vars = array_merge($template_assign_vars, array(
+						'SN_MODULE_USERSTATUS_VIEWPROFILE_ENABLE'	 => true,
+						'SN_MODULE_USERSTATUS_CAN_POST_STATUS'		 => in_array($user_id, $my_friends),
+						'SN_US_DISPLAY_LOAD_MORE_STATUS'			 => false,
+						'SN_US_USER_ID'								 => $user_id,
+						'B_SN_ONLY_ONE'								 => true,
+						'SN_US_DISPLAY_GOTO_TOP'					 => true
+					));
+
+				}
+			}
+
+			$template->assign_vars($template_assign_vars);
 		}
 
 		function tab_report_user($user_id)

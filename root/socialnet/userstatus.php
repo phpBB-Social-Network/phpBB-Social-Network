@@ -77,7 +77,6 @@ if (!class_exists('socialnet_userstatus'))
 			switch ($this->script_name)
 			{
 				case 'memberlist':
-				case 'profile':
 
 					$user_id = $this->_wall_id();
 
