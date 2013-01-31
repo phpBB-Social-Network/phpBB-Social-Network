@@ -539,7 +539,7 @@ $lang = array_merge($lang, array(
 // NOTIFY
 $lang = array_merge($lang, array(
 	'SN_AP_NOTIFY'					 => 'Notifications',
-	'SN_NO_NOTIFY'					 => 'You have no notification',
+	'SN_NO_NOTIFY'					 => 'You have no new notifications',
 	'SN_NTF_FRIENDSHIP_ACCEPT'		 => '%1$s accepted your <a href="%2$s">friendship request</a>',
 	'SN_NTF_FRIENDSHIP_DENY'		 => '%1$s denied your <a href="%2$s">friendship request</a>',
 	'SN_NTF_FRIENDSHIP_REQUEST'		 => '%1$s sent you a <a href="%2$s">friendship request</a>',
