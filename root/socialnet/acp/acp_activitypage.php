@@ -28,14 +28,14 @@ class acp_activitypage extends socialnet
 
 		$manage = request_var('manage', '');
 		$template->assign_var('ACP_SN_MANAGE', $manage);
-		$sn_is_mainpage = false;
+		$sn_is_activitypage = false;
 		if ($manage == 'htaccess')
 		{
 			$htaccess = @file_get_contents("{$phpbb_root_path}.htaccess");
 
 			preg_match('/\nDirectoryIndex ([^\n]*)/si', $htaccess, $preg_htaccess);
-			$sn_is_mainpage = (isset($preg_htaccess[1]) && preg_match('/^activitypage\.' . $phpEx . '/si', $preg_htaccess[1])) ? false : true;
-			$template->assign_var('B_ACP_AP_IS_SET_AS_ACTIVITYPAGE', $sn_is_mainpage);
+			$sn_is_activitypage = (isset($preg_htaccess[1]) && preg_match('/^activitypage\.' . $phpEx . '/si', $preg_htaccess[1])) ? false : true;
+			$template->assign_var('B_ACP_AP_IS_SET_AS_ACTIVITYPAGE', $sn_is_activitypage);
 			$template->assign_var('B_ACP_SN_ACTIVITYPAGE_HTACCESS', true);
 		}
 		else
@@ -52,7 +52,7 @@ class acp_activitypage extends socialnet
 		$template->assign_block_vars('sn_tabs', array(
 			'HREF'		 => $this->p_master->u_action . '&amp;manage=htaccess',
 			'SELECTED'	 => $manage == 'htaccess' ? true : false,
-			'NAME'		 => $sn_is_mainpage ? $user->lang['ACP_SN_ACTIVITYPAGE_IS_MAIN'] : $user->lang['ACP_SN_ACTIVITYPAGE_NOT_MAIN']
+			'NAME'		 => $sn_is_activitypage ? $user->lang['ACP_SN_ACTIVITYPAGE_IS_MAIN'] : $user->lang['ACP_SN_ACTIVITYPAGE_NOT_MAIN']
 		));
 
 		$template->assign_block_vars('sn_tabs', array(
