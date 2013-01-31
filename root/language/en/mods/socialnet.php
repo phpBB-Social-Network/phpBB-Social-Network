@@ -437,9 +437,10 @@ $lang = array_merge($lang, array(
 
 	'SN_USING_AVATARS_1_EXPLAIN'			 => 'Click on the users to select them, then confirm the operation',
 
-	'FRIENDS_APPROVALS_SUCCESS'				 => ' has been added to your friendlist',
-	'FRIENDS_APPROVALS_REQUEST_EXIST'		 => 'You have already sent the request to',
-	'FRIENDS_APPROVALS_DENY'				 => 'The friend request has been canceled',
+	'FRIENDS_APPROVALS_SUCCESS'				 => '%s has been added to your friendlist',
+	'FRIENDS_APPROVALS_REQUEST_EXIST'		 => 'You have already sent the request to %s',
+	'FRIENDS_APPROVALS_DENY'				 => 'The friend request sent to %s has been canceled',
+	'FRIENDS_APPROVALS_DENY_ERROR'			 => 'The friend request has been canceled',
 	'FRIENDS_APPROVALS_REMOVE'				 => 'The friend has been removed successfully',
 	'FRIENDS_APPROVALS_ADDED'				 => 'The friend request has been send successfully',
 
