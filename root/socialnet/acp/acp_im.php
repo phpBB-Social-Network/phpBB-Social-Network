@@ -137,12 +137,10 @@ class acp_im extends socialnet
 		if ($submit)
 		{
 			// PURGE CACHED SMILIES
-			$cached = 'SELECT ps.*, ss.smiley_allowed
-					FROM ' . SMILIES_TABLE . ' AS ps, ' . SN_SMILIES_TABLE . ' AS ss
-					WHERE ps.smiley_id = ss.smiley_id AND ss.smiley_allowed = 1
-					ORDER BY smiley_order';
+			$cached = 'SELECT * FROM ' . SN_SMILIES_TABLE . ' WHERE smiley_allowed = 1';
+			$cached = preg_replace('/[\n\r\s\t]+/', ' ', $cached); // from acm_file.php
 			$cache->remove_file('sql_' . md5($cached) . '.' . $phpEx);
-			
+
 			// DELETE ALL RECORDS
 			$sql = "DELETE FROM " . SN_SMILIES_TABLE;
 			$db->sql_query($sql);

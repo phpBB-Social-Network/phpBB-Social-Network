@@ -73,10 +73,11 @@ if (!class_exists('socialnet_profile'))
 				$monthNames .= "'" . addslashes($user->lang['datetime'][$nM[0]]) . "'";
 			}
 
-			$sql = "SELECT emote_id, emote_name, emote_image
-							FROM " . SN_EMOTES_TABLE . "
-								ORDER BY emote_order";
-			$rs = $db->sql_query($sql);
+			$sql = 'SELECT emote_id, emote_name, emote_image
+					FROM ' . SN_EMOTES_TABLE . '
+					ORDER BY emote_order';
+			// cache result for 1 year. Refresh with any manipulation in ACP.
+			$rs = $db->sql_query($sql, 60*60*24*365);
 			$row_emotes = $db->sql_fetchrowset($rs);
 			$db->sql_freeresult($rs);
 
