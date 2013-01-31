@@ -1,12 +1,12 @@
 	<!-- DEFINE $BLOCK_HEADER_TYPE = 'forabg' -->
 
-	<!-- IF ABOUT_ME or SEX  or INTERESTED_IN or BIRTHDAY or AGE or HOMETOWN or LOCATION or LANGUAGES or REL_STATUS or SIGNATURE -->
+	<!-- IF ABOUT_ME neq '' or SEX  or INTERESTED_IN or BIRTHDAY neq '' or AGE or HOMETOWN neq '' or LOCATION neq '' or LANGUAGES neq '' or REL_STATUS neq '' or SIGNATURE neq '' -->
 		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_BASIC_INFO}' -->
 
 		<!-- INCLUDE socialnet/block_page_header.html -->
 
 		<dl class="details">
-			<!-- IF ABOUT_ME -->
+			<!-- IF ABOUT_ME neq '' -->
 				<dt>{L_SN_UP_ABOUT_ME}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {type:'textarea',name:'up-about_me',max:1024}"<!-- ENDIF -->>
 					{ABOUT_ME}
@@ -27,7 +27,7 @@
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF BIRTHDAY -->
+			<!-- IF BIRTHDAY neq '' -->
 				<dt>{L_SN_UP_BIRTHDAY}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'date',name:'usr-user_birthday',data:{date:true}}"<!-- ENDIF -->>
 					{BIRTHDAY}
@@ -41,28 +41,28 @@
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF HOMETOWN -->
+			<!-- IF HOMETOWN neq '' -->
 				<dt>{L_SN_UP_HOMETOWN}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'up-hometown',max:255}"<!-- ENDIF -->>
 					{HOMETOWN}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF LOCATION -->
+			<!-- IF LOCATION neq '' -->
 				<dt>{L_LOCATION}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_from',max:100}"<!-- ENDIF -->>
 					{LOCATION}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF LANGUAGES -->
+			<!-- IF LANGUAGES neq '' -->
 				<dt>{L_SN_UP_LANGUAGES}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-languages',max:1024}"<!-- ENDIF -->>
 					{LANGUAGES}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF SIGNATURE -->
+			<!-- IF SIGNATURE neq '' -->
 				<dt>{L_SIGNATURE}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'usr-user_sig',value:'{UP_EDIT_SIGNATURE}',data:{bbcode:true}}"<!-- ENDIF -->>
 					{SIGNATURE}
@@ -71,34 +71,34 @@
 		</dl>
 	<!-- ENDIF -->
 
-	<!-- IF EMPLOYER or UNIVERSITY or HIGH_SCHOOL or OCCUPATION -->
+	<!-- IF EMPLOYER neq '' or UNIVERSITY neq '' or HIGH_SCHOOL neq '' or OCCUPATION neq '' -->
 		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_EDU_WORK}' -->
 
 		<!-- INCLUDE socialnet/block_page_header.html -->
 
 		<dl class="details">
-			<!-- IF HIGH_SCHOOL -->
+			<!-- IF HIGH_SCHOOL neq '' -->
 				<dt>{L_SN_UP_HIGH_SCHOOL}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-high_school',max:1024}"<!-- ENDIF -->>
 					{HIGH_SCHOOL}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF UNIVERSITY -->
+			<!-- IF UNIVERSITY neq '' -->
 				<dt>{L_SN_UP_UNIVERSITY}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-university',max:1024}"<!-- ENDIF -->>
 					{UNIVERSITY}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF EMPLOYER -->
+			<!-- IF EMPLOYER neq '' -->
 				<dt>{L_SN_UP_EMPLOYER}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-employer',max:1024}"<!-- ENDIF -->>
 					{EMPLOYER}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF OCCUPATION -->
+			<!-- IF OCCUPATION neq '' -->
 				<dt>{L_SN_UP_OCCUPATION}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_occ'}"<!-- ENDIF -->>
 					{OCCUPATION}
@@ -107,28 +107,28 @@
 		</dl>
 	<!-- ENDIF -->
 
-	<!-- IF RELIGION or POLITICAL_VIEWS or QUOTATIONS -->
+	<!-- IF RELIGION neq '' or POLITICAL_VIEWS neq '' or QUOTATIONS neq '' -->
 
 		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_PHILOSOPHY}' -->
 
 		<!-- INCLUDE socialnet/block_page_header.html -->
 
 		<dl class="details">
-			<!-- IF RELIGION -->
+			<!-- IF RELIGION neq '' -->
 				<dt>{L_SN_UP_RELIGION}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-religion',max:1024}"<!-- ENDIF -->>
 					{RELIGION}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF POLITICAL_VIEWS -->
+			<!-- IF POLITICAL_VIEWS neq '' -->
 				<dt>{L_SN_UP_POLITICAL_VIEWS}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-political_views',max:1024}"<!-- ENDIF -->>
 					{POLITICAL_VIEWS}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF QUOTATIONS -->
+			<!-- IF QUOTATIONS neq '' -->
 				<dt>{L_SN_UP_QUOTATIONS}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-quotations',max:1024}"<!-- ENDIF -->>
 					{QUOTATIONS}
@@ -137,70 +137,70 @@
 		</dl>
 	<!-- ENDIF -->
 
-	<!-- IF INTERESTS or MUSIC or BOOKS or MOVIES or GAMES or FOODS or SPORTS or SPORT_TEAMS or ACTIVITIES -->
+	<!-- IF INTERESTS neq '' or MUSIC neq '' or BOOKS neq '' or MOVIES neq '' or GAMES neq '' or FOODS neq '' or SPORTS neq '' or SPORT_TEAMS neq '' or ACTIVITIES neq '' -->
 
 		<!-- DEFINE $BLOCK_HEADER = '{L_SN_UP_ENT_ACT}' -->
 
 		<!-- INCLUDE socialnet/block_page_header.html -->
 
 		<dl class="details">
-			<!-- IF INTERESTS -->
+			<!-- IF INTERESTS neq '' -->
 				<dt>{L_SN_UP_INTERESTS}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'usr-user_interests'}"<!-- ENDIF -->>
 					{INTERESTS}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF ACTIVITIES -->
+			<!-- IF ACTIVITIES neq '' -->
 				<dt>{L_SN_UP_ACTIVITIES}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-activities',max:1024}"<!-- ENDIF -->>
 					{ACTIVITIES}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF MUSIC -->
+			<!-- IF MUSIC neq '' -->
 				<dt>{L_SN_UP_MUSIC}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-music',max:1024}"<!-- ENDIF -->>
 					{MUSIC}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF BOOKS -->
+			<!-- IF BOOKS neq '' -->
 				<dt>{L_SN_UP_BOOKS}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-books',max:1024}"<!-- ENDIF -->>
 					{BOOKS}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF MOVIES -->
+			<!-- IF MOVIES neq '' -->
 				<dt>{L_SN_UP_MOVIES}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-movies',max:1024}"<!-- ENDIF -->>
 					{MOVIES}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF GAMES -->
+			<!-- IF GAMES neq '' -->
 				<dt>{L_SN_UP_GAMES}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-games',max:1024}"<!-- ENDIF -->>
 					{GAMES}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF FOODS -->
+			<!-- IF FOODS neq '' -->
 				<dt>{L_SN_UP_FOODS}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-foods',max:1024}"<!-- ENDIF -->>
 					{FOODS}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF SPORTS -->
+			<!-- IF SPORTS neq '' -->
 				<dt>{L_SN_UP_SPORTS}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-sports',max:1024}"<!-- ENDIF -->>
 					{SPORTS}
 				</dd>
 			<!-- ENDIF -->
 
-			<!-- IF SPORT_TEAMS -->
+			<!-- IF SPORT_TEAMS neq '' -->
 				<dt>{L_SN_UP_SPORT_TEAMS}:</dt>
 				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-sport_teams',max:1024}"<!-- ENDIF -->>
 					{SPORT_TEAMS}
