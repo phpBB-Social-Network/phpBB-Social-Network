@@ -285,31 +285,31 @@ if (!class_exists('socialnet_profile'))
 			}
 
 			$template->assign_vars(array(
-				'ABOUT_ME'				 => ($member['about_me']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['about_me']) : '',
+				'ABOUT_ME'				 => ($member['about_me'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['about_me']) : '',
 				'SEX'					 => ((int) $member['sex'] != '0') ? (($member['sex'] == '1') ? $user->lang['SN_UP_MALE'] : $user->lang['SN_UP_FEMALE']) : '',
 				'INTERESTED_IN'			 => $interested_in,
-				'BIRTHDAY'				 => ($member['user_birthday']) ? $birthday : '',
+				'BIRTHDAY'				 => ($member['user_birthday'] != '') ? $birthday : '',
 				'AGE'					 => $age,
-				'LOCATION'				 => ($member['user_from']) ? $member['user_from'] : '',
-				'HOMETOWN'				 => ($member['hometown']) ? $member['hometown'] : '',
-				'LANGUAGES'				 => ($member['languages']) ? $member['languages'] : '',
-				'SIGNATURE'				 => ($member['user_sig']) ? $member['user_sig'] : '',
-				'EMPLOYER'				 => ($member['employer']) ? $member['employer'] : '',
-				'UNIVERSITY'			 => ($member['university']) ? $member['university'] : '',
-				'HIGH_SCHOOL'			 => ($member['high_school']) ? $member['high_school'] : '',
-				'OCCUPATION'			 => ($member['user_occ']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_occ']) : '',
-				'RELIGION'				 => ($member['religion']) ? $member['religion'] : '',
-				'POLITICAL_VIEWS'		 => ($member['political_views']) ? $member['political_views'] : '',
-				'QUOTATIONS'			 => ($member['quotations']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['quotations']) : '',
-				'INTERESTS'				 => ($member['user_interests']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_interests']) : '',
-				'MUSIC'					 => ($member['music']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['music']) : '',
-				'BOOKS'					 => ($member['books']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['books']) : '',
-				'MOVIES'				 => ($member['movies']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['movies']) : '',
-				'GAMES'					 => ($member['games']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['games']) : '',
-				'FOODS'					 => ($member['foods']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['foods']) : '',
-				'SPORTS'				 => ($member['sports']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sports']) : '',
-				'SPORT_TEAMS'			 => ($member['sport_teams']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sport_teams']) : '',
-				'ACTIVITIES'			 => ($member['activities']) ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['activities']) : '',
+				'LOCATION'				 => ($member['user_from'] != '') ? $member['user_from'] : '',
+				'HOMETOWN'				 => ($member['hometown'] != '') ? $member['hometown'] : '',
+				'LANGUAGES'				 => ($member['languages'] != '') ? $member['languages'] : '',
+				'SIGNATURE'				 => ($member['user_sig'] != '') ? $member['user_sig'] : '',
+				'EMPLOYER'				 => ($member['employer'] != '') ? $member['employer'] : '',
+				'UNIVERSITY'			 => ($member['university'] != '') ? $member['university'] : '',
+				'HIGH_SCHOOL'			 => ($member['high_school'] != '') ? $member['high_school'] : '',
+				'OCCUPATION'			 => ($member['user_occ'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_occ']) : '',
+				'RELIGION'				 => ($member['religion'] != '') ? $member['religion'] : '',
+				'POLITICAL_VIEWS'		 => ($member['political_views'] != '') ? $member['political_views'] : '',
+				'QUOTATIONS'			 => ($member['quotations'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['quotations']) : '',
+				'INTERESTS'				 => ($member['user_interests'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['user_interests']) : '',
+				'MUSIC'					 => ($member['music'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['music']) : '',
+				'BOOKS'					 => ($member['books'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['books']) : '',
+				'MOVIES'				 => ($member['movies'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['movies']) : '',
+				'GAMES'					 => ($member['games'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['games']) : '',
+				'FOODS'					 => ($member['foods'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['foods']) : '',
+				'SPORTS'				 => ($member['sports'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sports']) : '',
+				'SPORT_TEAMS'			 => ($member['sport_teams'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['sport_teams']) : '',
+				'ACTIVITIES'			 => ($member['activities'] != '') ? preg_replace("/((\r)?\n)/si", '<br />\2', $member['activities']) : '',
 				'S_JABBER_ENABLED'		 => ($config['jab_enable']) ? true : false,
 				'U_EMAIL'				 => $email,
 				'U_WWW'					 => ($member['user_website']) ? $member['user_website'] : '',
@@ -896,8 +896,6 @@ if (!class_exists('socialnet_profile'))
 
 					break;
 				}
-
-				$changed = array_filter($changed);
 
 				array_walk($changed, 'profile_change_cut_string');
 
