@@ -121,8 +121,9 @@ if (!class_exists('socialnet_im'))
 			$closeKey = $this->_keyboardString($this->closeSequence);
 			$sendKey = $this->_keyboardString($this->sendSequence);
 
-			$sql = "SELECT * FROM " . SN_SMILIES_TABLE . " WHERE smiley_allowed = 1";
-			$rs = $db->sql_query($sql);
+			$sql = 'SELECT * FROM ' . SN_SMILIES_TABLE . ' WHERE smiley_allowed = 1';
+			// cache for 1 year - reload when you change smiley settings in ACP
+			$rs = $db->sql_query($sql, 60*60*24*365);
 
 			$exist_smiley = $db->sql_affectedrows($rs);
 
@@ -963,13 +964,40 @@ if (!class_exists('socialnet_im'))
 
 		function _open_chatbox_avatar($uidTo)
 		{
-			global $db, $phpbb_root_path;
-			$sql = "SELECT user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
-								FROM " . USERS_TABLE . "
-									WHERE user_id = '{$uidTo}'";
-			$rs = $db->sql_query($sql);
-			$rowAvatar = $db->sql_fetchrow($rs);
-			$db->sql_freeresult($rs);
+			global $db, $user, $phpbb_root_path, $chat_avatars;
+
+			$sql = 'SELECT user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
+					FROM ' . USERS_TABLE . '
+					WHERE user_id = ' . (int) $uidTo;
+			$sql = preg_replace('/[\n\r\s\t]+/', ' ', $cached); // from acm_file.php
+			$sql_md5 = md5($sql);
+
+
+			if ( isset($chat_avatars[$sql_md5]) )
+			{
+				$rowAvatar = $chat_avatars[$sql_md5];
+			}
+			else
+			{
+				// perform sql request only if we do not already have those data
+				if ( $uidTo == $user->data['user_id'] )
+				{
+					$rowAvatar = array(
+						'user_avatar'	=> $user->data['user_avatar'],
+						'user_avatar_type'	=> $user->data['user_avatar_type'],
+						'user_avatar_width'	=> $user->data['user_avatar_width'],
+						'user_avatar_height'	=> $user->data['user_avatar_height'],
+					);
+				}
+				else
+				{
+					$rs = $db->sql_query($sql);
+					$rowAvatar = $db->sql_fetchrow($rs);
+					$db->sql_freeresult($rs);
+				}
+				// cache query
+				$chat_avatars[$sql_md5] = $rowAvatar;
+			}
 
 			return $this->p_master->get_user_avatar_resized($rowAvatar['user_avatar'], $rowAvatar['user_avatar_type'], $rowAvatar['user_avatar_width'], $rowAvatar['user_avatar_height'], 30);
 		}

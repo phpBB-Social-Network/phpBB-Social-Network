@@ -127,6 +127,16 @@ class snFunctions
 	var $cookies = array();
 
 	/**
+	 * List of needed modules for current page
+	 *
+	 * @var array $cookies
+	 *
+	 * @see snFunctions::register_needed_modules()
+	 * @see snFunctions::get_needed_modules()
+	 */
+	var $needed_modules = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @access public
@@ -2220,6 +2230,121 @@ class snFunctions
 			$this->cookies[$name] = request_var($cookieName, $default, false, true);
 		}
 		return $this->cookies[$name];
+	}
+
+	/**
+	 * Registers module needed for current page
+	 *
+	 * @access public
+	 *
+	 * @param	mixed	$script_name	name of script
+	 */
+	function register_page_modules($script_name)
+	{
+		$modules = array();
+
+		switch ($script_name)
+		{
+			case 'activitypage':
+
+				$modules = array(
+					'activitypage',
+					'userstatus',
+					'approval',
+				);
+
+			break;
+
+			case 'approval':
+
+				$modules = array(
+					'approval',
+				);
+
+			break;
+
+			case 'fetch':
+
+				$modules = array(
+
+				);
+
+			break;
+
+			case 'fms_users':
+
+				$modules = array(
+
+				);
+
+			break;
+
+			case 'profile':
+
+				$modules = array(
+					'profile',
+					'userstatus',
+					'approval',
+				);
+
+			break;
+
+			case 'userstatus':
+
+				$modules = array(
+					'userstatus',
+				);
+
+			break;
+
+			case 'memberlist':
+
+				$modules = array(
+					'approval',
+					'userstatus',
+				);
+
+			break;
+
+			case 'ucp':
+
+				$modules = array(
+					'approval',
+				);
+
+			break;
+		}
+
+		$this->register_modules($modules);
+	}
+
+	/**
+	 * Registers module(s)
+	 *
+	 * @access public
+	 *
+	 * @param 	mixed	$modules	array or string of module(s) to be enabled
+	 */
+	function register_modules($modules)
+	{
+		$modules = (array) $modules;
+
+		foreach ( $modules as $module )
+		{
+			$this->needed_modules[] = $module;
+		}
+	}
+
+	/**
+	 * Registers module needed for this page
+	 *
+	 * @access	public
+	 *
+	 * @return	array array of needed modules
+	 */
+	function get_needed_modules()
+	{
+		return $this->needed_modules;
 	}
 }
 

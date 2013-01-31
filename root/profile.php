@@ -62,12 +62,30 @@ if ($user_id == ANONYMOUS && !$username)
 }
 
 // Select data for left column
-$sql = 'SELECT user_id, username, user_type, user_colour, user_inactive_reason, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, user_allow_pm
-              FROM ' . USERS_TABLE . '
-                WHERE ' . (($username) ? "username_clean = '" . $db->sql_escape(utf8_clean_string($username)) . "'" : "user_id = $user_id");
-$result = $db->sql_query($sql);
-$member = $db->sql_fetchrow($result);
-$db->sql_freeresult($result);
+if ( ($username && utf8_clean_string($username) == $user->data['username_clean']) || $user_id == $user->data['user_id'] )
+{
+	$member = array(
+		'user_id'	=> $user->data['user_id'],
+		'username'	=> $user->data['username'],
+		'user_type'	=> $user->data['user_type'],
+		'user_colour'	=> $user->data['user_colour'],
+		'user_inactive_reason'	=> $user->data['user_inactive_reason'],
+		'user_avatar'	=> $user->data['user_avatar'],
+		'user_avatar_type'	=> $user->data['user_avatar_type'],
+		'user_avatar_width'	=> $user->data['user_avatar_width'],
+		'user_avatar_height'	=> $user->data['user_avatar_height'],
+		'user_allow_pm'	=> $user->data['user_allow_pm'],
+	);
+}
+else
+{
+	$sql = 'SELECT user_id, username, user_type, user_colour, user_inactive_reason, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, user_allow_pm
+			FROM ' . USERS_TABLE . '
+			WHERE ' . (($username) ? "username_clean = '" . $db->sql_escape(utf8_clean_string($username)) . "'" : "user_id = $user_id");
+	$result = $db->sql_query($sql);
+	$member = $db->sql_fetchrow($result);
+	$db->sql_freeresult($result);
+}
 
 if (!$member)
 {

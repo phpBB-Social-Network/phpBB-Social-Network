@@ -33,13 +33,13 @@ class acp_profile extends socialnet
 			'SELECTED' => empty($manage) ? true : false,
 			'NAME'     => $user->lang['SETTINGS']
 		));
-		
+
 		$template->assign_block_vars('sn_tabs', array(
 			'HREF'     => $this->p_master->u_action . '&amp;manage=reason',
 			'SELECTED' => $manage == 'reason' ? true : false,
 			'NAME'     => $user->lang['SN_PROFILE_REPORT_REASONS']
 		));
-		
+
 		$template->assign_block_vars('sn_tabs', array(
 			'HREF'     => $this->p_master->u_action . '&amp;manage=emotes',
 			'SELECTED' => $manage == 'emotes' ? true : false,
@@ -109,7 +109,7 @@ class acp_profile extends socialnet
 		switch ($action)
 		{
 			case "delete_reason":
-			
+
 				if (confirm_box(true))
 				{
 					$sql = 'DELETE FROM ' . SN_REPORTS_REASONS_TABLE . '
@@ -195,7 +195,7 @@ class acp_profile extends socialnet
 			case 'mup':
 				$this->emote_order($error, $action);
 			break;
-			
+
 			case 'delete':
 				$this->emote_delete($error);
 			break;
@@ -241,6 +241,8 @@ class acp_profile extends socialnet
 
 		$sql = "UPDATE " . SN_EMOTES_TABLE . " SET emote_order = {$emote_neworder} WHERE emote_id = {$emote_id}";
 		$db->sql_query($sql);
+
+		$this->_emote_refresh_cache();
 	}
 
 	function emote_edit(&$error)
@@ -254,7 +256,7 @@ class acp_profile extends socialnet
 		$template->alter_block_array('sn_tabs', array(
 			'SELECTED' => false
 		), true, 'change');
-		
+
 		$template->assign_block_vars('sn_tabs', array(
 			'HREF'     => $this->p_master->u_action . '&amp;manage=emotes&amp;action=edit&amp;emote_id=' . $emote_id,
 			'NAME'     => ($emote_id == 0) ? $user->lang['SN_PROFILE_ADD_EMOTE'] : $user->lang['SN_PROFILE_EDIT_EMOTE'],
@@ -297,9 +299,9 @@ class acp_profile extends socialnet
 											WHERE emote_id = {$emote_id}";
 					$db->sql_query($sql);
 					$emote_order = $db->sql_fetchfield('emote_order');
-					
+
 					$sql_ary['emote_order'] = $emote_order;
-			
+
 					$sql = "UPDATE " . SN_EMOTES_TABLE . "
 										SET " . $db->sql_build_array('UPDATE', $sql_ary) . "
 											WHERE emote_id = {$emote_id}";
@@ -307,6 +309,8 @@ class acp_profile extends socialnet
 				}
 
 				$db->sql_query($sql);
+
+				$this->_emote_refresh_cache();
 
 				trigger_error($message . adm_back_link($this->p_master->u_action . '&amp;manage=emotes'));
 			}
@@ -369,7 +373,20 @@ class acp_profile extends socialnet
 		$sql = "DELETE FROM " . SN_EMOTES_TABLE . " WHERE emote_id = {$emote_id}";
 		$db->sql_query($sql);
 
+		$this->_emote_refresh_cache();
+
 		trigger_error($user->lang['SN_PROFILE_EMOTE_DELETED'] . adm_back_link($this->p_master->u_action . '&amp;manage=emotes'));
+	}
+
+	function _emote_refresh_cache()
+	{
+		global $cache, $phpEx;
+
+		$sql = 'SELECT emote_id, emote_name, emote_image
+				FROM ' . SN_EMOTES_TABLE . '
+				ORDER BY emote_order';
+		$sql = preg_replace('/[\n\r\s\t]+/', ' ', $sql); // from acm_file.php
+		$cache->remove_file('sql_' . md5($sql) . '.' . $phpEx);
 	}
 }
 
