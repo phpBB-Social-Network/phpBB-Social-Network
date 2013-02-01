@@ -167,7 +167,7 @@ class colour_usernames
 	 *
 	 * @access	public
 	 *
-	 * @param 	string	$module_name	name of module that requests socialne::get_username_string()
+	 * @param 	string	$module_name	name of module that requests socialnet::get_username_string()
 	 *
 	 * @return	array 	witch changed username colour if needed
 	 */
