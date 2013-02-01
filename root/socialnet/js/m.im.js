@@ -352,6 +352,35 @@
 				$sn.im._playSound();
 			}
 
+			/** Clear window of the chat box */
+			$('.sn-im-cbClear').live('click', function() {
+				// we fetch user id from id attribute of chatbox parent element
+				var user_id = $(this).parents('.sn-im-block').attr('id').replace('sn-im-chatBoxBlock', '');
+
+				// unix timestamp
+				var time = Math.round((new Date()).getTime() / 1000);
+
+				// object of all clears for this browser and user
+				var clears = $.parseJSON($.sn.getCookie('sn_im_chat_clear', '{}'));
+
+				// check if clears.<current user> exists. If not, create it.
+				clears[$.sn.user_id] = (clears[$.sn.user_id] === undefined) ? {} : clears[$.sn.user_id];
+
+				// add current time to clears.<current user>.<user he/she chats with>
+				clears[$.sn.user_id][user_id] = time;
+
+				// store it in cookie
+				$.sn.setCookie('sn_im_chat_clear', $.sn.serializeJSON(clears));
+
+				// clear window!
+				$.sn.im._clearWindow($(this));
+			});
+
+			// clear windows if needed
+			$('.sn-im-title .sn-im-cbClear').each(function() {
+				$.sn.im._clearWindow($(this));
+			});
+
 			if ($('.sn-im-block .sn-im-msgs:visible').is(':visible')) {
 				var $block = $('.sn-im-block .sn-im-msgs:visible').parents('.sn-im-block');
 				this._cwClose($block);
@@ -835,6 +864,31 @@
 				$('.sn-im-nav').hide();
 			}
 		},
+		_clearWindow : function(object) { // object = $('.sn-im-cbClear')
+			// load time from cookie specific for currently logged in user and chatbox he/she is on
+			cookie = $.parseJSON($.sn.getCookie('sn_im_chat_clear', '{}'));
+			if (cookie[$.sn.user_id] != undefined)
+			{
+				cookie_time = cookie[$.sn.user_id]['' + object.parents('.sn-im-block').attr('id').replace('sn-im-chatBoxBlock', '')] || 0;
+			}
+			else
+			{
+				cookie_time = 0;
+			}
+
+			// loop each message in current chat box
+			object.parents('.sn-im-block').children('.sn-im-msgs:first').children('.sn-im-msg').each(function() {
+				// get time when it was sent
+				var message_time = $.sn.getAttr($(this), 'time');
+
+				// if it was sent earlier than time stored in cookie, we will remove it
+				if (message_time <= cookie_time)
+				{
+					$(this).remove();
+				}
+			});
+		},
+
 		/**
 		 * Resize block by window resize
 		 */

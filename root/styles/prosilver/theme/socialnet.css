@@ -682,6 +682,10 @@ div:not(.sn-page) .sn-userName a {
 	background-image: url("{T_IMAGESET_PATH}/socialnet/button_smiley.png");
 }
 
+.ui-icon.sn-im-cbClear {
+	background-image: url("{T_IMAGESET_PATH}/socialnet/button_clear.png");
+}
+
 .ui-icon.sn-im-cbHistory {
 	background-image: url("{T_IMAGESET_PATH}/socialnet/button_history.png");
 }

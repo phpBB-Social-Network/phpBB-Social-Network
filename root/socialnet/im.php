@@ -651,6 +651,8 @@ if (!class_exists('socialnet_im'))
 							AND starttime < {$user->data['session_start']}";
 				$db->sql_query($sql);
 			}
+
+			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load ? 'true' : 'false');
 		}
 
 		function onlineList()
