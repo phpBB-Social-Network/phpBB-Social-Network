@@ -538,7 +538,7 @@ class sn_core_entry_gets
 		}
 		else
 		{
-			if ( $entry_target == $user->data['user_id'] )
+			if ( $entry_uid == $user->data['user_id'] )
 			{
 				$entry_user = $id_name_color_cache[$sql_md5] = array(
 					'user_id'	=> $user->data['user_id'],
@@ -648,7 +648,7 @@ class sn_core_entry_gets
 	 */
 	function entry_emote($entry_uid, $entry_target, $entry_additionals = '')
 	{
-		global $db, $template, $phpbb_root_path, $phpEx, $id_name_color_cache;
+		global $user, $db, $template, $phpbb_root_path, $phpEx, $id_name_color_cache;
 
 		$sql = 'SELECT user_id, username, user_colour
 				FROM ' . USERS_TABLE . '
@@ -662,7 +662,7 @@ class sn_core_entry_gets
 		}
 		else
 		{
-			if ( $entry_target == $user->data['user_id'] )
+			if ( $entry_uid == $user->data['user_id'] )
 			{
 				$entry_user = $id_name_color_cache[$sql_md5] = array(
 					'user_id'	=> $user->data['user_id'],
