@@ -30,7 +30,7 @@
 jQuery(document).ready(function($){
 	socialNetwork.init({
 		allow_load: '{B_AJAX_LOAD_ALLOW}' == 'true' ? true : false,
-		rtl: '{S_CONTENT_DIRECTION}' == 'rtl' ? true: false,
+		rtl: '{S_CONTENT_DIRECTION}' == 'rtl' ? true : false,
 	    expanderTextMore: '{L_SN_EXPANDER_READ_MORE}',
 	    expanderTextLess: '{L_SN_EXPANDER_READ_LESS}',
 		browserOutdated: '{L_BROWSER_OUTDATED}',
@@ -41,7 +41,7 @@ jQuery(document).ready(function($){
 			name: '{COOKIE_NAME}',
 			path: '{COOKIE_PATH}',
 			domain: '{COOKIE_DOMAIN}',
-			secure: '{COOKIE_SECURE}'=='1'
+			secure: '{COOKIE_SECURE}' == '1' ? true : false
 		},
 		confirmBox: {
 		    enable: '{S_SN_CB_ENABLE}' == '1' ? true : false,
@@ -59,27 +59,27 @@ jQuery(document).ready(function($){
 			us: '{SN_MODULE_USERSTATUS_ENABLED}' == '1',
 			ntf: '{SN_MODULE_NOTIFY_ENABLED}' == '1',
 			fms: '{SN_MODULE_APPROVAL_ENABLED}' == '1',
-			ap: '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == 1,
+			ap: '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == '1',
 			up: '{SN_MODULE_PROFILE_ENABLED}' == '1'
 		},
-		comments : {
+		comments: {
 			watermark: '{L_SN_US_WRITE_COMMENT}',
 			empty: '{L_SN_US_EMPTY_COMMENT}',
 			deleteTitle: '{L_SN_CB_DELETE_COMMENT_TITLE}',
 			deleteText: '{L_SN_CB_DELETE_COMMENT_TEXT}'
 		},
-		menuPosition:{
+		menuPosition: {
 			my: "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
-	        at: "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
+	        	at: "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
 	        }
 	});
 
 // ## ACTIVITY PAGE -=- START ##
 <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE -->
 	socialNetwork.ap.init({
-		url : '{SOCIALNET_ROOT_PATH}activitypage.php',
-		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
-		tikTakOnline : {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
+		url: '{SOCIALNET_ROOT_PATH}activitypage.php',
+		blockOnlineUsers: '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
+		tikTakOnline: {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
 		urlUsersAutocomplete: '{U_USERS_AUTOCOMPLETE}'
 	});
 <!-- ENDIF -->
@@ -94,24 +94,24 @@ jQuery(document).ready(function($){
 		namesMe: '{S_SN_USERNAME}',
 		youAreOffline: '{L_SN_IM_YOU_ARE_OFFLINE}',
 		titleNew: '{L_SN_IM_NEW_MESSAGE}',
-		sound: '{S_SN_IM_USER_SOUND}' == '1' ? true: false,
-		isOnline: '{SN_IM_ONLINE}' == '1' ? true: false,
+		sound: '{S_SN_IM_USER_SOUND}' == '1' ? true : false,
+		isOnline: '{SN_IM_ONLINE}' == '1' ? true : false,
 		timersMin: {SN_IM_MIN_CHECK},
 		timersMax: {SN_IM_MAX_CHECK},
 		lastCheckTime: {SN_IM_LAST_CHECKTIME},
-		linkNewWindow: '{S_SN_IM_LINK_NEW_WINDOW}' == '1' ? true: false,
+		linkNewWindow: '{S_SN_IM_LINK_NEW_WINDOW}' == '1' ? true : false,
 		playSoundOnPageLoad: {SN_IM_PLAY_SOUND_ON_PAGELOAD},
 		sendSequence: {
-			alt : {SN_IM_SENDSEQ_ALT},
-			ctrl : {SN_IM_SENDSEQ_CTRL},
-			shift : {SN_IM_SENDSEQ_SHIFT},
-			key : {SN_IM_SENDSEQ_KEY}
+			alt: {SN_IM_SENDSEQ_ALT},
+			ctrl: {SN_IM_SENDSEQ_CTRL},
+			shift: {SN_IM_SENDSEQ_SHIFT},
+			key: {SN_IM_SENDSEQ_KEY}
 		},
-		closeSequence : {
-			alt : {SN_IM_CLOSESEQ_ALT},
-			ctrl : {SN_IM_CLOSESEQ_CTRL},
-			shift : {SN_IM_CLOSESEQ_SHIFT},
-			key : {SN_IM_CLOSESEQ_KEY}
+		closeSequence: {
+			alt: {SN_IM_CLOSESEQ_ALT},
+			ctrl: {SN_IM_CLOSESEQ_CTRL},
+			shift: {SN_IM_CLOSESEQ_SHIFT},
+			key: {SN_IM_CLOSESEQ_KEY}
 		}
 	});
 <!-- ENDIF -->
@@ -120,7 +120,7 @@ jQuery(document).ready(function($){
 // ## NOTIFICATIONS -=- START ##
 <!-- IF SN_MODULE_NOTIFY_ENABLED -->
 	socialNetwork.ntf.init({
-		url:'{SOCIALNET_ROOT_PATH}notify.php',
+		url: '{SOCIALNET_ROOT_PATH}notify.php',
 		theme: '{S_SN_NTF_THEME}',
 		life: {SN_NTF_LIFE},
 		checkTime: {SN_NTF_CHECKTIME}
@@ -143,13 +143,13 @@ jQuery(document).ready(function($){
 // ## USER STATUS -=- START ##
 <!-- IF SN_MODULE_USERSTATUS_ENABLED -->
 	socialNetwork.us.init({
-		watermark : '{L_SN_US_WHATS_ON_YOUR_MIND}',
-		emptyStatus : '{L_SN_US_EMPTY_STATUS}',
-		url : '{SOCIALNET_ROOT_PATH}userstatus.php',
-		urlFetch : '{SOCIALNET_ROOT_PATH}fetch.php',
-		deleteStatusTitle : '{L_SN_CB_DELETE_STATUS_TITLE}',
+		watermark: '{L_SN_US_WHATS_ON_YOUR_MIND}',
+		emptyStatus: '{L_SN_US_EMPTY_STATUS}',
+		url: '{SOCIALNET_ROOT_PATH}userstatus.php',
+		urlFetch: '{SOCIALNET_ROOT_PATH}fetch.php',
+		deleteStatusTitle: '{L_SN_CB_DELETE_STATUS_TITLE}',
 		deleteStatusText: '{L_SN_CB_DELETE_STATUS_TEXT}',
-		deleteActivityTitle : '{L_SN_CB_DELETE_ACTIVITY_TITLE}',
+		deleteActivityTitle: '{L_SN_CB_DELETE_ACTIVITY_TITLE}',
 		deleteActivityText: '{L_SN_CB_DELETE_ACTIVITY_TEXT}'
 	});
 <!-- ENDIF -->
@@ -158,20 +158,20 @@ jQuery(document).ready(function($){
 // ## PROFILE -=- START ##
 <!-- IF SN_MODULE_PROFILE_ENABLED -->
 	socialNetwork.up.init({
-		url : '{U_UP_TAB_WALL}',
-		urlAJAX : '{U_UP_AJAXURL}',
+		url: '{U_UP_TAB_WALL}',
+		urlAJAX: '{U_UP_AJAXURL}',
 		urlSelectFriends: '{U_SELECT_FRIENDS}',
-		spinner : '{L_SN_UP_TABS_SPINNER}',
-		nextText : '{L_NEXT}',
-		prevText : '{L_PREVIOUS}',
-		dateFormat : '{SN_DATE_FORMAT}',
-		dayNames : [ '{L_SN_UP_SUNDAY}', '{L_SN_UP_MONDAY}', '{L_SN_UP_TUESDAY}', '{L_SN_UP_WEDNESDAY}', '{L_SN_UP_THURSDAY}', '{L_SN_UP_FRIDAY}', '{L_SN_UP_SATURDAY}' ],
-		dayNamesShort : [ '{L_SN_UP_SUNDAY_MIN}', '{L_SN_UP_MONDAY_MIN}', '{L_SN_UP_TUESDAY_MIN}', '{L_SN_UP_WEDNESDAY_MIN}', '{L_SN_UP_THURSDAY_MIN}', '{L_SN_UP_FRIDAY_MIN}', '{L_SN_UP_SATURDAY_MIN}' ],
-		monthNames : [{SN_UP_MONTH_NAMES}],
-		monthNamesShort : [{SN_UP_MONTH_NAMES_SHORT}],
-		menuPosition:{
-			my : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
-	        at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> bottom"
+		spinner: '{L_SN_UP_TABS_SPINNER}',
+		nextText: '{L_NEXT}',
+		prevText: '{L_PREVIOUS}',
+		dateFormat: '{SN_DATE_FORMAT}',
+		dayNames: [ '{L_SN_UP_SUNDAY}', '{L_SN_UP_MONDAY}', '{L_SN_UP_TUESDAY}', '{L_SN_UP_WEDNESDAY}', '{L_SN_UP_THURSDAY}', '{L_SN_UP_FRIDAY}', '{L_SN_UP_SATURDAY}' ],
+		dayNamesShort: [ '{L_SN_UP_SUNDAY_MIN}', '{L_SN_UP_MONDAY_MIN}', '{L_SN_UP_TUESDAY_MIN}', '{L_SN_UP_WEDNESDAY_MIN}', '{L_SN_UP_THURSDAY_MIN}', '{L_SN_UP_FRIDAY_MIN}', '{L_SN_UP_SATURDAY_MIN}' ],
+		monthNames: [{SN_UP_MONTH_NAMES}],
+		monthNamesShort: [{SN_UP_MONTH_NAMES_SHORT}],
+		menuPosition: {
+			my: "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
+	        	at: "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> bottom"
 	        }
 		});
 <!-- ENDIF -->
