@@ -45,6 +45,7 @@ $lang = array_merge($lang, array(
 	'ACP_SN_VERSION_UP_TO_DATE'				 => 'Your %1$s installation is up to date. There are no updates available at this time.',
 	'ACP_SN_VERSION_NOT_UP_TO_DATE'			 => 'Your %1$s installation is not up to date. You can download the latest version <a href="%2$s">here</a>.',
 	'SN_VERSION_CHECK_EXPLAIN'				 => 'Check to see if your phpBB Social Network installation is up to date.',
+	'ACP_SN_VERSION_COULD_NOT_GET_INFORMATION'  => 'Failed to obtain latest version information.',
 	// MODULES SETTINGS
 	'ACP_SN_MODULES_CONFIGURATION'			 => 'Modules Configuration',
 	'SN_ACP_MODULE_NOT_ACCESSIBLE'			 => 'Administration panel for <strong>%1$s</strong> does not exist <em>(%2$s)</em>',
