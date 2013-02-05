@@ -320,7 +320,7 @@ $lang = array_merge($lang, array(
 	'LOG_CONFIG_SN_USERSTATUS_BASICTOOLS_USER_DELETED'		 => $lang_log_main . 'Userstatuses and userstatus comments deleted for user deleted users',
 	'LOG_CONFIG_SN_FMS'										 => $lang_log_main . 'Friend Management module settings changed',
 	'LOG_CONFIG_SN_FMS_BASICTOOLS_DELETED_USER'				 => $lang_log_main . 'Purged all friends and friend groups of deleted users',
-	'LOG_CONFIG_SN_AP'										 => $lang_log_main . 'Mainpage module settings changed',
+	'LOG_CONFIG_SN_AP'										 => $lang_log_main . 'Activity page module settings changed',
 	'LOG_CONFIG_SN_NTF'										 => $lang_log_main . 'Notifications module settings changed',
 	'LOG_CONFIG_SN_UP'										 => $lang_log_main . 'Profile module settings changed',
 ));
