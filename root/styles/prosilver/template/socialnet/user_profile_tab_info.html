@@ -47,7 +47,7 @@
 
 			<!-- IF LANGUAGES neq '' -->
 				<dt>{L_SN_UP_LANGUAGES}:</dt>
-				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-languages',max:1024}"<!-- ENDIF -->>{LANGUAGES}</dd>
+				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-languages',max:500}"<!-- ENDIF -->>{LANGUAGES}</dd>
 			<!-- ENDIF -->
 
 			<!-- IF SIGNATURE neq '' -->
@@ -65,12 +65,12 @@
 		<dl class="details">
 			<!-- IF HIGH_SCHOOL neq '' -->
 				<dt>{L_SN_UP_HIGH_SCHOOL}:</dt>
-				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-high_school',max:1024}"<!-- ENDIF -->>{HIGH_SCHOOL}</dd>
+				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-high_school',max:500}"<!-- ENDIF -->>{HIGH_SCHOOL}</dd>
 			<!-- ENDIF -->
 
 			<!-- IF UNIVERSITY neq '' -->
 				<dt>{L_SN_UP_UNIVERSITY}:</dt>
-				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-university',max:1024}"<!-- ENDIF -->>{UNIVERSITY}</dd>
+				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-university',max:500}"<!-- ENDIF -->>{UNIVERSITY}</dd>
 			<!-- ENDIF -->
 
 			<!-- IF EMPLOYER neq '' -->
@@ -80,7 +80,7 @@
 
 			<!-- IF OCCUPATION neq '' -->
 				<dt>{L_SN_UP_OCCUPATION}:</dt>
-				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_occ'}"<!-- ENDIF -->>{OCCUPATION}</dd>
+				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_occ',max:500}"<!-- ENDIF -->>{OCCUPATION}</dd>
 			<!-- ENDIF -->
 		</dl>
 	<!-- ENDIF -->
@@ -94,7 +94,7 @@
 		<dl class="details">
 			<!-- IF RELIGION neq '' -->
 				<dt>{L_SN_UP_RELIGION}:</dt>
-				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-religion',max:1024}"<!-- ENDIF -->>{RELIGION}</dd>
+				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'up-religion',max:500}"<!-- ENDIF -->>{RELIGION}</dd>
 			<!-- ENDIF -->
 
 			<!-- IF POLITICAL_VIEWS neq '' -->
@@ -118,7 +118,7 @@
 		<dl class="details">
 			<!-- IF INTERESTS neq '' -->
 				<dt>{L_SN_UP_INTERESTS}:</dt>
-				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'usr-user_interests'}"<!-- ENDIF -->>{INTERESTS}</dd>
+				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'textarea',name:'usr-user_interests',max:500}"<!-- ENDIF -->>{INTERESTS}</dd>
 			<!-- ENDIF -->
 
 			<!-- IF ACTIVITIES neq '' -->
@@ -172,7 +172,7 @@
 		<dl class="details">
 			<!-- IF U_WWW -->
 				<dt>{L_WEBSITE}:</dt>
-				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_website',value:'{USER_WWW}',max:200}"<!-- ENDIF -->><a href="{U_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">{U_WWW}</a></dd>
+				<dd<!-- IF S_OWN_PROFILE --> class="sn-up-editable {input:'text',name:'usr-user_website',value:'{USER_WWW}',max:255}"<!-- ENDIF -->><a href="{U_WWW}" title="{L_VISIT_WEBSITE}: {U_WWW}">{U_WWW}</a></dd>
 			<!-- ENDIF -->
 
 			<!-- IF U_FACEBOOK -->
