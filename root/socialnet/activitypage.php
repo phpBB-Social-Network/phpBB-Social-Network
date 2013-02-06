@@ -98,6 +98,12 @@ if (!class_exists('socialnet_activitypage'))
 					case 'search':
 
 						$username = request_var('username', '', true);
+
+						if ( $username == '' || $username == $user->lang['SN_AP_SEARCH'] )
+						{
+							redirect( append_sid("{$phpbb_root_path}memberlist.$phpEx") );
+						}
+
 						$username_clean = utf8_clean_string($username);
 
 						$db_username = $db->sql_escape($username);
@@ -133,7 +139,7 @@ if (!class_exists('socialnet_activitypage'))
 						}
 						else
 						{
-							$redirect = append_sid("{$phpbb_root_path}activitypage.{$phpEx}", "search={$username}");
+							$redirect = append_sid("{$phpbb_root_path}search.{$phpEx}", 'author=' . urlencode($username) . ( (utf8_strlen($username) > 2) ? '*' : '' ) );
 						}
 						redirect($redirect);
 
