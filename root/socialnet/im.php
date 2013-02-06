@@ -642,7 +642,7 @@ if (!class_exists('socialnet_im'))
 				}
 			}
 
-			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', $play_sound_on_load);
+			$template->assign_var('SN_IM_PLAY_SOUND_ON_PAGELOAD', ($play_sound_on_load) ? 'true' : 'false');
 
 			// Close chatboxed opened before logging in
 			if ($old_chatbox)
@@ -966,16 +966,9 @@ if (!class_exists('socialnet_im'))
 		{
 			global $db, $user, $phpbb_root_path, $chat_avatars;
 
-			$sql = 'SELECT user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
-					FROM ' . USERS_TABLE . '
-					WHERE user_id = ' . (int) $uidTo;
-			$sql = preg_replace('/[\n\r\s\t]+/', ' ', $cached); // from acm_file.php
-			$sql_md5 = md5($sql);
-
-
-			if ( isset($chat_avatars[$sql_md5]) )
+			if ( isset($chat_avatars[$uidTo]) )
 			{
-				$rowAvatar = $chat_avatars[$sql_md5];
+				$rowAvatar = $chat_avatars[$uidTo];
 			}
 			else
 			{
@@ -991,12 +984,15 @@ if (!class_exists('socialnet_im'))
 				}
 				else
 				{
+					$sql = 'SELECT user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
+							FROM ' . USERS_TABLE . '
+							WHERE user_id = ' . (int) $uidTo;
 					$rs = $db->sql_query($sql);
 					$rowAvatar = $db->sql_fetchrow($rs);
 					$db->sql_freeresult($rs);
 				}
 				// cache query
-				$chat_avatars[$sql_md5] = $rowAvatar;
+				$chat_avatars[$uidTo] = $rowAvatar;
 			}
 
 			return $this->p_master->get_user_avatar_resized($rowAvatar['user_avatar'], $rowAvatar['user_avatar_type'], $rowAvatar['user_avatar_width'], $rowAvatar['user_avatar_height'], 30);
