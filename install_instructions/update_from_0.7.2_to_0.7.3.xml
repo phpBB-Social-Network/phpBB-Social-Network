@@ -54,6 +54,11 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 		<copy>
 			<file from="root/*.*" to="*.*"/>
 		</copy>
+		<delete>
+      <file name="socialnet/js/jquery.floatobject-1.4.js"/>
+      <file name="socialnet/js/jquery.textarea-expander.js"/>
+      <file name="mainpage.php"/>
+    </delete>
 		<open src="styles/prosilver/template/memberlist_view.html">
 			<edit>
 				<find><![CDATA[<!-- IF SN_MODULE_APPROVAL_ENABLED && SN_FMS_BLOCK_FRIEND_IS_NOT_EMPTY -->]]></find>
