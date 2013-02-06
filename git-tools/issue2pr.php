@@ -57,7 +57,7 @@ if ( isset($_GET['username'], $_GET['password'], $_GET['issue_id'], $_GET['branc
 		<?php if ($done_msg) echo '<p class="success">' . $done_msg . '</p>'; ?>
 
 		<form action="" method="GET">
-			Github username: <input type="text" name="username" placeholder="Github username" value="<?php echo `git config user.name`; ?>" /><br />
+			Github username: <input type="text" name="username" placeholder="Github username" autofocus="autofocus" /><br />
 			Github password: <input type="password" name="password" placeholder="Github password" /><br />
 			Issue ID: <input type="text" name="issue_id" placeholder="Issue ID" value="<?php echo get_issue_id(); ?>" /><br />
 			Branch: <input type="text" name="branch" placeholder="Branch" value="<?php echo get_branch_name(); ?>" /><br />
