@@ -429,10 +429,8 @@ class ucp_approval
 
 			if (sizeof($user_id_ary))
 			{
-				foreach ($user_id_ary as $idx => $user_id)
-				{
-					$socialnet->purge_friends($user_id);
-				}
+				$socialnet->purge_friends('all');
+
 				$sql_mode = ($mode == 'friends') ? 'approval' : 'foe';
 
 				$sql_ary = array();
@@ -448,12 +446,6 @@ class ucp_approval
 				$db->sql_multi_insert(ZEBRA_TABLE, $sql_ary);
 
 				$error[] = $user->lang[$l_mode . '_APPROVALS_ADDED'];
-
-				// purge friend suggestions cache
-				foreach ( glob($phpbb_root_path . 'cache/*' . $socialnet->friendsCacheNameMutual . '*') as $file )
-				{
-					unlink($file);
-				}
 
 				if ($sql_mode == 'approval')
 				{

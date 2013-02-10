@@ -271,9 +271,23 @@ class socialnet extends snFunctions
 	{
 		global $user, $cache;
 
-		$user_id = ($user_id == 0) ? $user->data['user_id'] : $user_id;
-		$cache->destroy($this->friendsCacheName . $user_id);
-		$cache->destroy($this->friendsCacheNameMutual . $user_id);
+		if ($user_id == 'all')
+		{
+			$files_to_be_purged = glob($phpbb_root_path . 'cache/*' . $socialnet->friendsCacheNameMutual . '*');
+			if ( is_array($files_to_be_purged) )
+			{
+				foreach ( $files_to_be_purged as $file )
+				{
+					unlink($file);
+				}
+			}
+		}
+		else
+		{
+			$user_id = ($user_id == 0) ? $user->data['user_id'] : $user_id;
+			$cache->destroy($this->friendsCacheName . $user_id);
+			$cache->destroy($this->friendsCacheNameMutual . $user_id);
+		}
 	}
 
 	function reload_friends($user_id = 0)
