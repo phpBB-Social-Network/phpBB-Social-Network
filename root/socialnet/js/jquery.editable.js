@@ -167,7 +167,7 @@ jQuery(document).ready(function($) {
 				th.off(opts.eventActivate);
 				var idx = obj.editID;
 				var _deac = true;
-				var _input = $('<input type="text" name="editable-' + idx + '" value="' + obj.edit + '" class="' + opts.inputClass + '" />').css(opts.cssInput);
+				var _input = $('<input type="text" name="editable-' + idx + '" value="' + obj.edit + '"' + ((obj.editMax) ? ' maxlength="' + obj.editMax + '"' : '') + ' class="' + opts.inputClass + '" />').css(opts.cssInput);
 
 				th.html(_input);
 				var _position = obj.origin.length;
@@ -211,7 +211,7 @@ jQuery(document).ready(function($) {
 						if (_t_height < 100) {
 							_t_height = 100;
 						}
-						_input = $('<textarea name="editable-' + idx + '" class="' + opts.inputClass + '" style="min-height:22px;max-height:100px"></textarea>').css(opts.cssText);
+						_input = $('<textarea name="editable-' + idx + '"' + ((obj.editMax) ? ' maxlength="' + obj.editMax + '"' : '') + ' class="' + opts.inputClass + '" style="min-height:22px;max-height:100px"></textarea>').css(opts.cssText);
 						_input.html(obj.edit);
 						th.html(_input);
 						$('textarea[name="editable-' + idx + '"]').elastic(false);
