@@ -12,6 +12,7 @@
  * @modifiedBy-email jankalach@gmail.com
  * @modifiedBy-website http://phpbb3hacks.com
  * @modified Added option to be useable without the ENTER.
+ * @modified Updated for jQuery 2.0
  * 
  * 
  * @licence MIT License - http://www.opensource.org/licenses/mit-license.php
@@ -155,10 +156,10 @@
 				});
 
 				// Update width of twin if browser or textarea is resized (solution for textareas with widths in percent)
-				$(window).live('resize', setTwinWidth);
-				$textarea.live('resize', setTwinWidth);
-				$textarea.live('update', update);
-				$textarea.live('focusin', update);
+				$(document).on('resize', window, setTwinWidth);
+				$(document).on('resize', $textarea, setTwinWidth);
+				$(document).on('update', $textarea, update);
+				$(document).on('focusin', $textarea, update);
 				$textarea.attr('data-newline', defaults.showNewLine);
 				$textarea.dataElastic = 'elastic';
 

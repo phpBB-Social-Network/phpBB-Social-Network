@@ -129,7 +129,11 @@ jQuery.extend({
 	}
 });
 
-if (jQuery.browser.msie)
+/**
+ * Remove during jQuery update
+ * @autor Culptit
+ */
+//if (jQuery.browser.msie)
 	jQuery(window).one("unload", function() {
 		var global = jQuery.timer.global;
 		for ( var label in global ) {
