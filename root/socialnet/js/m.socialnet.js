@@ -24,7 +24,8 @@
  */
 var socialNetwork = (function($) {
 	return {
-		mobileBrowser: $.browser.mobile,
+		browser: {},
+		mobileBrowser: false,
 		_debug: false,
 		allow_load: true,
 		rtl: false,
@@ -65,7 +66,7 @@ var socialNetwork = (function($) {
 			}
 
 			this.confirmBox.init();
-
+			this._getBrowser();
 			this._minBrowser();
 
 			$.metadata.setType("class");
@@ -96,7 +97,7 @@ var socialNetwork = (function($) {
 				$('.sn-menu *').removeClass('ui-corner-all ui-corner-top ui-corner-bottom');
 			}
 
-			$('.sn-menu.ui-menu .ui-menu').live('mouseleave', function() {
+			$(document).on('mouseleave', '.sn-menu.ui-menu .ui-menu', function() {
 				$(this).delay(500).hide();
 				$(this).children('a.ui-state-active').removeClass('ui-state-active');
 				$(this).parent('.ui-menu-item').children('a.ui-state-active').delay(500).removeClass('ui-state-active');
@@ -380,6 +381,7 @@ var socialNetwork = (function($) {
 				});
 			}
 		},
+		
 		_minBrowser: function() {
 			var minBrowsers = {
 				msie: 8,
@@ -389,19 +391,19 @@ var socialNetwork = (function($) {
 			};
 
 			var browser = '';
-			if ($.browser.msie) {
+			if (this.browser.msie) {
 				browser = 'msie';
-			} else if ($.browser.opera) {
+			} else if (this.browser.opera) {
 				browser = 'opera';
-			} else if ($.browser.mozilla) {
+			} else if (this.browser.mozilla) {
 				browser = 'mozilla';
-			} else if ($.browser.webkit || $.browser.safari) {
+			} else if (this.browser.webkit || this.browser.safari) {
 				browser = 'webkit';
 			}
-			if (minBrowsers[browser] >= $.browser.version) {
+			if (minBrowsers[browser] >= this.browser.version) {
 				if (this.showBrowserOutdated && this.getCookie('sn_showBrowserOutdated', 0) == 0) {
 					this.setCookie('sn_showBrowserOutdated', 1);
-					snConfirmBox(this.browserOutdatedTitle, this.browserOutdated + '<br />' + $.browser.version);
+					snConfirmBox(this.browserOutdatedTitle, this.browserOutdated + '<br />' + this.browser.version);
 				}
 				this.isOutdatedBrowser = true;
 				return false;
@@ -409,6 +411,44 @@ var socialNetwork = (function($) {
 
 			return true;
 		},
+		
+		_uaMatch: function(ua) {
+			ua = ua.toLowerCase();
+
+			var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
+			/(webkit)[ \/]([\w.]+)/.exec(ua) ||
+			/(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+			/(msie) ([\w.]+)/.exec(ua) ||
+			ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
+			[];
+
+			return {
+				browser: match[ 1 ] || "",
+				version: match[ 2 ] || "0"
+			};
+		},
+		
+		_getBrowser: function(){
+			matched = this._uaMatch(navigator.userAgent);
+			browser = {};
+
+			if (matched.browser) {
+				browser[ matched.browser ] = true;
+				browser.version = matched.version;
+			}
+
+			// Chrome is Webkit, but Webkit is also Safari.
+			if (browser.chrome) {
+				browser.webkit = true;
+			} else if (browser.webkit) {
+				browser.safari = true;
+			}
+
+			this.browser = browser;
+			this.browser.mobile = _detectMobileDevice(navigator.userAgent||navigator.vendor||window.opera);
+			this.mobileBrowser = this.browser.mobile;
+		},
+		
 		_debugInit: function() {
 			var self = this;
 			var dbg = $('<div />').attr('title', 'DEBUG');
@@ -417,7 +457,7 @@ var socialNetwork = (function($) {
 			var dbg_NTF = $('<div />').attr('id', 'NTF_timer');
 			var dbg_browser = $('<div />').attr('id', 'browser').html('Browser');
 
-			$.each($.browser, function(idx, val) {
+			$.each(self.browser, function(idx, val) {
 				dbg_browser.html(dbg_browser.html() + '<br />&nbsp; &nbsp;' + idx + ': ' + val);
 			});
 
@@ -629,7 +669,7 @@ var socialNetwork = (function($) {
 			var self = this;
 			var confirmBox = $sn.confirmBox;
 			// Delete comment
-			$(".sn-deleteComment").live('click', function() {
+			$(document).on('click', '.sn-deleteComment', function() {
 				var comment_id = $sn.getAttr($(this), "cid");
 				var mUrl = $sn.getAttr($(this), 'url');
 				var comment = $('#sn-comment' + comment_id).html();

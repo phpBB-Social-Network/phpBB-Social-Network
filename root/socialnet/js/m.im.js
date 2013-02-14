@@ -78,7 +78,7 @@
 			this._resize();
 
 			/** Bottom Button Click - NOT ONLINE LIST */
-			$('.sn-im-chatBoxes .sn-im-button').live('click', function() {
+			$(document).on('click', '.sn-im-chatBoxes .sn-im-button', function() {
 				var self = this;
 				var cBlock = $(this).next('.sn-im-block');
 				var id = $(cBlock).attr('id');
@@ -90,21 +90,21 @@
 			});
 
 			/** Bottom Button Click - ONLINE LIST */
-			$('.sn-im-online.sn-im-button').live('click', function() {
+			$(document).on('click', '.sn-im-online.sn-im-button', function() {
 				$sn.im._onlineListLoad();
 				$sn.im._cwToggle($(this).parents('#sn-im-online'));
 			});
 
 			/** Title Click on UserName -> go to Profile * */
-			$('.sn-im-block .sn-im-title .sn-userName a').live('click', function() {
+			$(document).on('click', '.sn-im-block .sn-im-title .sn-userName a', function() {
 				window.location = this.href;
 				return false;
 			});
 			/** Title Click - CLOSE */
-			$('.sn-im-block .sn-im-title .sn-userName').live('click', function() {
+			$(document).on('click', '.sn-im-block .sn-im-title .sn-userName', function() {
 				$sn.im._cwClose($(this).parents('.sn-im-chatBox'));
 			});
-			$('.sn-im-online .sn-im-title').live('click', function() {
+			$(document).on('click', '.sn-im-online .sn-im-title', function() {
 				$sn.im._cwClose($(this).parents('#sn-im-online'));
 			});
 
@@ -127,7 +127,7 @@
 			 * Expand textarea
 			 * @param {object} e Key object
 			 */
-			$('.sn-im-message').live('keyup', function(e) {
+			$(document).on('keyup', '.sn-im-message', function(e) {
 				$sn.im._messageKey(this, e);
 			}).elastic({
 				showNewLine: false,
@@ -140,7 +140,7 @@
 
 			/** LINK IN NEW WINDOW */
 			if (opts.linkNewWindow) {
-				$('.sn-im-msgs .sn-im-msgText a:not(.postlink-local)').live('click', function() {
+				$(document).on('click', '.sn-im-msgs .sn-im-msgText a:not(.postlink-local)', function() {
 					if ($(this).attr('onclick') != undefined) {
 						var expl = $(this).attr('onclick').replace('return false;', '').replace(/(^\s+|\s+$)/i, '').split(';');
 						for (i = 0; i < expl.length; i++) {
@@ -154,7 +154,7 @@
 			}
 
 			/** OPEN CHAT BOX */
-			$('.sn-im-canchat').live('click', function() {
+			$(document).on('click', '.sn-im-canchat', function() {
 				var uid = $sn.getAttr($(this), 'user');
 
 				/*
@@ -170,18 +170,18 @@
 			});
 
 			/** DESTROY CHAT BOX */
-			$('.sn-im-close').live('click', function() {
+			$(document).on('click', '.sn-im-close', function() {
 				var cb = $(this).parents('.sn-im-chatBox');
 				$sn.im._cwDestroy(cb);
 				return false;
 			});
-			$('.sn-im-cbClose').live('click', function() {
+			$(document).on('click', '.sn-im-cbClose', function() {
 				$(this).parents('.sn-im-chatBox').find('.sn-im-close').trigger('click');
 				return false;
 			});
 
 			/** IM LOGIN/LOGOUT */
-			$('.sn-im-loginlogout label').on('click', function() {
+			$(document).on('click', '.sn-im-loginlogout label', function() {
 				if ($(this).hasClass('sn-im-selected')) {
 					return;
 				}
@@ -221,7 +221,7 @@
 			});
 
 			/** SOUND ON/OFF */
-			$('.sn-im-sound').on('click', function() {
+			$(document).on('click', '.sn-im-sound', function() {
 				var sA = $(this).hasClass('ui-icon-volume-on');
 				$.ajax({
 					type: 'post',
@@ -255,10 +255,9 @@
 			});
 
 			/** HIDE/SHOW FRIENDS GROUP */
-			$('.sn-im-hideGroup').live('click', function() {
+			$(document).on('click', '.sn-im-hideGroup', function() {
 				var gid = $sn.getAttr($(this), 'gid');
 				var hidden = $(this).hasClass('ui-icon-arrowstop-1-n');
-
 				$.ajax({
 					type: 'post',
 					cache: false,
@@ -270,13 +269,14 @@
 					},
 					success: function(data) {
 						$('#sub_gid' + gid).toggle();
+
 						$('#gid_' + gid + ' .sn-im-hideGroup').toggleClass('ui-icon-arrowstop-1-n ui-icon-arrowstop-1-s');
 					}
 				});
 			});
 
 			/** SHOW SMILIES * */
-			$('.sn-im-smilies').live('click', function() {
+			$(document).on('click', '.sn-im-smilies', function() {
 				var $smilieBox = $(this).parents('.sn-im-block').find('.sn-im-smiliesBox');
 				var self = this;
 
@@ -312,7 +312,7 @@
 			});
 
 			/** INSERT SMILEY TO MESSAGE * */
-			$('.sn-im-smiley').live('click', function() {
+			$(document).on('click', '.sn-im-smiley', function() {
 				var $oMsg = $(this).parents('.sn-im-block').find(".sn-im-message");
 				$sn.insertAtCaret($oMsg, ' ' + $sn.getAttr($(this), 'code') + ' ');
 				$oMsg.trigger('paste');
@@ -322,28 +322,28 @@
 			});
 
 			/** CLOSE SMILEY BOX * */
-			$('.sn-im-title, .sn-im-msgs, .sn-im-textArea').live('click', function() {
+			$(document).on('click', '.sn-im-title, .sn-im-msgs, .sn-im-textArea', function() {
 				$(this).parents('.sn-im-block').find('.sn-im-smiliesBox').hide();
 			});
 
 			/** MESSAGE TIME */
-			$('.sn-im-msg').live('mouseover', function() {
+			$(document).on('mouseover', '.sn-im-msg', function() {
 				$(this).find('.sn-im-msgTime').show();
 
-			}).live('mouseout', function() {
+			}).on('mouseout', '.sn-im-msg', function() {
 				$(this).find('.sn-im-msgTime').hide();
 			});
-			$('.sn-im-msgs').live('mouseout', function() {
+			$(document).on('mouseout', '.sn-im-msgs', function() {
 				$(this).find('.sn-im-msgTime').fadeOut(500);
 			});
 
 			/** Zobraz IM */
 			$('#sn-im').removeAttr('style');
 			this._scrollable();
-			$('.sn-im-nav.sn-im-prev').live('click', function() {
+			$(document).on('click', '.sn-im-nav.sn-im-prev', function() {
 				$sn.im._scrollable(1);
 			});
-			$('.sn-im-nav.sn-im-next').live('click', function() {
+			$(document).on('click', '.sn-im-nav.sn-im-next', function() {
 				$sn.im._scrollable(2);
 			});
 
@@ -376,7 +376,7 @@
 			}
 			if ($sn.isKey(e, $sn.im.opts.sendSequence)) {
 				var msg = $(obj).val();
-				var getC = $sn.getCaret(obj) + ($.browser.msie && $.browser.version < 9 ? 1 : 0);
+				var getC = $sn.getCaret(obj) + ($sn.browser.msie && $sn.browser.version < 9 ? 1 : 0);
 				if (getC != msg.length) {
 					msg = msg.substring(0, getC - 1) + msg.substring(getC);
 				}
