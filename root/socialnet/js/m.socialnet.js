@@ -381,7 +381,7 @@ var socialNetwork = (function($) {
 				});
 			}
 		},
-		
+
 		_minBrowser: function() {
 			var minBrowsers = {
 				msie: 8,
@@ -411,7 +411,7 @@ var socialNetwork = (function($) {
 
 			return true;
 		},
-		
+
 		_uaMatch: function(ua) {
 			ua = ua.toLowerCase();
 
@@ -427,7 +427,7 @@ var socialNetwork = (function($) {
 				version: match[ 2 ] || "0"
 			};
 		},
-		
+
 		_getBrowser: function(){
 			matched = this._uaMatch(navigator.userAgent);
 			browser = {};
@@ -448,7 +448,7 @@ var socialNetwork = (function($) {
 			this.browser.mobile = _detectMobileDevice(navigator.userAgent||navigator.vendor||window.opera);
 			this.mobileBrowser = this.browser.mobile;
 		},
-		
+
 		_debugInit: function() {
 			var self = this;
 			var dbg = $('<div />').attr('title', 'DEBUG');
@@ -672,8 +672,9 @@ var socialNetwork = (function($) {
 			$(document).on('click', '.sn-deleteComment', function() {
 				var comment_id = $sn.getAttr($(this), "cid");
 				var mUrl = $sn.getAttr($(this), 'url');
-				var comment = $('#sn-comment' + comment_id).html();
-				snConfirmBox(self.deleteTitle, self.deleteText + '<hr />' + comment, function() {
+				var comment = $('#sn-comment' + comment_id).clone();
+				comment.find('span.sn-expander-more, span.sn-expander-less').remove();
+				snConfirmBox(self.deleteTitle, self.deleteText + '<hr />' + comment.html(), function() {
 					$.ajax({
 						type: "POST",
 						url: mUrl,
