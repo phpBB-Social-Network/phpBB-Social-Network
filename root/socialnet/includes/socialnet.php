@@ -2,7 +2,7 @@
 /**
  *
  * @package phpBB Social Network
- * @version 0.7.0
+ * @version 0.7.3
  * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
@@ -22,6 +22,7 @@ $socialnet_root_path = $phpbb_root_path . 'socialnet/';
  * @ignore
  */
 include_once($socialnet_root_path . 'includes/constants.' . $phpEx);
+
 /**
  * @ignore
  */
@@ -30,6 +31,9 @@ foreach ( glob($socialnet_root_path . 'includes/sn_core_*' . $phpEx) as $file )
 	include($file);
 }
 
+/**
+ * @ignore
+ */
 include_once($socialnet_root_path . 'includes/functions.' . $phpEx);
 
 class socialnet extends snFunctions
@@ -83,6 +87,20 @@ class socialnet extends snFunctions
 	var $memory_usage = array();
 
 	/**
+	 * Holds hook instance
+	 *
+	 * @var	object	$hook
+	 */
+	var $hook = null;
+
+	/**
+	 * Holds instances of addons
+	 *
+	 * @var	object	$addon
+	 */
+	var $addon = null;
+
+	/**
 	 * Construction function
 	 * Prepare active modules
 	 * @return void
@@ -91,8 +109,11 @@ class socialnet extends snFunctions
 	{
 		global $user, $auth, $config, $db, $template, $phpbb_root_path, $socialnet_root_path, $phpEx;
 
+		// start hook and parent constructor
+		$this->hook = new sn_hook();
 		$this->snFunctions();
 
+		// assign some attributes
 		$this->socialnet_root_path = $socialnet_root_path;
 		$this->script_name = str_replace('.' . $phpEx, '', $user->page['page_name']);
 		$this->config =& $config;
@@ -184,6 +205,9 @@ class socialnet extends snFunctions
 			}
 		}
 
+		// load addons and modules before we start doing something serious
+		$this->start_modules();
+
 		$this->load_friends();
 		$this->load_groups();
 
@@ -213,6 +237,18 @@ class socialnet extends snFunctions
 		), $loaded_modules, $enabled_modules, $confirmBox_settings, $block_settings));
 
 		$this->_calc_bbcodeFlags();
+
+		/**
+		 * Hooks $socialnet::socialnet() after
+		 *
+		 * This is specially helpful if addons/modules want to initialise
+		 * new classes attached to $socialnet as parent.
+		 *
+		 * @hook sn.socialnet_socialnet_after
+		 * @since 1.0.0
+		 */
+		$vars = array();
+		extract($this->hook->do_action('sn.socialnet_socialnet_after', compact($vars)));
 	}
 
 	/**
@@ -367,7 +403,18 @@ class socialnet extends snFunctions
 	{
 		function cls_filter_core($var)
 		{
+			if ($var == 'sn_core_addons')
+			{
+				return false;
+			}
 			return preg_match('/^sn_core_/si', $var);
+		}
+
+		// load addons as first
+		$this->addons = new sn_core_addons($this);
+		if (class_exists('sn_core_addons') && isset($this->addons) && method_exists($this->addons, 'get'))
+		{
+			$this->addons->get();
 		}
 
 		$classes = get_declared_classes();
@@ -402,12 +449,6 @@ class socialnet extends snFunctions
 					$this->modules_obj[$module]->init();
 				}
 			}
-
-		}
-
-		if (class_exists('sn_core_addons') && isset($this->addons) && method_exists($this->addons, 'get'))
-		{
-			$this->addons->get();
 		}
 	}
 
@@ -645,15 +686,18 @@ class socialnet extends snFunctions
 	function get_username_string($cfg_module, $mode, $user_id, $username, $username_colour = '', $guest_username = false, $custom_profile_url = false, $cache_friends = true)
 	{
 		global $cache, $user, $phpbb_root_path;
+		/**
+		 * Hooks $socialnet::get_username_string() before
+		 *
+		 * @hook sn.get_username_string_before
+		 * @since 1.0.0
+		 */
+		$vars = array('cfg_module', 'mode', 'user_id', 'username', 'username_colour', 'guest_username', 'custom_profile_url', 'cache_friends');
+		extract($this->hook->do_action('sn.get_username_string_before', compact($vars)));
 
 		if (isset($this->friends['colourNames'][$user_id][$mode]) && $username != $user->lang['GUEST'] && strpos($this->friends['colourNames'][$user_id][$mode], $user->lang['GUEST']) === false)
 		{
 			return $this->friends['colourNames'][$user_id][$mode];
-		}
-
-		if (!$cfg_module)
-		{
-			$username_colour = '';
 		}
 
 		$modeFull = $mode;
@@ -1164,6 +1208,28 @@ class socialnet extends snFunctions
 		if ( $this->useTemplateHook)
 		{
 			$copy_string = 'Powered by <a href="http://phpbbsocialnetwork.com/" title="phpBB Social Network" onclick="window.open(this.href); return false;">phpBB Social Network</a> &copy; phpBB SN Group';
+
+			// allow modules/addons to add additional copyright
+			$additional_copy = '';
+
+			/**
+			 * Add custom string right after copyright of SN
+			 *
+			 * Do not forget to add "<br />" at the beginning of the string,
+			 * otherwise you string will be appended to the SN copyright,
+			 * right after it, without new line.
+			 * Also, please, do not replace provided content with your,
+			 * just append your copyright to the provided string and return
+			 * it back - respect copyrights of other addons.
+			 *
+			 * @hook sn.socialnet_socialnet_after
+			 * @since 1.0.0
+			 */
+			$vars = array('additional_copy');
+			extract($this->hook->do_action('sn.copyright_append', compact($vars)));
+
+			$copy_string .= $additional_copy;
+
 			if (!isset($template->_tpldata['.'][0]['TRANSLATION_INFO']))
 			{
 				$template->_tpldata['.'][0]['TRANSLATION_INFO'] = '';
@@ -1204,6 +1270,11 @@ class socialnet extends snFunctions
 			}
 		}
 	}
-}
 
-?>
+	function get_addon_directory($addon_filename)
+	{
+		global $socialnet_root_path;
+
+		return $socialnet_root_path . 'addons/' . $addon_filename . '/';
+	}
+}

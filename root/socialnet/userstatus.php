@@ -737,7 +737,7 @@ if (!class_exists('socialnet_userstatus'))
 				'SN_US_STATUS'			 => $status_row['status_text'],
 				'SN_US_STATUS_POSTED'	 => $st_time,
 				'STATUS_ID'				 => $status_row['status_id'],
-				'U_POSTER_PROFILE'		 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['poster_id'], $status_row['username'], $status_row['user_colour']),
+				'U_POSTER_PROFILE'		 => $this->p_master->get_username_string('userstatus', 'full', $status_row['poster_id'], $status_row['username'], $status_row['user_colour']),
 				'U_PROFILE'				 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['poster_id']),
 				'POSTER_AVATAR'			 => $avatar_img,
 				'TIME'					 => $st_time,
@@ -748,7 +748,7 @@ if (!class_exists('socialnet_userstatus'))
 				'WALL_ID'				 => $status_row['wall_id'],
 				'U_WALL'				 => append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile&amp;u=' . $status_row['wall_id']),
 				'ANOTHER_WALL'			 => $another_wall,
-				'U_WALL_PROFILE'		 => $this->p_master->get_username_string($this->p_master->config['us_colour_username'], 'full', $status_row['wall_id'], $wall_row['username'], $wall_row['user_colour']),
+				'U_WALL_PROFILE'		 => $this->p_master->get_username_string('userstatus', 'full', $status_row['wall_id'], $wall_row['username'], $wall_row['user_colour']),
 				'COMMENTS'				 => $comments['comments'],
 				'SN_US_MORE_COMMENTS'	 => $comments['more'],
 			), $template_block_data);

@@ -1,0 +1,80 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_TITLE}</h1>
+
+<p>{L_EXPLAIN}</p>
+
+<table cellspacing="1">
+	<col class="row1" /><col class="row2" /><col class="row2" />
+
+	<thead>
+		<tr>
+			<th>{L_ACP_SOCIALNET_ADDON_NAME}</th>
+			<th>{L_ACP_SOCIALNET_ADDON_OPTIONS}</th>
+			<th>{L_ACP_SOCIALNET_ADDON_ACTIONS}</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td class="row3" colspan="3"><strong>{L_ACP_SOCIALNET_ADDON_ENABLED}</strong></td>
+		</tr>
+
+		<!-- BEGIN enabled_addons -->
+			<tr>
+				<td<!-- IF not enabled_addons.U_ADDON_OPTIONS --> colspan="2"<!-- ENDIF -->><strong>{enabled_addons.ADDON_NAME}</strong></td>
+				<!-- IF enabled_addons.U_ADDON_OPTIONS -->
+					<td style="text-align: center;">
+						<a href="{enabled_addons.U_ADDON_OPTIONS}">{L_ACP_SOCIALNET_ADDON_OPTIONS}</a>
+					</td>
+				<!-- ENDIF -->
+				<td style="text-align: center;">
+					<a href="">{L_ACP_SOCIALNET_ADDON_DISABLE}</a>
+					<a href="">{L_ACP_SOCIALNET_ADDON_UNINSTALL}</a>
+				</td>
+			</tr>
+		<!-- BEGINELSE -->
+			<tr>
+				<td class="row1" colspan="3" style="text-align: center;">{L_ACP_SOCIALNET_NO_ADDON_ENABLED}</td>
+			</tr>
+		<!-- END enabled_addons -->
+
+		<tr>
+			<td class="row3" colspan="3"><strong>{L_ACP_SOCIALNET_ADDON_DISABLED}</strong></td>
+		</tr>
+
+		<!-- BEGIN disabled_addons -->
+			<tr>
+				<td colspan="2"><strong>{disabled_addons.ADDON_NAME}</strong></td>
+				<td style="text-align: center;">
+					<a href="">{L_ACP_SOCIALNET_ADDON_ENABLE}</a>
+					<a href="">{L_ACP_SOCIALNET_ADDON_UNINSTALL}</a>
+				</td>
+			</tr>
+		<!-- BEGINELSE -->
+			<tr>
+				<td class="row1" colspan="3" style="text-align: center;">{L_ACP_SOCIALNET_NO_ADDON_DISABLED}</td>
+			</tr>
+		<!-- END disabled_addons -->
+
+		<tr>
+			<td class="row3" colspan="3"><strong>{L_ACP_SOCIALNET_ADDON_UNINSTALLED}</strong></td>
+		</tr>
+
+		<!-- BEGIN uninstalled_addons -->
+			<tr>
+				<td colspan="2"><strong>{uninstalled_addons.ADDON_NAME}</strong></td>
+				<td style="text-align: center;">
+					<a href="">{L_ACP_SOCIALNET_ADDON_INSTALL}</a>
+					<a href="">{L_ACP_SOCIALNET_ADDON_DELETE}</a>
+				</td>
+			</tr>
+		<!-- BEGINELSE -->
+			<tr>
+				<td class="row1" colspan="3" style="text-align: center;">{L_ACP_SOCIALNET_NO_ADDON_UNINSTALLED}</td>
+			</tr>
+		<!-- END uninstalled_addons -->
+	</tbody>
+</table>
+
+<!-- INCLUDE overall_footer.html -->

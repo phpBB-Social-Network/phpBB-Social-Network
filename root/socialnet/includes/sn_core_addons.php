@@ -60,84 +60,39 @@ class sn_core_addons
 	 *
 	 * @access	public
 	 *
-	 * @param 	mixed 	$script	script name
-	 * @param 	mixed 	$block 	specifies placeholder's block
-	 *
-	 * @global	object	$template		phpBB template object
-	 * @global	object	$user			phpBB user object
 	 * @global	object	$db			phpBB database object
-	 * @global	string	$phpbb_root_path	phpBB root path string
 	 * @global	string	$phpEx			php extension
+	 * @global	string	$socialnet_root_path	socialnet root path string
 	 */
-	public function get($script = null, $block = null)
+	public function get()
 	{
-		global $template, $user, $db, $phpbb_root_path, $phpEx;
+		global $db, $phpEx, $socialnet_root_path;
 
-		$sql_add = '';
+		// load only enabled addons
+		$sql = 'SELECT addon_filename
+				FROM ' . SN_ADDONS_TABLE . '
+				WHERE addon_enabled = 1';
+		$result = $db->sql_query($sql);
 
-		if ($script == null)
+		while( $row = $db->sql_fetchrow($result) )
 		{
-			$script = $this->p_master->script_name;
-		}
+			$addon_filename = $row['addon_filename'];
 
-		if ($block != null && is_string($block))
-		{
-			$sql_add = "AND ph.ph_block = '{$block}'";
-		}
+			// addon file myst be located in /socialnet/addons/<addon_name>/<addon_name>.php
+			$addon_file = $socialnet_root_path . 'addons/' . $addon_filename . '/' . $addon_filename . '.' . $phpEx;
 
-		$sql = "SELECT ad.*, ph.ph_script, ph.ph_block
-							FROM " . SN_ADDONS_TABLE . " AS ad, " . SN_ADDONS_PLACEHOLDER_TABLE . " AS ph
-								WHERE ad.addon_placeholder = ph.ph_id
-									AND ( ph.ph_script = '{$script}' OR ph.ph_script = 'allpages' ) {$sql_add}
-							ORDER BY ph.ph_block, ad.addon_order";
-		$rs = $db->sql_query($sql);
-		$rowset = $db->sql_fetchrowset($rs);
-		$db->sql_freeresult($rs);
-
-		$content = array();
-		$blockName = '';
-		$placeHolder = '';
-		for ($ad_i = 0; isset($rowset[$ad_i]); $ad_i++)
-		{
-			$addon = $rowset[$ad_i];
-
-			if ($addon['addon_active'] == 0)
+			if ( file_exists($addon_file) )
 			{
-				continue;
-			}
+				include_once($addon_file);
 
-			if ($blockName != $addon['ph_block'])
-			{
-				$placeHolder = $this->get_placeholder_name($addon['ph_script'], $addon['ph_block']);
-
-				if (!isset($content[$placeHolder]))
+				if ( class_exists($addon_filename) )
 				{
-					$content[$placeHolder] = '';
+					// add addon to $socialnet->addon, creating new instance sending $socialnet as parametre
+					$this->p_master->addon->$addon_filename = new $addon_filename($this->p_master);
 				}
 			}
-			$addonTemplate = $this->get_template_name($addon['addon_php'], $addon['addon_function'], $addon['ph_script'], $addon['ph_block']);
-
-			include_once("{$phpbb_root_path}socialnet/addons/{$addon['addon_php']}.{$phpEx}");
-
-			$addonClass = new $addon['addon_php']($this->p_master);
-
-			$addonClass->$addon['addon_function']($addon['ph_script'], $addon['ph_block']);
-
-			$template->set_filenames(array($addonTemplate => 'socialnet/addons/' . $addonTemplate));
-
-			$tpl_script = $this->get_namefortemplate($addon['ph_script']);
-			$tpl_block = $this->get_namefortemplate($addon['ph_block']);
-
-			$template->assign_vars(array(
-				'SN_ADDONS_CURRENT_SCRIPT'		 => $tpl_script,
-				'SN_ADDONS_CURRENT_BLOCK'		 => $tpl_block,
-				'SN_ADDONS_CURRENT_PLACEHOLDER'	 => "{$tpl_script}_{$tpl_block}",
-			));
-
-			$content[$placeHolder] .= $this->p_master->get_page($addonTemplate);
 		}
-
-		$template->assign_vars($content);
+		$db->sql_freeresult($result);
 	}
 
 	/**

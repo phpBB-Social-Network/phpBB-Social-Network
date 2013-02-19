@@ -423,8 +423,8 @@ class sn_core_entry_gets
 		return array(
 			'USER1_USERNAME'  => $this->friends_entry[$entry_uid]['username'],
 			'USER2_USERNAME'  => $this->friends_entry[$entry_target]['username'],
-			'U_USER1_PROFILE' => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $this->friends_entry[$entry_uid]['user_id'], $this->friends_entry[$entry_uid]['username'], $this->friends_entry[$entry_uid]['user_colour']),
-			'U_USER2_PROFILE' => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $this->friends_entry[$entry_target]['user_id'], $this->friends_entry[$entry_target]['username'], $this->friends_entry[$entry_target]['user_colour']),
+			'U_USER1_PROFILE' => $this->p_master->get_username_string('activitypage', 'full', $this->friends_entry[$entry_uid]['user_id'], $this->friends_entry[$entry_uid]['username'], $this->friends_entry[$entry_uid]['user_colour']),
+			'U_USER2_PROFILE' => $this->p_master->get_username_string('activitypage', 'full', $this->friends_entry[$entry_target]['user_id'], $this->friends_entry[$entry_target]['username'], $this->friends_entry[$entry_target]['user_colour']),
 		);
 	}
 
@@ -512,7 +512,7 @@ class sn_core_entry_gets
 
 		return array(
 			'USERNAME'                => $entry_user['username'],
-			'U_PROFILE'               => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
+			'U_PROFILE'               => $this->p_master->get_username_string('activitypage', 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
 			'PROFILE_FIELDS'          => $entry_add,
 			'L_SN_AP_CHANGED_PROFILE' => $user->lang[$this->p_master->gender_lang('SN_AP_CHANGED_PROFILE', $entry_user['user_id'])],
 			'L_SN_UP_CHANGED_AVATAR'  => $user->lang[$this->p_master->gender_lang('SN_UP_CHANGED_AVATAR', $entry_user['user_id'])],
@@ -617,7 +617,7 @@ class sn_core_entry_gets
 
 		if (isset($partner))
 		{
-			$rel_msg = $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $partner_id, $partner['username'], $partner['user_colour']);
+			$rel_msg = $this->p_master->get_username_string('activitypage', 'full', $partner_id, $partner['username'], $partner['user_colour']);
 		}
 		elseif ($partner_name != '')
 		{
@@ -626,7 +626,7 @@ class sn_core_entry_gets
 
 		if (isset($family))
 		{
-			$family_msg = sprintf($user->lang[$this->p_master->gender_lang('SN_AP_ADDED_NEW_FAMILY_MEMBER', $entry_user['user_id'])], $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $family_id, $family['username'], $family['user_colour']), $entry_status);
+			$family_msg = sprintf($user->lang[$this->p_master->gender_lang('SN_AP_ADDED_NEW_FAMILY_MEMBER', $entry_user['user_id'])], $this->p_master->get_username_string('activitypage', 'full', $family_id, $family['username'], $family['user_colour']), $entry_status);
 		}
 		elseif ($family_name != '')
 		{
@@ -636,7 +636,7 @@ class sn_core_entry_gets
 		return array(
 			'STATUS'                          => ($entry_status && $entry_type == SN_TYPE_NEW_RELATIONSHIP) ? $entry_status : '',
 			'USERNAME'                        => $entry_user['username'],
-			'U_PROFILE'                       => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
+			'U_PROFILE'                       => $this->p_master->get_username_string('activitypage', 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
 			'U_PARTNER_PROFILE'               => $rel_msg,
 			'L_SN_AP_ADDED_NEW_FAMILY_MEMBER' => $family_msg,
 			'L_SN_AP_CHANGED_RELATIONSHIP'    => $user->lang[$this->p_master->gender_lang('SN_AP_CHANGED_RELATIONSHIP', $entry_user['user_id'])],
@@ -721,8 +721,8 @@ class sn_core_entry_gets
 			));
 
 		return array(
-			'U_USER1_PROFILE' => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
-			'U_USER2_PROFILE' => $this->p_master->get_username_string($this->p_master->config['ap_colour_username'], 'full', $user2['user_id'], $user2['username'], $user2['user_colour']),
+			'U_USER1_PROFILE' => $this->p_master->get_username_string('activitypage', 'full', $entry_user['user_id'], $entry_user['username'], $entry_user['user_colour']),
+			'U_USER2_PROFILE' => $this->p_master->get_username_string('activitypage', 'full', $user2['user_id'], $user2['username'], $user2['user_colour']),
 			'EMOTE_NAME'      => $emote['emote_name'],
 			'EMOTE_IMAGE'     => ($emote['emote_image'] != '') ? $emote['emote_image'] : '',
 		);

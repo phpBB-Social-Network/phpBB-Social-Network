@@ -466,8 +466,8 @@ class ucp_profile
 				while ($relation = $db->sql_fetchrow($result))
 				{
 					$avatar_img = $socialnet->get_user_avatar_resized($relation['user_avatar'], $relation['user_avatar_type'], $relation['user_avatar_width'], $relation['user_avatar_height'], 50);
-					$username = ($relation['relative_user_id']) ? $socialnet->get_username_string($socialnet->config['us_colour_username'], 'full', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
-					$profile_link = ($relation['relative_user_id']) ? $socialnet->get_username_string($socialnet->config['us_colour_username'], 'profile', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
+					$username = ($relation['relative_user_id']) ? $socialnet->get_username_string('userstatus', 'full', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
+					$profile_link = ($relation['relative_user_id']) ? $socialnet->get_username_string('userstatus', 'profile', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
 
 					if ($relation['family'])
 					{
@@ -523,8 +523,8 @@ class ucp_profile
 				while ($relation = $db->sql_fetchrow($result))
 				{
 					$avatar_img = $socialnet->get_user_avatar_resized($relation['user_avatar'], $relation['user_avatar_type'], $relation['user_avatar_width'], $relation['user_avatar_height'], 50);
-					$username = ($relation['user_id']) ? $socialnet->get_username_string($socialnet->config['us_colour_username'], 'full', $relation['user_id'], $relation['username'], $relation['user_colour']) : '';
-					$profile_link = ($relation['user_id']) ? $socialnet->get_username_string($socialnet->config['us_colour_username'], 'profile', $relation['user_id'], $relation['username'], $relation['user_colour']) : '';
+					$username = ($relation['user_id']) ? $socialnet->get_username_string('userstatus', 'full', $relation['user_id'], $relation['username'], $relation['user_colour']) : '';
+					$profile_link = ($relation['user_id']) ? $socialnet->get_username_string('userstatus', 'profile', $relation['user_id'], $relation['username'], $relation['user_colour']) : '';
 
 					if ($relation['anniversary'])
 					{
@@ -608,8 +608,8 @@ class ucp_profile
 		$template->assign_vars(array(
 			'S_APPROVE'			 => ($approve) ? true : false,
 			'S_REL_AVATAR'		 => $socialnet->get_user_avatar_resized($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height'], 50),
-			'S_REL_USERNAME'	 => $socialnet->get_username_string($socialnet->config['us_colour_username'], 'full', $row['user_id'], $row['username'], $row['user_colour']),
-			'U_REL_PROFILE_LINK' => $socialnet->get_username_string($socialnet->config['us_colour_username'], 'profile', $row['user_id'], $row['username'], $row['user_colour']),
+			'S_REL_USERNAME'	 => $socialnet->get_username_string('userstatus', 'full', $row['user_id'], $row['username'], $row['user_colour']),
+			'U_REL_PROFILE_LINK' => $socialnet->get_username_string('userstatus', 'profile', $row['user_id'], $row['username'], $row['user_colour']),
 		));
 
 		// Approve / Refuse relation

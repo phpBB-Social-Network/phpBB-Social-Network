@@ -373,18 +373,13 @@ $versions = array(
 			array(SN_ADDONS_TABLE, array(
 				'COLUMNS'		 => array(
 					'addon_id'			 => array('UINT:8', NULL, 'auto_increment'),
-					'addon_placeholder'	 => array('UINT:8', 0),
-					'addon_name'		 => array('VCHAR:64', ''),
-					'addon_php'			 => array('VCHAR:32', ''),
-					'addon_function'	 => array('VCHAR:32', ''),
-					'addon_active'		 => array('USINT', 0),
-					'addon_order'		 => array('UINT:8', 0)
+					'addon_name'		 => array('VCHAR:255', ''),
+					'addon_filename'		 => array('VCHAR:255', ''),
+					'addon_enabled'		 => array('TINT:1', 0)
 				),
 				'PRIMARY_KEY'	 => array('addon_id'),
 				'KEYS'			 => array(
-					'u'	 => array('UNIQUE', array('addon_placeholder', 'addon_name', 'addon_php', 'addon_function')),
-					'a'	 => array('INDEX', array('addon_name', 'addon_php', 'addon_active')),
-					'b'	 => array('INDEX', array('addon_order')),
+					'a'	 => array('INDEX', array('addon_filename', 'addon_enabled')),
 				),
 			)),
 			array(SN_SMILIES_TABLE, array(
@@ -712,6 +707,38 @@ $versions = array(
 
 	'0.7.2'   => array(
 		'cache_purge'		 => array(
+			'imageset',
+			'template',
+			'theme',
+			'cache',
+		),
+	),
+
+	'1.0.0.dev1'   => array(
+		'table_remove'	=> array(
+			SN_ADDONS_PLACEHOLDER_TABLE
+		),
+		'table_column_remove'	=> array(
+			array(SN_ADDONS_TABLE, 'addon_php'),
+			array(SN_ADDONS_TABLE, 'addon_function'),
+			array(SN_ADDONS_TABLE, 'addon_placeholder'),
+			array(SN_ADDONS_TABLE, 'addon_active'),
+			array(SN_ADDONS_TABLE, 'addon_order')
+		),
+		'table_column_add' => array(
+			array(SN_ADDONS_TABLE, 'addon_filename' , array('VCHAR:255', '')),
+			array(SN_ADDONS_TABLE, 'addon_enabled' , array('TINT:1', 0)),
+		),
+		'table_column_update'	=> array(
+			array(SN_ADDONS_TABLE, 'addon_name', array('VCHAR:255', ''))
+		),
+		'table_index_remove'	=> array(
+			array(SN_ADDONS_TABLE, 'a')
+		),
+		'table_index_add'	=> array(
+			array(SN_ADDONS_TABLE, 'a', array('addon_name', 'addon_enabled'))
+		),
+		'cache_purge'	=> array(
 			'imageset',
 			'template',
 			'theme',

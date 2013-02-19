@@ -16,9 +16,8 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
-class acp_socialnet extends AddOnsHookSystem
+class acp_socialnet
 {
-	var $mode = '';
 	var $u_action;
 	var $page_title = '';
 	var $acpPanel_title = '';
@@ -502,6 +501,124 @@ class acp_socialnet extends AddOnsHookSystem
 		}
 	}
 
+	function addons($id, $mode)
+	{
+		$action = request_var('action', '');
+
+		switch ($action)
+		{
+			case 'addon_options':
+
+				$this->_get_addon_options($id, $mode);
+
+			break;
+
+			default:
+
+				$this->_get_addons_list($id, $mode);
+
+			break;
+		}
+	}
+
+	function _get_addon_options($id, $mode)
+	{
+		global $db, $socialnet;
+
+		$addon_id = request_var('addon_id', 0);
+
+		$sql = 'SELECT addon_filename
+				FROM ' . SN_ADDONS_TABLE . '
+				WHERE addon_enabled = 1
+					AND addon_id = ' . (int) $addon_id;
+		$result = $db->sql_query($sql);
+
+		if ( !$db->sql_affectedrows() )
+		{
+			$this->tpl_name = 'acp_socialnet_addon_options_default';
+			$this->page_title = 'ACP_SOCIALNET_ADDON_OPTIONS';
+		}
+		else
+		{
+			$addon_filename = $db->sql_fetchfield('addon_filename');
+
+			$socialnet->addon->$addon_filename->acp_options($this, $id, $mode);
+		}
+	}
+
+	function _get_addons_list($id, $mode)
+	{
+		global $db, $phpbb_root_path, $phpbb_admin_path, $phpEx, $template;
+
+		$filesystem_addons = $addons = array();
+
+		// get all addons from filesystem
+		foreach ( glob($phpbb_root_path . 'socialnet/addons/*', GLOB_ONLYDIR) as $addon_directory )
+		{
+			$addon_filename = end(explode('/', $addon_directory));
+			$addon_file = $addon_directory . '/' . $addon_filename . '.' . $phpEx;
+
+			if ( file_exists($addon_file) )
+			{
+				include_once($addon_file);
+
+				if ( class_exists($addon_filename) )
+				{
+					$filesystem_addons[] = $addon_filename;
+				}
+			}
+		}
+
+		// get addons from database
+		$sql = 'SELECT *
+				FROM ' . SN_ADDONS_TABLE;
+		$result = $db->sql_query($sql);
+		while ( $row = $db->sql_fetchrow($result) )
+		{
+			// load only addons that really exist in filesystem
+			if ( in_array( $row['addon_filename'], $filesystem_addons ) )
+			{
+				$addons[] = array(
+					'addon_id'	=> $row['addon_id'],
+					'addon_filename'	=> $row['addon_filename'],
+					'addon_name'	=> $row['addon_name'],
+					'addon_status'	=> ( $row['addon_enabled'] ) ? 'enabled' : 'disabled',
+					'addon_acp_options'	=> method_exists($row['addon_filename'], 'acp_options'),
+				);
+
+				// remove addon from $filesystem_addons - addons that remain in this array will be
+				// treaded as uninstalled
+				unset( $filesystem_addons[array_search($row['addon_filename'], $filesystem_addons)] );
+			}
+		}
+
+		// get addon_name of uninstalled addons from their static function
+		foreach ( $filesystem_addons as $uninstalled_addon )
+		{
+			$addons[] = array(
+				'addon_filename'	=> $uninstalled_addon,
+				'addon_name'	=> substr( (string) $addon_filename::addon_name(), 0, 255),
+				'addon_status'	=> 'uninstalled',
+			);
+		}
+
+		// assign template variables
+		foreach ( $addons as $addon )
+		{
+			$addon_installed = isset($addon['addon_id']);
+
+			$template->assign_block_vars($addon['addon_status'] . '_addons', array(
+				'ADDON_ID'	=> ( $addon_installed ) ? $addon['addon_id'] : false,
+				'ADDON_FILENAME'	=> $addon['addon_filename'],
+				'ADDON_NAME'	=> $addon['addon_name'],
+				'U_ADDON_OPTIONS'	=> ( $addon['addon_status'] == 'enabled' && $addon['addon_acp_options'] ) ? append_sid($phpbb_admin_path . 'index.' . $phpEx, "i={$id}&amp;mode={$mode}&amp;action=addon_options&amp;addon_id={$addon['addon_id']}") : false,
+			));
+		}
+
+		$this->tpl_name = 'acp_socialnet_addons_main';
+		$this->page_title = 'ACP_SOCIALNET_ADDONS';
+	}
+
 	/**
 	 * Displays all admin settings for each acp panel
 	 * @param mixed $id phpBB $id value
@@ -575,7 +692,7 @@ class acp_socialnet extends AddOnsHookSystem
 			'S_ERROR'	 => (sizeof($error)) ? true : false,
 			'ERROR_MSG'	 => implode('<br />', $error),
 
-			'S_MODE'	 => $this->mode,
+			'S_MODE'	 => $mode,
 			'S_FOUNDER'	 => ($user->data['user_type'] == USER_FOUNDER) ? true : false,
 
 			'U_ACTION'	 => $this->u_action
@@ -704,659 +821,7 @@ function catch_blocks($elem)
 	return preg_match($filter, $elem);
 }
 
-function acp_move_addon($addon_row, $action = 'move_up')
-{
-	global $db;
-
-	$sql_extend = ($action == 'move_up') ? "right_id < {$addon_row['right_id']} ORDER BY right_id DESC" : "left_id > {$addon_row['left_id']} ORDER BY left_id ASC";
-
-	$sql = 'SELECT *
-						FROM ' . SN_ADDONS_TABLE . '
-						  WHERE ' . $sql_extend;
-	$result = $db->sql_query_limit($sql, 1);
-
-	$target = array();
-	while ($row = $db->sql_fetchrow($result))
-	{
-		$target = $row;
-	}
-	$db->sql_freeresult($result);
-
-	if (!sizeof($target))
-	{
-		// The addon is already on top or bottom
-		return false;
-	}
-
-	/**
-	 * $left_id and $right_id define the scope of the nodes that are affected by the move.
-	 * $diff_up and $diff_down are the values to substract or add to each node's left_id
-	 * and right_id in order to move them up or down.
-	 * $move_up_left and $move_up_right define the scope of the nodes that are moving
-	 * up. Other nodes in the scope of ($left_id, $right_id) are considered to move down.
-	 */
-	if ($action == 'move_up')
-	{
-		$left_id = $target['left_id'];
-		$right_id = $addon_row['right_id'];
-
-		$diff_up = $addon_row['left_id'] - $target['left_id'];
-		$diff_down = $addon_row['right_id'] + 1 - $addon_row['left_id'];
-
-		$move_up_left = $addon_row['left_id'];
-		$move_up_right = $addon_row['right_id'];
-
-	}
-	else
-	{
-		$left_id = $addon_row['left_id'];
-		$right_id = $target['right_id'];
-
-		$diff_up = $addon_row['right_id'] + 1 - $addon_row['left_id'];
-		$diff_down = $target['right_id'] - $addon_row['right_id'];
-
-		$move_up_left = $addon_row['right_id'] + 1;
-		$move_up_right = $target['right_id'];
-	}
-
-	$sql = 'UPDATE ' . SN_ADDONS_TABLE . "
-						SET left_id = left_id + CASE
-							WHEN left_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-							ELSE {$diff_down}
-						END,
-						right_id = right_id + CASE
-							WHEN right_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-							ELSE {$diff_down}
-						END
-						WHERE
-							left_id BETWEEN {$left_id} AND {$right_id}
-							AND right_id BETWEEN {$left_id} AND {$right_id}";
-	$db->sql_query($sql);
-
-	return $target['addon_name'];
-}
-
 function acp_filter_empty($val)
 {
 	return $val != '';
 }
-
-class AddOnsHookSystem
-{
-	var $aoh_mode = 'addons';
-	var $aoh_sub = '';
-	var $aoh_u_action = '';
-
-	var $aoh_tabs = array(
-		array(
-			'sub'		 => 'addon',
-			'name'		 => 'SN_ADDONS_ADDONS_MANAGEMENT',
-			'visible'	 => true,
-		),
-		array(
-			'sub'		 => 'placeholder',
-			'name'		 => 'SN_ADDONS_PLACEHOLDER_MANAGEMENT',
-			'visible'	 => true,
-		),
-		array(
-			'sub'		 => 'editaddon',
-			'name'		 => 'SN_ADDONS_EDITADDON',
-			'visible'	 => false,
-		),
-		array(
-			'sub'		 => 'editplaceholder',
-			'name'		 => 'SN_ADDONS_EDITHOLDER',
-			'visible'	 => false,
-		),
-	);
-
-	function addons($id)
-	{
-		global $template, $user;
-
-		$this->aoh_sub = request_var('sub', 'addon');
-
-		$ph_id = (int) request_var('ph_id', 0);
-		$error = array();
-
-		$this->aoh_u_action = $this->u_action . '&amp;sub=' . $this->aoh_sub;
-		$aohmode = 'sub_' . $this->aoh_sub;
-		$this->$aohmode($id, $error);
-
-		foreach ($this->aoh_tabs as $idx => $tab)
-		{
-			if (!$tab['visible'] && $this->aoh_sub != $tab['sub'])
-			{
-				continue;
-			}
-			$template->assign_block_vars('sn_tabs', array(
-				'HREF'		 => $this->u_action . '&amp;sub=' . $tab['sub'] . '&amp;ph_id=' . $ph_id,
-				'NAME'		 => isset($user->lang[$tab['name']]) ? $user->lang[$tab['name']] : "{ {$tab['name']} }",
-				'SELECTED'	 => $this->aoh_sub == $tab['sub'] ? true : false,
-			));
-
-		}
-
-		$this->acpPanel_title = $user->lang['ACP_SN_ADDONS_HOOK_CONFIGURATION'];
-		$this->acpPanel_explain = isset($user->lang['ACP_SN_ADDONS_HOOK_CONFIGURATION_EXPLAIN']) ? $user->lang['ACP_SN_ADDONS_HOOK_CONFIGURATION_EXPLAIN'] : '{ ACP_SN_ADDONS_HOOK_CONFIGURATION_EXPLAIN }';
-
-		$template->assign_vars(array(
-			'B_SN_ACP_ADDONS_HOOK_MANAGEMENT'	 => true,
-			'SN_ADDONS_HOOK_SUBMODE'			 => $this->aoh_sub,
-			'U_ACTION_ADDON_HOOK'				 => $this->aoh_u_action,
-			'S_ERROR'							 => (sizeof($error)) ? true : false,
-			'ERROR_MSG'							 => implode('<br />', $error),
-		));
-
-	}
-
-	function sub_addon($id, &$error)
-	{
-		global $db, $template, $phpEx, $socialnet;
-
-		$socialnet->addons = new sn_core_addons($socialnet);
-		//
-		// PLACEHOLDRES
-		//
-		$placeholder = $this->_available_placeholders();
-
-		$templates = $this->_templates();
-		//
-		// ADD ONS IN CURRENT PLACEHOLDER
-		//
-		$ph_id = $placeholder[0];
-		$sql = "SELECT *
-				FROM " . SN_ADDONS_TABLE . "
-				WHERE addon_placeholder = {$ph_id}
-				ORDER BY addon_order";
-
-		$rs = $db->sql_query($sql);
-		$rowset = $db->sql_fetchrowset($rs);
-		$db->sql_freeresult($rs);
-
-		for ($i = 0; isset($rowset[$i]); $i++)
-		{
-			$tpl = $socialnet->addons->get_template_name($rowset[$i]['addon_php'], $rowset[$i]['addon_function'], $placeholder[1]);
-
-			$template->assign_block_vars('addon', array(
-				'ROW'			 => $i % 2 == 0 ? 1 : 2,
-				'ID'			 => $rowset[$i]['addon_id'],
-				'NAME'			 => $rowset[$i]['addon_name'],
-				'FUNCTION'		 => $rowset[$i]['addon_function'],
-				'SCRIPT'		 => $rowset[$i]['addon_php'],
-				'B_ACTIVE'		 => $rowset[$i]['addon_active'],
-				'TEMPLATE'		 => $tpl,
-				'B_TEMPLATE'	 => in_array($tpl, $templates),
-
-				'U_EDIT'		 => $this->u_action . '&amp;sub=editaddon&amp;ph_id=' . $ph_id . '&amp;ad_id=' . $rowset[$i]['addon_id'],
-				'U_DELETE'		 => $this->u_action . '&amp;sub=deleteaddon&amp;ph_id=' . $ph_id . '&amp;ad_id=' . $rowset[$i]['addon_id'],
-				'U_DISABLE'		 => $this->u_action . '&amp;sub=enableaddon&amp;ad_en=0&amp;ph_id=' . $ph_id . '&amp;ad_id=' . $rowset[$i]['addon_id'],
-				'U_ENABLE'		 => $this->u_action . '&amp;sub=enableaddon&amp;ad_en=1&amp;ph_id=' . $ph_id . '&amp;ad_id=' . $rowset[$i]['addon_id'],
-				'U_MOVE_DOWN'	 => $this->u_action . '&amp;sub=moveaddon&amp;ad_old=' . ($rowset[$i]['addon_order']) . '&amp;ad_new=' . ($rowset[$i]['addon_order'] + 1) . '&amp;ph_id=' . $ph_id . '&amp;ad_id=' . $rowset[$i]['addon_id'],
-				'U_MOVE_UP'		 => $this->u_action . '&amp;sub=moveaddon&amp;ad_old=' . ($rowset[$i]['addon_order']) . '&amp;ad_new=' . ($rowset[$i]['addon_order'] - 1) . '&amp;ph_id=' . $ph_id . '&amp;ad_id=' . $rowset[$i]['addon_id'],
-			));
-		}
-		$template->assign_var('PHPEX', $phpEx);
-		//
-		// AVAILABLE ADD ONS
-		//
-		$this->_available_addons();
-	}
-
-	function sub_editaddon($id, &$error)
-	{
-		global $template, $db, $user;
-
-		$ad_id = (int) request_var('ad_id', 0);
-
-		$submit = (request_var('submit', '', true) == '') ? false : true;
-
-		if ($submit)
-		{
-			$name = request_var('addon_name', '', true);
-			$ph_id = (int) request_var('ph_id', 0);
-			$enable = (int) request_var('addon_enable', 0);
-
-			$struct = explode('::', $name);
-
-			$sql_ary = array(
-				'addon_placeholder'	 => $ph_id,
-				'addon_name'		 => $struct[0],
-				'addon_php'			 => $struct[1],
-				'addon_function'	 => $struct[2],
-				'addon_active'		 => $enable,
-			);
-
-			if ($ad_id == 0)
-			{
-				$sql = "SELECT MAX(addon_order) AS max
-						FROM " . SN_ADDONS_TABLE . " WHERE addon_placeholder = {$ph_id}";
-				$rs = $db->sql_query($sql);
-				$ad_order = (int) $db->sql_fetchfield('max') + 1;
-				$db->sql_freeresult($rs);
-				$sql = "INSERT INTO " . SN_ADDONS_TABLE . " %1\$s";
-				$method = 'INSERT';
-				$message = 'ADDED';
-				$sql_ary['addon_order'] = $ad_order;
-			}
-			else
-			{
-				$sql = "UPDATE " . SN_ADDONS_TABLE . " SET %1\$s WHERE addon_id = {$ad_id}";
-				$method = 'UPDATE';
-				$message = "EDITED";
-			}
-
-			$sql_b = $db->sql_build_array($method, $sql_ary);
-
-			$db->sql_return_on_error(true);
-			$success = $db->sql_query(sprintf($sql, $sql_b));
-			if ($success)
-			{
-				trigger_error($user->lang['SN_ADDONS_ADDON_' . $message] . adm_back_link($this->u_action . '&amp;sub=addon&amp;ph_id=' . $ph_id));
-			}
-			$db->sql_return_on_error(false);
-			$error[] = $user->lang['SN_ADDONS_ADDON_' . $message . '_ERROR'];
-		}
-
-		if ($ad_id == 0)
-		{
-			$this->aoh_tabs[2]['name'] = 'SN_ADDONS_ADDADDON';
-			//print_r( $this->aoh_tabs);
-			//			$template->alter_block_array('sn_tabs', array('NAME' => ), true, 'change');
-			$s_add = '';
-		}
-		else
-		{
-			$sql = "SELECT * FROM " . SN_ADDONS_TABLE . " WHERE addon_id = {$ad_id}";
-			$rs = $db->sql_query($sql);
-			$row = $db->sql_fetchrow($rs);
-			$db->sql_freeresult($rs);
-			$s_add = $row['addon_name'] . '::' . $row['addon_php'] . '::' . $row['addon_function'];
-
-			$template->assign_vars(array(
-				'SN_ADDON_ENABLED'	 => $row['addon_active'],
-				'SN_ADDON_ID'		 => $row['addon_id'],
-			));
-		}
-
-		$addon = $this->_available_addons($s_add);
-		$placeholder = $this->_available_placeholders();
-
-		$template_exists = $this->_templates();
-	}
-
-	function sub_moveaddon($id, &$error)
-	{
-		global $db, $user;
-
-		$ph_id = (int) request_var('ph_id', 0);
-		$or_nw = (int) request_var('ad_new', -1);
-		$or_ld = (int) request_var('ad_old', -1);
-		$ad_id = (int) request_var('ad_id', 0);
-
-		if ($ph_id != 0 && $or_nw != - 1 && $ad_id != 0 && $or_ld != - 1)
-		{
-			$sql = "UPDATE " . SN_ADDONS_TABLE . " SET addon_order = {$or_ld} WHERE addon_placeholder = $ph_id AND addon_order = {$or_nw}";
-			$db->sql_query($sql);
-			$sql = "UPDATE " . SN_ADDONS_TABLE . " SET addon_order = {$or_nw} WHERE addon_placeholder = $ph_id AND addon_id = {$ad_id}";
-			$db->sql_query($sql);
-		}
-		$this->aoh_sub = 'addon';
-		$this->sub_addon($id, $error);
-	}
-
-	function sub_enableaddon($id, &$error)
-	{
-		global $db;
-
-		$ad_id = (int) request_var('ad_id', 0);
-		$ad_en = (int) request_var('ad_en', -1);
-
-		if ($ad_id != 0 && $ad_en != - 1)
-		{
-			$sql = "UPDATE " . SN_ADDONS_TABLE . " SET addon_active = '{$ad_en}' WHERE addon_id = '{$ad_id}'";
-			$db->sql_query($sql);
-		}
-
-		$this->aoh_sub = 'addon';
-		$this->sub_addon($id, $error);
-	}
-
-	function sub_deleteaddon($id, &$error)
-	{
-		global $db, $user;
-
-		$ph_id = (int) request_var('ph_id', 0);
-		$ad_id = (int) request_var('ad_id', 0);
-
-		if ($ph_id == 0 || $ad_id == 0)
-		{
-			$this->sub_addon($id, $error);
-			return;
-		}
-
-		if (confirm_box(true))
-		{
-			$order = (int) request_var('ad_order', 0);
-
-			$name = request_var('name', '', true);
-			$script = request_var('script', '');
-			$block = request_var('block', '');
-
-			$sql = "UPDATE " . SN_ADDONS_TABLE . " SET addon_order = addon_order - 1 WHERE addon_order > '{$order}' AND addon_placeholder = '{$ph_id}'";
-			$db->sql_query($sql);
-
-			$sql = "DELETE FROM " . SN_ADDONS_TABLE . " WHERE addon_id = '{$ad_id}'";
-			$db->sql_query($sql);
-
-			trigger_error(sprintf($user->lang['SN_ADDONS_ADDON_DELETED'], $name, $script, $block) . adm_back_link($this->u_action . '&amp;sub=addon&amp;ph_id=' . $ph_id));
-		}
-
-		$sql = "SELECT *
-		FROM " . SN_ADDONS_TABLE . ", " . SN_ADDONS_PLACEHOLDER_TABLE . "
-		WHERE addon_id = '{$ad_id}' AND ph_id = '{$ph_id}'";
-		$rs = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($rs);
-		$db->sql_freeresult($rs);
-
-		$data = array(
-			'name'		 => $row['addon_name'],
-			'script'	 => $row['ph_script'],
-			'block'		 => $row['ph_block'],
-			'sub'		 => 'deleteaddon',
-			'ph_id'		 => $ph_id,
-			'ad_id'		 => $ad_id,
-			'ad_order'	 => $row['addon_order'],
-		);
-
-		confirm_box(false, vsprintf($user->lang['SN_ADDONS_ADDON_DELETE_CONFIRM'], $data), build_hidden_fields($data));
-
-		$this->aoh_sub = 'addon';
-		$this->sub_addon($id, $error);
-	}
-
-	function sub_placeholder($id, &$error)
-	{
-		global $template, $user, $db, $socialnet;
-
-		$socialnet->addons = new sn_core_addons($socialnet);
-
-		$sql = "SELECT *
-							FROM " . SN_ADDONS_PLACEHOLDER_TABLE . "
-								ORDER BY ph_script, ph_block";
-		$rs = $db->sql_query($sql);
-		$rowset = $db->sql_fetchrowset($rs);
-		$db->sql_freeresult($rs);
-
-		for ($i = 0; isset($rowset[$i]); $i++)
-		{
-			$template->assign_block_vars('placeholder', array(
-				'ROW'			 => $i % 2 == 0 ? '1' : '2',
-				'ID'			 => $rowset[$i]['ph_id'],
-				'SCRIPT'		 => $rowset[$i]['ph_script'],
-				'BLOCK'			 => $rowset[$i]['ph_block'],
-				'PLACEHOLDER'	 => $socialnet->addons->get_placeholder_name($rowset[$i]['ph_script'], $rowset[$i]['ph_block']),
-				'U_EDIT'		 => $this->u_action . '&amp;sub=editplaceholder&amp;ph_id=' . $rowset[$i]['ph_id'],
-				'U_DELETE'		 => $this->u_action . '&amp;sub=deleteplaceholder&amp;ph_id=' . $rowset[$i]['ph_id'],
-			));
-		}
-	}
-
-	function sub_editplaceholder($id, &$error)
-	{
-		global $template, $db, $user;
-
-		$ph_id = (int) request_var('ph_id', 0);
-		$script_name = request_var('script_name', '');
-		$block = request_var('block', '');
-
-		$submit = (request_var('submit', '', true) == '') ? false : true;
-
-		if ($submit)
-		{
-			if (empty($script_name) || empty($block))
-			{
-				$error[] = $user->lang['SN_ADDONS_PLACEHOLDER_EMPTY_FIELD'];
-			}
-			else
-			{
-				$sql_ary = array(
-					'ph_script'	 => $script_name,
-					'ph_block'	 => $block
-				);
-				if ($ph_id == 0)
-				{
-					$sql = "INSERT INTO " . SN_ADDONS_PLACEHOLDER_TABLE . " " . $db->sql_build_array('INSERT', $sql_ary);
-					$message = $user->lang['SN_ADDONS_PLACEHOLDER_ADDED'];
-					$error[] = $user->lang['SN_ADDONS_PLACEHOLDER_DUPLICATE'];
-				}
-				else
-				{
-					$sql = "UPDATE " . SN_ADDONS_PLACEHOLDER_TABLE . " SET " . $db->sql_build_array('UPDATE', $sql_ary) . " WHERE ph_id = {$ph_id}";
-					$message = $user->lang['SN_ADDONS_PLACEHOLDER_EDITED'];
-					$error[] = $user->lang['SN_ADDONS_PLACEHOLDER_ERREDIT'];
-				}
-
-				$db->sql_return_on_error(true);
-				$success = $db->sql_query($sql);
-
-				if ($success)
-				{
-					trigger_error($message . adm_back_link($this->u_action . '&amp;sub=placeholder'));
-				}
-			}
-		}
-
-		if ($ph_id == 0)
-		{
-			$this->aoh_tabs[3]['name'] = 'SN_ADDONS_ADDHOLDER';
-		}
-		else
-		{
-			$sql = "SELECT ph_script, ph_block
-					FROM " . SN_ADDONS_PLACEHOLDER_TABLE . "
-					WHERE ph_id = {$ph_id}";
-			$rs = $db->sql_query($sql);
-			$row = $db->sql_fetchrow($rs);
-			$db->sql_freeresult($rs);
-			$script_name = $row['ph_script'];
-			$block = $row['ph_block'];
-		}
-
-		$template->assign_vars(array(
-			'PLACEHOLDER_ID'			 => $ph_id,
-			'PLACEHOLDER_SCRIPT_NAME'	 => $script_name,
-			'PLACEHOLDER_BLOCK'			 => $block,
-		));
-	}
-
-	function sub_deleteplaceholder($id, &$error)
-	{
-		global $db, $user;
-
-		$ph_id = (int) request_var('ph_id', 0);
-
-		if ($ph_id == 0)
-		{
-			$this->sub_placeholder($id, $error);
-			return;
-		}
-
-		if (confirm_box(true))
-		{
-			$sql = "DELETE FROM " . SN_ADDONS_PLACEHOLDER_TABLE . " WHERE ph_id = '{$ph_id}'";
-			$db->sql_query($sql);
-
-			trigger_error($user->lang['SN_ADDONS_PLACEHOLDER_DELETED'] . adm_back_link($this->u_action . '&amp;sub=placeholder'));
-		}
-
-		$data = array(
-			'sub'	 => 'deleteplaceholder',
-			'ph_id'	 => $ph_id,
-		);
-
-		$sql = "SELECT ph_script, ph_block
-				FROM " . SN_ADDONS_PLACEHOLDER_TABLE . "
-				WHERE ph_id = '{$ph_id}'";
-		$rs = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($rs);
-		$db->sql_freeresult($rs);
-
-		confirm_box(false, vsprintf($user->lang['SN_ADDONS_PLACEHOLDER_DELETE_CONFIRM'], $row), build_hidden_fields($data));
-
-		$this->aoh_sub = 'placeholder';
-		$this->sub_placeholder($id, $error);
-
-	}
-
-	function _available_placeholders($ph_id = 0)
-	{
-		global $template, $db, $user;
-
-		if ($ph_id == 0)
-		{
-			$ph_id = (int) request_var('ph_id', 0);
-		}
-
-		$sql = "SELECT *
-							FROM " . SN_ADDONS_PLACEHOLDER_TABLE . " AS ph
-								ORDER BY ph.ph_script, ph.ph_block";
-		$rs = $db->sql_query($sql);
-		$rowset = $db->sql_fetchrowset($rs);
-		$db->sql_freeresult($rs);
-
-		$ph_script = '';
-		$return = '';
-		for ($i = 0; isset($rowset[$i]); $i++)
-		{
-			$row = $rowset[$i];
-			if ($ph_id == 0)
-			{
-				$ph_id = $row['ph_id'];
-			}
-
-			if ($row['ph_id'] == $ph_id)
-			{
-				$return = $row['ph_script'] . '::' . $row['ph_block'];
-			}
-
-			if ($ph_script != $row['ph_script'])
-			{
-				$template->assign_block_vars('ph_script', array(
-					'SCRIPT' => $row['ph_script']
-				));
-				$ph_script = $row['ph_script'];
-			}
-			$template->assign_block_vars('ph_script.ph_block', array(
-				'SCRIPT'	 => $row['ph_script'],
-				'BLOCK'		 => $row['ph_block'],
-				'ID'		 => $row['ph_id'],
-				'SELECTED'	 => $row['ph_id'] == $ph_id,
-				'U_LINK'	 => $this->u_action . '&amp;ph_id=' . $row['ph_id']
-			));
-		}
-
-		$template->assign_var('SN_ADDON_CURRENT_PLACEHOLDER', $ph_id);
-		return array($ph_id, $return);
-	}
-
-	function _available_addons($s_add = '')
-	{
-		global $template, $phpbb_root_path, $phpEx;
-
-		$addon_folder = "{$phpbb_root_path}socialnet/addons/";
-		$dir = opendir($addon_folder);
-
-		$av_addon = array();
-		while (($file = readdir($dir)) !== false)
-		{
-			if (preg_match("/^addon_(.+)\.{$phpEx}$/i", $file, $match))
-			{
-				include_once($addon_folder . $file);
-
-				$className = 'addon_' . $match[1];
-
-				if (class_exists($className) && method_exists($className, 'install'))
-				{
-					$class = new $className(null);
-					$addons = $class->install();
-
-					$av_addon[$addons['name'] . '::addon_' . $match[1]] = $addons;
-				}
-			}
-		}
-
-		closedir($dir);
-
-		ksort($av_addon);
-
-		if ($s_add == '')
-		{
-			$s_add = request_var('addon_name', '', true);
-		}
-
-		if (!empty($av_addon))
-		{
-			foreach ($av_addon as $idx => $addons)
-			{
-				$name = explode('::', $idx);
-				$template->assign_block_vars('av_file', array(
-					'NAME'	 => $name[0],
-					'FILE'	 => $name[1],
-				));
-				if (!empty($addons['addon']))
-				{
-					foreach ($addons['addon'] as $fnc => $title)
-					{
-						$template->assign_block_vars('av_file.av_fnc', array(
-							'FUNCTION'	 => $fnc,
-							'NAME'		 => $title,
-							'SELECTED'	 => $s_add == "{$title}::{$name[1]}::{$fnc}" ? true : false,
-						));
-					}
-				}
-			}
-		}
-
-		return $s_add;
-	}
-
-	function _templates()
-	{
-		global $template, $phpbb_root_path, $user;
-
-		$template_short_dir = 'socialnet/addons/';
-		$template_dir = "{$phpbb_root_path}styles/{$user->theme['template_path']}/template/{$template_short_dir}";
-		$dir = @opendir($template_dir);
-		$available_template_dir = false;
-		if (!$dir)
-		{
-			$template_dir = "{$phpbb_root_path}styles/prosilver/template/{$template_short_dir}";
-			$dir = opendir($template_dir);
-			$available_template_dir = true;
-		}
-
-		$templates = array();
-		while (($file = readdir($dir)) !== false)
-		{
-			if ($file == '.' || $file == '..')
-			{
-				continue;
-			}
-			$templates[] = $file;
-			$template->assign_block_vars('template', array('FILE' => $file));
-		}
-		closedir($dir);
-
-		$template->assign_vars(array(
-			'SN_ADDON_TEMPLATE_FOLDER'				 => $template_dir,
-			'SN_ADDON_TEMPLATE_SH_FOLDER'			 => $template_short_dir,
-			'B_SN_ADDON_TEPLATE_FOLDER_NOT_EXIST'	 => $available_template_dir,
-			'L_SN_ADDON_TEMPLATE_FOLDER_NOT_EXIST'	 => sprintf($user->lang['SN_ADDON_TEMPLATE_FOLDER_NOT_EXIST'], $user->theme['theme_name']),
-		));
-
-		return $templates;
-	}
-}
-
-?>

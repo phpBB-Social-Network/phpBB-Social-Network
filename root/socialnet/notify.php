@@ -175,7 +175,7 @@ if (!class_exists('socialnet_notify'))
 
 					if (isset($ntf['user']))
 					{
-						$ntf['user'] = $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'full', $rowset[$i]['ntf_poster'], $ntf['user'], $rowset[$i]['user_colour']);
+						$ntf['user'] = $this->p_master->get_username_string('notify', 'full', $rowset[$i]['ntf_poster'], $ntf['user'], $rowset[$i]['user_colour']);
 					}
 
 					$ntf_return['message'][] = $avatar . vsprintf($ntf_text, $ntf);
@@ -284,7 +284,7 @@ if (!class_exists('socialnet_notify'))
 
 						if (isset($data['user']))
 						{
-							$data['user'] = $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'full', $row['ntf_poster'], $data['user'], $row['user_colour']);
+							$data['user'] = $this->p_master->get_username_string('notify', 'full', $row['ntf_poster'], $data['user'], $row['user_colour']);
 						}
 
 						$ntf_link[1] = 'ntfMark=' . $row['ntf_id'] . (isset($ntf_link[1]) ? '&amp;' . $ntf_link[1] : '');
@@ -296,7 +296,7 @@ if (!class_exists('socialnet_notify'))
 							'DATA'				 				=> @vsprintf($user->lang[$text], $data),
 							'POSTER_AVATAR'		 		=> $poster_avatar,
 							'B_UNREAD'			 			=> $row['ntf_read'] > SN_NTF_STATUS_READ,
-							'U_POSTER_PROFILE'		=> $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
+							'U_POSTER_PROFILE'		=> $this->p_master->get_username_string('notify', 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
 						));
 					}
 

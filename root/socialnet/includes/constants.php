@@ -71,7 +71,6 @@ define('SN_FAMILY_TABLE',				$table_prefix_socialnet . 'family');
 define('SN_PROFILE_VISITORS_TABLE',		$table_prefix_socialnet . 'profile_visitors');
 define('SN_SUBSCRIPTIONS_TABLE',		$table_prefix_socialnet . 'subscriptions');
 define('SN_ADDONS_TABLE', $table_prefix_socialnet . 'addons');
-define('SN_ADDONS_PLACEHOLDER_TABLE', $table_prefix_socialnet . 'addons_placeholder');
 define('SN_COMMENTS_TABLE', $table_prefix_socialnet . 'comments');
 define('SN_COMMENTS_MODULES_TABLE', $table_prefix_socialnet . 'comments_modules');
 define('SN_EMOTES_TABLE', $table_prefix_socialnet . 'emotes');

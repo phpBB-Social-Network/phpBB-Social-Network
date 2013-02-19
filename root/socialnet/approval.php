@@ -198,7 +198,7 @@ if (!class_exists('socialnet_approval'))
 			$db->sql_return_on_error(true);
 			$db->sql_query($sql);
 			$db->sql_return_on_error(false);
-				
+
 			$this->p_master->reload_groups();
 
 			die(json_encode(array('error' => 0, 'gid' => $gid, 'uid' => $uid, 'sub' => $sub, 'user' => $user->data['user_id'])));
@@ -239,8 +239,8 @@ if (!class_exists('socialnet_approval'))
 
 				$template->assign_block_vars('fas_friend', array(
 					'USER_ID'			 => $row[$user_id_field],
-					'USERNAME'			 => $this->p_master->get_username_string($config['fas_colour_username'], 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
-					'USER_PROFILE'		 => $this->p_master->get_username_string($config['fas_colour_username'], 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USERNAME'			 => $this->p_master->get_username_string('approval', 'no_profile', $row[$user_id_field], $row['username'], $row['user_colour']),
+					'USER_PROFILE'		 => $this->p_master->get_username_string('approval', 'full', $row[$user_id_field], $row['username'], $row['user_colour']),
 					'USERNAME_NO_COLOR'	 => $row['username'],
 					'U_PROFILE'			 => append_sid("{$phpbb_root_path}memberlist.{$phpEx}?mode=viewprofile&amp;u={$row[$user_id_field]}"),
 					'AVATAR'			 => $img_avatar,

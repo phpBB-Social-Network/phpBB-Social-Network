@@ -174,14 +174,14 @@ $redirect = '&amp;redirect=' . base64_encode(append_sid("{$phpbb_root_path}profi
 $template->assign_vars(array(
 	'USER_ID'				 => $user_id,
 	'S_OWN_PROFILE'			 => ($user_id === (int) $user->data['user_id']) ? true : false,
-	'USERNAME_FULL'			 => $socialnet->get_username_string(1, 'full', $user_id, $member['username'], $member['user_colour']),
-	'USERNAME'				 => $socialnet->get_username_string(1, 'username', $user_id, $member['username'], $member['user_colour']),
+	'USERNAME_FULL'			 => $socialnet->get_username_string('profile', 'full', $user_id, $member['username'], $member['user_colour']),
+	'USERNAME'				 => $socialnet->get_username_string('profile', 'username', $user_id, $member['username'], $member['user_colour']),
 	'USER_AVATAR'			 => $socialnet->get_user_avatar_resized($member['user_avatar'], $member['user_avatar_type'], $member['user_avatar_width'], $member['user_avatar_height'], 150, false),
 	'U_EDIT_PROFILE'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_profile') : '',
 	'U_EDIT_FRIENDS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_approval_friends') : '',
 	'U_EDIT_RELATIONS'		 => ($user->data['user_id'] == $user_id) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_profile_relations') : '',
 	'U_CREATE_FRIENDS_GROUP' => append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=socialnet&amp;mode=module_approval_ufg'),
-	'U_VIEW_PROFILE'		 => $socialnet->get_username_string(1, 'profile', $user_id, $member['username'], $member['user_colour']),
+	'U_VIEW_PROFILE'		 => $socialnet->get_username_string('profile', 'profile', $user_id, $member['username'], $member['user_colour']),
 	'S_ZEBRA'				 => ($user->data['user_id'] != $user_id && $user->data['is_registered'] && $zebra_enabled) ? true : false,
 	'U_ADD_FRIEND'			 => (!$friend && !$request && !$foe && $friends_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
 	'U_ADD_FOE'				 => (!$friend && !$request && !$foe && $foes_enabled) ? append_sid("{$phpbb_root_path}ucp.{$phpEx}", 'i=zebra&amp;mode=foes&amp;add=' . urlencode(htmlspecialchars_decode($member['username'])) . $redirect) : '',
@@ -213,8 +213,8 @@ $result = $db->sql_query($sql);
 while ($relation = $db->sql_fetchrow($result))
 {
 	$avatar_img = $socialnet->get_user_avatar_resized($relation['user_avatar'], $relation['user_avatar_type'], $relation['user_avatar_width'], $relation['user_avatar_height'], 50);
-	$username = ($relation['relative_user_id']) ? $socialnet->get_username_string($socialnet->config['us_colour_username'], 'full', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
-	$profile_link = ($relation['relative_user_id']) ? $socialnet->get_username_string($socialnet->config['us_colour_username'], 'profile', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
+	$username = ($relation['relative_user_id']) ? $socialnet->get_username_string('userstatus', 'full', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
+	$profile_link = ($relation['relative_user_id']) ? $socialnet->get_username_string('userstatus', 'profile', $relation['relative_user_id'], $relation['username'], $relation['user_colour']) : '';
 
 	if ($relation['family'])
 	{

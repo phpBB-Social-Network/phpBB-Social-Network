@@ -108,11 +108,6 @@ class hookSocialNet
 			$user->data = array_merge($user->data, $row);
 
 			$socialnet = new socialnet();
-
-			if (!defined('ADMIN_START'))
-			{
-				$socialnet->start_modules();
-			}
 		}
 	}
 
