@@ -134,7 +134,7 @@
 				useEnter: false
 			});
 
-			$('.sn-im-chatBox').bind('click', function() {
+			$('.sn-im-message').bind('focus', function() {
 				$sn.im._unReadToggle(this);
 			});
 
@@ -468,7 +468,7 @@
 							}
 							if ($(chatBox + ' .sn-im-block').is(':hidden')) {
 								$sn.im._unRead($(chatBox), 1);
-							} else {
+							} else if (!$(chatBox + ' .sn-im-message').is(':focus')) {
 								$sn.im._unReadToggle(chatBox, true);
 							}
 						});
