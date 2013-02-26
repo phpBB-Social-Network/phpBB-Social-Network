@@ -1,21 +1,21 @@
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery-ui.custom.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.detectmobilebrowser.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.metadata.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.cookie.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.timers.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.metadata.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.timers.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.hoverIntent.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.text-overflow.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.watermark.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.elastic.source.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.events.input.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.form.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.titlealert.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.elastic.source.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.events.input.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.form.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.titlealert.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.expander.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.editable.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.jgrowl.min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/underscore-min.js"></script>
-<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.mentionsInput.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/underscore.min.js"></script>
+<script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/jquery.mentionsInput.min.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.socialnet.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.confirmbox.js"></script>
 <script type="text/javascript" src="{T_SOCIALNET_JS_PATH}/m.im.js"></script>
@@ -29,38 +29,38 @@
 
 jQuery(document).ready(function($){
 	socialNetwork.init({
-		allow_load: {B_AJAX_LOAD_ALLOW},
+		allow_load: '{B_AJAX_LOAD_ALLOW}',
 		rtl: '{S_CONTENT_DIRECTION}' == 'rtl' ? true: false,
-	    expanderTextMore: '{L_SN_EXPANDER_READ_MORE}',
-	    expanderTextLess: '{L_SN_EXPANDER_READ_LESS}',
-	    browserOutdatedTitle : '{L_BROWSER_OUTDATED_TITLE}',
-	    browserOutdated : '{L_BROWSER_OUTDATED}',
-	    showBrowserOutdated: '{S_SN_SHOW_OUTDATED_BROWSER_INFO}' == '1' ? true : false,
+		expanderTextMore: '{L_SN_EXPANDER_READ_MORE}',
+		expanderTextLess: '{L_SN_EXPANDER_READ_LESS}',
+		browserOutdatedTitle : '{L_BROWSER_OUTDATED_TITLE}',
+		browserOutdated : '{L_BROWSER_OUTDATED}',
+		showBrowserOutdated: '{S_SN_SHOW_OUTDATED_BROWSER_INFO}' == '1' ? true : false,
 		user_id: {S_SN_CURRENT_USER_ID},
 		cookie : {
 			name : '{COOKIE_NAME}',
 			path : '{COOKIE_PATH}',
 			domain : '{COOKIE_DOMAIN}',
-			secure : '{COOKIE_SECURE}'=='1'
+			secure : '{COOKIE_SECURE}'=='1' ? true: false
 		},
 		confirmBox: {
-		    enable: '{S_SN_CB_ENABLE}' == '1' ? true : false,
-		    resizable : '{S_SN_CB_RESIZABLE}' == '1' ? true : false,
-		    draggable : '{S_SN_CB_DRAGGABLE}' == '1' ? true : false,
-		    modal : '{S_SN_CB_MODAL}' == '1' ? true : false,
-		    width : '{S_SN_CB_WIDTH}',
-		    button_confirm : '{L_SN_US_CONFIRM}',
-		    button_cancel : '{L_SN_US_CANCEL}',
-		    button_close : '{L_SN_US_CLOSE}',
-		    postMinChar : {I_POST_MIN_CHARS}
+			enable: '{S_SN_CB_ENABLE}' == '1' ? true : false,
+			resizable : '{S_SN_CB_RESIZABLE}' == '1' ? true : false,
+			draggable : '{S_SN_CB_DRAGGABLE}' == '1' ? true : false,
+			modal : '{S_SN_CB_MODAL}' == '1' ? true : false,
+			width : '{S_SN_CB_WIDTH}',
+			button_confirm : '{L_SN_US_CONFIRM}',
+			button_cancel : '{L_SN_US_CANCEL}',
+			button_close : '{L_SN_US_CLOSE}',
+			postMinChar : {I_POST_MIN_CHARS}
 		},
 		enableModules : {
-			im : '{SN_MODULE_IM_ENABLED}' == '1',
-			us : '{SN_MODULE_USERSTATUS_ENABLED}' == '1',
-			ntf : '{SN_MODULE_NOTIFY_ENABLED}' == '1',
-			fms : '{SN_MODULE_APPROVAL_ENABLED}' == '1',
-			ap : '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == 1,
-			up : '{SN_MODULE_PROFILE_ENABLED}' == '1'
+			im : '{SN_MODULE_IM_ENABLED}' == '1' ? true: false,
+			us : '{SN_MODULE_USERSTATUS_ENABLED}' == '1' ? true: false,
+			ntf : '{SN_MODULE_NOTIFY_ENABLED}' == '1' ? true: false,
+			fms : '{SN_MODULE_APPROVAL_ENABLED}' == '1' ? true: false,
+			ap : '{SN_MODULE_ACTIVITYPAGE_ENABLED}' == '1' && '{S_ON_ACTIVITYPAGE}' == '1' ? true: false,
+			up : '{SN_MODULE_PROFILE_ENABLED}' == '1' ? true: false
 		},
 		comments : {
 			watermark : '{L_SN_US_WRITE_COMMENT}',
@@ -70,23 +70,23 @@ jQuery(document).ready(function($){
 		},
 		menuPosition:{
 			my : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
-	        at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
-	        }
+			at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->left<!-- ELSE -->right<!-- ENDIF --> top"
+		}
 	});
 
-// ## ACTIVITY PAGE -=- START ##
 <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED and S_ON_ACTIVITYPAGE -->
+// ## ACTIVITY PAGE -=- START ##
 	socialNetwork.ap.init({
 		url : '{SOCIALNET_ROOT_PATH}activitypage.php',
-		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1',
+		blockOnlineUsers : '{B_SN_BLOCK_ONLINE_USERS_ENABLED}' == '1' ? true: false,
 		tikTakOnline : {I_SN_BLOCK_ONLINE_USERS_CHECK_TIME},
 		urlUsersAutocomplete: '{U_USERS_AUTOCOMPLETE}'
 	});
-<!-- ENDIF -->
 // ## ACTIVITY PAGE -=- END ##
+<!-- ENDIF -->
 
-// ## INSTANT MESSENGER -=- START ##
 <!-- IF SN_MODULE_IM_ENABLED -->
+// ## INSTANT MESSENGER -=- START ##
 	socialNetwork.im.init({
 		url: '{SOCIALNET_ROOT_PATH}im.php',
 		rootPath: '{SOCIALNET_ROOT_PATH}',
@@ -114,22 +114,22 @@ jQuery(document).ready(function($){
 			key : {SN_IM_CLOSESEQ_KEY}
 		}
 	});
-<!-- ENDIF -->
 // ## INSTANT MESSENGER -=- END ##
+<!-- ENDIF -->
 
-// ## NOTIFICATIONS -=- START ##
 <!-- IF SN_MODULE_NOTIFY_ENABLED -->
+// ## NOTIFICATIONS -=- START ##
 	socialNetwork.ntf.init({
 		url:'{SOCIALNET_ROOT_PATH}notify.php',
 		theme: '{S_SN_NTF_THEME}',
 		life: {SN_NTF_LIFE},
 		checkTime: {SN_NTF_CHECKTIME}
 	});
-<!-- ENDIF -->
 // ## NOTIFICATIONS -=- END ##
+<!-- ENDIF -->
 
-// ## FRIEND MANAGEMENT SYSTEM -=- START ##
 <!-- IF SN_MODULE_APPROVAL_ENABLED -->
+// ## FRIEND MANAGEMENT SYSTEM -=- START ##
 	socialNetwork.fms.init({
 		url: '{SOCIALNET_ROOT_PATH}approval.php',
 		urlFMS: '{SOCIALNET_ROOT_PATH}fms_users.php',
@@ -137,11 +137,11 @@ jQuery(document).ready(function($){
 		deleteUserGroup: '{L_FMS_DELETE_UFG}',
 		deleteUserGroupText: '{L_FMS_DELETE_UFG_TEXT}'
 	});
-<!-- ENDIF -->
 // ## FRIEND MANAGEMENT SYSTEM -=- END ##
+<!-- ENDIF -->
 
-// ## USER STATUS -=- START ##
 <!-- IF SN_MODULE_USERSTATUS_ENABLED -->
+// ## USER STATUS -=- START ##
 	socialNetwork.us.init({
 		watermark : '{L_SN_US_WHATS_ON_YOUR_MIND}',
 		emptyStatus : '{L_SN_US_EMPTY_STATUS}',
@@ -152,11 +152,11 @@ jQuery(document).ready(function($){
 		deleteActivityTitle : '{L_SN_CB_DELETE_ACTIVITY_TITLE}',
 		deleteActivityText: '{L_SN_CB_DELETE_ACTIVITY_TEXT}'
 	});
-<!-- ENDIF -->
 // ## USER STATUS -=- END ##
+<!-- ENDIF -->
 
-// ## PROFILE -=- START ##
 <!-- IF SN_MODULE_PROFILE_ENABLED -->
+// ## PROFILE -=- START ##
 	socialNetwork.up.init({
 		url : '{U_UP_TAB_WALL}',
 		urlAJAX : '{U_UP_AJAXURL}',
@@ -171,12 +171,11 @@ jQuery(document).ready(function($){
 		monthNamesShort : [{SN_UP_MONTH_NAMES_SHORT}],
 		menuPosition:{
 			my : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> top",
-	        at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> bottom"
-	        }
-		});
-<!-- ENDIF -->
+			at : "<!-- IF S_CONTENT_DIRECTION eq 'ltr' -->right<!-- ELSE -->left<!-- ENDIF --> bottom"
+		}
+	});
 // ## PROFILE -=- END ##
-
+<!-- ENDIF -->
 });
 // ]]>
 </script>
