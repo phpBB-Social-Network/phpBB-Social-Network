@@ -6,7 +6,20 @@
  * @see https://developers.google.com/closure/compiler/
  * @author Culprit
  */
-class closureCompiler
+
+/**
+ * You can use online Closure compiler
+ * @problem Count compiled files is limited
+ */
+// require( 'closure/closure_online.php');
+
+/**
+ * You can use offline Closure compiler
+ * @require java and PHP exec command
+ */
+require( 'closure/closure_offline.php');
+
+class closureCompiler extends closureCompile
 {
 	var $cache = array();
 	var $cacheFile = 'cache/cache.php';
@@ -184,30 +197,4 @@ class closureCompiler
 		return $this->compiled;
 	}
 
-	/**
-	 * Compile, optimize & minify the source JS code
-	 * @return void
-	 */
-	public function compile()
-	{
-		if ($this->script == '')
-		{
-			return;
-		}
-
-		$ch = curl_init($this->closureURL);
-
-		$postFields = array_merge($this->postFields, array(
-			'output_format'		 => $this->output,
-			'compilation_level'	 => $this->optimalization,
-			'js_code'			 => ''
-		));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields) . urlencode($this->script));
-		$this->compiled = curl_exec($ch);
-		curl_close($ch);
-		$this->putToCache($this->filename);
-		$this->script = '';
-	}
 }
