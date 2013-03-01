@@ -21,35 +21,39 @@ This is written as standard [phpBB Hook](https://www.phpbb.com/community/docs/ho
 Simply copy file ```hooks/hook_dev-js.php``` to ```includes/hooks/hook_dev-js.php``` and [clear phpBB cache](https://www.phpbb.com/kb/article/purging-the-phpbb-cache/).
 
 ## Online Compiler
-For allowing online Closure compiler should be in file ```closureapi.php``` at lines 10-20
+For allowing online Closure compiler should be in file ```closureapi.php``` at lines 10-22
 ```php
 /**
-* You can use online Closure compiler
-* @problem Count compiled files is limited
-*/
+ * You can use online Closure compiler
+ * @ignore
+ * @problem Count compiled files is limited
+ */
 require( 'closure/closure_online.php');
 
 /**
-* You can use offline Closure compiler
-* @require java and PHP exec command
-*/
+ * You can use offline Closure compiler
+ * @ignore
+ * @require java and PHP exec command
+ */
 // require( 'closure/closure_offline.php');
 ```
 ### Drawbacks
 Limited count request in time interval
 ## Offline Compiler
-For allowing offline Closure compiler should be in file ```closureapi.php``` at lines 10-20
+For allowing offline Closure compiler should be in file ```closureapi.php``` at lines 10-22
 ```php
 /**
-* You can use online Closure compiler
-* @problem Count compiled files is limited
-*/
+ * You can use online Closure compiler
+ * @ignore
+ * @problem Count compiled files is limited
+ */
 // require( 'closure/closure_online.php');
 
 /**
-* You can use offline Closure compiler
-* @require java and PHP exec command
-*/
+ * You can use offline Closure compiler
+ * @ignore
+ * @require java and PHP exec command
+ */
 require( 'closure/closure_offline.php');
 ```
 ### Require

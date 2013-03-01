@@ -1,10 +1,13 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
+/**
+ * Closure simple interface
+ * @author Culprit <jankalach@gmail.com>
+ * @version 1.0.0
+ * @package SN JavaScript minify
+ */
 interface closure_int
 {
+
 	public function compile();
 }

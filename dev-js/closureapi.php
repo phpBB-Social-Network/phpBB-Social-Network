@@ -1,24 +1,33 @@
 <?php
-
 /**
  * closure Compiler
  * Minify JS files trouth Google Closure API
  * @see https://developers.google.com/closure/compiler/
- * @author Culprit
+ * @author Culprit <jankalach@gmail.com>
+ * @version 1.0.0
+ * @package SN JavaScript minify
  */
-
 /**
  * You can use online Closure compiler
+ * @ignore
  * @problem Count compiled files is limited
  */
 // require( 'closure/closure_online.php');
 
 /**
  * You can use offline Closure compiler
+ * @ignore
  * @require java and PHP exec command
  */
 require( 'closure/closure_offline.php');
 
+/**
+ * closureCompiler
+ * PHP Class for closure compiler
+ * @package SN JavaScript minify
+ * @author Culprit <jankalach@gmail.com>
+ * @version 1.0.0
+ */
 class closureCompiler extends closureCompile
 {
 	var $cache = array();
@@ -32,19 +41,19 @@ class closureCompiler extends closureCompile
 		'SIMPLE_OPTIMIZATIONS',
 		'WHITESPACE_ONLY',
 		'ADVANCED_OPTIMIZATIONS'
-		);
+	);
 	var $output = 'text';
 	var $availableOutput = array(
 		'text',
 		'json',
 		'xml'
-		);
+	);
 	var $postFields = array(
 		'output_info'		 => 'compiled_code',
 		'output_format'		 => '',
 		'compilation_level'	 => '',
 		'js_code'			 => ''
-		);
+	);
 
 	/**
 	 * constructor
@@ -196,5 +205,4 @@ class closureCompiler extends closureCompile
 	{
 		return $this->compiled;
 	}
-
 }

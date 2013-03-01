@@ -1,13 +1,26 @@
 <?php
-/*
+/**
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * @package SN JavaScript minify
+ * @author Culprit <jankalach@gmail.com>
+ * @version 1.0.0
  */
-
+/**
+ * @ignore
+ */
 require( 'closure_interface.php');
 
+/**
+ * Compile 
+ * Offline compilation 
+ * @package SN JavaScript minify
+ * @author Culprit <jankalach@gmail.com>
+ * @version 1.0.0
+ */
 class closureCompile implements closure_int
 {
+
 	/**
 	 * Compile, optimize & minify the source JS code
 	 * @return void
@@ -15,7 +28,7 @@ class closureCompile implements closure_int
 	public function compile()
 	{
 		global $phpbb_root_path;
-		
+
 		if ($this->script == '')
 		{
 			return;
@@ -25,6 +38,5 @@ class closureCompile implements closure_int
 		$this->compiled = exec($exec_cmd);
 		$this->putToCache($this->filename);
 		$this->script = '';
-		
 	}
 }
