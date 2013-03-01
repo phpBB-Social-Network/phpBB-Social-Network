@@ -24,7 +24,7 @@ function sn_js_minify()
 	require_once $JSpacker_path . 'closureapi.php';
 
 	$closure = new closureCompiler();
-	$closure->setOptimalization('WHITESPACE_ONLY');
+	$closure->setOptimalization('SIMPLE_OPTIMIZATIONS');
 
 	$files = glob($JSpacker_path . 'js/*.js');
 	foreach ($files as $file)

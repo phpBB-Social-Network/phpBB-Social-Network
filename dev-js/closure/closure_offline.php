@@ -21,7 +21,7 @@ class closureCompile implements closure_int
 			return;
 		}
 
-		$exec_cmd = 'java -jar ' . $phpbb_root_path . '../dev-js/closure/compiler.jar ' . $this->filename;
+		$exec_cmd = 'java -jar ' . $phpbb_root_path . '../dev-js/closure/compiler.jar ' . $this->filename . ' --compilation_level ' . $this->optimalization;
 		$this->compiled = exec($exec_cmd);
 		$this->putToCache($this->filename);
 		$this->script = '';
