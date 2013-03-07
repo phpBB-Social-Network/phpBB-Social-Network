@@ -7,7 +7,6 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
-
 if (!defined('SOCIALNET_INSTALLED'))
 {
 	/**
@@ -30,7 +29,6 @@ if (!defined('SOCIALNET_INSTALLED'))
 	$user->session_begin(false);
 	$auth->acl($user->data);
 	$user->setup();
-
 }
 
 if (!class_exists('socialnet_notify'))
@@ -54,12 +52,12 @@ if (!class_exists('socialnet_notify'))
 		 */
 		function socialnet_notify(&$p_master)
 		{
-			$this->p_master =& $p_master;
+			$this->p_master = & $p_master;
 		}
 
 		function init()
 		{
-			global $user, $db, $phpbb_root_path, $phpEx, $template, $config;
+			global $phpbb_root_path, $phpEx, $template, $config;
 			$this->time = time();
 
 			$this->ntf_delete();
@@ -71,11 +69,11 @@ if (!class_exists('socialnet_notify'))
 			$this->ntf_ap_show();
 
 			$template->assign_vars(array(
-				'U_VIEW_NOTIFY'				 			=> append_sid("{$phpbb_root_path}activitypage.$phpEx", 'mode=notify'),
-				'S_SN_USER_UNREAD_NOTIFY'		=> $this->ntf_notify_count(),
-				'S_SN_NTF_THEME'			 			=> $config['ntf_theme'],
-				'SN_NTF_LIFE'				 				=> $config['ntf_life'] * 1000,
-				'SN_NTF_CHECKTIME'			 		=> $config['ntf_checktime'] * 1000,
+				'U_VIEW_NOTIFY'				 => append_sid("{$phpbb_root_path}activitypage.$phpEx", 'mode=notify'),
+				'S_SN_USER_UNREAD_NOTIFY'	 => $this->ntf_notify_count(),
+				'S_SN_NTF_THEME'			 => $config['ntf_theme'],
+				'SN_NTF_LIFE'				 => $config['ntf_life'] * 1000,
+				'SN_NTF_CHECKTIME'			 => $config['ntf_checktime'] * 1000,
 			));
 		}
 
@@ -97,7 +95,6 @@ if (!class_exists('socialnet_notify'))
 			/**
 			 * @ignore
 			 */
-
 			$ntf_type = request_var('type', 'check');
 			$ntf_id = request_var('nid', 0);
 			if ($ntf_type == 'delete' && $ntf_id != 0)
@@ -106,8 +103,8 @@ if (!class_exists('socialnet_notify'))
 				 * DELETE NOTIFY - Not Implemented in PAGE
 				 */
 				$sql = "DELETE FROM " . SN_NOTIFY_TABLE . "
-									WHERE ntf_user = '{$user->data['user_id']}'
-										AND ntf_id = '{$ntf_id}'";
+						WHERE ntf_user = '{$user->data['user_id']}'
+							AND ntf_id = '{$ntf_id}'";
 
 				$db->sql_return_on_error(true);
 				$return = array();
@@ -125,6 +122,7 @@ if (!class_exists('socialnet_notify'))
 			if ($ntf_type == 'markRead' && $ntf_id != 0)
 			{
 				$this->ntf_markID(SN_NTF_STATUS_READ, SN_NTF_STATUS_READ, $ntf_id);
+				die(json_encode(array('success' => true)));
 			}
 
 			if ($ntf_type == 'check')
@@ -139,17 +137,17 @@ if (!class_exists('socialnet_notify'))
 				);
 
 				$sql = "SELECT ntf.*, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, u.user_colour
-									FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
-										WHERE " . implode(" AND ", $sql_where) . "
-											AND ntf.ntf_poster = u.user_id
-									ORDER BY ntf.ntf_time DESC";
+						FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
+						WHERE " . implode(" AND ", $sql_where) . "
+							AND ntf.ntf_poster = u.user_id
+						ORDER BY ntf.ntf_time DESC";
 				$rs = $db->sql_query($sql);
 				$rowset = $db->sql_fetchrowset($rs);
 				$db->sql_freeresult($rs);
 
 				$sql = "UPDATE " . SN_NOTIFY_TABLE . "
-									SET ntf_read = " . SN_NTF_STATUS_DISPLAYED . ", ntf_change = {$this->time}
-										WHERE " . implode(" AND ", $sql_where);
+						SET ntf_read = " . SN_NTF_STATUS_DISPLAYED . ", ntf_change = {$this->time}
+						WHERE " . implode(" AND ", $sql_where);
 				$db->sql_query($sql);
 
 				$ntf_return = array();
@@ -195,10 +193,7 @@ if (!class_exists('socialnet_notify'))
 		 */
 		function ntf_check_FAMILY($relation_id, $relative_user_id, $status_id)
 		{
-			global $db, $user, $phpbb_root_path, $phpEx, $config;
-
-			$mode = request_var('mode', '');
-			$module = request_var('i', '');
+			global $user, $phpEx;
 
 			$link = "ucp.{$phpEx}?i=socialnet&amp;mode=module_profile_relations&amp;action=approve_relation&amp;id={$relation_id}";
 			$status = $this->p_master->family_status($status_id);
@@ -220,10 +215,7 @@ if (!class_exists('socialnet_notify'))
 		 */
 		function ntf_check_RELATIONSHIP($relation_id, $relative_user_id)
 		{
-			global $db, $user, $phpbb_root_path, $phpEx, $config;
-
-			$mode = request_var('mode', '');
-			$module = request_var('i', '');
+			global $user, $phpEx;
 
 			$link = "ucp.{$phpEx}?i=socialnet&amp;mode=module_profile_relations&amp;action=approve_relation&amp;id={$relation_id}";
 
@@ -242,7 +234,7 @@ if (!class_exists('socialnet_notify'))
 		 */
 		function ntf_ap_show()
 		{
-			global $db, $phpbb_root_path, $phpEx, $template, $user;
+			global $db, $phpbb_root_path, $template, $user;
 
 			if ($this->p_master->script_name == 'activitypage')
 			{
@@ -255,7 +247,7 @@ if (!class_exists('socialnet_notify'))
 					$sql = 'SELECT user_id
 							FROM ' . USERS_TABLE;
 					$result = $db->sql_query($sql);
-					while ( $row = $db->sql_fetchrow($result) )
+					while ($row = $db->sql_fetchrow($result))
 					{
 						$users_ids[] = $row['user_id'];
 					}
@@ -264,10 +256,10 @@ if (!class_exists('socialnet_notify'))
 
 					// select notifications
 					$sql = "SELECT ntf.*, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, u.user_colour
-										FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
-											WHERE ntf_user = {$user->data['user_id']}
-												AND ntf_poster = user_id
-										ORDER BY ntf_time DESC";
+							FROM " . SN_NOTIFY_TABLE . " AS ntf, " . USERS_TABLE . " AS u
+							WHERE ntf_user = {$user->data['user_id']}
+								AND ntf_poster = user_id
+							ORDER BY ntf_time DESC";
 					$rs = $db->sql_query($sql);
 					$rowset = $db->sql_fetchrowset($rs);
 					$db->sql_freeresult($rs);
@@ -292,11 +284,11 @@ if (!class_exists('socialnet_notify'))
 						$data['link'] = append_sid($phpbb_root_path . $ntf_link[0], $ntf_link[1]);
 
 						$template->assign_block_vars('ap_notify', array(
-							'NTF_ID'			 				=> $row['ntf_id'],
-							'DATA'				 				=> @vsprintf($user->lang[$text], $data),
-							'POSTER_AVATAR'		 		=> $poster_avatar,
-							'B_UNREAD'			 			=> $row['ntf_read'] > SN_NTF_STATUS_READ,
-							'U_POSTER_PROFILE'		=> $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
+							'NTF_ID'			 => $row['ntf_id'],
+							'DATA'				 => @vsprintf($user->lang[$text], $data),
+							'POSTER_AVATAR'		 => $poster_avatar,
+							'B_UNREAD'			 => $row['ntf_read'] > SN_NTF_STATUS_READ,
+							'U_POSTER_PROFILE'	 => $this->p_master->get_username_string($this->p_master->config['ntf_colour_username'], 'profile', $row['ntf_poster'], $data['user'], $row['user_colour']),
 						));
 					}
 
@@ -364,11 +356,22 @@ if (!class_exists('socialnet_notify'))
 				return;
 			}
 
-			$sql = "UPDATE " . SN_NOTIFY_TABLE . "
-								SET ntf_read = " . SN_NTF_STATUS_READ . "
-									WHERE ntf_id = {$ntf_mark}
-										AND ntf_user = {$user->data['user_id']}";
-			$db->sql_query($sql);
+			$sql = "SELECT ntf_data FROM " . SN_NOTIFY_TABLE . " WHERE ntf_id = '{$ntf_mark}'";
+			$rs = $db->sql_query($sql);
+
+			if ($db->sql_affectedrows())
+			{
+				$data = unserialize($db->sql_fetchfield('ntf_data', $rs));
+
+				if (isset($data['link']) && $data['link'] != '')
+				{
+					$sql = "UPDATE " . SN_NOTIFY_TABLE . "
+							SET ntf_read = " . SN_NTF_STATUS_READ . "
+							WHERE ntf_user = {$user->data['user_id']}
+								AND ntf_data LIKE '%{$data['link']}%'";
+					$db->sql_query($sql);
+				}
+			}
 		}
 
 		/**
@@ -378,7 +381,7 @@ if (!class_exists('socialnet_notify'))
 		 */
 		function ntf_delete($ntf_id = 0)
 		{
-			global $db, $user;
+			global $db;
 
 			if ($ntf_id == 0)
 			{
@@ -408,14 +411,13 @@ if (!class_exists('socialnet_notify'))
 			);
 
 			$sql = "SELECT count(*) AS computed
-								FROM " . SN_NOTIFY_TABLE . "
-									WHERE " . implode(" AND ", $sql_where);
+					FROM " . SN_NOTIFY_TABLE . "
+					WHERE " . implode(" AND ", $sql_where);
 			$rs = $db->sql_query($sql);
 			$row = $db->sql_fetchrow($rs);
 			$db->sql_freeresult($rs);
 			return $row['computed'];
 		}
-
 	}
 }
 
@@ -439,5 +441,4 @@ if (isset($socialnet) && defined('SN_NOTIFY'))
 
 	$socialnet->modules_obj['notify']->load();
 }
-
 ?>
