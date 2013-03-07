@@ -5,7 +5,7 @@
 		<div class="errorbox">
 			<p>{L_ACP_SN_VERSION_COULD_NOT_GET_INFORMATION}</p>
 		</div>
-	<!-- ELSEIF SN_VERSION_CHECK_NOT_UP_TO_DATE-->
+	<!-- ELSEIF SN_VERSION_CHECK_NOT_UP_TO_DATE -->
 		<div class="errorbox">
 			<p>{L_ACP_SN_VERSION_NOT_UP_TO_DATE}</p>
 		</div>
@@ -22,10 +22,9 @@
 				<dt><label>{L_VERSION_INSTALLED}</label></dt>
 				<dd><strong>{SN_VERSION_INSTALLED}</strong></dd>
 			</dl>
-
 			<dl>
 				<dt><label>{L_VERSION_AVAILABLE}</label></dt>
-				<dd><strong>{SN_VERSION_AVAILABLE}</strong></dd>
+				<dd><strong>{SN_VERSION_AVAILABLE}</strong><!-- IF SN_VERSION_CHECK_NOT_UP_TO_DATE --> | <a href="http://phpbbsocialnetwork.com/viewtopic.php?t=1023"><strong>{L_ACP_SN_CHANGELOG}</strong></a> | <a href="http://phpbbsocialnetwork.com/download.php"><strong>{L_DOWNLOAD}</strong></a><!-- ENDIF --></dd>
 			</dl>
 		</fieldset>
 	<!-- ENDIF -->
