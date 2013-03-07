@@ -200,6 +200,7 @@ $lang = array_merge($lang, array(
 	'SN_UP_DIVORCED'						 => 'Divorced',
 	'SN_UP_TO'								 => 'to',
 	'SN_UP_WITH'							 => 'with',
+	'SN_UP_SINCE'              => 'since',
 	'SN_UP_ANNIVERSARY'						 => 'Anniversary',
 	'SN_UP_ANNIVERSARY_ON'					 => 'Anniversary on',
 	'SN_UP_BIRTHDAY'						 => 'Date of birth',
