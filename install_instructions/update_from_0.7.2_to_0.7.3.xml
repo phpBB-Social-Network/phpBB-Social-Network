@@ -75,6 +75,12 @@ Feel free to ask for support or request more features here http://phpbbsocialnet
 				<action type="replace-with"><![CDATA[<!-- IF SN_MODULE_IM_LOADED -->]]></action>
 			</edit>
 		</open>
+		<open src="styles/prosilver/template/overall_header.html">
+      <edit>
+        <find><![CDATA[ <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify">(<a href="{U_VIEW_NOTIFY}">{S_SN_USER_UNREAD_NOTIFY}</a>)</span></li><!-- ENDIF -->]]></find>
+        <action type="replace-with"><![CDATA[ <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><!-- IF SN_MODULE_NOTIFY_LOADED --><span id="sn-ntf-notify">(<a href="{U_VIEW_NOTIFY}">{S_SN_USER_UNREAD_NOTIFY}</a>)</span><!-- ENDIF --></li><!-- ENDIF -->]]></action>
+      </edit>
+    </open>
 		<php-installer><![CDATA[socialnet/install_sn.php]]></php-installer>
 	</action-group>
 </mod>
