@@ -118,7 +118,7 @@ Please note, that if you want to use "Fetch page" feature to fetch remote pages 
 			</edit>
 			<edit>
 				<find><![CDATA[			<ul class="linklist navlinks">]]></find>
-				<action type="after-add"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><span id="sn-ntf-notify">(<a href="{U_VIEW_NOTIFY}">{S_SN_USER_UNREAD_NOTIFY}</a>)</span></li><!-- ENDIF -->]]></action>
+				<action type="after-add"><![CDATA[			  <!-- IF SN_MODULE_ACTIVITYPAGE_ENABLED --><li class="icon-activitypage"><a href="{U_SN_ACTIVITYPAGE}">{L_SN_AP_ACTIVITYPAGE}</a><!-- IF SN_MODULE_NOTIFY_LOADED --><span id="sn-ntf-notify">(<a href="{U_VIEW_NOTIFY}">{S_SN_USER_UNREAD_NOTIFY}</a>)</span><!-- ENDIF --></li><!-- ENDIF -->]]></action>
 			</edit>
 			<edit>
 				<find><![CDATA[				<li class="icon-ucp">]]></find>
