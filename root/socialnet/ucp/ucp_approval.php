@@ -99,6 +99,8 @@ class ucp_approval
 
 						if (empty($data['add_approval']))
 						{
+							$data['redirect'] = append_sid("{$phpbb_root_path}activitypage.{$phpEx}", 'mode=view_suggestions');
+
 							meta_refresh(3, $data['redirect']);
 							trigger_error(implode('<br />', $message) . '<br /><br />' . sprintf($user->lang['RETURN_PAGE'], '<a href="' . $data['redirect'] . '">', '</a>'));
 						}

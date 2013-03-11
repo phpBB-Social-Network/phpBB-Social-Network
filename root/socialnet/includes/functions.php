@@ -1334,7 +1334,8 @@ class snFunctions
 			// My friends
 			$sql = "SELECT zebra_id
 					FROM " . ZEBRA_TABLE . "
-					WHERE user_id = {$user->data['user_id']} AND friend = 1";
+					WHERE user_id = {$user->data['user_id']}
+						AND (friend = 1 OR approval = 1)";
 			$rs = $db->sql_query($sql);
 
 			$ap_my_friends_ary = $ap_my_friends_me_ary = array();
@@ -1356,7 +1357,8 @@ class snFunctions
 					FROM " . ZEBRA_TABLE . " AS z, " . USERS_TABLE . " AS u
 					WHERE " . $db->sql_in_set('z.user_id', $ap_my_friends_ary, false, true) . "
 						AND " . $db->sql_in_set('z.zebra_id', $ap_my_friends_me_ary, true, true) . "
-						AND z.friend = 1 AND z.zebra_id = u.user_id
+						AND z.friend = 1
+						AND z.zebra_id = u.user_id
 						AND u.user_type NOT IN (" . USER_INACTIVE . "," . USER_IGNORE . ")";
 			$rs = $db->sql_query($sql);
 
