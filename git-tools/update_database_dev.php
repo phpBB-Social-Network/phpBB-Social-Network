@@ -658,14 +658,6 @@ $versions = array(
 			'phpbbSN_smilies_allow',
 			'phpbbSN_create_fms_primarygroups',
 		),
-
-		'cache_purge'		 => array(
-			'imageset',
-			'template',
-			'theme',
-			'cache',
-		),
-
 	),
 
 	'0.7.1.dev1'	 => array(
@@ -704,13 +696,15 @@ $versions = array(
 		'custom'			 => array(
 			'phpbbSN_replace_primary_by_unique',
 		),
-
-		'cache_purge'		 => array(
-			'cache',
-		),
+	),
+	
+	'0.7.3.dev1'	 => array(
+	  'table_row_remove'     => array(
+	    array(SN_CONFIG_TABLE, array('config_name' => 'ntf_theme')),
+	  ),
 	),
 
-	'0.7.2'   => array(
+	'0.7.3'   => array(
 		'cache_purge'		 => array(
 			'imageset',
 			'template',

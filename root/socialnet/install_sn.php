@@ -656,14 +656,6 @@ $versions = array(
 			'phpbbSN_create_fms_primarygroups',
 			'phpbb_SN_umil_send'
 		),
-
-		'cache_purge'		 => array(
-			'imageset',
-			'template',
-			'theme',
-			'cache',
-		),
-
 	),
 
 	'0.7.1'	 => array(
@@ -705,6 +697,16 @@ $versions = array(
 	'0.7.2'	 => array(
 		'custom'			 => array(
 			'phpbbSN_replace_primary_by_unique',
+			'phpbb_SN_umil_send'
+		),
+	),
+	
+	'0.7.3'	 => array(
+	  'table_row_remove'     => array(
+	    array(SN_CONFIG_TABLE, array('config_name' => 'ntf_theme')),
+    ),
+    
+		'custom'			 => array(
 			'phpbb_SN_umil_send'
 		),
 

@@ -74,7 +74,6 @@ $lang = array_merge($lang, array(
 	'ACP_SN_ACTIVITYPAGE_SETTINGS'			 => 'Activity page settings',
 	'ACP_SN_NOTIFY_SETTINGS'				 => 'Notification settings',
 	'ACP_SN_PROFILE_SETTINGS'				 => 'User profile settings',
-	'SN_NTF_THEME'							 => 'Notification bubble color',
 	'SN_NTF_LIFE'							 => 'Display time',
 	'SN_NTF_LIFE_EXPLAIN'					 => 'How long should be notification displayed on page',
 	'SN_NTF_CHECKTIME'						 => 'Check time',
