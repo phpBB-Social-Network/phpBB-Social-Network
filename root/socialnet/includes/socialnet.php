@@ -269,11 +269,11 @@ class socialnet extends snFunctions
 
 	function purge_friends($user_id = 0)
 	{
-		global $user, $cache;
+		global $phpbb_root_path, $user, $cache;
 
 		if ($user_id == 'all')
 		{
-			$files_to_be_purged = glob($phpbb_root_path . 'cache/*' . $socialnet->friendsCacheNameMutual . '*');
+			$files_to_be_purged = glob($phpbb_root_path . 'cache/*' . $this->friendsCacheNameMutual . '*');
 			if ( is_array($files_to_be_purged) )
 			{
 				foreach ( $files_to_be_purged as $file )
