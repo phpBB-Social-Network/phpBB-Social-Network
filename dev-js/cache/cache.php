@@ -1,0 +1,5 @@
+<?php
+/*
+ * Initial Cache file
+ */
+
