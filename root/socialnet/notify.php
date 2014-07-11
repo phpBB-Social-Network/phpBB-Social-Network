@@ -71,7 +71,6 @@ if (!class_exists('socialnet_notify'))
 			$template->assign_vars(array(
 				'U_VIEW_NOTIFY'				 => append_sid("{$phpbb_root_path}activitypage.$phpEx", 'mode=notify'),
 				'S_SN_USER_UNREAD_NOTIFY'	 => $this->ntf_notify_count(),
-				'S_SN_NTF_THEME'			 => $config['ntf_theme'],
 				'SN_NTF_LIFE'				 => $config['ntf_life'] * 1000,
 				'SN_NTF_CHECKTIME'			 => $config['ntf_checktime'] * 1000,
 			));

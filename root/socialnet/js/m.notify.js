@@ -19,7 +19,7 @@
 		glue: 'before',
 		closer: false,
 		life: 10000,
-		theme: 'black',
+		theme: 'headerbar',
 		/**
 		 * Initialization
 		 * @param {object} opts Options
