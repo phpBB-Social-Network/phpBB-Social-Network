@@ -1,30 +1,83 @@
 <?php
 /**
+ * SN Core Comments
  *
- * @package phpBB Social Network
- * @version 0.7.0
- * @copyright (c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @author		Culprit <jankalach@gmail.com>
+ * @author		Kamahl <kamahl19@gmail.com>
+ *
+ * @package		phpBB Social Network
+ * @version		0.7.1
+ * @since		0.6.2
+ * @copyright		(c) phpBB Social Network Team 2010-2012 http://phpbbsocialnetwork.com
+ * @license		http://opensource.org/licenses/gpl-license.php GNU Public License
  *
  */
 
+/**
+ * @ignore
+ */
 if (!defined('SOCIALNET_INSTALLED') || !defined('IN_PHPBB'))
 {
 	return;
 }
 
+/**
+ * Core Comments class
+ *
+ * @package phpBB-Social-Network
+ */
 class sn_core_comments
 {
+	/**
+	 * Master object
+	 *
+	 * @var object $p_master
+	 */
 	var $p_master = null;
+
+	/**
+	 * Names of loaded modules
+	 *
+	 * @var array $modulesName
+	 */
 	var $modulesName = array();
+
+	/**
+	 * IDs of loaded modules
+	 *
+	 * @var array $modulesID
+	 */
 	var $modulesID = array();
+
+	/**
+	 * Current time
+	 *
+	 * @var int $time
+	 */
 	var $time = 0;
 
+	/**
+	 * Comments template file
+	 *
+	 * @var string $commentTemplate
+	 */
 	var $commentTemplate = 'socialnet/block_comments.html';
 
 	/**
 	 * Constructor
-	 * - load existing modules using cache
+	 *
+	 * Loads existing modules using cache
+	 *
+	 * @todo remove $cache from globals, it is not used
+	 *
+	 * @access	public
+	 *
+	 * @param 	object	$p_master
+	 *
+	 * @global	object	$template		phpBB template object
+	 * @global	string	$phpbb_root_path	phpBB root path string
+	 * @global	object	$user			phpBB user object
+	 * @global	array	$config			phpBB configuration array
 	 */
 	public function sn_core_comments(&$p_master)
 	{
@@ -47,10 +100,16 @@ class sn_core_comments
 	/**
 	 * Create a comment
 	 *
-	 * @param $moduleName string/array
-	 * @param $module_id integer ID in module
-	 * @param $text Comment text
-	 * @return integer Comment ID
+	 * @access	public
+	 *
+	 * @param 	string|array	$module		module name
+	 * @param 	int		$module_id	ID of module
+	 * @param 	int		$poster		ID of user who posts new comment
+	 * @param 	string		$text		Text of new comment
+	 *
+	 * @global	object		$db		phpBB database object
+	 *
+	 * @return	int		Comment ID
 	 */
 	public function add($module, $module_id, $poster, $text)
 	{
@@ -93,6 +152,15 @@ class sn_core_comments
 
 	/**
 	 * Delete a comment
+	 *
+	 * @access	public
+	 *
+	 * @param 	string|array	$module		module name
+	 * @param 	int		$cmt_id		ID of comment or module
+	 * @param 	bool		$cmt_one	defines, if comment to be deleted will be identified according to comment_id or comment_module_id
+	 *
+	 * @global	object		$db		phpBB database object
+	 * @global	object		$auth		phpBB auth object
 	 */
 	public function del($module, $cmt_id, $cmt_one = true)
 	{
@@ -112,7 +180,26 @@ class sn_core_comments
 	}
 
 	/**
-	 * Retrieve a comment
+	 * Get a comment
+	 *
+	 * @access	public
+	 *
+	 * @param 	string|array	$module		module name
+	 * @param 	string		$classPrefix	prefix for CSS class
+	 * @param 	int		$module_id	ID of module
+	 * @param 	int		$cmt_id		ID of comment
+	 * @param 	int|bool	$limit		limit of comments to retrieve
+	 * @param 	bool		$only_comments	defines, if other stuff around comments will be retrieved as well
+	 *
+	 * @global	object		$db		phpBB database object
+	 * @global	array		$config		phpBB configuration array
+	 * @global	object		$user		phpBB user object
+	 * @global	object		$template	phpBB template object
+	 * @global	object		$auth		phpBB auth object
+	 *
+	 * @return  	array		comments and information about more comments
+	 * @property	int		more information, if more comments exist
+	 * @property	string		comments HTML output of comments
 	 */
 	public function get($module, $classPrefix, $module_id, $cmt_id = 0, $limit = false, $only_comments = false)
 	{
@@ -237,6 +324,19 @@ class sn_core_comments
 		return array('more' => $cmt_more, 'comments' => $content);
 	}
 
+	/**
+	 * Get a field of a comment
+	 *
+	 * @access	public
+	 *
+	 * @param 	string|array	$module	module name
+	 * @param 	int		$cmt_id	ID of comment
+	 * @param 	string		$field	field to be retrieved
+	 *
+	 * @global	object		$db	phpBB database object
+	 *
+	 * @return	string		value of field of the comment
+	 */
 	public function getField($module, $cmt_id, $field)
 	{
 		global $db;
@@ -251,6 +351,22 @@ class sn_core_comments
 		return $field;
 	}
 
+	/**
+	 * Get posters? See todo!
+	 *
+	 * @todo add all descriptions
+	 *
+	 * @access	public
+	 *
+	 * @param 	string|array	$module		module name
+	 * @param 	int		$cmt_mid	ID of module of comment
+	 * @param 	boot		$with_me
+	 *
+	 * @global	object		$db		phpBB database object
+	 * @global	object		$user		phpBB user object
+	 *
+	 * @return	array
+	 */
 	public function getPosters($module, $cmt_mid, $with_me = false)
 	{
 		global $db, $user;
@@ -276,6 +392,15 @@ class sn_core_comments
 		return $return;
 	}
 
+	/**
+	 * Compiles module name
+	 *
+	 * @access	private
+	 *
+	 * @param 	string|array	$module	module name
+	 *
+	 * @return	string		module name
+	 */
 	function _moduleName($module)
 	{
 		if (is_array($module))
@@ -290,6 +415,15 @@ class sn_core_comments
 		return $moduleName;
 	}
 
+	/**
+	 * Returns module ID according to module name
+	 *
+	 * @access	private
+	 *
+	 * @param 	string|array	$module	module name
+	 *
+	 * @return	string		module ID
+	 */
 	function _moduleID($module)
 	{
 		$moduleName = $this->_moduleName($module);
@@ -301,8 +435,14 @@ class sn_core_comments
 	}
 
 	/**
-	 * Load existing modules from DB
-	 * @param $force boolean Force load modules;
+	 * Loads existing modules from DB
+	 *
+	 * @access	private
+	 *
+	 * @param 	bool	$force	defines, if load modules by force
+	 *
+	 * @global	object	$cache	phpBB cache object
+	 * @global	object	$db	phpBB database object
 	 */
 	private function _loadModules($force = false)
 	{
@@ -338,7 +478,13 @@ class sn_core_comments
 	}
 
 	/**
-	 * Create a new comment module
+	 * Creates a new comment module
+	 *
+	 * @access	private
+	 *
+	 * @param 	string	$moduleName	module name
+	 *
+	 * @global	object	$db		phpBB database object
 	 */
 	private function _addModule($moduleName)
 	{
